@@ -1,0 +1,10 @@
+{
+    "name": "@kandy-io/link-sdk-preview",
+    "version": "4.2.0",
+    "license": "SEE LICENSE IN LICENSE.md",
+    "main":"./dist/kandy.js",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Kandy-IO/kandy-link-js-sdk-preview"
+    }
+}
