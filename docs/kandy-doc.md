@@ -960,33 +960,6 @@ Will trigger the `contacts:change` event.
 
 -   `contactId` **[string][2]** The unique contact ID of the contact.
 
-## sdpHandlers
-
-A set of handlers for manipulating SDP information.
-These handlers are used to customize low-level call behaviour for very specific
-environments and/or scenarios. They can be provided during SDK instantiation
-to be used for all calls.
-
-### createCodecRemover
-
-In some scenarios it's necessary to remove certain codecs being offered by the SDK to the remote party. While creating an SDP handler would allow a user to perform this type of manipulation, it is a non-trivial task that requires in-depth knowledge of WebRTC SDP.
-
-To facilitate this common task, the SDK provides a codec removal handler that can be used for this purpose.
-
-The SDP handlers are exposed on the entry point of the SDK. They need to be added to the list of SDP handlers via configuration on creation of an instance of the SDK.
-
-**Examples**
-
-```javascript
-import { create, sdpHandlers } from 'kandy';
-const codecRemover = sdpHandlers.createCodecRemover(['VP8', 'VP9'])
-const client = create({
-  call: {
-    sdpHandlers: [codecRemover]
-  }
-})
-```
-
 ## config
 
 The configuration object. This object defines what different configuration
@@ -1074,6 +1047,33 @@ Configuration options for the notification feature.
     -   `notifications.realm` **[string][2]?** The realm used for push notifications
     -   `notifications.bundleId` **[string][2]?** The bundle id used for push notifications
 
+## sdpHandlers
+
+A set of handlers for manipulating SDP information.
+These handlers are used to customize low-level call behaviour for very specific
+environments and/or scenarios. They can be provided during SDK instantiation
+to be used for all calls.
+
+### createCodecRemover
+
+In some scenarios it's necessary to remove certain codecs being offered by the SDK to the remote party. While creating an SDP handler would allow a user to perform this type of manipulation, it is a non-trivial task that requires in-depth knowledge of WebRTC SDP.
+
+To facilitate this common task, the SDK provides a codec removal handler that can be used for this purpose.
+
+The SDP handlers are exposed on the entry point of the SDK. They need to be added to the list of SDP handlers via configuration on creation of an instance of the SDK.
+
+**Examples**
+
+```javascript
+import { create, sdpHandlers } from 'kandy';
+const codecRemover = sdpHandlers.createCodecRemover(['VP8', 'VP9'])
+const client = create({
+  call: {
+    sdpHandlers: [codecRemover]
+  }
+})
+```
+
 ## Logger
 
 The internal logger used to provide information about the SDK's behaviour.
@@ -1113,45 +1113,6 @@ Update values in the global Config section of the store.
 **Parameters**
 
 -   `newConfigValues` **[Object][5]** Key Value pairs that will be placed into the store.
-
-## Proxy
-
-The Proxy module allows for a secondary mode for making calls: proxy mode.
-When proxy mode is enabled, the SDK will redirect webRTC / media operations from the current machine to a remote machine using a channel.
-This is an advanced feature that enables support for Calls in particular scenarios that would otherwise not support them.
-
-### setProxyMode
-
-Sets the mode for the Proxy Plugin.
-When enabled, webRTC operations will be proxied over a channel. Enabling
-   proxy mode requires a channel to have been set. See `setChannel` API.
-When disabled, webRTC operation will occur as normal on the local machine.
-
-**Parameters**
-
--   `value` **[boolean][7]** Whether proxy mode should be enabled.
-
-### getProxyMode
-
-Retrieves the current mode of the Proxy Plugin.
-
-Returns **[boolean][7]** Whether proxy mode is currently enabled.
-
-### setChannel
-
-Sets the channel to be used while proxy mode is enabled.
-
-**Parameters**
-
--   `channel` **[Channel][13]** See the `Channel` module for information.
-
-### initializeRemote
-
-Sends an initialization message over the channel with webRTC configurations.
-
-**Parameters**
-
--   `config` **[Object][5]** 
 
 ## Channel
 
@@ -1198,6 +1159,82 @@ This function should receive all messages sent from the remote side of the chann
 
 -   `data` **[Object][5]** The message received from the Channel.
 
+## Proxy
+
+The Proxy module allows for a secondary mode for making calls: proxy mode.
+When proxy mode is enabled, the SDK will redirect webRTC / media operations from the current machine to a remote machine using a channel.
+This is an advanced feature that enables support for Calls in particular scenarios that would otherwise not support them.
+
+### setProxyMode
+
+Sets the mode for the Proxy Plugin.
+When enabled, webRTC operations will be proxied over a channel. Enabling
+   proxy mode requires a channel to have been set. See `setChannel` API.
+When disabled, webRTC operation will occur as normal on the local machine.
+
+**Parameters**
+
+-   `value` **[boolean][7]** Whether proxy mode should be enabled.
+
+### getProxyMode
+
+Retrieves the current mode of the Proxy Plugin.
+
+Returns **[boolean][7]** Whether proxy mode is currently enabled.
+
+### setChannel
+
+Sets the channel to be used while proxy mode is enabled.
+
+**Parameters**
+
+-   `channel` **[Channel][13]** See the `Channel` module for information.
+
+### initializeRemote
+
+Sends an initialization message over the channel with webRTC configurations.
+
+**Parameters**
+
+-   `config` **[Object][5]** 
+
+## DevicesObject
+
+A collection of devices and their information.
+
+**Properties**
+
+-   `camera` **[Array][6]&lt;[DeviceInfo][14]>** A list of camera device information.
+-   `microphone` **[Array][6]&lt;[DeviceInfo][14]>** A list of microphone device information.
+-   `speaker` **[Array][6]&lt;[DeviceInfo][14]>** A list of speaker device information.
+
+## TrackObject
+
+A Track is a stream of audio or video media from a single source.
+Tracks can be retrieved using the Media module's `getTrackById` API and manipulated with other functions of the Media module.
+
+**Properties**
+
+-   `containers` **[Array][6]&lt;[string][2]>** The list of CSS selectors that were used to render this Track.
+-   `disabled` **[boolean][7]** Indicator of whether this Track is disabled or not. If disabled, it cannot be re-enabled.
+-   `id` **[string][2]** The ID of the Track.
+-   `kind` **[string][2]** The kind of Track this is (audio, video).
+-   `label` **[string][2]** The label of the device this Track uses.
+-   `muted` **[boolean][7]** Indicator on whether this Track is muted or not.
+-   `state` **[string][2]** The state of this Track. Can be 'live' or 'ended'.
+-   `streamId` **[string][2]** The ID of the Media Stream that includes this Track.
+
+## MediaObject
+
+The state representation of a Media object.
+Media is a collection of Track objects.
+
+**Properties**
+
+-   `id` **[string][2]** The ID of the Media object.
+-   `local` **[boolean][7]** Indicator on whether this media is local or remote.
+-   `tracks` **[Array][6]&lt;[TrackObject][15]>** A list of Track objects that are contained in this Media object.
+
 ## CallObject
 
 The state representation of a Call.
@@ -1220,43 +1257,6 @@ A Call can be manipulated by using the Call feature's APIs.
     -   `remoteParticipant.displayName` **[string][2]** The display name of the callee
 -   `startTime` **[number][9]** The start time of the call in milliseconds since the epoch.
 -   `state` **[string][2]** The current state of the call. See `Call.states` for possible states.
-
-## MediaObject
-
-The state representation of a Media object.
-Media is a collection of Track objects.
-
-**Properties**
-
--   `id` **[string][2]** The ID of the Media object.
--   `local` **[boolean][7]** Indicator on whether this media is local or remote.
--   `tracks` **[Array][6]&lt;[TrackObject][14]>** A list of Track objects that are contained in this Media object.
-
-## TrackObject
-
-A Track is a stream of audio or video media from a single source.
-Tracks can be retrieved using the Media module's `getTrackById` API and manipulated with other functions of the Media module.
-
-**Properties**
-
--   `containers` **[Array][6]&lt;[string][2]>** The list of CSS selectors that were used to render this Track.
--   `disabled` **[boolean][7]** Indicator of whether this Track is disabled or not. If disabled, it cannot be re-enabled.
--   `id` **[string][2]** The ID of the Track.
--   `kind` **[string][2]** The kind of Track this is (audio, video).
--   `label` **[string][2]** The label of the device this Track uses.
--   `muted` **[boolean][7]** Indicator on whether this Track is muted or not.
--   `state` **[string][2]** The state of this Track. Can be 'live' or 'ended'.
--   `streamId` **[string][2]** The ID of the Media Stream that includes this Track.
-
-## DevicesObject
-
-A collection of devices and their information.
-
-**Properties**
-
--   `camera` **[Array][6]&lt;[DeviceInfo][15]>** A list of camera device information.
--   `microphone` **[Array][6]&lt;[DeviceInfo][15]>** A list of microphone device information.
--   `speaker` **[Array][6]&lt;[DeviceInfo][15]>** A list of speaker device information.
 
 ## DeviceInfo
 
@@ -1325,6 +1325,6 @@ The Basic error object. Provides information about an error that occurred in the
 
 [13]: #channel
 
-[14]: #trackobject
+[14]: #deviceinfo
 
-[15]: #deviceinfo
+[15]: #trackobject
