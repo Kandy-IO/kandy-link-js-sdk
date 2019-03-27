@@ -1,7 +1,7 @@
 /**
  * Kandy.js (Next)
  * kandy.newLink.js
- * Version: 3.3.0-beta.66850
+ * Version: 3.3.0-beta.67033
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -31975,7 +31975,22 @@ function callAPI({ dispatch, getState }) {
   return {
     /**
      * Starts an outgoing call to a SIP user or a PSTN phone number.
-     * Will trigger a `call:started` event when the operation completes.
+     *
+     * The call will be tracked by a unique ID that is returned by the API. The
+     *    application will use this ID to identify and control the call after it
+     *    has been initiated.
+     *
+     * The `getCallById` API can be used to retrieve the current state of the
+     *    call.
+     *
+     * The SDK will emit a `call:start` event locally when the operation
+     *    completes. When the remote participant receives the call, a
+     *    `call:receive` event will be emitted remotely for them.
+     *
+     * The SDK requires access to the machine's media devices (eg. microphone)
+     *    in order to make a call. If it does not already have permissions to
+     *    use the devices, the user may be prompted by the browser to give
+     *    permissions.
      * @public
      * @memberof Calls
      * @method make
@@ -31985,6 +32000,18 @@ function callAPI({ dispatch, getState }) {
      * @param {Boolean} [media.audio=true] Whether the call should have audio on start. Currently, audio-less calls are not supported.
      * @param {Boolean} [media.video=false] Whether the call should have video on start.
      * @returns {string} The generated ID of the newly created call.
+     * @example
+     * // Listen for the event emitted after making a call.
+     * client.on('call:start', function (params) {
+     *   const { callId, error } = params
+     *   if (error) {
+     *     // Call failed to initialize.
+     *   } else {
+     *     // Call was initialized, and the recipient user will be notified.
+     *   }
+     * })
+     * // Make an audio-only call.
+     * const newCallId = client.call.make(callee, { audio: true })
      */
     make(destination, media = {}, options = {}) {
       const callId = (0, _v2.default)();
@@ -32003,7 +32030,13 @@ function callAPI({ dispatch, getState }) {
 
     /**
      * Rejects an incoming call.
-     * Will end the call and trigger a `call:stateChange` event.
+     *
+     * The specified call to reject must be in a ringing state with an incoming
+     *    direction. The call will be ended as a result of the operation.
+     *
+     * The SDK will emit a `call:stateChange` event locally when the operation
+     *    completes. The remote participant will be notified, through their own
+     *    `call:stateChange` event, that the call was rejected.
      * @public
      * @memberof Calls
      * @method reject
@@ -32014,8 +32047,22 @@ function callAPI({ dispatch, getState }) {
     },
 
     /**
-     * Answer an incoming call.
-     * Will trigger a `call:answered` event.
+     * Answers an incoming call.
+     *
+     * The specified call to answer must be in a ringing state with an incoming
+     *    direction. The call will become connected as a result of the operation.
+     *
+     * The SDK will emit a `call:stateChange` event locally when the operation
+     *    completes. This indicates that the call has connected with the remote
+     *    participant. The `getCallById` API can be used to retrieve the latest
+     *    call state after the change. Further events will be emitted to
+     *    indicate that the call has received media from the remote participant.
+     *     See the `call:newTrack` event for more information about this.
+     *
+     * The SDK requires access to the machine's media devices (eg. microphone)
+     *    in order to answer a call. If it does not already have permissions to
+     *    use the devices, the user may be prompted by the browser to give
+     *    permissions.
      * @public
      * @memberof Calls
      * @method answer
@@ -32036,7 +32083,14 @@ function callAPI({ dispatch, getState }) {
     },
 
     /**
-     * Ignore an incoming call.
+     * Ignores an incoming call.
+     *
+     * The specified call to ignore must be in a ringing state with an incoming
+     *    direction. The call will be ended as a result of the operation.
+     *
+     * The SDK will emit a `call:stateChange` event locally when the operation
+     *    completes. The remote participant will not be notified that the call
+     *    was ignored.
      * @public
      * @memberof Calls
      * @method ignore
@@ -32047,8 +32101,19 @@ function callAPI({ dispatch, getState }) {
     },
 
     /**
-     * Put a call on hold.
-     * Will stop all media from flowing and trigger a `call:held` event.
+     * Puts a call on hold.
+     *
+     * The specified call to hold must not already be locally held. Any/all
+     *    media received from the remote participant will stop being received,
+     *    and any/all media being sent to the remote participant will stop
+     *    being sent.
+     *
+     * Some call operations cannot be performed while the call is on hold. The
+     *    call can be taken off hold with the `unhold` API.
+     *
+     * The SDK will emit a `call:stateChange` event locally when the operation
+     *    completes. The remote participant will be notified of the operation
+     *    through a `call:stateChange` as well.
      * @public
      * @memberof Calls
      * @method hold
@@ -32059,8 +32124,15 @@ function callAPI({ dispatch, getState }) {
     },
 
     /**
-     * Take a call off hold.
-     * Will resume any previously flowing media and trigger a `call:unheld` event.
+     * Takes a call off hold.
+     *
+     * The specified call to unhold must be locally held. If the call is not
+     *    also remotely held, call media will be reconnected as it was before
+     *    the call was held.
+     *
+     * The SDK will emit a `call:stateChange` event locally when the operation
+     *    completes. The remote participant will be notified of the operation
+     *    through a `call:stateChange` as well.
      * @public
      * @memberof Calls
      * @method unhold
@@ -32099,8 +32171,15 @@ function callAPI({ dispatch, getState }) {
     },
 
     /**
-     * End an ongoing call.
-     * Will stop all media used for the call and trigger a `call:stateChange` event.
+     * Ends an ongoing call.
+     *
+     * The SDK will stop any/all local media associated with the call. Events
+     *    will be emitted to indicate which media tracks were stopped. See the
+     *    `call:trackEnded` event for more information.
+     *
+     * The SDK will emit a `call:stateChange` event locally when the operation
+     *    completes. The remote participant will be notified, through their own
+     *    `call:stateChange` event, that the call was ended.
      * @public
      * @memberof Calls
      * @method end
@@ -40300,7 +40379,7 @@ const factoryDefaults = {
    */
 };function factory(plugins, options = factoryDefaults) {
   // Log the SDK's version (templated by webpack) on initialization.
-  let version = '3.3.0-beta.66850';
+  let version = '3.3.0-beta.67033';
   log.info(`CPaaS SDK version: ${version}`);
 
   var sagas = [];
