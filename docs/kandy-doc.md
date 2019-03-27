@@ -1142,14 +1142,6 @@ appChannel.on('message', data => {
 client.proxy.setChannel(channel)
 ```
 
-### send
-
-Channel function that the Proxy module will use to send messages to the remote side.
-
-**Parameters**
-
--   `data` **[Object][5]** Message to be sent over the channel.
-
 ### receive
 
 API that the Proxy module will assign a listener function for accepting received messages.
@@ -1158,6 +1150,14 @@ This function should receive all messages sent from the remote side of the chann
 **Parameters**
 
 -   `data` **[Object][5]** The message received from the Channel.
+
+### send
+
+Channel function that the Proxy module will use to send messages to the remote side.
+
+**Parameters**
+
+-   `data` **[Object][5]** Message to be sent over the channel.
 
 ## Proxy
 
@@ -1197,6 +1197,17 @@ Sends an initialization message over the channel with webRTC configurations.
 **Parameters**
 
 -   `config` **[Object][5]** 
+
+## DeviceInfo
+
+Contains information about a device.
+
+**Properties**
+
+-   `deviceId` **[string][2]** The ID of the device.
+-   `groupId` **[string][2]** The group ID of the device. Devices that share a `groupId` belong to the same physical device.
+-   `kind` **[string][2]** The type of the device (audioinput, audiooutput, videoinput).
+-   `label` **[string][2]** The name of the device.
 
 ## DevicesObject
 
@@ -1257,17 +1268,6 @@ A Call can be manipulated by using the Call feature's APIs.
     -   `remoteParticipant.displayName` **[string][2]** The display name of the callee
 -   `startTime` **[number][9]** The start time of the call in milliseconds since the epoch.
 -   `state` **[string][2]** The current state of the call. See `Call.states` for possible states.
-
-## DeviceInfo
-
-Contains information about a device.
-
-**Properties**
-
--   `deviceId` **[string][2]** The ID of the device.
--   `groupId` **[string][2]** The group ID of the device. Devices that share a `groupId` belong to the same physical device.
--   `kind` **[string][2]** The type of the device (audioinput, audiooutput, videoinput).
--   `label` **[string][2]** The name of the device.
 
 ## ClickToCall
 
