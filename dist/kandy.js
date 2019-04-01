@@ -1,7 +1,7 @@
 /**
  * Kandy.js (Next)
  * kandy.newLink.js
- * Version: 3.4.0-beta.68300
+ * Version: 3.4.0-beta.68410
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -27581,6 +27581,13 @@ class Session extends _eventemitter2.default {
           media = this.mediaManager.createRemote(track.stream, [track]);
         }
 
+        media.on('track:removed', trackId => {
+          this.emit('track:removed', {
+            local: false,
+            trackId: trackId
+          });
+        });
+
         track.once('ended', () => {
           this.emit('track:ended', {
             local: false,
@@ -27694,6 +27701,16 @@ class Session extends _eventemitter2.default {
             local: true,
             trackId: track.id
           });
+
+          const media = this.mediaManager.get(track.stream.id);
+          if (media) {
+            media.on('track:removed', trackId => {
+              this.emit('track:removed', {
+                local: true,
+                trackId: trackId
+              });
+            });
+          }
 
           track.once('ended', () => {
             // If the PeerConnection is closed, we don't need to worry about
@@ -37177,6 +37194,7 @@ const log = (0, _logs.getLogManager)().getLogger('CALLSTACK');
  * @param {string} sessionInfo.sessionId ID for the local webRTC Session.
  * @param {string} sessionInfo.answerSdp The received answer SDP.
  * @param {Object} targetCall Information about the call that this Session is associated with.
+ * @returns {Object} Error object if any have occured. Undefined otherwise.
  */
 
 
@@ -40432,7 +40450,7 @@ const factoryDefaults = {
    */
 };function factory(plugins, options = factoryDefaults) {
   // Log the SDK's version (templated by webpack) on initialization.
-  let version = '3.4.0-beta.68300';
+  let version = '3.4.0-beta.68410';
   log.info(`CPaaS SDK version: ${version}`);
 
   var sagas = [];
@@ -49704,6 +49722,13 @@ function setListeners(session, emit, END = 'END') {
     }));
   };
 
+  const trackRemoved = ({ local, trackId }) => {
+    emit(_actions.sessionActions.sessionTrackRemoved(session.id, {
+      local,
+      trackId
+    }));
+  };
+
   const trackEnded = ({ local, trackId }) => {
     /**
      * When a track has ended,
@@ -49731,10 +49756,12 @@ function setListeners(session, emit, END = 'END') {
   };
 
   session.on('new:track', newTrack);
+  session.on('track:removed', trackRemoved);
   session.on('track:ended', trackEnded);
 
   const unsubscribe = () => {
     session.off('new:track', newTrack);
+    session.off('track:removed', trackRemoved);
     session.off('track:ended', trackEnded);
   };
   return unsubscribe;
@@ -50166,6 +50193,7 @@ const SESSION_ADDED = exports.SESSION_ADDED = sessionPrefix + 'ADDED';
 const SESSION_REMOVED = exports.SESSION_REMOVED = sessionPrefix + 'REMOVED';
 
 const SESSION_NEW_TRACK = exports.SESSION_NEW_TRACK = sessionPrefix + 'NEW_TRACK';
+const SESSION_TRACK_REMOVED = exports.SESSION_TRACK_REMOVED = sessionPrefix + 'TRACK_REMOVED';
 const SESSION_TRACK_ENDED = exports.SESSION_TRACK_ENDED = sessionPrefix + 'TRACK_ENDED';
 const SESSION_CHANGE = exports.SESSION_CHANGE = sessionPrefix + 'CHANGE';
 
@@ -50337,6 +50365,7 @@ var _extends3 = _interopRequireDefault(_extends2);
 exports.sessionAdded = sessionAdded;
 exports.sessionRemoved = sessionRemoved;
 exports.sessionNewTrack = sessionNewTrack;
+exports.sessionTrackRemoved = sessionTrackRemoved;
 exports.sessionTrackEnded = sessionTrackEnded;
 exports.sessionChange = sessionChange;
 
@@ -50379,6 +50408,10 @@ function sessionRemoved(id, params) {
 
 function sessionNewTrack(id, params) {
   return sessionActionHelper(actionTypes.SESSION_NEW_TRACK, id, params);
+}
+
+function sessionTrackRemoved(id, params) {
+  return sessionActionHelper(actionTypes.SESSION_TRACK_REMOVED, id, params);
 }
 
 function sessionTrackEnded(id, params) {
@@ -51076,6 +51109,21 @@ sessionReducers[actionTypes.SESSION_NEW_TRACK] = {
   }
 };
 
+sessionReducers[actionTypes.SESSION_TRACK_REMOVED] = {
+  next(state, action) {
+    const removeTrack = trackId => trackId === action.payload.trackId;
+    if (action.payload.local) {
+      return (0, _extends3.default)({}, state, {
+        localTracks: (0, _fp.remove)(removeTrack, state.localTracks)
+      });
+    } else {
+      return (0, _extends3.default)({}, state, {
+        remoteTracks: (0, _fp.remove)(removeTrack, state.remoteTracks)
+      });
+    }
+  }
+};
+
 sessionReducers[actionTypes.SESSION_TRACK_ENDED] = {
   next(state, action) {
     const removeTrack = trackId => trackId === action.payload.trackId;
@@ -51093,7 +51141,7 @@ sessionReducers[actionTypes.SESSION_TRACK_ENDED] = {
 
 const sessionReducer = (0, _reduxActions.handleActions)(sessionReducers, {});
 
-const specificSessionActions = (0, _reduxActions.combineActions)(actionTypes.SESSION_NEW_TRACK, actionTypes.SESSION_TRACK_ENDED);
+const specificSessionActions = (0, _reduxActions.combineActions)(actionTypes.SESSION_NEW_TRACK, actionTypes.SESSION_TRACK_REMOVED, actionTypes.SESSION_TRACK_ENDED);
 
 reducers[specificSessionActions] = (state, action) => {
   return state.map(session => {
