@@ -1043,6 +1043,33 @@ Will trigger the `contacts:change` event.
 
 -   `contactId` **[string][2]** The unique contact ID of the contact.
 
+## sdpHandlers
+
+A set of handlers for manipulating SDP information.
+These handlers are used to customize low-level call behaviour for very specific
+environments and/or scenarios. They can be provided during SDK instantiation
+to be used for all calls.
+
+### createCodecRemover
+
+In some scenarios it's necessary to remove certain codecs being offered by the SDK to the remote party. While creating an SDP handler would allow a user to perform this type of manipulation, it is a non-trivial task that requires in-depth knowledge of WebRTC SDP.
+
+To facilitate this common task, the SDK provides a codec removal handler that can be used for this purpose.
+
+The SDP handlers are exposed on the entry point of the SDK. They need to be added to the list of SDP handlers via configuration on creation of an instance of the SDK.
+
+**Examples**
+
+```javascript
+import { create, sdpHandlers } from 'kandy';
+const codecRemover = sdpHandlers.createCodecRemover(['VP8', 'VP9'])
+const client = create({
+  call: {
+    sdpHandlers: [codecRemover]
+  }
+})
+```
+
 ## config
 
 The configuration object. This object defines what different configuration
@@ -1130,33 +1157,6 @@ Configuration options for the notification feature.
     -   `notifications.realm` **[string][2]?** The realm used for push notifications
     -   `notifications.bundleId` **[string][2]?** The bundle id used for push notifications
 
-## sdpHandlers
-
-A set of handlers for manipulating SDP information.
-These handlers are used to customize low-level call behaviour for very specific
-environments and/or scenarios. They can be provided during SDK instantiation
-to be used for all calls.
-
-### createCodecRemover
-
-In some scenarios it's necessary to remove certain codecs being offered by the SDK to the remote party. While creating an SDP handler would allow a user to perform this type of manipulation, it is a non-trivial task that requires in-depth knowledge of WebRTC SDP.
-
-To facilitate this common task, the SDK provides a codec removal handler that can be used for this purpose.
-
-The SDP handlers are exposed on the entry point of the SDK. They need to be added to the list of SDP handlers via configuration on creation of an instance of the SDK.
-
-**Examples**
-
-```javascript
-import { create, sdpHandlers } from 'kandy';
-const codecRemover = sdpHandlers.createCodecRemover(['VP8', 'VP9'])
-const client = create({
-  call: {
-    sdpHandlers: [codecRemover]
-  }
-})
-```
-
 ## Logger
 
 The internal logger used to provide information about the SDK's behaviour.
@@ -1196,6 +1196,22 @@ Update values in the global Config section of the store.
 **Parameters**
 
 -   `newConfigValues` **[Object][5]** Key Value pairs that will be placed into the store.
+
+## getBrowserDetails
+
+Retrieve information about the browser being used.
+Browser information being defined indicates that the browser supports
+   basic webRTC scenarios.
+
+**Examples**
+
+```javascript
+const details = client.getBrowserDetails()
+
+log(`Browser in use: ${details.browser}, version ${details.version}.`)
+```
+
+Returns **[Object][5]** Object containing `browser` and `version` information.
 
 ## Channel
 
@@ -1265,6 +1281,22 @@ Retrieves the current mode of the Proxy Plugin.
 
 Returns **[boolean][7]** Whether proxy mode is currently enabled.
 
+### getProxyDetails
+
+Retrieve information about the proxy's browser being used.
+Browser information being defined indicates that the browser supports
+   basic webRTC scenarios.
+
+**Examples**
+
+```javascript
+const details = client.proxy.getProxyDetails()
+
+log(`Proxy Browser in use: ${details.browser}, version ${details.version}.`)
+```
+
+Returns **[Object][5]** Object containing `browser` and `version` information.
+
 ### setChannel
 
 Sets the channel to be used while proxy mode is enabled.
@@ -1281,32 +1313,16 @@ Sends an initialization message over the channel with webRTC configurations.
 
 -   `config` **[Object][5]** 
 
-## MediaObject
+## DeviceInfo
 
-The state representation of a Media object.
-Media is a collection of Track objects.
-
-**Properties**
-
--   `id` **[string][2]** The ID of the Media object.
--   `local` **[boolean][7]** Indicator on whether this media is local or remote.
--   `tracks` **[Array][6]&lt;[TrackObject][14]>** A list of Track objects that are contained in this Media object.
-
-## TrackObject
-
-A Track is a stream of audio or video media from a single source.
-Tracks can be retrieved using the Media module's `getTrackById` API and manipulated with other functions of the Media module.
+Contains information about a device.
 
 **Properties**
 
--   `containers` **[Array][6]&lt;[string][2]>** The list of CSS selectors that were used to render this Track.
--   `disabled` **[boolean][7]** Indicator of whether this Track is disabled or not. If disabled, it cannot be re-enabled.
--   `id` **[string][2]** The ID of the Track.
--   `kind` **[string][2]** The kind of Track this is (audio, video).
--   `label` **[string][2]** The label of the device this Track uses.
--   `muted` **[boolean][7]** Indicator on whether this Track is muted or not.
--   `state` **[string][2]** The state of this Track. Can be 'live' or 'ended'.
--   `streamId` **[string][2]** The ID of the Media Stream that includes this Track.
+-   `deviceId` **[string][2]** The ID of the device.
+-   `groupId` **[string][2]** The group ID of the device. Devices that share a `groupId` belong to the same physical device.
+-   `kind` **[string][2]** The type of the device (audioinput, audiooutput, videoinput).
+-   `label` **[string][2]** The name of the device.
 
 ## CallObject
 
@@ -1337,20 +1353,36 @@ A collection of devices and their information.
 
 **Properties**
 
--   `camera` **[Array][6]&lt;[DeviceInfo][15]>** A list of camera device information.
--   `microphone` **[Array][6]&lt;[DeviceInfo][15]>** A list of microphone device information.
--   `speaker` **[Array][6]&lt;[DeviceInfo][15]>** A list of speaker device information.
+-   `camera` **[Array][6]&lt;[DeviceInfo][14]>** A list of camera device information.
+-   `microphone` **[Array][6]&lt;[DeviceInfo][14]>** A list of microphone device information.
+-   `speaker` **[Array][6]&lt;[DeviceInfo][14]>** A list of speaker device information.
 
-## DeviceInfo
+## TrackObject
 
-Contains information about a device.
+A Track is a stream of audio or video media from a single source.
+Tracks can be retrieved using the Media module's `getTrackById` API and manipulated with other functions of the Media module.
 
 **Properties**
 
--   `deviceId` **[string][2]** The ID of the device.
--   `groupId` **[string][2]** The group ID of the device. Devices that share a `groupId` belong to the same physical device.
--   `kind` **[string][2]** The type of the device (audioinput, audiooutput, videoinput).
--   `label` **[string][2]** The name of the device.
+-   `containers` **[Array][6]&lt;[string][2]>** The list of CSS selectors that were used to render this Track.
+-   `disabled` **[boolean][7]** Indicator of whether this Track is disabled or not. If disabled, it cannot be re-enabled.
+-   `id` **[string][2]** The ID of the Track.
+-   `kind` **[string][2]** The kind of Track this is (audio, video).
+-   `label` **[string][2]** The label of the device this Track uses.
+-   `muted` **[boolean][7]** Indicator on whether this Track is muted or not.
+-   `state` **[string][2]** The state of this Track. Can be 'live' or 'ended'.
+-   `streamId` **[string][2]** The ID of the Media Stream that includes this Track.
+
+## MediaObject
+
+The state representation of a Media object.
+Media is a collection of Track objects.
+
+**Properties**
+
+-   `id` **[string][2]** The ID of the Media object.
+-   `local` **[boolean][7]** Indicator on whether this media is local or remote.
+-   `tracks` **[Array][6]&lt;[TrackObject][15]>** A list of Track objects that are contained in this Media object.
 
 ## ClickToCall
 
@@ -1408,6 +1440,6 @@ The Basic error object. Provides information about an error that occurred in the
 
 [13]: #channel
 
-[14]: #trackobject
+[14]: #deviceinfo
 
-[15]: #deviceinfo
+[15]: #trackobject
