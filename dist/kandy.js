@@ -1,7 +1,7 @@
 /**
  * Kandy.js (Next)
  * kandy.newLink.js
- * Version: 3.4.0-beta.68554
+ * Version: 3.4.0-beta.68670
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -33629,7 +33629,7 @@ function* endSession(callInfo) {
   };
 
   const requestType = callInfo.isAnonymous ? 'callMe' : 'callControl';
-  options.endUrl = `${requestType}/callSessions/${callInfo.sessionId}`;
+  options.endUrl = `${requestType}/callSessions/${callInfo.wrtcsSessionId}`;
 
   const response = yield (0, _effects3.call)(linkCallRequest, requestInfo, options);
 
@@ -41372,7 +41372,7 @@ const factoryDefaults = {
    */
 };function factory(plugins, options = factoryDefaults) {
   // Log the SDK's version (templated by webpack) on initialization.
-  let version = '3.4.0-beta.68554';
+  let version = '3.4.0-beta.68670';
   log.info(`CPaaS SDK version: ${version}`);
 
   var sagas = [];

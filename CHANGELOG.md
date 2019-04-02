@@ -7,6 +7,10 @@ Kandy.js change log.
 
 ## 4.3.0-beta
 
+## Fixed
+
+- Fixed an issue where ending a call would not end the call for the remote participant. `KAA-1597`
+
 ## 4.2.0 - 2018-03-29
 
 ### Fixed
