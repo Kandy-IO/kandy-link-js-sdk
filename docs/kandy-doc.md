@@ -983,16 +983,19 @@ Will trigger the `contacts:new` event.
 
 -   `contact` **[Object][5]** The contact object.
     -   `contact.primaryContact` **[string][2]** The primary userId for the contact
-    -   `contact.name` **[string][2]?** The name for the contact entry
+    -   `contact.contactId` **[string][2]** The contact's unique contact ID
     -   `contact.firstName` **[string][2]?** The contact's first name
     -   `contact.lastName` **[string][2]?** The contact's last name
-    -   `contact.contactId` **[string][2]?** The contact's unique contact ID
-    -   `contact.email` **[string][2]?** The contact's email address
-    -   `contact.homePhoneNumber` **[string][2]?** The contact's home phone number
-    -   `contact.businessPhoneNumber` **[string][2]?** The contact's business phone number
-    -   `contact.mobilePhoneNumber` **[string][2]?** The contact's mobile phone number
-    -   `contact.list` **[string][2]?** The name of the contact list for which to add this contact to ("friends" by default)
-    -   `contact.buddy` **[boolean][7]?** Indicates whether or not the contact is a friend of the user
+    -   `contact.photoUrl` **[string][2]?** The URL address identifying location of user's picture
+    -   `contact.emailAddress` **[string][2]?** The contact's email address
+    -   `contact.homePhone` **[string][2]?** The contact's home phone number
+    -   `contact.workPhone` **[string][2]?** The contact's business phone number
+    -   `contact.mobilePhone` **[string][2]?** The contact's mobile phone number
+    -   `contact.conferenceURL` **[string][2]?** Conference URL and access code for this user's address book entry
+    -   `contact.fax` **[string][2]?** The user's fax number
+    -   `contact.pager` **[string][2]?** The user's pager number
+    -   `contact.groupList` **[string][2]?** The name of the contact list for which to add this contact to ("friends" by default)
+    -   `contact.friendStatus` **[boolean][7]?** Indicates whether or not the contact is a friend of the user
 
 ### get
 
@@ -1033,6 +1036,20 @@ Will trigger the `contacts:change` event.
 
 -   `contactId` **[string][2]** The unique contact ID.
 -   `contact` **[Object][5]** The contact object.
+    -   `contact.primaryContact` **[string][2]** The primary userId for the contact
+    -   `contact.contactId` **[string][2]** The contact's unique contact ID
+    -   `contact.firstName` **[string][2]?** The contact's first name
+    -   `contact.lastName` **[string][2]?** The contact's last name
+    -   `contact.photoUrl` **[string][2]?** The URL address identifying location of user's picture
+    -   `contact.emailAddress` **[string][2]?** The contact's email address
+    -   `contact.homePhone` **[string][2]?** The contact's home phone number
+    -   `contact.workPhone` **[string][2]?** The contact's business phone number
+    -   `contact.mobilePhone` **[string][2]?** The contact's mobile phone number
+    -   `contact.conferenceURL` **[string][2]?** Conference URL and access code for this user's address book entry
+    -   `contact.fax` **[string][2]?** The user's fax number
+    -   `contact.pager` **[string][2]?** The user's pager number
+    -   `contact.groupList` **[string][2]?** The name of the contact list for which to add this contact to ("friends" by default)
+    -   `contact.friendStatus` **[boolean][7]?** Indicates whether or not the contact is a friend of the user
 
 ### fetch
 
@@ -1313,28 +1330,16 @@ Sends an initialization message over the channel with webRTC configurations.
 
 -   `config` **[Object][5]** 
 
-## CallObject
+## DeviceInfo
 
-The state representation of a Call.
-Can be retrieved using the Call feature's `getAll` or `getById` APIs.
-A Call can be manipulated by using the Call feature's APIs.
+Contains information about a device.
 
 **Properties**
 
--   `direction` **[string][2]** The direction in which the call was created (outgoing/incoming).
--   `id` **[string][2]** The ID of the call.
--   `localHold` **[boolean][7]** Indicates whether this call is currently being held locally.
--   `localTracks` **[Array][6]&lt;[string][2]>** A list of Track IDs that the call is sending to the remote participant.
--   `mediaConstraints` **[Object][5]** This indicates the media types that the call was initialized with.
-    -   `mediaConstraints.audio` **[boolean][7]** Whether the call was initialized with audio.
-    -   `mediaConstraints.video` **[boolean][7]** Whether the call was initialized with video.
--   `remoteHold` **[boolean][7]** Indicates whether this call is currently being held remotely.
--   `remoteTracks` **[Array][6]&lt;[string][2]>** A list of Track IDs that the call is receiving from the remote participant.
--   `remoteParticipant` **[Object][5]** Information about the other call participant.
-    -   `remoteParticipant.displayNumber` **[string][2]** The username with domain of the callee in the form "username@domain"
-    -   `remoteParticipant.displayName` **[string][2]** The display name of the callee
--   `startTime` **[number][9]** The start time of the call in milliseconds since the epoch.
--   `state` **[string][2]** The current state of the call. See `Call.states` for possible states.
+-   `deviceId` **[string][2]** The ID of the device.
+-   `groupId` **[string][2]** The group ID of the device. Devices that share a `groupId` belong to the same physical device.
+-   `kind` **[string][2]** The type of the device (audioinput, audiooutput, videoinput).
+-   `label` **[string][2]** The name of the device.
 
 ## DevicesObject
 
@@ -1362,17 +1367,6 @@ Tracks can be retrieved using the Media module's `getTrackById` API and manipula
 -   `state` **[string][2]** The state of this Track. Can be 'live' or 'ended'.
 -   `streamId` **[string][2]** The ID of the Media Stream that includes this Track.
 
-## DeviceInfo
-
-Contains information about a device.
-
-**Properties**
-
--   `deviceId` **[string][2]** The ID of the device.
--   `groupId` **[string][2]** The group ID of the device. Devices that share a `groupId` belong to the same physical device.
--   `kind` **[string][2]** The type of the device (audioinput, audiooutput, videoinput).
--   `label` **[string][2]** The name of the device.
-
 ## MediaObject
 
 The state representation of a Media object.
@@ -1383,6 +1377,29 @@ Media is a collection of Track objects.
 -   `id` **[string][2]** The ID of the Media object.
 -   `local` **[boolean][7]** Indicator on whether this media is local or remote.
 -   `tracks` **[Array][6]&lt;[TrackObject][15]>** A list of Track objects that are contained in this Media object.
+
+## CallObject
+
+The state representation of a Call.
+Can be retrieved using the Call feature's `getAll` or `getById` APIs.
+A Call can be manipulated by using the Call feature's APIs.
+
+**Properties**
+
+-   `direction` **[string][2]** The direction in which the call was created (outgoing/incoming).
+-   `id` **[string][2]** The ID of the call.
+-   `localHold` **[boolean][7]** Indicates whether this call is currently being held locally.
+-   `localTracks` **[Array][6]&lt;[string][2]>** A list of Track IDs that the call is sending to the remote participant.
+-   `mediaConstraints` **[Object][5]** This indicates the media types that the call was initialized with.
+    -   `mediaConstraints.audio` **[boolean][7]** Whether the call was initialized with audio.
+    -   `mediaConstraints.video` **[boolean][7]** Whether the call was initialized with video.
+-   `remoteHold` **[boolean][7]** Indicates whether this call is currently being held remotely.
+-   `remoteTracks` **[Array][6]&lt;[string][2]>** A list of Track IDs that the call is receiving from the remote participant.
+-   `remoteParticipant` **[Object][5]** Information about the other call participant.
+    -   `remoteParticipant.displayNumber` **[string][2]** The username with domain of the callee in the form "username@domain"
+    -   `remoteParticipant.displayName` **[string][2]** The display name of the callee
+-   `startTime` **[number][9]** The start time of the call in milliseconds since the epoch.
+-   `state` **[string][2]** The current state of the call. See `Call.states` for possible states.
 
 ## ClickToCall
 
