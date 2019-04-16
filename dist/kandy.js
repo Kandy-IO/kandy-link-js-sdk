@@ -1,7 +1,7 @@
 /**
  * Kandy.js (Next)
  * kandy.newLink.js
- * Version: 4.2.0
+ * Version: 3.3.0
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -22035,7 +22035,7 @@ function bytesToUuid(buf, offset) {
   var i = offset || 0;
   var bth = byteToHex;
   // join used to fix memory issue caused by concatenation: https://bugs.chromium.org/p/v8/issues/detail?id=3175#c4
-  return ([bth[buf[i++]], bth[buf[i++]],
+  return ([bth[buf[i++]], bth[buf[i++]], 
 	bth[buf[i++]], bth[buf[i++]], '-',
 	bth[buf[i++]], bth[buf[i++]], '-',
 	bth[buf[i++]], bth[buf[i++]], '-',
@@ -33286,6 +33286,10 @@ var _logs = __webpack_require__("./src/logs/index.js");
 
 var _utils2 = __webpack_require__("./src/common/utils.js");
 
+var _codecRemover = __webpack_require__("../fcs/src/js/sdp/codecRemover.js");
+
+var _codecRemover2 = _interopRequireDefault(_codecRemover);
+
 var _fp = __webpack_require__("../../node_modules/lodash/fp.js");
 
 var _effects = __webpack_require__("../../node_modules/redux-saga/es/effects.js");
@@ -33295,7 +33299,12 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Libraries.
-// Call plugin.
+
+
+// Helpers.
+
+
+// Other plugins.
 const log = (0, _logs.getLogManager)().getLogger('CALL');
 
 /**
@@ -33308,12 +33317,10 @@ const log = (0, _logs.getLogManager)().getLogger('CALL');
  * @param {Object} [call.iceServers] ICE servers to be used for calls.
  * @param {boolean} [call.serverTurnCredentials=true] Whether server-provided TURN credentials should be used.
  * @param {Array} [call.sdpHandlers] List of SDP handler functions to modify SDP. Advanced usage.
+ * @param {boolean} [call.removeH264Codecs=true] Whether to remove "H264" codec lines from incoming and outgoing SDP messages.
  */
 
-// Helpers.
-
-
-// Other plugins.
+// Call plugin.
 function callsLink(options = {}) {
   const defaultOptions = {
     // The list of TURN/STUN servers to use.
@@ -33334,7 +33341,9 @@ function callsLink(options = {}) {
     // Trickle ICE method to use for calls.
     trickleIceMode: 'NONE',
     // SDP handlers to be included in the pipeline for every operation.
-    sdpHandlers: []
+    sdpHandlers: [],
+    // filter out H264 Codec
+    removeH264Codecs: true
 
     // For backwards compatibility between old ICE config and new config.
   };if (options.iceserver && !options.iceServers) {
@@ -33356,10 +33365,18 @@ function callsLink(options = {}) {
      *
      * 2. Disable DTLS-SDES crypto method (ie. delete the line) if there's a better
      *    crypto method enabled. WebRTC only allows one method to be enabled.
-     * This is needed for interopability with non-browser endpoints that include
+     *    This is needed for interopability with non-browser endpoints that include
      *    SDES as a fallback method.
+     *
+     * 3. [optional] Disable H264 Codecs for video calls, used to reduce SDP size
+     *
      */
-    webRTC.sdp.pipeline.setHandlers(options.sdpHandlers.concat([_utils.sanitizeSdesFromSdp]));
+    let sdpHandlers = options.sdpHandlers;
+    if (options.removeH264Codecs) {
+      sdpHandlers.push((0, _codecRemover2.default)(['H264']));
+    }
+    sdpHandlers.push(_utils.sanitizeSdesFromSdp);
+    webRTC.sdp.pipeline.setHandlers(sdpHandlers);
 
     // Wrap the call sagas in a function that provides them with the webRTC stack.
     const wrappedSagas = (0, _fp.values)(sagas).map(saga => {
@@ -40432,7 +40449,7 @@ const factoryDefaults = {
    */
 };function factory(plugins, options = factoryDefaults) {
   // Log the SDK's version (templated by webpack) on initialization.
-  let version = '4.2.0';
+  let version = '3.3.0';
   log.info(`CPaaS SDK version: ${version}`);
 
   var sagas = [];
