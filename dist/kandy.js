@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.4.0-beta.74339
+ * Version: 4.4.0-beta.74470
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -3199,36 +3199,55 @@ function getRequestInfo(state, platform) {
   const { server, subscription, clientCorrelator } = getAuthConfig(state);
   const { userInfo } = (0, _fp.cloneDeep)(state.authentication);
   let requestInfo;
-  switch (platform) {
-    case _constants2.platforms.CPAAS2:
-      requestInfo = {
-        baseURL: `${server.protocol}://${server.base}:${server.port}`,
-        version: server.version,
-        username: userInfo.username,
-        // TODO: Token doesn't need to be here if its in requestOptions.
-        token: userInfo.accessToken,
-        clientCorrelator,
-        // TODO: DO NOT hardcode this here (?). The original idea was that this
-        //    is set in state after connection.
-        options: {
-          headers: {
-            Accept: 'application/json',
-            Authorization: `Bearer ${userInfo.accessToken}`,
-            'Content-Type': 'application/json'
-          }
+
+  if (platform === _constants2.platforms.CPAAS2) {
+    requestInfo = {
+      baseURL: `${server.protocol}://${server.base}:${server.port}`,
+      version: server.version,
+      username: userInfo.username,
+      // TODO: Token doesn't need to be here if its in requestOptions.
+      token: userInfo.accessToken,
+      clientCorrelator,
+      // TODO: DO NOT hardcode this here (?). The original idea was that this
+      //    is set in state after connection.
+      options: {
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${userInfo.accessToken}`,
+          'Content-Type': 'application/json'
         }
-      };
-      break;
-    case _constants2.platforms.CPAAS:
-    case _constants2.platforms.LINK:
-      requestInfo = {
-        baseURL: `${subscription.protocol}://${subscription.server}:${subscription.port}`,
-        version: subscription.version,
-        username: userInfo.username
-      };
-      break;
-    default:
-      return {};
+      }
+    };
+  } else if (platform === _constants2.platforms.CPAAS) {
+    requestInfo = {
+      baseURL: `${subscription.protocol}://${subscription.server}:${subscription.port}`,
+      version: subscription.version,
+      username: userInfo.username
+    };
+  } else if (platform === _constants2.platforms.LINK) {
+    requestInfo = {
+      baseURL: `${subscription.protocol}://${subscription.server}:${subscription.port}`,
+      version: subscription.version,
+      username: userInfo.username
+
+      /*
+       * If the requested platform was Link but the platform set in state is
+       *    CPaaS, then we're using CPaaS 1.5 but making a request for SPiDR.
+       * Change the requestInfo provided to ensure the URL will be valid for
+       *    SPiDR and authentication will be valid for CIM.
+       */
+    };const setPlatform = getPlatform(state);
+    if (setPlatform === _constants2.platforms.CPAAS) {
+      requestInfo.version = '1';
+
+      const connInfo = getConnectionInfo(state, setPlatform);
+      if (connInfo && connInfo.requestOptions) {
+        requestInfo.requestOptions = connInfo.requestOptions;
+      }
+      return requestInfo;
+    }
+  } else {
+    return {};
   }
 
   const connInfo = getConnectionInfo(state, platform);
@@ -27851,7 +27870,7 @@ const factoryDefaults = {
    */
 };function factory(plugins, options = factoryDefaults) {
   // Log the SDK's version (templated by webpack) on initialization.
-  let version = '4.4.0-beta.74339';
+  let version = '4.4.0-beta.74470';
   log.info(`CPaaS SDK version: ${version}`);
 
   var sagas = [];
@@ -36504,7 +36523,7 @@ function* getRemoteParticipant(notification) {
    * TODO: Figure out in which cases this was needed. Transfer?
    *    Ref: KAA-746
    */
-  if (!remoteInfo.remoteNumber.includes('@')) {
+  if (remoteInfo.remoteNumber && !remoteInfo.remoteNumber.includes('@')) {
     const domain = yield (0, _effects.select)(_selectors2.getDomain);
     remoteInfo.remoteNumber += domain;
   }
