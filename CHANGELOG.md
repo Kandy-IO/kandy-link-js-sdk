@@ -5,13 +5,35 @@ Kandy.js change log.
 - This project adheres to [Semantic Versioning](http://semver.org/).
 - This change log follows [keepachangelog.com](http://keepachangelog.com/) recommendations.
 
-## 4.3.0-beta
+## 4.4.0 - beta
 
-## Fixed
+## 4.3.1 - 2019-04-26
 
-- Fixed an issue where ending a call would not end the call for the remote participant. `KAA-1597`
+### Fixed
+- Made a hotfix release just to update the version because something went wrong with NPM and it requires a new version.
 
-## 4.2.0 - 2018-03-29
+## 4.3.0 - 2019-04-26
+
+### Added
+- Added group chat functionality with support for sending and receiving messages `KAA-1594`
+- Added an API to create, retrieve, update and delete groups. These groups are used for the group chat functionality.  See `kandy.groups` namespace. `KAA-1516` `KAA-1517` `KAA-1518` `KAA-1519` `KAA-1520`
+- Added the error event to the `subscription`, to prevent subscription change to emmited when there is a subscription failure. `KAA-1351`
+- [CPaaS 2.0] Added reject call functionality. `KAA-1511`
+- Added an API to retrieve basic browser information. See `getBrowserDetails`. `KAA-1470`
+
+### Fixed
+- Fixed an issue where local call logs would not be generated after a call ended. `KAA-1535`
+- Fixed a "remove media" call issue where the error event provided an incorrect message if the track ID was invalid. `KAA-1436`
+- Fixed a call issue where, when put on hold by a Cisco Phone, the call would end after a short period. `KAA-1562`
+- Fixed reject call behaviour to make call state `Ended` on callee side instead of `Cancelled`. `KAA-1584`
+- Fixed a call issue where a media mismatch error on answer would leave the call in `Ringing` state instead of ending the call. `KAA-1432`
+- Fixed an issue where errors prevented renegotiation from completing. `KAA-1497`
+- Fixed call issue where, when on dual hold with a Cisco phone, a remote unhold operation may incorrectly show a video track being added to the call. `KAA-1593`
+
+### Changed
+- The `subscription:change` event is no longer emmitted when there is an error. User will have to subscribe to `subscription:error` as well. `KAA-1351`
+
+## 4.2.0 - 2019-03-29
 
 ### Fixed
 
@@ -48,7 +70,24 @@ Version 4.0.0 has many breaking changes for call APIs. Please see the API refere
 
 - Refactored all of the WebRTC-related code.
 
-## 3.3.0-beta
+## 3.5.0 - beta
+
+## 3.4.1 - 2019-04-26
+
+### Fixed
+- Made a hotfix release just to update the version because something went wrong with NPM and it requires a new version.
+
+## 3.4.0 - 2019-04-26
+
+### Added
+- Added the error event to the `subscription`, to prevent subscription change to emmited when there is a subscription failure `KAA-1351`
+- Added a DEBUG log at the start of every public API invocation, which will better help with future investigations `KAA-1353`
+
+### Changed
+- The `subscription:change` event is no longer emmitted when there is an error. User will have to subscribe to `subscription:error` as well. `KAA-1351`
+- No longer stores call stats in localstorage by default. Use the `recordCallStats` configuration to turn this back on. `KAA-1552`
+
+## 3.3.0 - 2018-03-29
 
 ### Changed
 
