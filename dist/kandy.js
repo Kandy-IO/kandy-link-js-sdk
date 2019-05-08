@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.4.0-beta.74669
+ * Version: 4.4.0-beta.74741
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -27870,7 +27870,7 @@ const factoryDefaults = {
    */
 };function factory(plugins, options = factoryDefaults) {
   // Log the SDK's version (templated by webpack) on initialization.
-  let version = '4.4.0-beta.74669';
+  let version = '4.4.0-beta.74741';
   log.info(`CPaaS SDK version: ${version}`);
 
   var sagas = [];
