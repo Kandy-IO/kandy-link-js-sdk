@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.4.0-beta.76831
+ * Version: 4.4.0-beta.77378
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -27870,7 +27870,7 @@ const factoryDefaults = {
    */
 };function factory(plugins, options = factoryDefaults) {
   // Log the SDK's version (templated by webpack) on initialization.
-  let version = '4.4.0-beta.76831';
+  let version = '4.4.0-beta.77378';
   log.info(`CPaaS SDK version: ${version}`);
 
   var sagas = [];
@@ -42883,7 +42883,7 @@ const log = (0, _logs.getLogManager)().getLogger('MESSAGING');
  * Base conversation stamp
  * @param {Array} destination The Destination for messages being sent through
  * this conversation in this instance of the SDK. This should be an Array with any number of user IDs
- * @param {string} type=im The type of the message.
+ * @param {string} type='im' The type of the message.
  * @param {string} id=undefined The unique identifier for base conversation.
  * @param {string} description='' The description associated with base conversation.
  * @param {Array} messages=[] An array containing the conversation's messages.
