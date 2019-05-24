@@ -5,7 +5,9 @@ Kandy.js change log.
 - This project adheres to [Semantic Versioning](http://semver.org/).
 - This change log follows [keepachangelog.com](http://keepachangelog.com/) recommendations.
 
-## 4.4.0 - beta
+## 4.5.0 - beta
+
+## 4.4.0 - 2019-05-24
 
 ### Added
 - Added Forward Call functionality. `KAA-1507`
@@ -76,10 +78,6 @@ Version 4.0.0 has many breaking changes for call APIs. Please see the API refere
 ### Changed
 
 - Refactored all of the WebRTC-related code.
-
-## 3.4.0 - beta
-
-## 3.3.0 - beta
 
 ### Changed
 
