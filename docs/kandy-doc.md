@@ -403,6 +403,15 @@ A track ID can optionally be provided to get a report for the specific track of 
 -   `callId` **[string][2]** The ID of the call to retrieve stats report.
 -   `trackId` **[string][2]?** TrackId. If trackId is not provided, RTCStatsReport is gererated from the peerConnection.
 
+### forward
+
+Forward an incoming call to another user.
+
+**Parameters**
+
+-   `callId` **[string][2]** ID of the call being acted on.
+-   `destination` **[string][2]** The user to forward the call to.
+
 ### states
 
 Possible states for a call.
@@ -597,6 +606,9 @@ If a conversation with the given user ID already exists in the store, it will be
 
 -   `destination` **[string][2]** The destination for messages created in this conversation. This will
     be a user's sip address.
+-   `options` **[Object][5]?** An optional configuration object to query for more specific results.
+    If this object is not passed, the function will query for "im" conversation with that recipient.
+    -   `options.type` **[string][2]?** The type of conversation to retrieve. Can be one of "im", "sms" or "other".
 
 Returns **[Conversation][11]** A Conversation object.
 
@@ -983,16 +995,19 @@ Will trigger the `contacts:new` event.
 
 -   `contact` **[Object][5]** The contact object.
     -   `contact.primaryContact` **[string][2]** The primary userId for the contact
-    -   `contact.name` **[string][2]?** The name for the contact entry
+    -   `contact.contactId` **[string][2]** The contact's unique contact ID
     -   `contact.firstName` **[string][2]?** The contact's first name
     -   `contact.lastName` **[string][2]?** The contact's last name
-    -   `contact.contactId` **[string][2]?** The contact's unique contact ID
-    -   `contact.email` **[string][2]?** The contact's email address
-    -   `contact.homePhoneNumber` **[string][2]?** The contact's home phone number
-    -   `contact.businessPhoneNumber` **[string][2]?** The contact's business phone number
-    -   `contact.mobilePhoneNumber` **[string][2]?** The contact's mobile phone number
-    -   `contact.list` **[string][2]?** The name of the contact list for which to add this contact to ("friends" by default)
-    -   `contact.buddy` **[boolean][7]?** Indicates whether or not the contact is a friend of the user
+    -   `contact.photoUrl` **[string][2]?** The URL address identifying location of user's picture
+    -   `contact.emailAddress` **[string][2]?** The contact's email address
+    -   `contact.homePhone` **[string][2]?** The contact's home phone number
+    -   `contact.workPhone` **[string][2]?** The contact's business phone number
+    -   `contact.mobilePhone` **[string][2]?** The contact's mobile phone number
+    -   `contact.conferenceURL` **[string][2]?** Conference URL and access code for this user's address book entry
+    -   `contact.fax` **[string][2]?** The user's fax number
+    -   `contact.pager` **[string][2]?** The user's pager number
+    -   `contact.groupList` **[string][2]?** The name of the contact list for which to add this contact to ("friends" by default)
+    -   `contact.friendStatus` **[boolean][7]?** Indicates whether or not the contact is a friend of the user
 
 ### get
 
@@ -1033,6 +1048,20 @@ Will trigger the `contacts:change` event.
 
 -   `contactId` **[string][2]** The unique contact ID.
 -   `contact` **[Object][5]** The contact object.
+    -   `contact.primaryContact` **[string][2]** The primary userId for the contact
+    -   `contact.contactId` **[string][2]** The contact's unique contact ID
+    -   `contact.firstName` **[string][2]?** The contact's first name
+    -   `contact.lastName` **[string][2]?** The contact's last name
+    -   `contact.photoUrl` **[string][2]?** The URL address identifying location of user's picture
+    -   `contact.emailAddress` **[string][2]?** The contact's email address
+    -   `contact.homePhone` **[string][2]?** The contact's home phone number
+    -   `contact.workPhone` **[string][2]?** The contact's business phone number
+    -   `contact.mobilePhone` **[string][2]?** The contact's mobile phone number
+    -   `contact.conferenceURL` **[string][2]?** Conference URL and access code for this user's address book entry
+    -   `contact.fax` **[string][2]?** The user's fax number
+    -   `contact.pager` **[string][2]?** The user's pager number
+    -   `contact.groupList` **[string][2]?** The name of the contact list for which to add this contact to ("friends" by default)
+    -   `contact.friendStatus` **[boolean][7]?** Indicates whether or not the contact is a friend of the user
 
 ### fetch
 
@@ -1042,6 +1071,33 @@ Will trigger the `contacts:change` event.
 **Parameters**
 
 -   `contactId` **[string][2]** The unique contact ID of the contact.
+
+## sdpHandlers
+
+A set of handlers for manipulating SDP information.
+These handlers are used to customize low-level call behaviour for very specific
+environments and/or scenarios. They can be provided during SDK instantiation
+to be used for all calls.
+
+### createCodecRemover
+
+In some scenarios it's necessary to remove certain codecs being offered by the SDK to the remote party. While creating an SDP handler would allow a user to perform this type of manipulation, it is a non-trivial task that requires in-depth knowledge of WebRTC SDP.
+
+To facilitate this common task, the SDK provides a codec removal handler that can be used for this purpose.
+
+The SDP handlers are exposed on the entry point of the SDK. They need to be added to the list of SDP handlers via configuration on creation of an instance of the SDK.
+
+**Examples**
+
+```javascript
+import { create, sdpHandlers } from 'kandy';
+const codecRemover = sdpHandlers.createCodecRemover(['VP8', 'VP9'])
+const client = create({
+  call: {
+    sdpHandlers: [codecRemover]
+  }
+})
+```
 
 ## config
 
@@ -1131,33 +1187,6 @@ Configuration options for the notification feature.
     -   `notifications.realm` **[string][2]?** The realm used for push notifications
     -   `notifications.bundleId` **[string][2]?** The bundle id used for push notifications
 
-## sdpHandlers
-
-A set of handlers for manipulating SDP information.
-These handlers are used to customize low-level call behaviour for very specific
-environments and/or scenarios. They can be provided during SDK instantiation
-to be used for all calls.
-
-### createCodecRemover
-
-In some scenarios it's necessary to remove certain codecs being offered by the SDK to the remote party. While creating an SDP handler would allow a user to perform this type of manipulation, it is a non-trivial task that requires in-depth knowledge of WebRTC SDP.
-
-To facilitate this common task, the SDK provides a codec removal handler that can be used for this purpose.
-
-The SDP handlers are exposed on the entry point of the SDK. They need to be added to the list of SDP handlers via configuration on creation of an instance of the SDK.
-
-**Examples**
-
-```javascript
-import { create, sdpHandlers } from 'kandy';
-const codecRemover = sdpHandlers.createCodecRemover(['VP8', 'VP9'])
-const client = create({
-  call: {
-    sdpHandlers: [codecRemover]
-  }
-})
-```
-
 ## Logger
 
 The internal logger used to provide information about the SDK's behaviour.
@@ -1198,44 +1227,21 @@ Update values in the global Config section of the store.
 
 -   `newConfigValues` **[Object][5]** Key Value pairs that will be placed into the store.
 
-## Proxy
+## getBrowserDetails
 
-The Proxy module allows for a secondary mode for making calls: proxy mode.
-When proxy mode is enabled, the SDK will redirect webRTC / media operations from the current machine to a remote machine using a channel.
-This is an advanced feature that enables support for Calls in particular scenarios that would otherwise not support them.
+Retrieve information about the browser being used.
+Browser information being defined indicates that the browser supports
+   basic webRTC scenarios.
 
-### setProxyMode
+**Examples**
 
-Sets the mode for the Proxy Plugin.
-When enabled, webRTC operations will be proxied over a channel. Enabling
-   proxy mode requires a channel to have been set. See `setChannel` API.
-When disabled, webRTC operation will occur as normal on the local machine.
+```javascript
+const details = client.getBrowserDetails()
 
-**Parameters**
+log(`Browser in use: ${details.browser}, version ${details.version}.`)
+```
 
--   `value` **[boolean][7]** Whether proxy mode should be enabled.
-
-### getProxyMode
-
-Retrieves the current mode of the Proxy Plugin.
-
-Returns **[boolean][7]** Whether proxy mode is currently enabled.
-
-### setChannel
-
-Sets the channel to be used while proxy mode is enabled.
-
-**Parameters**
-
--   `channel` **[Channel][13]** See the `Channel` module for information.
-
-### initializeRemote
-
-Sends an initialization message over the channel with webRTC configurations.
-
-**Parameters**
-
--   `config` **[Object][5]** 
+Returns **[Object][5]** Object containing `browser` and `version` information.
 
 ## Channel
 
@@ -1265,6 +1271,14 @@ appChannel.on('message', data => {
 client.proxy.setChannel(channel)
 ```
 
+### send
+
+Channel function that the Proxy module will use to send messages to the remote side.
+
+**Parameters**
+
+-   `data` **[Object][5]** Message to be sent over the channel.
+
 ### receive
 
 API that the Proxy module will assign a listener function for accepting received messages.
@@ -1274,34 +1288,60 @@ This function should receive all messages sent from the remote side of the chann
 
 -   `data` **[Object][5]** The message received from the Channel.
 
-### send
+## Proxy
 
-Channel function that the Proxy module will use to send messages to the remote side.
+The Proxy module allows for a secondary mode for making calls: proxy mode.
+When proxy mode is enabled, the SDK will redirect webRTC / media operations from the current machine to a remote machine using a channel.
+This is an advanced feature that enables support for Calls in particular scenarios that would otherwise not support them.
+
+### setProxyMode
+
+Sets the mode for the Proxy Plugin.
+When enabled, webRTC operations will be proxied over a channel. Enabling
+   proxy mode requires a channel to have been set. See `setChannel` API.
+When disabled, webRTC operation will occur as normal on the local machine.
 
 **Parameters**
 
--   `data` **[Object][5]** Message to be sent over the channel.
+-   `value` **[boolean][7]** Whether proxy mode should be enabled.
 
-## DeviceInfo
+### getProxyMode
 
-Contains information about a device.
+Retrieves the current mode of the Proxy Plugin.
 
-**Properties**
+Returns **[boolean][7]** Whether proxy mode is currently enabled.
 
--   `deviceId` **[string][2]** The ID of the device.
--   `groupId` **[string][2]** The group ID of the device. Devices that share a `groupId` belong to the same physical device.
--   `kind` **[string][2]** The type of the device (audioinput, audiooutput, videoinput).
--   `label` **[string][2]** The name of the device.
+### getProxyDetails
 
-## DevicesObject
+Retrieve information about the proxy's browser being used.
+Browser information being defined indicates that the browser supports
+   basic webRTC scenarios.
 
-A collection of devices and their information.
+**Examples**
 
-**Properties**
+```javascript
+const details = client.proxy.getProxyDetails()
 
--   `camera` **[Array][6]&lt;[DeviceInfo][14]>** A list of camera device information.
--   `microphone` **[Array][6]&lt;[DeviceInfo][14]>** A list of microphone device information.
--   `speaker` **[Array][6]&lt;[DeviceInfo][14]>** A list of speaker device information.
+log(`Proxy Browser in use: ${details.browser}, version ${details.version}.`)
+```
+
+Returns **[Object][5]** Object containing `browser` and `version` information.
+
+### setChannel
+
+Sets the channel to be used while proxy mode is enabled.
+
+**Parameters**
+
+-   `channel` **[Channel][13]** See the `Channel` module for information.
+
+### initializeRemote
+
+Sends an initialization message over the channel with webRTC configurations.
+
+**Parameters**
+
+-   `config` **[Object][5]** 
 
 ## TrackObject
 
@@ -1328,7 +1368,7 @@ Media is a collection of Track objects.
 
 -   `id` **[string][2]** The ID of the Media object.
 -   `local` **[boolean][7]** Indicator on whether this media is local or remote.
--   `tracks` **[Array][6]&lt;[TrackObject][15]>** A list of Track objects that are contained in this Media object.
+-   `tracks` **[Array][6]&lt;[TrackObject][14]>** A list of Track objects that are contained in this Media object.
 
 ## CallObject
 
@@ -1352,6 +1392,27 @@ A Call can be manipulated by using the Call feature's APIs.
     -   `remoteParticipant.displayName` **[string][2]** The display name of the callee
 -   `startTime` **[number][9]** The start time of the call in milliseconds since the epoch.
 -   `state` **[string][2]** The current state of the call. See `Call.states` for possible states.
+
+## DeviceInfo
+
+Contains information about a device.
+
+**Properties**
+
+-   `deviceId` **[string][2]** The ID of the device.
+-   `groupId` **[string][2]** The group ID of the device. Devices that share a `groupId` belong to the same physical device.
+-   `kind` **[string][2]** The type of the device (audioinput, audiooutput, videoinput).
+-   `label` **[string][2]** The name of the device.
+
+## DevicesObject
+
+A collection of devices and their information.
+
+**Properties**
+
+-   `camera` **[Array][6]&lt;[DeviceInfo][15]>** A list of camera device information.
+-   `microphone` **[Array][6]&lt;[DeviceInfo][15]>** A list of microphone device information.
+-   `speaker` **[Array][6]&lt;[DeviceInfo][15]>** A list of speaker device information.
 
 ## ClickToCall
 
@@ -1409,6 +1470,6 @@ The Basic error object. Provides information about an error that occurred in the
 
 [13]: #channel
 
-[14]: #deviceinfo
+[14]: #trackobject
 
-[15]: #trackobject
+[15]: #deviceinfo

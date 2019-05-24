@@ -5,6 +5,31 @@ Kandy.js change log.
 - This project adheres to [Semantic Versioning](http://semver.org/).
 - This change log follows [keepachangelog.com](http://keepachangelog.com/) recommendations.
 
+## 4.4.0 - 2019-05-24
+
+### Added
+- Added Forward Call functionality. `KAA-1507`
+
+### Fixed
+- Fixed call states not having `startTime` and/or `endTime` properties in certain scenarios when the call does not establish. `KAA-1620`
+- Fixed missing "remote participant display name" in call state for outgoing calls. `KAA-1568`
+  - It will now be defined after a notification is received from the remote participant.
+
+## 4.3.1 - 2019-04-26
+
+### Fixed
+- Made a hotfix release just to update the version because something went wrong with NPM and it requires a new version.
+
+## 4.3.0 - 2019-04-26
+
+### Added
+
+- Added a DEBUG log at the start of every public API invocation, which will better help with future investigations `KAA-1353`
+
+## Fixed
+
+- Fixed an issue where ending a call would not end the call for the remote participant. `KAA-1597`
+
 ## 4.2.1 - 2019-04-16
 
 ### Added
@@ -51,8 +76,6 @@ Version 4.0.0 has many breaking changes for call APIs. Please see the API refere
 ### Changed
 
 - Refactored all of the WebRTC-related code.
-
-## 3.3.0-beta
 
 ### Changed
 
@@ -130,7 +153,7 @@ The function to instantiate the SDK has been renamed from `createKandy()` to `Ka
 
 - Fixed Safari11 and IE11 browser support `KAA-1109`
 - Removed an extra colon from the eventType CALL_HISTORY_CACHE_CHANGE `KAA-546`
-- Fixed the `callHistory` and `presence` plugins to work on both Link and CPaaS 1.5 platforms. `KAA-947`
+- Fixed the `callHistory` and `presence` plugins to work on both Link and UC platforms. `KAA-947`
 - Updated API documentation for 'customParameters' parameter. `KAA-913`
 - Fixed debug message falsely claiming calls may fail in Anonymous Call scenarios. `KAA-934`
 - Updated logs to output slightly less noise as part of a logged item.
@@ -166,7 +189,7 @@ The function to instantiate the SDK has been renamed from `createKandy()` to `Ka
 
 - Fixed an issue where messages fetched for a conversation may show up as duplicate messages. `KAA-849`
 - Fixed an error when trying to fetch a conversation's messages after it received a message. `KAA-848`
-- Fixed a connection issue for CPaaS 1.5 when using the SDK's default services. `KAA-807`
+- Fixed a connection issue for UC when using the SDK's default services. `KAA-807`
 - Fixed an issue where call logs were missing in the logs when a fetch is made immediately after making a call. `KAA-653`
 - Fixed an issue where the `remoteParticipant` property was not being added to call state. `KAA-747`
 
@@ -178,7 +201,7 @@ The function to instantiate the SDK has been renamed from `createKandy()` to `Ka
 
 ### Added
 
-- Added support for OAuth Token subscription via the CPaaS 1.5 API. `KAA-780`
+- Added support for OAuth Token subscription via the UC API. `KAA-780`
 - Added a more consistent structure to SDK debug logs. `KAA-685`
 - Added documentation for the Config plugin's API. `KAA-728`
 - Added kandy.getConfig() functionality for getting the current configuration `KAA-728`
