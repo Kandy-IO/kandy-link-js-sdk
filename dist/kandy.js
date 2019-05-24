@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.4.0-beta.78010
+ * Version: 4.4.0-beta.78632
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -27870,7 +27870,7 @@ const factoryDefaults = {
    */
 };function factory(plugins, options = factoryDefaults) {
   // Log the SDK's version (templated by webpack) on initialization.
-  let version = '4.4.0-beta.78010';
+  let version = '4.4.0-beta.78632';
   log.info(`UC SDK version: ${version}`);
 
   var sagas = [];
@@ -33448,7 +33448,7 @@ function* unsubscribe(connection, subscriptionURL) {
       return (0, _extends3.default)({
         error: false
       }, unsubResponse);
-    } else if (platform === _constants.platforms.CPAAS && unsubResponse.statusCode === 0) {
+    } else if (platform === _constants.platforms.UC && unsubResponse.statusCode === 0) {
       // Link success response.
       return (0, _extends3.default)({
         error: false
