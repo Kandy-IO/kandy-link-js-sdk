@@ -207,7 +207,14 @@ The SDK requires access to the machine's media devices (eg. microphone)
     'sip:sipuser@sip.domain.example.com' for SIP calls or 'tel:18881239876' for PSTN calls.
 -   `media` **[Object][5]?** The media options the call should be initialized with.
     -   `media.audio` **[Boolean][7]** Whether the call should have audio on start. Currently, audio-less calls are not supported. (optional, default `true`)
+    -   `media.audioOptions` **[Object][5]?** Options for configuring the call's audio.
+        -   `media.audioOptions.deviceId` **[MediaConstraint][8]?** ID of the microphone to receive audio from.
     -   `media.video` **[Boolean][7]** Whether the call should have video on start. (optional, default `false`)
+    -   `media.videoOptions` **[Object][5]?** Options for configuring the call's video.
+        -   `media.videoOptions.deviceId` **[MediaConstraint][8]?** ID of the camera to receive video from.
+        -   `media.videoOptions.height` **[MediaConstraint][8]?** The height of the video.
+        -   `media.videoOptions.width` **[MediaConstraint][8]?** The width of the video.
+        -   `media.videoOptions.frameRate` **[MediaConstraint][8]?** The frame rate of the video.
 
 **Examples**
 
@@ -266,7 +273,14 @@ The SDK requires access to the machine's media devices (eg. microphone)
 -   `callId` **[string][2]** The ID of the call to answer.
 -   `media` **[Object][5]?** The media options the call should be initialized with.
     -   `media.audio` **[Boolean][7]** Whether the call should have audio on start. Currently, audio-less calls are not supported. (optional, default `true`)
+    -   `media.audioOptions` **[Object][5]?** Options for configuring the call's audio.
+        -   `media.audioOptions.deviceId` **[MediaConstraint][8]?** ID of the microphone to receive audio from.
     -   `media.video` **[Boolean][7]** Whether the call should have video on start. (optional, default `false`)
+    -   `media.videoOptions` **[Object][5]?** Options for configuring the call's video.
+        -   `media.videoOptions.deviceId` **[MediaConstraint][8]?** ID of the camera to receive video from.
+        -   `media.videoOptions.height` **[MediaConstraint][8]?** The height of the video.
+        -   `media.videoOptions.width` **[MediaConstraint][8]?** The width of the video.
+        -   `media.videoOptions.frameRate` **[MediaConstraint][8]?** The frame rate of the video.
 
 ### ignore
 
@@ -332,7 +346,7 @@ let currentCalls = calls.filter(call => {
 });
 ```
 
-Returns **[Array][6]&lt;[CallObject][8]>** Call objects.
+Returns **[Array][6]&lt;[CallObject][9]>** Call objects.
 
 ### getById
 
@@ -342,7 +356,7 @@ Retrieves a single call from state with a specific call ID.
 
 -   `callId` **[string][2]** The ID of the call to retrieve.
 
-Returns **[CallObject][8]** A call object.
+Returns **[CallObject][9]** A call object.
 
 ### end
 
@@ -371,7 +385,14 @@ Will trigger a `call:newMedia` event.
 -   `callId` **[string][2]** The ID of the call to add media to.
 -   `media` **[Object][5]** The media options to add to the call. (optional, default `{}`)
     -   `media.audio` **[Boolean][7]** Whether to add audio to the call. (optional, default `false`)
+    -   `media.audioOptions` **[Object][5]?** Options for configuring the call's audio.
+        -   `media.audioOptions.deviceId` **[MediaConstraint][8]?** ID of the microphone to receive audio from.
     -   `media.video` **[Boolean][7]** Whether to add video to the call. (optional, default `false`)
+    -   `media.videoOptions` **[Object][5]?** Options for configuring the call's video.
+        -   `media.videoOptions.deviceId` **[MediaConstraint][8]?** ID of the camera to receive video from.
+        -   `media.videoOptions.height` **[MediaConstraint][8]?** The height of the video.
+        -   `media.videoOptions.width` **[MediaConstraint][8]?** The width of the video.
+        -   `media.videoOptions.frameRate` **[MediaConstraint][8]?** The frame rate of the video.
 
 ### removeMedia
 
@@ -390,8 +411,8 @@ Send DTMF tones on an ongoing call.
 
 -   `callId` **[string][2]** Id of the call being acted on.
 -   `tone` **[string][2]** DTMF tone to send. Valid values are ['0','1','2','3','4','5','6','7','8','9','#','*' and ','].
--   `duration` **[number][9]** The amount of time, in milliseconds, that each DTMF tone should last. (optional, default `100`)
--   `intertoneGap` **[number][9]** The length of time, in milliseconds, to wait between tones. (optional, default `70`)
+-   `duration` **[number][10]** The amount of time, in milliseconds, that each DTMF tone should last. (optional, default `100`)
+-   `intertoneGap` **[number][10]** The length of time, in milliseconds, to wait between tones. (optional, default `70`)
 
 ### getStats
 
@@ -411,6 +432,57 @@ Forward an incoming call to another user.
 
 -   `callId` **[string][2]** ID of the call being acted on.
 -   `destination` **[string][2]** The user to forward the call to.
+
+### consultativeTransfer
+
+Performs a "consultative" transfer between two on-going calls (also known
+   as an announced or warm transfer). This allows the current user to
+   transfer the remote participant of a call to another user, after
+   having spoken to both users.
+
+Both calls used for the transfer must be locally held. Both remote
+   participants will see their call be unheld, and will be connected to
+   one another after the operation. Both calls for the current user will
+   be ended.
+
+**Parameters**
+
+-   `callId` **[string][2]** ID of the call being acted on.
+-   `otherCallId` **[string][2]** ID of the other call being acted on.
+
+### directTransfer
+
+Performs a "direct" transfer on a call (also known as an unannounced or
+   blind transfer). This allows the current user to transfer the remote
+   participant of a call to another user, similar to a "forward"
+   operation.
+
+The specified call must be locally held. The "destination" user will
+   receive an incoming call, and when answered, they will be connected
+   with the remote participant of the specified call. The current user's
+   call will be ended after the operation.
+
+**Parameters**
+
+-   `callId` **[string][2]** ID of the call being acted on.
+-   `destination` **[string][2]** The user to transfer the call to.
+
+### join
+
+Performs a "join" on two ongoing calls.
+This allows the current user to have a call with audio from the other two users.
+
+Both specified calls must be locally held. The "joined" call will be
+   audio-only, even if either previous call had video. Video cannot be
+   added to the "joined" call. Both remote participants will see their
+   call be unheld, and will receive additional audio from other
+   participants after the operation. Both calls for the current user will
+   be ended.
+
+**Parameters**
+
+-   `callId` **[string][2]** ID of the call being acted on.
+-   `otherCallId` **[string][2]** ID of the other call being acted on.
 
 ### states
 
@@ -460,7 +532,7 @@ Retrieve a media object from state with a specific media ID.
 
 -   `mediaId` **[string][2]** The ID of the media to retrieve.
 
-Returns **[MediaObject][10]** A media object.
+Returns **[MediaObject][11]** A media object.
 
 ### getTrackById
 
@@ -541,8 +613,8 @@ it has been updated.
 
 **Parameters**
 
--   `amount` **[number][9]** The number of records to retrieve. (optional, default `50`)
--   `offset` **[number][9]** Starting offset for records to retrieve. (optional, default `0`)
+-   `amount` **[number][10]** The number of records to retrieve. (optional, default `50`)
+-   `offset` **[number][10]** Starting offset for records to retrieve. (optional, default `0`)
 
 ### remove
 
@@ -550,7 +622,7 @@ Deletes the specified call log.
 
 **Parameters**
 
--   `recordId` **[number][9]** The ID of the call log to be removed.
+-   `recordId` **[number][10]** The ID of the call log to be removed.
 
 ### clear
 
@@ -610,7 +682,7 @@ If a conversation with the given user ID already exists in the store, it will be
     If this object is not passed, the function will query for "im" conversation with that recipient.
     -   `options.type` **[string][2]?** The type of conversation to retrieve. Can be one of "im", "sms" or "other".
 
-Returns **[Conversation][11]** A Conversation object.
+Returns **[Conversation][12]** A Conversation object.
 
 ## Conversation
 
@@ -638,7 +710,7 @@ Create and return a message object. You must provide a `text` part as demonstrat
 conversation.createMessage({type: 'text', text: 'This is the message'});
 ```
 
-Returns **[Message][12]** The newly created Message object.
+Returns **[Message][13]** The newly created Message object.
 
 ### clearMessages
 
@@ -658,7 +730,7 @@ Returns **[string][2]** messages.messageId The Id of the message.
 
 Returns **[string][2]** messages.sender The user Id of the user who sent the message.
 
-Returns **[number][9]** messages.timestamp The time at which the message was sent.
+Returns **[number][10]** messages.timestamp The time at which the message was sent.
 
 Returns **[boolean][7]** messages.read Whether the message has been marked as read.
 
@@ -696,7 +768,7 @@ Messages can then be retrieved using getMessages.
 
 **Parameters**
 
--   `amount` **[number][9]** An amount of messages to fetch. (optional, default `50`)
+-   `amount` **[number][10]** An amount of messages to fetch. (optional, default `50`)
 
 ## Message
 
@@ -977,7 +1049,7 @@ Will trigger a `directory:change` event.
 -   `options` **[Object][5]?** Sorting options
     -   `options.sortBy` **[string][2]?** The attribute upon which to sort results. This can be any of the above listed filters which describe a user attribute.
     -   `options.order` **[string][2]?** Order by which to return results. Can be one of "asc" or "desc".
-    -   `options.max` **[number][9]?** The maximmum number of results to return.
+    -   `options.max` **[number][10]?** The maximmum number of results to return.
     -   `options.next` **[string][2]?** The pointer for a chunk of results, which may be returned from other a previous query.
 
 ## Contacts
@@ -1046,7 +1118,6 @@ Will trigger the `contacts:change` event.
 
 **Parameters**
 
--   `contactId` **[string][2]** The unique contact ID.
 -   `contact` **[Object][5]** The contact object.
     -   `contact.primaryContact` **[string][2]** The primary userId for the contact
     -   `contact.contactId` **[string][2]** The contact's unique contact ID
@@ -1071,6 +1142,33 @@ Will trigger the `contacts:change` event.
 **Parameters**
 
 -   `contactId` **[string][2]** The unique contact ID of the contact.
+
+## sdpHandlers
+
+A set of handlers for manipulating SDP information.
+These handlers are used to customize low-level call behaviour for very specific
+environments and/or scenarios. They can be provided during SDK instantiation
+to be used for all calls.
+
+### createCodecRemover
+
+In some scenarios it's necessary to remove certain codecs being offered by the SDK to the remote party. While creating an SDP handler would allow a user to perform this type of manipulation, it is a non-trivial task that requires in-depth knowledge of WebRTC SDP.
+
+To facilitate this common task, the SDK provides a codec removal handler that can be used for this purpose.
+
+The SDP handlers are exposed on the entry point of the SDK. They need to be added to the list of SDP handlers via configuration on creation of an instance of the SDK.
+
+**Examples**
+
+```javascript
+import { create, sdpHandlers } from 'kandy';
+const codecRemover = sdpHandlers.createCodecRemover(['VP8', 'VP9'])
+const client = create({
+  call: {
+    sdpHandlers: [codecRemover]
+  }
+})
+```
 
 ## config
 
@@ -1104,14 +1202,14 @@ Configuration options for the Authentication feature.
     -   `authentication.subscription` **[Object][5]** 
         -   `authentication.subscription.server` **[string][2]** Hostname of the server to be used for subscription requests.
         -   `authentication.subscription.protocol` **[string][2]** Protocol to be used for subscription requests. (optional, default `https`)
-        -   `authentication.subscription.port` **[Number][9]** Port to be used for subscription requests. (optional, default `443`)
+        -   `authentication.subscription.port` **[Number][10]** Port to be used for subscription requests. (optional, default `443`)
         -   `authentication.subscription.version` **[string][2]** Version of the REST API to be used. (optional, default `1`)
-        -   `authentication.subscription.expires` **[Number][9]** Time duration, in seconds, until a subscription should expire. (optional, default `3600`)
+        -   `authentication.subscription.expires` **[Number][10]** Time duration, in seconds, until a subscription should expire. (optional, default `3600`)
         -   `authentication.subscription.service` **[Array][6]?** Services to subscribe to for notifications.
     -   `authentication.websocket` **[Object][5]** 
         -   `authentication.websocket.server` **[string][2]** Hostname of the server to be used for websocket notifications.
         -   `authentication.websocket.protocol` **[string][2]** Protocol to be used for websocket notifications. (optional, default `wss`)
-        -   `authentication.websocket.port` **[Number][9]** Port to be used for websocket notifications. (optional, default `443`)
+        -   `authentication.websocket.port` **[Number][10]** Port to be used for websocket notifications. (optional, default `443`)
 
 ### config.call
 
@@ -1135,13 +1233,13 @@ Configuration options for the Connectivity feature.
     -   `connectivity.method` **[Object][5]** Configuration for how connectivity checks should be made.
         -   `connectivity.method.type` **[String][2]** The method of connectivity checking to use: `keepAlive` or `pingPong`. (optional, default `'keepAlive'`)
         -   `connectivity.method.responsibleParty` **[String][2]** Configures who is responsible for initiating the connectivity check: `client` or `server`. (optional, default `'client'`)
-    -   `connectivity.pingInterval` **[Number][9]** Time in between websocket ping attempts (milliseconds). Only used for when the client is responsible for ping/connCheck. (optional, default `30000`)
-    -   `connectivity.reconnectLimit` **[Number][9]** Number of failed reconnect attempts before reporting an error. Can be set to 0 to not limit reconnection attempts. (optional, default `5`)
-    -   `connectivity.reconnectDelay` **[Number][9]** Base time between websocket reconnect attempts (milliseconds). (optional, default `5000`)
-    -   `connectivity.reconnectTimeMultiplier` **[Number][9]** Reconnect delay multiplier for subsequent attempts. The reconnect delay time will be multiplied by this factor after each failed reconnect attempt to increase the delay between attempts. (optional, default `1`)
-    -   `connectivity.reconnectTimeLimit` **[Number][9]** Maximum time delay between reconnect attempts (milliseconds). Used in conjunction with `reconnectTimeMultiplier` to prevent overly long delays between reconnection attempts. (optional, default `640000`)
+    -   `connectivity.pingInterval` **[Number][10]** Time in between websocket ping attempts (milliseconds). Only used for when the client is responsible for ping/connCheck. (optional, default `30000`)
+    -   `connectivity.reconnectLimit` **[Number][10]** Number of failed reconnect attempts before reporting an error. Can be set to 0 to not limit reconnection attempts. (optional, default `5`)
+    -   `connectivity.reconnectDelay` **[Number][10]** Base time between websocket reconnect attempts (milliseconds). (optional, default `5000`)
+    -   `connectivity.reconnectTimeMultiplier` **[Number][10]** Reconnect delay multiplier for subsequent attempts. The reconnect delay time will be multiplied by this factor after each failed reconnect attempt to increase the delay between attempts. (optional, default `1`)
+    -   `connectivity.reconnectTimeLimit` **[Number][10]** Maximum time delay between reconnect attempts (milliseconds). Used in conjunction with `reconnectTimeMultiplier` to prevent overly long delays between reconnection attempts. (optional, default `640000`)
     -   `connectivity.autoReconnect` **[Boolean][7]** Flag to determine whether reconnection will be attempted automatically after connectivity disruptions. (optional, default `true`)
-    -   `connectivity.maxMissedPings` **[Number][9]** Maximum pings sent (without receiving a response) before reporting an error. (optional, default `3`)
+    -   `connectivity.maxMissedPings` **[Number][10]** Maximum pings sent (without receiving a response) before reporting an error. (optional, default `3`)
     -   `connectivity.checkConnectivity` **[Boolean][7]** Flag to determine whether to enable connectivity checking or not. (optional, default `false`)
 
 ### config.notifications
@@ -1151,7 +1249,7 @@ Configuration options for the notification feature.
 **Parameters**
 
 -   `notifications` **[Object][5]** The notifications configuration object.
-    -   `notifications.idCacheLength` **[number][9]** Default amount of event ids to remember for de-duplication purposes. (optional, default `100`)
+    -   `notifications.idCacheLength` **[number][10]** Default amount of event ids to remember for de-duplication purposes. (optional, default `100`)
     -   `notifications.pushRegistration` **[Object][5]?** Object describing the server to use for push services.
         -   `notifications.pushRegistration.server` **[string][2]?** Hostname for the push registration server.
         -   `notifications.pushRegistration.port` **[string][2]?** Port for the push registration server.
@@ -1159,33 +1257,6 @@ Configuration options for the notification feature.
         -   `notifications.pushRegistration.version` **[string][2]?** Version for the push registration server.
     -   `notifications.realm` **[string][2]?** The realm used for push notifications
     -   `notifications.bundleId` **[string][2]?** The bundle id used for push notifications
-
-## sdpHandlers
-
-A set of handlers for manipulating SDP information.
-These handlers are used to customize low-level call behaviour for very specific
-environments and/or scenarios. They can be provided during SDK instantiation
-to be used for all calls.
-
-### createCodecRemover
-
-In some scenarios it's necessary to remove certain codecs being offered by the SDK to the remote party. While creating an SDP handler would allow a user to perform this type of manipulation, it is a non-trivial task that requires in-depth knowledge of WebRTC SDP.
-
-To facilitate this common task, the SDK provides a codec removal handler that can be used for this purpose.
-
-The SDP handlers are exposed on the entry point of the SDK. They need to be added to the list of SDP handlers via configuration on creation of an instance of the SDK.
-
-**Examples**
-
-```javascript
-import { create, sdpHandlers } from 'kandy';
-const codecRemover = sdpHandlers.createCodecRemover(['VP8', 'VP9'])
-const client = create({
-  call: {
-    sdpHandlers: [codecRemover]
-  }
-})
-```
 
 ## Logger
 
@@ -1243,51 +1314,6 @@ log(`Browser in use: ${details.browser}, version ${details.version}.`)
 
 Returns **[Object][5]** Object containing `browser` and `version` information.
 
-## Channel
-
-The Channel object that the Proxy module needs to be provided.
-
-**Examples**
-
-```javascript
-// The channel the application uses for communicating with a remote endpoint.
-const appChannel = ...
-
-// The channel the application will provide to the Proxy module for use.
-const channel = {
-   send: function (data) {
-     // Any encoding / wrapping needed for a Proxy message being sent
-     //    over the channel.
-     appChannel.sendMessage(data)
-   },
-   // The Proxy module will set this function.
-   receive: undefined
-}
-appChannel.on('message', data => {
-   // Any decoding / unwrapping needed for the received message.
-   channel.receive(data)
-})
-
-client.proxy.setChannel(channel)
-```
-
-### send
-
-Channel function that the Proxy module will use to send messages to the remote side.
-
-**Parameters**
-
--   `data` **[Object][5]** Message to be sent over the channel.
-
-### receive
-
-API that the Proxy module will assign a listener function for accepting received messages.
-This function should receive all messages sent from the remote side of the channel.
-
-**Parameters**
-
--   `data` **[Object][5]** The message received from the Channel.
-
 ## Proxy
 
 The Proxy module allows for a secondary mode for making calls: proxy mode.
@@ -1333,7 +1359,7 @@ Sets the channel to be used while proxy mode is enabled.
 
 **Parameters**
 
--   `channel` **[Channel][13]** See the `Channel` module for information.
+-   `channel` **[Channel][14]** See the `Channel` module for information.
 
 ### initializeRemote
 
@@ -1342,6 +1368,51 @@ Sends an initialization message over the channel with webRTC configurations.
 **Parameters**
 
 -   `config` **[Object][5]** 
+
+## Channel
+
+The Channel object that the Proxy module needs to be provided.
+
+**Examples**
+
+```javascript
+// The channel the application uses for communicating with a remote endpoint.
+const appChannel = ...
+
+// The channel the application will provide to the Proxy module for use.
+const channel = {
+   send: function (data) {
+     // Any encoding / wrapping needed for a Proxy message being sent
+     //    over the channel.
+     appChannel.sendMessage(data)
+   },
+   // The Proxy module will set this function.
+   receive: undefined
+}
+appChannel.on('message', data => {
+   // Any decoding / unwrapping needed for the received message.
+   channel.receive(data)
+})
+
+client.proxy.setChannel(channel)
+```
+
+### send
+
+Channel function that the Proxy module will use to send messages to the remote side.
+
+**Parameters**
+
+-   `data` **[Object][5]** Message to be sent over the channel.
+
+### receive
+
+API that the Proxy module will assign a listener function for accepting received messages.
+This function should receive all messages sent from the remote side of the channel.
+
+**Parameters**
+
+-   `data` **[Object][5]** The message received from the Channel.
 
 ## MediaObject
 
@@ -1352,7 +1423,28 @@ Media is a collection of Track objects.
 
 -   `id` **[string][2]** The ID of the Media object.
 -   `local` **[boolean][7]** Indicator on whether this media is local or remote.
--   `tracks` **[Array][6]&lt;[TrackObject][14]>** A list of Track objects that are contained in this Media object.
+-   `tracks` **[Array][6]&lt;[TrackObject][15]>** A list of Track objects that are contained in this Media object.
+
+## DeviceInfo
+
+Contains information about a device.
+
+**Properties**
+
+-   `deviceId` **[string][2]** The ID of the device.
+-   `groupId` **[string][2]** The group ID of the device. Devices that share a `groupId` belong to the same physical device.
+-   `kind` **[string][2]** The type of the device (audioinput, audiooutput, videoinput).
+-   `label` **[string][2]** The name of the device.
+
+## DevicesObject
+
+A collection of devices and their information.
+
+**Properties**
+
+-   `camera` **[Array][6]&lt;[DeviceInfo][16]>** A list of camera device information.
+-   `microphone` **[Array][6]&lt;[DeviceInfo][16]>** A list of microphone device information.
+-   `speaker` **[Array][6]&lt;[DeviceInfo][16]>** A list of speaker device information.
 
 ## TrackObject
 
@@ -1369,6 +1461,40 @@ Tracks can be retrieved using the Media module's `getTrackById` API and manipula
 -   `muted` **[boolean][7]** Indicator on whether this Track is muted or not.
 -   `state` **[string][2]** The state of this Track. Can be 'live' or 'ended'.
 -   `streamId` **[string][2]** The ID of the Media Stream that includes this Track.
+
+## MediaConstraint
+
+The MediaConstraint type defines the format for configuring media options.
+Either the `exact` or `ideal` property should be provided. If both are present, the
+   `exact` value will be used.
+
+When the `exact` value is provided, it will be the only value considered for the option.
+   If it cannot be used, the constraint will be considered an error.
+
+When the `ideal` value is provided, it will be considered as the optimal value for the option.
+   If it cannot be used, the closest acceptable value will be used instead.
+
+Type: [Object][5]
+
+**Properties**
+
+-   `exact` **[string][2]?** The required value for the constraint. Other values will not be accepted.
+-   `ideal` **[string][2]?** The ideal value for the constraint. Other values will be considered if necessary.
+
+**Examples**
+
+```javascript
+// Specify video resolution when making a call.
+client.call.make(destination, {
+   audio: true,
+   video: true,
+   videoOptions: {
+     // Set height and width constraints to ideally be 1280x720.
+     height: { ideal: 720 },
+     width: { ideal: 1280 }
+   }
+})
+```
 
 ## CallObject
 
@@ -1390,29 +1516,8 @@ A Call can be manipulated by using the Call feature's APIs.
 -   `remoteParticipant` **[Object][5]** Information about the other call participant.
     -   `remoteParticipant.displayNumber` **[string][2]** The username with domain of the callee in the form "username@domain"
     -   `remoteParticipant.displayName` **[string][2]** The display name of the callee
--   `startTime` **[number][9]** The start time of the call in milliseconds since the epoch.
+-   `startTime` **[number][10]** The start time of the call in milliseconds since the epoch.
 -   `state` **[string][2]** The current state of the call. See `Call.states` for possible states.
-
-## DeviceInfo
-
-Contains information about a device.
-
-**Properties**
-
--   `deviceId` **[string][2]** The ID of the device.
--   `groupId` **[string][2]** The group ID of the device. Devices that share a `groupId` belong to the same physical device.
--   `kind` **[string][2]** The type of the device (audioinput, audiooutput, videoinput).
--   `label` **[string][2]** The name of the device.
-
-## DevicesObject
-
-A collection of devices and their information.
-
-**Properties**
-
--   `camera` **[Array][6]&lt;[DeviceInfo][15]>** A list of camera device information.
--   `microphone` **[Array][6]&lt;[DeviceInfo][15]>** A list of microphone device information.
--   `speaker` **[Array][6]&lt;[DeviceInfo][15]>** A list of speaker device information.
 
 ## ClickToCall
 
@@ -1458,18 +1563,20 @@ The Basic error object. Provides information about an error that occurred in the
 
 [7]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
 
-[8]: #callobject
+[8]: #mediaconstraint
 
-[9]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
+[9]: #callobject
 
-[10]: #mediaobject
+[10]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
 
-[11]: #conversation
+[11]: #mediaobject
 
-[12]: #message
+[12]: #conversation
 
-[13]: #channel
+[13]: #message
 
-[14]: #trackobject
+[14]: #channel
 
-[15]: #deviceinfo
+[15]: #trackobject
+
+[16]: #deviceinfo
