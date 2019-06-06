@@ -1143,33 +1143,6 @@ Will trigger the `contacts:change` event.
 
 -   `contactId` **[string][2]** The unique contact ID of the contact.
 
-## sdpHandlers
-
-A set of handlers for manipulating SDP information.
-These handlers are used to customize low-level call behaviour for very specific
-environments and/or scenarios. They can be provided during SDK instantiation
-to be used for all calls.
-
-### createCodecRemover
-
-In some scenarios it's necessary to remove certain codecs being offered by the SDK to the remote party. While creating an SDP handler would allow a user to perform this type of manipulation, it is a non-trivial task that requires in-depth knowledge of WebRTC SDP.
-
-To facilitate this common task, the SDK provides a codec removal handler that can be used for this purpose.
-
-The SDP handlers are exposed on the entry point of the SDK. They need to be added to the list of SDP handlers via configuration on creation of an instance of the SDK.
-
-**Examples**
-
-```javascript
-import { create, sdpHandlers } from 'kandy';
-const codecRemover = sdpHandlers.createCodecRemover(['VP8', 'VP9'])
-const client = create({
-  call: {
-    sdpHandlers: [codecRemover]
-  }
-})
-```
-
 ## config
 
 The configuration object. This object defines what different configuration
@@ -1257,6 +1230,33 @@ Configuration options for the notification feature.
         -   `notifications.pushRegistration.version` **[string][2]?** Version for the push registration server.
     -   `notifications.realm` **[string][2]?** The realm used for push notifications
     -   `notifications.bundleId` **[string][2]?** The bundle id used for push notifications
+
+## sdpHandlers
+
+A set of handlers for manipulating SDP information.
+These handlers are used to customize low-level call behaviour for very specific
+environments and/or scenarios. They can be provided during SDK instantiation
+to be used for all calls.
+
+### createCodecRemover
+
+In some scenarios it's necessary to remove certain codecs being offered by the SDK to the remote party. While creating an SDP handler would allow a user to perform this type of manipulation, it is a non-trivial task that requires in-depth knowledge of WebRTC SDP.
+
+To facilitate this common task, the SDK provides a codec removal handler that can be used for this purpose.
+
+The SDP handlers are exposed on the entry point of the SDK. They need to be added to the list of SDP handlers via configuration on creation of an instance of the SDK.
+
+**Examples**
+
+```javascript
+import { create, sdpHandlers } from 'kandy';
+const codecRemover = sdpHandlers.createCodecRemover(['VP8', 'VP9'])
+const client = create({
+  call: {
+    sdpHandlers: [codecRemover]
+  }
+})
+```
 
 ## Logger
 
@@ -1414,17 +1414,6 @@ This function should receive all messages sent from the remote side of the chann
 
 -   `data` **[Object][5]** The message received from the Channel.
 
-## MediaObject
-
-The state representation of a Media object.
-Media is a collection of Track objects.
-
-**Properties**
-
--   `id` **[string][2]** The ID of the Media object.
--   `local` **[boolean][7]** Indicator on whether this media is local or remote.
--   `tracks` **[Array][6]&lt;[TrackObject][15]>** A list of Track objects that are contained in this Media object.
-
 ## DeviceInfo
 
 Contains information about a device.
@@ -1442,9 +1431,20 @@ A collection of devices and their information.
 
 **Properties**
 
--   `camera` **[Array][6]&lt;[DeviceInfo][16]>** A list of camera device information.
--   `microphone` **[Array][6]&lt;[DeviceInfo][16]>** A list of microphone device information.
--   `speaker` **[Array][6]&lt;[DeviceInfo][16]>** A list of speaker device information.
+-   `camera` **[Array][6]&lt;[DeviceInfo][15]>** A list of camera device information.
+-   `microphone` **[Array][6]&lt;[DeviceInfo][15]>** A list of microphone device information.
+-   `speaker` **[Array][6]&lt;[DeviceInfo][15]>** A list of speaker device information.
+
+## MediaObject
+
+The state representation of a Media object.
+Media is a collection of Track objects.
+
+**Properties**
+
+-   `id` **[string][2]** The ID of the Media object.
+-   `local` **[boolean][7]** Indicator on whether this media is local or remote.
+-   `tracks` **[Array][6]&lt;[TrackObject][16]>** A list of Track objects that are contained in this Media object.
 
 ## TrackObject
 
@@ -1577,6 +1577,6 @@ The Basic error object. Provides information about an error that occurred in the
 
 [14]: #channel
 
-[15]: #trackobject
+[15]: #deviceinfo
 
-[16]: #deviceinfo
+[16]: #trackobject
