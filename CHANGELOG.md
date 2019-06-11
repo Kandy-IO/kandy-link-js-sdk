@@ -16,6 +16,8 @@ Kandy.js change log.
 
 ### Fixed
 - Fixed transfered & joined calls not having updated remote participant data. `KAA-1725`
+- Fixed Messaging from creating new conversations every time a message is received.
+- Fixed Messaging from not adding the `sender` property to sent messages.
 
 ### Compatibility Warning
 - Removed the first parameter (contactId) from kandy.contacts.update() API. The user will need to remove such parameter from any calls made to this API and ensure that contactId is now being supplied as part of the contact object which is passed to this API. `KAA-1600`

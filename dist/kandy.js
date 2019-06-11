@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.5.0-beta.28
+ * Version: 4.5.0-beta.30
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -40031,7 +40031,7 @@ const factoryDefaults = {
    */
 };function factory(plugins, options = factoryDefaults) {
   // Log the SDK's version (templated by webpack) on initialization.
-  let version = '4.5.0-beta.28';
+  let version = '4.5.0-beta.30';
   log.info(`SDK version: ${version}`);
 
   var sagas = [];
@@ -43043,7 +43043,7 @@ function* sendMessage() {
       }
       yield (0, _effects.put)(_actions.messageActions.sendMessageFinish({
         sender: username,
-        destination: destination,
+        destination: [destination],
         type: 'im',
         parts: parts,
         timestamp: timestamp,
@@ -43052,7 +43052,7 @@ function* sendMessage() {
     } else if (response.payload.body.imResponse && response.payload.body.imResponse.messageId) {
       yield (0, _effects.put)(_actions.messageActions.sendMessageFinish({
         sender: username,
-        destination: destination,
+        destination: [destination],
         type: 'im',
         parts: parts,
         timestamp: timestamp,
@@ -43086,14 +43086,19 @@ function* receiveMessage() {
         const messageId = action.payload.notificationMessage.eventId;
         const conversations = yield (0, _effects.select)(_selectors.getConversations);
 
-        if (conversations.hasOwnProperty(sender)) {
-          yield (0, _effects.put)(_actions.messageActions.messageReceived([sender], [{ mimeType: 'text/plain', text: message }], messageId, sender, Date.now(), {
+        // Search for an existing conversation that matches this message's sender.
+        const convo = conversations.find(conv => {
+          return conv.destination[0] === sender;
+        });
+
+        if (convo) {
+          yield (0, _effects.put)(_actions.messageActions.messageReceived([sender], [{ mimeType: 'text/plain', type: 'text', text: message }], messageId, sender, Date.now(), {
             newConversation: false,
             type: 'im'
           }));
         } else {
           // Add the new message to the convo in the store
-          yield (0, _effects.put)(_actions.messageActions.messageReceived([sender], [{ mimeType: 'text/plain', text: message }], messageId, sender, Date.now(), {
+          yield (0, _effects.put)(_actions.messageActions.messageReceived([sender], [{ mimeType: 'text/plain', type: 'text', text: message }], messageId, sender, Date.now(), {
             newConversation: true,
             type: 'im'
           }));
