@@ -1143,33 +1143,6 @@ Will trigger the `contacts:change` event.
 
 -   `contactId` **[string][2]** The unique contact ID of the contact.
 
-## sdpHandlers
-
-A set of handlers for manipulating SDP information.
-These handlers are used to customize low-level call behaviour for very specific
-environments and/or scenarios. They can be provided during SDK instantiation
-to be used for all calls.
-
-### createCodecRemover
-
-In some scenarios it's necessary to remove certain codecs being offered by the SDK to the remote party. While creating an SDP handler would allow a user to perform this type of manipulation, it is a non-trivial task that requires in-depth knowledge of WebRTC SDP.
-
-To facilitate this common task, the SDK provides a codec removal handler that can be used for this purpose.
-
-The SDP handlers are exposed on the entry point of the SDK. They need to be added to the list of SDP handlers via configuration on creation of an instance of the SDK.
-
-**Examples**
-
-```javascript
-import { create, sdpHandlers } from 'kandy';
-const codecRemover = sdpHandlers.createCodecRemover(['VP8', 'VP9'])
-const client = create({
-  call: {
-    sdpHandlers: [codecRemover]
-  }
-})
-```
-
 ## config
 
 The configuration object. This object defines what different configuration
@@ -1257,6 +1230,33 @@ Configuration options for the notification feature.
         -   `notifications.pushRegistration.version` **[string][2]?** Version for the push registration server.
     -   `notifications.realm` **[string][2]?** The realm used for push notifications
     -   `notifications.bundleId` **[string][2]?** The bundle id used for push notifications
+
+## sdpHandlers
+
+A set of handlers for manipulating SDP information.
+These handlers are used to customize low-level call behaviour for very specific
+environments and/or scenarios. They can be provided during SDK instantiation
+to be used for all calls.
+
+### createCodecRemover
+
+In some scenarios it's necessary to remove certain codecs being offered by the SDK to the remote party. While creating an SDP handler would allow a user to perform this type of manipulation, it is a non-trivial task that requires in-depth knowledge of WebRTC SDP.
+
+To facilitate this common task, the SDK provides a codec removal handler that can be used for this purpose.
+
+The SDP handlers are exposed on the entry point of the SDK. They need to be added to the list of SDP handlers via configuration on creation of an instance of the SDK.
+
+**Examples**
+
+```javascript
+import { create, sdpHandlers } from 'kandy';
+const codecRemover = sdpHandlers.createCodecRemover(['VP8', 'VP9'])
+const client = create({
+  call: {
+    sdpHandlers: [codecRemover]
+  }
+})
+```
 
 ## Logger
 
@@ -1414,6 +1414,29 @@ Sends an initialization message over the channel with webRTC configurations.
 
 -   `config` **[Object][5]** 
 
+## CallObject
+
+The state representation of a Call.
+Can be retrieved using the Call feature's `getAll` or `getById` APIs.
+A Call can be manipulated by using the Call feature's APIs.
+
+**Properties**
+
+-   `direction` **[string][2]** The direction in which the call was created (outgoing/incoming).
+-   `id` **[string][2]** The ID of the call.
+-   `localHold` **[boolean][7]** Indicates whether this call is currently being held locally.
+-   `localTracks` **[Array][6]&lt;[string][2]>** A list of Track IDs that the call is sending to the remote participant.
+-   `mediaConstraints` **[Object][5]** This indicates the media types that the call was initialized with.
+    -   `mediaConstraints.audio` **[boolean][7]** Whether the call was initialized with audio.
+    -   `mediaConstraints.video` **[boolean][7]** Whether the call was initialized with video.
+-   `remoteHold` **[boolean][7]** Indicates whether this call is currently being held remotely.
+-   `remoteTracks` **[Array][6]&lt;[string][2]>** A list of Track IDs that the call is receiving from the remote participant.
+-   `remoteParticipant` **[Object][5]** Information about the other call participant.
+    -   `remoteParticipant.displayNumber` **[string][2]** The username with domain of the callee in the form "username@domain"
+    -   `remoteParticipant.displayName` **[string][2]** The display name of the callee
+-   `startTime` **[number][10]** The start time of the call in milliseconds since the epoch.
+-   `state` **[string][2]** The current state of the call. See `Call.states` for possible states.
+
 ## DevicesObject
 
 A collection of devices and their information.
@@ -1423,6 +1446,44 @@ A collection of devices and their information.
 -   `camera` **[Array][6]&lt;[DeviceInfo][15]>** A list of camera device information.
 -   `microphone` **[Array][6]&lt;[DeviceInfo][15]>** A list of microphone device information.
 -   `speaker` **[Array][6]&lt;[DeviceInfo][15]>** A list of speaker device information.
+
+## DeviceInfo
+
+Contains information about a device.
+
+**Properties**
+
+-   `deviceId` **[string][2]** The ID of the device.
+-   `groupId` **[string][2]** The group ID of the device. Devices that share a `groupId` belong to the same physical device.
+-   `kind` **[string][2]** The type of the device (audioinput, audiooutput, videoinput).
+-   `label` **[string][2]** The name of the device.
+
+## TrackObject
+
+A Track is a stream of audio or video media from a single source.
+Tracks can be retrieved using the Media module's `getTrackById` API and manipulated with other functions of the Media module.
+
+**Properties**
+
+-   `containers` **[Array][6]&lt;[string][2]>** The list of CSS selectors that were used to render this Track.
+-   `disabled` **[boolean][7]** Indicator of whether this Track is disabled or not. If disabled, it cannot be re-enabled.
+-   `id` **[string][2]** The ID of the Track.
+-   `kind` **[string][2]** The kind of Track this is (audio, video).
+-   `label` **[string][2]** The label of the device this Track uses.
+-   `muted` **[boolean][7]** Indicator on whether this Track is muted or not.
+-   `state` **[string][2]** The state of this Track. Can be 'live' or 'ended'.
+-   `streamId` **[string][2]** The ID of the Media Stream that includes this Track.
+
+## MediaObject
+
+The state representation of a Media object.
+Media is a collection of Track objects.
+
+**Properties**
+
+-   `id` **[string][2]** The ID of the Media object.
+-   `local` **[boolean][7]** Indicator on whether this media is local or remote.
+-   `tracks` **[Array][6]&lt;[TrackObject][16]>** A list of Track objects that are contained in this Media object.
 
 ## MediaConstraint
 
@@ -1457,67 +1518,6 @@ client.call.make(destination, {
    }
 })
 ```
-
-## CallObject
-
-The state representation of a Call.
-Can be retrieved using the Call feature's `getAll` or `getById` APIs.
-A Call can be manipulated by using the Call feature's APIs.
-
-**Properties**
-
--   `direction` **[string][2]** The direction in which the call was created (outgoing/incoming).
--   `id` **[string][2]** The ID of the call.
--   `localHold` **[boolean][7]** Indicates whether this call is currently being held locally.
--   `localTracks` **[Array][6]&lt;[string][2]>** A list of Track IDs that the call is sending to the remote participant.
--   `mediaConstraints` **[Object][5]** This indicates the media types that the call was initialized with.
-    -   `mediaConstraints.audio` **[boolean][7]** Whether the call was initialized with audio.
-    -   `mediaConstraints.video` **[boolean][7]** Whether the call was initialized with video.
--   `remoteHold` **[boolean][7]** Indicates whether this call is currently being held remotely.
--   `remoteTracks` **[Array][6]&lt;[string][2]>** A list of Track IDs that the call is receiving from the remote participant.
--   `remoteParticipant` **[Object][5]** Information about the other call participant.
-    -   `remoteParticipant.displayNumber` **[string][2]** The username with domain of the callee in the form "username@domain"
-    -   `remoteParticipant.displayName` **[string][2]** The display name of the callee
--   `startTime` **[number][10]** The start time of the call in milliseconds since the epoch.
--   `state` **[string][2]** The current state of the call. See `Call.states` for possible states.
-
-## MediaObject
-
-The state representation of a Media object.
-Media is a collection of Track objects.
-
-**Properties**
-
--   `id` **[string][2]** The ID of the Media object.
--   `local` **[boolean][7]** Indicator on whether this media is local or remote.
--   `tracks` **[Array][6]&lt;[TrackObject][16]>** A list of Track objects that are contained in this Media object.
-
-## DeviceInfo
-
-Contains information about a device.
-
-**Properties**
-
--   `deviceId` **[string][2]** The ID of the device.
--   `groupId` **[string][2]** The group ID of the device. Devices that share a `groupId` belong to the same physical device.
--   `kind` **[string][2]** The type of the device (audioinput, audiooutput, videoinput).
--   `label` **[string][2]** The name of the device.
-
-## TrackObject
-
-A Track is a stream of audio or video media from a single source.
-Tracks can be retrieved using the Media module's `getTrackById` API and manipulated with other functions of the Media module.
-
-**Properties**
-
--   `containers` **[Array][6]&lt;[string][2]>** The list of CSS selectors that were used to render this Track.
--   `disabled` **[boolean][7]** Indicator of whether this Track is disabled or not. If disabled, it cannot be re-enabled.
--   `id` **[string][2]** The ID of the Track.
--   `kind` **[string][2]** The kind of Track this is (audio, video).
--   `label` **[string][2]** The label of the device this Track uses.
--   `muted` **[boolean][7]** Indicator on whether this Track is muted or not.
--   `state` **[string][2]** The state of this Track. Can be 'live' or 'ended'.
--   `streamId` **[string][2]** The ID of the Media Stream that includes this Track.
 
 ## ClickToCall
 
