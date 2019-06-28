@@ -5,6 +5,25 @@ Kandy.js change log.
 - This project adheres to [Semantic Versioning](http://semver.org/).
 - This change log follows [keepachangelog.com](http://keepachangelog.com/) recommendations.
 
+## 4.5.0 - beta
+
+### Added
+- Added "join" functionality for calls. See the `kandy.call.join` API. `KAA-1508`
+- Added "consultative transfer" functionality for calls. See the `kandy.call.consultativeTransfer` API. `KAA-1510`
+- Added "direct transfer" functionality for calls. See the `kandy.call.directTransfer` API. `KAA-1509`
+- Added `transition.reasonText` to `call:stateChange` event. `KAA-1725`
+- Added functionality that emits `call:stateChange` event when complex operation failure notification is received.
+
+### Fixed
+- Fixed an issue where the `fetchMessages` function was not available on `Conversations` returned by `kandy.conversation.getAll()`. `KAA-1795`
+- Fixed transfered & joined calls not having updated remote participant data. `KAA-1725`
+- Fixed Messaging from creating new conversations every time a message is received.
+- Fixed Messaging from not adding the `sender` property to sent messages.
+
+### Changed
+- Removed the first parameter (contactId) from kandy.contacts.update() API, thus deprecating it. The user should now use the update(contact) API and ensure that contactId is now being supplied as part of the contact object which is passed to this API. `KAA-1783` `KAA-1600`
+
+
 ## 4.4.0 - 2019-05-24
 
 ### Added
@@ -25,10 +44,18 @@ Kandy.js change log.
 ### Added
 
 - Added a DEBUG log at the start of every public API invocation, which will better help with future investigations `KAA-1353`
+- Added an API to retrieve basic browser information. See `getBrowserDetails`. `KAA-1470`
 
 ## Fixed
 
 - Fixed an issue where ending a call would not end the call for the remote participant. `KAA-1597`
+- Fixed an issue where local call logs would not be generated after a call ended. `KAA-1535`
+- Fixed a "remove media" call issue where the error event provided an incorrect message if the track ID was invalid. `KAA-1436`
+- Fixed a call issue where, when put on hold by a Cisco Phone, the call would end after a short period. `KAA-1562`
+- Fixed reject call behaviour to make call state `Ended` on callee side instead of `Cancelled`. `KAA-1584`
+- Fixed a call issue where a media mismatch error on answer would leave the call in `Ringing` state instead of ending the call. `KAA-1432`
+- Fixed an issue where errors prevented renegotiation from completing. `KAA-1497`
+- Fixed call issue where, when on dual hold with a Cisco phone, a remote unhold operation may incorrectly show a video track being added to the call. `KAA-1593`
 
 ## 4.2.1 - 2019-04-16
 
@@ -127,7 +154,6 @@ The function to instantiate the SDK has been renamed from `createKandy()` to `Ka
 
 ### Added
 
-- [CPaaS 2.0] Added chat functionality with support for sending and receiving messages `KAA-617`
 - Added user's locale to data returned in fetchSelfInfo(). `KAA-787`
 - Added new Authorization name (authname) to the Kandy connect method. `KAA-606`
 - Implemented originalRemoteParticipant field to call and callHistory for keeping track of the initial call "to" `feat/KAA-959`
