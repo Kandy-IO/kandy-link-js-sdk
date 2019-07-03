@@ -1414,15 +1414,16 @@ This function should receive all messages sent from the remote side of the chann
 
 -   `data` **[Object][5]** The message received from the Channel.
 
-## DevicesObject
+## MediaObject
 
-A collection of devices and their information.
+The state representation of a Media object.
+Media is a collection of Track objects.
 
 **Properties**
 
--   `camera` **[Array][6]&lt;[DeviceInfo][15]>** A list of camera device information.
--   `microphone` **[Array][6]&lt;[DeviceInfo][15]>** A list of microphone device information.
--   `speaker` **[Array][6]&lt;[DeviceInfo][15]>** A list of speaker device information.
+-   `id` **[string][2]** The ID of the Media object.
+-   `local` **[boolean][7]** Indicator on whether this media is local or remote.
+-   `tracks` **[Array][6]&lt;[TrackObject][15]>** A list of Track objects that are contained in this Media object.
 
 ## TrackObject
 
@@ -1440,50 +1441,15 @@ Tracks can be retrieved using the Media module's `getTrackById` API and manipula
 -   `state` **[string][2]** The state of this Track. Can be 'live' or 'ended'.
 -   `streamId` **[string][2]** The ID of the Media Stream that includes this Track.
 
-## MediaObject
+## DevicesObject
 
-The state representation of a Media object.
-Media is a collection of Track objects.
-
-**Properties**
-
--   `id` **[string][2]** The ID of the Media object.
--   `local` **[boolean][7]** Indicator on whether this media is local or remote.
--   `tracks` **[Array][6]&lt;[TrackObject][16]>** A list of Track objects that are contained in this Media object.
-
-## MediaConstraint
-
-The MediaConstraint type defines the format for configuring media options.
-Either the `exact` or `ideal` property should be provided. If both are present, the
-   `exact` value will be used.
-
-When the `exact` value is provided, it will be the only value considered for the option.
-   If it cannot be used, the constraint will be considered an error.
-
-When the `ideal` value is provided, it will be considered as the optimal value for the option.
-   If it cannot be used, the closest acceptable value will be used instead.
-
-Type: [Object][5]
+A collection of devices and their information.
 
 **Properties**
 
--   `exact` **[string][2]?** The required value for the constraint. Other values will not be accepted.
--   `ideal` **[string][2]?** The ideal value for the constraint. Other values will be considered if necessary.
-
-**Examples**
-
-```javascript
-// Specify video resolution when making a call.
-client.call.make(destination, {
-   audio: true,
-   video: true,
-   videoOptions: {
-     // Set height and width constraints to ideally be 1280x720.
-     height: { ideal: 720 },
-     width: { ideal: 1280 }
-   }
-})
-```
+-   `camera` **[Array][6]&lt;[DeviceInfo][16]>** A list of camera device information.
+-   `microphone` **[Array][6]&lt;[DeviceInfo][16]>** A list of microphone device information.
+-   `speaker` **[Array][6]&lt;[DeviceInfo][16]>** A list of speaker device information.
 
 ## CallObject
 
@@ -1518,6 +1484,40 @@ Contains information about a device.
 -   `groupId` **[string][2]** The group ID of the device. Devices that share a `groupId` belong to the same physical device.
 -   `kind` **[string][2]** The type of the device (audioinput, audiooutput, videoinput).
 -   `label` **[string][2]** The name of the device.
+
+## MediaConstraint
+
+The MediaConstraint type defines the format for configuring media options.
+Either the `exact` or `ideal` property should be provided. If both are present, the
+   `exact` value will be used.
+
+When the `exact` value is provided, it will be the only value considered for the option.
+   If it cannot be used, the constraint will be considered an error.
+
+When the `ideal` value is provided, it will be considered as the optimal value for the option.
+   If it cannot be used, the closest acceptable value will be used instead.
+
+Type: [Object][5]
+
+**Properties**
+
+-   `exact` **[string][2]?** The required value for the constraint. Other values will not be accepted.
+-   `ideal` **[string][2]?** The ideal value for the constraint. Other values will be considered if necessary.
+
+**Examples**
+
+```javascript
+// Specify video resolution when making a call.
+client.call.make(destination, {
+   audio: true,
+   video: true,
+   videoOptions: {
+     // Set height and width constraints to ideally be 1280x720.
+     height: { ideal: 720 },
+     width: { ideal: 1280 }
+   }
+})
+```
 
 ## ClickToCall
 
@@ -1577,6 +1577,6 @@ The Basic error object. Provides information about an error that occurred in the
 
 [14]: #channel
 
-[15]: #deviceinfo
+[15]: #trackobject
 
-[16]: #trackobject
+[16]: #deviceinfo

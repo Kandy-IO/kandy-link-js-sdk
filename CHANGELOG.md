@@ -5,7 +5,9 @@ Kandy.js change log.
 - This project adheres to [Semantic Versioning](http://semver.org/).
 - This change log follows [keepachangelog.com](http://keepachangelog.com/) recommendations.
 
-## 4.5.0 - beta
+## 4.6.0 - beta
+
+## 4.5.0 - 2019-06-28
 
 ### Added
 - Added "join" functionality for calls. See the `kandy.call.join` API. `KAA-1508`
@@ -15,6 +17,7 @@ Kandy.js change log.
 - Added functionality that emits `call:stateChange` event when complex operation failure notification is received.
 
 ### Fixed
+- Fixed an issue where the `fetchMessages` function was not available on `Conversations` returned by `kandy.conversation.getAll()`. `KAA-1795`
 - Fixed transfered & joined calls not having updated remote participant data. `KAA-1725`
 - Fixed Messaging from creating new conversations every time a message is received.
 - Fixed Messaging from not adding the `sender` property to sent messages.
@@ -153,7 +156,6 @@ The function to instantiate the SDK has been renamed from `createKandy()` to `Ka
 
 ### Added
 
-- [CPaaS] Added chat functionality with support for sending and receiving messages `KAA-617`
 - Added user's locale to data returned in fetchSelfInfo(). `KAA-787`
 - Added new Authorization name (authname) to the Kandy connect method. `KAA-606`
 - Implemented originalRemoteParticipant field to call and callHistory for keeping track of the initial call "to" `feat/KAA-959`
