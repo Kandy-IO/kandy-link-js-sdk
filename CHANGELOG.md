@@ -7,6 +7,9 @@ Kandy.js change log.
 
 ## 4.6.0 - beta
 
+### Fixed
+- Fixed an issue preventing the `devices:change` event from being emitted when including, but not using, the Webrtc Proxy. `KAA-1790`
+
 ## 4.5.0 - 2019-06-28
 
 ### Added

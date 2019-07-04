@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.5.0-beta.51
+ * Version: 4.5.0-beta.57
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -40031,7 +40031,7 @@ const factoryDefaults = {
    */
 };function factory(plugins, options = factoryDefaults) {
   // Log the SDK's version (templated by webpack) on initialization.
-  let version = '4.5.0-beta.51';
+  let version = '4.5.0-beta.57';
   log.info(`SDK version: ${version}`);
 
   var sagas = [];
@@ -51344,33 +51344,27 @@ var _effects = __webpack_require__("../../node_modules/redux-saga/es/effects.js"
 
 var _fp = __webpack_require__("../../node_modules/lodash/fp.js");
 
-var _documentTools = __webpack_require__("../kandy/src/webrtc/utils/documentTools.js");
-
 /**
  * Render Tracks in a specified container.
  * @method renderTracks
  * @param  {Object} action A "render tracks" action.
  */
-// Call plugin.
+
+
+// Libraries.
 function* renderTracks(webRTC, action) {
+  const { trackIds, selector, speakerId } = action.payload;
+
   // Get the tracks that are to be rendered.
-  const tracks = yield (0, _effects.call)([webRTC.track, 'getTracks'], action.payload.trackIds);
+  const tracks = yield (0, _effects.call)([webRTC.track, 'getTracks'], trackIds);
   const filteredTracks = tracks.filter(track => !(0, _fp.isUndefined)(track));
 
-  // Get the container the tracks are to be rendered in.
-  const container = yield (0, _effects.call)(_documentTools.findContainer, action.payload.selector);
-  if (!container) {
-    return;
-  }
-
-  const speakerId = action.payload.speakerId;
-
   // Render the tracks.
-  yield (0, _effects.all)(filteredTracks.map(track => (0, _effects.call)([track, 'renderIn'], container, speakerId)));
+  yield (0, _effects.all)(filteredTracks.map(track => (0, _effects.call)([track, 'renderIn'], selector, speakerId)));
 
   // Report operation done.
   yield (0, _effects.put)(_actions.trackActions.renderTracksFinish(filteredTracks.map(track => track.id), {
-    selector: action.payload.selector
+    selector
   }));
 }
 
@@ -51379,26 +51373,20 @@ function* renderTracks(webRTC, action) {
  * @method removeTracks
  * @param  {Object} action A "remove tracks" action.
  */
-
-
-// Libraries.
+// Call plugin.
 function* removeTracks(webRTC, action) {
+  const { trackIds, selector } = action.payload;
+
   // Get the tracks that are to be removed.
   const allTracks = yield (0, _effects.call)([webRTC.track, 'getTracks']);
-  const tracks = allTracks.filter(track => action.payload.trackIds.includes(track.id));
-
-  // Get the container the tracks are to be rendered in.
-  const container = yield (0, _effects.call)(_documentTools.findContainer, action.payload.selector);
-  if (!container) {
-    return;
-  }
+  const tracks = allTracks.filter(track => trackIds.includes(track.id));
 
   // Remove the tracks.
-  yield (0, _effects.all)(tracks.map(track => (0, _effects.call)([track, 'removeFrom'], container)));
+  yield (0, _effects.all)(tracks.map(track => (0, _effects.call)([track, 'removeFrom'], selector)));
 
   // Report operation done.
   yield (0, _effects.put)(_actions.trackActions.removeTracksFinish(tracks.map(track => track.id), {
-    selector: action.payload.selector
+    selector
   }));
 }
 
@@ -51436,42 +51424,6 @@ function* unmuteTracks(webRTC, action) {
 
   // Report operation done.
   yield (0, _effects.put)(_actions.trackActions.unmuteTracksFinish(tracks.map(track => track.id)));
-}
-
-/***/ }),
-
-/***/ "../kandy/src/webrtc/utils/documentTools.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.findContainer = findContainer;
-
-var _logs = __webpack_require__("../kandy/src/logs/index.js");
-
-const log = (0, _logs.getLogManager)().getLogger('MEDIA');
-
-/**
- * Find an html container based on the given selector.
- * @method findContainer
- * @param {string} selector The selector to use when querying the document.
- * @return {Object} The container object (undefined if not found).
- */
-function findContainer(selector) {
-  let container;
-  try {
-    container = document.querySelector(selector);
-    if (!container) {
-      throw new Error('Element not found.');
-    }
-  } catch (e) {
-    log.error(`Unable to get container with selector: "${selector}". Error: ${e}`);
-  }
-  return container;
 }
 
 /***/ }),
@@ -53098,7 +53050,7 @@ const WEBRTC_DEVICE_KINDS = exports.WEBRTC_DEVICE_KINDS = {
 
   // Check devices whenever they change.
   let recentDeviceChange = false;
-  navigator.mediaDevices.ondevicechange = () => {
+  navigator.mediaDevices.addEventListener('devicechange', () => {
     _loglevel2.default.info('Media device change detected.');
     // A physical device change results in one event per
     // device "kind". Group the events together.
@@ -53112,7 +53064,7 @@ const WEBRTC_DEVICE_KINDS = exports.WEBRTC_DEVICE_KINDS = {
         });
       }, 50);
     }
-  };
+  });
 
   /**
    * Updates the stored device lists with the latest devices.
@@ -55608,10 +55560,29 @@ function Track(mediaTrack, mediaStream) {
   /**
    * Renders this Track as a subelement of the specified element.
    * @method renderIn
-   * @param  {HTMLElement} element The DOM element to be rendered in.
+   * @param  {HTMLElement|String} container The DOM element to be rendered in,
+   *    or a unique CSS selector for the DOM element.
    * @param  {String} [speakerId] The device ID to be used for audio output.
    */
-  function renderIn(element, speakerId) {
+  function renderIn(container, speakerId) {
+    let element;
+    // If a string was provided, use it as a CSS selector to find the element.
+    if (typeof container === 'string') {
+      _loglevel2.default.debug(`Track ${id} rendering in element using selector: ${container}`);
+
+      element = document.querySelector(container);
+      if (!element) {
+        _loglevel2.default.error(`Unable to get container with selector: ${container}.`);
+        return false;
+      }
+    } else {
+      _loglevel2.default.debug(`Track ${id} rendering in provided HTMLElement.`);
+
+      element = container;
+    }
+
+    // TODO: Proper error checking.
+
     if (containers.indexOf(element) > -1) {
       // Already rendered in element.
       _loglevel2.default.debug(`Track ${id} already rendered in element.`, element);
@@ -55665,9 +55636,26 @@ function Track(mediaTrack, mediaStream) {
   /**
    * Stop rendering this Track from the specified element.
    * @method removeFrom
-   * @param  {HTMLElement} element The DOM element to be removed from.
+   * @param  {HTMLElement} container The DOM element to be removed from, or
+   *     a unique CSS selector for the DOM element.
    */
-  function removeFrom(element) {
+  function removeFrom(container) {
+    let element;
+    // If a string was provided, use it as a CSS selector to find the element.
+    if (typeof container === 'string') {
+      _loglevel2.default.debug(`Track ${id} removing from element using selector: ${container}`);
+
+      element = document.querySelector(container);
+      if (!element) {
+        _loglevel2.default.error(`Unable to get container with selector: ${container}.`);
+        return false;
+      }
+    } else {
+      _loglevel2.default.debug(`Track ${id} removing from provided HTMLElement.`);
+
+      element = container;
+    }
+
     let index = containers.indexOf(element);
     if (index === -1) {
       // Not rendered in element.
