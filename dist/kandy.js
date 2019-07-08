@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.6.0-beta.60
+ * Version: 4.6.0-beta.62
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -41235,7 +41235,7 @@ const factoryDefaults = {
    */
 };function factory(plugins, options = factoryDefaults) {
   // Log the SDK's version (templated by webpack) on initialization.
-  let version = '4.6.0-beta.60';
+  let version = '4.6.0-beta.62';
   log.info(`SDK version: ${version}`);
 
   var sagas = [];
@@ -53464,7 +53464,18 @@ exports.default = function (base, actualManager) {
 
                   if ((0, _fp.isArray)(data)) {
                     const proxies = data.map(obj => {
-                      return (0, _model2.default)(obj, thisArg.channel);
+                      if (obj && obj.type) {
+                        // If the response is a Webrtc model, we need to wrap it
+                        //    with a proxy for the Callstack.
+                        return (0, _model2.default)(obj, thisArg.channel);
+                      } else if ((0, _fp.isNull)(obj)) {
+                        // The JSON codec encoder/decoder converts undefined to
+                        //    null (because of JSON stringify/parse), so undo
+                        //    that if the data is explicitly null value.
+                        return undefined;
+                      } else {
+                        return obj;
+                      }
                     });
                     resolve(proxies);
                   } else {
