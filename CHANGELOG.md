@@ -7,12 +7,21 @@ Kandy.js change log.
 
 ## 4.6.0 - beta
 
+### Added
+
+- Added "replaceTrack" functionality for calls. See the `kandy.call.replaceTrack` API. `KAA-1727`
+- Added in-band DTMF tone support for calls that do not support out-of-band DTMF tones. `KAA-1505`
+  - See the `call.sendDTMF` API for more information.
+- Added bandwidth control functionality for calls. See `kandy.call.makeCall`, `kandy.call.answerCall`, `kandy.call.removeMedia` & `kandy.call.addMedia`. `KAA-1740`
+- User now automatically disconnects gracefully when internet connection is lost for too long. `KAA-1591`
+
 ### Fixed
 - Fixed an issue preventing the `devices:change` event from being emitted when including, but not using, the Webrtc Proxy. `KAA-1790`
 
 ## 4.5.0 - 2019-06-28
 
 ### Added
+
 - Added "join" functionality for calls. See the `kandy.call.join` API. `KAA-1508`
 - Added "consultative transfer" functionality for calls. See the `kandy.call.consultativeTransfer` API. `KAA-1510`
 - Added "direct transfer" functionality for calls. See the `kandy.call.directTransfer` API. `KAA-1509`
@@ -20,21 +29,24 @@ Kandy.js change log.
 - Added functionality that emits `call:stateChange` event when complex operation failure notification is received.
 
 ### Fixed
+
 - Fixed an issue where the `fetchMessages` function was not available on `Conversations` returned by `kandy.conversation.getAll()`. `KAA-1795`
 - Fixed transfered & joined calls not having updated remote participant data. `KAA-1725`
 - Fixed Messaging from creating new conversations every time a message is received.
 - Fixed Messaging from not adding the `sender` property to sent messages.
 
 ### Changed
-- Removed the first parameter (contactId) from kandy.contacts.update() API, thus deprecating it. The user should now use the update(contact) API and ensure that contactId is now being supplied as part of the contact object which is passed to this API. `KAA-1783` `KAA-1600`
 
+- Removed the first parameter (contactId) from kandy.contacts.update() API, thus deprecating it. The user should now use the update(contact) API and ensure that contactId is now being supplied as part of the contact object which is passed to this API. `KAA-1783` `KAA-1600`
 
 ## 4.4.0 - 2019-05-24
 
 ### Added
+
 - Added Forward Call functionality. `KAA-1507`
 
 ### Fixed
+
 - Fixed call states not having `startTime` and/or `endTime` properties in certain scenarios when the call does not establish. `KAA-1620`
 - Fixed missing "remote participant display name" in call state for outgoing calls. `KAA-1568`
   - It will now be defined after a notification is received from the remote participant.
@@ -42,6 +54,7 @@ Kandy.js change log.
 ## 4.3.1 - 2019-04-26
 
 ### Fixed
+
 - Made a hotfix release just to update the version because something went wrong with NPM and it requires a new version.
 
 ## 4.3.0 - 2019-04-26
