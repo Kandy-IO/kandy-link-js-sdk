@@ -1488,27 +1488,15 @@ Sends an initialization message over the channel with webRTC configurations.
 
 -   `config` **[Object][5]** 
 
-## MediaObject
+## DevicesObject
 
-The state representation of a Media object.
-Media is a collection of Track objects.
-
-**Properties**
-
--   `id` **[string][2]** The ID of the Media object.
--   `local` **[boolean][7]** Indicator on whether this media is local or remote.
--   `tracks` **[Array][6]&lt;[TrackObject][16]>** A list of Track objects that are contained in this Media object.
-
-## DeviceInfo
-
-Contains information about a device.
+A collection of devices and their information.
 
 **Properties**
 
--   `deviceId` **[string][2]** The ID of the device.
--   `groupId` **[string][2]** The group ID of the device. Devices that share a `groupId` belong to the same physical device.
--   `kind` **[string][2]** The type of the device (audioinput, audiooutput, videoinput).
--   `label` **[string][2]** The name of the device.
+-   `camera` **[Array][6]&lt;[DeviceInfo][16]>** A list of camera device information.
+-   `microphone` **[Array][6]&lt;[DeviceInfo][16]>** A list of microphone device information.
+-   `speaker` **[Array][6]&lt;[DeviceInfo][16]>** A list of speaker device information.
 
 ## CallObject
 
@@ -1592,6 +1580,17 @@ client.call.make(destination, mediaConstraints,
 )
 ```
 
+## MediaObject
+
+The state representation of a Media object.
+Media is a collection of Track objects.
+
+**Properties**
+
+-   `id` **[string][2]** The ID of the Media object.
+-   `local` **[boolean][7]** Indicator on whether this media is local or remote.
+-   `tracks` **[Array][6]&lt;[TrackObject][17]>** A list of Track objects that are contained in this Media object.
+
 ## TrackObject
 
 A Track is a stream of audio or video media from a single source.
@@ -1608,15 +1607,16 @@ Tracks can be retrieved using the Media module's `getTrackById` API and manipula
 -   `state` **[string][2]** The state of this Track. Can be 'live' or 'ended'.
 -   `streamId` **[string][2]** The ID of the Media Stream that includes this Track.
 
-## DevicesObject
+## DeviceInfo
 
-A collection of devices and their information.
+Contains information about a device.
 
 **Properties**
 
--   `camera` **[Array][6]&lt;[DeviceInfo][17]>** A list of camera device information.
--   `microphone` **[Array][6]&lt;[DeviceInfo][17]>** A list of microphone device information.
--   `speaker` **[Array][6]&lt;[DeviceInfo][17]>** A list of speaker device information.
+-   `deviceId` **[string][2]** The ID of the device.
+-   `groupId` **[string][2]** The group ID of the device. Devices that share a `groupId` belong to the same physical device.
+-   `kind` **[string][2]** The type of the device (audioinput, audiooutput, videoinput).
+-   `label` **[string][2]** The name of the device.
 
 ## ClickToCall
 
@@ -1678,6 +1678,6 @@ The Basic error object. Provides information about an error that occurred in the
 
 [15]: #channel
 
-[16]: #trackobject
+[16]: #deviceinfo
 
-[17]: #deviceinfo
+[17]: #trackobject
