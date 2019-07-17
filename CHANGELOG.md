@@ -5,7 +5,7 @@ Kandy.js change log.
 - This project adheres to [Semantic Versioning](http://semver.org/).
 - This change log follows [keepachangelog.com](http://keepachangelog.com/) recommendations.
 
-## 4.5.0 - 2019-06-28
+## 4.5.0 - beta
 
 ### Added
 - Added "join" functionality for calls. See the `kandy.call.join` API. `KAA-1508`
