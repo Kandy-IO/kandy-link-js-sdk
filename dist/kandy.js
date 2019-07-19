@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.6.0-beta.68
+ * Version: 4.6.0-beta.91
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -29439,39 +29439,40 @@ const log = (0, _logs.getLogManager)().getLogger('CALL');
 function callAPI({ dispatch, getState }) {
   return {
     /**
-     * Starts an outgoing call to a SIP user or a PSTN phone number.
+     * Starts an outgoing call to a {@link UserID UserID} or a {@link PhoneNumber PhoneNumber}.
      *
      * The call will be tracked by a unique ID that is returned by the API. The
      *    application will use this ID to identify and control the call after it
      *    has been initiated.
      *
-     * The {@link Calls.getById getById} API can be used to retrieve the current state of the
-     *    call.
+     * The {@link Calls.getById call.getById} API can be used to retrieve the
+     *    current information about the call.
      *
-     * The SDK will emit a {@link Calls.event:call:start call:start} event locally when the operation
-     *    completes. When the remote participant receives the call, a
-     *    {@link Calls.event:call:receive call:receive} event will be emitted remotely for them.
+     * The SDK will emit a {@link Calls.event:call:start call:start} event
+     *    locally when the operation completes. When the remote participant
+     *    receives the call, a {@link Calls.event:call:receive call:receive}
+     *    event will be emitted remotely for them.
      *
      * The SDK requires access to the machine's media devices (e.g. microphone)
      *    in order to make a call. If it does not already have permissions to
      *    use the devices, the user may be prompted by the browser to give
      *    permissions.
      * @public
+     * @static
      * @memberof Calls
-     * @requires call
+     * @requires cpaas_call
      * @method make
-     * @param {string} destination The address of the desired remote participant. The format is either
-     * 'sip:sipuser@sip.domain.example.com' for SIP calls or 'tel:18881239876' for PSTN calls.
-     * @param {Object} [media] The media options the call should be initialized with.
-     * @param {boolean} [media.audio=true] Whether the call should have audio on start. Currently, audio-less calls are not supported.
+     * @param {UserID|PhoneNumber} destination The desired destination.
+     * @param {Object} media The media options the call should be initialized with.
+     * @param {boolean} [media.audio=false] Whether the call should have audio on start. Currently, audio-less calls are not supported.
      * @param {Object} [media.audioOptions] Options for configuring the call's audio.
      * @param {MediaConstraint} [media.audioOptions.deviceId] ID of the microphone to receive audio from.
      * @param {boolean} [media.video=false] Whether the call should have video on start.
      * @param {Object} [media.videoOptions] Options for configuring the call's video.
      * @param {MediaConstraint} [media.videoOptions.deviceId] ID of the camera to receive video from.
-     * @param {MediaConstraint} [media.videoOptions.height] The height of the video capture frame.
-     * @param {MediaConstraint} [media.videoOptions.width] The width of the video capture frame.
-     * @param {MediaConstraint} [media.videoOptions.frameRate] The frame rate of the video stream.
+     * @param {MediaConstraint} [media.videoOptions.height] The height of the video.
+     * @param {MediaConstraint} [media.videoOptions.width] The width of the video.
+     * @param {MediaConstraint} [media.videoOptions.frameRate] The frame rate of the video.
      * @param {Object} [options]
      * @param {BandwidthControls} [options.bandwidth] Options for configuring media's bandwidth.
      * @returns {string} The generated ID of the newly created call.
@@ -29486,9 +29487,62 @@ function callAPI({ dispatch, getState }) {
      *   }
      * })
      * // Make an audio-only call.
-     * const newCallId = client.call.make(callee, { audio: true })
+     * const newCallId = client.call.make(destination, { audio: true })
      */
-    make(destination, media = {}, options = {}) {
+
+    /**
+     * Starts an outgoing call to a {@link SIP_URI SIP URI} or a
+     *    {@link TEL_URI TEL URI}.
+     *
+     * The call will be tracked by a unique ID that is returned by the API. The
+     *    application will use this ID to identify and control the call after it
+     *    has been initiated.
+     *
+     * The {@link Calls.getCallById call.getById} API can be used to retrieve
+     *    the current information about the call.
+     *
+     * The SDK will emit a {@link Calls.event:call:start call:start} event
+     *    locally when the operation completes. When the remote participant
+     *    receives the call, a {@link Calls.event:call:receive call:receive}
+     *    event will be emitted remotely for them.
+     *
+     * The SDK requires access to the machine's media devices (eg. microphone)
+     *    in order to make a call. If it does not already have permissions to
+     *    use the devices, the user may be prompted by the browser to give
+     *    permissions.
+     * @public
+     * @static
+     * @memberof Calls
+     * @requires link_call
+     * @method make
+     * @param {SIP_URI|TEL_URI} destination The desired destination.
+     * @param {Object} media The media options the call should be initialized with.
+     * @param {boolean} [media.audio=false] Whether the call should have audio on start. Currently, audio-less calls are not supported.
+     * @param {Object} [media.audioOptions] Options for configuring the call's audio.
+     * @param {MediaConstraint} [media.audioOptions.deviceId] ID of the microphone to receive audio from.
+     * @param {boolean} [media.video=false] Whether the call should have video on start.
+     * @param {Object} [media.videoOptions] Options for configuring the call's video.
+     * @param {MediaConstraint} [media.videoOptions.deviceId] ID of the camera to receive video from.
+     * @param {MediaConstraint} [media.videoOptions.height] The height of the video.
+     * @param {MediaConstraint} [media.videoOptions.width] The width of the video.
+     * @param {MediaConstraint} [media.videoOptions.frameRate] The frame rate of the video.
+     * @param {Object} [options]
+     * @param {BandwidthControls} [options.bandwidth] Options for configuring media's bandwidth.
+     * @returns {string} The generated ID of the newly created call.
+     * @example
+     * // Listen for the event emitted after making a call.
+     * client.on('call:start', function (params) {
+     *   const { callId, error } = params
+     *   if (error) {
+     *     // Call failed to initialize.
+     *   } else {
+     *     // Call was initialized, and the recipient user will be notified.
+     *   }
+     * })
+     * // Make an audio-only call.
+     * const newCallId = client.call.make(destination, { audio: true })
+     */
+    make(destination, media, options = {}) {
       log.debug(_logs.API_LOG_TAG + 'call.make: ', destination, media, options);
       const callId = (0, _v2.default)();
       const from = (0, _selectors2.getUserInfo)(getState()).username;
@@ -29520,10 +29574,13 @@ function callAPI({ dispatch, getState }) {
      * The specified call to reject must be in a ringing state with an incoming
      *    direction. The call will be ended as a result of the operation.
      *
-     * The SDK will emit a {@link Calls.event:call:stateChange call:stateChange} event locally when the operation
-     *    completes. The remote participant will be notified, through their own
-     *    {@link Calls.event:call:stateChange call:stateChange} event, that the call was rejected.
+     * The SDK will emit a {@link Calls.event:call:stateChange call:stateChange}
+     *    event locally when the operation completes. The remote participant
+     *    will be notified, through their own
+     *    {@link Calls.event:call:stateChange call:stateChange} event, that the
+     *    call was rejected.
      * @public
+     * @static
      * @memberof Calls
      * @requires call
      * @method reject
@@ -29540,36 +29597,39 @@ function callAPI({ dispatch, getState }) {
      * The specified call to answer must be in a ringing state with an incoming
      *    direction. The call will become connected as a result of the operation.
      *
-     * The SDK will emit a {@link Calls.event:call:stateChange call:stateChange} event locally when the operation
-     *    completes. This indicates that the call has connected with the remote
-     *    participant. The {@link Calls.getById getById} API can be used to retrieve the latest
-     *    call state after the change. Further events will be emitted to
+     * The SDK will emit a {@link Calls.event:call:stateChange call:stateChange}
+     *    event locally when the operation completes. This indicates that the
+     *    call has connected with the remote participant. The
+     *    {@link Calls.getById call.getById} API can be used to retrieve the
+     *    latest call state after the change. Further events will be emitted to
      *    indicate that the call has received media from the remote participant.
-     *     See the {@link Calls.event:call:newTrack call:newTrack} event for more information about this.
+     *    See the {@link Calls.event:call:newTrack call:newTrack} event for
+     *    more information about this.
      *
-     * The SDK requires access to the machine's media devices (eg. microphone)
+     * The SDK requires access to the system's media devices (eg. microphone)
      *    in order to answer a call. If it does not already have permissions to
      *    use the devices, the user may be prompted by the browser to give
      *    permissions.
      * @public
+     * @static
      * @memberof Calls
      * @requires call
      * @method answer
      * @param {string} callId The ID of the call to answer.
-     * @param {Object} [media] The media options the call should be initialized with.
-     * @param {boolean} [media.audio=true] Whether the call should have audio on start. Currently, audio-less calls are not supported.
+     * @param {Object} media The media options the call should be initialized with.
+     * @param {boolean} [media.audio=false] Whether the call should have audio on start. Currently, audio-less calls are not supported.
      * @param {Object} [media.audioOptions] Options for configuring the call's audio.
      * @param {MediaConstraint} [media.audioOptions.deviceId] ID of the microphone to receive audio from.
      * @param {boolean} [media.video=false] Whether the call should have video on start.
      * @param {Object} [media.videoOptions] Options for configuring the call's video.
      * @param {MediaConstraint} [media.videoOptions.deviceId] ID of the camera to receive video from.
-     * @param {MediaConstraint} [media.videoOptions.height] The height of the video capture frame.
-     * @param {MediaConstraint} [media.videoOptions.width] The width of the video capture frame.
+     * @param {MediaConstraint} [media.videoOptions.height] The height of the video.
+     * @param {MediaConstraint} [media.videoOptions.width] The width of the video.
      * @param {MediaConstraint} [media.videoOptions.frameRate] The frame rate of the video.
      * @param {Object} [options]
      * @param {BandwidthControls} [options.bandwidth] Options for configuring media's bandwidth.
      */
-    answer(callId, media = {}, options = {}) {
+    answer(callId, media, options = {}) {
       log.debug(_logs.API_LOG_TAG + 'call.answer: ', callId, media, options);
       const mediaConstraints = {
         audio: media.audio && !(0, _fp.isEmpty)(media.audioOptions) ? media.audioOptions : media.audio,
@@ -29587,10 +29647,11 @@ function callAPI({ dispatch, getState }) {
      * The specified call to ignore must be in a ringing state with an incoming
      *    direction. The call will be ended as a result of the operation.
      *
-     * The SDK will emit a {@link Calls.event:call:stateChange call:stateChange} event locally when the operation
-     *    completes. The remote participant will not be notified that the call
-     *    was ignored.
+     * The SDK will emit a {@link Calls.event:call:stateChange call:stateChange}
+     *    event locally when the operation completes. The remote participant
+     *    will not be notified that the call was ignored.
      * @public
+     * @static
      * @memberof Calls
      * @requires call
      * @method ignore
@@ -29610,12 +29671,14 @@ function callAPI({ dispatch, getState }) {
      *    being sent.
      *
      * Some call operations cannot be performed while the call is on hold. The
-     *    call can be taken off hold with the {@link Calls.unhold unhold} API.
+     *    call can be taken off hold with the {@link Calls.unhold call.unhold} API.
      *
-     * The SDK will emit a {@link Calls.event:call:stateChange call:stateChange} event locally, when the operation
-     *    completes. The remote participant will be notified of the operation
-     *    through a {@link Calls.event:call:stateChange call:stateChange} event as well.
+     * The SDK will emit a {@link Calls.event:call:stateChange call:stateChange}
+     *    event locally when the operation completes. The remote participant
+     *    will be notified of the operation through a
+     *    {@link Calls.event:call:stateChange call:stateChange} event as well.
      * @public
+     * @static
      * @memberof Calls
      * @requires call
      * @requires callMe
@@ -29634,9 +29697,10 @@ function callAPI({ dispatch, getState }) {
      *    also remotely held, call media will be reconnected as it was before
      *    the call was held.
      *
-     * The SDK will emit a {@link Calls.event:call:stateChange call:stateChange} event locally when the operation
-     *    completes. The remote participant will be notified of the operation
-     *    through a {@link Calls.event:call:stateChange call:stateChange} as well.
+     * The SDK will emit a {@link Calls.event:call:stateChange call:stateChange}
+     *    event locally when the operation completes. The remote participant
+     *    will be notified of the operation through a
+     *    {@link Calls.event:call:stateChange call:stateChange} event as well.
      * @public
      * @static
      * @memberof Calls
@@ -29651,8 +29715,9 @@ function callAPI({ dispatch, getState }) {
     },
 
     /**
-     * Retrieves the state of calls made during the current session.
+     * Retrieves the information of all calls made during the current session.
      * @public
+     * @static
      * @memberof Calls
      * @requires call
      * @requires callMe
@@ -29670,8 +29735,9 @@ function callAPI({ dispatch, getState }) {
     },
 
     /**
-     * Retrieves a single call from state with a specific call ID.
+     * Retrieves the information of a single call with a specific call ID.
      * @public
+     * @static
      * @memberof Calls
      * @requires call
      * @requires callMe
@@ -29690,12 +29756,16 @@ function callAPI({ dispatch, getState }) {
      *
      * The SDK will stop any/all local media associated with the call. Events
      *    will be emitted to indicate which media tracks were stopped. See the
-     *    {@link Calls.event:call:trackEnded call:trackEnded} event for more information.
+     *    {@link Calls.event:call:trackEnded call:trackEnded} event for more
+     *    information.
      *
-     * The SDK will emit a `call:stateChange` event locally when the operation
-     *    completes. The remote participant will be notified, through their own
-     *    {@link Calls.event:call:stateChange call:stateChange} event, that the call was ended.
+     * The SDK will emit a {@link Calls.event:call:stateChange call:stateChange}
+     *    event locally when the operation completes. The remote participant
+     *    will be notified, through their own
+     *    {@link Calls.event:call:stateChange call:stateChange} event, that the
+     *    call was ended.
      * @public
+     * @static
      * @memberof Calls
      * @requires call
      * @requires callMe
@@ -29710,8 +29780,13 @@ function callAPI({ dispatch, getState }) {
     /**
      * Add new media tracks to an ongoing call.
      * Will get new media tracks from the specific sources to add to the call.
-     * Will trigger a {@link Calls.event:call:newMedia call:newMedia} event.
+     *
+     * The SDK will emit a {@link Calls.event:call:newTrack call:newTrack} event
+     *    both for the local and remote users to indicate a track has been
+     *    added to the Call.
+     *
      * @public
+     * @static
      * @memberof Calls
      * @requires call
      * @requires callMe
@@ -29723,8 +29798,8 @@ function callAPI({ dispatch, getState }) {
      * @param {boolean} [media.video=false] Whether to add video to the call.
      * @param {Object} [media.videoOptions] Options for configuring the call's video.
      * @param {MediaConstraint} [media.videoOptions.deviceId] ID of the camera to receive video from.
-     * @param {MediaConstraint} [media.videoOptions.height] The height of the video capture frame.
-     * @param {MediaConstraint} [media.videoOptions.width] The width of the video capture frame.
+     * @param {MediaConstraint} [media.videoOptions.height] The height of the video.
+     * @param {MediaConstraint} [media.videoOptions.width] The width of the video.
      * @param {MediaConstraint} [media.videoOptions.frameRate] The frame rate of the video.
      * @param {Object} [options]
      * @param {BandwidthControls} [options.bandwidth] Options for configuring media's bandwidth.
@@ -29740,8 +29815,14 @@ function callAPI({ dispatch, getState }) {
     },
 
     /**
-     * Remove tracks from an ongoing call
+     * Remove tracks from an ongoing call.
+     *
+     * The SDK will emit a {@link Calls.event:call:trackEnded call:trackEnded}
+     *    event for both the local and remote users to indicate that a track
+     *    has been removed.
+     *
      * @public
+     * @static
      * @memberof Calls
      * @requires call
      * @requires callMe
@@ -29762,18 +29843,19 @@ function callAPI({ dispatch, getState }) {
      *    sequence of DTMF tones (eg. '123') which will be played one after the
      *    other.
      *
-     * The specified call must be either in Connected or Ringing state, otherwise invoking
-     * this API will have no effect.
+     * The specified call must be either in Connected or Ringing state,
+     *    otherwise invoking this API will have no effect.
      *
      * The tones will be sent as out-of-band tones if supported by the call,
      *    otherwise they will be added in-band to the call's audio.
      * @public
+     * @static
      * @memberof Calls
      * @requires call
      * @requires callMe
      * @method sendDTMF
-     * @param {string} callId Id of the call being acted on.
-     * @param {string} tone DTMF tone to send. Valid values are ['0','1','2','3','4','5','6','7','8','9','#','*' and ','].
+     * @param {string} callId ID of the call being acted on.
+     * @param {string} tone DTMF tone(s) to send. Valid chracters are ['0','1','2','3','4','5','6','7','8','9','#','*' and ','].
      * @param {number} [duration=100] The amount of time, in milliseconds, that each DTMF tone should last.
      * @param {number} [intertoneGap=70] The length of time, in milliseconds, to wait between tones.
      *
@@ -29784,14 +29866,22 @@ function callAPI({ dispatch, getState }) {
     },
 
     /**
-     * Get a report about low-level call stats / information.
-     * A track ID can optionally be provided to get a report for the specific track of the call.
+     * Get a report about low-level call statistical information.
+     *
+     * A Track ID can optionally be provided to get a report for a specific
+     *    Track of the Call.
+     *
+     * The SDK will emit a
+     *    {@link Calls.event:call:statsReceived call:statsReceived} event, after
+     *    the operation completes, that has the report.
      * @public
+     * @static
      * @memberof Calls
      * @requires call
      * @requires callMe
-     * @param {string} callId The ID of the call to retrieve stats report.
-     * @param {string} [trackId] TrackId. If trackId is not provided, RTCStatsReport is gererated from the peerConnection.
+     * @param {string} callId The ID of the Call to retrieve the report.
+     * @param {string} [trackId] ID of a Track being used by the Call. If not
+     *    provided, RTCStatsReport is generated for the Call itself.
      */
     getStats(callId, trackId) {
       log.debug(_logs.API_LOG_TAG + 'call.getStats: ', callId, trackId);
@@ -29799,13 +29889,38 @@ function callAPI({ dispatch, getState }) {
     },
 
     /**
-     * Forward an incoming call to another user.
+     * Forwards an incoming call to another user.
+     *
+     * The specified destination will receive the Call instead of the current
+     *    user.
+     *
+     * The SDK will emit a {@link Call.event:call:stateChange call:stateChange}
+     *    event after the operation completes.
+     *
      * @public
+     * @static
      * @memberof Calls
-     * @requires call
+     * @requires call_link
      * @method forward
      * @param {string} callId ID of the call being acted on.
-     * @param {string} destination The user to forward the call to. This destination should be in the form of: user@domain
+     * @param {SIP_URI|TEL_URI} destination The destination to forward the call to.
+     */
+
+    /**
+     * Forwards an incoming call to another user.
+     *
+     * The specified destination will receive the Call instead of the current
+     *    user.
+     *
+     * The SDK will emit a {@link Call.event:call:stateChange call:stateChange}
+     *    event after the operation completes.
+     * @public
+     * @static
+     * @memberof Calls
+     * @requires call_cpaas
+     * @method forward
+     * @param {string} callId ID of the call being acted on.
+     * @param {UserID|PhoneNumber} destination The destination to forward the call to.
      */
     forward(callId, destination) {
       const config = (0, _selectors.getOptions)(getState());
@@ -29829,6 +29944,7 @@ function callAPI({ dispatch, getState }) {
      *    one another after the operation. Both calls for the current user will
      *    be ended.
      * @public
+     * @static
      * @memberof Calls
      * @requires call
      * @method consultativeTransfer
@@ -29850,11 +29966,31 @@ function callAPI({ dispatch, getState }) {
      *    with the remote participant of the specified call. The current user's
      *    call will be ended after the operation.
      * @public
+     * @static
      * @memberof Calls
-     * @requires call
+     * @requires call_link
      * @method directTransfer
      * @param {string} callId ID of the call being acted on.
-     * @param {string} destination The user to transfer the call to. This destination should be in the form of: user@domain
+     * @param {SIP_URI|TEL_URI} destination The destination to transfer the call to.
+     */
+
+    /**
+     * Performs a "direct" transfer on a call (also known as an unannounced or
+     *    blind transfer). This allows the current user to transfer the remote
+     *    participant of a call to another user, similar to a "forward"
+     *    operation.
+     *
+     * The specified call must be locally held. The "destination" user will
+     *    receive an incoming call, and when answered, they will be connected
+     *    with the remote participant of the specified call. The current user's
+     *    call will be ended after the operation.
+     * @public
+     * @static
+     * @memberof Calls
+     * @requires call_cpaas
+     * @method directTransfer
+     * @param {string} callId ID of the call being acted on.
+     * @param {UserID|PhoneNumber} destination The destination to transfer the call to.
      */
     directTransfer(callId, destination) {
       const config = (0, _selectors.getOptions)(getState());
@@ -29869,15 +30005,17 @@ function callAPI({ dispatch, getState }) {
 
     /**
      * Performs a "join" on two ongoing calls.
-     * This allows the current user to establish a call with audio between two remote users.
+     * This allows the current user to establish a call with audio with two
+     *    remote users.
      *
-     * Both specified calls (between curent user and each of the remote users) must first be placed on hold locally.
-     *    The "joined" call will be audio-only, even if either previous call had video. Video cannot be
+     * Both specified calls must be locally held. The "joined" call will be
+     *    audio-only, even if either previous call had video. Video cannot be
      *    added to the "joined" call. Both remote participants will see their
      *    call taken off hold, and will receive additional audio from other
      *    participants after the operation. Both calls for the current user will
      *    be ended after the operation.
      * @public
+     * @static
      * @memberof Calls
      * @requires call
      * @method join
@@ -29894,29 +30032,31 @@ function callAPI({ dispatch, getState }) {
      * Replace a call's track with a new track of the same media type.
      *
      * The operation will remove the old track from the call and add a
-     * new track to the call. This effectively allows for changing the
-     * track constraints (eg. device used) for an on-going call.
+     *    new track to the call. This effectively allows for changing the
+     *    track constraints (eg. device used) for an ongoing call.
      *
-     * The SDK will emit a {@link Calls.event:call:trackReplaced call:trackReplaced} event locally when the operation
-     * completes. The newly added track will need to be handled by the local
-     * application. The track will be replaced seamlessly for the remote
-     * application, which will not receive an event.
+     * The SDK will emit a
+     *    {@link Calls.event:call:trackReplaced call:trackReplaced} event
+     *    locally when the operation completes. The newly added track will need
+     *    to be handled by the local application. The track will be replaced
+     *    seamlessly for the remote application, which will not receive an event.
      *
      * @public
+     * @static
      * @memberof Calls
      * @requires call
      * @requires callMe
      * @param {string} callId The ID of the call to replace the track of.
      * @param {string} trackId The ID of the track to replace.
-     * @param {Object} [media] The media options.
+     * @param {Object} [media={}] The media options.
      * @param {boolean} [media.audio=false] Whether to create an audio track.
      * @param {Object} [media.audioOptions] Options for configuring the audio track.
      * @param {MediaConstraint} [media.audioOptions.deviceId] ID of the microphone to receive audio from.
      * @param {boolean} [media.video=false] Whether to create a video track.
      * @param {Object} [media.videoOptions] Options for configuring the video track.
      * @param {MediaConstraint} [media.videoOptions.deviceId] ID of the camera to receive video from.
-     * @param {MediaConstraint} [media.videoOptions.height] The height of the video capture frame.
-     * @param {MediaConstraint} [media.videoOptions.width] The width of the video capture frame.
+     * @param {MediaConstraint} [media.videoOptions.height] The height of the video.
+     * @param {MediaConstraint} [media.videoOptions.width] The width of the video.
      * @param {MediaConstraint} [media.videoOptions.frameRate] The frame rate of the video.
      * @example
      * const callId = ...
@@ -29928,7 +30068,7 @@ function callAPI({ dispatch, getState }) {
      * client.call.replaceTrack(callId, videoTrack.id, {
      *   // The track should be replaced with a video track using
      *   //    a specific device. This effectively changes the input
-     *   //    device for an on-going call.
+     *   //    device for an ongoing call.
      *   video: true,
      *   videoOptions: {
      *     deviceId: cameraId
@@ -29944,9 +30084,24 @@ function callAPI({ dispatch, getState }) {
     },
 
     /**
-     * Possible states for a call.
+     * Possible states that a Call can be in.
+     *
+     * A Call's state describes the current status of the Call. An application
+     *    should use the state to understand how the Call, and any media
+     *    associated with the Call, should be handled. Which state the Call is
+     *    in defines how it can be interacted with, as certain operations can
+     *    only be performed while in specific states, and tells an application
+     *    whether the Call currently has media flowing between users.
+     *
+     * The Call's state is a property of the {@link CallObject}, which can be
+     *    retrieved using the {@link Calls.getById call.getById} or
+     *    {@link Calls.getAll call.getAll} APIs.
+     *
+     * The SDK emits a {@link Calls.event:call:stateChange call:stateChange}
+     *    event when a Call's state changes from one state to another.
      *
      * @public
+     * @static
      * @memberof Calls
      * @requires call
      * @type {Object}
@@ -29991,7 +30146,7 @@ var _call2 = _interopRequireDefault(_call);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * The call feature is used to make audio and video calls to and from
+ * The Calls feature is used to make audio and video calls to and from
  * SIP users and PSTN phones.
  *
  * Call functions are all part of the 'call' namespace.
@@ -30000,33 +30155,44 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @module Calls
  */
 
-// TODO: Does the following apply to the new call stack?
 /**
- * The state representation of a Call.
- * Can be retrieved using the Call feature's `getAll` or `getById` APIs.
- * A Call can be manipulated by using the Call feature's APIs.
+ * Information about a Call.
+ *
+ * Can be retrieved using the {@link Calls.getAll call.getAll} or
+ *    {@link Calls.getById call.getById} APIs.
  *
  * @public
+ * @static
  * @module CallObject
- * @property {string} direction The direction in which the call was created (outgoing/incoming).
  * @property {string} id The ID of the call.
+ * @property {string} direction The direction in which the call was created. Can be 'outgoing' or 'incoming'.
+ * @property {string} state The current state of the call. See {@link Calls.states call.states} for possible states.
  * @property {boolean} localHold Indicates whether this call is currently being held locally.
- * @property {Array<string>} localTracks A list of Track IDs that the call is sending to the remote participant.
- * @property {Object} mediaConstraints This indicates the media types that the call was initialized with.
- * @property {boolean} mediaConstraints.audio Whether the call was initialized with audio.
- * @property {boolean} mediaConstraints.video Whether the call was initialized with video.
  * @property {boolean} remoteHold Indicates whether this call is currently being held remotely.
+ * @property {Array<string>} localTracks A list of Track IDs that the call is sending to the remote participant.
  * @property {Array<string>} remoteTracks A list of Track IDs that the call is receiving from the remote participant.
  * @property {Object} remoteParticipant Information about the other call participant.
- * @property {string} remoteParticipant.displayNumber The username with domain of the callee in the form "username@domain"
- * @property {string} remoteParticipant.displayName The display name of the callee
+ * @property {string} [remoteParticipant.displayNumber] The User ID of the remote participant in the form "username@domain".
+ * @property {string} [remoteParticipant.displayName] The display name of the remote participant.
+ * @property {BandwidthControls} bandwidth The bandwidth limitations set for the call.
  * @property {number} startTime The start time of the call in milliseconds since the epoch.
- * @property {string} state The current state of the call. See `Call.states` for possible states.
+ * @property {number} [endTime] The end time of the call in milliseconds since the epoch.
  */
 
 /**
- * The media features are used to interact with media that the SDK is
- * currently using.
+ * The Media feature provides an interface for interacting with Media that the
+ *    SDK has access to. Media is used conjunction with the {@link Calls}
+ *    feature to manipulate and render the Tracks sent and received from a Call.
+ *
+ * Media and Track objects are not created directly, but are created as part of
+ *    Call operations. Media and Tracks will either be marked as "local" or
+ *    "remote" depending on whether their source is the local user's machine
+ *    or a remote user's machine.
+ *
+ * The Media feature also keeps track of media devices that the user's machine
+ *    can access. Any media device (eg. USB headset) connected to the machine
+ *    can be used as a source for media. Available devices can be found using
+ *    the {@link Media.getDevices media.getDevices} API.
  *
  * Media functions are all part of the 'media' namespace.
  *
@@ -30084,11 +30250,39 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  */
 
 /**
+ * @public
+ * @module IceServer
+ * @typedef {Object} IceServer
+ * @property {string} url The URL of the ICE server.
+ * @property {string} [credential] The credential needed by the ICE server.
+ */
+
+/**
+ * @public
+ * @module SdpHandlerInfo
+ * @typedef {Object} SdpHandlerInfo
+ * @property {RTCSdpType} type The session description's type.
+ * @property {string} endpoint Which end of the connection created the SDP.
+ */
+
+/**
+ * The form of an SDP handler function and the expected arguments that it receives.
+ * @public
+ * @module SdpHandlerFunction
+ * @typedef {Function} SdpHandlerFunction
+ * @param {Object} newSdp The SDP so far (could have been modified by previous handlers).
+ * @param {SdpHandlerInfo} info Additional information that might be useful when making SDP modifications.
+ * @param {Object} originalSdp The SDP in its initial state.
+ * @returns {Object} The resulting modified SDP based on the changes made by this function.
+ */
+
+/**
  * The state representation of a Media object.
  * Media is a collection of Track objects.
  *
  * @public
  * @module MediaObject
+ * @typedef {Object} MediaObject
  * @property {string} id The ID of the Media object.
  * @property {boolean} local Indicator on whether this media is local or remote.
  * @property {Array<TrackObject>} tracks A list of Track objects that are contained in this Media object.
@@ -30111,7 +30305,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  */
 
 /**
- * A collection of devices and their information.
+ * A collection of media devices and their information.
  *
  * @public
  * @module DevicesObject
@@ -30159,26 +30353,30 @@ Object.defineProperty(exports, "__esModule", {
 });
 /**
  * An outgoing call has been started.
- * The call state can be retrieved using the `getById(callId)` API.
+ *
+ * Information about the Call can be retrieved using the
+ *    {@link Calls.getById call.getById} API.
  *
  * @public
  * @memberof Calls
  * @event call:start
  * @param {Object} params
- * @param {string} params.callId The Id of the call.
+ * @param {string} params.callId The ID of the call.
  * @param {BasicError} [params.error] An error object, if the operation was not successful.
  */
 const CALL_STARTED = exports.CALL_STARTED = 'call:start';
 
 /**
  * A new incoming call has been received.
- * The call state can be retrieved using the `getById(callId)` API.
+ *
+ * Information about the Call can be retrieved using the
+ *    {@link Calls.getById call.getById} API.
  *
  * @public
  * @memberof Calls
  * @event call:receive
  * @param {Object} params
- * @param {string} params.callId The Id of the call.
+ * @param {string} params.callId The ID of the call.
  * @param {BasicError} [params.error] An error object, if the operation was not successful.
  * @example
  * client.on('call:receive', function(params) {
@@ -30190,8 +30388,9 @@ const CALL_INCOMING = exports.CALL_INCOMING = 'call:receive';
 
 // TODO: Add a property in event params that indicates the operation that caused the state change.
 /**
- * A call's state has changed.
- * See `Call.states` for possible call states.
+ * A Call's state has changed.
+ *
+ * See {@link Calls.states call.states} for information about call states.
  * @public
  * @memberof Calls
  * @event call:stateChange
@@ -30231,27 +30430,34 @@ const CALL_STATE_CHANGE = exports.CALL_STATE_CHANGE = 'call:stateChange';
  * @memberof Calls
  * @event call:newMedia
  * @param {Object} params
- * @param {string} params.callId The Id of the call.
+ * @param {string} params.callId The ID of the call.
  * @param {boolean} params.local Whether the new media is local or not.
  * @param {Array} params.tracks The list of new Tracks.
- * @param {string} params.mediaId The Id of the Media object the Tracks belong to.
+ * @param {string} params.mediaId The ID of the Media object the Tracks belong to.
  */
 const CALL_ADDED_MEDIA = exports.CALL_ADDED_MEDIA = 'call:newMedia';
 
 /**
- * Media has been removed from the call
+ * Media has been removed from the call.
  * @public
  * @memberof Calls
  * @event call:removedMedia
  * @param {Object} params
- * @param {string} params.callId The Id of the call.
+ * @param {string} params.callId The ID of the call.
  * @param {boolean} params.local Whether the new media is local or not.
  * @param {Array} params.tracks The list of new Tracks.
  */
 const CALL_REMOVED_MEDIA = exports.CALL_REMOVED_MEDIA = 'call:removedMedia';
 
 /**
- * The call has received a new Track.
+ * A new Track has been added to the Call.
+ *
+ * The Track may have been added by either the local user or remote user using
+ *    the {@link Calls.addMedia call.addMedia} API.
+ *
+ * Information about the Track can be retrieved using the
+ *    {@link Media.getTrackById media.getTrackById} API.
+ *
  * @public
  * @memberof Calls
  * @event call:newTrack
@@ -30264,7 +30470,12 @@ const CALL_REMOVED_MEDIA = exports.CALL_REMOVED_MEDIA = 'call:removedMedia';
 const CALL_NEW_TRACK = exports.CALL_NEW_TRACK = 'call:newTrack';
 
 /**
- * The call has received a new Track.
+ * A Track has been removed from a Call.
+ *
+ * The Track may have been removed by either the local user or remote user using
+ *    the {@link Calls.removeMedia call.removeMedia} API. Tracks are also
+ *    removed from Calls automatically while the Call is on hold.
+ *
  * @public
  * @memberof Calls
  * @event call:trackEnded
@@ -30277,27 +30488,31 @@ const CALL_NEW_TRACK = exports.CALL_NEW_TRACK = 'call:newTrack';
 const CALL_TRACK_ENDED = exports.CALL_TRACK_ENDED = 'call:trackEnded';
 
 /**
- * Stats have been retrieved for a call or specific track.
+ * Stats have been retrieved for a Call or specific Track of a Call.
+ *
+ * See the {@link Calls.getStats call.getStats} API for more information.
+ *
  * @public
  * @memberof Calls
  * @event call:statsReceived
  * @param {Object} params
- * @param {string} params.callId The ID of the call to retrieve stats for.
- * @param {string} [params.trackId] The ID of the track to retrieve stats for.
+ * @param {string} params.callId The ID of the Call to retrieve stats for.
+ * @param {string} [params.trackId] The ID of the Track to retrieve stats for.
  * @param {string} params.result The RTCStatsReport.
  * @param {BasicError} [params.error] An error object, if the operation was not successful.
  */
 const STATS_RECEIVED = exports.STATS_RECEIVED = 'call:statsReceived';
 
 /**
- * A track has been replaced on the call.
+ * A Track has been replaced on the Call.
  *
- * This event signifies the completion of the "replace track" operation (see
- *    the `call.replaceTrack` API).
+ * A Track is replaced by the local user using the
+ *    {@link Calls.replaceTrack call.replaceTrack} API.
  *
- * This event is similar to the `call:newTrack` event, where the call has a new
- *    media track. It also includes context about the track that was replaced
- *    in the form of its state at time of replacement.
+ * This event is similar to the {@link Calls.event:call:newTrack call:newTrack}
+ *    event, where the call has a new Track, except that an existing Track has
+ *    been removed at the same time. The event includes information about the
+ *    Track that was replaced to help an application replace it seamlessly.
  *
  * @public
  * @memberof Calls
@@ -31191,9 +31406,10 @@ const log = (0, _logs.getLogManager)().getLogger('CALL');
  * @memberof config
  * @instance
  * @param {Object} call The call configuration object.
- * @param {Object} [call.iceServers] ICE servers to be used for calls.
+ * @param {string} [call.sdpSemantics='unified-plan'] The sdpSemantics to use (`'unified-plan'` or `'plan-b'`).
+ * @param {Array<IceServer>} [call.iceServers] The list of ICE servers to be used for calls.
  * @param {boolean} [call.serverTurnCredentials=true] Whether server-provided TURN credentials should be used.
- * @param {Array} [call.sdpHandlers] List of SDP handler functions to modify SDP. Advanced usage.
+ * @param {Array<SdpHandlerFunction>} [call.sdpHandlers] List of SDP handler functions to modify SDP. Advanced usage.
  * @param {boolean} [call.removeH264Codecs=true] Whether to remove "H264" codec lines from incoming and outgoing SDP messages.
  */
 
@@ -31279,7 +31495,7 @@ function callsLink(options = {}) {
     api: _interfaceNew2.default.api,
     reducer: _interfaceNew2.default.reducer,
     init,
-    capabilities: ['call']
+    capabilities: ['call', 'link_call', 'link_user_id', 'link_pstn']
   };
 }
 
@@ -37133,12 +37349,12 @@ const log = (0, _logs.getLogManager)().getLogger('SDPHANDLER');
  * However, if only SDES is available, don't disable it.
  *
  * @method sanitizeSdesFromSdp
- * @param {Object} newSdp The sdp so far (could have been modified by previous handlers).
+ * @param {Object} newSdp The SDP so far (could have been modified by previous handlers).
  * @param {RTCSdpType} info Information about the session description.
  * @param {RTCSdpType} info.type The session description's type.
  * @param {string} info.endpoint Which end of the connection created the SDP.
- * @param {Object} originalSdp The sdp in its initial state.
- * @return {Object} The sanitized sdp with crypto removed (if fingerprint exists)
+ * @param {Object} originalSdp The SDP in its initial state.
+ * @return {Object} The sanitized SDP with crypto removed (if fingerprint exists)
  */
 // Other plugins.
 function sanitizeSdesFromSdp(newSdp, info, originalSdp) {
@@ -38861,6 +39077,8 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 const log = (0, _logs.getLogManager)().getLogger('CONFIG'); /**
                                                              * An interface for getting and updating the configuration Object.
                                                              *
+                                                             * Config functions are available directly on the SDK Object
+                                                             *
                                                              * @public
                                                              * @module Config
                                                              * @requires config
@@ -38874,7 +39092,7 @@ function api(context) {
      * @memberof Config
      * @requires config
      * @method getConfig
-     * @returns {Object} A configuration Object
+     * @returns {Object} A configuration Object.
      */
     getConfig: function () {
       log.debug(_logs.API_LOG_TAG + 'getConfig');
@@ -38885,10 +39103,11 @@ function api(context) {
      * Update values in the global Config section of the store.
      *
      * @public
+     * @static
      * @memberof Config
      * @requires config
      * @method updateConfig
-     * @param {Object} newConfigValues Key Value pairs that will be placed into the store.
+     * @param {Object} newConfigValues Key-value pairs that will be placed into the store. See {@link config} for details on what key-value pairs are available for use.
      */
     updateConfig: function (newConfigValues) {
       log.debug(_logs.API_LOG_TAG + 'updateConfig: ', newConfigValues);
@@ -39260,7 +39479,7 @@ function api({ dispatch, getState }) {
      * @public
      * @memberof Connectivity
      * @method getSocketState
-     * @param  {string} [platform='link'] Backend platform for which websocket's state to request.
+     * @param {string} [platform='link'] Backend platform for which to request the websocket's state.
      */
     getSocketState(platform = _constants.platforms.LINK) {
       log.debug(_logs.API_LOG_TAG + 'connection.getSocketState: ', platform);
@@ -39272,14 +39491,13 @@ function api({ dispatch, getState }) {
      * @public
      * @memberof Connectivity
      * @method enableConnectivityChecking
-     * @param {boolean} enable Whether to enable or disable connectivity checking.
+     * @param {boolean} enable Enable connectivity checking.
      */
     enableConnectivityChecking(enable) {
       log.debug(_logs.API_LOG_TAG + 'connection.enableConnectivityChecking: ', enable);
       dispatch((0, _actions.changeConnectivityChecking)(enable));
     }
   };
-
   return { connection: connectivityApi };
 }
 
@@ -41264,7 +41482,7 @@ const factoryDefaults = {
    */
 };function factory(plugins, options = factoryDefaults) {
   // Log the SDK's version (templated by webpack) on initialization.
-  let version = '4.6.0-beta.68';
+  let version = '4.6.0-beta.91';
   log.info(`SDK version: ${version}`);
 
   var sagas = [];
@@ -41520,27 +41738,41 @@ var _fp = __webpack_require__("../../node_modules/lodash/fp.js");
  * @module config
  */
 
+// Disabling eslint for the next comment as we want to be able to use a disallowed word
+// eslint-disable-next-line no-warning-comments
 /**
- * A set of handlers for manipulating SDP information.
+ * A set of {@link #sdphandlerfunction SdpHandlerFunction}s for manipulating SDP information.
  * These handlers are used to customize low-level call behaviour for very specific
  * environments and/or scenarios. They can be provided during SDK instantiation
  * to be used for all calls.
+ *
  * @public
  * @module sdpHandlers
+ * @example
+ * import { create, sdpHandlers } from 'kandy';
+ * const codecRemover = sdpHandlers.createCodecRemover(['VP8', 'VP9'])
+ * const client = create({
+ *   call: {
+ *     sdpHandlers: [ <Your-SDP-Handler-Function>, ...]
+ *   }
+ * })
  */
 
 // Disabling eslint for the next comment as we want to be able to use a disallowed word
 // eslint-disable-next-line no-warning-comments
 /**
- * In some scenarios it's necessary to remove certain codecs being offered by the SDK to the remote party. While creating an SDP handler would allow a user to perform this type of manipulation, it is a non-trivial task that requires in-depth knowledge of WebRTC SDP.
+ * In some scenarios it's necessary to remove certain codecs being offered by the SDK to the remote party.
+ * While creating an SDP handler would allow a user to perform this type of manipulation, it is a non-trivial task that requires in-depth knowledge of WebRTC SDP.
  *
- * To facilitate this common task, the SDK provides a codec removal handler that can be used for this purpose.
+ * To facilitate this common task, the SDK provides a codec removal handler creator that can be used for this purpose.
  *
  * The SDP handlers are exposed on the entry point of the SDK. They need to be added to the list of SDP handlers via configuration on creation of an instance of the SDK.
  *
  * @public
  * @memberof sdpHandlers
  * @method createCodecRemover
+ * @param {Array<string>} codecs A list of codec names to remove from the SDP.
+ * @returns {SdpHandlerFunction} The resulting SDP handler that will remove the codec.
  * @example
  * import { create, sdpHandlers } from 'kandy';
  * const codecRemover = sdpHandlers.createCodecRemover(['VP8', 'VP9'])
@@ -41750,7 +41982,7 @@ const logMgr = getLogManager(defaultOptions);
  * @requires logs
  * @instance
  * @param {Object} logs Logs configs.
- * @param  {string} [logs.logLevel=debug] Log level to be set. See {@link Logger.levels levels}.
+ * @param  {string} [logs.logLevel='debug'] Log level to be set. See {@link Logger.levels levels}.
  * @param  {boolean} [logs.flatten=false] Whether all logs should be output in a string-only format.
  * @param  {Object} [logs.logActions] Options specifically for action logs when logLevel is at DEBUG+ levels. Set this to false to not output action logs.
  * @param  {boolean} [logs.logActions.actionOnly=true] Only output information about the action itself. Omits the SDK context for when it occurred.
@@ -46250,16 +46482,28 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = function (context) {
   const presenceApi = {
     /**
-     * Update the presence for the current user.
-     * Other users subscribed for this user's presence will receive the update.
+     * Updates the presence information for the current user.
+     *
+     * See {@link Presence.statuses presence.statuses} and
+     *    {@link Presence.activities presence.activities} for valid values.
+     *
+     * The SDK will emit a
+     *    {@link Presence.event:presence:selfChange presence:selfChange} event
+     *    when the operation completes. The updated presence information is
+     *    available and can be retrieved with
+     *    {@link Presence.getSelf presence.getSelf}.
+     *
+     * Other users subscribed for this user's presence will receive a
+     *    {@link Presence.event:presence:change presence:change} event.
      *
      * @public
+     * @static
      * @memberof Presence
      * @requires presence
      * @method update
      * @param  {string} status The status of the presence state.
      * @param  {string} activity The activity to be shown as presence state
-     * @param  {string} [note] An additional note to be provided when the activity is "other".
+     * @param  {string} [note] An additional note to be provided when the activity is `presence.activities.ACTIVITIES_OTHER`.
      */
     update(status, activity, note) {
       log.debug(_logs.API_LOG_TAG + 'presence.update: ', status, activity, note);
@@ -46267,14 +46511,15 @@ exports.default = function (context) {
     },
 
     /**
-     * Retrieve the presence information for specified users.
+     * Retrieves the presence information for specified users, if available.
      *
      * @public
+     * @static
      * @memberof Presence
      * @requires presence
      * @method get
-     * @param  {Array<string>|string} users  A user id or an array of user ids.
-     * @return {Array} List of user presence information.
+     * @param  {Array<string>|string} user A User ID or an array of User IDs.
+     * @return {Array<Object>|Object} List of user presence information.
      */
     get(user) {
       log.debug(_logs.API_LOG_TAG + 'presence.get: ', user);
@@ -46291,13 +46536,14 @@ exports.default = function (context) {
     },
 
     /**
-     * Retrieve the presence information for all users.
+     * Retrieves the presence information for all available users.
      *
      * @public
+     * @static
      * @memberof Presence
      * @requires presence
      * @method getAll
-     * @return {Array} List of user presence information.
+     * @return {Array<Object>} List of user presence information.
      */
     getAll() {
       log.debug(_logs.API_LOG_TAG + 'presence.getAll');
@@ -46307,11 +46553,15 @@ exports.default = function (context) {
     /**
      * Retrieves the presence information for the current user.
      *
+     * This information is set using the {@link Presence.update presnece.update}
+     *    API.
+     *
      * @public
+     * @static
      * @memberof Presence
      * @requires presence
      * @method getSelf
-     * @return {Object}
+     * @return {Object} Presence information for the current user.
      */
     getSelf() {
       log.debug(_logs.API_LOG_TAG + 'presence.getSelf');
@@ -46319,15 +46569,19 @@ exports.default = function (context) {
     },
 
     /**
-     * Fetch (from the server) the presence for the given users.
-     * This will update the store with the retrieved values, which can then
-     * be accessed using `get`.
+     * Fetches presence information for the given users. This will refresh the
+     *    available information with any new information from the server.
+     *
+     * Available presence information an be retrieved using the
+     *    {@link Presence.get presence.get} or
+     *    {@link Presence.getAll presence.getAll} APIs.
      *
      * @public
+     * @static
      * @memberof Presence
      * @requires presence
      * @method fetch
-     * @param  {Array<string>|string} users  A user id or an array of user ids.
+     * @param {Array<string>|string} user A User ID or an array of User IDs.
      */
     fetch(user) {
       log.debug(_logs.API_LOG_TAG + 'presence.fetch: ', user);
@@ -46336,13 +46590,17 @@ exports.default = function (context) {
     },
 
     /**
-     * Subscribe to retrieve presence updates about specified user.
+     * Subscribe to another User's presence updates.
+     *
+     * When the User updates their presence information, the SDK will emit a
+     *    {@link Presence.event:presence:change presence:change} event.
      *
      * @public
+     * @static
      * @memberof Presence
      * @requires presence
      * @method subscribe
-     * @param  {string} user  The ID of the user to subscribe to.
+     * @param {Array<string>|string} users A User ID or an array of User IDs.
      */
     subscribe(users) {
       log.debug(_logs.API_LOG_TAG + 'presence.subscribe: ', users);
@@ -46350,13 +46608,14 @@ exports.default = function (context) {
     },
 
     /**
-     * Unsubscribe from presence updates about specified user.
+     * Unsubscribe from another User's presence updates.
      *
      * @public
+     * @static
      * @memberof Presence
      * @requires presence
      * @method unsubscribe
-     * @param  {string} user  The ID of the user to unsubscribe from.
+     * @param {Array<string>|string} users A User ID or an array of User IDs.
      */
     unsubscribe(users) {
       log.debug(_logs.API_LOG_TAG + 'presence.unsubscribe: ', users);
@@ -46379,10 +46638,20 @@ var _logs = __webpack_require__("../kandy/src/logs/index.js");
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 const log = (0, _logs.getLogManager)().getLogger('PRESENCE'); /**
-                                                               * The presence features are used to update the authenticated users presence
-                                                               * on the server, as well as retrieve other users presence information.
+                                                               * The Presence feature provides an interface for an application to set the
+                                                               *    User's presence information and to track other Users' presence
+                                                               *    information.
                                                                *
-                                                               * Presence functions are all part of the 'presence' namespace.
+                                                               * Presence information is persisted by the server. When the SDK is initialized,
+                                                               *    there will be no information available. Presence information will become
+                                                               *    available either by using {@link Presence.fetch presence.fetch} or
+                                                               *    by subscribing for updates about other Users, using
+                                                               *    {@link Presence.subscribe presence.subscribe}.
+                                                               *
+                                                               * Available presence information can be retrieved using
+                                                               *    {@link Presence.get presence.get} or {@link Presence.getAll presence.getAll}.
+                                                               *
+                                                               * Presence APIs are part of the 'presence' namespace.
                                                                *
                                                                * @public
                                                                * @requires presence
@@ -46401,7 +46670,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 /**
- * A presence update has been received from a subscribed user.
+ * A presence update about a subscribed user has been received.
  *
  * @public
  * @memberof Presence
@@ -46416,7 +46685,10 @@ Object.defineProperty(exports, "__esModule", {
 const RECEIVED = exports.RECEIVED = 'presence:change';
 
 /**
- * The user's self presence information has changed.
+ * The current user's presence information has changed.
+ *
+ * The changed information can be retrieved using the
+ *    {@link Presence.getSelf presence.getSelf} API.
  *
  * @public
  * @memberof Presence
@@ -46426,7 +46698,7 @@ const RECEIVED = exports.RECEIVED = 'presence:change';
 const SELF_CHANGE = exports.SELF_CHANGE = 'presence:selfChange';
 
 /**
- * An error occured with presence.
+ * An error occurred with presence.
  *
  * @public
  * @memberof Presence
@@ -46807,6 +47079,7 @@ function linkPresence() {
     /**
      * Possible status values.
      * @public
+     * @static
      * @memberof Presence
      * @type {Object}
      * @property {string} OPEN
@@ -46821,6 +47094,7 @@ function linkPresence() {
     /**
      * Possible activity values.
      * @public
+     * @static
      * @memberof Presence
      * @type {Object}
      * @property {string} AVAILABLE
@@ -49089,21 +49363,40 @@ function usersAPI({ dispatch, getState, primitives }) {
   /**
    * The Users feature allows access to user information for users within the same domain.
    *
-   * These functions are namespaced beneath 'user' on the API.
+   * The functions in this module are namespaced under 'user'.
    * @public
    * @module Users
    */
 
+  /**
+   * The User data object.
+   *
+   * @public
+   * @module User
+   * @property {string} userId The User ID of the user.
+   * @property {string} emailAddress The email address of the user.
+   * @property {string} firstName The first name of the user.
+   * @property {string} lastName The last name of the user.
+   * @property {string} photoURL The URL to get the photo of the user.
+   * @property {string} buddy Whether the user is a "buddy". Values can be "true" or "false".
+   */
+
   return {
     /**
-     * Fetches information about a specified user from the platform.
-     * Will trigger a `directory:change` event.
+     * Fetches information about a User.
+     *
+     * The SDK will emit a {@link Users.event:directory:change directory:change}
+     *    event after the operation completes. The User's information will then
+     *    be available.
+     *
+     * Information about an available User can be retrieved using the
+     *    {@link Users.get user.get} API.
      *
      * @public
+     * @static
      * @memberof Users
      * @method fetch
-     *
-     * @param {string} userId The URI uniquely identifying the user.
+     * @param {string} userId The User ID of the user.
      */
     fetch(userId) {
       log.debug(_logs.API_LOG_TAG + 'user.fetch: ', userId);
@@ -49111,10 +49404,17 @@ function usersAPI({ dispatch, getState, primitives }) {
     },
 
     /**
-     * Fetches information about the current user's profile data from the platform.
-     * Will trigger a `directory:change` event.
+     * Fetches information about the current User.
+     *
+     * The SDK will emit a {@link Users.event:directory:change directory:change}
+     *    event after the operation completes. The User's information will then
+     *    be available.
+     *
+     * Information about an available User can be retrieved using the
+     *    {@link Users.get user.get} API.
      *
      * @public
+     * @static
      * @memberof Users
      * @method fetchSelfInfo
      */
@@ -49124,11 +49424,17 @@ function usersAPI({ dispatch, getState, primitives }) {
     },
 
     /**
-     * Retrieves local information about a previously fetched user.
+     * Retrieves information about a User, if available.
+     *
+     * See the {@link Users.fetch user.fetch} and
+     *    {@link Users.search user.search} APIs for details about making Users'
+     *    information available.
+     *
      * @public
      * @memberof Users
      * @method get
-     * @param {string} userId The URI uniquely identifying the user.
+     * @param {string} userId The User ID of the user.
+     * @returns {User} The User object for the specified user.
      */
     get(userId) {
       log.debug(_logs.API_LOG_TAG + 'user.get: ', userId);
@@ -49136,10 +49442,16 @@ function usersAPI({ dispatch, getState, primitives }) {
     },
 
     /**
-     * Retrieves local information about previously fetched users.
+     * Retrieves information about all available Users.
+     *
+     * See the {@link Users.fetch user.fetch} and
+     *    {@link Users.search user.search} APIs for details about making Users'
+     *    information available.
+     *
      * @public
      * @memberof Users
      * @method getAll
+     * @returns {Array<User>} An array of all the User objects.
      */
     getAll() {
       log.debug(_logs.API_LOG_TAG + 'user.getAll');
@@ -49147,24 +49459,29 @@ function usersAPI({ dispatch, getState, primitives }) {
     },
 
     /**
-     * Search the users in the directory.
-     * Will trigger a `directory:change` event.
+     * Searches the domain's directory for Users.
+     *
+     * The SDK will emit a {@link Users.event:directory:change directory:change}
+     *    event after the operation completes. The search results will be
+     *    provided as part of the event, and will also be available using the
+     *    {@link Users.get user.get} and {@link Users.getAll user.getAll} APIs.
      *
      * @public
+     * @static
      * @memberof Users
      * @method search
-     * @param {Object} filters Query filter options.
-     * @param {string} [filters.userId] Matches the unique URI identifying the user.
-     * @param {string} [filters.name] Matches firstName or lastName.
-     * @param {string} [filters.firstName] Matches firstName.
-     * @param {string} [filters.lastName] Matches lastName.
-     * @param {string} [filters.userName] Matches userName.
-     * @param {string} [filters.phoneNumber] Matches phoneNumber.
-     * @param {Object} [options] Sorting options
-     * @param {string} [options.sortBy] The attribute upon which to sort results. This can be any of the above listed filters which describe a user attribute.
-     * @param {string} [options.order] Order by which to return results. Can be one of "asc" or "desc".
-     * @param {number} [options.max] The maximmum number of results to return.
-     * @param {string} [options.next] The pointer for a chunk of results, which may be returned from other a previous query.
+     * @param {Object} filters The filter options for the search.
+     * @param {string} [filters.userId] Matches the User ID of the user.
+     * @param {string} [filters.name] Matches the firstName or lastName.
+     * @param {string} [filters.firstName] Matches the firstName.
+     * @param {string} [filters.lastName] Matches the lastName.
+     * @param {string} [filters.userName] Matches the userName.
+     * @param {string} [filters.phoneNumber] Matches the phoneNumber.
+     * @param {Object} [options] Sorting options.
+     * @param {string} [options.sortBy] The User property to sort the results by. This can be any of the above listed filters.
+     * @param {string} [options.order] Order in which results are returned. Can be either "asc" or "desc".
+     * @param {number} [options.max] The maximum number of results to return.
+     * @param {string} [options.next] The pointer for a chunk of results, which may be returned from a previous query.
      */
     search(filters = {}, options = {}) {
       log.debug(_logs.API_LOG_TAG + 'user.search: ', filters, options);
@@ -49281,10 +49598,12 @@ const CONTACTS_CHANGE = exports.CONTACTS_CHANGE = 'contacts:change';
 /**
  * The directory has changed.
  * @public
+ * @static
  * @memberof Users
  * @event directory:change
  * @param {Object} params
- * @param {Array} params.results The results of the directory search.
+ * @param {Array<User>} params.results The Users' information returned by the
+ *    operation.
  */
 const DIRECTORY_CHANGE = exports.DIRECTORY_CHANGE = 'directory:change';
 
@@ -51596,6 +51915,7 @@ function api(context) {
 
     /**
      * Retrieve information about the browser being used.
+     *
      * Browser information being defined indicates that the browser supports
      *    basic webRTC scenarios.
      * @public
@@ -51653,7 +51973,12 @@ function mediaAPI({ dispatch, getState }) {
   return {
     /**
      * Retrieves the available media devices for use.
+     *
+     * The {@link Media.event:devices:change devices:change} event will be
+     *    emitted when the available media devices have changed.
+     *
      * @public
+     * @static
      * @memberof Media
      * @method getDevices
      * @return {Object} The lists of camera, microphone, and speaker devices.
@@ -51664,12 +51989,13 @@ function mediaAPI({ dispatch, getState }) {
     },
 
     /**
-     * Retrieve a media object from state with a specific media ID.
+     * Retrieves an available Media object with a specific Media ID.
      * @public
+     * @static
      * @memberof Media
      * @method getById
-     * @param  {string} mediaId The ID of the media to retrieve.
-     * @return {MediaObject} A media object.
+     * @param  {string} mediaId The ID of the Media to retrieve.
+     * @return {MediaObject} A Media object.
      */
     getById(mediaId) {
       log.debug(_logs.API_LOG_TAG + 'media.getById: ', mediaId);
@@ -51677,12 +52003,13 @@ function mediaAPI({ dispatch, getState }) {
     },
 
     /**
-     * Retrieve a Track object from state with a specific ID.
+     * Retrieve an available Track object with a specific Track ID.
      * @public
+     * @static
      * @memberof Media
      * @method getTrackById
-     * @param  {string} trackId The ID of the track to retrieve.
-     * @return {Object} A track object.
+     * @param  {string} trackId The ID of the Track to retrieve.
+     * @return {TrackObject} A Track object.
      */
     getTrackById(trackId) {
       log.debug(_logs.API_LOG_TAG + 'media.getByTrackId: ', trackId);
@@ -51690,17 +52017,22 @@ function mediaAPI({ dispatch, getState }) {
     },
 
     /**
-     * Render media Tracks in a container.
-     * The container is specified by providing a CSS selector string that corresponds to the HTMLElement to act as the container.
+     * Render Media Tracks in a container.
+     *
+     * The container is specified by providing a CSS selector string that
+     *    corresponds to the HTMLElement to act as the container.
      * @public
+     * @static
      * @memberof Media
      * @method renderTracks
-     * @param  {Array}  tracks List of Track IDs to be rendered.
-     * @param  {string} cssSelector A CSS selector string that uniquely identifies an element. Ensure that special characters are properly escaped.
+     * @param  {Array<string>} trackIds List of Track IDs to be rendered.
+     * @param  {string} cssSelector A CSS selector string that uniquely
+     *    identifies an element. Ensure that special characters are properly
+     *    escaped.
      * @param  {Object} [options] Additional options for rendering the tracks.
-     * @param  {string} [options.speakerId] The device ID of the speaker to use for audio tracks.
+     * @param  {string} [options.speakerId] The speaker's Device ID to use for audio tracks.
      * @example
-     * // When an outgoing call is accepted, render the media used for the call.
+     * // When an outgoing call is accepted, render the Media used for the call.
      * client.on('call:accepted', function (params) {
      *     // Get the information about the call.
      *     const call = client.call.getById(params.callId)
@@ -51710,51 +52042,71 @@ function mediaAPI({ dispatch, getState }) {
      *     client.media.render(call.remoteMedia[0], remoteContainer)
      * })
      */
-    renderTracks(tracks, cssSelector, options = {}) {
-      log.debug(_logs.API_LOG_TAG + 'media.renderTracks: ', tracks, cssSelector, options);
-      dispatch(_actions.trackActions.renderTracks(tracks, (0, _extends3.default)({
+    renderTracks(trackIds, cssSelector, options = {}) {
+      log.debug(_logs.API_LOG_TAG + 'media.renderTracks: ', trackIds, cssSelector, options);
+      dispatch(_actions.trackActions.renderTracks(trackIds, (0, _extends3.default)({
         selector: cssSelector
       }, options)));
     },
 
     /**
-     * Remove media Tracks from a container.
-     * The container is specified by providing a CSS selector string that corresponds to the HTMLElement to act as the container.
+     * Remove Media Tracks from a container.
+     *
+     * The container is specified by providing a CSS selector string that
+     *    corresponds to the HTMLElement to act as the container.
      * @public
+     * @static
      * @memberof Media
      * @method removeTracks
-     * @param  {Array}  tracks List of Track IDs to stop being rendered.
-     * @param  {string} cssSelector A CSS selector string that uniquely identifies an element. Ensure that special characters are properly escaped.
+     * @param  {Array<string>} trackIds List of Track IDs to stop being rendered.
+     * @param  {string} cssSelector A CSS selector string that uniquely
+     *    identifies an element. Ensure that special characters are properly
+     *    escaped.
      */
-    removeTracks(tracks, cssSelector) {
-      log.debug(_logs.API_LOG_TAG + 'media.removeTracks: ', tracks, cssSelector);
-      dispatch(_actions.trackActions.removeTracks(tracks, { selector: cssSelector }));
+    removeTracks(trackIds, cssSelector) {
+      log.debug(_logs.API_LOG_TAG + 'media.removeTracks: ', trackIds, cssSelector);
+      dispatch(_actions.trackActions.removeTracks(trackIds, { selector: cssSelector }));
     },
 
     /**
-     * Mutes the specified tracks.
-     * Prevents media from being received for the tracks. Audio tracks will become silent and video tracks will be a black frame.
+     * Mutes the specified Tracks at their media source.
+     *
+     * Prevents media from being received for the Tracks. Audio Tracks will
+     *    become silent and video Tracks will be a black frame.
+     *
+     * If a local Track being sent in a Call is muted, the Track will be
+     *    noticeably muted for the remote user. If a remote Track received in a
+     *    call is muted, the result will only be noticeable locally.
+     *
+     * The SDK will emit a {@link Media.event:media:muted media:muted} event
+     *    when a Track has been muted.
      * @public
+     * @static
      * @memberof Media
      * @method muteTracks
-     * @param  {Array} tracks List of Track IDs.
+     * @param  {Array<string>} trackIds List of Track IDs.
      */
-    muteTracks(tracks) {
-      log.debug(_logs.API_LOG_TAG + 'media.muteTracks: ', tracks);
-      dispatch(_actions.trackActions.muteTracks(tracks));
+    muteTracks(trackIds) {
+      log.debug(_logs.API_LOG_TAG + 'media.muteTracks: ', trackIds);
+      dispatch(_actions.trackActions.muteTracks(trackIds));
     },
 
     /**
-     * Unmutes the specified tracks.
-     * Media will resume as normal for the tracks.
+     * Unmutes the specified Tracks.
+     *
+     * Media will resume as normal for the Tracks.
+     *
+     * The SDK will emit a {@link Media.event:media:unmuted media:unmuted} event
+     *    when a Track has been unmuted.
      * @public
+     * @static
      * @memberof Media
      * @method unmuteTracks
-     * @param  {Array} tracks List of Track IDs.
+     * @param  {Array<string>} trackIds List of Track IDs.
      */
-    unmuteTracks(tracks) {
-      log.debug(_logs.API_LOG_TAG + 'media.unmuteTracks: ', tracks);
-      dispatch(_actions.trackActions.unmuteTracks(tracks));
+    unmuteTracks(trackIds) {
+      log.debug(_logs.API_LOG_TAG + 'media.unmuteTracks: ', trackIds);
+      dispatch(_actions.trackActions.unmuteTracks(trackIds));
     }
   };
 }
@@ -51771,8 +52123,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 /**
- * Media devices available for use have changed.
- * Use the `getDevices` media API to retrieve the lists of devices.
+ * The media devices available for use have changed.
+ *
+ * Information about the available media devices can be retrieved using the
+ *    {@link Media.getDevices media.getDevices} API.
+ *
  * @public
  * @memberof Media
  * @event devices:change
@@ -51787,6 +52142,8 @@ const DEVICES_CHANGED = exports.DEVICES_CHANGED = 'devices:change';
 
 /**
  * The specified Tracks have been muted.
+ *
+ * A Track can be muted using the {@link Media.muteTracks media.muteTracks} API.
  * @public
  * @memberof Media
  * @event media:muted
@@ -51797,6 +52154,9 @@ const TRACKS_MUTED = exports.TRACKS_MUTED = 'media:muted';
 
 /**
  * The specified Tracks have been unmuted.
+ *
+ * A Track can be unmuted using the {@link Media.unmuteTracks media.unmuteTracks}
+ *    API.
  * @public
  * @memberof Media
  * @event media:unmuted
