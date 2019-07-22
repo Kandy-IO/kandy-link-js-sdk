@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.6.0-beta.95
+ * Version: 4.6.0-beta.96
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -41482,7 +41482,7 @@ const factoryDefaults = {
    */
 };function factory(plugins, options = factoryDefaults) {
   // Log the SDK's version (templated by webpack) on initialization.
-  let version = '4.6.0-beta.95';
+  let version = '4.6.0-beta.96';
   log.info(`SDK version: ${version}`);
 
   var sagas = [];
@@ -53853,24 +53853,29 @@ exports.default = function (base, actualManager) {
                 function callback(data) {
                   log.debug(`Received manager response for ${messageId}.`, data);
 
+                  /**
+                   * Parse the data received from the remote side.
+                   */
+                  function parseData(data) {
+                    if (data && data.type) {
+                      // If the response is a Webrtc model, we need to wrap it
+                      //    with a proxy for the Callstack.
+                      return (0, _model2.default)(data, thisArg.channel);
+                    } else if ((0, _fp.isNull)(data)) {
+                      // The JSON codec encoder/decoder converts undefined to
+                      //    null (because of JSON stringify/parse), so undo
+                      //    that if the data is explicitly null value.
+                      return undefined;
+                    } else {
+                      return data;
+                    }
+                  }
+
                   if ((0, _fp.isArray)(data)) {
-                    const proxies = data.map(obj => {
-                      if (obj && obj.type) {
-                        // If the response is a Webrtc model, we need to wrap it
-                        //    with a proxy for the Callstack.
-                        return (0, _model2.default)(obj, thisArg.channel);
-                      } else if ((0, _fp.isNull)(obj)) {
-                        // The JSON codec encoder/decoder converts undefined to
-                        //    null (because of JSON stringify/parse), so undo
-                        //    that if the data is explicitly null value.
-                        return undefined;
-                      } else {
-                        return obj;
-                      }
-                    });
+                    const proxies = data.map(parseData);
                     resolve(proxies);
                   } else {
-                    resolve((0, _model2.default)(data, thisArg.channel));
+                    resolve(parseData(data));
                   }
                 }
 
