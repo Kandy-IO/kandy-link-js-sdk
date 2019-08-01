@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.5.0
+ * Version: 4.6.0
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -26117,12 +26117,22 @@ Object.defineProperty(exports, "__esModule", {
 });
 /**
  * Possible subscription states.
+ * @name SUBSCRIPTION_STATE
  * @type {Object}
  */
 const SUBSCRIPTION_STATE = exports.SUBSCRIPTION_STATE = {
   FULL: 'FULL',
   PARTIAL: 'PARTIAL',
   NONE: 'NONE'
+
+  /**
+   * Possible disconnect reasons.
+   * @name DISCONNECT_REASONS
+   * @type {Object}
+   */
+};const DISCONNECT_REASONS = exports.DISCONNECT_REASONS = {
+  GONE: 'GONE',
+  LOST_CONNECTION: 'LOST_CONNECTION'
 };
 
 /***/ }),
@@ -26316,13 +26326,13 @@ function disconnect() {
  * Create a disconnectFinished action that possibly takes an error object on failure.
  *
  * @method disconnectFinished
- * @param {Object} $0
- * @param {string} [$0.error] An error message. Only present if an error occurred.
- * @param {Boolean} [$0.forced] Whether the disconnect was forcefully disconnected.
+ * @param {Object} params
+ * @param {string} [params.error] An error message. Only present if an error occurred.
+ * @param {string} [params.reason] Why the disconnectFinished action is being dispatched.
  * @return {Object} A flux standard action.
  */
-function disconnectFinished({ error, forced } = {}) {
-  var action = {
+function disconnectFinished({ error, reason } = {}) {
+  let action = {
     type: actionTypes.DISCONNECT_FINISHED,
     payload: {}
   };
@@ -26331,7 +26341,10 @@ function disconnectFinished({ error, forced } = {}) {
     action.error = true;
     action.payload = error;
   }
-  action.payload.forced = forced;
+
+  if (reason) {
+    action.payload.reason = reason;
+  }
 
   return action;
 }
@@ -26750,6 +26763,17 @@ function api({ dispatch, getState }) {
     subscriptionStates: _constants.SUBSCRIPTION_STATE,
 
     /**
+     * Possible reasons for disconnecting.
+     *
+     * @public
+     * @memberof Authentication
+     * @requires connect
+     * @property {string} GONE Connection was terminated by the server
+     * @property {string} LOST_CONNECTION Internet connection was lost
+     */
+    disconnectReasons: _constants.DISCONNECT_REASONS,
+
+    /**
      * Sets the authentication tokens necessary to make requests to the platform. The access token
      * provided establishes what can be accessed by the SDK. The identity token represents who is authenticated.
      *
@@ -26793,7 +26817,7 @@ Object.defineProperty(exports, "__esModule", {
  * @requires connect
  * @event auth:change
  * @param {Object} params
- * @param {boolean} params.forced For a disconnection, whether the change was forced by the system.
+ * @param {string} params.reason The cause of the authentication change, provided in the event of an unsolicited disconnection. See the `disconnectReasons` API for possible values.
  */
 const AUTH_CHANGE = exports.AUTH_CHANGE = 'auth:change';
 
@@ -26867,7 +26891,10 @@ eventsMap[actionTypes.UPDATE_SUBSCRIPTION_FINISH] = authChangedEvent;
 
 eventsMap[actionTypes.DISCONNECT_FINISHED] = function (action) {
   let discEvent = authChangedEvent(action);
-  discEvent.args.forced = action.payload.forced;
+  if (action.payload.reason === 'GONE') {
+    discEvent.args.forced = true;
+  }
+  discEvent.args.reason = action.payload.reason;
   return discEvent;
 };
 
@@ -27038,7 +27065,7 @@ reducers[actionTypes.DISCONNECT] = {
 };
 
 reducers[actionTypes.DISCONNECT_FINISHED] = {
-  next() {
+  next(state, action) {
     return {
       isConnected: false,
       isPending: false,
@@ -27489,6 +27516,7 @@ var _extends2 = __webpack_require__("../../node_modules/babel-runtime/helpers/ex
 var _extends3 = _interopRequireDefault(_extends2);
 
 exports.connectFlow = connectFlow;
+exports.connect = connect;
 exports.disconnect = disconnect;
 exports.extendSubscription = extendSubscription;
 exports.updateSubscription = updateSubscription;
@@ -27506,9 +27534,15 @@ var _actionTypes = __webpack_require__("../kandy/src/auth/interface/actionTypes.
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
+var _constants = __webpack_require__("../kandy/src/auth/constants.js");
+
 var _selectors = __webpack_require__("../kandy/src/auth/interface/selectors.js");
 
-var _constants = __webpack_require__("../kandy/src/constants.js");
+var _constants2 = __webpack_require__("../kandy/src/constants.js");
+
+var _errors = __webpack_require__("../kandy/src/errors/index.js");
+
+var _errors2 = _interopRequireDefault(_errors);
 
 var _requests = __webpack_require__("../kandy/src/auth/subscription/requests.js");
 
@@ -27532,10 +27566,6 @@ var _utf2 = _interopRequireDefault(_utf);
 
 var _logs = __webpack_require__("../kandy/src/logs/index.js");
 
-var _errors = __webpack_require__("../kandy/src/errors/index.js");
-
-var _errors2 = _interopRequireDefault(_errors);
-
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -27543,24 +27573,32 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // This is an Link plugin.
 
 
+// Requests
+
+
+// Constants
+
+
+// Auth
+const platform = _constants2.platforms.LINK;
+
+// Get the logger
+
+
+// Logging
+
+
 // Libraries
 
 
 // Other plugins.
 
-// Constants
-// Redux-Saga
-const platform = _constants.platforms.LINK;
 
-// Get the logger
-
-// Requests
+// Errors
 
 
 // State selectors
-
-
-// Auth
+// Redux-Saga
 const log = (0, _logs.getLogManager)().getLogger('AUTH');
 
 /**
@@ -27594,7 +27632,13 @@ function* connectFlow() {
     if (finishOrError.type === actionTypes.DISCONNECT) {
       yield (0, _effects.cancel)(task);
     } else if (finishOrError.type === actionTypes.CONNECT_FINISHED && !finishOrError.error) {
-      yield (0, _effects.take)([actionTypes.DISCONNECT]);
+      const disconnectAction = yield (0, _effects.take)([actionTypes.DISCONNECT, actionTypes.DISCONNECT_FINISHED]);
+
+      // if disconnect has finished, we dont need to do a teardown of auth state, or disconnect the websocket, so reset connectFlow
+      if (disconnectAction.type === actionTypes.DISCONNECT_FINISHED) {
+        continue;
+      }
+
       yield (0, _effects.call)(disconnect);
     }
   }
@@ -27860,7 +27904,7 @@ function* onSubscriptionGone() {
     }
 
     // Dispatch a disconnect finished action to trigger "user disconnected" logic.
-    yield (0, _effects.put)(actions.disconnectFinished({ forced: true }));
+    yield (0, _effects.put)(actions.disconnectFinished({ reason: _constants.DISCONNECT_REASONS.GONE }));
   }
 }
 
@@ -27877,7 +27921,7 @@ function* onConnectionLostEntry() {
  * @method onConnectionLost
  */
 function* onConnectionLost() {
-  yield (0, _effects.put)(actions.disconnect());
+  yield (0, _effects.put)(actions.disconnectFinished({ reason: _constants.DISCONNECT_REASONS.LOST_CONNECTION }));
 }
 
 /***/ }),
@@ -28283,7 +28327,7 @@ exports.default = [{ name: 'logs', fn: _logs2.default }, { name: 'config', fn: _
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.ICE_MEDIA_STATES = exports.FCS_ICE_MEDIA_STATES = exports.WEBRTC_DEVICE_KINDS = exports.CALL_DIRECTION = exports.STATUS_CODES = exports.COMPLEX_OPERATION_MESSAGES = exports.COMPLEX_OPERATIONS = exports.OPERATIONS = exports.CALL_MEDIA_STATES = exports.CALL_STATES = exports.CALL_STATES_FCS = exports.FCS_CALL_STATES = undefined;
+exports.ICE_MEDIA_STATES = exports.FCS_ICE_MEDIA_STATES = exports.WEBRTC_DEVICE_KINDS = exports.BANDWIDTH_DEFAULTS = exports.CALL_DIRECTION = exports.STATUS_CODES = exports.COMPLEX_OPERATION_MESSAGES = exports.COMPLEX_OPERATIONS = exports.OPERATIONS = exports.CALL_MEDIA_STATES = exports.CALL_STATES = exports.CALL_STATES_FCS = exports.FCS_CALL_STATES = undefined;
 
 var _fp = __webpack_require__("../../node_modules/lodash/fp.js");
 
@@ -28435,6 +28479,14 @@ const CALL_STATES = exports.CALL_STATES = {
 };const CALL_DIRECTION = exports.CALL_DIRECTION = {
   INCOMING: 'incoming',
   OUTGOING: 'outgoing'
+
+  /**
+   * The default bandwidth limits to use for a track type.
+   * @name BANDWIDTH_DEFAULTS
+   */
+};const BANDWIDTH_DEFAULTS = exports.BANDWIDTH_DEFAULTS = {
+  AUDIO: 5000,
+  VIDEO: 5000
 
   /*
    * A conversion from MediaDeviceInfo.kind values to their more common terms.
@@ -28914,6 +28966,8 @@ const callPrefix = '@@KANDY/CALL/';
 const MAKE_CALL = exports.MAKE_CALL = callPrefix + 'MAKE';
 const MAKE_CALL_FINISH = exports.MAKE_CALL_FINISH = callPrefix + 'MAKE_FINISH';
 
+const MAKE_ANONYMOUS_CALL = exports.MAKE_ANONYMOUS_CALL = callPrefix + 'MAKE_ANONYMOUS_CALL';
+
 const CALL_INCOMING = exports.CALL_INCOMING = callPrefix + 'INCOMING';
 
 const CALL_RINGING = exports.CALL_RINGING = callPrefix + 'RINGING';
@@ -28977,6 +29031,9 @@ const DIRECT_TRANSFER_FINISH = exports.DIRECT_TRANSFER_FINISH = callPrefix + 'DI
 const JOIN = exports.JOIN = callPrefix + 'JOIN';
 const JOIN_FINISH = exports.JOIN_FINISH = callPrefix + 'JOIN_FINISH';
 
+const REPLACE_TRACK = exports.REPLACE_TRACK = callPrefix + 'REPLACE_TRACK';
+const REPLACE_TRACK_FINISH = exports.REPLACE_TRACK_FINISH = callPrefix + 'REPLACE_TRACK_FINISH';
+
 /**
  * Turn action types.
  */
@@ -29010,6 +29067,7 @@ var _extends3 = _interopRequireDefault(_extends2);
 
 exports.makeCall = makeCall;
 exports.makeCallFinish = makeCallFinish;
+exports.makeAnonymousCall = makeAnonymousCall;
 exports.callIncoming = callIncoming;
 exports.callRinging = callRinging;
 exports.callCancelled = callCancelled;
@@ -29047,6 +29105,8 @@ exports.directTransfer = directTransfer;
 exports.directTransferFinish = directTransferFinish;
 exports.join = join;
 exports.joinFinish = joinFinish;
+exports.replaceTrack = replaceTrack;
+exports.replaceTrackFinish = replaceTrackFinish;
 
 var _actionTypes = __webpack_require__("../kandy/src/call/interfaceNew/actionTypes.js");
 
@@ -29108,6 +29168,10 @@ function makeCall(id, options) {
 
 function makeCallFinish(id, params) {
   return callActionHelper(actionTypes.MAKE_CALL_FINISH, id, params);
+}
+
+function makeAnonymousCall(id, params) {
+  return callActionHelper(actionTypes.MAKE_ANONYMOUS_CALL, id, params);
 }
 
 function callIncoming(id, params) {
@@ -29258,6 +29322,14 @@ function joinFinish(id, params) {
   return callActionHelper(actionTypes.JOIN_FINISH, id, params);
 }
 
+function replaceTrack(id, params) {
+  return callActionHelper(actionTypes.REPLACE_TRACK, id, params);
+}
+
+function replaceTrackFinish(id, params) {
+  return callActionHelper(actionTypes.REPLACE_TRACK_FINISH, id, params);
+}
+
 /***/ }),
 
 /***/ "../kandy/src/call/interfaceNew/actions/index.js":
@@ -29367,38 +29439,42 @@ const log = (0, _logs.getLogManager)().getLogger('CALL');
 function callAPI({ dispatch, getState }) {
   return {
     /**
-     * Starts an outgoing call to a SIP user or a PSTN phone number.
+     * Starts an outgoing call to a {@link UserID UserID} or a {@link PhoneNumber PhoneNumber}.
      *
      * The call will be tracked by a unique ID that is returned by the API. The
      *    application will use this ID to identify and control the call after it
      *    has been initiated.
      *
-     * The `getCallById` API can be used to retrieve the current state of the
-     *    call.
+     * The {@link Calls.getById call.getById} API can be used to retrieve the
+     *    current information about the call.
      *
-     * The SDK will emit a `call:start` event locally when the operation
-     *    completes. When the remote participant receives the call, a
-     *    `call:receive` event will be emitted remotely for them.
+     * The SDK will emit a {@link Calls.event:call:start call:start} event
+     *    locally when the operation completes. When the remote participant
+     *    receives the call, a {@link Calls.event:call:receive call:receive}
+     *    event will be emitted remotely for them.
      *
-     * The SDK requires access to the machine's media devices (eg. microphone)
+     * The SDK requires access to the machine's media devices (e.g. microphone)
      *    in order to make a call. If it does not already have permissions to
      *    use the devices, the user may be prompted by the browser to give
      *    permissions.
      * @public
+     * @static
      * @memberof Calls
+     * @requires cpaas_call
      * @method make
-     * @param {string} destination The address of the desired remote participant. The format is either
-     * 'sip:sipuser@sip.domain.example.com' for SIP calls or 'tel:18881239876' for PSTN calls.
-     * @param {Object} [media] The media options the call should be initialized with.
-     * @param {Boolean} [media.audio=true] Whether the call should have audio on start. Currently, audio-less calls are not supported.
+     * @param {UserID|PhoneNumber} destination The desired destination.
+     * @param {Object} media The media options the call should be initialized with.
+     * @param {boolean} [media.audio=false] Whether the call should have audio on start. Currently, audio-less calls are not supported.
      * @param {Object} [media.audioOptions] Options for configuring the call's audio.
      * @param {MediaConstraint} [media.audioOptions.deviceId] ID of the microphone to receive audio from.
-     * @param {Boolean} [media.video=false] Whether the call should have video on start.
+     * @param {boolean} [media.video=false] Whether the call should have video on start.
      * @param {Object} [media.videoOptions] Options for configuring the call's video.
      * @param {MediaConstraint} [media.videoOptions.deviceId] ID of the camera to receive video from.
      * @param {MediaConstraint} [media.videoOptions.height] The height of the video.
      * @param {MediaConstraint} [media.videoOptions.width] The width of the video.
      * @param {MediaConstraint} [media.videoOptions.frameRate] The frame rate of the video.
+     * @param {Object} [options]
+     * @param {BandwidthControls} [options.bandwidth] Options for configuring media's bandwidth.
      * @returns {string} The generated ID of the newly created call.
      * @example
      * // Listen for the event emitted after making a call.
@@ -29411,9 +29487,62 @@ function callAPI({ dispatch, getState }) {
      *   }
      * })
      * // Make an audio-only call.
-     * const newCallId = client.call.make(callee, { audio: true })
+     * const newCallId = client.call.make(destination, { audio: true })
      */
-    make(destination, media = {}, options = {}) {
+
+    /**
+     * Starts an outgoing call to a {@link SIP_URI SIP URI} or a
+     *    {@link TEL_URI TEL URI}.
+     *
+     * The call will be tracked by a unique ID that is returned by the API. The
+     *    application will use this ID to identify and control the call after it
+     *    has been initiated.
+     *
+     * The {@link Calls.getCallById call.getById} API can be used to retrieve
+     *    the current information about the call.
+     *
+     * The SDK will emit a {@link Calls.event:call:start call:start} event
+     *    locally when the operation completes. When the remote participant
+     *    receives the call, a {@link Calls.event:call:receive call:receive}
+     *    event will be emitted remotely for them.
+     *
+     * The SDK requires access to the machine's media devices (eg. microphone)
+     *    in order to make a call. If it does not already have permissions to
+     *    use the devices, the user may be prompted by the browser to give
+     *    permissions.
+     * @public
+     * @static
+     * @memberof Calls
+     * @requires link_call
+     * @method make
+     * @param {SIP_URI|TEL_URI} destination The desired destination.
+     * @param {Object} media The media options the call should be initialized with.
+     * @param {boolean} [media.audio=false] Whether the call should have audio on start. Currently, audio-less calls are not supported.
+     * @param {Object} [media.audioOptions] Options for configuring the call's audio.
+     * @param {MediaConstraint} [media.audioOptions.deviceId] ID of the microphone to receive audio from.
+     * @param {boolean} [media.video=false] Whether the call should have video on start.
+     * @param {Object} [media.videoOptions] Options for configuring the call's video.
+     * @param {MediaConstraint} [media.videoOptions.deviceId] ID of the camera to receive video from.
+     * @param {MediaConstraint} [media.videoOptions.height] The height of the video.
+     * @param {MediaConstraint} [media.videoOptions.width] The width of the video.
+     * @param {MediaConstraint} [media.videoOptions.frameRate] The frame rate of the video.
+     * @param {Object} [options]
+     * @param {BandwidthControls} [options.bandwidth] Options for configuring media's bandwidth.
+     * @returns {string} The generated ID of the newly created call.
+     * @example
+     * // Listen for the event emitted after making a call.
+     * client.on('call:start', function (params) {
+     *   const { callId, error } = params
+     *   if (error) {
+     *     // Call failed to initialize.
+     *   } else {
+     *     // Call was initialized, and the recipient user will be notified.
+     *   }
+     * })
+     * // Make an audio-only call.
+     * const newCallId = client.call.make(destination, { audio: true })
+     */
+    make(destination, media, options = {}) {
       log.debug(_logs.API_LOG_TAG + 'call.make: ', destination, media, options);
       const callId = (0, _v2.default)();
       const from = (0, _selectors2.getUserInfo)(getState()).username;
@@ -29445,11 +29574,15 @@ function callAPI({ dispatch, getState }) {
      * The specified call to reject must be in a ringing state with an incoming
      *    direction. The call will be ended as a result of the operation.
      *
-     * The SDK will emit a `call:stateChange` event locally when the operation
-     *    completes. The remote participant will be notified, through their own
-     *    `call:stateChange` event, that the call was rejected.
+     * The SDK will emit a {@link Calls.event:call:stateChange call:stateChange}
+     *    event locally when the operation completes. The remote participant
+     *    will be notified, through their own
+     *    {@link Calls.event:call:stateChange call:stateChange} event, that the
+     *    call was rejected.
      * @public
+     * @static
      * @memberof Calls
+     * @requires call
      * @method reject
      * @param {string} callId The ID of the call to reject.
      */
@@ -29464,33 +29597,39 @@ function callAPI({ dispatch, getState }) {
      * The specified call to answer must be in a ringing state with an incoming
      *    direction. The call will become connected as a result of the operation.
      *
-     * The SDK will emit a `call:stateChange` event locally when the operation
-     *    completes. This indicates that the call has connected with the remote
-     *    participant. The `getCallById` API can be used to retrieve the latest
-     *    call state after the change. Further events will be emitted to
+     * The SDK will emit a {@link Calls.event:call:stateChange call:stateChange}
+     *    event locally when the operation completes. This indicates that the
+     *    call has connected with the remote participant. The
+     *    {@link Calls.getById call.getById} API can be used to retrieve the
+     *    latest call state after the change. Further events will be emitted to
      *    indicate that the call has received media from the remote participant.
-     *     See the `call:newTrack` event for more information about this.
+     *    See the {@link Calls.event:call:newTrack call:newTrack} event for
+     *    more information about this.
      *
-     * The SDK requires access to the machine's media devices (eg. microphone)
+     * The SDK requires access to the system's media devices (eg. microphone)
      *    in order to answer a call. If it does not already have permissions to
      *    use the devices, the user may be prompted by the browser to give
      *    permissions.
      * @public
+     * @static
      * @memberof Calls
+     * @requires call
      * @method answer
      * @param {string} callId The ID of the call to answer.
-     * @param {Object} [media] The media options the call should be initialized with.
-     * @param {Boolean} [media.audio=true] Whether the call should have audio on start. Currently, audio-less calls are not supported.
+     * @param {Object} media The media options the call should be initialized with.
+     * @param {boolean} [media.audio=false] Whether the call should have audio on start. Currently, audio-less calls are not supported.
      * @param {Object} [media.audioOptions] Options for configuring the call's audio.
      * @param {MediaConstraint} [media.audioOptions.deviceId] ID of the microphone to receive audio from.
-     * @param {Boolean} [media.video=false] Whether the call should have video on start.
+     * @param {boolean} [media.video=false] Whether the call should have video on start.
      * @param {Object} [media.videoOptions] Options for configuring the call's video.
      * @param {MediaConstraint} [media.videoOptions.deviceId] ID of the camera to receive video from.
      * @param {MediaConstraint} [media.videoOptions.height] The height of the video.
      * @param {MediaConstraint} [media.videoOptions.width] The width of the video.
      * @param {MediaConstraint} [media.videoOptions.frameRate] The frame rate of the video.
+     * @param {Object} [options]
+     * @param {BandwidthControls} [options.bandwidth] Options for configuring media's bandwidth.
      */
-    answer(callId, media = {}, options = {}) {
+    answer(callId, media, options = {}) {
       log.debug(_logs.API_LOG_TAG + 'call.answer: ', callId, media, options);
       const mediaConstraints = {
         audio: media.audio && !(0, _fp.isEmpty)(media.audioOptions) ? media.audioOptions : media.audio,
@@ -29508,11 +29647,13 @@ function callAPI({ dispatch, getState }) {
      * The specified call to ignore must be in a ringing state with an incoming
      *    direction. The call will be ended as a result of the operation.
      *
-     * The SDK will emit a `call:stateChange` event locally when the operation
-     *    completes. The remote participant will not be notified that the call
-     *    was ignored.
+     * The SDK will emit a {@link Calls.event:call:stateChange call:stateChange}
+     *    event locally when the operation completes. The remote participant
+     *    will not be notified that the call was ignored.
      * @public
+     * @static
      * @memberof Calls
+     * @requires call
      * @method ignore
      * @param {string} callId The ID of the call to ignore.
      */
@@ -29530,13 +29671,17 @@ function callAPI({ dispatch, getState }) {
      *    being sent.
      *
      * Some call operations cannot be performed while the call is on hold. The
-     *    call can be taken off hold with the `unhold` API.
+     *    call can be taken off hold with the {@link Calls.unhold call.unhold} API.
      *
-     * The SDK will emit a `call:stateChange` event locally when the operation
-     *    completes. The remote participant will be notified of the operation
-     *    through a `call:stateChange` as well.
+     * The SDK will emit a {@link Calls.event:call:stateChange call:stateChange}
+     *    event locally when the operation completes. The remote participant
+     *    will be notified of the operation through a
+     *    {@link Calls.event:call:stateChange call:stateChange} event as well.
      * @public
+     * @static
      * @memberof Calls
+     * @requires call
+     * @requires callMe
      * @method hold
      * @param {string} callId The ID of the call to hold.
      */
@@ -29552,11 +29697,15 @@ function callAPI({ dispatch, getState }) {
      *    also remotely held, call media will be reconnected as it was before
      *    the call was held.
      *
-     * The SDK will emit a `call:stateChange` event locally when the operation
-     *    completes. The remote participant will be notified of the operation
-     *    through a `call:stateChange` as well.
+     * The SDK will emit a {@link Calls.event:call:stateChange call:stateChange}
+     *    event locally when the operation completes. The remote participant
+     *    will be notified of the operation through a
+     *    {@link Calls.event:call:stateChange call:stateChange} event as well.
      * @public
+     * @static
      * @memberof Calls
+     * @requires call
+     * @requires callMe
      * @method unhold
      * @param {string} callId The ID of the call to unhold.
      */
@@ -29566,16 +29715,19 @@ function callAPI({ dispatch, getState }) {
     },
 
     /**
-     * Retrieves the state of calls made during the current session.
+     * Retrieves the information of all calls made during the current session.
      * @public
+     * @static
      * @memberof Calls
+     * @requires call
+     * @requires callMe
      * @method getAll
      * @return {Array<CallObject>} Call objects.
      * @example
-     * let calls = client.call.getAll();
+     * let calls = client.call.getAll()
      * let currentCalls = calls.filter(call => {
-     *     return call.state === client.call.states.CONNECTED;
-     * });
+     *     return call.state === client.call.states.CONNECTED
+     * })
      */
     getAll() {
       log.debug(_logs.API_LOG_TAG + 'call.getAll');
@@ -29583,9 +29735,13 @@ function callAPI({ dispatch, getState }) {
     },
 
     /**
-     * Retrieves a single call from state with a specific call ID.
+     * Retrieves the information of a single call with a specific call ID.
      * @public
+     * @static
      * @memberof Calls
+     * @requires call
+     * @requires callMe
+     * @static
      * @method getById
      * @param {string} callId The ID of the call to retrieve.
      * @return {CallObject} A call object.
@@ -29600,13 +29756,19 @@ function callAPI({ dispatch, getState }) {
      *
      * The SDK will stop any/all local media associated with the call. Events
      *    will be emitted to indicate which media tracks were stopped. See the
-     *    `call:trackEnded` event for more information.
+     *    {@link Calls.event:call:trackEnded call:trackEnded} event for more
+     *    information.
      *
-     * The SDK will emit a `call:stateChange` event locally when the operation
-     *    completes. The remote participant will be notified, through their own
-     *    `call:stateChange` event, that the call was ended.
+     * The SDK will emit a {@link Calls.event:call:stateChange call:stateChange}
+     *    event locally when the operation completes. The remote participant
+     *    will be notified, through their own
+     *    {@link Calls.event:call:stateChange call:stateChange} event, that the
+     *    call was ended.
      * @public
+     * @static
      * @memberof Calls
+     * @requires call
+     * @requires callMe
      * @method end
      * @param {string} callId The ID of the call to end.
      */
@@ -29618,51 +29780,82 @@ function callAPI({ dispatch, getState }) {
     /**
      * Add new media tracks to an ongoing call.
      * Will get new media tracks from the specific sources to add to the call.
-     * Will trigger a `call:newMedia` event.
+     *
+     * The SDK will emit a {@link Calls.event:call:newTrack call:newTrack} event
+     *    both for the local and remote users to indicate a track has been
+     *    added to the Call.
+     *
      * @public
+     * @static
      * @memberof Calls
+     * @requires call
+     * @requires callMe
      * @param {string} callId The ID of the call to add media to.
      * @param {Object} [media={}] The media options to add to the call.
-     * @param {Boolean} [media.audio=false] Whether to add audio to the call.
+     * @param {boolean} [media.audio=false] Whether to add audio to the call.
      * @param {Object} [media.audioOptions] Options for configuring the call's audio.
      * @param {MediaConstraint} [media.audioOptions.deviceId] ID of the microphone to receive audio from.
-     * @param {Boolean} [media.video=false] Whether to add video to the call.
+     * @param {boolean} [media.video=false] Whether to add video to the call.
      * @param {Object} [media.videoOptions] Options for configuring the call's video.
      * @param {MediaConstraint} [media.videoOptions.deviceId] ID of the camera to receive video from.
      * @param {MediaConstraint} [media.videoOptions.height] The height of the video.
      * @param {MediaConstraint} [media.videoOptions.width] The width of the video.
      * @param {MediaConstraint} [media.videoOptions.frameRate] The frame rate of the video.
+     * @param {Object} [options]
+     * @param {BandwidthControls} [options.bandwidth] Options for configuring media's bandwidth.
      */
-    addMedia(callId, media = {}) {
+    addMedia(callId, media = {}, options = {}) {
       log.debug(_logs.API_LOG_TAG + 'call.addMedia: ', callId, media);
       const mediaConstraints = {
         audio: media.audio && !(0, _fp.isEmpty)(media.audioOptions) ? media.audioOptions : media.audio,
         video: media.video && !(0, _fp.isEmpty)(media.videoOptions) ? media.videoOptions : media.video
       };
 
-      dispatch(_actions.callActions.addMedia(callId, { mediaConstraints }));
+      dispatch(_actions.callActions.addMedia(callId, (0, _extends3.default)({ mediaConstraints }, options)));
     },
 
     /**
-     * Remove tracks from an ongoing call
-     * @public
-     * @memberof Calls
-     * @param {string} callId The ID of the call to remove media from.
-     * @param {Array} tracks A list of track IDs to remove.
-     */
-    removeMedia(callId, tracks) {
-      log.debug(_logs.API_LOG_TAG + 'call.removeMedia: ', callId, tracks);
-      dispatch(_actions.callActions.removeMedia(callId, { tracks }));
-    },
-
-    /**
-     * Send DTMF tones on an ongoing call.
+     * Remove tracks from an ongoing call.
+     *
+     * The SDK will emit a {@link Calls.event:call:trackEnded call:trackEnded}
+     *    event for both the local and remote users to indicate that a track
+     *    has been removed.
      *
      * @public
+     * @static
      * @memberof Calls
+     * @requires call
+     * @requires callMe
+     * @param {string} callId The ID of the call to remove media from.
+     * @param {Array} tracks A list of track IDs to remove.
+     * @param {Object} [options]
+     * @param {BandwidthControls} [options.bandwidth] Options for configuring media's bandwidth.
+     */
+    removeMedia(callId, tracks, options = {}) {
+      log.debug(_logs.API_LOG_TAG + 'call.removeMedia: ', callId, tracks);
+      dispatch(_actions.callActions.removeMedia(callId, (0, _extends3.default)({ tracks }, options)));
+    },
+
+    /**
+     * Send DTMF tones to a call's audio.
+     *
+     * The provided tone can either be a single DTMF tone (eg. '1') or a
+     *    sequence of DTMF tones (eg. '123') which will be played one after the
+     *    other.
+     *
+     * The specified call must be either in Connected or Ringing state,
+     *    otherwise invoking this API will have no effect.
+     *
+     * The tones will be sent as out-of-band tones if supported by the call,
+     *    otherwise they will be added in-band to the call's audio.
+     * @public
+     * @static
+     * @memberof Calls
+     * @requires call
+     * @requires callMe
      * @method sendDTMF
-     * @param {string} callId Id of the call being acted on.
-     * @param {string} tone DTMF tone to send. Valid values are ['0','1','2','3','4','5','6','7','8','9','#','*' and ','].
+     * @param {string} callId ID of the call being acted on.
+     * @param {string} tone DTMF tone(s) to send. Valid chracters are ['0','1','2','3','4','5','6','7','8','9','#','*' and ','].
      * @param {number} [duration=100] The amount of time, in milliseconds, that each DTMF tone should last.
      * @param {number} [intertoneGap=70] The length of time, in milliseconds, to wait between tones.
      *
@@ -29673,12 +29866,22 @@ function callAPI({ dispatch, getState }) {
     },
 
     /**
-     * Get a report about low-level call stats / information.
-     * A track ID can optionally be provided to get a report for the specific track of the call.
+     * Get a report about low-level call statistical information.
+     *
+     * A Track ID can optionally be provided to get a report for a specific
+     *    Track of the Call.
+     *
+     * The SDK will emit a
+     *    {@link Calls.event:call:statsReceived call:statsReceived} event, after
+     *    the operation completes, that has the report.
      * @public
+     * @static
      * @memberof Calls
-     * @param {string} callId The ID of the call to retrieve stats report.
-     * @param {string} [trackId] TrackId. If trackId is not provided, RTCStatsReport is gererated from the peerConnection.
+     * @requires call
+     * @requires callMe
+     * @param {string} callId The ID of the Call to retrieve the report.
+     * @param {string} [trackId] ID of a Track being used by the Call. If not
+     *    provided, RTCStatsReport is generated for the Call itself.
      */
     getStats(callId, trackId) {
       log.debug(_logs.API_LOG_TAG + 'call.getStats: ', callId, trackId);
@@ -29686,12 +29889,38 @@ function callAPI({ dispatch, getState }) {
     },
 
     /**
-     * Forward an incoming call to another user.
+     * Forwards an incoming call to another user.
+     *
+     * The specified destination will receive the Call instead of the current
+     *    user.
+     *
+     * The SDK will emit a {@link Call.event:call:stateChange call:stateChange}
+     *    event after the operation completes.
+     *
      * @public
+     * @static
      * @memberof Calls
+     * @requires call_link
      * @method forward
-     * @param {string} callId      ID of the call being acted on.
-     * @param {string} destination The user to forward the call to.
+     * @param {string} callId ID of the call being acted on.
+     * @param {SIP_URI|TEL_URI} destination The destination to forward the call to.
+     */
+
+    /**
+     * Forwards an incoming call to another user.
+     *
+     * The specified destination will receive the Call instead of the current
+     *    user.
+     *
+     * The SDK will emit a {@link Call.event:call:stateChange call:stateChange}
+     *    event after the operation completes.
+     * @public
+     * @static
+     * @memberof Calls
+     * @requires call_cpaas
+     * @method forward
+     * @param {string} callId ID of the call being acted on.
+     * @param {UserID|PhoneNumber} destination The destination to forward the call to.
      */
     forward(callId, destination) {
       const config = (0, _selectors.getOptions)(getState());
@@ -29705,7 +29934,7 @@ function callAPI({ dispatch, getState }) {
     },
 
     /**
-     * Performs a "consultative" transfer between two on-going calls (also known
+     * Performs a "consultative" transfer between two ongoing calls (also known
      *    as an announced or warm transfer). This allows the current user to
      *    transfer the remote participant of a call to another user, after
      *    having spoken to both users.
@@ -29715,9 +29944,11 @@ function callAPI({ dispatch, getState }) {
      *    one another after the operation. Both calls for the current user will
      *    be ended.
      * @public
+     * @static
      * @memberof Calls
+     * @requires call
      * @method consultativeTransfer
-     * @param {string} callId      ID of the call being acted on.
+     * @param {string} callId ID of the call being acted on.
      * @param {string} otherCallId ID of the other call being acted on.
      */
     consultativeTransfer(callId, otherCallId) {
@@ -29735,10 +29966,31 @@ function callAPI({ dispatch, getState }) {
      *    with the remote participant of the specified call. The current user's
      *    call will be ended after the operation.
      * @public
+     * @static
      * @memberof Calls
+     * @requires call_link
      * @method directTransfer
-     * @param {string} callId      ID of the call being acted on.
-     * @param {string} destination The user to transfer the call to.
+     * @param {string} callId ID of the call being acted on.
+     * @param {SIP_URI|TEL_URI} destination The destination to transfer the call to.
+     */
+
+    /**
+     * Performs a "direct" transfer on a call (also known as an unannounced or
+     *    blind transfer). This allows the current user to transfer the remote
+     *    participant of a call to another user, similar to a "forward"
+     *    operation.
+     *
+     * The specified call must be locally held. The "destination" user will
+     *    receive an incoming call, and when answered, they will be connected
+     *    with the remote participant of the specified call. The current user's
+     *    call will be ended after the operation.
+     * @public
+     * @static
+     * @memberof Calls
+     * @requires call_cpaas
+     * @method directTransfer
+     * @param {string} callId ID of the call being acted on.
+     * @param {UserID|PhoneNumber} destination The destination to transfer the call to.
      */
     directTransfer(callId, destination) {
       const config = (0, _selectors.getOptions)(getState());
@@ -29753,18 +30005,21 @@ function callAPI({ dispatch, getState }) {
 
     /**
      * Performs a "join" on two ongoing calls.
-     * This allows the current user to have a call with audio from the other two users.
+     * This allows the current user to establish a call with audio with two
+     *    remote users.
      *
      * Both specified calls must be locally held. The "joined" call will be
      *    audio-only, even if either previous call had video. Video cannot be
      *    added to the "joined" call. Both remote participants will see their
-     *    call be unheld, and will receive additional audio from other
+     *    call taken off hold, and will receive additional audio from other
      *    participants after the operation. Both calls for the current user will
-     *    be ended.
+     *    be ended after the operation.
      * @public
+     * @static
      * @memberof Calls
+     * @requires call
      * @method join
-     * @param {string} callId      ID of the call being acted on.
+     * @param {string} callId ID of the call being acted on.
      * @param {string} otherCallId ID of the other call being acted on.
      */
     join(callId, otherCallId) {
@@ -29774,10 +30029,81 @@ function callAPI({ dispatch, getState }) {
     },
 
     /**
-     * Possible states for a call.
+     * Replace a call's track with a new track of the same media type.
+     *
+     * The operation will remove the old track from the call and add a
+     *    new track to the call. This effectively allows for changing the
+     *    track constraints (eg. device used) for an ongoing call.
+     *
+     * The SDK will emit a
+     *    {@link Calls.event:call:trackReplaced call:trackReplaced} event
+     *    locally when the operation completes. The newly added track will need
+     *    to be handled by the local application. The track will be replaced
+     *    seamlessly for the remote application, which will not receive an event.
      *
      * @public
+     * @static
      * @memberof Calls
+     * @requires call
+     * @requires callMe
+     * @param {string} callId The ID of the call to replace the track of.
+     * @param {string} trackId The ID of the track to replace.
+     * @param {Object} [media={}] The media options.
+     * @param {boolean} [media.audio=false] Whether to create an audio track.
+     * @param {Object} [media.audioOptions] Options for configuring the audio track.
+     * @param {MediaConstraint} [media.audioOptions.deviceId] ID of the microphone to receive audio from.
+     * @param {boolean} [media.video=false] Whether to create a video track.
+     * @param {Object} [media.videoOptions] Options for configuring the video track.
+     * @param {MediaConstraint} [media.videoOptions.deviceId] ID of the camera to receive video from.
+     * @param {MediaConstraint} [media.videoOptions.height] The height of the video.
+     * @param {MediaConstraint} [media.videoOptions.width] The width of the video.
+     * @param {MediaConstraint} [media.videoOptions.frameRate] The frame rate of the video.
+     * @example
+     * const callId = ...
+     * // Get the video track used by the call.
+     * const videoTrack = ...
+     *
+     * // Replace the specified video track of the call with a new
+     * //    video track.
+     * client.call.replaceTrack(callId, videoTrack.id, {
+     *   // The track should be replaced with a video track using
+     *   //    a specific device. This effectively changes the input
+     *   //    device for an ongoing call.
+     *   video: true,
+     *   videoOptions: {
+     *     deviceId: cameraId
+     *   }
+     * })
+     */
+    replaceTrack(callId, trackId, media) {
+      const mediaConstraints = {
+        audio: media.audio && !(0, _fp.isEmpty)(media.audioOptions) ? media.audioOptions : media.audio,
+        video: media.video && !(0, _fp.isEmpty)(media.videoOptions) ? media.videoOptions : media.video
+      };
+      dispatch(_actions.callActions.replaceTrack(callId, { trackId, mediaConstraints }));
+    },
+
+    /**
+     * Possible states that a Call can be in.
+     *
+     * A Call's state describes the current status of the Call. An application
+     *    should use the state to understand how the Call, and any media
+     *    associated with the Call, should be handled. Which state the Call is
+     *    in defines how it can be interacted with, as certain operations can
+     *    only be performed while in specific states, and tells an application
+     *    whether the Call currently has media flowing between users.
+     *
+     * The Call's state is a property of the {@link CallObject}, which can be
+     *    retrieved using the {@link Calls.getById call.getById} or
+     *    {@link Calls.getAll call.getAll} APIs.
+     *
+     * The SDK emits a {@link Calls.event:call:stateChange call:stateChange}
+     *    event when a Call's state changes from one state to another.
+     *
+     * @public
+     * @static
+     * @memberof Calls
+     * @requires call
      * @type {Object}
      * @property {string} INITIATING The (outgoing) call is being started.
      * @property {string} INITIATED The (outgoing) call has been sent over the network, but has not been received.
@@ -29820,7 +30146,7 @@ var _call2 = _interopRequireDefault(_call);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * The call feature is used to make audio and video calls to and from
+ * The Calls feature is used to make audio and video calls to and from
  * SIP users and PSTN phones.
  *
  * Call functions are all part of the 'call' namespace.
@@ -29829,33 +30155,44 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @module Calls
  */
 
-// TODO: Does the following apply to the new call stack?
 /**
- * The state representation of a Call.
- * Can be retrieved using the Call feature's `getAll` or `getById` APIs.
- * A Call can be manipulated by using the Call feature's APIs.
+ * Information about a Call.
+ *
+ * Can be retrieved using the {@link Calls.getAll call.getAll} or
+ *    {@link Calls.getById call.getById} APIs.
  *
  * @public
+ * @static
  * @module CallObject
- * @property {string} direction The direction in which the call was created (outgoing/incoming).
  * @property {string} id The ID of the call.
+ * @property {string} direction The direction in which the call was created. Can be 'outgoing' or 'incoming'.
+ * @property {string} state The current state of the call. See {@link Calls.states call.states} for possible states.
  * @property {boolean} localHold Indicates whether this call is currently being held locally.
- * @property {Array<string>} localTracks A list of Track IDs that the call is sending to the remote participant.
- * @property {Object} mediaConstraints This indicates the media types that the call was initialized with.
- * @property {boolean} mediaConstraints.audio Whether the call was initialized with audio.
- * @property {boolean} mediaConstraints.video Whether the call was initialized with video.
  * @property {boolean} remoteHold Indicates whether this call is currently being held remotely.
+ * @property {Array<string>} localTracks A list of Track IDs that the call is sending to the remote participant.
  * @property {Array<string>} remoteTracks A list of Track IDs that the call is receiving from the remote participant.
  * @property {Object} remoteParticipant Information about the other call participant.
- * @property {string} remoteParticipant.displayNumber The username with domain of the callee in the form "username@domain"
- * @property {string} remoteParticipant.displayName The display name of the callee
+ * @property {string} [remoteParticipant.displayNumber] The User ID of the remote participant in the form "username@domain".
+ * @property {string} [remoteParticipant.displayName] The display name of the remote participant.
+ * @property {BandwidthControls} bandwidth The bandwidth limitations set for the call.
  * @property {number} startTime The start time of the call in milliseconds since the epoch.
- * @property {string} state The current state of the call. See `Call.states` for possible states.
+ * @property {number} [endTime] The end time of the call in milliseconds since the epoch.
  */
 
 /**
- * The media features are used to interact with media that the SDK is
- * currently using.
+ * The Media feature provides an interface for interacting with Media that the
+ *    SDK has access to. Media is used conjunction with the {@link Calls}
+ *    feature to manipulate and render the Tracks sent and received from a Call.
+ *
+ * Media and Track objects are not created directly, but are created as part of
+ *    Call operations. Media and Tracks will either be marked as "local" or
+ *    "remote" depending on whether their source is the local user's machine
+ *    or a remote user's machine.
+ *
+ * The Media feature also keeps track of media devices that the user's machine
+ *    can access. Any media device (eg. USB headset) connected to the machine
+ *    can be used as a source for media. Available devices can be found using
+ *    the {@link Media.getDevices media.getDevices} API.
  *
  * Media functions are all part of the 'media' namespace.
  *
@@ -29893,11 +30230,59 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  */
 
 /**
+ * The BandwidthControls type defines the format for configuring media and/or track bandwidth options.
+ * BandwidthControls only affect received remote tracks of the specified type.
+ *
+ * @public
+ * @module BandwidthControls
+ * @typedef {Object} BandwidthControls
+ * @property {number} [audio] The desired bandwidth bitrate in kilobits per second for received remote audio.
+ * @property {number} [video] The desired bandwidth bitrate in kilobits per second for received remote video.
+ * @example
+ * // Specify received remote video bandwidth limits when making a call.
+ * client.call.make(destination, mediaConstraints,
+ *  {
+ *    bandwidth: {
+ *      video: 5
+ *    }
+ *  }
+ * )
+ */
+
+/**
+ * @public
+ * @module IceServer
+ * @typedef {Object} IceServer
+ * @property {string} url The URL of the ICE server.
+ * @property {string} [credential] The credential needed by the ICE server.
+ */
+
+/**
+ * @public
+ * @module SdpHandlerInfo
+ * @typedef {Object} SdpHandlerInfo
+ * @property {RTCSdpType} type The session description's type.
+ * @property {string} endpoint Which end of the connection created the SDP.
+ */
+
+/**
+ * The form of an SDP handler function and the expected arguments that it receives.
+ * @public
+ * @module SdpHandlerFunction
+ * @typedef {Function} SdpHandlerFunction
+ * @param {Object} newSdp The SDP so far (could have been modified by previous handlers).
+ * @param {SdpHandlerInfo} info Additional information that might be useful when making SDP modifications.
+ * @param {Object} originalSdp The SDP in its initial state.
+ * @returns {Object} The resulting modified SDP based on the changes made by this function.
+ */
+
+/**
  * The state representation of a Media object.
  * Media is a collection of Track objects.
  *
  * @public
  * @module MediaObject
+ * @typedef {Object} MediaObject
  * @property {string} id The ID of the Media object.
  * @property {boolean} local Indicator on whether this media is local or remote.
  * @property {Array<TrackObject>} tracks A list of Track objects that are contained in this Media object.
@@ -29920,7 +30305,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  */
 
 /**
- * A collection of devices and their information.
+ * A collection of media devices and their information.
  *
  * @public
  * @module DevicesObject
@@ -29968,26 +30353,30 @@ Object.defineProperty(exports, "__esModule", {
 });
 /**
  * An outgoing call has been started.
- * The call state can be retrieved using the `getById(callId)` API.
+ *
+ * Information about the Call can be retrieved using the
+ *    {@link Calls.getById call.getById} API.
  *
  * @public
  * @memberof Calls
  * @event call:start
  * @param {Object} params
- * @param {string} params.callId The Id of the call.
+ * @param {string} params.callId The ID of the call.
  * @param {BasicError} [params.error] An error object, if the operation was not successful.
  */
 const CALL_STARTED = exports.CALL_STARTED = 'call:start';
 
 /**
  * A new incoming call has been received.
- * The call state can be retrieved using the `getById(callId)` API.
+ *
+ * Information about the Call can be retrieved using the
+ *    {@link Calls.getById call.getById} API.
  *
  * @public
  * @memberof Calls
  * @event call:receive
  * @param {Object} params
- * @param {string} params.callId The Id of the call.
+ * @param {string} params.callId The ID of the call.
  * @param {BasicError} [params.error] An error object, if the operation was not successful.
  * @example
  * client.on('call:receive', function(params) {
@@ -29999,8 +30388,9 @@ const CALL_INCOMING = exports.CALL_INCOMING = 'call:receive';
 
 // TODO: Add a property in event params that indicates the operation that caused the state change.
 /**
- * A call's state has changed.
- * See `Call.states` for possible call states.
+ * A Call's state has changed.
+ *
+ * See {@link Calls.states call.states} for information about call states.
  * @public
  * @memberof Calls
  * @event call:stateChange
@@ -30040,27 +30430,34 @@ const CALL_STATE_CHANGE = exports.CALL_STATE_CHANGE = 'call:stateChange';
  * @memberof Calls
  * @event call:newMedia
  * @param {Object} params
- * @param {string} params.callId The Id of the call.
+ * @param {string} params.callId The ID of the call.
  * @param {boolean} params.local Whether the new media is local or not.
  * @param {Array} params.tracks The list of new Tracks.
- * @param {string} params.mediaId The Id of the Media object the Tracks belong to.
+ * @param {string} params.mediaId The ID of the Media object the Tracks belong to.
  */
 const CALL_ADDED_MEDIA = exports.CALL_ADDED_MEDIA = 'call:newMedia';
 
 /**
- * Media has been removed from the call
+ * Media has been removed from the call.
  * @public
  * @memberof Calls
  * @event call:removedMedia
  * @param {Object} params
- * @param {string} params.callId The Id of the call.
+ * @param {string} params.callId The ID of the call.
  * @param {boolean} params.local Whether the new media is local or not.
  * @param {Array} params.tracks The list of new Tracks.
  */
 const CALL_REMOVED_MEDIA = exports.CALL_REMOVED_MEDIA = 'call:removedMedia';
 
 /**
- * The call has received a new Track.
+ * A new Track has been added to the Call.
+ *
+ * The Track may have been added by either the local user or remote user using
+ *    the {@link Calls.addMedia call.addMedia} API.
+ *
+ * Information about the Track can be retrieved using the
+ *    {@link Media.getTrackById media.getTrackById} API.
+ *
  * @public
  * @memberof Calls
  * @event call:newTrack
@@ -30073,7 +30470,12 @@ const CALL_REMOVED_MEDIA = exports.CALL_REMOVED_MEDIA = 'call:removedMedia';
 const CALL_NEW_TRACK = exports.CALL_NEW_TRACK = 'call:newTrack';
 
 /**
- * The call has received a new Track.
+ * A Track has been removed from a Call.
+ *
+ * The Track may have been removed by either the local user or remote user using
+ *    the {@link Calls.removeMedia call.removeMedia} API. Tracks are also
+ *    removed from Calls automatically while the Call is on hold.
+ *
  * @public
  * @memberof Calls
  * @event call:trackEnded
@@ -30086,17 +30488,42 @@ const CALL_NEW_TRACK = exports.CALL_NEW_TRACK = 'call:newTrack';
 const CALL_TRACK_ENDED = exports.CALL_TRACK_ENDED = 'call:trackEnded';
 
 /**
- * Stats have been retrieved for a call or specific track.
+ * Stats have been retrieved for a Call or specific Track of a Call.
+ *
+ * See the {@link Calls.getStats call.getStats} API for more information.
+ *
  * @public
  * @memberof Calls
  * @event call:statsReceived
  * @param {Object} params
- * @param {string} params.callId The ID of the call to retrieve stats for.
- * @param {string} [params.trackId] The ID of the track to retrieve stats for.
+ * @param {string} params.callId The ID of the Call to retrieve stats for.
+ * @param {string} [params.trackId] The ID of the Track to retrieve stats for.
  * @param {string} params.result The RTCStatsReport.
  * @param {BasicError} [params.error] An error object, if the operation was not successful.
  */
 const STATS_RECEIVED = exports.STATS_RECEIVED = 'call:statsReceived';
+
+/**
+ * A Track has been replaced on the Call.
+ *
+ * A Track is replaced by the local user using the
+ *    {@link Calls.replaceTrack call.replaceTrack} API.
+ *
+ * This event is similar to the {@link Calls.event:call:newTrack call:newTrack}
+ *    event, where the call has a new Track, except that an existing Track has
+ *    been removed at the same time. The event includes information about the
+ *    Track that was replaced to help an application replace it seamlessly.
+ *
+ * @public
+ * @memberof Calls
+ * @event call:trackReplaced
+ * @param {Object} params
+ * @param {string} params.callId The ID of the call where a track was replaced.
+ * @param {string} [params.newTrackId] The ID of the new track that replaced the old track.
+ * @param {TrackObject} [params.oldTrack] State of the replaced track.
+ * @param {BasicError} [params.error] An error object, if the operation was not successful.
+ */
+const CALL_TRACK_REPLACED = exports.CALL_TRACK_REPLACED = 'call:trackReplaced';
 
 /***/ }),
 
@@ -30268,6 +30695,14 @@ callEvents[webrtcActionTypes.SESSION_NEW_TRACK] = (action, context) => {
   return null;
 };
 
+callEvents[actionTypes.REPLACE_TRACK_FINISH] = (action, context) => {
+  return callEventHandler(eventTypes.CALL_TRACK_REPLACED, action, {
+    error: action.payload.error,
+    newTrackId: action.payload.newTrackId,
+    oldTrack: action.payload.oldTrackState
+  });
+};
+
 callEvents[webrtcActionTypes.SESSION_TRACK_ENDED] = (action, context) => {
   const state = context.state;
   const call = (0, _selectors.getCallByWebrtcSessionId)(state, action.payload.id);
@@ -30385,7 +30820,11 @@ reducers[actionTypes.MAKE_CALL] = {
       // Hold status.
       localHold: false,
       remoteHold: false,
-      isCaller: true
+      isCaller: true,
+      // Flag indicating whether the call is anonymous or not
+      isAnonymous: action.payload.isAnonymous,
+      // The account token used to make the anonymous call
+      account: action.payload.account
     };
 
     return (0, _fp.concat)(state, newCall);
@@ -30464,7 +30903,8 @@ callReducers[actionTypes.MAKE_CALL_FINISH] = {
     return (0, _extends3.default)({}, state, {
       state: action.payload.state,
       wrtcsSessionId: action.payload.wrtcsSessionId,
-      webrtcSessionId: action.payload.webrtcSessionId
+      webrtcSessionId: action.payload.webrtcSessionId,
+      bandwidth: action.payload.bandwidth
     });
   },
   throw(state, action) {
@@ -30485,7 +30925,8 @@ callReducers[actionTypes.ANSWER_CALL_FINISH] = {
       mediaConstraints: action.payload.mediaConstraints,
       webrtcSessionId: webrtcId,
       localHold: false,
-      remoteHold: false
+      remoteHold: false,
+      bandwidth: action.payload.bandwidth
     });
   },
   throw(state, action) {
@@ -30644,6 +31085,22 @@ reducers[actionTypes.JOIN_FINISH] = {
   }
 };
 
+callReducers[actionTypes.ADD_MEDIA_FINISH] = {
+  next(state, action) {
+    return (0, _extends3.default)({}, state, {
+      bandwidth: action.payload.bandwidth
+    });
+  }
+};
+
+callReducers[actionTypes.REMOVE_MEDIA_FINISH] = {
+  next(state, action) {
+    return (0, _extends3.default)({}, state, {
+      bandwidth: action.payload.bandwidth
+    });
+  }
+};
+
 /*
  * Combine all of the call-tier reducers into a single reducer,
  *      each with a default state of empty object.
@@ -30651,7 +31108,7 @@ reducers[actionTypes.JOIN_FINISH] = {
 const callReducer = (0, _reduxActions.handleActions)(callReducers, {});
 
 // Actions routed to call-tier reducers.
-const specificCallActions = (0, _reduxActions.combineActions)(actionTypes.MAKE_CALL_FINISH, actionTypes.ANSWER_CALL_FINISH, actionTypes.REJECT_CALL_FINISH, actionTypes.CALL_ACCEPTED, actionTypes.CALL_RINGING, actionTypes.CALL_CANCELLED, actionTypes.IGNORE_CALL_FINISH, actionTypes.END_CALL_FINISH, actionTypes.CALL_HOLD_FINISH, actionTypes.CALL_UNHOLD_FINISH, actionTypes.CALL_REMOTE_HOLD_FINISH, actionTypes.CALL_REMOTE_UNHOLD_FINISH, actionTypes.ADD_MEDIA_FINISH, actionTypes.UPDATE_CALL, actionTypes.MUSIC_ON_HOLD, actionTypes.FORWARD_CALL_FINISH, actionTypes.DIRECT_TRANSFER_FINISH);
+const specificCallActions = (0, _reduxActions.combineActions)(actionTypes.MAKE_CALL_FINISH, actionTypes.ANSWER_CALL_FINISH, actionTypes.REJECT_CALL_FINISH, actionTypes.CALL_ACCEPTED, actionTypes.CALL_RINGING, actionTypes.CALL_CANCELLED, actionTypes.IGNORE_CALL_FINISH, actionTypes.END_CALL_FINISH, actionTypes.CALL_HOLD_FINISH, actionTypes.CALL_UNHOLD_FINISH, actionTypes.CALL_REMOTE_HOLD_FINISH, actionTypes.CALL_REMOTE_UNHOLD_FINISH, actionTypes.ADD_MEDIA_FINISH, actionTypes.REMOVE_MEDIA_FINISH, actionTypes.UPDATE_CALL, actionTypes.MUSIC_ON_HOLD, actionTypes.FORWARD_CALL_FINISH, actionTypes.DIRECT_TRANSFER_FINISH);
 
 /*
  * Reducer to handle specific call actions.
@@ -30949,9 +31406,10 @@ const log = (0, _logs.getLogManager)().getLogger('CALL');
  * @memberof config
  * @instance
  * @param {Object} call The call configuration object.
- * @param {Object} [call.iceServers] ICE servers to be used for calls.
+ * @param {string} [call.sdpSemantics='unified-plan'] The sdpSemantics to use (`'unified-plan'` or `'plan-b'`).
+ * @param {Array<IceServer>} [call.iceServers] The list of ICE servers to be used for calls.
  * @param {boolean} [call.serverTurnCredentials=true] Whether server-provided TURN credentials should be used.
- * @param {Array} [call.sdpHandlers] List of SDP handler functions to modify SDP. Advanced usage.
+ * @param {Array<SdpHandlerFunction>} [call.sdpHandlers] List of SDP handler functions to modify SDP. Advanced usage.
  * @param {boolean} [call.removeH264Codecs=true] Whether to remove "H264" codec lines from incoming and outgoing SDP messages.
  */
 
@@ -31007,17 +31465,23 @@ function callsLink(options = {}) {
      *
      * 3. [optional] Disable H264 Codecs for video calls, used to reduce SDP size
      *
+     * 4. Modify sdp and add bandwidth limits on it if bandwidth controls are provided.
      */
     let sdpHandlers = options.sdpHandlers;
     if (options.removeH264Codecs) {
       sdpHandlers.push((0, _codecRemover2.default)(['H264']));
     }
     sdpHandlers.push(_utils.sanitizeSdesFromSdp);
-    webRTC.sdp.pipeline.setHandlers(sdpHandlers);
+    sdpHandlers.push(_utils.modifySdpBandwidth);
 
-    // Wrap the call sagas in a function that provides them with the webRTC stack.
-    const wrappedSagas = (0, _fp.values)(sagas).map(saga => {
-      return (0, _utils2.autoRestart)(() => saga(webRTC.managers));
+    // Dependencies to be provided to every call saga.
+    const deps = {
+      webRTC: webRTC.managers,
+      sdpHandlers
+
+      // Wrap the call sagas in a function that provides them with the webRTC stack.
+    };const wrappedSagas = (0, _fp.values)(sagas).map(saga => {
+      return (0, _utils2.autoRestart)(() => saga(deps));
     });
 
     // Run all of the sagas.
@@ -31030,7 +31494,8 @@ function callsLink(options = {}) {
     name: _interfaceNew2.default.name,
     api: _interfaceNew2.default.api,
     reducer: _interfaceNew2.default.reducer,
-    init
+    init,
+    capabilities: ['call', 'link_call', 'link_user_id', 'link_pstn']
   };
 }
 
@@ -31045,6 +31510,10 @@ function callsLink(options = {}) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _extends2 = __webpack_require__("../../node_modules/babel-runtime/helpers/extends.js");
+
+var _extends3 = _interopRequireDefault(_extends2);
 
 var _stringify = __webpack_require__("../../node_modules/babel-runtime/core-js/json/stringify.js");
 
@@ -31078,6 +31547,8 @@ var _errors2 = _interopRequireDefault(_errors);
 
 var _constants = __webpack_require__("../kandy/src/constants.js");
 
+var _utils = __webpack_require__("../kandy/src/call/link/utils/index.js");
+
 var _effects3 = __webpack_require__("../../node_modules/redux-saga/es/effects.js");
 
 var _logs = __webpack_require__("../kandy/src/logs/index.js");
@@ -31087,7 +31558,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // Libraries.
 
 
-// Other plugins.
+// Helpers.
+// Call plugin.
 const log = (0, _logs.getLogManager)().getLogger('CALL');
 
 /**
@@ -31105,20 +31577,22 @@ const log = (0, _logs.getLogManager)().getLogger('CALL');
  * @param  {Object} callInfo
  * @param  {string} callInfo.participantAddress The user to receive the call.
  * @param  {string} callInfo.offer The local SDP offer to begin negotiation.
+ * @param  {boolean} [callInfo.isAnonymous] Flag indicating whether the call is anonymous or not.
+ * @param  {string} [callInfo.account] An account token used by the request if it is an anonymous call.
+ * @param  {string} [callInfo.from] A from token used by the request if it is an anonymous call.
  * @return {Object} response Signalling response.
  * @return {string} [response.wrtcsSessionId] ID that the server uses to track this call.
  * @return {Object} [response.error] An error object, if signalling failed.
  */
 
 
-// Helpers.
-// Call plugin.
+// Other plugins.
 function* createSession(callInfo) {
   // Collect the information needed to make the request.
   const requestInfo = yield (0, _effects3.select)(_selectors.getRequestInfo, _constants.platforms.LINK);
 
   // requestInfo.username isn't normalized and link requires a normalized
-  // address to make a call.  Since we also user username to build the request
+  // address to make a call.  Since we also use username to build the request
   // url, we need it both normalized and straight up.  So I'm normalizing it and
   // putting it on the requestInfo object under a new property name 'fromAddress'
   if (requestInfo.username) {
@@ -31128,21 +31602,35 @@ function* createSession(callInfo) {
     log.info('Caller address normalized to: ', callInfo.fromAddress);
   }
 
-  const requestOptions = {
-    method: 'POST',
-    url: `${requestInfo.baseURL}/rest/version/${requestInfo.version}/user/${requestInfo.username}/callControl`,
-    body: (0, _stringify2.default)({
-      callControlRequest: {
-        type: 'callStart',
-        from: callInfo.fromAddress,
-        to: callInfo.participantAddress,
-        sdp: callInfo.offer
-      }
-    })
+  const options = {
+    method: 'POST'
   };
+  const requestBody = {
+    type: 'callStart',
+    to: callInfo.participantAddress,
+    sdp: callInfo.offer
+  };
+  if (callInfo.isAnonymous) {
+    const getWebsocketIdResult = yield (0, _effects3.call)(_utils.getWebsocketId);
+    if (getWebsocketIdResult.error) {
+      return { error: getWebsocketIdResult.error };
+    }
+    options.body = (0, _stringify2.default)({
+      callMeRequest: (0, _extends3.default)({}, requestBody, {
+        from: callInfo.from,
+        notifyChannelId: getWebsocketIdResult.websocketId
+      })
+    });
+  } else {
+    options.body = (0, _stringify2.default)({
+      callControlRequest: (0, _extends3.default)({}, requestBody, {
+        from: callInfo.fromAddress
+      })
+    });
+  }
 
-  const response = yield (0, _effects2.default)(requestOptions, requestInfo.requestOptions);
-
+  const response = yield (0, _effects3.call)(linkCallRequest, requestInfo, (0, _extends3.default)({}, options, callInfo));
+  const responseBodyType = callInfo.isAnonymous ? 'callMeResponse' : 'callControlResponse';
   if (response.error) {
     return {
       error: handleLinkCallRequestError(response)
@@ -31150,7 +31638,7 @@ function* createSession(callInfo) {
   } else {
     return {
       error: false,
-      wrtcsSessionId: response.payload.body.callControlResponse.sessionData
+      wrtcsSessionId: response[responseBodyType].sessionData
     };
   }
 }
@@ -31181,17 +31669,13 @@ function* updateCallRinging(callInfo) {
     method: 'PUT'
   };
 
-  const requestType = callInfo.isAnonymous ? 'callMe' : 'callControl';
-  options.endUrl = `${requestType}/callSessions/${callInfo.wrtcsSessionId}`;
-
-  const bodyType = callInfo.isAnonymous ? 'callMeRequest' : 'callControlRequest';
   options.body = (0, _stringify2.default)({
-    [bodyType]: {
+    callControlRequest: {
       type: 'ringing'
     }
   });
 
-  const response = yield (0, _effects3.call)(linkCallRequest, requestInfo, options);
+  const response = yield (0, _effects3.call)(linkCallRequest, requestInfo, (0, _extends3.default)({}, options, callInfo));
 
   if (response.error) {
     return {
@@ -31210,20 +31694,19 @@ function* updateCallRinging(callInfo) {
  * @param  {Object} requestInfo
  * @param  {Object} callInfo
  * @param  {string} callInfo.wrtcsSessionId ID that the server uses to identify the session.
- * @param  {boolean} callInfo.isAnonymous whether the call is anonymous or not
+ * @param  {boolean} callInfo.isAnonymous Whether the call is anonymous or not
+ * @param  {string} [callInfo.account] An account token used by the request if it is an anonymous call.
  * @return {Object} response Signalling response.
  * @return {Object} [response.error] An BasicError object, if signalling failed.
  */
 function* endSession(callInfo) {
   const requestInfo = yield (0, _effects3.select)(_selectors.getRequestInfo, _constants.platforms.LINK);
+
   const options = {
     method: 'DELETE'
   };
 
-  const requestType = callInfo.isAnonymous ? 'callMe' : 'callControl';
-  options.endUrl = `${requestType}/callSessions/${callInfo.wrtcsSessionId}`;
-
-  const response = yield (0, _effects3.call)(linkCallRequest, requestInfo, options);
+  const response = yield (0, _effects3.call)(linkCallRequest, requestInfo, (0, _extends3.default)({}, options, callInfo));
 
   if (response.error) {
     return {
@@ -31262,8 +31745,6 @@ function* answerSession(callInfo) {
     method: 'PUT'
   };
 
-  options.endUrl = `callControl/callSessions/${callInfo.wrtcsSessionId}`;
-
   options.body = (0, _stringify2.default)({
     callControlRequest: {
       type: 'callAnswer',
@@ -31271,7 +31752,7 @@ function* answerSession(callInfo) {
     }
   });
 
-  const response = yield (0, _effects3.call)(linkCallRequest, requestInfo, options);
+  const response = yield (0, _effects3.call)(linkCallRequest, requestInfo, (0, _extends3.default)({}, options, callInfo));
 
   if (response.error) {
     return {
@@ -31408,8 +31889,6 @@ function* consultativeTransferSessions(callInfo) {
     method: 'PUT'
   };
 
-  options.endUrl = `callControl/callSessions/${callInfo.wrtcsSessionId}`;
-
   options.body = (0, _stringify2.default)({
     callControlRequest: {
       type: 'transfer',
@@ -31418,7 +31897,7 @@ function* consultativeTransferSessions(callInfo) {
     }
   });
 
-  const response = yield (0, _effects3.call)(linkCallRequest, requestInfo, options);
+  const response = yield (0, _effects3.call)(linkCallRequest, requestInfo, (0, _extends3.default)({}, options, callInfo));
 
   if (response.error) {
     return {
@@ -31456,8 +31935,6 @@ function* directTransferSession(callInfo) {
     method: 'PUT'
   };
 
-  options.endUrl = `callControl/callSessions/${callInfo.wrtcsSessionId}`;
-
   options.body = (0, _stringify2.default)({
     callControlRequest: {
       type: 'transfer',
@@ -31465,7 +31942,7 @@ function* directTransferSession(callInfo) {
     }
   });
 
-  const response = yield (0, _effects3.call)(linkCallRequest, requestInfo, options);
+  const response = yield (0, _effects3.call)(linkCallRequest, requestInfo, (0, _extends3.default)({}, options, callInfo));
 
   if (response.error) {
     return {
@@ -31504,8 +31981,6 @@ function* joinSessions(callInfo) {
   const options = {
     method: 'POST'
   };
-
-  options.endUrl = `callControl/`;
 
   options.body = (0, _stringify2.default)({
     callControlRequest: {
@@ -31546,6 +32021,8 @@ function* joinSessions(callInfo) {
  * @param  {Object} callInfo
  * @param  {string} callInfo.wrtcsSessionId The ID the backend uses to track the session.
  * @param  {string} callInfo.offer The local SDP offer to begin negotiation.
+ * @param  {boolean} [callInfo.isAnonymous] Flag indicating whether the call is anonymous or not.
+ * @param  {string} [callInfo.account] An account token used by the request if it is an anonymous call.
  * @return {Object} response Signalling response.
  * @return {Object} response.error An error object, if signalling failed.
  */
@@ -31556,17 +32033,16 @@ function* updateSession(callInfo) {
   const options = {
     method: 'PUT'
   };
-
-  options.endUrl = `callControl/callSessions/${callInfo.wrtcsSessionId}`;
+  const bodyType = callInfo.isAnonymous ? 'callMeRequest' : 'callControlRequest';
 
   options.body = (0, _stringify2.default)({
-    callControlRequest: {
+    [bodyType]: {
       type: 'startCallUpdate',
       sdp: callInfo.offer
     }
   });
 
-  const response = yield (0, _effects3.call)(linkCallRequest, requestInfo, options);
+  const response = yield (0, _effects3.call)(linkCallRequest, requestInfo, (0, _extends3.default)({}, options, callInfo));
 
   if (response.error) {
     return {
@@ -31595,6 +32071,8 @@ function* updateSession(callInfo) {
  * @method auditCall
  * @param  {Object} callInfo
  * @param  {Object} callInfo.wrtcsSessionId The ID the backend uses to track the session.
+ * @param  {boolean} [callInfo.isAnonymous] Flag indicating whether the call is anonymous or not.
+ * @param  {string} [callInfo.account] An account token used by the request if it is an anonymous call.
  * @return {Object} response Signalling response.
  * @return {Object} response.error An error object, if signalling failed.
  */
@@ -31603,14 +32081,16 @@ function* auditCall(callInfo) {
   const requestInfo = yield (0, _effects3.select)(_selectors.getRequestInfo, _constants.platforms.LINK);
 
   const options = { method: 'PUT' };
-  options.endUrl = `callControl/callSessions/${callInfo.wrtcsSessionId}`;
+  const bodyType = callInfo.isAnonymous ? 'callMeRequest' : 'callControlRequest';
+
   options.body = (0, _stringify2.default)({
-    callControlRequest: {
+    [bodyType]: {
       type: 'audit'
     }
   });
 
-  const response = yield (0, _effects3.call)(linkCallRequest, requestInfo, options);
+  const response = yield (0, _effects3.call)(linkCallRequest, requestInfo, (0, _extends3.default)({}, options, callInfo));
+
   if (response.error) {
     return {
       error: response.error,
@@ -31643,6 +32123,8 @@ function* auditCall(callInfo) {
  * @param  {Object} callInfo
  * @param  {Object} callInfo.wrtcsSessionId The ID the backend uses to track the session.
  * @param  {string} callInfo.answer The local SDP to complete renegotiation. This may be an offer if performing slow start.
+ * @param  {boolean} [callInfo.isAnonymous] Flag indicating whether the call is anonymous or not.
+ * @param  {string} [callInfo.account] An account token used by the request if it is an anonymous call.
  * @return {Object} response Signalling response.
  * @return {Object} response.error An error object, if signalling failed.
  */
@@ -31653,17 +32135,16 @@ function* updateSessionResponse(callInfo) {
   const options = {
     method: 'PUT'
   };
-
-  options.endUrl = `callControl/callSessions/${callInfo.wrtcsSessionId}`;
+  const bodyType = callInfo.isAnonymous && callInfo.account ? 'callMeRequest' : 'callControlRequest';
 
   options.body = (0, _stringify2.default)({
-    callControlRequest: {
+    [bodyType]: {
       type: 'respondCallUpdate',
       sdp: callInfo.answer
     }
   });
 
-  const response = yield (0, _effects3.call)(linkCallRequest, requestInfo, options);
+  const response = yield (0, _effects3.call)(linkCallRequest, requestInfo, (0, _extends3.default)({}, options, callInfo));
 
   if (response.error) {
     return {
@@ -31677,7 +32158,7 @@ function* updateSessionResponse(callInfo) {
 }
 
 function* linkCallRequest(requestInfo, options) {
-  options.url = `${requestInfo.baseURL}/rest/version/${requestInfo.version}/user/${requestInfo.username}/${options.endUrl}`;
+  options.url = generateCallUrl(requestInfo, options);
 
   const response = yield (0, _effects2.default)(options, requestInfo.requestOptions);
 
@@ -31730,6 +32211,42 @@ function handleLinkCallRequestError(response) {
   return new _errors2.default({ message, code });
 }
 
+/**
+ * Generates the call url for the rest request based on the options provided.
+ * @param {Object} requestInfo Object cotaining request information
+ * @param {Object} options
+ * @param {boolean} [options.isAnonymous] Flag indicating whether the call is anonymous or not.
+ * @param {string} [options.account] An account token used by the request if it is an anonymous call.
+ * @param {string} [options.wrtcsSessionId] The ID the backend uses to track the session.
+ * @param {string} [options.endUrl] The end url to append to the main url.
+ */
+function generateCallUrl(requestInfo, options) {
+  // Generic user information.
+  const { baseURL, version, username } = requestInfo;
+  // Call specific information.
+  const { isAnonymous, account, wrtcsSessionId, endUrl } = options;
+
+  const userType = isAnonymous ? 'anonymous' : 'user';
+  const userId = isAnonymous ? account : username;
+  const requestType = isAnonymous ? 'callMe' : 'callControl';
+
+  // The common path for all call REST requests.
+  let url = `${baseURL}/rest/version/${version}/${userType}/${userId}`;
+
+  if (endUrl) {
+    url += `/${endUrl}`;
+  } else {
+    url += `/${requestType}`;
+  }
+
+  // If the REST request is for an existing call, the path includes its ID.
+  if (wrtcsSessionId) {
+    url += `/callSessions/${wrtcsSessionId}`;
+  }
+
+  return url;
+}
+
 /***/ }),
 
 /***/ "../kandy/src/call/link/sagas/index.js":
@@ -31767,6 +32284,7 @@ exports.forwardCallEntry = forwardCallEntry;
 exports.consultativeTransferEntry = consultativeTransferEntry;
 exports.directTransferEntry = directTransferEntry;
 exports.joinEntry = joinEntry;
+exports.replaceTrackEntry = replaceTrackEntry;
 
 var _actionTypes = __webpack_require__("../kandy/src/call/interfaceNew/actionTypes.js");
 
@@ -31794,6 +32312,8 @@ var midcallSagas = _interopRequireWildcard(_midcall);
 
 var _notifications2 = __webpack_require__("../kandy/src/callstack/call/notifications.js");
 
+var _dtmf = __webpack_require__("../kandy/src/callstack/call/dtmf.js");
+
 var _support2 = __webpack_require__("../kandy/src/callstack/call/support.js");
 
 var _effects = __webpack_require__("../../node_modules/redux-saga/es/effects.js");
@@ -31813,65 +32333,88 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * Start an outgoing call.
  * @method createCall
- * @param  {Object} webRTC The webRTC stack.
+ * @param {Object} deps             Dependencies to be injected.
+ * @param {Object} deps.webRTC      The WebRTC stack.
+ * @param {Array}  deps.sdpHandlers SDP handlers.
  */
 
 
 // Other plugins
+
+
+// Callstack plugin.
+function* createCall(deps) {
+  yield (0, _effects.takeEvery)(actionTypes.MAKE_CALL, _establish.makeCall, (0, _extends3.default)({}, deps, { requests }));
+}
+
+/**
+ * Answer a ringing call.
+ * @method answerCall
+ * @param {Object} deps             Dependencies to be injected.
+ * @param {Object} deps.webRTC      The WebRTC stack.
+ * @param {Array}  deps.sdpHandlers SDP handlers.
+ */
+
+
+// Libraries.
 /**
  * Call saga index.
  * Defines which actions trigger which sagas.
  */
 
 // Call plugin.
-function* createCall(webRTC) {
-  yield (0, _effects.takeEvery)(actionTypes.MAKE_CALL, _establish.makeCall, { webRTC, requests });
-}
-
-/**
- * Answer a ringing call.
- * @method answerCall
- */
-
-
-// Libraries.
-
-
-// Callstack plugin.
-function* answerCallEntry(webRTC) {
-  yield (0, _effects.takeEvery)(actionTypes.ANSWER_CALL, _establish.answerCall, { webRTC, requests });
+function* answerCallEntry(deps) {
+  yield (0, _effects.takeEvery)(actionTypes.ANSWER_CALL, _establish.answerCall, (0, _extends3.default)({}, deps, { requests }));
 }
 
 /**
  * Reject a ringing call.
  * @method rejectCall
+ * @param {Object} deps             Dependencies to be injected.
+ * @param {Object} deps.webRTC      The WebRTC stack.
+ * @param {Array}  deps.sdpHandlers SDP handlers.
  */
-function* rejectCallEntry(webRTC) {
-  yield (0, _effects.takeEvery)(actionTypes.REJECT_CALL, _establish.rejectCall, { webRTC, requests });
+function* rejectCallEntry(deps) {
+  yield (0, _effects.takeEvery)(actionTypes.REJECT_CALL, _establish.rejectCall, (0, _extends3.default)({}, deps, { requests }));
 }
 
 /**
  * Add media to a call.
  * @method addMedia
+ * @param {Object} deps             Dependencies to be injected.
+ * @param {Object} deps.webRTC      The WebRTC stack.
+ * @param {Array}  deps.sdpHandlers SDP handlers.
  */
-function* addMediaEntry(webRTC) {
-  yield (0, _effects.takeEvery)(actionTypes.ADD_MEDIA, midcallSagas.addMedia, { webRTC, requests });
+function* addMediaEntry(deps) {
+  yield (0, _effects.takeEvery)(actionTypes.ADD_MEDIA, midcallSagas.addMedia, (0, _extends3.default)({}, deps, { requests }));
 }
 
 /**
  * Remove media from a call.
  * @method removeMedia
+ * @param {Object} deps             Dependencies to be injected.
+ * @param {Object} deps.webRTC      The WebRTC stack.
+ * @param {Array}  deps.sdpHandlers SDP handlers.
  */
-function* removeMediaEntry(webRTC) {
-  yield (0, _effects.takeEvery)(actionTypes.REMOVE_MEDIA, midcallSagas.removeMedia, { webRTC, requests });
+function* removeMediaEntry(deps) {
+  yield (0, _effects.takeEvery)(actionTypes.REMOVE_MEDIA, midcallSagas.removeMedia, (0, _extends3.default)({}, deps, { requests }));
 }
 
 /**
  * Send DTMF tones for a call.
  * @method sendDTMF
+ * @param {Object} deps             Dependencies to be injected.
+ * @param {Object} deps.webRTC      The WebRTC stack.
+ * @param {Array}  deps.sdpHandlers SDP handlers.
  */
-function* sendDtmfEntry(webRTC) {
-  yield (0, _effects.takeEvery)(actionTypes.SEND_DTMF, midcallSagas.sendDTMF, { webRTC });
+function* sendDtmfEntry(deps) {
+  /**
+   * Use `takeLeading` to avoid multiple operations happening at the same time.
+   *    This is an issue for in-band DTMF, which would cause the second and all
+   *    subsequent sendDtmf operations to fail if the first operation has not
+   *    yet finished.
+   */
+  yield (0, _effects.takeLeading)(actionTypes.SEND_DTMF, _dtmf.sendDtmf, (0, _extends3.default)({}, deps));
 }
 
 /**
@@ -31881,9 +32424,11 @@ function* sendDtmfEntry(webRTC) {
 /**
  * Handle a Link "call incoming" notification.
  * @method incomingCallNotification
- * @param  {Object} webRTC The webRTC stack.
+ * @param {Object} deps             Dependencies to be injected.
+ * @param {Object} deps.webRTC      The WebRTC stack.
+ * @param {Array}  deps.sdpHandlers SDP handlers.
  */
-function* incomingCallNotification(webRTC) {
+function* incomingCallNotification(deps) {
   /**
    * Intercept the Link-specific notification, ensuring parameters are given
    *    to the Callstack sagas into a generic format.
@@ -31904,7 +32449,7 @@ function* incomingCallNotification(webRTC) {
       remoteNumber: message.callNotificationParams.callerDisplayNumber
 
       // Pass the incoming call parameters to the Callstack for handling.
-    };yield (0, _effects.call)(_notifications2.incomingCall, { webRTC, requests }, params);
+    };yield (0, _effects.call)(_notifications2.incomingCall, (0, _extends3.default)({}, deps, { requests }), params);
   }
 
   // Redux-saga take() pattern.
@@ -31917,9 +32462,11 @@ function* incomingCallNotification(webRTC) {
 /**
  * Handle a call status websocket notification.
  * @method callStatusNotification
- * @param  {Object} webRTC The webRTC stack.
+ * @param {Object} deps             Dependencies to be injected.
+ * @param {Object} deps.webRTC      The WebRTC stack.
+ * @param {Array}  deps.sdpHandlers SDP handlers.
  */
-function* callStatusNotification(webRTC) {
+function* callStatusNotification(deps) {
   function statusUpdatePattern(status) {
     return function statusPattern(action) {
       return action.type === _actionTypes2.NOTIFICATION_RECEIVED && action.payload.notificationMessage.eventType === status;
@@ -31932,7 +32479,6 @@ function* callStatusNotification(webRTC) {
     const { sessionData: wrtcsSessionId, reasonText, statusCode } = message.sessionParams;
     const remoteInfo = yield (0, _effects.call)(_utils.getRemoteParticipant, message);
 
-    const deps = { webRTC };
     const params = (0, _extends3.default)({
       wrtcsSessionId,
       reasonText,
@@ -31951,7 +32497,7 @@ function* callStatusNotification(webRTC) {
   yield (0, _effects.takeEvery)(statusUpdatePattern('ringing'), parseStatusNotification);
   yield (0, _effects.takeEvery)(statusUpdatePattern('callEnd'), parseStatusNotification);
   yield (0, _effects.takeEvery)(statusUpdatePattern('sessionComplete'), parseStatusNotification);
-  yield (0, _effects.takeEvery)(statusUpdatePattern('callCancel'), notificationSagas.parseCallRejectedResponse, webRTC);
+  yield (0, _effects.takeEvery)(statusUpdatePattern('callCancel'), notificationSagas.parseCallRejectedResponse, deps.webRTC);
   yield (0, _effects.takeEvery)(statusUpdatePattern('sessionFail'), parseStatusNotification);
 }
 
@@ -31960,9 +32506,11 @@ function* callStatusNotification(webRTC) {
  * Uses properties in the notification to create a standardized data object to
  *    be used by the Callstack.
  * @method receiveRemoteOffer
- * @param  {Object} webRTC The webRTC stack for sagas to use.
+ * @param {Object} deps             Dependencies to be injected.
+ * @param {Object} deps.webRTC      The WebRTC stack.
+ * @param {Array}  deps.sdpHandlers SDP handlers.
  */
-function* receiveRemoteOffer(webRTC) {
+function* receiveRemoteOffer(deps) {
   /**
    * Intercept the Link-specific notification, ensuring parameters are given
    *    to the Callstack sagas into a generic format.
@@ -31980,7 +32528,7 @@ function* receiveRemoteOffer(webRTC) {
     }, remoteInfo);
 
     // Pass the call parameters to the Callstack for handling.
-    yield (0, _effects.call)(_notifications2.parseCallRequest, { webRTC, requests }, params);
+    yield (0, _effects.call)(_notifications2.parseCallRequest, (0, _extends3.default)({}, deps, { requests }), params);
   }
 
   // take() pattern for "update call w/ offer" notifications.
@@ -31996,9 +32544,11 @@ function* receiveRemoteOffer(webRTC) {
  * Uses properties in the notification to create a standardized data object to
  *    be used by the Callstack.
  * @method receiveRemoteAnswer
- * @param  {Object} webRTC The webRTC stack for sagas to use.
+ * @param {Object} deps             Dependencies to be injected.
+ * @param {Object} deps.webRTC      The WebRTC stack.
+ * @param {Array}  deps.sdpHandlers SDP handlers.
  */
-function* receiveRemoteAnswer(webRTC) {
+function* receiveRemoteAnswer(deps) {
   /**
    * Intercept the Link-specific notification, ensuring parameters are given
    *    to the Callstack sagas into a generic format.
@@ -32021,7 +32571,7 @@ function* receiveRemoteAnswer(webRTC) {
     }, remoteInfo);
 
     // Pass the call parameters to the Callstack for handling.
-    yield (0, _effects.call)(_notifications2.parseCallResponse, { webRTC, requests }, params);
+    yield (0, _effects.call)(_notifications2.parseCallResponse, (0, _extends3.default)({}, deps, { requests }), params);
   }
 
   // take() pattern for "update call with answer" notifications.
@@ -32035,19 +32585,23 @@ function* receiveRemoteAnswer(webRTC) {
 /**
  * End an ongoing call.
  * @method endCall
- * @param  {Object} webRTC The webRTC stack.
+ * @param {Object} deps             Dependencies to be injected.
+ * @param {Object} deps.webRTC      The WebRTC stack.
+ * @param {Array}  deps.sdpHandlers SDP handlers.
  */
-function* endCallEntry(webRTC) {
-  yield (0, _effects.takeEvery)(actionTypes.END_CALL, midcallSagas.endCall, { webRTC, requests });
+function* endCallEntry(deps) {
+  yield (0, _effects.takeEvery)(actionTypes.END_CALL, midcallSagas.endCall, (0, _extends3.default)({}, deps, { requests }));
 }
 
 /**
  * Ignore an incoming call.
  * @method ignoreCall
- * @param  {Object} webRTC The webRTC stack.
+ * @param {Object} deps             Dependencies to be injected.
+ * @param {Object} deps.webRTC      The WebRTC stack.
+ * @param {Array}  deps.sdpHandlers SDP handlers.
  */
-function* ignoreCallEntry(webRTC) {
-  yield (0, _effects.takeEvery)(actionTypes.IGNORE_CALL, _establish.ignoreCall, { webRTC });
+function* ignoreCallEntry(deps) {
+  yield (0, _effects.takeEvery)(actionTypes.IGNORE_CALL, _establish.ignoreCall, (0, _extends3.default)({}, deps));
 }
 
 /**
@@ -32056,10 +32610,12 @@ function* ignoreCallEntry(webRTC) {
  * TODO: There will be different "hold" scenarios. Need to determine how to
  *    differentiate between them to know which saga to trigger.
  * @method holdCall
- * @param  {Object} webRTC The webRTC stack.
+ * @param {Object} deps             Dependencies to be injected.
+ * @param {Object} deps.webRTC      The WebRTC stack.
+ * @param {Array}  deps.sdpHandlers SDP handlers.
  */
-function* holdCall(webRTC) {
-  yield (0, _effects.takeEvery)(actionTypes.CALL_HOLD, midcallSagas.offerInactiveMedia, { webRTC, requests });
+function* holdCall(deps) {
+  yield (0, _effects.takeEvery)(actionTypes.CALL_HOLD, midcallSagas.offerInactiveMedia, (0, _extends3.default)({}, deps, { requests }));
 }
 
 /**
@@ -32068,19 +32624,23 @@ function* holdCall(webRTC) {
  * TODO: There will be different "unhold" scenarios. Need to determine how to
  *    differentiate between them to know which saga to trigger.
  * @method unholdCall
- * @param  {Object} webRTC The webRTC stack.
+ * @param {Object} deps             Dependencies to be injected.
+ * @param {Object} deps.webRTC      The WebRTC stack.
+ * @param {Array}  deps.sdpHandlers SDP handlers.
  */
-function* unholdCall(webRTC) {
-  yield (0, _effects.takeEvery)(actionTypes.CALL_UNHOLD, midcallSagas.offerFullMedia, { webRTC, requests });
+function* unholdCall(deps) {
+  yield (0, _effects.takeEvery)(actionTypes.CALL_UNHOLD, midcallSagas.offerFullMedia, (0, _extends3.default)({}, deps, { requests }));
 }
 
 /**
  * Handle sending a call audit request
  * TODO: Move the common "setup" logic into the Callstack?
  * @method callAudit
- * @param  {Object} webRTC The webRTC stack.
+ * @param {Object} deps             Dependencies to be injected.
+ * @param {Object} deps.webRTC      The WebRTC stack.
+ * @param {Array}  deps.sdpHandlers SDP handlers.
  */
-function* callAudit(webRTC) {
+function* callAudit(deps) {
   const actionTypesToDoAuditOn = [actionTypes.ANSWER_CALL, actionTypes.CALL_ACCEPTED];
 
   function callStartAuditPattern(action) {
@@ -32095,10 +32655,12 @@ function* callAudit(webRTC) {
 /**
  * Get RTCStatsReport.
  * @method getStats
- * @param  {Object} webRTC The webRTC stack.
+ * @param {Object} deps             Dependencies to be injected.
+ * @param {Object} deps.webRTC      The WebRTC stack.
+ * @param {Array}  deps.sdpHandlers SDP handlers.
  */
-function* getStatsEntry(webRTC) {
-  yield (0, _effects.takeEvery)(actionTypes.GET_STATS, midcallSagas.getStats, { webRTC });
+function* getStatsEntry(deps) {
+  yield (0, _effects.takeEvery)(actionTypes.GET_STATS, midcallSagas.getStats, deps);
 }
 
 /**
@@ -32118,37 +32680,55 @@ function* setTurnCredentials() {
 /**
  * Forward an incoming call.
  * @method forwardCallEntry
- * @param  {Object} webRTC The webRTC stack.
+ * @param {Object} deps             Dependencies to be injected.
+ * @param {Object} deps.webRTC      The WebRTC stack.
+ * @param {Array}  deps.sdpHandlers SDP handlers.
  */
-function* forwardCallEntry(webRTC) {
-  yield (0, _effects.takeEvery)(actionTypes.FORWARD_CALL, _establish.forwardCall, { webRTC, requests });
+function* forwardCallEntry(deps) {
+  yield (0, _effects.takeEvery)(actionTypes.FORWARD_CALL, _establish.forwardCall, (0, _extends3.default)({}, deps, { requests }));
 }
 
 /**
  * Transfers 2 ongoing calls to one another.
  * @method consultativeTransferEntry
- * @param  {Object} webRTC The webRTC stack.
+ * @param {Object} deps             Dependencies to be injected.
+ * @param {Object} deps.webRTC      The WebRTC stack.
+ * @param {Array}  deps.sdpHandlers SDP handlers.
  */
-function* consultativeTransferEntry(webRTC) {
-  yield (0, _effects.takeEvery)(actionTypes.CONSULTATIVE_TRANSFER, midcallSagas.consultativeTransfer, { webRTC, requests });
+function* consultativeTransferEntry(deps) {
+  yield (0, _effects.takeEvery)(actionTypes.CONSULTATIVE_TRANSFER, midcallSagas.consultativeTransfer, (0, _extends3.default)({}, deps, { requests }));
 }
 
 /**
  * Direct Transfer an ongoing call.
  * @method directTransferEntry
- * @param  {Object} webRTC The webRTC stack.
+ * @param {Object} deps             Dependencies to be injected.
+ * @param {Object} deps.webRTC      The WebRTC stack.
+ * @param {Array}  deps.sdpHandlers SDP handlers.
  */
-function* directTransferEntry(webRTC) {
-  yield (0, _effects.takeEvery)(actionTypes.DIRECT_TRANSFER, midcallSagas.directTransfer, { webRTC, requests });
+function* directTransferEntry(deps) {
+  yield (0, _effects.takeEvery)(actionTypes.DIRECT_TRANSFER, midcallSagas.directTransfer, (0, _extends3.default)({}, deps, { requests }));
 }
 
 /**
  * Joins 2 ongoing calls.
  * @method joinEntry
- * @param  {Object} webRTC The webRTC stack.
+ * @param {Object} deps             Dependencies to be injected.
+ * @param {Object} deps.webRTC      The WebRTC stack.
+ * @param {Array}  deps.sdpHandlers SDP handlers.
  */
-function* joinEntry(webRTC) {
-  yield (0, _effects.takeEvery)(actionTypes.JOIN, midcallSagas.join, { webRTC, requests });
+function* joinEntry(deps) {
+  yield (0, _effects.takeEvery)(actionTypes.JOIN, midcallSagas.join, (0, _extends3.default)({}, deps, { requests }));
+}
+
+/**
+ * Replaces a track with a new track with specified constraints.
+ * @method replaceTrackEntry
+ * @param {Object} deps             Dependencies to be injected.
+ * @param {Object} deps.webRTC      The WebRTC stack.
+ */
+function* replaceTrackEntry(deps) {
+  yield (0, _effects.takeEvery)(actionTypes.REPLACE_TRACK, midcallSagas.replaceTrack, deps);
 }
 
 /***/ }),
@@ -32405,6 +32985,65 @@ function* getRemoteParticipant(notification) {
     remoteName: remoteInfo.remoteName || targetCall.remoteParticipant.displayName,
     remoteNumber: remoteInfo.remoteNumber || targetCall.remoteParticipant.displayNumber
   };
+}
+
+/***/ }),
+
+/***/ "../kandy/src/call/link/utils/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getWebsocketId = getWebsocketId;
+
+var _selectors = __webpack_require__("../kandy/src/auth/interface/selectors.js");
+
+var _constants = __webpack_require__("../kandy/src/constants.js");
+
+var _errors = __webpack_require__("../kandy/src/errors/index.js");
+
+var _errors2 = _interopRequireDefault(_errors);
+
+var _effects = __webpack_require__("../../node_modules/redux-saga/es/effects.js");
+
+var _logs = __webpack_require__("../kandy/src/logs/index.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// Libraries.
+
+
+// Helpers.
+const log = (0, _logs.getLogManager)().getLogger('CALL');
+
+/**
+ * Gets the websocket id being used by the call.
+ * @method getWebsocketId
+ * @returns {Object} result Contains `websocketId` property or an `error` property
+ * @returns {string} result.websocketId The websocket id being used by the call.
+ * @returns {BasicError} result.error An error object on failure to find websocket id.
+ */
+// Other plugins.
+function* getWebsocketId() {
+  const subscriptionInfo = yield (0, _effects.select)(_selectors.getSubscriptionInfo, _constants.platforms.LINK);
+
+  try {
+    // Match anything after /websocket/ in the string. The ID should be the first result, which is the (.*) group.
+    const websocketId = subscriptionInfo.notificationChannel.match(/\/websocket\/([^\s]+)/)[1];
+    return { websocketId };
+  } catch (e) {
+    log.error(e.message);
+    return {
+      error: new _errors2.default({
+        code: _errors.callCodes.GENERIC_ERROR,
+        message: 'Websocket ID not found'
+      })
+    };
+  }
 }
 
 /***/ }),
@@ -33853,6 +34492,440 @@ function* removeCallLogs(action) {
 
 /***/ }),
 
+/***/ "../kandy/src/callstack/call/dtmf.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.sendDtmf = sendDtmf;
+exports.playOutBand = playOutBand;
+exports.playInBand = playInBand;
+exports.hasTelephoneEvent = hasTelephoneEvent;
+exports.convertTone = convertTone;
+exports.splitTones = splitTones;
+
+var _actions = __webpack_require__("../kandy/src/call/interfaceNew/actions/index.js");
+
+var _selectors = __webpack_require__("../kandy/src/call/interfaceNew/selectors.js");
+
+var _constants = __webpack_require__("../kandy/src/call/constants.js");
+
+var _logs = __webpack_require__("../kandy/src/logs/index.js");
+
+var _errors = __webpack_require__("../kandy/src/errors/index.js");
+
+var _errors2 = _interopRequireDefault(_errors);
+
+var _effects = __webpack_require__("../../node_modules/redux-saga/es/effects.js");
+
+var _sdpTransform = __webpack_require__("../../node_modules/sdp-transform/lib/index.js");
+
+var _sdpTransform2 = _interopRequireDefault(_sdpTransform);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// Libraries.
+
+
+// Other plugins.
+const log = (0, _logs.getLogManager)().getLogger('CALL');
+
+/**
+ * Entry saga for sending DTMF tones on a call.
+ *
+ * Determines if the DTMF tones need to be out-of-band (preferred) or in-band.
+ *    Referes to helper functions to send the tones.
+ *
+ * Assumptions:
+ *    1. None; everything is checked.
+ * Responsibilities:
+ *    1. Validate the operation is currently possible.
+ *    2. Determine if out-of-band tones are possible for the call.
+ *    3. Send the tones, depending on method available.
+ * @method sendDtmf
+ * @param {Object} deps        Dependencies that the saga uses.
+ * @param {Object} deps.webRTC The WebRTC stack.
+ * @param {Object} action      A "send dtmf" action.
+ */
+/**
+ * dtmf.js contains one call operation:
+ *    - sendDtmf: Send DTMF tone(s) over a call.
+ *
+ * and several "helper" functions for it:
+ *    - playInBand: Functionality for in-band DTMF.
+ *    - playOutBand: Functionality for out-of-band DTMF.
+ *      - addTones: Generates DTMF tones and adds them to the audio.
+ *    - hasTelephoneEvent: Helper to determine out-of-band DTMF support.
+ *    - convertTone, splitTones: Helpers for parsing input.
+ */
+
+// Call plugin.
+function* sendDtmf(deps, action) {
+  const { webRTC } = deps;
+
+  // Get the call.
+  const targetCall = yield (0, _effects.select)(_selectors.getCallById, action.payload.id);
+
+  let error;
+  /**
+   * Operation requirements:
+   *    1. The call exists.
+   *    2. The call is either Connected or Ringing.
+   *    3. A valid tone was provided.
+   */
+  if (!targetCall) {
+    log.info(`Failed to send DTMF tones on unknown call ${action.payload.id}`);
+    error = new _errors2.default({
+      code: _errors.callCodes.INVALID_PARAM,
+      message: 'Call state not found; invalid call ID.'
+    });
+  } else if (![_constants.CALL_STATES.CONNECTED, _constants.CALL_STATES.RINGING].includes(targetCall.state)) {
+    log.info(`Failed to send DTMF tones on call ${targetCall.id}: Bad call state.`);
+    error = new _errors2.default({
+      code: _errors.callCodes.INVALID_STATE,
+      message: `Call is in an invalid state (${targetCall.state}).`
+    });
+  } else if (!action.payload.tone) {
+    log.info(`Failed to send DTMF tones on call ${targetCall.id}: Invalid tone.`);
+    error = new _errors2.default({
+      code: _errors.callCodes.INVALID_PARAM,
+      message: 'No DTMF tone specified.'
+    });
+  }
+
+  if (error) {
+    // Stop the operation if it cannot be performed right now.
+    yield (0, _effects.put)(_actions.callActions.sendDTMFFinish(action.payload.id, { error }));
+    return;
+  }
+
+  // Get the webrtc Session for the call.
+  const session = yield (0, _effects.call)([webRTC.sessionManager, 'get'], targetCall.webrtcSessionId);
+  // Get the remote description for the Session.
+  const remoteDesc = yield (0, _effects.call)([session, 'getRemoteDescription']);
+
+  // TODO: Is this the correct SDP to use?
+  let canSendOutBand = yield (0, _effects.call)(hasTelephoneEvent, remoteDesc.sdp);
+
+  let result;
+  if (canSendOutBand) {
+    log.debug(`Sending DTMF tones out-of-band for call ${targetCall.id}.`);
+    result = yield (0, _effects.call)(playOutBand, session, action.payload);
+  } else {
+    log.debug(`Sending DTMF tones in-band for call ${targetCall.id}.`);
+    result = yield (0, _effects.call)(playInBand, session, action.payload);
+  }
+
+  if (result) {
+    log.info(`Successfully sent DTMF tones for call ${targetCall.id}.`);
+    yield (0, _effects.put)(_actions.callActions.sendDTMFFinish(action.payload.id));
+  } else {
+    log.debug(`Failed to send DTMF tones for call ${targetCall.id}.`);
+    yield (0, _effects.put)(_actions.callActions.sendDTMFFinish(action.payload.id, {
+      error: new _errors2.default({
+        code: _errors.callCodes.GENERIC_ERROR,
+        message: `Unable to send DTMF tones for call ${targetCall.id}.`
+      })
+    }));
+  }
+}
+
+/**
+ * Sends DTMF tones out-of-band over a Session.
+ * This saga defines how out-of-band tones are sent over a call.
+ *
+ * The Callstack implementation uses the WebRTC stack's implementation for this.
+ *    There is no signaling involved.
+ *
+ * @method playOutBand
+ * @param  {Session} session A Webrtc Session object.
+ * @param  {Object}  options
+ * @param  {string}  options.tone           The tone sequence.
+ * @param  {number}  [options.duration]     The length of each DTMF tone.
+ * @param  {number}  [options.intertoneGap] The gap between each DTMF tone.
+ * @return {boolean} Whether the operation was succesful or not.
+ */
+function* playOutBand(session, options) {
+  const result = yield (0, _effects.call)([session, 'sendDTMF'], options);
+  return result;
+}
+
+/**
+ * Sends DTMF tones in-band over a Session.
+ * This saga defines how in-band tones are sent over a call.
+ *
+ * DTMF tones are added to the audio track by using AudioContext nodes. A
+ *    MediaStream is converted into an audio node, which allows us to add more
+ *    audio inputs into the node. The original audio and DTMF tones are mixed
+ *    into a single node this way, and the track from this node temporarily
+ *    replaces the original track in the Session.
+ *
+ *                       +-------------------------+
+ *    Original           | Additional Audio Source |
+ *   MediaStream         +---------+---------------+
+ *       |                         |
+ *       |                         |
+ *       v                         v
+ * +-----+-------+         +-------+----------+
+ * | Source Node +-------->| Destination Node |
+ * +-------------+         +-------+----------+
+ *                                 |
+ *                                 |
+ *                                 v
+ *                         MediaStream w/ DTMF
+ *
+ * @method playInBand
+ * @param  {Session} session A Webrtc Session object.
+ * @param  {Object}  options
+ * @param  {string}  options.tone           The tone sequence.
+ * @param  {number}  [options.duration=100]     The length of each DTMF tone.
+ * @param  {number}  [options.intertoneGap=70]  The gap between each DTMF tone.
+ * @return {boolean} Whether the operation was succesful or not.
+ */
+function* playInBand(session, options) {
+  let { tone, duration, intertoneGap: gap } = options;
+
+  // Ensure optional options are numbers (not strings). If not numbers, or
+  //    undefined, use default values.
+  duration = Number(duration) > 0 ? Number(duration) : 100;
+  gap = Number(gap) > -1 ? Number(gap) : 70;
+
+  // Get the (native) track the tones will be inserted into.
+  let track;
+  for (let localTrack of session.localTracks) {
+    // Matching the track is done this way because we need to yield to getState,
+    //    but we can't yield inside of a `.find(func)` or similar. So iterate
+    //    over the new tracks "manually".
+    const state = yield (0, _effects.call)([localTrack, 'getState']);
+    if (state.kind === 'audio') {
+      track = localTrack;
+      break;
+    }
+  }
+
+  const stream = yield (0, _effects.call)([track, 'getStream']);
+  const context = new AudioContext();
+
+  // Create a source node that has the stream media.
+  const source = context.createMediaStreamSource(stream);
+
+  /**
+   * Create the "destination node". All audio sources will be connected to This
+   *    node, and it will be used as the "final output".
+   */
+  const dest = context.createMediaStreamDestination();
+  // Connect the source node to it, so that it has the original audio.
+  source.connect(dest);
+
+  // Get the track from the destination node and replace the original track
+  //    on the PeerConnection with it. The remote endpoint will now receive
+  //    any/all audio that is connected to the destination node.
+  const newTrack = dest.stream.getAudioTracks()[0];
+  yield (0, _effects.call)([session.peer, 'replaceTrack'], newTrack, { trackId: track.id });
+
+  // Add the DTMF tones to the destination node.
+  yield (0, _effects.call)(addTones, context, dest, tone, { duration, gap });
+
+  // Un-replace track on the PeerConnection. This resets the tracks back to
+  //    "normal".
+  yield (0, _effects.call)([session.peer, 'replaceTrack'], track.track, { trackId: newTrack.id });
+
+  // Clean-up the AudioContext nodes.
+  context.close();
+
+  return true;
+}
+
+/**
+ * Generates DTMF tones based on input, and connects the audio to the provided
+ *    target node.
+ * @method addTones
+ * @param  {AudioContext} context      The AudioContext being used.
+ * @param  {AudioNode} targetNode      The AudioNode to add DTMF tones to.
+ * @param  {string} tones              The input tones.
+ * @param  {Object} [options]
+ * @param  {number} [options.duration] The length of each DTMF tone.
+ * @param  {number} [options.gap]      The gap between each DTMF tone.
+ */
+function* addTones(context, targetNode, tones, options) {
+  /**
+   * Node Diagram:
+   * +--------------+
+   * | Oscillator 1 +--+
+   * +--------------+  |    +--------------+
+   *                   +--->|   Osc Node   |
+   * +--------------+  |    +------+-------+
+   * | Oscillator 2 +--+           |
+   * +--------------+              | Connect generated audio
+   *                               v to the provided node.
+   *                        +------+--------+
+   *                        |  Target Node  |
+   *                        +---------------+
+   */
+
+  /**
+   * Step 1: Setup the audio nodes.
+   */
+  // Create the Oscillator nodes that will generate the frequencies.
+  const oscillators = [context.createOscillator(), context.createOscillator()];
+  oscillators[0].type = 'sine';
+  oscillators[1].type = 'sine';
+
+  /**
+   * Create an intermediary Gain node to control the volume of the oscillator
+   *   frequencies before connecting them to anything else.
+   */
+  const oscNode = context.createGain();
+  oscillators[0].connect(oscNode);
+  oscillators[1].connect(oscNode);
+  oscNode.gain.value = 0.1;
+
+  // Connect the combined oscillators to the target node. Any tones created
+  //    by the oscillators will be heard in the target node.
+  oscNode.connect(targetNode);
+
+  // Connect the oscillators to the "destination" as well, which works magically.
+  // `context.destination` connects to the "default destination" (or something
+  //    like that), which will be the machine's speakers. This will play the
+  //    audio locally.
+  oscNode.connect(context.destination);
+
+  /**
+   * Step 2: Use the oscillators to generate DTMF tones.
+   */
+
+  /**
+   * Schedule a frequency to be played for a period of time.
+   * @method scheduleTone
+   * @param  {number} tone  A frequency.
+   * @param  {number} start When the tone should start.
+   * @param  {number} dur   The duration of the tone, in seconds.
+   */
+  function scheduleTone(tone, start, dur) {
+    oscillators[0].frequency.setValueAtTime(tone[0], start);
+    oscillators[0].frequency.setValueAtTime(0, start + dur);
+
+    oscillators[1].frequency.setValueAtTime(tone[1], start);
+    oscillators[1].frequency.setValueAtTime(0, start + dur);
+  }
+
+  const toneSequence = splitTones(tones).map(convertTone);
+
+  // Convert the time units to seconds.
+  const dur = options.duration / 1000;
+  const gap = options.gap / 1000;
+
+  let toneStart = context.currentTime;
+  for (let i = 0; i < toneSequence.length; i++) {
+    scheduleTone(toneSequence[i], toneStart, dur);
+
+    toneStart = toneStart + dur + gap;
+  }
+
+  // Start playing the scheduled tones.
+  oscillators[0].start();
+  oscillators[1].start();
+
+  /**
+   * Step 3: Clean-up the audio nodes.
+   */
+
+  // Wait until all tones have finished playing.
+  const numTones = toneSequence.length;
+  const delayTime = numTones * (options.duration + options.gap);
+  yield (0, _effects.delay)(delayTime);
+
+  // Disconnect all nodes from each other.
+  oscNode.disconnect();
+  oscillators[0].stop();
+  oscillators[0].disconnect();
+  oscillators[1].stop();
+  oscillators[1].disconnect();
+}
+
+/**
+ * Checks whether an SDP has at least one telephone-event codec.
+ *
+ * TODO: If there isn't a telephone-event, then the PeerConnection won't have
+ *    a "dtmf sender" (RTCRtpSender.dtmf). Should preferrably check for that
+ *    rather than looking through the SDP.
+ * This isn't being done because the Session/Peer models wrap "send dtmf" in a
+ *    way that makes it inconvenient to use.
+ *
+ * @method hasTelephoneEvent
+ * @param  {string}  stringSdp An SDP.
+ * @return {boolean}
+ */
+function hasTelephoneEvent(stringSdp) {
+  const sdp = _sdpTransform2.default.parse(stringSdp);
+
+  const hasCodec = sdp.media.filter(media => media.type === 'audio').some(media => {
+    return media.rtp.some(rtp => rtp.codec === 'telephone-event');
+  });
+
+  return hasCodec;
+}
+
+/**
+ * Converts a single tone input to its dual-frequencies.
+ * @method convertTone
+ * @param  {string} tone A DTMF tone input character.
+ * @return {Array} The set of frequencies for the DTMF tone.
+ */
+function convertTone(tone) {
+  if (typeof tone !== 'string' || tone.length > 1) {
+    throw new Error('Invalid input for DTMF tone.');
+  }
+
+  switch (tone) {
+    case '1':
+      return ['697', '1209'];
+    case '2':
+      return ['697', '1336'];
+    case '3':
+      return ['697', '1477'];
+    case '4':
+      return ['770', '1209'];
+    case '5':
+      return ['770', '1336'];
+    case '6':
+      return ['770', '1477'];
+    case '7':
+      return ['852', '1209'];
+    case '8':
+      return ['852', '1336'];
+    case '9':
+      return ['852', '1477'];
+    case '0':
+      return ['941', '1209'];
+    case '*':
+      return ['941', '1336'];
+    case '#':
+      return ['941', '1477'];
+  }
+}
+
+/**
+ * Splits a DTMF tone sequence into individual tones.
+ * @method splitTones
+ * @param  {string} tone A DTMF tone string.
+ * @return {Array} List of single-character tones.
+ */
+function splitTones(tone) {
+  const matches = tone.match(/[\d*#]+/);
+  if (!matches || matches[0] !== tone) {
+    throw new Error('Invalid characters in tone.');
+  }
+
+  return tone.split('');
+}
+
+/***/ }),
+
 /***/ "../kandy/src/callstack/call/establish.js":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -33874,6 +34947,8 @@ var _selectors = __webpack_require__("../kandy/src/call/interfaceNew/selectors.j
 
 var _constants = __webpack_require__("../kandy/src/call/constants.js");
 
+var _bandwidth = __webpack_require__("../kandy/src/callstack/utils/bandwidth.js");
+
 var _utils = __webpack_require__("../kandy/src/call/cpaas/utils/index.js");
 
 var _establish = __webpack_require__("../kandy/src/callstack/webrtc/establish.js");
@@ -33888,15 +34963,6 @@ var _effects = __webpack_require__("../../node_modules/redux-saga/es/effects.js"
 
 
 // Callstack plugin.
-/**
- * "Establish sagas" handle establishing a call (ie. start or respond to a call).
- *
- * The sagas about starting a call locally assume there is no session established
- *    (since that's what it is doing). The sagas about responding to a call
- *    assume that there is a session (both webRTC and server).
- */
-
-// Call plugin.
 const log = (0, _logs.getLogManager)().getLogger('CALL');
 
 /**
@@ -33915,13 +34981,23 @@ const log = (0, _logs.getLogManager)().getLogger('CALL');
  * @param {Object}   deps.webRTC   The WebRTC stack.
  * @param {Object}   deps.requests The set of platform-specific signalling functions.
  * @param {Function} deps.requests.createSession "Make call" signalling function.
+ * @param {Array}    deps.sdpHandlers The list of SDP handlers to run.
  * @param {Object}   action        An action of type `MAKE_CALL`.
  */
 
 
 // Libraries.
+/**
+ * "Establish sagas" handle establishing a call (ie. start or respond to a call).
+ *
+ * The sagas about starting a call locally assume there is no session established
+ *    (since that's what it is doing). The sagas about responding to a call
+ *    assume that there is a session (both webRTC and server).
+ */
+
+// Call plugin.
 function* makeCall(deps, action) {
-  const { webRTC, requests } = deps;
+  const requests = deps.requests;
 
   // Create a new local media object for this call.
   const mediaConstraints = {
@@ -33932,10 +35008,12 @@ function* makeCall(deps, action) {
   const turnInfo = yield (0, _effects.select)(_selectors.getTurnInfo);
   const { trickleIceMode, sdpSemantics } = yield (0, _effects.select)(_selectors.getOptions);
 
-  const { error, offerSdp, sessionId, mediaId } = yield (0, _effects.call)(_establish.setupCall, webRTC, mediaConstraints, {
+  const bandwidth = (0, _bandwidth.checkBandwidthControls)(action.payload.bandwidth);
+  const { error, offerSdp, sessionId, mediaId } = yield (0, _effects.call)(_establish.setupCall, deps, mediaConstraints, {
     sdpSemantics,
     turnInfo,
-    trickleIceMode
+    trickleIceMode,
+    bandwidth
   });
 
   // An error occured while trying to setup the WebRTC portion of the call.
@@ -33950,6 +35028,9 @@ function* makeCall(deps, action) {
 
   const callInfo = {
     participantAddress: action.payload.participantAddress,
+    isAnonymous: action.payload.isAnonymous,
+    from: action.payload.from,
+    account: action.payload.account,
     offer: offerSdp
   };
 
@@ -33964,14 +35045,16 @@ function* makeCall(deps, action) {
       // The ID that the webRTC stack uses to track this webRTC session.
       webrtcSessionId: sessionId,
       // The local Media object associated with this call.
-      mediaId: mediaId
+      mediaId: mediaId,
+      // The bandwidth of the call.
+      bandwidth
     }));
   } else {
     // The call failed, so stop the Media object created for the call.
     // TODO: Update redux state that the Media object is stopped.
     //    Need an event from Media model to notify about the stop, and listener
     //    set on Media when it is created (in `createLocalMedia` saga).
-    yield (0, _effects.call)(_midcall.closeCall, webRTC, mediaId);
+    yield (0, _effects.call)(_midcall.closeCall, deps.webRTC, mediaId);
 
     yield (0, _effects.put)(_actions.callActions.makeCallFinish(action.payload.id, {
       state: _constants.CALL_STATES.ENDED,
@@ -34010,12 +35093,14 @@ function* makeCall(deps, action) {
  * @param {Object}   deps.webRTC   The WebRTC stack.
  * @param {Object}   deps.requests The set of platform-specific signalling functions.
  * @param {Function} deps.requests.answerSession "Answer call" signalling function.
+ * @param {Array}    deps.sdpHandlers The list of SDP handlers to run.
  * @param {Object}   action        An "answer call" action.
  */
 function* answerCall(deps, action) {
-  const { webRTC, requests } = deps;
+  const requests = deps.requests;
   const incomingCall = yield (0, _effects.select)(_selectors.getCallById, action.payload.id);
 
+  const bandwidth = (0, _bandwidth.checkBandwidthControls)(action.payload.bandwidth);
   if (!incomingCall) {
     // TODO: Should report an error.
     log.error(`Error: Call ${action.payload.id} not found.`);
@@ -34053,10 +35138,11 @@ function* answerCall(deps, action) {
     const { trickleIceMode, sdpSemantics } = yield (0, _effects.select)(_selectors.getOptions);
 
     // Setup a webRTC session.
-    webrtcInfo = yield (0, _effects.call)(_establish.setupCall, webRTC, mediaConstraints, {
+    webrtcInfo = yield (0, _effects.call)(_establish.setupCall, deps, mediaConstraints, {
       sdpSemantics,
       turnInfo,
-      trickleIceMode
+      trickleIceMode,
+      bandwidth
     });
 
     if (webrtcInfo.error) {
@@ -34082,8 +35168,8 @@ function* answerCall(deps, action) {
     log.debug('Answering call.', action.payload.id);
 
     // Update the existing webRTC session with an answer.
-    const sessionOptions = { sessionId: incomingCall.webrtcSessionId };
-    webrtcInfo = yield (0, _effects.call)(_establish.answerWebrtcSession, webRTC, mediaConstraints, sessionOptions);
+    const sessionOptions = { sessionId: incomingCall.webrtcSessionId, bandwidth };
+    webrtcInfo = yield (0, _effects.call)(_establish.answerWebrtcSession, deps, mediaConstraints, sessionOptions);
 
     if (webrtcInfo.error) {
       yield (0, _effects.put)(_actions.callActions.answerCallFinish(action.payload.id, {
@@ -34115,7 +35201,9 @@ function* answerCall(deps, action) {
       // For slow start calls, there isn't a webRTC session yet.
       webrtcSessionId: webrtcInfo.sessionId,
       // TODO: Properly track the media that the call has.
-      mediaConstraints
+      mediaConstraints,
+      // The bandwidth of the call
+      bandwidth
     }, {
       isSlowStart: incomingCall.isSlowStart
     }));
@@ -34289,13 +35377,13 @@ Object.defineProperty(exports, "__esModule", {
 exports.endCall = endCall;
 exports.offerInactiveMedia = offerInactiveMedia;
 exports.offerFullMedia = offerFullMedia;
-exports.sendDTMF = sendDTMF;
 exports.getStats = getStats;
 exports.addMedia = addMedia;
 exports.removeMedia = removeMedia;
 exports.directTransfer = directTransfer;
 exports.consultativeTransfer = consultativeTransfer;
 exports.join = join;
+exports.replaceTrack = replaceTrack;
 
 var _establish = __webpack_require__("../kandy/src/callstack/webrtc/establish.js");
 
@@ -34370,13 +35458,13 @@ function* endCall(deps, action) {
     return;
   }
 
-  const { wrtcsSessionId, webrtcSessionId } = yield (0, _effects.select)(_selectors.getCallById, id);
+  const { wrtcsSessionId, webrtcSessionId, isAnonymous, account } = yield (0, _effects.select)(_selectors.getCallById, id);
 
   // Perform webRTC functions
   yield (0, _effects.call)(_midcall.closeCall, webRTC, webrtcSessionId);
 
   // Perform signalling to end the session
-  const response = yield (0, _effects.call)(requests.endSession, { wrtcsSessionId });
+  const response = yield (0, _effects.call)(requests.endSession, { wrtcsSessionId, isAnonymous, account });
 
   if (!response.error) {
     yield (0, _effects.put)(_actions.callActions.endCallFinish(id));
@@ -34407,10 +35495,11 @@ function* endCall(deps, action) {
  * @param {Object}   deps.webRTC   The WebRTC stack.
  * @param {Object}   deps.requests The set of platform-specific signalling functions.
  * @param {Function} deps.requests.updateSession "Update call" signalling function.
+ * @param {Array}    deps.sdpHandlers The list of SDP handlers to run.
  * @param {Object}   action An action of type `CALL_HOLD`.
  */
 function* offerInactiveMedia(deps, action) {
-  const { webRTC, requests } = deps;
+  const requests = deps.requests;
 
   // Make sure the call state is what we expect
   const stateError = yield (0, _effects.call)(_utils.validateCallState, action.payload.id, { localHold: false });
@@ -34424,14 +35513,14 @@ function* offerInactiveMedia(deps, action) {
   }
 
   const targetCall = yield (0, _effects.select)(_selectors.getCallById, action.payload.id);
-  const { wrtcsSessionId, webrtcSessionId } = targetCall;
+  const { wrtcsSessionId, webrtcSessionId, isAnonymous, account } = targetCall;
 
   // TODO: Make sure the session is in the correct signaling state to start a
   //    renegotiation operation.
-  const offer = yield (0, _effects.call)(_midcall.generateOffer, webRTC, webrtcSessionId, {
+  const offer = yield (0, _effects.call)(_midcall.generateOffer, deps, webrtcSessionId, {
     audio: 'inactive',
     video: 'inactive'
-  });
+  }, targetCall.bandwidth);
 
   if (!offer) {
     log.debug('Failed to generate SDP offer');
@@ -34447,7 +35536,9 @@ function* offerInactiveMedia(deps, action) {
 
   const callInfo = {
     wrtcsSessionId,
-    offer: offer.sdp
+    offer: offer.sdp,
+    isAnonymous,
+    account
   };
 
   const response = yield (0, _effects.call)(requests.updateSession, callInfo);
@@ -34486,10 +35577,11 @@ function* offerInactiveMedia(deps, action) {
  * @param {Object}   deps.webRTC   The WebRTC stack.
  * @param {Object}   deps.requests The set of platform-specific signalling functions.
  * @param {Function} deps.requests.updateSession "Update call" signalling function.
+ * @param {Array}    deps.sdpHandlers The list of SDP handlers to run.
  * @param {Object}   action        A "unhold call" action.
  */
 function* offerFullMedia(deps, action) {
-  const { webRTC, requests } = deps;
+  const requests = deps.requests;
 
   // Make sure the call state is what we expect
   const stateError = yield (0, _effects.call)(_utils.validateCallState, action.payload.id, { localHold: true });
@@ -34503,14 +35595,14 @@ function* offerFullMedia(deps, action) {
   }
 
   const targetCall = yield (0, _effects.select)(_selectors.getCallById, action.payload.id);
-  const { wrtcsSessionId, webrtcSessionId } = targetCall;
+  const { wrtcsSessionId, webrtcSessionId, isAnonymous, account } = targetCall;
 
   // TODO: Make sure the session is in the correct signaling state to start a
   //    renegotiation operation.
-  const offer = yield (0, _effects.call)(_midcall.generateOffer, webRTC, webrtcSessionId, {
+  const offer = yield (0, _effects.call)(_midcall.generateOffer, deps, webrtcSessionId, {
     audio: 'sendrecv',
     video: 'sendrecv'
-  });
+  }, targetCall.bandwidth);
 
   if (!offer) {
     log.debug('Invalid SDP offer or SDP offer not received.');
@@ -34526,7 +35618,9 @@ function* offerFullMedia(deps, action) {
 
   const callInfo = {
     wrtcsSessionId,
-    offer: offer.sdp
+    offer: offer.sdp,
+    isAnonymous,
+    account
   };
 
   const response = yield (0, _effects.call)(requests.updateSession, callInfo);
@@ -34541,72 +35635,6 @@ function* offerFullMedia(deps, action) {
     log.debug('Successfully sent unhold offer.');
     yield (0, _effects.put)(_actions.callActions.unholdCallFinish(action.payload.id, {
       local: true
-    }));
-  }
-}
-
-/**
- * Sends DTMF tones out-of-band.
- *
- * This saga defines how DTMF tones are sent over a call. It performs
- *    the webRTC operations on the local session of a call. There is no
- *    signaling involved.
- * Assumptions:
- *    1. The call is in the correct state.
- *        - The call is connected.
- * Responsibilities:
- *    1. Validate that tones can be sent on the call's session.
- *    2. Send the tones.
- * @method sendDTMF
- * @param {Object} deps        Dependencies that the saga uses.
- * @param {Object} deps.webRTC The WebRTC stack.
- * @param {Object} action      A "send dtmf" action.
- */
-function* sendDTMF(deps, action) {
-  const { webRTC } = deps;
-
-  // Handle scenario where no tone is provided.
-  if ((0, _fp.isUndefined)(action.payload.tone)) {
-    yield (0, _effects.put)(_actions.callActions.sendDTMFFinish(action.payload.id, {
-      error: new _errors2.default({
-        code: _errors.callCodes.INVALID_PARAM,
-        message: 'No tone specifed.'
-      })
-    }));
-    return;
-  }
-
-  // Make sure the call state is what we expect
-  const stateError = yield (0, _effects.call)(_utils.validateCallState, action.payload.id, { state: _constants.CALL_STATES.CONNECTED });
-  if (stateError) {
-    log.debug(`Invalid call state: ${stateError.message}`);
-    yield (0, _effects.put)(_actions.callActions.sendDTMFFinish(action.payload.id, {
-      local: true,
-      error: stateError
-    }));
-    return;
-  }
-
-  // Get the call.
-  const targetCall = yield (0, _effects.select)(_selectors.getCallById, action.payload.id);
-
-  // Get the local Session for the call.
-  const session = yield (0, _effects.call)([webRTC.sessionManager, 'get'], targetCall.webrtcSessionId);
-
-  const { tone, duration, intertoneGap } = action.payload;
-
-  // Send DTMF tones.
-  const result = yield (0, _effects.call)([session, 'sendDTMF'], { tone, duration, intertoneGap });
-  if (result) {
-    log.debug('Successfully sent DTMF tones.');
-    yield (0, _effects.put)(_actions.callActions.sendDTMFFinish(action.payload.id));
-  } else {
-    log.debug('Failed to send DTMF tones.');
-    yield (0, _effects.put)(_actions.callActions.sendDTMFFinish(action.payload.id, {
-      error: new _errors2.default({
-        code: _errors.callCodes.GENERIC_ERROR,
-        message: 'Unable to send DTMF tones.'
-      })
     }));
   }
 }
@@ -34688,10 +35716,12 @@ function* getStats(deps, action) {
  * @param {Object}  deps.webRTC   The WebRTC stack.
  * @param {Object}  deps.requests requests that addMedia relies on
  * @param {Function}  deps.requests.updateSession request to update the session on the backend
+ * @param {Array}    deps.sdpHandlers The list of SDP handlers to run.
  * @param  {Object} action        An "add media" action.
  */
 function* addMedia(deps, action) {
-  const { webRTC, requests } = deps;
+  const requests = deps.requests;
+  const { bandwidth } = action.payload;
 
   // Make sure the call state is what we expect
   const stateError = yield (0, _effects.call)(_utils.validateCallState, action.payload.id, { state: _constants.CALL_STATES.CONNECTED });
@@ -34705,11 +35735,15 @@ function* addMedia(deps, action) {
   }
 
   // Get some call data.
-  const { webrtcSessionId, wrtcsSessionId } = yield (0, _effects.select)(_selectors.getCallById, action.payload.id);
+  const { webrtcSessionId, wrtcsSessionId, bandwidth: callBandwidth, isAnonymous, account } = yield (0, _effects.select)(_selectors.getCallById, action.payload.id);
 
-  // Create media and add tracks using webRTC
-  const { error, sdp, media } = yield (0, _effects.call)(_midcall.webRtcAddMedia, webRTC, action.payload.mediaConstraints, {
-    sessionId: webrtcSessionId
+  const finalBandwidth = {
+    audio: bandwidth && bandwidth.audio ? bandwidth.audio : callBandwidth.audio,
+    video: bandwidth && bandwidth.video ? bandwidth.video : callBandwidth.video
+    // Create media and add tracks using webRTC
+  };const { error, sdp, media } = yield (0, _effects.call)(_midcall.webRtcAddMedia, deps, action.payload.mediaConstraints, {
+    sessionId: webrtcSessionId,
+    bandwidth: finalBandwidth
   });
 
   if (error) {
@@ -34722,7 +35756,9 @@ function* addMedia(deps, action) {
 
   const callInfo = {
     wrtcsSessionId,
-    offer: sdp
+    offer: sdp,
+    isAnonymous,
+    account
 
     // Perform signalling to add media
   };const response = yield (0, _effects.call)(requests.updateSession, callInfo);
@@ -34738,7 +35774,8 @@ function* addMedia(deps, action) {
     yield (0, _effects.put)(_actions.callActions.addMediaFinish(action.payload.id, {
       local: true,
       mediaId: media.id,
-      tracks: media.tracks.map(track => track.id)
+      tracks: media.tracks.map(track => track.id),
+      bandwidth: finalBandwidth
     }));
   }
 }
@@ -34759,15 +35796,17 @@ function* addMedia(deps, action) {
  * @param {Object}   deps.webRTC   The WebRTC stack.
  * @param {Object}   deps.requests The set of platform-specific signalling functions.
  * @param {Function} deps.requests.updateSession "Update call" signalling function.
+ * @param {Array}    deps.sdpHandlers The list of SDP handlers to run.
  * @param {Object}   action An action of type `REMOVE_MEDIA`.
  */
 function* removeMedia(deps, action) {
-  const { webRTC, requests } = deps;
+  const requests = deps.requests;
+  const { id, tracks, bandwidth } = action.payload;
 
   // Handle scenario where no track ids are provided or not in an array.
-  if (!(0, _fp.isArray)(action.payload.tracks) || (0, _fp.isEmpty)(action.payload.tracks)) {
+  if (!(0, _fp.isArray)(tracks) || (0, _fp.isEmpty)(tracks)) {
     log.debug(`No track ids specified to remove.`);
-    yield (0, _effects.put)(_actions.callActions.removeMediaFinish(action.payload.id, {
+    yield (0, _effects.put)(_actions.callActions.removeMediaFinish(id, {
       local: true,
       error: new _errors2.default({
         code: _errors.callCodes.INVALID_PARAM,
@@ -34778,26 +35817,30 @@ function* removeMedia(deps, action) {
   }
 
   // Make sure the call state is what we expect
-  const stateError = yield (0, _effects.call)(_utils.validateCallState, action.payload.id, { state: _constants.CALL_STATES.CONNECTED });
+  const stateError = yield (0, _effects.call)(_utils.validateCallState, id, { state: _constants.CALL_STATES.CONNECTED });
   if (stateError) {
     log.debug(`Invalid call state:  ${stateError.message}`);
-    yield (0, _effects.put)(_actions.callActions.removeMediaFinish(action.payload.id, {
+    yield (0, _effects.put)(_actions.callActions.removeMediaFinish(id, {
       local: true,
       stateError
     }));
     return;
   }
   // Get some call data.
-  const { webrtcSessionId, wrtcsSessionId } = yield (0, _effects.select)(_selectors.getCallById, action.payload.id);
+  const { webrtcSessionId, wrtcsSessionId, bandwidth: callBandwidth, isAnonymous, account } = yield (0, _effects.select)(_selectors.getCallById, action.payload.id);
 
-  // Remove media and tracks using webRTC
-  const { sdp, error } = yield (0, _effects.call)(_midcall.webRtcRemoveMedia, webRTC, {
+  const finalBandwidth = {
+    audio: bandwidth && bandwidth.audio ? bandwidth.audio : callBandwidth.audio,
+    video: bandwidth && bandwidth.video ? bandwidth.video : callBandwidth.video
+    // Remove media and tracks using webRTC
+  };const { sdp, error } = yield (0, _effects.call)(_midcall.webRtcRemoveMedia, deps, {
     sessionId: webrtcSessionId,
-    tracks: action.payload.tracks
+    tracks: tracks,
+    bandwidth: finalBandwidth
   });
   if (error) {
     log.debug(`Failed to remove media: ${error.message}`);
-    yield (0, _effects.put)(_actions.callActions.removeMediaFinish(action.payload.id, {
+    yield (0, _effects.put)(_actions.callActions.removeMediaFinish(id, {
       local: true,
       error
     }));
@@ -34806,22 +35849,25 @@ function* removeMedia(deps, action) {
 
   const callInfo = {
     wrtcsSessionId,
-    offer: sdp
+    offer: sdp,
+    isAnonymous,
+    account
   };
 
   const response = yield (0, _effects.call)(requests.updateSession, callInfo);
 
   if (response.error) {
     log.debug('Failed to send remove media offer.');
-    yield (0, _effects.put)(_actions.callActions.removeMediaFinish(action.payload.id, {
+    yield (0, _effects.put)(_actions.callActions.removeMediaFinish(id, {
       local: true,
       error: response.error
     }));
   } else {
     log.debug('Successfully sent remove media offer.');
-    yield (0, _effects.put)(_actions.callActions.removeMediaFinish(action.payload.id, {
+    yield (0, _effects.put)(_actions.callActions.removeMediaFinish(id, {
       local: true,
-      tracks: action.payload.tracks
+      tracks: tracks,
+      bandwidth: finalBandwidth
     }));
   }
 }
@@ -34959,7 +36005,7 @@ function* consultativeTransfer(deps, action) {
  * @param {Object}   action An action of type `JOIN`.
  */
 function* join(deps, action) {
-  const { webRTC, requests } = deps;
+  const requests = deps.requests;
 
   const currentCall = yield (0, _effects.select)(_selectors.getCallById, action.payload.id);
   const otherCall = yield (0, _effects.select)(_selectors.getCallById, action.payload.otherCallId);
@@ -34994,7 +36040,7 @@ function* join(deps, action) {
   const turnInfo = yield (0, _effects.select)(_selectors.getTurnInfo);
   const { trickleIceMode, sdpSemantics } = yield (0, _effects.select)(_selectors.getOptions);
 
-  const { offerSdp, sessionId, mediaId } = yield (0, _effects.call)(_establish.setupCall, webRTC, mediaConstraints, {
+  const { offerSdp, sessionId, mediaId } = yield (0, _effects.call)(_establish.setupCall, deps, mediaConstraints, {
     sdpSemantics,
     turnInfo,
     trickleIceMode
@@ -35053,6 +36099,50 @@ function* join(deps, action) {
     // The ids of the calls that were used for joining.
     usedCallIds: [currentCall.id, otherCall.id]
   }));
+}
+
+/**
+ *
+ * Replaces an existing track with a new track.
+ *
+ * This saga handles the WebRTC portion of replacing a track.
+ * Assumptions:
+ *    1. The action contains call id, trackId, and mediaConstraints
+ * Responsibilities:
+ *    1. Creates a new track.
+ *    2. Replaces an an existing track with the newly created track.
+ *    3. Update call state (via redux actions).
+ * @method replaceTrack
+ * @param {Object}   deps          Dependencies that the saga uses.
+ * @param {Object}   deps.webRTC   The WebRTC stack.
+ * @param {Object}   action An action of type `REPLACE_TRACK`.
+ */
+function* replaceTrack(deps, action) {
+  const { webRTC } = deps;
+  const { trackId, mediaConstraints } = action.payload;
+
+  const stateError = yield (0, _effects.call)(_utils.validateCallState, action.payload.id, { state: _constants.CALL_STATES.CONNECTED });
+  if (stateError) {
+    log.debug(`Invalid call state: ${stateError.message}`);
+    yield (0, _effects.put)(_actions.callActions.replaceTrackFinish(action.payload.id, {
+      error: stateError
+    }));
+    return;
+  }
+
+  const currentCall = yield (0, _effects.select)(_selectors.getCallById, action.payload.id);
+
+  const { error, newTrackId, oldTrackState } = yield (0, _effects.call)(_midcall.webRtcReplaceTrack, webRTC, {
+    sessionId: currentCall.webrtcSessionId,
+    trackId,
+    mediaConstraints
+  });
+
+  if (error) {
+    yield (0, _effects.put)(_actions.callActions.replaceTrackFinish(action.payload.id, { error }));
+  } else {
+    yield (0, _effects.put)(_actions.callActions.replaceTrackFinish(action.payload.id, { newTrackId, oldTrackState }));
+  }
 }
 
 /***/ }),
@@ -35122,6 +36212,7 @@ const log = (0, _logs.getLogManager)().getLogger('CALL');
  * @param {Object}   deps.webRTC   The WebRTC stack.
  * @param {Object}   deps.requests The set of platform-specific signalling functions.
  * @param {Function} deps.requests.updateSessionResponse "Respond to offer" signalling function.
+ * @param {Array}    deps.sdpHandlers The list of SDP handlers to run.
  * @param {Object}   targetCall    The call being acted on.
  * @param {Object}   params        Parameters of the update request.
  * @param {string}   params.sdp          A remote offer SDP.
@@ -35192,7 +36283,7 @@ function* handleUpdateRequest(deps, targetCall, params) {
 
   // Handle the offer SDP to receive an answer SDP.
   // TODO: Handle the offer differently depending on remote operation.
-  const { error, answerSDP } = yield (0, _effects.call)(_midcall.handleOffer, webRTC, sdp, targetCall.webrtcSessionId);
+  const { error, answerSDP } = yield (0, _effects.call)(_midcall.handleOffer, deps, sdp, targetCall.webrtcSessionId, targetCall.bandwidth);
 
   if (error) {
     log.debug('Failed to receive offer SDP.', error);
@@ -35204,7 +36295,9 @@ function* handleUpdateRequest(deps, targetCall, params) {
   // Send answer sdp back to remote side
   const callInfo = {
     wrtcsSessionId: targetCall.wrtcsSessionId,
-    answer: answerSDP
+    answer: answerSDP,
+    isAnonymous: targetCall.isAnonymous,
+    account: targetCall.account
   };
 
   const response = yield (0, _effects.call)(requests.updateSessionResponse, callInfo);
@@ -35255,6 +36348,7 @@ function* handleUpdateRequest(deps, targetCall, params) {
  * @param {Object}   deps.webRTC   The WebRTC stack.
  * @param {Object}   deps.requests The set of platform-specific signalling functions.
  * @param {Function} deps.requests.updateSessionResponse "Respond to offer" signalling function.
+ * @param {Array}    deps.sdpHandlers The list of SDP handlers to run.
  * @param  {Object} targetCall The call being acted on.
  * @param {Object}   params       Parameters of the update request.
  * @param {string}   params.remoteNumber Number of the remote participant.
@@ -35305,11 +36399,13 @@ function* handleSlowUpdateRequest(deps, targetCall, params) {
     video: targetCall.localHold ? 'inactive' : 'sendrecv'
 
     // Create an offer to use for responding to the slow start notification.
-  };const slowOffer = yield (0, _effects.call)(_midcall.generateOffer, webRTC, targetCall.webrtcSessionId, mediaDirections);
+  };const slowOffer = yield (0, _effects.call)(_midcall.generateOffer, deps, targetCall.webrtcSessionId, mediaDirections);
 
   const callInfo = {
     wrtcsSessionId: targetCall.wrtcsSessionId,
-    answer: slowOffer.sdp
+    answer: slowOffer.sdp,
+    isAnonymous: targetCall.isAnonymous,
+    account: targetCall.account
 
     // Respond with our "offer".
   };const response = yield (0, _effects.call)(requests.updateSessionResponse, callInfo);
@@ -35356,7 +36452,10 @@ function* handleSlowUpdateRequest(deps, targetCall, params) {
  *    2. TODO: Determine what the original operation was.
  *    3. Update call state (via redux action).
  * @method handleUpdateResponse
- * @param  {Object} webRTC     The webRTC stack.
+ * @param {Object}  deps          Dependencies that the saga uses.
+ * @param {Object}  deps.webRTC   The WebRTC stack.
+ * @param {Object}  deps.requests The set of platform-specific signalling functions.
+ * @param {Array}   deps.sdpHandlers The list of SDP handlers to run.
  * @param  {Object} targetCall The call being acted on.
  * @param  {Object} params
  * @param  {string} params.sdp A remote answer SDP.
@@ -35364,7 +36463,6 @@ function* handleSlowUpdateRequest(deps, targetCall, params) {
  * @param  {string} params.remoteNumber Number of the remote participant.
  */
 function* handleUpdateResponse(deps, targetCall, params) {
-  const { webRTC } = deps;
   const { sdp } = params;
   log.info(`Handling regular update response for call ${targetCall.id}.`);
 
@@ -35373,7 +36471,7 @@ function* handleUpdateResponse(deps, targetCall, params) {
 
   // Handle the remote answer SDP.
   const sessionInfo = { sessionId: targetCall.webrtcSessionId, answerSdp: sdp };
-  const error = yield (0, _effects.call)(_negotiation.receivedAnswer, webRTC, sessionInfo, targetCall);
+  const error = yield (0, _effects.call)(_negotiation.receivedAnswer, deps, sessionInfo, targetCall);
 
   if (error) {
     log.debug('Failed to receive answer SDP', error);
@@ -35444,7 +36542,10 @@ function* handleUpdateResponse(deps, targetCall, params) {
  *    2. Have the callstack process the answer SDP.
  *    3. Update call state (via redux action) based on original operation.
  * @method handleSlowUpdateResponse
- * @param  {Object} webRTC     The webRTC stack.
+ * @param {Object}  deps          Dependencies that the saga uses.
+ * @param {Object}  deps.webRTC   The WebRTC stack.
+ * @param {Object}  deps.requests The set of platform-specific signalling functions.
+ * @param {Array}   deps.sdpHandlers The list of SDP handlers to run.
  * @param  {Object} targetCall The call being acted on.
  * @param  {Object} params
  * @param  {string} params.sdp A remote answer SDP.
@@ -35452,7 +36553,6 @@ function* handleUpdateResponse(deps, targetCall, params) {
  * @param  {string} params.remoteNumber Number of the remote participant.
  */
 function* handleSlowUpdateResponse(deps, targetCall, params) {
-  const { webRTC } = deps;
   let { sdp } = params;
   log.info(`Handling slow start update response for call ${targetCall.id}.`);
 
@@ -35489,7 +36589,7 @@ function* handleSlowUpdateResponse(deps, targetCall, params) {
 
   // Handle the remote answer SDP.
   const sessionInfo = { sessionId: targetCall.webrtcSessionId, answerSdp: sdp };
-  const error = yield (0, _effects.call)(_negotiation.receivedAnswer, webRTC, sessionInfo, targetCall);
+  const error = yield (0, _effects.call)(_negotiation.receivedAnswer, deps, sessionInfo, targetCall);
 
   if (error) {
     log.debug('Failed to receive answer SDP', error);
@@ -35610,6 +36710,7 @@ const log = (0, _logs.getLogManager)().getLogger('CALL');
  * @param {Object}   deps.webRTC   The WebRTC stack.
  * @param {Object}   deps.requests The set of platform-specific signalling functions.
  * @param {Function} deps.requests.updateCallRinging "Update call" signalling function.
+ * @param {Array}    deps.sdpHandlers The list of SDP handlers to run.
  * @param {Object}   params        Parameters describing the incoming call.
  * @param {string}   [params.sdp]  The remote SDP offer included with the notification (if any).
  * @param {string}   params.wrtcsSessionId ID that the server uses to identify the session.
@@ -35640,7 +36741,7 @@ const log = (0, _logs.getLogManager)().getLogger('CALL');
 
 // Call plugin.
 function* incomingCall(deps, params) {
-  const { webRTC, requests } = deps;
+  const requests = deps.requests;
   const { sdp, wrtcsSessionId, remoteNumber, remoteName } = params;
 
   let sessionId, isSlowStart;
@@ -35659,7 +36760,7 @@ function* incomingCall(deps, params) {
     const { trickleIceMode, sdpSemantics } = yield (0, _effects.select)(_selectors.getOptions);
 
     // Since we have the remote offer SDP, we can setup a webRTC session.
-    sessionId = yield (0, _effects.call)(_establish.setupIncomingCall, webRTC, {
+    sessionId = yield (0, _effects.call)(_establish.setupIncomingCall, deps, {
       offer: {
         sdp
       },
@@ -36108,7 +37209,9 @@ function* sendCallAudit(deps, action) {
   }
 
   const updateStatusResponse = yield (0, _effects.call)(requests.auditCall, {
-    wrtcsSessionId: currentCall.wrtcsSessionId
+    wrtcsSessionId: currentCall.wrtcsSessionId,
+    isAnonymous: currentCall.isAnonymous,
+    account: currentCall.account
   });
 
   if (updateStatusResponse.error) {
@@ -36125,6 +37228,106 @@ function* sendCallAudit(deps, action) {
 
 /***/ }),
 
+/***/ "../kandy/src/callstack/sdp/pipeline.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _freeze = __webpack_require__("../../node_modules/babel-runtime/core-js/object/freeze.js");
+
+var _freeze2 = _interopRequireDefault(_freeze);
+
+exports.default = runPipeline;
+
+var _loglevel = __webpack_require__("../../node_modules/loglevel/lib/loglevel.js");
+
+var _loglevel2 = _interopRequireDefault(_loglevel);
+
+var _sdpTransform = __webpack_require__("../../node_modules/sdp-transform/lib/index.js");
+
+var _sdpTransform2 = _interopRequireDefault(_sdpTransform);
+
+var _fp = __webpack_require__("../../node_modules/lodash/fp.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * Basic SDP pipeline runner.
+ * @method sdpPipeline
+ * @param  {Array}      handlers       List of functions that transform the SDP.
+ * @param  {string}     sdp            The session description.
+ * @param  {RTCSdpType} info           Information about the session description.
+ * @param  {RTCSdpType} info.type      The session description's type.
+ * @param  {string}     info.endpoint  Which end of the connection created the SDP.
+ * @param  {boolean}    info.isInitiator Whether this session initiated the connection or not.
+ * @param  {BandwidthControls} [info.bandwidth] Information about bandwidth controls.
+ * @return {string}     The modified session description.
+ */
+function runPipeline(handlers, sdp, info) {
+  let objectSdp = _sdpTransform2.default.parse(sdp);
+
+  const originalSdp = (0, _freeze2.default)(objectSdp);
+  let newSdp = (0, _fp.cloneDeep)(originalSdp);
+
+  if ((0, _fp.isArray)(handlers)) {
+    handlers.forEach(handler => {
+      if ((0, _fp.isFunction)(handler)) {
+        newSdp = handler(newSdp, info, originalSdp);
+      } else {
+        _loglevel2.default.error(`SDP handler not a function; skipping.`);
+      }
+    });
+  }
+
+  return _sdpTransform2.default.write(newSdp);
+} // Libraries.
+
+/***/ }),
+
+/***/ "../kandy/src/callstack/utils/bandwidth.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends2 = __webpack_require__("../../node_modules/babel-runtime/helpers/extends.js");
+
+var _extends3 = _interopRequireDefault(_extends2);
+
+exports.checkBandwidthControls = checkBandwidthControls;
+
+var _constants = __webpack_require__("../kandy/src/call/constants.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * Checks whether the bandwidth controls provided exist and are numbers.
+ * If not, then a default limit is used.
+ * @param {BandwidthControls} bandwidthControls The bandwidth controls to check.
+ */
+function checkBandwidthControls(bandwidthControls) {
+  const finalBandwidthControls = (0, _extends3.default)({}, bandwidthControls);
+
+  if (!bandwidthControls || !(bandwidthControls.audio && typeof bandwidthControls.audio === 'number')) {
+    finalBandwidthControls.audio = _constants.BANDWIDTH_DEFAULTS.AUDIO;
+  }
+  if (!bandwidthControls || !(bandwidthControls.video && typeof bandwidthControls.video === 'number')) {
+    finalBandwidthControls.video = _constants.BANDWIDTH_DEFAULTS.VIDEO;
+  }
+  return finalBandwidthControls;
+}
+
+/***/ }),
+
 /***/ "../kandy/src/callstack/utils/index.js":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -36136,6 +37339,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.sanitizeSdesFromSdp = sanitizeSdesFromSdp;
 exports.changeDtlsRoleTo = changeDtlsRoleTo;
+exports.modifySdpBandwidth = modifySdpBandwidth;
 
 var _logs = __webpack_require__("../kandy/src/logs/index.js");
 
@@ -36147,12 +37351,12 @@ const log = (0, _logs.getLogManager)().getLogger('SDPHANDLER');
  * However, if only SDES is available, don't disable it.
  *
  * @method sanitizeSdesFromSdp
- * @param {Object} newSdp The sdp so far (could have been modified by previous handlers).
+ * @param {Object} newSdp The SDP so far (could have been modified by previous handlers).
  * @param {RTCSdpType} info Information about the session description.
  * @param {RTCSdpType} info.type The session description's type.
  * @param {string} info.endpoint Which end of the connection created the SDP.
- * @param {Object} originalSdp The sdp in its initial state.
- * @return {Object} The sanitized sdp with crypto removed (if fingerprint exists)
+ * @param {Object} originalSdp The SDP in its initial state.
+ * @return {Object} The sanitized SDP with crypto removed (if fingerprint exists)
  */
 // Other plugins.
 function sanitizeSdesFromSdp(newSdp, info, originalSdp) {
@@ -36186,6 +37390,46 @@ function changeDtlsRoleTo(role) {
 
     return newSdp;
   };
+}
+
+/**
+ * An SDP handler that adds bandwidth options to the SDP.
+ * Supports Chrome & Firefox by generating 2 types of configs:
+ *  - 'AS' for Chrome in kilobits per second
+ *  - 'TIAS' for Firefox in bits per second
+ * @method modifySdpBandwidth
+ * @param {BandwidthControls} bandwidthControls
+ * @return {Function} SDP handler.
+ */
+function modifySdpBandwidth(newSdp, info, originalSdp) {
+  /**
+   * Generates bandwidth configs that Chrome & Firefox can recognize.
+   * @param {number} limit The bandwidth limit in kilobits per second.
+   */
+  function generateBandwidthConfigs(limit) {
+    return [{
+      type: 'AS', // Chrome supports this (in kilobits per second)
+      limit
+    }, {
+      type: 'TIAS', // Firefox supports this (in bits per second)
+      limit: limit * 1000
+    }];
+  }
+
+  if (info.bandwidth) {
+    // For more details on bandwidth controls, see here https://webrtchacks.com/limit-webrtc-bandwidth-sdp/.
+    if (info.bandwidth.audio) {
+      newSdp.media.filter(media => media.type === 'audio').forEach(media => {
+        media.bandwidth = generateBandwidthConfigs(info.bandwidth.audio);
+      });
+    }
+    if (info.bandwidth.video) {
+      newSdp.media.filter(media => media.type === 'video').forEach(media => {
+        media.bandwidth = generateBandwidthConfigs(info.bandwidth.video);
+      });
+    }
+  }
+  return newSdp;
 }
 
 /***/ }),
@@ -36249,6 +37493,10 @@ exports.answerWebrtcSession = answerWebrtcSession;
 
 var _logs = __webpack_require__("../kandy/src/logs/index.js");
 
+var _pipeline = __webpack_require__("../kandy/src/callstack/sdp/pipeline.js");
+
+var _pipeline2 = _interopRequireDefault(_pipeline);
+
 var _media = __webpack_require__("../kandy/src/callstack/webrtc/media.js");
 
 var mediaOps = _interopRequireWildcard(_media);
@@ -36257,14 +37505,19 @@ var _effects = __webpack_require__("../../node_modules/redux-saga/es/effects.js"
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 // WebRTC operations.
+// Helpers
 const log = (0, _logs.getLogManager)().getLogger('CALLSTACK');
 
 /**
  * Performs the WebRTC portion necessary for establishing outgoing calls
  *
  * @method setupCall
- * @param  {Object} webRTC A WebRTC instance
+ * @param  {Object} deps
+ * @param  {Object} deps.webRTC      The WebRTC stack.
+ * @param  {Array}  deps.sdpHandlers SDP handlers.
  * @param  {Object} mediaConstraints Video and audio media constraints
  * @param  {boolean} mediaConstraints.audio Whether to enable audio or not
  * @param  {boolean} mediaConstraints.video Whether to enable video or not
@@ -36272,6 +37525,7 @@ const log = (0, _logs.getLogManager)().getLogger('CALLSTACK');
  * @param  {Object} sessionOptions.sdpSemantics Semantics for Real Time Communication configurations
  * @param  {Object} sessionOptions.turnInfo Contains information required for setting up ICE servers
  * @param  {string} sessionOptions.trickleIceMode What mode to be used for trickle ICE
+ * @param  {Object} [sessionOptions.bandwidth] Contains configuration details for setting bandwidth
  * @return {Object} Object
  * @return {string} Object.offerSdp Session Description Protocol for a call offer
  * @return {string} Object.sessionId session identifier
@@ -36280,9 +37534,9 @@ const log = (0, _logs.getLogManager)().getLogger('CALLSTACK');
 
 
 // Libraries.
-// Helpers
-function* setupCall(webRTC, mediaConstraints, sessionOptions) {
-  const { sdpSemantics, turnInfo, trickleIceMode } = sessionOptions;
+function* setupCall(deps, mediaConstraints, sessionOptions) {
+  const { webRTC, sdpHandlers } = deps;
+  const { sdpSemantics, turnInfo, trickleIceMode, bandwidth } = sessionOptions;
 
   const { media, error } = yield (0, _effects.call)(mediaOps.createLocal, webRTC, mediaConstraints);
 
@@ -36305,7 +37559,16 @@ function* setupCall(webRTC, mediaConstraints, sessionOptions) {
   const tracks = yield (0, _effects.call)([media, 'getTracks']);
   yield (0, _effects.call)([session, 'addTracks'], tracks);
 
+  /*
+   * Create the local SDP offer, run it through any provided SDP handlers,
+   *    then set it as the Session's local description.
+   */
   let offer = yield (0, _effects.call)([session, 'createOffer']);
+  offer.sdp = yield (0, _effects.call)(_pipeline2.default, sdpHandlers, offer.sdp, {
+    type: offer.type,
+    endpoint: 'local',
+    bandwidth
+  });
   offer = yield (0, _effects.call)([session, 'setLocalDescription'], offer);
 
   return {
@@ -36320,7 +37583,9 @@ function* setupCall(webRTC, mediaConstraints, sessionOptions) {
  * Prepares the WebRTC portions of setting up an incoming call
  *
  * @method setupIncomingCall
- * @param  {Object} webRTC An instance of webRTC
+ * @param  {Object} deps
+ * @param  {Object} deps.webRTC      The WebRTC stack.
+ * @param  {Array}  deps.sdpHandlers SDP handlers.
  * @param  {Object} sessionOptions
  * @param  {Object} sessionOptions.sdpSemantics semantics for the SDP, contains video and audio constraints
  * @param  {Object} sessionOptions.turnInfo TURN information, contains server info
@@ -36328,8 +37593,10 @@ function* setupCall(webRTC, mediaConstraints, sessionOptions) {
  * @param  {Object} sessionOptions.offer an offer containing an SDP
  * @return {string} sessionId an identifier for the session
  */
-function* setupIncomingCall(webRTC, sessionOptions) {
-  const { offer, sdpSemantics, turnInfo, trickleIceMode } = sessionOptions;
+function* setupIncomingCall(deps, sessionOptions) {
+  const { webRTC, sdpHandlers } = deps;
+  const { sdpSemantics, turnInfo, trickleIceMode } = sessionOptions;
+  let offer = sessionOptions.offer;
 
   const session = yield (0, _effects.call)([webRTC.sessionManager, 'create'], {
     peer: {
@@ -36340,6 +37607,16 @@ function* setupIncomingCall(webRTC, sessionOptions) {
       trickleIceMode
     }
   });
+
+  /*
+   * Run the remote SDP offer through any SDP handlers provided, then set it
+   *    as the Session's remote description.
+   */
+  offer.sdp = yield (0, _effects.call)(_pipeline2.default, sdpHandlers, offer.sdp, {
+    type: offer.type,
+    endpoint: 'remote'
+  });
+
   yield (0, _effects.call)([session, 'processOffer'], {
     type: 'offer',
     sdp: offer.sdp
@@ -36352,22 +37629,28 @@ function* setupIncomingCall(webRTC, sessionOptions) {
  * Prepares the WebRTC portions of answering a call
  *
  * @method answerWebrtcSession
- * @param  {Object} webRTC An instance of webRTC
+ * @param  {Object} deps
+ * @param  {Object} deps.webRTC      The WebRTC stack.
+ * @param  {Array}  deps.sdpHandlers SDP handlers.
  * @param  {Object} mediaConstraints Video and audio media constraints
  * @param  {boolean} mediaConstraints.audio Whether to enable audio or not
  * @param  {boolean} mediaConstraints.video Whether to enable video or not
  * @param  {Object} sessionOptions
  * @param  {string} sessionOptions.sessionId the local webrtc session id
+ * @param  {Object} [sessionOptions.bandwidth] Contains configuration details for setting bandwidth
  * @return {Object} Object
  * @return {string} Object.answerSDP Session Description Protocol for answer
  * @return {string} Object.mediaId an identifier for media
  */
-function* answerWebrtcSession(webRTC, mediaConstraints, sessionOptions) {
+function* answerWebrtcSession(deps, mediaConstraints, sessionOptions) {
+  const { webRTC, sdpHandlers } = deps;
+  const { sessionId, bandwidth } = sessionOptions;
+
   // Get the webRTC session that represents this call.
-  const session = yield (0, _effects.call)([webRTC.sessionManager, 'get'], sessionOptions.sessionId);
+  const session = yield (0, _effects.call)([webRTC.sessionManager, 'get'], sessionId);
 
   if (!session) {
-    log.error(`Error: webRTC session ${sessionOptions.sessionId} not found.`);
+    log.error(`Error: webRTC session ${sessionId} not found.`);
     return;
   }
 
@@ -36378,9 +37661,19 @@ function* answerWebrtcSession(webRTC, mediaConstraints, sessionOptions) {
   }
 
   // Add the tracks to the session.
-  yield (0, _effects.call)([session, 'addTracks'], media.getTracks());
+  const tracks = yield (0, _effects.call)([media, 'getTracks']);
+  yield (0, _effects.call)([session, 'addTracks'], tracks);
 
+  /*
+   * Create the local SDP answer, run it through any provided SDP handlers,
+   *    then set it as the Session's local description.
+   */
   let answer = yield (0, _effects.call)([session, 'createAnswer']);
+  answer.sdp = yield (0, _effects.call)(_pipeline2.default, sdpHandlers, answer.sdp, {
+    type: answer.type,
+    endpoint: 'local',
+    bandwidth
+  });
   answer = yield (0, _effects.call)([session, 'setLocalDescription'], answer);
 
   return {
@@ -36466,10 +37759,14 @@ Object.defineProperty(exports, "__esModule", {
 exports.recreatePeer = recreatePeer;
 exports.closeCall = closeCall;
 exports.handleOffer = handleOffer;
-exports.handleAnswer = handleAnswer;
 exports.generateOffer = generateOffer;
 exports.webRtcAddMedia = webRtcAddMedia;
 exports.webRtcRemoveMedia = webRtcRemoveMedia;
+exports.webRtcReplaceTrack = webRtcReplaceTrack;
+
+var _pipeline = __webpack_require__("../kandy/src/callstack/sdp/pipeline.js");
+
+var _pipeline2 = _interopRequireDefault(_pipeline);
 
 var _logs = __webpack_require__("../kandy/src/logs/index.js");
 
@@ -36490,6 +37787,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Libraries
+// Callstack plugin.
 const log = (0, _logs.getLogManager)().getLogger('CALLSTACK');
 
 /**
@@ -36501,6 +37799,8 @@ const log = (0, _logs.getLogManager)().getLogger('CALLSTACK');
 
 
 // WebRTC operations.
+
+
 // Other Plugins
 function* recreatePeer(webRTC, sessionId) {
   const session = yield (0, _effects.call)([webRTC.sessionManager, 'get'], sessionId);
@@ -36535,12 +37835,16 @@ function* closeCall(webRTC, sessionId) {
  * Performs webRTC portions of receiving an "offer" Session Description Protocol
  *
  * @method handleOffer
- * @param {Object} webRTC A WebRTC instance
- * @param {string} sdp Session Description protocol offer
- * @param {string} webrtcSessionId local webrtc session id
+ * @param  {Object} deps
+ * @param  {Object} deps.webRTC      The WebRTC stack.
+ * @param  {Array}  deps.sdpHandlers SDP handlers.
+ * @param  {string} offer Session Description protocol offer
+ * @param  {string} webrtcSessionId local webrtc session id
+ * @param {BandwidthControls} bandwidth bandwidth configurations to use
  * @returns {Object}
  */
-function* handleOffer(webRTC, sdp, webrtcSessionId) {
+function* handleOffer(deps, offer, webrtcSessionId, bandwidth) {
+  const { webRTC, sdpHandlers } = deps;
   const session = yield (0, _effects.call)([webRTC.sessionManager, 'get'], webrtcSessionId);
 
   if (!session) {
@@ -36548,17 +37852,35 @@ function* handleOffer(webRTC, sdp, webrtcSessionId) {
     return;
   }
 
+  /*
+   * Run the remote SDP offer through any SDP handlers provided, then set it
+   *    as the Session's remote description.
+   */
+  offer = yield (0, _effects.call)(_pipeline2.default, sdpHandlers, offer, {
+    type: 'offer',
+    endpoint: 'remote'
+  });
+
   // TODO: Make sure the session is in the correct signaling state to process an offer.
   const error = yield (0, _effects.call)([session, 'processOffer'], {
     type: 'offer',
-    sdp
+    sdp: offer
   });
 
   if (error) {
     return { error };
   }
 
+  /*
+   * Create the local SDP answer, run it through any provided SDP handlers,
+   *    then set it as the Session's local description.
+   */
   let answer = yield (0, _effects.call)([session, 'createAnswer']);
+  answer.sdp = yield (0, _effects.call)(_pipeline2.default, sdpHandlers, answer.sdp, {
+    type: answer.type,
+    endpoint: 'local',
+    bandwidth
+  });
   answer = yield (0, _effects.call)([session, 'setLocalDescription'], answer);
 
   return {
@@ -36567,44 +37889,21 @@ function* handleOffer(webRTC, sdp, webrtcSessionId) {
 }
 
 /**
- * Performs webRTC portions of receiving an "answer" Session Description Protocol
- *
- * @method handleAnswer
- * @param {Object} webRTC A WebRTC instance
- * @param {string} sdp Session Description protocol answer
- * @param {string} webrtcSessionId local webrtc session id
- * @return {Object} Object
- * @return {Object} Object.error
- */
-function* handleAnswer(webRTC, sdp, webrtcSessionId) {
-  const session = yield (0, _effects.call)([webRTC.sessionManager, 'get'], webrtcSessionId);
-
-  if (!session) {
-    log.debug(`webRTC session ${webrtcSessionId} not found.`);
-    return;
-  }
-
-  // TODO: Make sure the session is in the correct signaling state to process an answer.
-  const error = yield (0, _effects.call)([session, 'processAnswer'], {
-    type: 'answer',
-    sdp
-  });
-
-  return { error };
-}
-
-/**
  * Performs the webRTC session functions associated with creating an SDP offer
  *
  * @method generateOffer
- * @param {Object} webRTC A WebRTC instance
+ * @param {Object} deps
+ * @param {Object} deps.webRTC      The WebRTC stack.
+ * @param {Array}  deps.sdpHandlers SDP handlers.
  * @param {string} sessionId the local webRTC session id, used to lookup the session object
  * @param {Object} mediaDirections
  * @param {string} mediaDirections.audio mode of audio add to the sdp offer
  * @param {string} mediaDirections.video mode of video add to the sdp offer
+ * @param {BandwidthControls} bandwidth bandwidth configurations to use
  * @return {Object} offer object containing a Session Description Protocol
  */
-function* generateOffer(webRTC, sessionId, mediaDirections) {
+function* generateOffer(deps, sessionId, mediaDirections, bandwidth) {
+  const { webRTC, sdpHandlers } = deps;
   const session = yield (0, _effects.call)([webRTC.sessionManager, 'get'], sessionId);
 
   if (!session) {
@@ -36612,10 +37911,19 @@ function* generateOffer(webRTC, sessionId, mediaDirections) {
     return;
   }
 
+  /*
+   * Create the local SDP offer, run it through any provided SDP handlers,
+   *    then set it as the Session's local description.
+   */
   // TODO: Make sure the session is in the correct signaling state to start a
   //    renegotiation operation.
   let offer = yield (0, _effects.call)([session, 'createOffer'], {
     mediaDirections
+  });
+  offer.sdp = yield (0, _effects.call)(_pipeline2.default, sdpHandlers, offer.sdp, {
+    type: offer.type,
+    endpoint: 'local',
+    bandwidth
   });
   offer = yield (0, _effects.call)([session, 'setLocalDescription'], offer);
 
@@ -36625,49 +37933,72 @@ function* generateOffer(webRTC, sessionId, mediaDirections) {
 /**
  * Performs the webRTC responsibilities for adding media
  *
- * @param {Object} webRTC A WebRTC instance
+ * @param {Object} deps
+ * @param {Object} deps.webRTC      The WebRTC stack.
+ * @param {Array}  deps.sdpHandlers SDP handlers.
  * @param  {Object} mediaConstraints Video and audio media constraints
  * @param  {boolean} mediaConstraints.audio Whether to enable audio or not
  * @param  {boolean} mediaConstraints.video Whether to enable video or not
  * @param  {Object} sessionOptions
  * @param  {string} sessionOptions.sessionId the local webrtc session id
+ * @param  {Object} [sessionOptions.bandwidth] Contains configuration details for setting bandwidth
  * @return {Object} Object
  * @return {string} Object.sdp An offer in the form of a Session Description Protocol
  * @return {Object} Object.media media object containing tracks
  */
-function* webRtcAddMedia(webRTC, mediaConstraints, sessionOptions) {
+function* webRtcAddMedia(deps, mediaConstraints, sessionOptions) {
+  const { webRTC, sdpHandlers } = deps;
   const { media, error } = yield (0, _effects.call)(mediaOps.createLocal, webRTC, mediaConstraints);
+  const { sessionId, bandwidth } = sessionOptions;
 
   if (error) {
     return { error };
   }
 
-  const session = yield (0, _effects.call)([webRTC.sessionManager, 'get'], sessionOptions.sessionId);
-  yield (0, _effects.call)([session, 'addTracks'], media.getTracks());
+  const session = yield (0, _effects.call)([webRTC.sessionManager, 'get'], sessionId);
+  const tracks = yield (0, _effects.call)([media, 'getTracks']);
+  yield (0, _effects.call)([session, 'addTracks'], tracks);
 
+  /*
+   * Create the local SDP offer, run it through any provided SDP handlers,
+   *    then set it as the Session's local description.
+   */
   // TODO: Make sure the session is in the correct signaling state to start a
   //    renegotiation operation.
   let offer = yield (0, _effects.call)([session, 'createOffer']);
+  offer.sdp = yield (0, _effects.call)(_pipeline2.default, sdpHandlers, offer.sdp, {
+    type: offer.type,
+    endpoint: 'local',
+    bandwidth
+  });
   offer = yield (0, _effects.call)([session, 'setLocalDescription'], offer);
 
-  return { error: false, media: media.getState(), sdp: offer.sdp };
+  const mediaState = yield (0, _effects.call)([media, 'getState']);
+  return { error: false, media: mediaState, sdp: offer.sdp };
 }
 
 /**
  * Performs the webRTC responsibilities for removing media
  *
- * @param {Object} webRTC A WebRTC instance
+ * @param {Object} deps
+ * @param {Object} deps.webRTC      The WebRTC stack.
+ * @param {Array}  deps.sdpHandlers SDP handlers.
  * @param {Object} sessionOptions
+ * @param  {string} sessionOptions.sessionId The local webrtc session id
+ * @param {Array} sessionOptions.tracks A list of track IDs to remove
+ * @param  {Object} [sessionOptions.bandwidth] Contains configuration details for setting bandwidth
  * @return {Object} Object
  * @return {string} Object.sdp An offer in the form of a Session Description Protocol
  */
-function* webRtcRemoveMedia(webRTC, sessionOptions) {
-  // Get the tracks
-  const localTracks = yield (0, _effects.call)([webRTC.track, 'getTracks'], sessionOptions.tracks);
+function* webRtcRemoveMedia(deps, sessionOptions) {
+  const { webRTC, sdpHandlers } = deps;
+  const { sessionId, tracks, bandwidth } = sessionOptions;
+  // Get the tracks that we want to remove
+  const localTracksToRemove = yield (0, _effects.call)([webRTC.track, 'getTracks'], tracks);
   const invalidTrackIds = [];
-  for (var i = 0; i < localTracks.length; i++) {
-    if ((0, _fp.isUndefined)(localTracks[i])) {
-      invalidTrackIds.push(sessionOptions.tracks[i]);
+  for (var i = 0; i < localTracksToRemove.length; i++) {
+    if ((0, _fp.isUndefined)(localTracksToRemove[i])) {
+      invalidTrackIds.push(tracks[i]);
     }
   }
 
@@ -36682,23 +38013,134 @@ function* webRtcRemoveMedia(webRTC, sessionOptions) {
     };
   }
 
-  const session = yield (0, _effects.call)([webRTC.sessionManager, 'get'], sessionOptions.sessionId);
+  const session = yield (0, _effects.call)([webRTC.sessionManager, 'get'], sessionId);
 
   // Removes tracks from peer (Will stop tracks from being sent to remote participant).
   // Does NOT end the tracks.
-  yield (0, _effects.call)([session, 'removeTracks'], sessionOptions.tracks);
+  yield (0, _effects.call)([session, 'removeTracks'], tracks);
 
+  // TODO: This should only cleanup the removed tracks, shouldn't it?
   // Ends the tracks.
   // Clean-up the local tracks.
-  yield (0, _effects.all)(localTracks.map(track => (0, _effects.call)([track, 'cleanup'])));
+  yield (0, _effects.all)(localTracksToRemove.map(track => (0, _effects.call)([track, 'cleanup'])));
 
+  /*
+   * Create the local SDP offer, run it through any provided SDP handlers,
+   *    then set it as the Session's local description.
+   */
   // TODO: Make sure the session is in the correct signaling state to start a
   //    renegotiation operation.
   let offer = yield (0, _effects.call)([session, 'createOffer']);
+  offer.sdp = yield (0, _effects.call)(_pipeline2.default, sdpHandlers, offer.sdp, {
+    type: offer.type,
+    endpoint: 'local',
+    bandwidth
+  });
   offer = yield (0, _effects.call)([session, 'setLocalDescription'], offer);
 
   return {
     sdp: offer.sdp
+  };
+}
+
+/**
+ * Performs the webRTC responsibilities for replacing a track
+ *
+ * @param {Object} webRTC A WebRTC instance
+ * @param {Object} params
+ * @param {string} params.sessionId The id of the session to replace the track of
+ * @param {string} params.trackId The id of the track to replace
+ * @param  {Object} params.mediaConstraints Video or audio media constraints
+ * @param  {Object|boolean} params.mediaConstraints.audio Audio configs
+ * @param  {Object|boolean} params.mediaConstraints.video Video configs
+ * @returns {Object} replaceTrackResult The result of the track replace operation
+ * @returns {BasicError} [replaceTrackResult.error] Error object
+ * @returns {string} newTrackId The ID of the new track that we used to replace the old one.
+ * @returns {Object} replaceTrackResult.oldTrackState The state of the old track before it was replaced.
+ */
+function* webRtcReplaceTrack(webRTC, params) {
+  const { sessionId, trackId, mediaConstraints } = params;
+
+  const session = yield (0, _effects.call)([webRTC.sessionManager, 'get'], sessionId);
+  const oldTrack = session.localTracks.find(track => track.id === trackId);
+
+  if (!oldTrack) {
+    return {
+      error: new _errors2.default({
+        code: _errors.callCodes.INVALID_PARAM,
+        message: `Old track ${trackId} not found.`
+      }),
+      newTrackId: undefined
+    };
+  }
+
+  const oldTrackState = yield (0, _effects.call)([oldTrack, 'getState']);
+  const oldTrackKind = oldTrackState.kind;
+
+  // Verify that there are constraints for the old track's kind.
+  if (!mediaConstraints[oldTrackKind]) {
+    return {
+      error: new _errors2.default({
+        code: _errors.callCodes.INVALID_PARAM,
+        message: `Media constraints missing data for ${oldTrackKind}.`
+      }),
+      newTrackId: undefined
+    };
+  }
+
+  const finalMediaConstraints = {
+    [oldTrackKind]: mediaConstraints[oldTrackKind]
+
+    // Create Media
+  };const { media: newMedia, error: createLocalError } = yield (0, _effects.call)(mediaOps.createLocal, webRTC, finalMediaConstraints);
+  if (createLocalError) {
+    return { error: createLocalError, newTrackId: undefined };
+  }
+
+  // Find the new track that matches the old track we want to replace.
+  const newTracks = yield (0, _effects.call)([newMedia, 'getTracks']);
+  let newTrack;
+  for (let track of newTracks) {
+    // Matching the track is done this way because we need to yield to getState,
+    //    but we can't yield inside of a `.find(func)` or similar. So iterate
+    //    over the new tracks "manually".
+    const state = yield (0, _effects.call)([track, 'getState']);
+    if (state.kind === oldTrackKind) {
+      newTrack = track;
+      break;
+    }
+  }
+
+  if (!newTrack) {
+    return {
+      error: new _errors2.default({
+        code: _errors.callCodes.USER_MEDIA_ERROR,
+        message: `${oldTrackKind} track not found`
+      }),
+      newTrackId: undefined
+    };
+  }
+
+  // Replaces the track
+  const replaceTrackError = yield (0, _effects.call)([session, 'replaceTrack'], newTrack.track, { trackId });
+  if (replaceTrackError) {
+    // If cannot replace old track, cleanup the newly created track
+    yield (0, _effects.call)([newTrack, 'cleanup']);
+    return {
+      error: new _errors2.default({
+        code: _errors.callCodes.GENERIC_ERROR,
+        message: replaceTrackError.message
+      }),
+      newTrackId: undefined
+    };
+  }
+
+  // cleanup old track
+  yield (0, _effects.call)([oldTrack, 'cleanup']);
+
+  return {
+    newTrackId: newTrack.id,
+    oldTrackState
   };
 }
 
@@ -36726,10 +38168,16 @@ var _utils = __webpack_require__("../kandy/src/callstack/utils/index.js");
 
 var _sdp = __webpack_require__("../kandy/src/callstack/utils/sdp.js");
 
+var _pipeline = __webpack_require__("../kandy/src/callstack/sdp/pipeline.js");
+
+var _pipeline2 = _interopRequireDefault(_pipeline);
+
 var _effects = __webpack_require__("../../node_modules/redux-saga/es/effects.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// Helpers.
+// Other Plugins
 const log = (0, _logs.getLogManager)().getLogger('CALLSTACK');
 
 /**
@@ -36744,10 +38192,6 @@ const log = (0, _logs.getLogManager)().getLogger('CALLSTACK');
 
 
 // Libraries.
-
-
-// Helpers.
-// Other Plugins
 function* isSameSdpSessionId(webRTC, sessionId, sdp) {
   const session = yield (0, _effects.call)([webRTC.sessionManager, 'get'], sessionId);
   const currentDesc = session.peer.remoteDescription;
@@ -36785,10 +38229,12 @@ function* isSameSdpSessionId(webRTC, sessionId, sdp) {
  * @param {Object} targetCall Information about the call that this Session is associated with.
  * @returns {Object} Error object if any have occured. Undefined otherwise.
  */
-function* receivedAnswer(webRTC, sessionInfo, targetCall) {
+function* receivedAnswer(deps, sessionInfo, targetCall) {
+  const { webRTC, sdpHandlers } = deps;
   log.debug(`Processing SDP answer for session ${sessionInfo.sessionId}.`);
 
-  const { sessionId, answerSdp } = sessionInfo;
+  const sessionId = sessionInfo.sessionId;
+  let answerSdp = sessionInfo.answerSdp;
   const session = yield (0, _effects.call)([webRTC.sessionManager, 'get'], sessionId);
 
   if (!session) {
@@ -36797,9 +38243,6 @@ function* receivedAnswer(webRTC, sessionInfo, targetCall) {
     return;
   }
   // TODO: Ensure Session is in the correct signaling state for an answer SDP.
-
-  // SDP handlers to be used during SDP "processing".
-  const sdpHandlers = [];
 
   /*
    * If the answer we received has DTLS role of 'actpass', then this is not a
@@ -36823,10 +38266,18 @@ function* receivedAnswer(webRTC, sessionInfo, targetCall) {
    */
   let error;
   try {
+    /*
+     * Run the remote SDP answer through any SDP handlers provided, then set it
+     *    as the Session's remote description.
+     */
+    answerSdp = yield (0, _effects.call)(_pipeline2.default, sdpHandlers, answerSdp, {
+      type: 'answer',
+      endpoint: 'remote'
+    });
     yield (0, _effects.call)([session, 'processAnswer'], {
       type: 'answer',
       sdp: answerSdp
-    }, { sdpHandlers });
+    });
   } catch (err) {
     // TODO: Better error handling.
     log.debug(`Failed to process answer: ${err.message}`);
@@ -37628,6 +39079,8 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 const log = (0, _logs.getLogManager)().getLogger('CONFIG'); /**
                                                              * An interface for getting and updating the configuration Object.
                                                              *
+                                                             * Config functions are available directly on the SDK Object
+                                                             *
                                                              * @public
                                                              * @module Config
                                                              * @requires config
@@ -37641,7 +39094,7 @@ function api(context) {
      * @memberof Config
      * @requires config
      * @method getConfig
-     * @returns {Object} A configuration Object
+     * @returns {Object} A configuration Object.
      */
     getConfig: function () {
       log.debug(_logs.API_LOG_TAG + 'getConfig');
@@ -37652,10 +39105,11 @@ function api(context) {
      * Update values in the global Config section of the store.
      *
      * @public
+     * @static
      * @memberof Config
      * @requires config
      * @method updateConfig
-     * @param {Object} newConfigValues Key Value pairs that will be placed into the store.
+     * @param {Object} newConfigValues Key-value pairs that will be placed into the store. See {@link config} for details on what key-value pairs are available for use.
      */
     updateConfig: function (newConfigValues) {
       log.debug(_logs.API_LOG_TAG + 'updateConfig: ', newConfigValues);
@@ -38027,7 +39481,7 @@ function api({ dispatch, getState }) {
      * @public
      * @memberof Connectivity
      * @method getSocketState
-     * @param  {string} [platform='link'] Backend platform for which websocket's state to request.
+     * @param {string} [platform='link'] Backend platform for which to request the websocket's state.
      */
     getSocketState(platform = _constants.platforms.LINK) {
       log.debug(_logs.API_LOG_TAG + 'connection.getSocketState: ', platform);
@@ -38039,14 +39493,13 @@ function api({ dispatch, getState }) {
      * @public
      * @memberof Connectivity
      * @method enableConnectivityChecking
-     * @param {boolean} enable Whether to enable or disable connectivity checking.
+     * @param {boolean} enable Enable connectivity checking.
      */
     enableConnectivityChecking(enable) {
       log.debug(_logs.API_LOG_TAG + 'connection.enableConnectivityChecking: ', enable);
       dispatch((0, _actions.changeConnectivityChecking)(enable));
     }
   };
-
   return { connection: connectivityApi };
 }
 
@@ -40031,7 +41484,7 @@ const factoryDefaults = {
    */
 };function factory(plugins, options = factoryDefaults) {
   // Log the SDK's version (templated by webpack) on initialization.
-  let version = '4.5.0';
+  let version = '4.6.0';
   log.info(`SDK version: ${version}`);
 
   var sagas = [];
@@ -40287,27 +41740,41 @@ var _fp = __webpack_require__("../../node_modules/lodash/fp.js");
  * @module config
  */
 
+// Disabling eslint for the next comment as we want to be able to use a disallowed word
+// eslint-disable-next-line no-warning-comments
 /**
- * A set of handlers for manipulating SDP information.
+ * A set of {@link #sdphandlerfunction SdpHandlerFunction}s for manipulating SDP information.
  * These handlers are used to customize low-level call behaviour for very specific
  * environments and/or scenarios. They can be provided during SDK instantiation
  * to be used for all calls.
+ *
  * @public
  * @module sdpHandlers
+ * @example
+ * import { create, sdpHandlers } from 'kandy';
+ * const codecRemover = sdpHandlers.createCodecRemover(['VP8', 'VP9'])
+ * const client = create({
+ *   call: {
+ *     sdpHandlers: [ <Your-SDP-Handler-Function>, ...]
+ *   }
+ * })
  */
 
 // Disabling eslint for the next comment as we want to be able to use a disallowed word
 // eslint-disable-next-line no-warning-comments
 /**
- * In some scenarios it's necessary to remove certain codecs being offered by the SDK to the remote party. While creating an SDP handler would allow a user to perform this type of manipulation, it is a non-trivial task that requires in-depth knowledge of WebRTC SDP.
+ * In some scenarios it's necessary to remove certain codecs being offered by the SDK to the remote party.
+ * While creating an SDP handler would allow a user to perform this type of manipulation, it is a non-trivial task that requires in-depth knowledge of WebRTC SDP.
  *
- * To facilitate this common task, the SDK provides a codec removal handler that can be used for this purpose.
+ * To facilitate this common task, the SDK provides a codec removal handler creator that can be used for this purpose.
  *
  * The SDP handlers are exposed on the entry point of the SDK. They need to be added to the list of SDP handlers via configuration on creation of an instance of the SDK.
  *
  * @public
  * @memberof sdpHandlers
  * @method createCodecRemover
+ * @param {Array<string>} codecs A list of codec names to remove from the SDP.
+ * @returns {SdpHandlerFunction} The resulting SDP handler that will remove the codec.
  * @example
  * import { create, sdpHandlers } from 'kandy';
  * const codecRemover = sdpHandlers.createCodecRemover(['VP8', 'VP9'])
@@ -40511,12 +41978,13 @@ const logMgr = getLogManager(defaultOptions);
 /**
  * Configuration options for the Logs feature.
  * @public
+ * @static
  * @name config.logs
  * @memberof config
  * @requires logs
  * @instance
  * @param {Object} logs Logs configs.
- * @param  {string} [logs.logLevel=debug] Log level to be set. See `logger.levels`.
+ * @param  {string} [logs.logLevel='debug'] Log level to be set. See {@link Logger.levels levels}.
  * @param  {boolean} [logs.flatten=false] Whether all logs should be output in a string-only format.
  * @param  {Object} [logs.logActions] Options specifically for action logs when logLevel is at DEBUG+ levels. Set this to false to not output action logs.
  * @param  {boolean} [logs.logActions.actionOnly=true] Only output information about the action itself. Omits the SDK context for when it occurred.
@@ -40639,13 +42107,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = api;
 /**
- * The internal logger used to provide information about the SDK's behaviour.
+ * The internal logger is used to provide information about the SDK's behaviour.
  * The logger can provide two types of logs: basic logs and action logs. Basic
  * logs are simple lines of information about what the SDK is doing during operations.
  * Action logs are complete information about a specific action that occurred
- * within the SDK, prodiving debug information describing it.
- * The amount of information logged can be configured as part of the SDK
- * (see `configs.logs`) configuration.
+ * within the SDK, providing debug information describing it.
+ * The amount of information logged can be configured as part of the SDK configuration.
+ * See {@link #configconfiglogs config.logs} .
  *
  * @public
  * @module Logger
@@ -40657,9 +42125,10 @@ function api() {
     /**
      * Possible levels for the SDK logger.
      * @public
+     * @static
      * @memberof Logger
-     * @property {string} SILENT Logs nothing.
-     * @property {string} ERROR Only log unhandled errors.
+     * @property {string} SILENT Log nothing.
+     * @property {string} ERROR Log only unhandled errors.
      * @property {string} WARN Log issues that may cause problems or unexpected behaviour.
      * @property {string} INFO Log useful information and messages to indicate the SDK's internal operations.
      * @property {string} DEBUG Log information to help diagnose problematic behaviour.
@@ -45015,16 +46484,28 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = function (context) {
   const presenceApi = {
     /**
-     * Update the presence for the current user.
-     * Other users subscribed for this user's presence will receive the update.
+     * Updates the presence information for the current user.
+     *
+     * See {@link Presence.statuses presence.statuses} and
+     *    {@link Presence.activities presence.activities} for valid values.
+     *
+     * The SDK will emit a
+     *    {@link Presence.event:presence:selfChange presence:selfChange} event
+     *    when the operation completes. The updated presence information is
+     *    available and can be retrieved with
+     *    {@link Presence.getSelf presence.getSelf}.
+     *
+     * Other users subscribed for this user's presence will receive a
+     *    {@link Presence.event:presence:change presence:change} event.
      *
      * @public
+     * @static
      * @memberof Presence
      * @requires presence
      * @method update
      * @param  {string} status The status of the presence state.
      * @param  {string} activity The activity to be shown as presence state
-     * @param  {string} [note] An additional note to be provided when the activity is "other".
+     * @param  {string} [note] An additional note to be provided when the activity is `presence.activities.ACTIVITIES_OTHER`.
      */
     update(status, activity, note) {
       log.debug(_logs.API_LOG_TAG + 'presence.update: ', status, activity, note);
@@ -45032,14 +46513,15 @@ exports.default = function (context) {
     },
 
     /**
-     * Retrieve the presence information for specified users.
+     * Retrieves the presence information for specified users, if available.
      *
      * @public
+     * @static
      * @memberof Presence
      * @requires presence
      * @method get
-     * @param  {Array<string>|string} users  A user id or an array of user ids.
-     * @return {Array} List of user presence information.
+     * @param  {Array<string>|string} user A User ID or an array of User IDs.
+     * @return {Array<Object>|Object} List of user presence information.
      */
     get(user) {
       log.debug(_logs.API_LOG_TAG + 'presence.get: ', user);
@@ -45056,13 +46538,14 @@ exports.default = function (context) {
     },
 
     /**
-     * Retrieve the presence information for all users.
+     * Retrieves the presence information for all available users.
      *
      * @public
+     * @static
      * @memberof Presence
      * @requires presence
      * @method getAll
-     * @return {Array} List of user presence information.
+     * @return {Array<Object>} List of user presence information.
      */
     getAll() {
       log.debug(_logs.API_LOG_TAG + 'presence.getAll');
@@ -45072,11 +46555,15 @@ exports.default = function (context) {
     /**
      * Retrieves the presence information for the current user.
      *
+     * This information is set using the {@link Presence.update presnece.update}
+     *    API.
+     *
      * @public
+     * @static
      * @memberof Presence
      * @requires presence
      * @method getSelf
-     * @return {Object}
+     * @return {Object} Presence information for the current user.
      */
     getSelf() {
       log.debug(_logs.API_LOG_TAG + 'presence.getSelf');
@@ -45084,15 +46571,19 @@ exports.default = function (context) {
     },
 
     /**
-     * Fetch (from the server) the presence for the given users.
-     * This will update the store with the retrieved values, which can then
-     * be accessed using `get`.
+     * Fetches presence information for the given users. This will refresh the
+     *    available information with any new information from the server.
+     *
+     * Available presence information an be retrieved using the
+     *    {@link Presence.get presence.get} or
+     *    {@link Presence.getAll presence.getAll} APIs.
      *
      * @public
+     * @static
      * @memberof Presence
      * @requires presence
      * @method fetch
-     * @param  {Array<string>|string} users  A user id or an array of user ids.
+     * @param {Array<string>|string} user A User ID or an array of User IDs.
      */
     fetch(user) {
       log.debug(_logs.API_LOG_TAG + 'presence.fetch: ', user);
@@ -45101,13 +46592,17 @@ exports.default = function (context) {
     },
 
     /**
-     * Subscribe to retrieve presence updates about specified user.
+     * Subscribe to another User's presence updates.
+     *
+     * When the User updates their presence information, the SDK will emit a
+     *    {@link Presence.event:presence:change presence:change} event.
      *
      * @public
+     * @static
      * @memberof Presence
      * @requires presence
      * @method subscribe
-     * @param  {string} user  The ID of the user to subscribe to.
+     * @param {Array<string>|string} users A User ID or an array of User IDs.
      */
     subscribe(users) {
       log.debug(_logs.API_LOG_TAG + 'presence.subscribe: ', users);
@@ -45115,13 +46610,14 @@ exports.default = function (context) {
     },
 
     /**
-     * Unsubscribe from presence updates about specified user.
+     * Unsubscribe from another User's presence updates.
      *
      * @public
+     * @static
      * @memberof Presence
      * @requires presence
      * @method unsubscribe
-     * @param  {string} user  The ID of the user to unsubscribe from.
+     * @param {Array<string>|string} users A User ID or an array of User IDs.
      */
     unsubscribe(users) {
       log.debug(_logs.API_LOG_TAG + 'presence.unsubscribe: ', users);
@@ -45144,10 +46640,20 @@ var _logs = __webpack_require__("../kandy/src/logs/index.js");
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 const log = (0, _logs.getLogManager)().getLogger('PRESENCE'); /**
-                                                               * The presence features are used to update the authenticated users presence
-                                                               * on the server, as well as retrieve other users presence information.
+                                                               * The Presence feature provides an interface for an application to set the
+                                                               *    User's presence information and to track other Users' presence
+                                                               *    information.
                                                                *
-                                                               * Presence functions are all part of the 'presence' namespace.
+                                                               * Presence information is persisted by the server. When the SDK is initialized,
+                                                               *    there will be no information available. Presence information will become
+                                                               *    available either by using {@link Presence.fetch presence.fetch} or
+                                                               *    by subscribing for updates about other Users, using
+                                                               *    {@link Presence.subscribe presence.subscribe}.
+                                                               *
+                                                               * Available presence information can be retrieved using
+                                                               *    {@link Presence.get presence.get} or {@link Presence.getAll presence.getAll}.
+                                                               *
+                                                               * Presence APIs are part of the 'presence' namespace.
                                                                *
                                                                * @public
                                                                * @requires presence
@@ -45166,7 +46672,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 /**
- * A presence update has been received from a subscribed user.
+ * A presence update about a subscribed user has been received.
  *
  * @public
  * @memberof Presence
@@ -45181,7 +46687,10 @@ Object.defineProperty(exports, "__esModule", {
 const RECEIVED = exports.RECEIVED = 'presence:change';
 
 /**
- * The user's self presence information has changed.
+ * The current user's presence information has changed.
+ *
+ * The changed information can be retrieved using the
+ *    {@link Presence.getSelf presence.getSelf} API.
  *
  * @public
  * @memberof Presence
@@ -45191,7 +46700,7 @@ const RECEIVED = exports.RECEIVED = 'presence:change';
 const SELF_CHANGE = exports.SELF_CHANGE = 'presence:selfChange';
 
 /**
- * An error occured with presence.
+ * An error occurred with presence.
  *
  * @public
  * @memberof Presence
@@ -45572,6 +47081,7 @@ function linkPresence() {
     /**
      * Possible status values.
      * @public
+     * @static
      * @memberof Presence
      * @type {Object}
      * @property {string} OPEN
@@ -45586,6 +47096,7 @@ function linkPresence() {
     /**
      * Possible activity values.
      * @public
+     * @static
      * @memberof Presence
      * @type {Object}
      * @property {string} AVAILABLE
@@ -47854,21 +49365,40 @@ function usersAPI({ dispatch, getState, primitives }) {
   /**
    * The Users feature allows access to user information for users within the same domain.
    *
-   * These functions are namespaced beneath 'user' on the API.
+   * The functions in this module are namespaced under 'user'.
    * @public
    * @module Users
    */
 
+  /**
+   * The User data object.
+   *
+   * @public
+   * @module User
+   * @property {string} userId The User ID of the user.
+   * @property {string} emailAddress The email address of the user.
+   * @property {string} firstName The first name of the user.
+   * @property {string} lastName The last name of the user.
+   * @property {string} photoURL The URL to get the photo of the user.
+   * @property {string} buddy Whether the user is a "buddy". Values can be "true" or "false".
+   */
+
   return {
     /**
-     * Fetches information about a specified user from the platform.
-     * Will trigger a `directory:change` event.
+     * Fetches information about a User.
+     *
+     * The SDK will emit a {@link Users.event:directory:change directory:change}
+     *    event after the operation completes. The User's information will then
+     *    be available.
+     *
+     * Information about an available User can be retrieved using the
+     *    {@link Users.get user.get} API.
      *
      * @public
+     * @static
      * @memberof Users
      * @method fetch
-     *
-     * @param {string} userId The URI uniquely identifying the user.
+     * @param {string} userId The User ID of the user.
      */
     fetch(userId) {
       log.debug(_logs.API_LOG_TAG + 'user.fetch: ', userId);
@@ -47876,10 +49406,17 @@ function usersAPI({ dispatch, getState, primitives }) {
     },
 
     /**
-     * Fetches information about the current user's profile data from the platform.
-     * Will trigger a `directory:change` event.
+     * Fetches information about the current User.
+     *
+     * The SDK will emit a {@link Users.event:directory:change directory:change}
+     *    event after the operation completes. The User's information will then
+     *    be available.
+     *
+     * Information about an available User can be retrieved using the
+     *    {@link Users.get user.get} API.
      *
      * @public
+     * @static
      * @memberof Users
      * @method fetchSelfInfo
      */
@@ -47889,11 +49426,17 @@ function usersAPI({ dispatch, getState, primitives }) {
     },
 
     /**
-     * Retrieves local information about a previously fetched user.
+     * Retrieves information about a User, if available.
+     *
+     * See the {@link Users.fetch user.fetch} and
+     *    {@link Users.search user.search} APIs for details about making Users'
+     *    information available.
+     *
      * @public
      * @memberof Users
      * @method get
-     * @param {string} userId The URI uniquely identifying the user.
+     * @param {string} userId The User ID of the user.
+     * @returns {User} The User object for the specified user.
      */
     get(userId) {
       log.debug(_logs.API_LOG_TAG + 'user.get: ', userId);
@@ -47901,10 +49444,16 @@ function usersAPI({ dispatch, getState, primitives }) {
     },
 
     /**
-     * Retrieves local information about previously fetched users.
+     * Retrieves information about all available Users.
+     *
+     * See the {@link Users.fetch user.fetch} and
+     *    {@link Users.search user.search} APIs for details about making Users'
+     *    information available.
+     *
      * @public
      * @memberof Users
      * @method getAll
+     * @returns {Array<User>} An array of all the User objects.
      */
     getAll() {
       log.debug(_logs.API_LOG_TAG + 'user.getAll');
@@ -47912,24 +49461,29 @@ function usersAPI({ dispatch, getState, primitives }) {
     },
 
     /**
-     * Search the users in the directory.
-     * Will trigger a `directory:change` event.
+     * Searches the domain's directory for Users.
+     *
+     * The SDK will emit a {@link Users.event:directory:change directory:change}
+     *    event after the operation completes. The search results will be
+     *    provided as part of the event, and will also be available using the
+     *    {@link Users.get user.get} and {@link Users.getAll user.getAll} APIs.
      *
      * @public
+     * @static
      * @memberof Users
      * @method search
-     * @param {Object} filters Query filter options.
-     * @param {string} [filters.userId] Matches the unique URI identifying the user.
-     * @param {string} [filters.name] Matches firstName or lastName.
-     * @param {string} [filters.firstName] Matches firstName.
-     * @param {string} [filters.lastName] Matches lastName.
-     * @param {string} [filters.userName] Matches userName.
-     * @param {string} [filters.phoneNumber] Matches phoneNumber.
-     * @param {Object} [options] Sorting options
-     * @param {string} [options.sortBy] The attribute upon which to sort results. This can be any of the above listed filters which describe a user attribute.
-     * @param {string} [options.order] Order by which to return results. Can be one of "asc" or "desc".
-     * @param {number} [options.max] The maximmum number of results to return.
-     * @param {string} [options.next] The pointer for a chunk of results, which may be returned from other a previous query.
+     * @param {Object} filters The filter options for the search.
+     * @param {string} [filters.userId] Matches the User ID of the user.
+     * @param {string} [filters.name] Matches the firstName or lastName.
+     * @param {string} [filters.firstName] Matches the firstName.
+     * @param {string} [filters.lastName] Matches the lastName.
+     * @param {string} [filters.userName] Matches the userName.
+     * @param {string} [filters.phoneNumber] Matches the phoneNumber.
+     * @param {Object} [options] Sorting options.
+     * @param {string} [options.sortBy] The User property to sort the results by. This can be any of the above listed filters.
+     * @param {string} [options.order] Order in which results are returned. Can be either "asc" or "desc".
+     * @param {number} [options.max] The maximum number of results to return.
+     * @param {string} [options.next] The pointer for a chunk of results, which may be returned from a previous query.
      */
     search(filters = {}, options = {}) {
       log.debug(_logs.API_LOG_TAG + 'user.search: ', filters, options);
@@ -48046,10 +49600,12 @@ const CONTACTS_CHANGE = exports.CONTACTS_CHANGE = 'contacts:change';
 /**
  * The directory has changed.
  * @public
+ * @static
  * @memberof Users
  * @event directory:change
  * @param {Object} params
- * @param {Array} params.results The results of the directory search.
+ * @param {Array<User>} params.results The Users' information returned by the
+ *    operation.
  */
 const DIRECTORY_CHANGE = exports.DIRECTORY_CHANGE = 'directory:change';
 
@@ -49473,6 +51029,13 @@ function setListeners(session, emit, END = 'END') {
     }));
   };
 
+  const trackReplaced = ({ oldTrackId, trackId }) => {
+    emit(_actions.sessionActions.sessionTrackReplaced(session.id, {
+      oldTrackId,
+      trackId
+    }));
+  };
+
   // Generic "something changed" handler.
   // TODO: Either use this for other events or remove it.
   // eslint-disable-next-line no-unused-vars
@@ -49489,11 +51052,13 @@ function setListeners(session, emit, END = 'END') {
   session.on('new:track', newTrack);
   session.on('track:removed', trackRemoved);
   session.on('track:ended', trackEnded);
+  session.on('track:replaced', trackReplaced);
 
   const unsubscribe = () => {
     session.off('new:track', newTrack);
     session.off('track:removed', trackRemoved);
     session.off('track:ended', trackEnded);
+    session.off('track:replaced', trackReplaced);
   };
   return unsubscribe;
 }
@@ -49938,6 +51503,7 @@ const SESSION_NEW_TRACK = exports.SESSION_NEW_TRACK = sessionPrefix + 'NEW_TRACK
 const SESSION_TRACK_REMOVED = exports.SESSION_TRACK_REMOVED = sessionPrefix + 'TRACK_REMOVED';
 const SESSION_TRACK_ENDED = exports.SESSION_TRACK_ENDED = sessionPrefix + 'TRACK_ENDED';
 const SESSION_CHANGE = exports.SESSION_CHANGE = sessionPrefix + 'CHANGE';
+const SESSION_TRACK_REPLACED = exports.SESSION_TRACK_REPLACED = sessionPrefix + 'TRACK_REPLACED';
 
 /**
  * Media action types.
@@ -50154,6 +51720,7 @@ exports.sessionNewTrack = sessionNewTrack;
 exports.sessionTrackRemoved = sessionTrackRemoved;
 exports.sessionTrackEnded = sessionTrackEnded;
 exports.sessionChange = sessionChange;
+exports.sessionTrackReplaced = sessionTrackReplaced;
 
 var _actionTypes = __webpack_require__("../kandy/src/webrtc/interface/actionTypes.js");
 
@@ -50206,6 +51773,10 @@ function sessionTrackEnded(id, params) {
 
 function sessionChange(id, params) {
   return sessionActionHelper(actionTypes.SESSION_CHANGE, id, params);
+}
+
+function sessionTrackReplaced(id, params) {
+  return sessionActionHelper(actionTypes.SESSION_TRACK_REPLACED, id, params);
 }
 
 /***/ }),
@@ -50346,6 +51917,7 @@ function api(context) {
 
     /**
      * Retrieve information about the browser being used.
+     *
      * Browser information being defined indicates that the browser supports
      *    basic webRTC scenarios.
      * @public
@@ -50403,7 +51975,12 @@ function mediaAPI({ dispatch, getState }) {
   return {
     /**
      * Retrieves the available media devices for use.
+     *
+     * The {@link Media.event:devices:change devices:change} event will be
+     *    emitted when the available media devices have changed.
+     *
      * @public
+     * @static
      * @memberof Media
      * @method getDevices
      * @return {Object} The lists of camera, microphone, and speaker devices.
@@ -50414,12 +51991,13 @@ function mediaAPI({ dispatch, getState }) {
     },
 
     /**
-     * Retrieve a media object from state with a specific media ID.
+     * Retrieves an available Media object with a specific Media ID.
      * @public
+     * @static
      * @memberof Media
      * @method getById
-     * @param  {string} mediaId The ID of the media to retrieve.
-     * @return {MediaObject} A media object.
+     * @param  {string} mediaId The ID of the Media to retrieve.
+     * @return {MediaObject} A Media object.
      */
     getById(mediaId) {
       log.debug(_logs.API_LOG_TAG + 'media.getById: ', mediaId);
@@ -50427,12 +52005,13 @@ function mediaAPI({ dispatch, getState }) {
     },
 
     /**
-     * Retrieve a Track object from state with a specific ID.
+     * Retrieve an available Track object with a specific Track ID.
      * @public
+     * @static
      * @memberof Media
      * @method getTrackById
-     * @param  {string} trackId The ID of the track to retrieve.
-     * @return {Object} A track object.
+     * @param  {string} trackId The ID of the Track to retrieve.
+     * @return {TrackObject} A Track object.
      */
     getTrackById(trackId) {
       log.debug(_logs.API_LOG_TAG + 'media.getByTrackId: ', trackId);
@@ -50440,17 +52019,22 @@ function mediaAPI({ dispatch, getState }) {
     },
 
     /**
-     * Render media Tracks in a container.
-     * The container is specified by providing a CSS selector string that corresponds to the HTMLElement to act as the container.
+     * Render Media Tracks in a container.
+     *
+     * The container is specified by providing a CSS selector string that
+     *    corresponds to the HTMLElement to act as the container.
      * @public
+     * @static
      * @memberof Media
      * @method renderTracks
-     * @param  {Array}  tracks List of Track IDs to be rendered.
-     * @param  {string} cssSelector A CSS selector string that uniquely identifies an element. Ensure that special characters are properly escaped.
+     * @param  {Array<string>} trackIds List of Track IDs to be rendered.
+     * @param  {string} cssSelector A CSS selector string that uniquely
+     *    identifies an element. Ensure that special characters are properly
+     *    escaped.
      * @param  {Object} [options] Additional options for rendering the tracks.
-     * @param  {string} [options.speakerId] The device ID of the speaker to use for audio tracks.
+     * @param  {string} [options.speakerId] The speaker's Device ID to use for audio tracks.
      * @example
-     * // When an outgoing call is accepted, render the media used for the call.
+     * // When an outgoing call is accepted, render the Media used for the call.
      * client.on('call:accepted', function (params) {
      *     // Get the information about the call.
      *     const call = client.call.getById(params.callId)
@@ -50460,51 +52044,71 @@ function mediaAPI({ dispatch, getState }) {
      *     client.media.render(call.remoteMedia[0], remoteContainer)
      * })
      */
-    renderTracks(tracks, cssSelector, options = {}) {
-      log.debug(_logs.API_LOG_TAG + 'media.renderTracks: ', tracks, cssSelector, options);
-      dispatch(_actions.trackActions.renderTracks(tracks, (0, _extends3.default)({
+    renderTracks(trackIds, cssSelector, options = {}) {
+      log.debug(_logs.API_LOG_TAG + 'media.renderTracks: ', trackIds, cssSelector, options);
+      dispatch(_actions.trackActions.renderTracks(trackIds, (0, _extends3.default)({
         selector: cssSelector
       }, options)));
     },
 
     /**
-     * Remove media Tracks from a container.
-     * The container is specified by providing a CSS selector string that corresponds to the HTMLElement to act as the container.
+     * Remove Media Tracks from a container.
+     *
+     * The container is specified by providing a CSS selector string that
+     *    corresponds to the HTMLElement to act as the container.
      * @public
+     * @static
      * @memberof Media
      * @method removeTracks
-     * @param  {Array}  tracks List of Track IDs to stop being rendered.
-     * @param  {string} cssSelector A CSS selector string that uniquely identifies an element. Ensure that special characters are properly escaped.
+     * @param  {Array<string>} trackIds List of Track IDs to stop being rendered.
+     * @param  {string} cssSelector A CSS selector string that uniquely
+     *    identifies an element. Ensure that special characters are properly
+     *    escaped.
      */
-    removeTracks(tracks, cssSelector) {
-      log.debug(_logs.API_LOG_TAG + 'media.removeTracks: ', tracks, cssSelector);
-      dispatch(_actions.trackActions.removeTracks(tracks, { selector: cssSelector }));
+    removeTracks(trackIds, cssSelector) {
+      log.debug(_logs.API_LOG_TAG + 'media.removeTracks: ', trackIds, cssSelector);
+      dispatch(_actions.trackActions.removeTracks(trackIds, { selector: cssSelector }));
     },
 
     /**
-     * Mutes the specified tracks.
-     * Prevents media from being received for the tracks. Audio tracks will become silent and video tracks will be a black frame.
+     * Mutes the specified Tracks at their media source.
+     *
+     * Prevents media from being received for the Tracks. Audio Tracks will
+     *    become silent and video Tracks will be a black frame.
+     *
+     * If a local Track being sent in a Call is muted, the Track will be
+     *    noticeably muted for the remote user. If a remote Track received in a
+     *    call is muted, the result will only be noticeable locally.
+     *
+     * The SDK will emit a {@link Media.event:media:muted media:muted} event
+     *    when a Track has been muted.
      * @public
+     * @static
      * @memberof Media
      * @method muteTracks
-     * @param  {Array} tracks List of Track IDs.
+     * @param  {Array<string>} trackIds List of Track IDs.
      */
-    muteTracks(tracks) {
-      log.debug(_logs.API_LOG_TAG + 'media.muteTracks: ', tracks);
-      dispatch(_actions.trackActions.muteTracks(tracks));
+    muteTracks(trackIds) {
+      log.debug(_logs.API_LOG_TAG + 'media.muteTracks: ', trackIds);
+      dispatch(_actions.trackActions.muteTracks(trackIds));
     },
 
     /**
-     * Unmutes the specified tracks.
-     * Media will resume as normal for the tracks.
+     * Unmutes the specified Tracks.
+     *
+     * Media will resume as normal for the Tracks.
+     *
+     * The SDK will emit a {@link Media.event:media:unmuted media:unmuted} event
+     *    when a Track has been unmuted.
      * @public
+     * @static
      * @memberof Media
      * @method unmuteTracks
-     * @param  {Array} tracks List of Track IDs.
+     * @param  {Array<string>} trackIds List of Track IDs.
      */
-    unmuteTracks(tracks) {
-      log.debug(_logs.API_LOG_TAG + 'media.unmuteTracks: ', tracks);
-      dispatch(_actions.trackActions.unmuteTracks(tracks));
+    unmuteTracks(trackIds) {
+      log.debug(_logs.API_LOG_TAG + 'media.unmuteTracks: ', trackIds);
+      dispatch(_actions.trackActions.unmuteTracks(trackIds));
     }
   };
 }
@@ -50521,8 +52125,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 /**
- * Media devices available for use have changed.
- * Use the `getDevices` media API to retrieve the lists of devices.
+ * The media devices available for use have changed.
+ *
+ * Information about the available media devices can be retrieved using the
+ *    {@link Media.getDevices media.getDevices} API.
+ *
  * @public
  * @memberof Media
  * @event devices:change
@@ -50537,6 +52144,8 @@ const DEVICES_CHANGED = exports.DEVICES_CHANGED = 'devices:change';
 
 /**
  * The specified Tracks have been muted.
+ *
+ * A Track can be muted using the {@link Media.muteTracks media.muteTracks} API.
  * @public
  * @memberof Media
  * @event media:muted
@@ -50547,6 +52156,9 @@ const TRACKS_MUTED = exports.TRACKS_MUTED = 'media:muted';
 
 /**
  * The specified Tracks have been unmuted.
+ *
+ * A Track can be unmuted using the {@link Media.unmuteTracks media.unmuteTracks}
+ *    API.
  * @public
  * @memberof Media
  * @event media:unmuted
@@ -51005,9 +52617,24 @@ sessionReducers[actionTypes.SESSION_TRACK_ENDED] = {
   }
 };
 
+sessionReducers[actionTypes.SESSION_TRACK_REPLACED] = {
+  next(state, action) {
+    // Remove old track id if it still exists
+    const removeTrack = trackId => trackId === action.payload.oldTrackId;
+    const newLocalTracks = (0, _fp.remove)(removeTrack, state.localTracks);
+    // Add new track id if it doesn't exist
+    if (newLocalTracks.indexOf(action.payload.trackId) === -1) {
+      newLocalTracks.push(action.payload.trackId);
+    }
+    return (0, _extends3.default)({}, state, {
+      localTracks: newLocalTracks
+    });
+  }
+};
+
 const sessionReducer = (0, _reduxActions.handleActions)(sessionReducers, {});
 
-const specificSessionActions = (0, _reduxActions.combineActions)(actionTypes.SESSION_NEW_TRACK, actionTypes.SESSION_TRACK_REMOVED, actionTypes.SESSION_TRACK_ENDED);
+const specificSessionActions = (0, _reduxActions.combineActions)(actionTypes.SESSION_NEW_TRACK, actionTypes.SESSION_TRACK_REMOVED, actionTypes.SESSION_TRACK_ENDED, actionTypes.SESSION_TRACK_REPLACED);
 
 reducers[specificSessionActions] = (state, action) => {
   return state.map(session => {
@@ -51344,33 +52971,27 @@ var _effects = __webpack_require__("../../node_modules/redux-saga/es/effects.js"
 
 var _fp = __webpack_require__("../../node_modules/lodash/fp.js");
 
-var _documentTools = __webpack_require__("../kandy/src/webrtc/utils/documentTools.js");
-
 /**
  * Render Tracks in a specified container.
  * @method renderTracks
  * @param  {Object} action A "render tracks" action.
  */
-// Call plugin.
+
+
+// Libraries.
 function* renderTracks(webRTC, action) {
+  const { trackIds, selector, speakerId } = action.payload;
+
   // Get the tracks that are to be rendered.
-  const tracks = yield (0, _effects.call)([webRTC.track, 'getTracks'], action.payload.trackIds);
+  const tracks = yield (0, _effects.call)([webRTC.track, 'getTracks'], trackIds);
   const filteredTracks = tracks.filter(track => !(0, _fp.isUndefined)(track));
 
-  // Get the container the tracks are to be rendered in.
-  const container = yield (0, _effects.call)(_documentTools.findContainer, action.payload.selector);
-  if (!container) {
-    return;
-  }
-
-  const speakerId = action.payload.speakerId;
-
   // Render the tracks.
-  yield (0, _effects.all)(filteredTracks.map(track => (0, _effects.call)([track, 'renderIn'], container, speakerId)));
+  yield (0, _effects.all)(filteredTracks.map(track => (0, _effects.call)([track, 'renderIn'], selector, speakerId)));
 
   // Report operation done.
   yield (0, _effects.put)(_actions.trackActions.renderTracksFinish(filteredTracks.map(track => track.id), {
-    selector: action.payload.selector
+    selector
   }));
 }
 
@@ -51379,26 +53000,20 @@ function* renderTracks(webRTC, action) {
  * @method removeTracks
  * @param  {Object} action A "remove tracks" action.
  */
-
-
-// Libraries.
+// Call plugin.
 function* removeTracks(webRTC, action) {
+  const { trackIds, selector } = action.payload;
+
   // Get the tracks that are to be removed.
   const allTracks = yield (0, _effects.call)([webRTC.track, 'getTracks']);
-  const tracks = allTracks.filter(track => action.payload.trackIds.includes(track.id));
-
-  // Get the container the tracks are to be rendered in.
-  const container = yield (0, _effects.call)(_documentTools.findContainer, action.payload.selector);
-  if (!container) {
-    return;
-  }
+  const tracks = allTracks.filter(track => trackIds.includes(track.id));
 
   // Remove the tracks.
-  yield (0, _effects.all)(tracks.map(track => (0, _effects.call)([track, 'removeFrom'], container)));
+  yield (0, _effects.all)(tracks.map(track => (0, _effects.call)([track, 'removeFrom'], selector)));
 
   // Report operation done.
   yield (0, _effects.put)(_actions.trackActions.removeTracksFinish(tracks.map(track => track.id), {
-    selector: action.payload.selector
+    selector
   }));
 }
 
@@ -51436,42 +53051,6 @@ function* unmuteTracks(webRTC, action) {
 
   // Report operation done.
   yield (0, _effects.put)(_actions.trackActions.unmuteTracksFinish(tracks.map(track => track.id)));
-}
-
-/***/ }),
-
-/***/ "../kandy/src/webrtc/utils/documentTools.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.findContainer = findContainer;
-
-var _logs = __webpack_require__("../kandy/src/logs/index.js");
-
-const log = (0, _logs.getLogManager)().getLogger('MEDIA');
-
-/**
- * Find an html container based on the given selector.
- * @method findContainer
- * @param {string} selector The selector to use when querying the document.
- * @return {Object} The container object (undefined if not found).
- */
-function findContainer(selector) {
-  let container;
-  try {
-    container = document.querySelector(selector);
-    if (!container) {
-      throw new Error('Element not found.');
-    }
-  } catch (e) {
-    log.error(`Unable to get container with selector: "${selector}". Error: ${e}`);
-  }
-  return container;
 }
 
 /***/ }),
@@ -51525,7 +53104,7 @@ function wrapChannel(channel) {
       if (api.receive) {
         api.receive(messageId, data);
       } else {
-        console.log('No listener for receiving messages.', data);
+        console.warn('No listener for receiving messages.', data);
       }
     } else {
       // If the message didn't have an ID, then it wasn't from our test channel.
@@ -51569,7 +53148,7 @@ function wrapChannel(channel) {
     }).then(data => {
       // The message received a reply, so remove the reference.
       delete sentMessages[messageId];
-      console.debug('Received response for message: ', messageId);
+
       if (typeof callback === 'function') {
         callback(data);
       }
@@ -51592,8 +53171,6 @@ function wrapChannel(channel) {
    * @param {Object} data
    */
   api.reply = (messageId, data) => {
-    console.debug(`Replying to message ${messageId}.`, data);
-
     // Attach the messageId to the message.
     const message = {
       data,
@@ -52145,7 +53722,8 @@ reducers[actionTypes.SET_MODE_FINISH] = {
 reducers[actionTypes.SET_CHANNEL_FINISH] = {
   next(state, action) {
     return (0, _extends3.default)({}, state, {
-      hasChannel: true
+      hasChannel: true,
+      remoteInitialized: false
     });
   }
 };
@@ -52267,8 +53845,6 @@ exports.default = function (base, actualManager) {
               params: args
             };
 
-            log.info('operation', operation);
-
             if (thisArg.proxyMode && thisArg.channel && thisArg.channel.send) {
               /*
                * All manager APIs will now return a Promise, even if they didn't
@@ -52278,19 +53854,36 @@ exports.default = function (base, actualManager) {
                */
               return new _promise2.default((resolve, reject) => {
                 function callback(data) {
-                  log.info('Callback: ', data);
+                  log.debug(`Received manager response for ${messageId}.`, data);
+
+                  /**
+                   * Parse the data received from the remote side.
+                   */
+                  function parseData(data) {
+                    if (data && data.type) {
+                      // If the response is a Webrtc model, we need to wrap it
+                      //    with a proxy for the Callstack.
+                      return (0, _model2.default)(data, thisArg.channel);
+                    } else if ((0, _fp.isNull)(data)) {
+                      // The JSON codec encoder/decoder converts undefined to
+                      //    null (because of JSON stringify/parse), so undo
+                      //    that if the data is explicitly null value.
+                      return undefined;
+                    } else {
+                      return data;
+                    }
+                  }
 
                   if ((0, _fp.isArray)(data)) {
-                    const proxies = data.map(obj => {
-                      return (0, _model2.default)(obj, thisArg.channel);
-                    });
+                    const proxies = data.map(parseData);
                     resolve(proxies);
                   } else {
-                    resolve((0, _model2.default)(data, thisArg.channel));
+                    resolve(parseData(data));
                   }
                 }
 
                 const messageId = (0, _v2.default)();
+                log.debug(`Sending manager message ${messageId}.`, operation);
                 thisArg.channel.send(messageId, operation, callback);
               });
             }
@@ -52420,23 +54013,22 @@ function modelProxy(base, channel) {
               id: thisArg.id,
               operation: prop,
               params: args
-            };
 
-            log.info('media operation', operation);
-            /*
-             * All APIs will now return a Promise, even if they didn't
-             *    before. This is needed to wait for the remote response.
-             * Since sagas `yield` on these API calls, they will also wait
-             *    until the promise resolves.
-             */
-            return new _promise2.default(resolve => {
+              /*
+               * All APIs will now return a Promise, even if they didn't
+               *    before. This is needed to wait for the remote response.
+               * Since sagas `yield` on these API calls, they will also wait
+               *    until the promise resolves.
+               */
+            };return new _promise2.default(resolve => {
               function callback(data) {
-                log.info('model Callback: ', data);
+                log.debug(`Received model response for ${messageId}.`, data);
 
                 resolve(data);
               }
 
               const messageId = (0, _v2.default)();
+              log.debug(`Sending model message ${messageId}.`, operation);
               channel.send(messageId, operation, callback);
             });
           }
@@ -52569,6 +54161,7 @@ function initializeProxy(webRTC) {
     const wrappedChannel = (0, _channel2.default)(channel);
     log.debug('Setting channel for proxy use.');
     base.channel = wrappedChannel;
+    base.clientReady = false;
 
     for (const manProxy in base.managers) {
       base.managers[manProxy].channel = wrappedChannel;
@@ -53098,7 +54691,7 @@ const WEBRTC_DEVICE_KINDS = exports.WEBRTC_DEVICE_KINDS = {
 
   // Check devices whenever they change.
   let recentDeviceChange = false;
-  navigator.mediaDevices.ondevicechange = () => {
+  navigator.mediaDevices.addEventListener('devicechange', () => {
     _loglevel2.default.info('Media device change detected.');
     // A physical device change results in one event per
     // device "kind". Group the events together.
@@ -53112,7 +54705,7 @@ const WEBRTC_DEVICE_KINDS = exports.WEBRTC_DEVICE_KINDS = {
         });
       }, 50);
     }
-  };
+  });
 
   /**
    * Updates the stored device lists with the latest devices.
@@ -53254,6 +54847,58 @@ function MediaManager(managers) {
    * @return {Promise}
    */
   function createLocal(constraints) {
+    /**
+     * Firefox workaround.
+     *
+     * Issue Summary: Browser behaviour for prompting the user for device
+     *    permissions is not consistent for consecutive gUM calls. The following
+     *    workaround makes it consistent if the less-specific constraint is
+     *    provided.
+     *
+     * Context: The `deviceId` constraint format can be either a string or an
+     *    object. The object format allows precise control over how the browser
+     *    should try to get the track. It can be specified to fail if it can't
+     *    fulfill the constraint (exact), or whether the constraint is "best
+     *    effort" (ideal). When the string format is given, it follows the
+     *    "ideal" behaviour.
+     * See: https://developer.mozilla.org/en-US/docs/Web/API/ConstrainDOMString
+     *
+     *  - When the "ideal" behaviour is followed and the user has not given
+     *      permission (and not disallowed), the browswer will prompt the user
+     *      for permission.
+     *  - [Issue] When the "ideal" behaviour is followed and the user has given
+     *      permission previously, the browser will not prompt the user for
+     *      permission.
+     *
+     * Problem: When gUM is called for a different device (ideal behaviour) than
+     *    permission was granted for previously, the browser will not prompt the
+     *    user to give permission for the (new) device. This results in gUM
+     *    using the original device for the new track.
+     *
+     * This happens on Firefox because the prompt for media permissions is
+     *    specific to a single device. For Chrome, the prompt is generic to any
+     *    device.
+     * If permissions are always allowed ("remember my decision" on Firefox or
+     *    default on Chrome), this issue wouldn't be seen.
+     *
+     * Workaround: When the behaviour (idea / exact) isn't specified, default
+     *    to exact (instead of letting the browser default to ideal; as per the
+     *    specification).
+     *
+     * This ensures that the browser always prompts the user to give permissions
+     *    for the device (if not already granted). It is also more in-line with
+     *    what might be expected when you ask for a certain device (ie. don't
+     *    return a different device unless it was specified that it's okay).
+     */
+    for (const kind in constraints) {
+      if (constraints[kind] && typeof constraints[kind] === 'object' && typeof constraints[kind].deviceId === 'string') {
+        // Don't allow a "bare" value be provided for deviceId. Change it to use
+        //    "exact".
+        const id = constraints[kind].deviceId;
+        constraints[kind].deviceId = { exact: id };
+      }
+    }
+
     // Get user media, ...
     return new _promise2.default((resolve, reject) => {
       // TODO: Proper error checking.
@@ -54556,18 +56201,25 @@ function Peer(id, config = {}, trackManager) {
   /**
    * Replaces a specified transceiver's sender.track.
    * @method replaceTrack
-   * @param {Object} [options] Options for specifying which transceiver's sender should be replaced. They are ordered by priority.
+   * @param {Object} newTrack The MediaStreamTrack we want to place into the sender.
+   * @param {Object} options Options for specifying which transceiver's sender should be replaced. They are ordered by priority.
    * @param {Array} [options.trackId] The track id whose transceivers we want to set the direction of.
-   * @param {Object} track The MediaStreamTrack we want to place into the sender.
    * @return {Object} A Promise object which is fulfilled once the track has been replaced
    */
-  function replaceTrack(options, track) {
-    const targetTransceiver = findTransceiver(options);
+  function replaceTrack(newTrack, options) {
     return new _promise2.default((resolve, reject) => {
-      if (targetTransceiver) {
-        targetTransceiver.sender.replaceTrack(track).then(resolve).catch(reject);
+      let sender;
+      if ((0, _sdpSemantics.isUnifiedPlan)(config.rtcConfig.sdpSemantics)) {
+        const targetTransceiver = findTransceiver(options);
+        sender = targetTransceiver ? targetTransceiver.sender : undefined;
       } else {
-        reject(new Error(`Transceiver ${options} not found.`));
+        sender = peerConnection.getSenders().find(sender => sender.track.id === options.trackId);
+      }
+
+      if (sender) {
+        sender.replaceTrack(newTrack).then(resolve).catch(reject);
+      } else {
+        reject(new Error(`Sender for track ${options.trackId} not found.`));
       }
     });
   }
@@ -55156,15 +56808,20 @@ function Session(id, managers, config = {}) {
   /**
    * Replaces a specified transceiver's sender.track.
    * @method replaceTrack
-   * @param {Object} [options]
+   * @param {Object} newTrack The MediaStreamTrack we want to place into the sender.
+   * @param {Object} options Options for specifying which transceiver's sender should be replaced. They are ordered by priority.
    * @param {String} [options.trackId] The transceiver with the specific sender.track.id.
    * @param {String} [options.mid] The transceiver with the specific media id.
-   * @param {Object} track The MediaStreamTrack we want to place into the sender.
    * @return {Object} A Promise object which is fulfilled once the track has been replaced
    */
-  function replaceTrack(options, track) {
+  function replaceTrack(newTrack, options) {
     const peer = peerManager.get(peerId);
-    return peer.replaceTrack(options, track);
+    return peer.replaceTrack(newTrack, options).then(() => {
+      emitter.emit('track:replaced', {
+        oldTrackId: options.trackId,
+        trackId: newTrack.id
+      });
+    }).catch(err => err);
   }
 
   /**
@@ -55489,6 +57146,10 @@ function Session(id, managers, config = {}) {
     return peer;
   }
 
+  function getRemoteDescription() {
+    return peer.remoteDescription;
+  }
+
   /**
    * The exposed API.
    */
@@ -55515,6 +57176,7 @@ function Session(id, managers, config = {}) {
     createOffer,
     createAnswer,
     setLocalDescription,
+    getRemoteDescription,
     generateOffer,
     processOffer,
     generateAnswer,
@@ -55608,10 +57270,29 @@ function Track(mediaTrack, mediaStream) {
   /**
    * Renders this Track as a subelement of the specified element.
    * @method renderIn
-   * @param  {HTMLElement} element The DOM element to be rendered in.
+   * @param  {HTMLElement|String} container The DOM element to be rendered in,
+   *    or a unique CSS selector for the DOM element.
    * @param  {String} [speakerId] The device ID to be used for audio output.
    */
-  function renderIn(element, speakerId) {
+  function renderIn(container, speakerId) {
+    let element;
+    // If a string was provided, use it as a CSS selector to find the element.
+    if (typeof container === 'string') {
+      _loglevel2.default.debug(`Track ${id} rendering in element using selector: ${container}`);
+
+      element = document.querySelector(container);
+      if (!element) {
+        _loglevel2.default.error(`Unable to get container with selector: ${container}.`);
+        return false;
+      }
+    } else {
+      _loglevel2.default.debug(`Track ${id} rendering in provided HTMLElement.`);
+
+      element = container;
+    }
+
+    // TODO: Proper error checking.
+
     if (containers.indexOf(element) > -1) {
       // Already rendered in element.
       _loglevel2.default.debug(`Track ${id} already rendered in element.`, element);
@@ -55665,9 +57346,26 @@ function Track(mediaTrack, mediaStream) {
   /**
    * Stop rendering this Track from the specified element.
    * @method removeFrom
-   * @param  {HTMLElement} element The DOM element to be removed from.
+   * @param  {HTMLElement} container The DOM element to be removed from, or
+   *     a unique CSS selector for the DOM element.
    */
-  function removeFrom(element) {
+  function removeFrom(container) {
+    let element;
+    // If a string was provided, use it as a CSS selector to find the element.
+    if (typeof container === 'string') {
+      _loglevel2.default.debug(`Track ${id} removing from element using selector: ${container}`);
+
+      element = document.querySelector(container);
+      if (!element) {
+        _loglevel2.default.error(`Unable to get container with selector: ${container}.`);
+        return false;
+      }
+    } else {
+      _loglevel2.default.debug(`Track ${id} removing from provided HTMLElement.`);
+
+      element = container;
+    }
+
     let index = containers.indexOf(element);
     if (index === -1) {
       // Not rendered in element.
