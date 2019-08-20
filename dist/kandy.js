@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.7.0-beta.111
+ * Version: 4.7.0-beta.120
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -30456,6 +30456,21 @@ Object.defineProperty(exports, "__esModule", {
 const CALL_STARTED = exports.CALL_STARTED = 'call:start';
 
 /**
+ * A new joined call has been started.
+ *
+ * Information about the Call can be retrieved using the
+ *    {@link Calls.getById call.getById} API.
+ *
+ * @public
+ * @memberof Calls
+ * @event call:join
+ * @param {Object} params
+ * @param {string} params.callId The ID of the call.
+ * @param {BasicError} [params.error] An error object, if the operation was not successful.
+ */
+const CALL_JOIN = exports.CALL_JOIN = 'call:join';
+
+/**
  * A new incoming call has been received.
  *
  * Information about the Call can be retrieved using the
@@ -30710,6 +30725,10 @@ callEvents[actionTypes.PENDING_MAKE_CALL] = action => {
   return callEventHandler(eventTypes.CALL_STARTED, action, {
     error: action.payload.error
   });
+};
+
+callEvents[actionTypes.PENDING_JOIN] = action => {
+  return callEventHandler(eventTypes.CALL_JOIN, action);
 };
 
 callEvents[actionTypes.CALL_INCOMING] = action => {
@@ -33030,7 +33049,7 @@ function* unholdCall(deps) {
  * @param {Array}  deps.sdpHandlers SDP handlers.
  */
 function* callAudit(deps) {
-  const actionTypesToDoAuditOn = [actionTypes.ANSWER_CALL, actionTypes.CALL_ACCEPTED];
+  const actionTypesToDoAuditOn = [actionTypes.ANSWER_CALL, actionTypes.CALL_ACCEPTED, actionTypes.MAKE_CALL_FINISH];
 
   function callStartAuditPattern(action) {
     return actionTypesToDoAuditOn.indexOf(action.type) !== -1 && !action.error;
@@ -34847,7 +34866,8 @@ function* removeCallLogs(action) {
 
   let response = yield (0, _effects2.default)({
     url,
-    method: 'DELETE'
+    method: 'DELETE',
+    responseType: 'text'
   }, requestInfo.requestOptions);
 
   if (response.error) {
@@ -34875,7 +34895,7 @@ function* removeCallLogs(action) {
     yield (0, _effects3.put)(actions.removeCallLogsFinish({ error }));
   } else {
     log.info('Successfully removed log(s) from call history.');
-    yield (0, _effects3.put)(actions.removeCallLogsFinish({ recordId: action.payload.body }));
+    yield (0, _effects3.put)(actions.removeCallLogsFinish({ recordId: action.payload }));
   }
 }
 
@@ -41972,7 +41992,7 @@ const factoryDefaults = {
    */
 };function factory(plugins, options = factoryDefaults) {
   // Log the SDK's version (templated by webpack) on initialization.
-  let version = '4.7.0-beta.111';
+  let version = '4.7.0-beta.120';
   log.info(`SDK version: ${version}`);
 
   var sagas = [];
@@ -50453,12 +50473,19 @@ exports.default = reducers;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _values = __webpack_require__("../../node_modules/babel-runtime/core-js/object/values.js");
+
+var _values2 = _interopRequireDefault(_values);
+
 exports.getContacts = getContacts;
 exports.getContact = getContact;
 exports.getUsers = getUsers;
 exports.getUser = getUser;
 
 var _fp = __webpack_require__("../../node_modules/lodash/fp.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /*
  * Redux-saga selector functions.
@@ -50487,10 +50514,11 @@ function getContact(state, id) {
 /**
  * Gets the users from state.
  * @method getUsers
- * @return {Object}
+ * @return {Array<User>} An array of all the User objects.
  */
 function getUsers(state) {
-  return (0, _fp.cloneDeep)(state.users.users);
+  let allUsers = (0, _fp.cloneDeep)(state.users.users);
+  return (0, _values2.default)(allUsers);
 }
 
 /**
