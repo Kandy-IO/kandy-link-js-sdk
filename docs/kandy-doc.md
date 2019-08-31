@@ -1520,51 +1520,6 @@ log(`Browser in use: ${details.browser}, version ${details.version}.`)
 
 Returns **[Object][5]** Object containing `browser` and `version` information.
 
-## Channel
-
-The Channel object that the Proxy module needs to be provided.
-
-**Examples**
-
-```javascript
-// The channel the application uses for communicating with a remote endpoint.
-const appChannel = ...
-
-// The channel the application will provide to the Proxy module for use.
-const channel = {
-   send: function (data) {
-     // Any encoding / wrapping needed for a Proxy message being sent
-     //    over the channel.
-     appChannel.sendMessage(data)
-   },
-   // The Proxy module will set this function.
-   receive: undefined
-}
-appChannel.on('message', data => {
-   // Any decoding / unwrapping needed for the received message.
-   channel.receive(data)
-})
-
-client.proxy.setChannel(channel)
-```
-
-### send
-
-Channel function that the Proxy module will use to send messages to the remote side.
-
-**Parameters**
-
--   `data` **[Object][5]** Message to be sent over the channel.
-
-### receive
-
-API that the Proxy module will assign a listener function for accepting received messages.
-This function should receive all messages sent from the remote side of the channel.
-
-**Parameters**
-
--   `data` **[Object][5]** The message received from the Channel.
-
 ## Proxy
 
 The Proxy module allows for a secondary mode for making calls: proxy mode.
@@ -1620,19 +1575,50 @@ Sends an initialization message over the channel with webRTC configurations.
 
 -   `config` **[Object][5]** 
 
-## SdpHandlerFunction
+## Channel
 
-The form of an SDP handler function and the expected arguments that it receives.
+The Channel object that the Proxy module needs to be provided.
 
-Type: [Function][3]
+**Examples**
+
+```javascript
+// The channel the application uses for communicating with a remote endpoint.
+const appChannel = ...
+
+// The channel the application will provide to the Proxy module for use.
+const channel = {
+   send: function (data) {
+     // Any encoding / wrapping needed for a Proxy message being sent
+     //    over the channel.
+     appChannel.sendMessage(data)
+   },
+   // The Proxy module will set this function.
+   receive: undefined
+}
+appChannel.on('message', data => {
+   // Any decoding / unwrapping needed for the received message.
+   channel.receive(data)
+})
+
+client.proxy.setChannel(channel)
+```
+
+### send
+
+Channel function that the Proxy module will use to send messages to the remote side.
 
 **Parameters**
 
--   `newSdp` **[Object][5]** The SDP so far (could have been modified by previous handlers).
--   `info` **[SdpHandlerInfo][57]** Additional information that might be useful when making SDP modifications.
--   `originalSdp` **[Object][5]** The SDP in its initial state.
+-   `data` **[Object][5]** Message to be sent over the channel.
 
-Returns **[Object][5]** The resulting modified SDP based on the changes made by this function.
+### receive
+
+API that the Proxy module will assign a listener function for accepting received messages.
+This function should receive all messages sent from the remote side of the channel.
+
+**Parameters**
+
+-   `data` **[Object][5]** The message received from the Channel.
 
 ## DeviceInfo
 
@@ -1651,9 +1637,9 @@ A collection of media devices and their information.
 
 **Properties**
 
--   `camera` **[Array][6]&lt;[DeviceInfo][58]>** A list of camera device information.
--   `microphone` **[Array][6]&lt;[DeviceInfo][58]>** A list of microphone device information.
--   `speaker` **[Array][6]&lt;[DeviceInfo][58]>** A list of speaker device information.
+-   `camera` **[Array][6]&lt;[DeviceInfo][57]>** A list of camera device information.
+-   `microphone` **[Array][6]&lt;[DeviceInfo][57]>** A list of microphone device information.
+-   `speaker` **[Array][6]&lt;[DeviceInfo][57]>** A list of speaker device information.
 
 ## TrackObject
 
@@ -1683,6 +1669,20 @@ Type: [Object][5]
 -   `id` **[string][2]** The ID of the Media object.
 -   `local` **[boolean][7]** Indicator on whether this media is local or remote.
 -   `tracks` **[Array][6]&lt;[TrackObject][29]>** A list of Track objects that are contained in this Media object.
+
+## SdpHandlerFunction
+
+The form of an SDP handler function and the expected arguments that it receives.
+
+Type: [Function][3]
+
+**Parameters**
+
+-   `newSdp` **[Object][5]** The SDP so far (could have been modified by previous handlers).
+-   `info` **[SdpHandlerInfo][58]** Additional information that might be useful when making SDP modifications.
+-   `originalSdp` **[Object][5]** The SDP in its initial state.
+
+Returns **[Object][5]** The resulting modified SDP based on the changes made by this function.
 
 ## SdpHandlerInfo
 
@@ -1939,8 +1939,8 @@ The User data object.
 
 [56]: #channel
 
-[57]: #sdphandlerinfo
+[57]: #deviceinfo
 
-[58]: #deviceinfo
+[58]: #sdphandlerinfo
 
 [59]: #callsstates

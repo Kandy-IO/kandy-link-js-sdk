@@ -102,7 +102,7 @@
           "column": 35
         }
       },
-      "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/index.common.js"
+      "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/index.common.js"
     },
     "augments": [],
     "examples": [
@@ -291,7 +291,7 @@
           "column": 59
         }
       },
-      "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/events/interface/api.js"
+      "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/events/interface/api.js"
     },
     "augments": [],
     "examples": [],
@@ -437,7 +437,7 @@
                 "column": 3
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/events/interface/api.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/events/interface/api.js"
           },
           "augments": [],
           "examples": [
@@ -778,7 +778,7 @@
                 "column": 3
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/events/interface/api.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/events/interface/api.js"
           },
           "augments": [],
           "examples": [],
@@ -1105,7 +1105,7 @@
                 "column": 3
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/events/interface/api.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/events/interface/api.js"
           },
           "augments": [],
           "examples": [],
@@ -1371,7 +1371,7 @@
                 "column": 3
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/events/interface/api.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/events/interface/api.js"
           },
           "augments": [],
           "examples": [],
@@ -1638,7 +1638,7 @@
           "column": 36
         }
       },
-      "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/auth/interface/api.js"
+      "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/auth/interface/api.js"
     },
     "augments": [],
     "examples": [],
@@ -1808,7 +1808,7 @@
                 "column": 40
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/auth/interface/eventTypes.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/auth/interface/eventTypes.js"
           },
           "augments": [],
           "examples": [],
@@ -2066,7 +2066,7 @@
                 "column": 38
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/auth/interface/eventTypes.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/auth/interface/eventTypes.js"
           },
           "augments": [],
           "examples": [],
@@ -2354,7 +2354,7 @@
                 "column": 38
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/auth/interface/eventTypes.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/auth/interface/eventTypes.js"
           },
           "augments": [],
           "examples": [],
@@ -2734,7 +2734,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/auth/interface/api.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/auth/interface/api.js"
           },
           "augments": [],
           "examples": [
@@ -3132,7 +3132,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/auth/interface/api.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/auth/interface/api.js"
           },
           "augments": [],
           "examples": [],
@@ -3289,7 +3289,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/auth/interface/api.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/auth/interface/api.js"
           },
           "augments": [],
           "examples": [
@@ -3519,7 +3519,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/auth/interface/api.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/auth/interface/api.js"
           },
           "augments": [],
           "examples": [],
@@ -3887,7 +3887,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/auth/interface/api.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/auth/interface/api.js"
           },
           "augments": [],
           "examples": [],
@@ -4383,7 +4383,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/auth/interface/api.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/auth/interface/api.js"
           },
           "augments": [],
           "examples": [],
@@ -4599,7 +4599,7 @@
                 "column": 42
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/auth/interface/api.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/auth/interface/api.js"
           },
           "augments": [],
           "examples": [],
@@ -4927,7 +4927,7 @@
                 "column": 41
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/auth/interface/api.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/auth/interface/api.js"
           },
           "augments": [],
           "examples": [],
@@ -5219,7 +5219,7 @@
           "column": 1
         }
       },
-      "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/api/index.js"
+      "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/call/interfaceNew/api/index.js"
     },
     "augments": [],
     "examples": [],
@@ -5443,7 +5443,7 @@
                 "column": 40
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/eventTypes.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/call/interfaceNew/eventTypes.js"
           },
           "augments": [],
           "examples": [],
@@ -5819,7 +5819,7 @@
                 "column": 36
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/eventTypes.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/call/interfaceNew/eventTypes.js"
           },
           "augments": [],
           "examples": [],
@@ -6200,7 +6200,7 @@
                 "column": 43
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/eventTypes.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/call/interfaceNew/eventTypes.js"
           },
           "augments": [],
           "examples": [
@@ -6666,7 +6666,7 @@
                 "column": 51
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/eventTypes.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/call/interfaceNew/eventTypes.js"
           },
           "augments": [],
           "examples": [
@@ -7376,7 +7376,7 @@
                 "column": 47
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/eventTypes.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/call/interfaceNew/eventTypes.js"
           },
           "augments": [],
           "examples": [],
@@ -7797,7 +7797,7 @@
                 "column": 53
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/eventTypes.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/call/interfaceNew/eventTypes.js"
           },
           "augments": [],
           "examples": [],
@@ -8329,7 +8329,7 @@
                 "column": 45
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/eventTypes.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/call/interfaceNew/eventTypes.js"
           },
           "augments": [],
           "examples": [],
@@ -8844,7 +8844,7 @@
                 "column": 49
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/eventTypes.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/call/interfaceNew/eventTypes.js"
           },
           "augments": [],
           "examples": [],
@@ -9358,7 +9358,7 @@
                 "column": 50
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/eventTypes.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/call/interfaceNew/eventTypes.js"
           },
           "augments": [],
           "examples": [],
@@ -9970,7 +9970,7 @@
                 "column": 55
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/eventTypes.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/call/interfaceNew/eventTypes.js"
           },
           "augments": [],
           "examples": [],
@@ -10943,7 +10943,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/api/call.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/call/interfaceNew/api/call.js"
           },
           "augments": [],
           "examples": [
@@ -12113,7 +12113,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/api/call.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/call/interfaceNew/api/call.js"
           },
           "augments": [],
           "examples": [],
@@ -12740,7 +12740,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/api/call.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/call/interfaceNew/api/call.js"
           },
           "augments": [],
           "examples": [],
@@ -13790,7 +13790,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/api/call.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/call/interfaceNew/api/call.js"
           },
           "augments": [],
           "examples": [],
@@ -14258,7 +14258,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/api/call.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/call/interfaceNew/api/call.js"
           },
           "augments": [],
           "examples": [],
@@ -14643,7 +14643,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/api/call.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/call/interfaceNew/api/call.js"
           },
           "augments": [],
           "examples": [],
@@ -14873,7 +14873,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/api/call.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/call/interfaceNew/api/call.js"
           },
           "augments": [],
           "examples": [
@@ -15115,7 +15115,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/api/call.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/call/interfaceNew/api/call.js"
           },
           "augments": [],
           "examples": [],
@@ -15608,7 +15608,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/api/call.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/call/interfaceNew/api/call.js"
           },
           "augments": [],
           "examples": [],
@@ -16065,7 +16065,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/api/call.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/call/interfaceNew/api/call.js"
           },
           "augments": [],
           "examples": [],
@@ -17114,7 +17114,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/api/call.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/call/interfaceNew/api/call.js"
           },
           "augments": [],
           "examples": [],
@@ -17628,7 +17628,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/api/call.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/call/interfaceNew/api/call.js"
           },
           "augments": [],
           "examples": [],
@@ -18214,7 +18214,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/api/call.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/call/interfaceNew/api/call.js"
           },
           "augments": [],
           "examples": [],
@@ -18554,7 +18554,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/api/call.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/call/interfaceNew/api/call.js"
           },
           "augments": [],
           "examples": [],
@@ -18889,7 +18889,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/api/call.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/call/interfaceNew/api/call.js"
           },
           "augments": [],
           "examples": [],
@@ -19438,7 +19438,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/api/call.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/call/interfaceNew/api/call.js"
           },
           "augments": [],
           "examples": [
@@ -20718,7 +20718,7 @@
                 "column": 23
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/api/call.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/call/interfaceNew/api/call.js"
           },
           "augments": [],
           "examples": [
@@ -21494,7 +21494,7 @@
           "column": 1
         }
       },
-      "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/api/index.js"
+      "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/call/interfaceNew/api/index.js"
     },
     "augments": [],
     "examples": [],
@@ -21690,7 +21690,7 @@
                 "column": 47
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/webrtc/interface/eventTypes.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/webrtc/interface/eventTypes.js"
           },
           "augments": [],
           "examples": [
@@ -21925,7 +21925,7 @@
                 "column": 41
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/webrtc/interface/eventTypes.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/webrtc/interface/eventTypes.js"
           },
           "augments": [],
           "examples": [],
@@ -22242,7 +22242,7 @@
                 "column": 45
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/webrtc/interface/eventTypes.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/webrtc/interface/eventTypes.js"
           },
           "augments": [],
           "examples": [],
@@ -22547,7 +22547,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/webrtc/interface/api/media.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/webrtc/interface/api/media.js"
           },
           "augments": [],
           "examples": [],
@@ -22759,7 +22759,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/webrtc/interface/api/media.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/webrtc/interface/api/media.js"
           },
           "augments": [],
           "examples": [],
@@ -23033,7 +23033,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/webrtc/interface/api/media.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/webrtc/interface/api/media.js"
           },
           "augments": [],
           "examples": [],
@@ -23387,7 +23387,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/webrtc/interface/api/media.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/webrtc/interface/api/media.js"
           },
           "augments": [],
           "examples": [
@@ -23860,7 +23860,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/webrtc/interface/api/media.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/webrtc/interface/api/media.js"
           },
           "augments": [],
           "examples": [],
@@ -24311,7 +24311,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/webrtc/interface/api/media.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/webrtc/interface/api/media.js"
           },
           "augments": [],
           "examples": [],
@@ -24650,7 +24650,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/webrtc/interface/api/media.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/webrtc/interface/api/media.js"
           },
           "augments": [],
           "examples": [],
@@ -24894,7 +24894,7 @@
           "column": 36
         }
       },
-      "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/callHistory/interface/api.js"
+      "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/callHistory/interface/api.js"
     },
     "augments": [],
     "examples": [],
@@ -25038,7 +25038,7 @@
                 "column": 55
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/callHistory/interface/eventTypes.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/callHistory/interface/eventTypes.js"
           },
           "augments": [],
           "examples": [],
@@ -25183,7 +25183,7 @@
                 "column": 53
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/callHistory/interface/eventTypes.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/callHistory/interface/eventTypes.js"
           },
           "augments": [],
           "examples": [],
@@ -25381,7 +25381,7 @@
                 "column": 66
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/callHistory/interface/eventTypes.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/callHistory/interface/eventTypes.js"
           },
           "augments": [],
           "examples": [],
@@ -25584,7 +25584,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/callHistory/interface/api.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/callHistory/interface/api.js"
           },
           "augments": [],
           "examples": [],
@@ -25851,7 +25851,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/callHistory/interface/api.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/callHistory/interface/api.js"
           },
           "augments": [],
           "examples": [],
@@ -26045,7 +26045,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/callHistory/interface/api.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/callHistory/interface/api.js"
           },
           "augments": [],
           "examples": [],
@@ -26232,7 +26232,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/callHistory/interface/api.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/callHistory/interface/api.js"
           },
           "augments": [],
           "examples": [
@@ -26437,7 +26437,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/callHistory/interface/api.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/callHistory/interface/api.js"
           },
           "augments": [],
           "examples": [],
@@ -26638,7 +26638,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/callHistory/interface/api.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/callHistory/interface/api.js"
           },
           "augments": [],
           "examples": [],
@@ -26905,7 +26905,7 @@
           "column": 40
         }
       },
-      "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/messaging/interface/api.js"
+      "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/messaging/interface/api.js"
     },
     "augments": [],
     "examples": [],
@@ -27015,7 +27015,7 @@
                 "column": 52
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/messaging/interface/eventTypes.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/messaging/interface/eventTypes.js"
           },
           "augments": [],
           "examples": [],
@@ -27170,7 +27170,7 @@
                 "column": 58
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/messaging/interface/eventTypes.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/messaging/interface/eventTypes.js"
           },
           "augments": [],
           "examples": [],
@@ -27578,7 +27578,7 @@
                 "column": 48
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/messaging/interface/eventTypes.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/messaging/interface/eventTypes.js"
           },
           "augments": [],
           "examples": [],
@@ -28019,7 +28019,7 @@
                 "column": 46
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/messaging/interface/eventTypes.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/messaging/interface/eventTypes.js"
           },
           "augments": [],
           "examples": [],
@@ -28277,7 +28277,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/messaging/interface/api.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/messaging/interface/api.js"
           },
           "augments": [],
           "examples": [],
@@ -28700,7 +28700,7 @@
           "column": 42
         }
       },
-      "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/messaging/interface/mixins.js"
+      "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/messaging/interface/mixins.js"
     },
     "augments": [],
     "examples": [],
@@ -28952,7 +28952,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/messaging/interface/mixins.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/messaging/interface/mixins.js"
           },
           "augments": [],
           "examples": [
@@ -29328,7 +29328,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/messaging/interface/mixins.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/messaging/interface/mixins.js"
           },
           "augments": [],
           "examples": [],
@@ -29538,7 +29538,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/messaging/interface/mixins.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/messaging/interface/mixins.js"
           },
           "augments": [],
           "examples": [],
@@ -30224,7 +30224,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/messaging/interface/mixins.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/messaging/interface/mixins.js"
           },
           "augments": [],
           "examples": [],
@@ -30505,7 +30505,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/messaging/interface/mixins.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/messaging/interface/mixins.js"
           },
           "augments": [],
           "examples": [],
@@ -30897,7 +30897,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/messaging/interface/mixins.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/messaging/interface/mixins.js"
           },
           "augments": [],
           "examples": [],
@@ -31109,7 +31109,7 @@
           "column": 42
         }
       },
-      "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/messaging/interface/mixins.js"
+      "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/messaging/interface/mixins.js"
     },
     "augments": [],
     "examples": [],
@@ -31221,7 +31221,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/messaging/interface/mixins.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/messaging/interface/mixins.js"
           },
           "augments": [],
           "examples": [],
@@ -31653,7 +31653,7 @@
           "column": 36
         }
       },
-      "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/presence/interface/api.js"
+      "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/presence/interface/api.js"
     },
     "augments": [],
     "examples": [],
@@ -31819,7 +31819,7 @@
                 "column": 41
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/presence/interface/eventTypes.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/presence/interface/eventTypes.js"
           },
           "augments": [],
           "examples": [],
@@ -32339,7 +32339,7 @@
                 "column": 48
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/presence/interface/eventTypes.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/presence/interface/eventTypes.js"
           },
           "augments": [],
           "examples": [],
@@ -32490,7 +32490,7 @@
                 "column": 37
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/presence/interface/eventTypes.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/presence/interface/eventTypes.js"
           },
           "augments": [],
           "examples": [],
@@ -32724,7 +32724,7 @@
                 "column": 37
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/presence/link/index.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/presence/link/index.js"
           },
           "augments": [],
           "examples": [
@@ -32961,7 +32961,7 @@
                 "column": 41
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/presence/link/index.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/presence/link/index.js"
           },
           "augments": [],
           "examples": [],
@@ -33538,7 +33538,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/presence/interface/api.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/presence/interface/api.js"
           },
           "augments": [],
           "examples": [],
@@ -33953,7 +33953,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/presence/interface/api.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/presence/interface/api.js"
           },
           "augments": [],
           "examples": [],
@@ -34268,7 +34268,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/presence/interface/api.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/presence/interface/api.js"
           },
           "augments": [],
           "examples": [],
@@ -34566,7 +34566,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/presence/interface/api.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/presence/interface/api.js"
           },
           "augments": [],
           "examples": [],
@@ -34923,7 +34923,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/presence/interface/api.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/presence/interface/api.js"
           },
           "augments": [],
           "examples": [],
@@ -35251,7 +35251,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/presence/interface/api.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/presence/interface/api.js"
           },
           "augments": [],
           "examples": [],
@@ -35498,7 +35498,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/presence/interface/api.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/presence/interface/api.js"
           },
           "augments": [],
           "examples": [],
@@ -35757,7 +35757,7 @@
           "column": 36
         }
       },
-      "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/mwi/interface/api.js"
+      "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/mwi/interface/api.js"
     },
     "augments": [],
     "examples": [],
@@ -35953,7 +35953,7 @@
                 "column": 44
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/mwi/interface/eventTypes.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/mwi/interface/eventTypes.js"
           },
           "augments": [],
           "examples": [],
@@ -36595,7 +36595,7 @@
                 "column": 42
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/mwi/interface/eventTypes.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/mwi/interface/eventTypes.js"
           },
           "augments": [],
           "examples": [],
@@ -36840,7 +36840,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/mwi/interface/api.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/mwi/interface/api.js"
           },
           "augments": [],
           "examples": [],
@@ -36972,7 +36972,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/mwi/interface/api.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/mwi/interface/api.js"
           },
           "augments": [],
           "examples": [],
@@ -37145,7 +37145,7 @@
           "column": 45
         }
       },
-      "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/sipEvents/interface/api.js"
+      "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/sipEvents/interface/api.js"
     },
     "augments": [],
     "examples": [],
@@ -37311,7 +37311,7 @@
                 "column": 66
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/sipEvents/interface/eventTypes.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/sipEvents/interface/eventTypes.js"
           },
           "augments": [],
           "examples": [],
@@ -37718,7 +37718,7 @@
                 "column": 38
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/sipEvents/interface/eventTypes.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/sipEvents/interface/eventTypes.js"
           },
           "augments": [],
           "examples": [],
@@ -37962,7 +37962,7 @@
                 "column": 48
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/sipEvents/interface/eventTypes.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/sipEvents/interface/eventTypes.js"
           },
           "augments": [],
           "examples": [],
@@ -38386,7 +38386,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/sipEvents/interface/api.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/sipEvents/interface/api.js"
           },
           "augments": [],
           "examples": [],
@@ -38767,7 +38767,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/sipEvents/interface/api.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/sipEvents/interface/api.js"
           },
           "augments": [],
           "examples": [],
@@ -39168,7 +39168,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/sipEvents/interface/api.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/sipEvents/interface/api.js"
           },
           "augments": [],
           "examples": [],
@@ -39384,7 +39384,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/sipEvents/interface/api.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/sipEvents/interface/api.js"
           },
           "augments": [],
           "examples": [],
@@ -39680,7 +39680,7 @@
           "column": 54
         }
       },
-      "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/connectivity/interface/api.js"
+      "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/connectivity/interface/api.js"
     },
     "augments": [],
     "examples": [],
@@ -39810,7 +39810,7 @@
                 "column": 36
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/connectivity/interface/eventTypes.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/connectivity/interface/eventTypes.js"
           },
           "augments": [],
           "examples": [],
@@ -40025,7 +40025,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/connectivity/interface/api.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/connectivity/interface/api.js"
           },
           "augments": [],
           "examples": [],
@@ -40224,7 +40224,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/connectivity/interface/api.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/connectivity/interface/api.js"
           },
           "augments": [],
           "examples": [],
@@ -40373,7 +40373,7 @@
           "column": 36
         }
       },
-      "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/notifications/interface/api.js"
+      "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/notifications/interface/api.js"
     },
     "augments": [],
     "examples": [],
@@ -40509,7 +40509,7 @@
                 "column": 49
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/notifications/interface/eventTypes.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/notifications/interface/eventTypes.js"
           },
           "augments": [],
           "examples": [],
@@ -40743,7 +40743,7 @@
                 "column": 47
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/notifications/interface/eventTypes.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/notifications/interface/eventTypes.js"
           },
           "augments": [],
           "examples": [],
@@ -41034,7 +41034,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/notifications/interface/api.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/notifications/interface/api.js"
           },
           "augments": [],
           "examples": [],
@@ -41299,7 +41299,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/notifications/interface/api.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/notifications/interface/api.js"
           },
           "augments": [],
           "examples": [],
@@ -41696,7 +41696,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/notifications/interface/api.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/notifications/interface/api.js"
           },
           "augments": [],
           "examples": [],
@@ -41838,7 +41838,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/notifications/interface/api.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/notifications/interface/api.js"
           },
           "augments": [],
           "examples": [],
@@ -42067,7 +42067,7 @@
           "column": 3
         }
       },
-      "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/users/interface/api/users.js"
+      "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/users/interface/api/users.js"
     },
     "augments": [],
     "examples": [],
@@ -42211,7 +42211,7 @@
                 "column": 50
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/users/interface/events/eventTypes.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/users/interface/events/eventTypes.js"
           },
           "augments": [],
           "examples": [],
@@ -42444,7 +42444,7 @@
                 "column": 48
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/users/interface/events/eventTypes.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/users/interface/events/eventTypes.js"
           },
           "augments": [],
           "examples": [],
@@ -42824,7 +42824,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/users/interface/api/users.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/users/interface/api/users.js"
           },
           "augments": [],
           "examples": [],
@@ -43235,7 +43235,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/users/interface/api/users.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/users/interface/api/users.js"
           },
           "augments": [],
           "examples": [],
@@ -43508,7 +43508,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/users/interface/api/users.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/users/interface/api/users.js"
           },
           "augments": [],
           "examples": [],
@@ -43900,7 +43900,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/users/interface/api/users.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/users/interface/api/users.js"
           },
           "augments": [],
           "examples": [],
@@ -44422,7 +44422,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/users/interface/api/users.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/users/interface/api/users.js"
           },
           "augments": [],
           "examples": [],
@@ -45361,7 +45361,7 @@
           "column": 3
         }
       },
-      "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/users/interface/api/contacts.js"
+      "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/users/interface/api/contacts.js"
     },
     "augments": [],
     "examples": [],
@@ -45481,7 +45481,7 @@
                 "column": 42
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/users/interface/events/eventTypes.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/users/interface/events/eventTypes.js"
           },
           "augments": [],
           "examples": [],
@@ -45688,7 +45688,7 @@
                 "column": 46
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/users/interface/events/eventTypes.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/users/interface/events/eventTypes.js"
           },
           "augments": [],
           "examples": [],
@@ -45891,7 +45891,7 @@
                 "column": 48
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/users/interface/events/eventTypes.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/users/interface/events/eventTypes.js"
           },
           "augments": [],
           "examples": [
@@ -46253,7 +46253,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/users/interface/api/contacts.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/users/interface/api/contacts.js"
           },
           "augments": [],
           "examples": [],
@@ -47352,7 +47352,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/users/interface/api/contacts.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/users/interface/api/contacts.js"
           },
           "augments": [],
           "examples": [],
@@ -47609,7 +47609,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/users/interface/api/contacts.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/users/interface/api/contacts.js"
           },
           "augments": [],
           "examples": [],
@@ -47833,7 +47833,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/users/interface/api/contacts.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/users/interface/api/contacts.js"
           },
           "augments": [],
           "examples": [],
@@ -48007,7 +48007,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/users/interface/api/contacts.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/users/interface/api/contacts.js"
           },
           "augments": [],
           "examples": [],
@@ -48425,7 +48425,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/users/interface/api/contacts.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/users/interface/api/contacts.js"
           },
           "augments": [],
           "examples": [],
@@ -49553,7 +49553,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/users/interface/api/contacts.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/users/interface/api/contacts.js"
           },
           "augments": [],
           "examples": [],
@@ -49802,7 +49802,7 @@
           "column": 35
         }
       },
-      "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/index.common.js"
+      "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/index.common.js"
     },
     "augments": [],
     "examples": [
@@ -50025,7 +50025,7 @@
                 "column": 35
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/index.common.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/index.common.js"
           },
           "augments": [],
           "examples": [
@@ -50296,7 +50296,7 @@
           "column": 35
         }
       },
-      "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/index.common.js"
+      "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/index.common.js"
     },
     "augments": [],
     "examples": [],
@@ -50557,7 +50557,7 @@
                 "column": 1
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/logs/index.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/logs/index.js"
           },
           "augments": [],
           "examples": [],
@@ -51503,7 +51503,7 @@
                 "column": 1
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/auth/link/index.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/auth/link/index.js"
           },
           "augments": [],
           "examples": [],
@@ -52374,7 +52374,7 @@
                 "column": 1
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/link/index.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/call/link/index.js"
           },
           "augments": [],
           "examples": [],
@@ -53129,7 +53129,7 @@
                 "column": 1
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/connectivity/index.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/connectivity/index.js"
           },
           "augments": [],
           "examples": [],
@@ -54292,7 +54292,7 @@
                 "column": 1
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/notifications/link/index.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/notifications/link/index.js"
           },
           "augments": [],
           "examples": [],
@@ -55064,7 +55064,7 @@
           "column": 1
         }
       },
-      "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/logs/interface/api.js"
+      "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/logs/interface/api.js"
     },
     "augments": [],
     "examples": [],
@@ -55225,7 +55225,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/logs/interface/api.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/logs/interface/api.js"
           },
           "augments": [],
           "examples": [],
@@ -55704,7 +55704,7 @@
           "column": 36
         }
       },
-      "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/config/interface/api.js"
+      "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/config/interface/api.js"
     },
     "augments": [],
     "examples": [],
@@ -55831,7 +55831,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/config/interface/api.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/config/interface/api.js"
           },
           "augments": [],
           "examples": [],
@@ -56038,7 +56038,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/config/interface/api.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/config/interface/api.js"
           },
           "augments": [],
           "examples": [],
@@ -56328,7 +56328,7 @@
           "column": 5
         }
       },
-      "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/webrtc/interface/api/index.js"
+      "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/webrtc/interface/api/index.js"
     },
     "augments": [],
     "examples": [
@@ -56497,545 +56497,6 @@
           "children": [
             {
               "type": "text",
-              "value": "The Channel object that the Proxy module needs to be provided.",
-              "position": {
-                "start": {
-                  "line": 1,
-                  "column": 1,
-                  "offset": 0
-                },
-                "end": {
-                  "line": 1,
-                  "column": 63,
-                  "offset": 62
-                },
-                "indent": []
-              }
-            }
-          ],
-          "position": {
-            "start": {
-              "line": 1,
-              "column": 1,
-              "offset": 0
-            },
-            "end": {
-              "line": 1,
-              "column": 63,
-              "offset": 62
-            },
-            "indent": []
-          }
-        }
-      ],
-      "position": {
-        "start": {
-          "line": 1,
-          "column": 1,
-          "offset": 0
-        },
-        "end": {
-          "line": 1,
-          "column": 63,
-          "offset": 62
-        }
-      }
-    },
-    "tags": [
-      {
-        "title": "public",
-        "description": null,
-        "lineNumber": 3,
-        "type": null
-      },
-      {
-        "title": "module",
-        "description": null,
-        "lineNumber": 4,
-        "type": null,
-        "name": "Channel"
-      },
-      {
-        "title": "example",
-        "description": "// The channel the application uses for communicating with a remote endpoint.\nconst appChannel = ...\n\n// The channel the application will provide to the Proxy module for use.\nconst channel = {\n   send: function (data) {\n     // Any encoding / wrapping needed for a Proxy message being sent\n     //    over the channel.\n     appChannel.sendMessage(data)\n   },\n   // The Proxy module will set this function.\n   receive: undefined\n}\nappChannel.on('message', data => {\n   // Any decoding / unwrapping needed for the received message.\n   channel.receive(data)\n})\n\nclient.proxy.setChannel(channel)",
-        "lineNumber": 5
-      }
-    ],
-    "loc": {
-      "start": {
-        "line": 10,
-        "column": 0
-      },
-      "end": {
-        "line": 35,
-        "column": 3
-      }
-    },
-    "context": {
-      "loc": {
-        "start": {
-          "line": 57,
-          "column": 0
-        },
-        "end": {
-          "line": 57,
-          "column": 36
-        }
-      },
-      "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/webrtcProxy/interface/api.js"
-    },
-    "augments": [],
-    "examples": [
-      {
-        "description": "// The channel the application uses for communicating with a remote endpoint.\nconst appChannel = ...\n\n// The channel the application will provide to the Proxy module for use.\nconst channel = {\n   send: function (data) {\n     // Any encoding / wrapping needed for a Proxy message being sent\n     //    over the channel.\n     appChannel.sendMessage(data)\n   },\n   // The Proxy module will set this function.\n   receive: undefined\n}\nappChannel.on('message', data => {\n   // Any decoding / unwrapping needed for the received message.\n   channel.receive(data)\n})\n\nclient.proxy.setChannel(channel)"
-      }
-    ],
-    "params": [],
-    "properties": [],
-    "returns": [],
-    "sees": [],
-    "throws": [],
-    "todos": [],
-    "access": "public",
-    "kind": "module",
-    "name": "Channel",
-    "members": {
-      "global": [],
-      "inner": [],
-      "instance": [],
-      "events": [],
-      "static": [
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Channel function that the Proxy module will use to send messages to the remote side.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 85,
-                        "offset": 84
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 85,
-                    "offset": 84
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 85,
-                "offset": 84
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "public",
-              "description": null,
-              "lineNumber": 2,
-              "type": null
-            },
-            {
-              "title": "memberof",
-              "description": "Channel",
-              "lineNumber": 3
-            },
-            {
-              "title": "name",
-              "description": null,
-              "lineNumber": 4,
-              "name": "send"
-            },
-            {
-              "title": "function",
-              "description": null,
-              "lineNumber": 5,
-              "name": null
-            },
-            {
-              "title": "param",
-              "description": "Message to be sent over the channel.",
-              "lineNumber": 6,
-              "type": {
-                "type": "NameExpression",
-                "name": "Object"
-              },
-              "name": "data"
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 37,
-              "column": 0
-            },
-            "end": {
-              "line": 44,
-              "column": 3
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 57,
-                "column": 0
-              },
-              "end": {
-                "line": 57,
-                "column": 36
-              }
-            },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/webrtcProxy/interface/api.js"
-          },
-          "augments": [],
-          "examples": [],
-          "params": [
-            {
-              "title": "param",
-              "name": "data",
-              "lineNumber": 6,
-              "description": {
-                "type": "root",
-                "children": [
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "Message to be sent over the channel.",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 37,
-                            "offset": 36
-                          },
-                          "indent": []
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 37,
-                        "offset": 36
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 37,
-                    "offset": 36
-                  }
-                }
-              },
-              "type": {
-                "type": "NameExpression",
-                "name": "Object"
-              }
-            }
-          ],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
-          "access": "public",
-          "memberof": "Channel",
-          "name": "send",
-          "kind": "function",
-          "members": {
-            "global": [],
-            "inner": [],
-            "instance": [],
-            "events": [],
-            "static": []
-          },
-          "path": [
-            {
-              "name": "Channel",
-              "kind": "module"
-            },
-            {
-              "name": "send",
-              "kind": "function"
-            }
-          ],
-          "namespace": "Channelsend"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "API that the Proxy module will assign a listener function for accepting received messages.\nThis function should receive all messages sent from the remote side of the channel.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 2,
-                        "column": 84,
-                        "offset": 174
-                      },
-                      "indent": [
-                        1
-                      ]
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 84,
-                    "offset": 174
-                  },
-                  "indent": [
-                    1
-                  ]
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 2,
-                "column": 84,
-                "offset": 174
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "public",
-              "description": null,
-              "lineNumber": 3,
-              "type": null
-            },
-            {
-              "title": "memberof",
-              "description": "Channel",
-              "lineNumber": 4
-            },
-            {
-              "title": "name",
-              "description": null,
-              "lineNumber": 5,
-              "name": "receive"
-            },
-            {
-              "title": "function",
-              "description": null,
-              "lineNumber": 6,
-              "name": null
-            },
-            {
-              "title": "param",
-              "description": "The message received from the Channel.",
-              "lineNumber": 7,
-              "type": {
-                "type": "NameExpression",
-                "name": "Object"
-              },
-              "name": "data"
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 46,
-              "column": 0
-            },
-            "end": {
-              "line": 54,
-              "column": 3
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 57,
-                "column": 0
-              },
-              "end": {
-                "line": 57,
-                "column": 36
-              }
-            },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/webrtcProxy/interface/api.js"
-          },
-          "augments": [],
-          "examples": [],
-          "params": [
-            {
-              "title": "param",
-              "name": "data",
-              "lineNumber": 7,
-              "description": {
-                "type": "root",
-                "children": [
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "The message received from the Channel.",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 39,
-                            "offset": 38
-                          },
-                          "indent": []
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 39,
-                        "offset": 38
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 39,
-                    "offset": 38
-                  }
-                }
-              },
-              "type": {
-                "type": "NameExpression",
-                "name": "Object"
-              }
-            }
-          ],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
-          "access": "public",
-          "memberof": "Channel",
-          "name": "receive",
-          "kind": "function",
-          "members": {
-            "global": [],
-            "inner": [],
-            "instance": [],
-            "events": [],
-            "static": []
-          },
-          "path": [
-            {
-              "name": "Channel",
-              "kind": "module"
-            },
-            {
-              "name": "receive",
-              "kind": "function"
-            }
-          ],
-          "namespace": "Channelreceive"
-        }
-      ]
-    },
-    "path": [
-      {
-        "name": "Channel",
-        "kind": "module"
-      }
-    ],
-    "namespace": "Channel"
-  },
-  {
-    "description": {
-      "type": "root",
-      "children": [
-        {
-          "type": "paragraph",
-          "children": [
-            {
-              "type": "text",
               "value": "The Proxy module allows for a secondary mode for making calls: proxy mode.\nWhen proxy mode is enabled, the SDK will redirect webRTC / media operations from the current machine to a remote machine using a channel.\nThis is an advanced feature that enables support for Calls in particular scenarios that would otherwise not support them.",
               "position": {
                 "start": {
@@ -57122,7 +56583,7 @@
           "column": 36
         }
       },
-      "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/webrtcProxy/interface/api.js"
+      "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/webrtcProxy/interface/api.js"
     },
     "augments": [],
     "examples": [],
@@ -57236,7 +56697,7 @@
                 "column": 42
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/webrtcProxy/interface/eventTypes.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/webrtcProxy/interface/eventTypes.js"
           },
           "augments": [],
           "examples": [],
@@ -57381,7 +56842,7 @@
                 "column": 40
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/webrtcProxy/interface/eventTypes.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/webrtcProxy/interface/eventTypes.js"
           },
           "augments": [],
           "examples": [],
@@ -57635,7 +57096,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/webrtcProxy/interface/api.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/webrtcProxy/interface/api.js"
           },
           "augments": [],
           "examples": [],
@@ -57832,7 +57293,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/webrtcProxy/interface/api.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/webrtcProxy/interface/api.js"
           },
           "augments": [],
           "examples": [],
@@ -58038,7 +57499,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/webrtcProxy/interface/api.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/webrtcProxy/interface/api.js"
           },
           "augments": [],
           "examples": [
@@ -58306,7 +57767,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/webrtcProxy/interface/api.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/webrtcProxy/interface/api.js"
           },
           "augments": [],
           "examples": [],
@@ -58538,7 +57999,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/webrtcProxy/interface/api.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/webrtcProxy/interface/api.js"
           },
           "augments": [],
           "examples": [],
@@ -58600,7 +58061,7 @@
           "children": [
             {
               "type": "text",
-              "value": "The form of an SDP handler function and the expected arguments that it receives.",
+              "value": "The Channel object that the Proxy module needs to be provided.",
               "position": {
                 "start": {
                   "line": 1,
@@ -58609,8 +58070,8 @@
                 },
                 "end": {
                   "line": 1,
-                  "column": 81,
-                  "offset": 80
+                  "column": 63,
+                  "offset": 62
                 },
                 "indent": []
               }
@@ -58624,8 +58085,8 @@
             },
             "end": {
               "line": 1,
-              "column": 81,
-              "offset": 80
+              "column": 63,
+              "offset": 62
             },
             "indent": []
           }
@@ -58639,8 +58100,8 @@
         },
         "end": {
           "line": 1,
-          "column": 81,
-          "offset": 80
+          "column": 63,
+          "offset": 62
         }
       }
     },
@@ -58648,362 +58109,487 @@
       {
         "title": "public",
         "description": null,
-        "lineNumber": 2,
+        "lineNumber": 3,
         "type": null
       },
       {
         "title": "module",
         "description": null,
-        "lineNumber": 3,
-        "type": null,
-        "name": "SdpHandlerFunction"
-      },
-      {
-        "title": "typedef",
-        "description": null,
         "lineNumber": 4,
-        "type": {
-          "type": "NameExpression",
-          "name": "Function"
-        },
-        "name": "SdpHandlerFunction"
+        "type": null,
+        "name": "Channel"
       },
       {
-        "title": "param",
-        "description": "The SDP so far (could have been modified by previous handlers).",
-        "lineNumber": 5,
-        "type": {
-          "type": "NameExpression",
-          "name": "Object"
-        },
-        "name": "newSdp"
-      },
-      {
-        "title": "param",
-        "description": "Additional information that might be useful when making SDP modifications.",
-        "lineNumber": 6,
-        "type": {
-          "type": "NameExpression",
-          "name": "SdpHandlerInfo"
-        },
-        "name": "info"
-      },
-      {
-        "title": "param",
-        "description": "The SDP in its initial state.",
-        "lineNumber": 7,
-        "type": {
-          "type": "NameExpression",
-          "name": "Object"
-        },
-        "name": "originalSdp"
-      },
-      {
-        "title": "returns",
-        "description": "The resulting modified SDP based on the changes made by this function.",
-        "lineNumber": 8,
-        "type": {
-          "type": "NameExpression",
-          "name": "Object"
-        }
+        "title": "example",
+        "description": "// The channel the application uses for communicating with a remote endpoint.\nconst appChannel = ...\n\n// The channel the application will provide to the Proxy module for use.\nconst channel = {\n   send: function (data) {\n     // Any encoding / wrapping needed for a Proxy message being sent\n     //    over the channel.\n     appChannel.sendMessage(data)\n   },\n   // The Proxy module will set this function.\n   receive: undefined\n}\nappChannel.on('message', data => {\n   // Any decoding / unwrapping needed for the received message.\n   channel.receive(data)\n})\n\nclient.proxy.setChannel(channel)",
+        "lineNumber": 5
       }
     ],
     "loc": {
       "start": {
-        "line": 123,
+        "line": 10,
         "column": 0
       },
       "end": {
-        "line": 132,
+        "line": 35,
         "column": 3
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 192,
+          "line": 57,
           "column": 0
         },
         "end": {
-          "line": 196,
-          "column": 1
+          "line": 57,
+          "column": 36
         }
       },
-      "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/api/index.js"
+      "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/webrtcProxy/interface/api.js"
     },
     "augments": [],
-    "examples": [],
-    "params": [
+    "examples": [
       {
-        "title": "param",
-        "name": "newSdp",
-        "lineNumber": 5,
-        "description": {
-          "type": "root",
-          "children": [
-            {
-              "type": "paragraph",
-              "children": [
-                {
-                  "type": "text",
-                  "value": "The SDP so far (could have been modified by previous handlers).",
-                  "position": {
-                    "start": {
-                      "line": 1,
-                      "column": 1,
-                      "offset": 0
-                    },
-                    "end": {
-                      "line": 1,
-                      "column": 64,
-                      "offset": 63
-                    },
-                    "indent": []
-                  }
-                }
-              ],
-              "position": {
-                "start": {
-                  "line": 1,
-                  "column": 1,
-                  "offset": 0
-                },
-                "end": {
-                  "line": 1,
-                  "column": 64,
-                  "offset": 63
-                },
-                "indent": []
-              }
-            }
-          ],
-          "position": {
-            "start": {
-              "line": 1,
-              "column": 1,
-              "offset": 0
-            },
-            "end": {
-              "line": 1,
-              "column": 64,
-              "offset": 63
-            }
-          }
-        },
-        "type": {
-          "type": "NameExpression",
-          "name": "Object"
-        }
-      },
-      {
-        "title": "param",
-        "name": "info",
-        "lineNumber": 6,
-        "description": {
-          "type": "root",
-          "children": [
-            {
-              "type": "paragraph",
-              "children": [
-                {
-                  "type": "text",
-                  "value": "Additional information that might be useful when making SDP modifications.",
-                  "position": {
-                    "start": {
-                      "line": 1,
-                      "column": 1,
-                      "offset": 0
-                    },
-                    "end": {
-                      "line": 1,
-                      "column": 75,
-                      "offset": 74
-                    },
-                    "indent": []
-                  }
-                }
-              ],
-              "position": {
-                "start": {
-                  "line": 1,
-                  "column": 1,
-                  "offset": 0
-                },
-                "end": {
-                  "line": 1,
-                  "column": 75,
-                  "offset": 74
-                },
-                "indent": []
-              }
-            }
-          ],
-          "position": {
-            "start": {
-              "line": 1,
-              "column": 1,
-              "offset": 0
-            },
-            "end": {
-              "line": 1,
-              "column": 75,
-              "offset": 74
-            }
-          }
-        },
-        "type": {
-          "type": "NameExpression",
-          "name": "SdpHandlerInfo"
-        }
-      },
-      {
-        "title": "param",
-        "name": "originalSdp",
-        "lineNumber": 7,
-        "description": {
-          "type": "root",
-          "children": [
-            {
-              "type": "paragraph",
-              "children": [
-                {
-                  "type": "text",
-                  "value": "The SDP in its initial state.",
-                  "position": {
-                    "start": {
-                      "line": 1,
-                      "column": 1,
-                      "offset": 0
-                    },
-                    "end": {
-                      "line": 1,
-                      "column": 30,
-                      "offset": 29
-                    },
-                    "indent": []
-                  }
-                }
-              ],
-              "position": {
-                "start": {
-                  "line": 1,
-                  "column": 1,
-                  "offset": 0
-                },
-                "end": {
-                  "line": 1,
-                  "column": 30,
-                  "offset": 29
-                },
-                "indent": []
-              }
-            }
-          ],
-          "position": {
-            "start": {
-              "line": 1,
-              "column": 1,
-              "offset": 0
-            },
-            "end": {
-              "line": 1,
-              "column": 30,
-              "offset": 29
-            }
-          }
-        },
-        "type": {
-          "type": "NameExpression",
-          "name": "Object"
-        }
+        "description": "// The channel the application uses for communicating with a remote endpoint.\nconst appChannel = ...\n\n// The channel the application will provide to the Proxy module for use.\nconst channel = {\n   send: function (data) {\n     // Any encoding / wrapping needed for a Proxy message being sent\n     //    over the channel.\n     appChannel.sendMessage(data)\n   },\n   // The Proxy module will set this function.\n   receive: undefined\n}\nappChannel.on('message', data => {\n   // Any decoding / unwrapping needed for the received message.\n   channel.receive(data)\n})\n\nclient.proxy.setChannel(channel)"
       }
     ],
+    "params": [],
     "properties": [],
-    "returns": [
-      {
-        "description": {
-          "type": "root",
-          "children": [
-            {
-              "type": "paragraph",
-              "children": [
-                {
-                  "type": "text",
-                  "value": "The resulting modified SDP based on the changes made by this function.",
-                  "position": {
-                    "start": {
-                      "line": 1,
-                      "column": 1,
-                      "offset": 0
-                    },
-                    "end": {
-                      "line": 1,
-                      "column": 71,
-                      "offset": 70
-                    },
-                    "indent": []
-                  }
-                }
-              ],
-              "position": {
-                "start": {
-                  "line": 1,
-                  "column": 1,
-                  "offset": 0
-                },
-                "end": {
-                  "line": 1,
-                  "column": 71,
-                  "offset": 70
-                },
-                "indent": []
-              }
-            }
-          ],
-          "position": {
-            "start": {
-              "line": 1,
-              "column": 1,
-              "offset": 0
-            },
-            "end": {
-              "line": 1,
-              "column": 71,
-              "offset": 70
-            }
-          }
-        },
-        "title": "returns",
-        "type": {
-          "type": "NameExpression",
-          "name": "Object"
-        }
-      }
-    ],
+    "returns": [],
     "sees": [],
     "throws": [],
     "todos": [],
     "access": "public",
-    "kind": "typedef",
-    "name": "SdpHandlerFunction",
-    "type": {
-      "type": "NameExpression",
-      "name": "Function"
-    },
+    "kind": "module",
+    "name": "Channel",
     "members": {
       "global": [],
       "inner": [],
       "instance": [],
       "events": [],
-      "static": []
+      "static": [
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Channel function that the Proxy module will use to send messages to the remote side.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 85,
+                        "offset": 84
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 85,
+                    "offset": 84
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 85,
+                "offset": 84
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "public",
+              "description": null,
+              "lineNumber": 2,
+              "type": null
+            },
+            {
+              "title": "memberof",
+              "description": "Channel",
+              "lineNumber": 3
+            },
+            {
+              "title": "name",
+              "description": null,
+              "lineNumber": 4,
+              "name": "send"
+            },
+            {
+              "title": "function",
+              "description": null,
+              "lineNumber": 5,
+              "name": null
+            },
+            {
+              "title": "param",
+              "description": "Message to be sent over the channel.",
+              "lineNumber": 6,
+              "type": {
+                "type": "NameExpression",
+                "name": "Object"
+              },
+              "name": "data"
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 37,
+              "column": 0
+            },
+            "end": {
+              "line": 44,
+              "column": 3
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 57,
+                "column": 0
+              },
+              "end": {
+                "line": 57,
+                "column": 36
+              }
+            },
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/webrtcProxy/interface/api.js"
+          },
+          "augments": [],
+          "examples": [],
+          "params": [
+            {
+              "title": "param",
+              "name": "data",
+              "lineNumber": 6,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Message to be sent over the channel.",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 37,
+                            "offset": 36
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 37,
+                        "offset": 36
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 37,
+                    "offset": 36
+                  }
+                }
+              },
+              "type": {
+                "type": "NameExpression",
+                "name": "Object"
+              }
+            }
+          ],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
+          "access": "public",
+          "memberof": "Channel",
+          "name": "send",
+          "kind": "function",
+          "members": {
+            "global": [],
+            "inner": [],
+            "instance": [],
+            "events": [],
+            "static": []
+          },
+          "path": [
+            {
+              "name": "Channel",
+              "kind": "module"
+            },
+            {
+              "name": "send",
+              "kind": "function"
+            }
+          ],
+          "namespace": "Channelsend"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "API that the Proxy module will assign a listener function for accepting received messages.\nThis function should receive all messages sent from the remote side of the channel.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 84,
+                        "offset": 174
+                      },
+                      "indent": [
+                        1
+                      ]
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 84,
+                    "offset": 174
+                  },
+                  "indent": [
+                    1
+                  ]
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 84,
+                "offset": 174
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "public",
+              "description": null,
+              "lineNumber": 3,
+              "type": null
+            },
+            {
+              "title": "memberof",
+              "description": "Channel",
+              "lineNumber": 4
+            },
+            {
+              "title": "name",
+              "description": null,
+              "lineNumber": 5,
+              "name": "receive"
+            },
+            {
+              "title": "function",
+              "description": null,
+              "lineNumber": 6,
+              "name": null
+            },
+            {
+              "title": "param",
+              "description": "The message received from the Channel.",
+              "lineNumber": 7,
+              "type": {
+                "type": "NameExpression",
+                "name": "Object"
+              },
+              "name": "data"
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 46,
+              "column": 0
+            },
+            "end": {
+              "line": 54,
+              "column": 3
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 57,
+                "column": 0
+              },
+              "end": {
+                "line": 57,
+                "column": 36
+              }
+            },
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/webrtcProxy/interface/api.js"
+          },
+          "augments": [],
+          "examples": [],
+          "params": [
+            {
+              "title": "param",
+              "name": "data",
+              "lineNumber": 7,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "The message received from the Channel.",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 39,
+                            "offset": 38
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 39,
+                        "offset": 38
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 39,
+                    "offset": 38
+                  }
+                }
+              },
+              "type": {
+                "type": "NameExpression",
+                "name": "Object"
+              }
+            }
+          ],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
+          "access": "public",
+          "memberof": "Channel",
+          "name": "receive",
+          "kind": "function",
+          "members": {
+            "global": [],
+            "inner": [],
+            "instance": [],
+            "events": [],
+            "static": []
+          },
+          "path": [
+            {
+              "name": "Channel",
+              "kind": "module"
+            },
+            {
+              "name": "receive",
+              "kind": "function"
+            }
+          ],
+          "namespace": "Channelreceive"
+        }
+      ]
     },
     "path": [
       {
-        "name": "SdpHandlerFunction",
-        "kind": "typedef"
+        "name": "Channel",
+        "kind": "module"
       }
     ],
-    "namespace": "SdpHandlerFunction"
+    "namespace": "Channel"
   },
   {
     "description": {
@@ -59134,7 +58720,7 @@
           "column": 1
         }
       },
-      "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/api/index.js"
+      "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/call/interfaceNew/api/index.js"
     },
     "augments": [],
     "examples": [],
@@ -59587,7 +59173,7 @@
           "column": 1
         }
       },
-      "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/api/index.js"
+      "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/call/interfaceNew/api/index.js"
     },
     "augments": [],
     "examples": [],
@@ -60042,7 +59628,7 @@
           "column": 1
         }
       },
-      "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/api/index.js"
+      "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/call/interfaceNew/api/index.js"
     },
     "augments": [],
     "examples": [],
@@ -60710,7 +60296,7 @@
           "column": 1
         }
       },
-      "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/api/index.js"
+      "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/call/interfaceNew/api/index.js"
     },
     "augments": [],
     "examples": [],
@@ -60936,6 +60522,420 @@
     "namespace": "MediaObject"
   },
   {
+    "description": {
+      "type": "root",
+      "children": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "The form of an SDP handler function and the expected arguments that it receives.",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 1,
+                  "offset": 0
+                },
+                "end": {
+                  "line": 1,
+                  "column": 81,
+                  "offset": 80
+                },
+                "indent": []
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 1,
+              "column": 81,
+              "offset": 80
+            },
+            "indent": []
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 1,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 81,
+          "offset": 80
+        }
+      }
+    },
+    "tags": [
+      {
+        "title": "public",
+        "description": null,
+        "lineNumber": 2,
+        "type": null
+      },
+      {
+        "title": "module",
+        "description": null,
+        "lineNumber": 3,
+        "type": null,
+        "name": "SdpHandlerFunction"
+      },
+      {
+        "title": "typedef",
+        "description": null,
+        "lineNumber": 4,
+        "type": {
+          "type": "NameExpression",
+          "name": "Function"
+        },
+        "name": "SdpHandlerFunction"
+      },
+      {
+        "title": "param",
+        "description": "The SDP so far (could have been modified by previous handlers).",
+        "lineNumber": 5,
+        "type": {
+          "type": "NameExpression",
+          "name": "Object"
+        },
+        "name": "newSdp"
+      },
+      {
+        "title": "param",
+        "description": "Additional information that might be useful when making SDP modifications.",
+        "lineNumber": 6,
+        "type": {
+          "type": "NameExpression",
+          "name": "SdpHandlerInfo"
+        },
+        "name": "info"
+      },
+      {
+        "title": "param",
+        "description": "The SDP in its initial state.",
+        "lineNumber": 7,
+        "type": {
+          "type": "NameExpression",
+          "name": "Object"
+        },
+        "name": "originalSdp"
+      },
+      {
+        "title": "returns",
+        "description": "The resulting modified SDP based on the changes made by this function.",
+        "lineNumber": 8,
+        "type": {
+          "type": "NameExpression",
+          "name": "Object"
+        }
+      }
+    ],
+    "loc": {
+      "start": {
+        "line": 123,
+        "column": 0
+      },
+      "end": {
+        "line": 132,
+        "column": 3
+      }
+    },
+    "context": {
+      "loc": {
+        "start": {
+          "line": 192,
+          "column": 0
+        },
+        "end": {
+          "line": 196,
+          "column": 1
+        }
+      },
+      "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/call/interfaceNew/api/index.js"
+    },
+    "augments": [],
+    "examples": [],
+    "params": [
+      {
+        "title": "param",
+        "name": "newSdp",
+        "lineNumber": 5,
+        "description": {
+          "type": "root",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "The SDP so far (could have been modified by previous handlers).",
+                  "position": {
+                    "start": {
+                      "line": 1,
+                      "column": 1,
+                      "offset": 0
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 64,
+                      "offset": 63
+                    },
+                    "indent": []
+                  }
+                }
+              ],
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 1,
+                  "offset": 0
+                },
+                "end": {
+                  "line": 1,
+                  "column": 64,
+                  "offset": 63
+                },
+                "indent": []
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 1,
+              "column": 64,
+              "offset": 63
+            }
+          }
+        },
+        "type": {
+          "type": "NameExpression",
+          "name": "Object"
+        }
+      },
+      {
+        "title": "param",
+        "name": "info",
+        "lineNumber": 6,
+        "description": {
+          "type": "root",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Additional information that might be useful when making SDP modifications.",
+                  "position": {
+                    "start": {
+                      "line": 1,
+                      "column": 1,
+                      "offset": 0
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 75,
+                      "offset": 74
+                    },
+                    "indent": []
+                  }
+                }
+              ],
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 1,
+                  "offset": 0
+                },
+                "end": {
+                  "line": 1,
+                  "column": 75,
+                  "offset": 74
+                },
+                "indent": []
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 1,
+              "column": 75,
+              "offset": 74
+            }
+          }
+        },
+        "type": {
+          "type": "NameExpression",
+          "name": "SdpHandlerInfo"
+        }
+      },
+      {
+        "title": "param",
+        "name": "originalSdp",
+        "lineNumber": 7,
+        "description": {
+          "type": "root",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "The SDP in its initial state.",
+                  "position": {
+                    "start": {
+                      "line": 1,
+                      "column": 1,
+                      "offset": 0
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 30,
+                      "offset": 29
+                    },
+                    "indent": []
+                  }
+                }
+              ],
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 1,
+                  "offset": 0
+                },
+                "end": {
+                  "line": 1,
+                  "column": 30,
+                  "offset": 29
+                },
+                "indent": []
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 1,
+              "column": 30,
+              "offset": 29
+            }
+          }
+        },
+        "type": {
+          "type": "NameExpression",
+          "name": "Object"
+        }
+      }
+    ],
+    "properties": [],
+    "returns": [
+      {
+        "description": {
+          "type": "root",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "The resulting modified SDP based on the changes made by this function.",
+                  "position": {
+                    "start": {
+                      "line": 1,
+                      "column": 1,
+                      "offset": 0
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 71,
+                      "offset": 70
+                    },
+                    "indent": []
+                  }
+                }
+              ],
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 1,
+                  "offset": 0
+                },
+                "end": {
+                  "line": 1,
+                  "column": 71,
+                  "offset": 70
+                },
+                "indent": []
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 1,
+              "column": 71,
+              "offset": 70
+            }
+          }
+        },
+        "title": "returns",
+        "type": {
+          "type": "NameExpression",
+          "name": "Object"
+        }
+      }
+    ],
+    "sees": [],
+    "throws": [],
+    "todos": [],
+    "access": "public",
+    "kind": "typedef",
+    "name": "SdpHandlerFunction",
+    "type": {
+      "type": "NameExpression",
+      "name": "Function"
+    },
+    "members": {
+      "global": [],
+      "inner": [],
+      "instance": [],
+      "events": [],
+      "static": []
+    },
+    "path": [
+      {
+        "name": "SdpHandlerFunction",
+        "kind": "typedef"
+      }
+    ],
+    "namespace": "SdpHandlerFunction"
+  },
+  {
     "description": "",
     "tags": [
       {
@@ -61003,7 +61003,7 @@
           "column": 1
         }
       },
-      "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/api/index.js"
+      "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/call/interfaceNew/api/index.js"
     },
     "augments": [],
     "examples": [],
@@ -61247,7 +61247,7 @@
           "column": 1
         }
       },
-      "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/api/index.js"
+      "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/call/interfaceNew/api/index.js"
     },
     "augments": [],
     "examples": [],
@@ -61557,7 +61557,7 @@
           "column": 1
         }
       },
-      "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/api/index.js"
+      "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/call/interfaceNew/api/index.js"
     },
     "augments": [],
     "examples": [
@@ -62107,7 +62107,7 @@
           "column": 1
         }
       },
-      "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/api/index.js"
+      "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/call/interfaceNew/api/index.js"
     },
     "augments": [],
     "examples": [
@@ -62646,7 +62646,7 @@
           "column": 1
         }
       },
-      "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/api/index.js"
+      "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/call/interfaceNew/api/index.js"
     },
     "augments": [],
     "examples": [],
@@ -63636,7 +63636,7 @@
           "column": 36
         }
       },
-      "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/clickToCall/interface/api.js"
+      "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/clickToCall/interface/api.js"
     },
     "augments": [],
     "examples": [],
@@ -63772,7 +63772,7 @@
                 "column": 56
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/clickToCall/interface/eventTypes.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/clickToCall/interface/eventTypes.js"
           },
           "augments": [],
           "examples": [],
@@ -64006,7 +64006,7 @@
                 "column": 54
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/clickToCall/interface/eventTypes.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/clickToCall/interface/eventTypes.js"
           },
           "augments": [],
           "examples": [],
@@ -64297,7 +64297,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/clickToCall/interface/api.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/clickToCall/interface/api.js"
           },
           "augments": [],
           "examples": [],
@@ -64621,7 +64621,7 @@
                 "column": 5
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/clickToCall/interface/api.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/clickToCall/interface/api.js"
           },
           "augments": [],
           "examples": [],
@@ -64833,7 +64833,7 @@
           "column": 16
         }
       },
-      "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/errors/index.js"
+      "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/errors/index.js"
     },
     "augments": [],
     "examples": [],
@@ -65133,7 +65133,7 @@
           "column": 3
         }
       },
-      "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/users/interface/api/users.js"
+      "file": "/var/jenkins_home/workspace/Kandy.js_beta@2/packages/kandy/src/users/interface/api/users.js"
     },
     "augments": [],
     "examples": [],
