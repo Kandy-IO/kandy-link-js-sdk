@@ -5,6 +5,22 @@ Kandy.js change log.
 - This project adheres to [Semantic Versioning](http://semver.org/).
 - This change log follows [keepachangelog.com](http://keepachangelog.com/) recommendations.
 
+## 4.7.0 - 2019-08-30
+
+### Added
+
+- Added `call:join` event which triggers once a joined call has been created. `KAA-1821`
+- Added tutorials for Configuration, User Connect, and Voice and Video Calls. `KAA-1897`
+
+### Fixed
+
+- Fixed an issue where the `kandy.call.history.clear()` is not clearing history data and returning an empty array. `KAA-1873`
+- Fixed implementation of public API 'getAll' (for 'users' plugin) to return an array of all users instead of an object of all users, so that it aligns with current API documentation. `KAA-1923`
+- Fixed an Authentication issue where connecting with invalid credentials for a pre-provisioned user would return an error event with misleading information. `KAA-1937`
+- Fixed an issue where call audits weren't being sent.`KAA-1944`
+- Fixed an issue causing some BasicError objects to have a misleading message rather than a message about the operation that failed. `KAA-1947`
+- Fixed an issue where Call History Log showed a missed call as "incoming". `KAA-1764`
+
 ## 4.6.0 - 2019-08-01
 
 ### Added
@@ -16,6 +32,7 @@ Kandy.js change log.
 - User now automatically disconnects gracefully when internet connection is lost for too long. `KAA-1591`
 
 ### Fixed
+
 - Fixed an issue preventing the `devices:change` event from being emitted when including, but not using, the Webrtc Proxy. `KAA-1790`
 - Fixed many API documentation issues across all SDK's plugins.
 - Fixed version numbering associated with public documentation. `KAA-1823`
