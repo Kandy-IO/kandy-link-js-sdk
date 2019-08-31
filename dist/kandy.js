@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.7.0-beta.124
+ * Version: 4.7.0-beta.130
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -27171,6 +27171,7 @@ exports.getAuthConfig = getAuthConfig;
 exports.getSubscriptionInfo = getSubscriptionInfo;
 exports.getConnectionInfo = getConnectionInfo;
 exports.getDomain = getDomain;
+exports.getIdentity = getIdentity;
 exports.getUserInfo = getUserInfo;
 exports.getAuthScenario = getAuthScenario;
 exports.getServices = getServices;
@@ -27257,9 +27258,20 @@ function getDomain(state) {
 }
 
 /**
+ * Retrieves the identity of the currently logged-in user.
+ * The identity is of the form: <userName>@<domain>
+ * @method getIdentity
+ * @return {string}
+ */
+function getIdentity(state) {
+  const userInfo = getUserInfo(state);
+  return userInfo.identity || userInfo.username || '';
+}
+
+/**
  * Retrieves the user information.
  * @method getUserInfo
- * @return {Object}
+ * @return {Object} An object whose properties are: accessToken, identity & username. Identity is user's primary contact address.
  */
 function getUserInfo(state) {
   return (0, _fp.cloneDeep)(state.authentication.userInfo) || {};
@@ -30292,7 +30304,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @public
  * @module IceServer
  * @typedef {Object} IceServer
- * @property {string} url The URL of the ICE server.
+ * @property {Array<string>|string} urls Either an array of URLs for reaching out several ICE servers or a single URL for reaching one ICE server.
  * @property {string} [credential] The credential needed by the ICE server.
  */
 
@@ -31844,10 +31856,10 @@ function callsLink(options = {}) {
     // TODO: Remove this default once the UC server configuration feature is implemented. These
     // servers should be sent to us by UC. This default is just here fo ease of use in production.
     iceServers: [{
-      url: 'turns:turn-ucc-1.genband.com:443?transport=tcp',
+      urls: 'turns:turn-ucc-1.genband.com:443?transport=tcp',
       credential: ''
     }, {
-      url: 'turns:turn-ucc-2.genband.com:443?transport=tcp',
+      urls: 'turns:turn-ucc-2.genband.com:443?transport=tcp',
       credential: ''
     }],
     // TODO: Remove this once all the browsers use unified-plan
@@ -42026,7 +42038,7 @@ const factoryDefaults = {
    */
 };function factory(plugins, options = factoryDefaults) {
   // Log the SDK's version (templated by webpack) on initialization.
-  let version = '4.7.0-beta.124';
+  let version = '4.7.0-beta.130';
   log.info(`SDK version: ${version}`);
 
   var sagas = [];
@@ -49978,7 +49990,8 @@ function usersAPI({ dispatch, getState, primitives }) {
     },
 
     /**
-     * Fetches information about the current User.
+     * Fetches information about the current User from directory.
+     * Compared to {@link Users.fetch user.fetch} API, this API retrieves additional user related information.
      *
      * The SDK will emit a {@link Users.event:directory:change directory:change}
      *    event after the operation completes. The User's information will then
@@ -49991,6 +50004,24 @@ function usersAPI({ dispatch, getState, primitives }) {
      * @static
      * @memberof Users
      * @method fetchSelfInfo
+     * @requires selfInfoAsUserProfile
+     */
+    /**
+     * Fetches information about the current User from directory.
+     * This API is simply a shortcut for the {@link Users.fetch user.fetch(getUserInfo().identity)} API.
+     *
+     * The SDK will emit a {@link Users.event:directory:change directory:change}
+     *    event after the operation completes. The User's information will then
+     *    be available.
+     *
+     * Information about an available User can be retrieved using the
+     *    {@link Users.get user.get} API.
+     *
+     * @public
+     * @static
+     * @memberof Users
+     * @method fetchSelfInfo
+     * @requires selfInfoAsUserSearch
      */
     fetchSelfInfo() {
       log.debug(_logs.API_LOG_TAG + 'user.fetchSelfInfo');
@@ -50678,7 +50709,7 @@ const log = (0, _logs.getLogManager)().getLogger('USERS');
 
 const { api, name, reducer } = _interface2.default;
 
-const capabilities = ['addContactAsFriend'];
+const capabilities = ['addContactAsFriend', 'selfInfoAsUserProfile'];
 
 function usersLink() {
   function* init() {
@@ -51022,6 +51053,8 @@ function* getDirectory(conn, params = {}) {
 
 /**
  * Fetch userProfileData from SPiDR with the provided connection info.
+ * Compared to {@link Users.fetch user.fetch} API, this API retrieves additional user related information.
+ *
  * @param  {Object}     connection Connection information for the platform in use.
  * @return {Object}            Fetch request's response, parsed.
  */
