@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.7.0-beta.131
+ * Version: 4.7.0-beta.132
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -42038,7 +42038,7 @@ const factoryDefaults = {
    */
 };function factory(plugins, options = factoryDefaults) {
   // Log the SDK's version (templated by webpack) on initialization.
-  let version = '4.7.0-beta.131';
+  let version = '4.7.0-beta.132';
   log.info(`SDK version: ${version}`);
 
   var sagas = [];
@@ -48146,7 +48146,7 @@ async function makeRequest(options, requestId) {
     };
   }
   try {
-    contentType = response.headers.get('content-type');
+    contentType = await response.headers.get('content-type');
   } catch (err) {
     log.debug(`Failed to get content-type:${err.message}.`);
   }
@@ -48180,7 +48180,8 @@ async function makeRequest(options, requestId) {
        * If the response indicates an error and has a body, resolve the body as JSON
        * but no body return an empty object then return a `REQUEST` error
        */
-      responseBody = contentTypes.jsonType === contentType ? await response.json() : {};
+      const isJson = contentType && contentType.includes(contentTypes.jsonType);
+      responseBody = isJson ? await response.json() : {};
       return {
         body: responseBody,
         error: 'REQUEST',
@@ -48198,8 +48199,10 @@ async function makeRequest(options, requestId) {
         result
       };
     } else {
+      const isJson = contentType && contentType.includes(contentTypes.jsonType);
+
       responseBody = {};
-      if (contentTypes.jsonType === contentType && responseType === responseTypes.json) {
+      if (isJson && responseType === responseTypes.json) {
         responseBody = await response.json();
       } else if (responseType === responseTypes.blob) {
         responseBody = await response.blob();
