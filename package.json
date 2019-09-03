@@ -1,6 +1,6 @@
 {
     "name": "@kandy-io/link-sdk-preview",
-    "version": "4.7.0",
+    "version": "4.7.1",
     "license": "SEE LICENSE IN LICENSE.md",
     "main":"./dist/kandy.js",
     "repository": {
