@@ -1,0 +1,15 @@
+# "Display" data about quickstarts.
+# Information to be displayed on the Quickstarts page.
+
+- name: Configurations
+  description: # Kandy Configurations
+  link: /quickstarts/javascript/newLink/Configurations
+
+- name: User Connect
+  description: # Connecting and Disconnecting
+  link: /quickstarts/javascript/newLink/User%20Connect
+
+- name: Voice and Video Calls
+  description: # Voice and Video Calls
+  link: /quickstarts/javascript/newLink/Voice%20and%20Video%20Calls
+
