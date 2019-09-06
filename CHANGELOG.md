@@ -9,6 +9,7 @@ Kandy.js change log.
 
 ### Fixed
 
+- Fixed an issue where call is ended after call resume if resuming account has music on hold. `KAA-1816`
 - Fixed an issue in Chrome plan-b where hold operation will not fire a `call:trackEnded` event and will fire it during the unhold operation. `KAA-1942`
 
 ### Added
