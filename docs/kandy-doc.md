@@ -1581,6 +1581,14 @@ appChannel.on('message', data => {
 client.proxy.setChannel(channel)
 ```
 
+### send
+
+Channel function that the Proxy module will use to send messages to the remote side.
+
+**Parameters**
+
+-   `data` **[Object][5]** Message to be sent over the channel.
+
 ### receive
 
 API that the Proxy module will assign a listener function for accepting received messages.
@@ -1589,14 +1597,6 @@ This function should receive all messages sent from the remote side of the chann
 **Parameters**
 
 -   `data` **[Object][5]** The message received from the Channel.
-
-### send
-
-Channel function that the Proxy module will use to send messages to the remote side.
-
-**Parameters**
-
--   `data` **[Object][5]** Message to be sent over the channel.
 
 ## Proxy
 
@@ -1653,24 +1653,6 @@ Sends an initialization message over the channel with webRTC configurations.
 
 -   `config` **[Object][5]** 
 
-## IceServer
-
-Type: [Object][5]
-
-**Properties**
-
--   `urls` **([Array][6]&lt;[string][2]> | [string][2])** Either an array of URLs for reaching out several ICE servers or a single URL for reaching one ICE server.
--   `credential` **[string][2]?** The credential needed by the ICE server.
-
-## SdpHandlerInfo
-
-Type: [Object][5]
-
-**Properties**
-
--   `type` **RTCSdpType** The session description's type.
--   `endpoint` **[string][2]** Which end of the connection created the SDP.
-
 ## SdpHandlerFunction
 
 The form of an SDP handler function and the expected arguments that it receives.
@@ -1714,28 +1696,15 @@ Tracks can be retrieved using the Media module's `getTrackById` API and manipula
 -   `state` **[string][2]** The state of this Track. Can be 'live' or 'ended'.
 -   `streamId` **[string][2]** The ID of the Media Stream that includes this Track.
 
-## CallObject
+## DevicesObject
 
-Information about a Call.
-
-Can be retrieved using the [call.getAll][24] or
-   [call.getById][16] APIs.
+A collection of media devices and their information.
 
 **Properties**
 
--   `id` **[string][2]** The ID of the call.
--   `direction` **[string][2]** The direction in which the call was created. Can be 'outgoing' or 'incoming'.
--   `state` **[string][2]** The current state of the call. See [call.states][58] for possible states.
--   `localHold` **[boolean][7]** Indicates whether this call is currently being held locally.
--   `remoteHold` **[boolean][7]** Indicates whether this call is currently being held remotely.
--   `localTracks` **[Array][6]&lt;[string][2]>** A list of Track IDs that the call is sending to the remote participant.
--   `remoteTracks` **[Array][6]&lt;[string][2]>** A list of Track IDs that the call is receiving from the remote participant.
--   `remoteParticipant` **[Object][5]** Information about the other call participant.
-    -   `remoteParticipant.displayNumber` **[string][2]?** The User ID of the remote participant in the form "username@domain".
-    -   `remoteParticipant.displayName` **[string][2]?** The display name of the remote participant.
--   `bandwidth` **[BandwidthControls][14]** The bandwidth limitations set for the call.
--   `startTime` **[number][20]** The start time of the call in milliseconds since the epoch.
--   `endTime` **[number][20]?** The end time of the call in milliseconds since the epoch.
+-   `camera` **[Array][6]&lt;[DeviceInfo][58]>** A list of camera device information.
+-   `microphone` **[Array][6]&lt;[DeviceInfo][58]>** A list of microphone device information.
+-   `speaker` **[Array][6]&lt;[DeviceInfo][58]>** A list of speaker device information.
 
 ## DeviceInfo
 
@@ -1748,15 +1717,48 @@ Contains information about a device.
 -   `kind` **[string][2]** The type of the device (audioinput, audiooutput, videoinput).
 -   `label` **[string][2]** The name of the device.
 
-## DevicesObject
+## SdpHandlerInfo
 
-A collection of media devices and their information.
+Type: [Object][5]
 
 **Properties**
 
--   `camera` **[Array][6]&lt;[DeviceInfo][59]>** A list of camera device information.
--   `microphone` **[Array][6]&lt;[DeviceInfo][59]>** A list of microphone device information.
--   `speaker` **[Array][6]&lt;[DeviceInfo][59]>** A list of speaker device information.
+-   `type` **RTCSdpType** The session description's type.
+-   `endpoint` **[string][2]** Which end of the connection created the SDP.
+
+## IceServer
+
+Type: [Object][5]
+
+**Properties**
+
+-   `urls` **([Array][6]&lt;[string][2]> | [string][2])** Either an array of URLs for reaching out several ICE servers or a single URL for reaching one ICE server.
+-   `credential` **[string][2]?** The credential needed by the ICE server.
+
+## BandwidthControls
+
+The BandwidthControls type defines the format for configuring media and/or track bandwidth options.
+BandwidthControls only affect received remote tracks of the specified type.
+
+Type: [Object][5]
+
+**Properties**
+
+-   `audio` **[number][20]?** The desired bandwidth bitrate in kilobits per second for received remote audio.
+-   `video` **[number][20]?** The desired bandwidth bitrate in kilobits per second for received remote video.
+
+**Examples**
+
+```javascript
+// Specify received remote video bandwidth limits when making a call.
+client.call.make(destination, mediaConstraints,
+ {
+   bandwidth: {
+     video: 5
+   }
+ }
+)
+```
 
 ## MediaConstraint
 
@@ -1792,30 +1794,28 @@ client.call.make(destination, {
 })
 ```
 
-## BandwidthControls
+## CallObject
 
-The BandwidthControls type defines the format for configuring media and/or track bandwidth options.
-BandwidthControls only affect received remote tracks of the specified type.
+Information about a Call.
 
-Type: [Object][5]
+Can be retrieved using the [call.getAll][24] or
+   [call.getById][16] APIs.
 
 **Properties**
 
--   `audio` **[number][20]?** The desired bandwidth bitrate in kilobits per second for received remote audio.
--   `video` **[number][20]?** The desired bandwidth bitrate in kilobits per second for received remote video.
-
-**Examples**
-
-```javascript
-// Specify received remote video bandwidth limits when making a call.
-client.call.make(destination, mediaConstraints,
- {
-   bandwidth: {
-     video: 5
-   }
- }
-)
-```
+-   `id` **[string][2]** The ID of the call.
+-   `direction` **[string][2]** The direction in which the call was created. Can be 'outgoing' or 'incoming'.
+-   `state` **[string][2]** The current state of the call. See [call.states][59] for possible states.
+-   `localHold` **[boolean][7]** Indicates whether this call is currently being held locally.
+-   `remoteHold` **[boolean][7]** Indicates whether this call is currently being held remotely.
+-   `localTracks` **[Array][6]&lt;[string][2]>** A list of Track IDs that the call is sending to the remote participant.
+-   `remoteTracks` **[Array][6]&lt;[string][2]>** A list of Track IDs that the call is receiving from the remote participant.
+-   `remoteParticipant` **[Object][5]** Information about the other call participant.
+    -   `remoteParticipant.displayNumber` **[string][2]?** The User ID of the remote participant in the form "username@domain".
+    -   `remoteParticipant.displayName` **[string][2]?** The display name of the remote participant.
+-   `bandwidth` **[BandwidthControls][14]** The bandwidth limitations set for the call.
+-   `startTime` **[number][20]** The start time of the call in milliseconds since the epoch.
+-   `endTime` **[number][20]?** The end time of the call in milliseconds since the epoch.
 
 ## ClickToCall
 
@@ -1974,6 +1974,6 @@ The User data object.
 
 [57]: #sdphandlerinfo
 
-[58]: #callsstates
+[58]: #deviceinfo
 
-[59]: #deviceinfo
+[59]: #callsstates
