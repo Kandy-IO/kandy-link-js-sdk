@@ -358,88 +358,6 @@ SIP users and PSTN phones.
 
 Call functions are all part of the 'call' namespace.
 
-### CallObject
-
-Information about a Call.
-
-Can be retrieved using the [call.getAll][10] or
-   [call.getById][11] APIs.
-
-Type: [Object][3]
-
-**Properties**
-
--   `id` **[string][4]** The ID of the call.
--   `direction` **[string][4]** The direction in which the call was created. Can be 'outgoing' or 'incoming'.
--   `state` **[string][4]** The current state of the call. See [call.states][12] for possible states.
--   `localHold` **[boolean][6]** Indicates whether this call is currently being held locally.
--   `remoteHold` **[boolean][6]** Indicates whether this call is currently being held remotely.
--   `localTracks` **[Array][8]&lt;[string][4]>** A list of Track IDs that the call is sending to the remote participant.
--   `remoteTracks` **[Array][8]&lt;[string][4]>** A list of Track IDs that the call is receiving from the remote participant.
--   `remoteParticipant` **[Object][3]** Information about the other call participant.
-    -   `remoteParticipant.displayNumber` **[string][4]?** The User ID of the remote participant in the form "username@domain".
-    -   `remoteParticipant.displayName` **[string][4]?** The display name of the remote participant.
--   `bandwidth` **BandwidthControls** The bandwidth limitations set for the call.
--   `startTime` **[number][7]** The start time of the call in milliseconds since the epoch.
--   `endTime` **[number][7]?** The end time of the call in milliseconds since the epoch.
-
-### SdpHandlerFunction
-
-The form of an SDP handler function and the expected arguments that it receives.
-
-Type: [Function][13]
-
-**Parameters**
-
--   `newSdp` **[Object][3]** The SDP so far (could have been modified by previous handlers).
--   `info` **SdpHandlerInfo** Additional information that might be useful when making SDP modifications.
--   `originalSdp` **[Object][3]** The SDP in its initial state.
-
-Returns **[Object][3]** The resulting modified SDP based on the changes made by this function.
-
-### TrackObject
-
-A Track is a stream of audio or video media from a single source.
-Tracks can be retrieved using the Media module's `getTrackById` API and manipulated with other functions of the Media module.
-
-Type: [Object][3]
-
-**Properties**
-
--   `containers` **[Array][8]&lt;[string][4]>** The list of CSS selectors that were used to render this Track.
--   `disabled` **[boolean][6]** Indicator of whether this Track is disabled or not. If disabled, it cannot be re-enabled.
--   `id` **[string][4]** The ID of the Track.
--   `kind` **[string][4]** The kind of Track this is (audio, video).
--   `label` **[string][4]** The label of the device this Track uses.
--   `muted` **[boolean][6]** Indicator on whether this Track is muted or not.
--   `state` **[string][4]** The state of this Track. Can be 'live' or 'ended'.
--   `streamId` **[string][4]** The ID of the Media Stream that includes this Track.
-
-### DevicesObject
-
-A collection of media devices and their information.
-
-Type: [Object][3]
-
-**Properties**
-
--   `camera` **[Array][8]&lt;DeviceInfo>** A list of camera device information.
--   `microphone` **[Array][8]&lt;DeviceInfo>** A list of microphone device information.
--   `speaker` **[Array][8]&lt;DeviceInfo>** A list of speaker device information.
-
-### DeviceInfo
-
-Contains information about a device.
-
-Type: [Object][3]
-
-**Properties**
-
--   `deviceId` **[string][4]** The ID of the device.
--   `groupId` **[string][4]** The group ID of the device. Devices that share a `groupId` belong to the same physical device.
--   `kind` **[string][4]** The type of the device (audioinput, audiooutput, videoinput).
--   `label` **[string][4]** The name of the device.
-
 ### MediaConstraint
 
 The MediaConstraint type defines the format for configuring media options.
@@ -474,27 +392,14 @@ client.call.make(destination, {
 })
 ```
 
-### MediaObject
-
-The state representation of a Media object.
-Media is a collection of Track objects.
+### IceServer
 
 Type: [Object][3]
 
 **Properties**
 
--   `id` **[string][4]** The ID of the Media object.
--   `local` **[boolean][6]** Indicator on whether this media is local or remote.
--   `tracks` **[Array][8]&lt;TrackObject>** A list of Track objects that are contained in this Media object.
-
-### SdpHandlerInfo
-
-Type: [Object][3]
-
-**Properties**
-
--   `type` **RTCSdpType** The session description's type.
--   `endpoint` **[string][4]** Which end of the connection created the SDP.
+-   `urls` **([Array][8]&lt;[string][4]> | [string][4])** Either an array of URLs for reaching out several ICE servers or a single URL for reaching one ICE server.
+-   `credential` **[string][4]?** The credential needed by the ICE server.
 
 ### BandwidthControls
 
@@ -521,14 +426,109 @@ client.call.make(destination, mediaConstraints,
 )
 ```
 
-### IceServer
+### SdpHandlerFunction
+
+The form of an SDP handler function and the expected arguments that it receives.
+
+Type: [Function][10]
+
+**Parameters**
+
+-   `newSdp` **[Object][3]** The SDP so far (could have been modified by previous handlers).
+-   `info` **SdpHandlerInfo** Additional information that might be useful when making SDP modifications.
+-   `originalSdp` **[Object][3]** The SDP in its initial state.
+
+Returns **[Object][3]** The resulting modified SDP based on the changes made by this function.
+
+### MediaObject
+
+The state representation of a Media object.
+Media is a collection of Track objects.
 
 Type: [Object][3]
 
 **Properties**
 
--   `urls` **([Array][8]&lt;[string][4]> | [string][4])** Either an array of URLs for reaching out several ICE servers or a single URL for reaching one ICE server.
--   `credential` **[string][4]?** The credential needed by the ICE server.
+-   `id` **[string][4]** The ID of the Media object.
+-   `local` **[boolean][6]** Indicator on whether this media is local or remote.
+-   `tracks` **[Array][8]&lt;TrackObject>** A list of Track objects that are contained in this Media object.
+
+### TrackObject
+
+A Track is a stream of audio or video media from a single source.
+Tracks can be retrieved using the Media module's `getTrackById` API and manipulated with other functions of the Media module.
+
+Type: [Object][3]
+
+**Properties**
+
+-   `containers` **[Array][8]&lt;[string][4]>** The list of CSS selectors that were used to render this Track.
+-   `disabled` **[boolean][6]** Indicator of whether this Track is disabled or not. If disabled, it cannot be re-enabled.
+-   `id` **[string][4]** The ID of the Track.
+-   `kind` **[string][4]** The kind of Track this is (audio, video).
+-   `label` **[string][4]** The label of the device this Track uses.
+-   `muted` **[boolean][6]** Indicator on whether this Track is muted or not.
+-   `state` **[string][4]** The state of this Track. Can be 'live' or 'ended'.
+-   `streamId` **[string][4]** The ID of the Media Stream that includes this Track.
+
+### CallObject
+
+Information about a Call.
+
+Can be retrieved using the [call.getAll][11] or
+   [call.getById][12] APIs.
+
+Type: [Object][3]
+
+**Properties**
+
+-   `id` **[string][4]** The ID of the call.
+-   `direction` **[string][4]** The direction in which the call was created. Can be 'outgoing' or 'incoming'.
+-   `state` **[string][4]** The current state of the call. See [call.states][13] for possible states.
+-   `localHold` **[boolean][6]** Indicates whether this call is currently being held locally.
+-   `remoteHold` **[boolean][6]** Indicates whether this call is currently being held remotely.
+-   `localTracks` **[Array][8]&lt;[string][4]>** A list of Track IDs that the call is sending to the remote participant.
+-   `remoteTracks` **[Array][8]&lt;[string][4]>** A list of Track IDs that the call is receiving from the remote participant.
+-   `remoteParticipant` **[Object][3]** Information about the other call participant.
+    -   `remoteParticipant.displayNumber` **[string][4]?** The User ID of the remote participant in the form "username@domain".
+    -   `remoteParticipant.displayName` **[string][4]?** The display name of the remote participant.
+-   `bandwidth` **BandwidthControls** The bandwidth limitations set for the call.
+-   `startTime` **[number][7]** The start time of the call in milliseconds since the epoch.
+-   `endTime` **[number][7]?** The end time of the call in milliseconds since the epoch.
+
+### DeviceInfo
+
+Contains information about a device.
+
+Type: [Object][3]
+
+**Properties**
+
+-   `deviceId` **[string][4]** The ID of the device.
+-   `groupId` **[string][4]** The group ID of the device. Devices that share a `groupId` belong to the same physical device.
+-   `kind` **[string][4]** The type of the device (audioinput, audiooutput, videoinput).
+-   `label` **[string][4]** The name of the device.
+
+### DevicesObject
+
+A collection of media devices and their information.
+
+Type: [Object][3]
+
+**Properties**
+
+-   `camera` **[Array][8]&lt;DeviceInfo>** A list of camera device information.
+-   `microphone` **[Array][8]&lt;DeviceInfo>** A list of microphone device information.
+-   `speaker` **[Array][8]&lt;DeviceInfo>** A list of speaker device information.
+
+### SdpHandlerInfo
+
+Type: [Object][3]
+
+**Properties**
+
+-   `type` **RTCSdpType** The session description's type.
+-   `endpoint` **[string][4]** Which end of the connection created the SDP.
 
 ### make
 
@@ -614,7 +614,7 @@ The specified call to answer must be in a ringing state with an incoming
 The SDK will emit a [call:stateChange][19]
    event locally when the operation completes. This indicates that the
    call has connected with the remote participant. The
-   [call.getById][11] API can be used to retrieve the
+   [call.getById][12] API can be used to retrieve the
    latest call state after the change. Further events will be emitted to
    indicate that the call has received media from the remote participant.
    See the [call:newTrack][20] event for
@@ -912,8 +912,8 @@ A Call's state describes the current status of the Call. An application
    whether the Call currently has media flowing between users.
 
 The Call's state is a property of the [CallObject][25], which can be
-   retrieved using the [call.getById][11] or
-   [call.getAll][10] APIs.
+   retrieved using the [call.getById][12] or
+   [call.getAll][11] APIs.
 
 The SDK emits a [call:stateChange][19]
    event when a Call's state changes from one state to another.
@@ -1134,7 +1134,7 @@ Add an event listener for the specified event type.
 **Parameters**
 
 -   `type` **[string][4]** The event type for which to add the listener.
--   `listener` **[Function][13]** The listener for the event type. The parameters of the listener depend on the event type.
+-   `listener` **[Function][10]** The listener for the event type. The parameters of the listener depend on the event type.
 
 **Examples**
 
@@ -1154,7 +1154,7 @@ Removes an event listener for the specified event type.
 **Parameters**
 
 -   `type` **[string][4]** The event type for which to remote the listener.
--   `listener` **[Function][13]** The listener to remove.
+-   `listener` **[Function][10]** The listener to remove.
 
 
 -   Throws **[Error][26]** Invalid event type
@@ -1165,7 +1165,7 @@ Adds a global event listener
 
 **Parameters**
 
--   `listener` **[Function][13]** The event listener to add. The parameters are (type, ...args), where args depend on the event type.
+-   `listener` **[Function][10]** The event listener to add. The parameters are (type, ...args), where args depend on the event type.
 
 
 -   Throws **[Error][26]** Listener not a function
@@ -1176,7 +1176,7 @@ Removes a global event listener
 
 **Parameters**
 
--   `listener` **[Function][13]** The event listener to remove.
+-   `listener` **[Function][10]** The event listener to remove.
 
 
 -   Throws **[Error][26]** Listener not a function
@@ -1403,9 +1403,9 @@ Get the messages associated with this conversation.
 
 Returns **[Array][8]&lt;[Object][3]>** messages An array containing the conversation's messages.
 
-Returns **[Function][13]** messages.markRead Marks the message as read.
+Returns **[Function][10]** messages.markRead Marks the message as read.
 
-Returns **[Function][13]** messages.forward Forward the message to another user.
+Returns **[Function][10]** messages.forward Forward the message to another user.
 
 Returns **[string][4]** messages.messageId The Id of the message.
 
@@ -1435,11 +1435,11 @@ Subscribe to this conversations messages array.
 
 **Parameters**
 
--   `subscriber` **[Function][13]** A subscriber function to be triggered when the messages array of this conversation is updated.
+-   `subscriber` **[Function][10]** A subscriber function to be triggered when the messages array of this conversation is updated.
     -   `subscriber.conversationId` **[string][4]** The conversation participant.
     -   `subscriber.messageId` **[string][4]** The ID of the message that caused the event.
 
-Returns **[Function][13]** The unsubscribe function.
+Returns **[Function][10]** The unsubscribe function.
 
 #### fetchMessages
 
@@ -1892,13 +1892,13 @@ Returns voicemail data from the store.
 
 [9]: #config
 
-[10]: #callsgetall
+[10]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
 
-[11]: #callsgetbyid
+[11]: #callsgetall
 
-[12]: #callsstates
+[12]: #callsgetbyid
 
-[13]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
+[13]: #callsstates
 
 [14]: SIP_URI
 
