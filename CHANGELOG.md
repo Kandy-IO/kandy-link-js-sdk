@@ -5,6 +5,21 @@ Kandy.js change log.
 - This project adheres to [Semantic Versioning](http://semver.org/).
 - This change log follows [keepachangelog.com](http://keepachangelog.com/) recommendations.
 
+## 4.8.0 - 2019-09-27
+
+### Fixed
+
+- Fixed an issue where call is ended after call resume if resuming account has music on hold. `KAA-1816`
+- Fixed an issue in Chrome plan-b where hold operation will not fire a `call:trackEnded` event and will fire it during the unhold operation. `KAA-1942`
+- Fixed the ordering and nesting of types & namespaces in public documentation. `KAA-1880`
+- Fixed an issue where local call logs were reporting a duration of 0 for all incoming calls. `KAA-1794`
+- Fixed an issue where ending an incoming call would not add the call to the call history logs. `KAA-2009`
+
+### Added
+
+- Added `displayName` option to `make` call api. `KAA-1909`
+- Support for HMAC token-based authentication. `KAA-1919`
+
 ## 4.7.1 - 2019-09-03
 
 ### Fixed
