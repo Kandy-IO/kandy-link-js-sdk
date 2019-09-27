@@ -358,15 +358,6 @@ SIP users and PSTN phones.
 
 Call functions are all part of the 'call' namespace.
 
-### IceServer
-
-Type: [Object][3]
-
-**Properties**
-
--   `urls` **([Array][8]&lt;[string][4]> | [string][4])** Either an array of URLs for reaching out several ICE servers or a single URL for reaching one ICE server.
--   `credential` **[string][4]?** The credential needed by the ICE server.
-
 ### SdpHandlerInfo
 
 Type: [Object][3]
@@ -375,76 +366,6 @@ Type: [Object][3]
 
 -   `type` **RTCSdpType** The session description's type.
 -   `endpoint` **[string][4]** Which end of the connection created the SDP.
-
-### TrackObject
-
-A Track is a stream of audio or video media from a single source.
-Tracks can be retrieved using the Media module's `getTrackById` API and manipulated with other functions of the Media module.
-
-Type: [Object][3]
-
-**Properties**
-
--   `containers` **[Array][8]&lt;[string][4]>** The list of CSS selectors that were used to render this Track.
--   `disabled` **[boolean][6]** Indicator of whether this Track is disabled or not. If disabled, it cannot be re-enabled.
--   `id` **[string][4]** The ID of the Track.
--   `kind` **[string][4]** The kind of Track this is (audio, video).
--   `label` **[string][4]** The label of the device this Track uses.
--   `muted` **[boolean][6]** Indicator on whether this Track is muted or not.
--   `state` **[string][4]** The state of this Track. Can be 'live' or 'ended'.
--   `streamId` **[string][4]** The ID of the Media Stream that includes this Track.
-
-### DevicesObject
-
-A collection of media devices and their information.
-
-Type: [Object][3]
-
-**Properties**
-
--   `camera` **[Array][8]&lt;DeviceInfo>** A list of camera device information.
--   `microphone` **[Array][8]&lt;DeviceInfo>** A list of microphone device information.
--   `speaker` **[Array][8]&lt;DeviceInfo>** A list of speaker device information.
-
-### DeviceInfo
-
-Contains information about a device.
-
-Type: [Object][3]
-
-**Properties**
-
--   `deviceId` **[string][4]** The ID of the device.
--   `groupId` **[string][4]** The group ID of the device. Devices that share a `groupId` belong to the same physical device.
--   `kind` **[string][4]** The type of the device (audioinput, audiooutput, videoinput).
--   `label` **[string][4]** The name of the device.
-
-### MediaObject
-
-The state representation of a Media object.
-Media is a collection of Track objects.
-
-Type: [Object][3]
-
-**Properties**
-
--   `id` **[string][4]** The ID of the Media object.
--   `local` **[boolean][6]** Indicator on whether this media is local or remote.
--   `tracks` **[Array][8]&lt;TrackObject>** A list of Track objects that are contained in this Media object.
-
-### SdpHandlerFunction
-
-The form of an SDP handler function and the expected arguments that it receives.
-
-Type: [Function][10]
-
-**Parameters**
-
--   `newSdp` **[Object][3]** The SDP so far (could have been modified by previous handlers).
--   `info` **SdpHandlerInfo** Additional information that might be useful when making SDP modifications.
--   `originalSdp` **[Object][3]** The SDP in its initial state.
-
-Returns **[Object][3]** The resulting modified SDP based on the changes made by this function.
 
 ### BandwidthControls
 
@@ -505,6 +426,76 @@ client.call.make(destination, {
 })
 ```
 
+### SdpHandlerFunction
+
+The form of an SDP handler function and the expected arguments that it receives.
+
+Type: [Function][10]
+
+**Parameters**
+
+-   `newSdp` **[Object][3]** The SDP so far (could have been modified by previous handlers).
+-   `info` **SdpHandlerInfo** Additional information that might be useful when making SDP modifications.
+-   `originalSdp` **[Object][3]** The SDP in its initial state.
+
+Returns **[Object][3]** The resulting modified SDP based on the changes made by this function.
+
+### DeviceInfo
+
+Contains information about a device.
+
+Type: [Object][3]
+
+**Properties**
+
+-   `deviceId` **[string][4]** The ID of the device.
+-   `groupId` **[string][4]** The group ID of the device. Devices that share a `groupId` belong to the same physical device.
+-   `kind` **[string][4]** The type of the device (audioinput, audiooutput, videoinput).
+-   `label` **[string][4]** The name of the device.
+
+### DevicesObject
+
+A collection of media devices and their information.
+
+Type: [Object][3]
+
+**Properties**
+
+-   `camera` **[Array][8]&lt;DeviceInfo>** A list of camera device information.
+-   `microphone` **[Array][8]&lt;DeviceInfo>** A list of microphone device information.
+-   `speaker` **[Array][8]&lt;DeviceInfo>** A list of speaker device information.
+
+### TrackObject
+
+A Track is a stream of audio or video media from a single source.
+Tracks can be retrieved using the Media module's `getTrackById` API and manipulated with other functions of the Media module.
+
+Type: [Object][3]
+
+**Properties**
+
+-   `containers` **[Array][8]&lt;[string][4]>** The list of CSS selectors that were used to render this Track.
+-   `disabled` **[boolean][6]** Indicator of whether this Track is disabled or not. If disabled, it cannot be re-enabled.
+-   `id` **[string][4]** The ID of the Track.
+-   `kind` **[string][4]** The kind of Track this is (audio, video).
+-   `label` **[string][4]** The label of the device this Track uses.
+-   `muted` **[boolean][6]** Indicator on whether this Track is muted or not.
+-   `state` **[string][4]** The state of this Track. Can be 'live' or 'ended'.
+-   `streamId` **[string][4]** The ID of the Media Stream that includes this Track.
+
+### MediaObject
+
+The state representation of a Media object.
+Media is a collection of Track objects.
+
+Type: [Object][3]
+
+**Properties**
+
+-   `id` **[string][4]** The ID of the Media object.
+-   `local` **[boolean][6]** Indicator on whether this media is local or remote.
+-   `tracks` **[Array][8]&lt;TrackObject>** A list of Track objects that are contained in this Media object.
+
 ### CallObject
 
 Information about a Call.
@@ -529,6 +520,15 @@ Type: [Object][3]
 -   `bandwidth` **BandwidthControls** The bandwidth limitations set for the call.
 -   `startTime` **[number][7]** The start time of the call in milliseconds since the epoch.
 -   `endTime` **[number][7]?** The end time of the call in milliseconds since the epoch.
+
+### IceServer
+
+Type: [Object][3]
+
+**Properties**
+
+-   `urls` **([Array][8]&lt;[string][4]> | [string][4])** Either an array of URLs for reaching out several ICE servers or a single URL for reaching one ICE server.
+-   `credential` **[string][4]?** The credential needed by the ICE server.
 
 ### make
 
@@ -969,6 +969,14 @@ appChannel.on('message', data => {
 client.proxy.setChannel(channel)
 ```
 
+### send
+
+Channel function that the Proxy module will use to send messages to the remote side.
+
+**Parameters**
+
+-   `data` **[Object][3]** Message to be sent over the channel.
+
 ### receive
 
 API that the Proxy module will assign a listener function for accepting received messages.
@@ -977,14 +985,6 @@ This function should receive all messages sent from the remote side of the chann
 **Parameters**
 
 -   `data` **[Object][3]** The message received from the Channel.
-
-### send
-
-Channel function that the Proxy module will use to send messages to the remote side.
-
-**Parameters**
-
--   `data` **[Object][3]** Message to be sent over the channel.
 
 ## ClickToCall
 
@@ -1350,19 +1350,6 @@ If a conversation with the given user ID already exists in the store, it will be
 
 Returns **Conversation** A Conversation object.
 
-### Message
-
-A Message object represents an individual message. Messages have parts
-which represent pieces of a message, such as a text part or a file part. Once
-all the desired parts have been added, a message can be sent with the send()
-function.
-
-Type: [Object][3]
-
-#### send
-
-Sends the message.
-
 ### Conversation
 
 A Conversation object represents a conversation between either two users, or a
@@ -1450,6 +1437,19 @@ Messages can then be retrieved using getMessages.
 **Parameters**
 
 -   `amount` **[number][7]** An amount of messages to fetch. (optional, default `50`)
+
+### Message
+
+A Message object represents an individual message. Messages have parts
+which represent pieces of a message, such as a text part or a file part. Once
+all the desired parts have been added, a message can be sent with the send()
+function.
+
+Type: [Object][3]
+
+#### send
+
+Sends the message.
 
 ## Notification
 
