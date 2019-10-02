@@ -15,6 +15,10 @@ Kandy.js change log.
 - Fixed an issue where local call logs were reporting a duration of 0 for all incoming calls. `KAA-1794`
 - Fixed an issue where ending an incoming call would not add the call to the call history logs. `KAA-2009`
 
+### Changed
+
+- Changed the public API documentation groupings to namespaces. `KAA-1918`
+
 ### Added
 
 - Added `displayName` option to `make` call api. `KAA-1909`

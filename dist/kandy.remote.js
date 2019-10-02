@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.remote.js
- * Version: 4.8.0-beta.148
+ * Version: 4.8.0-beta.149
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -16232,7 +16232,7 @@ exports.default = api;
  * See {@link #configconfiglogs config.logs} .
  *
  * @public
- * @module Logger
+ * @namespace logger
  * @requires logs
  */
 
@@ -16242,7 +16242,7 @@ function api() {
      * Possible levels for the SDK logger.
      * @public
      * @static
-     * @memberof Logger
+     * @memberof logger
      * @property {string} SILENT Log nothing.
      * @property {string} ERROR Log only unhandled errors.
      * @property {string} WARN Log issues that may cause problems or unexpected behaviour.
@@ -18597,7 +18597,7 @@ function setupEvents() {
      * Media devices available for use have changed.
      * Use the {@link Media.getDevices media.getDevices} API to retrieve the lists of devices.
      * @public
-     * @memberof Media
+     * @memberof media
      * @event devices:change
      * @param {Object} params
      * @param {Array<string>}  microphone The list of available audio input devices.
@@ -18618,7 +18618,7 @@ function setupEvents() {
      * A new Media object is available.
      * It may represent either the local or remote media for a call.
      * @public
-     * @memberof Media
+     * @memberof media
      * @event media:new
      * @param {Object} params
      * @param {string} params.mediaId The ID of the new Media object.
@@ -18630,7 +18630,7 @@ function setupEvents() {
        * A new Track object is available.
        * The Track will be within a Media object that is already available.
        * @public
-       * @memberof Media
+       * @memberof media
        * @event track:new
        * @param {Object} params
        * @param {string} params.trackId The ID of the new Track object.
@@ -18643,7 +18643,7 @@ function setupEvents() {
       /**
        * An existing Track object has stopped being available.
        * @public
-       * @memberof Media
+       * @memberof media
        * @event track:removed
        * @param {Object} params
        * @param {string} params.trackId The ID of the removed Track object.
@@ -18659,7 +18659,7 @@ function setupEvents() {
     /**
      * An existing Media object has stopped being available.
      * @public
-     * @memberof Media
+     * @memberof media
      * @event media:removed
      * @param {Object} params
      * @param {string} params.mediaId The ID of the removed Media object.
@@ -18819,7 +18819,7 @@ const log = (0, _logs.getLogManager)().getLogger('PROXY');
 /**
  * Retrieves the available media devices for use.
  * @public
- * @memberof Media
+ * @memberof media
  * @method getDevices
  * @return {Object} The lists of camera, microphone, and speaker devices.
  */
@@ -18875,7 +18875,7 @@ function getDevices(webRTC) {
  * Retrieves a list of all existing Media object's IDs.
  * Use the `getMediaById` API to retrieve a specific Media object.
  * @public
- * @memberof Media
+ * @memberof media
  * @method getMedia
  * @return {Array} List of Media IDs.
  */
@@ -18887,7 +18887,7 @@ function getMedia(webRTC) {
 /**
  * Retrieves a media object from state with a specific media ID.
  * @public
- * @memberof Media
+ * @memberof media
  * @method getMediaById
  * @param  {string} mediaId The ID of the media to retrieve.
  * @return {MediaObject} A media object.
@@ -18900,7 +18900,7 @@ function getMediaById(webRTC, mediaId) {
 /**
  * Retrieves a Track object from state with a specific ID.
  * @public
- * @memberof Media
+ * @memberof media
  * @method getTrackById
  * @param  {string} trackId The ID of the track to retrieve.
  * @return {TrackObject} A track object.
@@ -18914,7 +18914,7 @@ function getTrackById(webRTC, trackId) {
  * Render media Tracks in a container.
  * The container is specified by providing a CSS selector string that corresponds to the HTMLElement to act as the container.
  * @public
- * @memberof Media
+ * @memberof media
  * @method renderTracks
  * @param  {Array}  tracks List of Track IDs to be rendered.
  * @param  {string} cssSelector A CSS selector string that uniquely identifies an element. Ensure that special characters are properly escaped.
@@ -18946,7 +18946,7 @@ function renderTracks(webRTC, trackIds, cssSelector) {
  * Remove media Tracks from a container.
  * The container is specified by providing a CSS selector string that corresponds to the HTMLElement to act as the container.
  * @public
- * @memberof Media
+ * @memberof media
  * @method removeTracks
  * @param  {Array}  tracks List of Track IDs to stop being rendered.
  * @param  {string} cssSelector A CSS selector string that uniquely identifies an element. Ensure that special characters are properly escaped.
