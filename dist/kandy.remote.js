@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.remote.js
- * Version: 4.8.0-beta.150
+ * Version: 4.9.0-beta.151
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -19425,13 +19425,13 @@ function MediaManager(managers) {
   }
 
   /**
-   * Create a new local Media object.
-   * Use the provided constraints to get user media as the base MediaStream.
-   * @method createLocal
+   * Workaround to get Firefox to behave similarly to Chrome regarding device permission prompts.
+   * @method browserContraintsWorkaround
    * @param  {MediaStreamConstraints}  constraints
-   * @return {Promise}
+   * @return {Object}  media contraints
    */
-  function createLocal(constraints) {
+
+  function browserContraintsWorkaround(constraints) {
     /**
      * Firefox workaround.
      *
@@ -19483,37 +19483,85 @@ function MediaManager(managers) {
         constraints[kind].deviceId = { exact: id };
       }
     }
+    return constraints;
+  }
+
+  /**
+   * Wraps native mediaStream, adds tracks to trackManager and Media, and sets up event handlers on a given media.
+   * @method setupMedia
+   * @param {MediaStream} mediaStream Creating a Media object with it.
+   * @return {Media}
+   */
+
+  function setupMedia(mediaStream) {
+    const media = new _media2.default(mediaStream, true);
+    _loglevel2.default.debug(`Creating Media with ID: ${media.id}.`);
+
+    // Only add tracks to a Media objects using the `addTrack` method.
+    mediaStream.getTracks().forEach(nativeTrack => {
+      const wrappedTrack = trackManager.add(nativeTrack, mediaStream);
+      media.addTrack(wrappedTrack);
+    });
+
+    media.once('media:stopped', mediaId => {
+      remove(mediaId);
+    });
+
+    media.on('track:removed', trackId => {
+      if (media.tracks.size === 0) {
+        remove(media.id);
+      }
+    });
+
+    media.on('track:ended', ({ mediaId, trackId }) => {
+      if (media.getTracks().length === 0) {
+        remove(mediaId);
+      }
+    });
+
+    return media;
+  }
+
+  /**
+   * Create a new local Media object.
+   * Use the provided constraints to get user media as the base MediaStream.
+   * @method createLocal
+   * @param  {MediaStreamConstraints}  constraints
+   * @return {Promise}
+   */
+  function createLocal(constraints) {
+    const constraintsWorkaround = browserContraintsWorkaround(constraints);
 
     // Get user media, ...
     return new _promise2.default((resolve, reject) => {
       // TODO: Proper error checking.
       // TODO: Use the WebAPI directly here? Probably not.
-      navigator.mediaDevices.getUserMedia(constraints).then(mediaStream => {
-        // ... then create a Media object with it.
-        const media = new _media2.default(mediaStream, true);
-        _loglevel2.default.debug(`Creating Media with ID: ${media.id}.`);
+      navigator.mediaDevices.getUserMedia(constraintsWorkaround).then(mediaStream => {
+        const media = setupMedia(mediaStream);
 
-        // Only add tracks to a Media objects using the `addTrack` method.
-        mediaStream.getTracks().forEach(nativeTrack => {
-          const wrappedTrack = trackManager.add(nativeTrack, mediaStream);
-          media.addTrack(wrappedTrack);
-        });
+        medias.set(media.id, media);
+        // TODO: Better event. Include metadata?
+        emitter.emit('media:new', media.id);
 
-        media.once('media:stopped', mediaId => {
-          remove(mediaId);
-        });
+        resolve(media);
+      }).catch(reject);
+    });
+  }
 
-        media.on('track:removed', trackId => {
-          if (media.tracks.size === 0) {
-            remove(media.id);
-          }
-        });
+  /**
+   * Creates a new local Screen Media object.
+   * Use the provided constraints to get user media as the base MediaStream.
+   * @method createLocalScreen
+   * @param {MediaStreamConstraints} constraints
+   * @return {promise}
+   */
 
-        media.on('track:ended', ({ mediaId, trackId }) => {
-          if (media.getTracks().length === 0) {
-            remove(mediaId);
-          }
-        });
+  function createLocalScreen(constraints) {
+    const constraintsWorkaround = browserContraintsWorkaround(constraints);
+
+    return new _promise2.default((resolve, reject) => {
+      navigator.mediaDevices.getDisplayMedia(constraintsWorkaround).then(mediaStream => {
+        const media = setupMedia(mediaStream);
 
         medias.set(media.id, media);
         // TODO: Better event. Include metadata?
@@ -19639,6 +19687,7 @@ function MediaManager(managers) {
     findTrack,
     // Create APIs.
     createLocal,
+    createLocalScreen,
     createRemote,
     // Event APIs.
     on,
@@ -21166,6 +21215,10 @@ var _eventemitter = __webpack_require__("../../node_modules/eventemitter3/index.
 
 var _eventemitter2 = _interopRequireDefault(_eventemitter);
 
+var _sdpTransform = __webpack_require__("../../node_modules/sdp-transform/lib/index.js");
+
+var _sdpTransform2 = _interopRequireDefault(_sdpTransform);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
@@ -21177,8 +21230,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  */
 
 
-// Libraries.
-// Helpers.
+// SDP Helpers.
 function Session(id, managers, config = {}) {
   // Internal variables.
   const sessionId = id;
@@ -21479,6 +21531,62 @@ function Session(id, managers, config = {}) {
     }
   }
 
+  /**
+   * This function is used to figure out if our local tracks are being sent to the other side.
+   * This is meant to be called after a remote sdp is processed so that:
+   *  a. Transceivers are up-to-date.
+   *  b. The latestRemoteDescription is really the latest one.
+   * @method getLocalTracksIsSendingStatus
+   * @return {TracksIsSendingStatuses}
+   */
+  function getLocalTracksIsSendingStatus() {
+    /**
+     * An object with flags indicating whether a track is sending data or not where:
+     *  key: <string> track ID
+     *  value: <boolean> isSending.
+     * @typedef {Object} TracksIsSendingStatuses
+     */
+    const tracksIsSending = {};
+
+    /**
+     * For Unified-plan, we consider a track to being sent if
+     *  currentDirection is NOT `inactive` and NOT `recvonly`.
+     * IE: Tracks are being sent if
+     *  currentDirection is `sendrecv` or `sendonly` (both contain `send`).
+     */
+    if ((0, _sdpSemantics.isUnifiedPlan)(config.peer.rtcConfig.sdpSemantics)) {
+      const transceivers = peer.peerConnection.getTransceivers();
+      transceivers.forEach(transceiver => {
+        if (transceiver.sender.track) {
+          tracksIsSending[transceiver.sender.track.id] = transceiver.currentDirection.includes('send');
+        }
+      });
+    } else {
+      /**
+       * For Plan-B, we check the remote sdp and consider a track be sent if
+       *  direction is NOT `inactive` and NOT `sendonly`.
+       * IE: Tracks are being sent if
+       *  direction is `sendrecv` or `recvonly` (both contain `recv`).
+       */
+      const sdpObj = _sdpTransform2.default.parse(latestRemoteDescription.sdp);
+
+      /**
+       * Get the direction of each kind of media.
+       * For plan-b, there are is only 1 m-line for audio and 1 m-line for video.
+       * This means that tracks of the same kind will share the same direction.
+       */
+      const directions = {};
+      sdpObj.media.forEach(media => {
+        const { type, direction } = media;
+        directions[type] = direction;
+      });
+      peer.localTracks.forEach(track => {
+        const nativeTrack = track.track;
+        tracksIsSending[nativeTrack.id] = directions[nativeTrack.kind].includes('recv');
+      });
+    }
+    return tracksIsSending;
+  }
   /**
    * Processes (and sets) a remote SDP offer.
    * @method processOffer
@@ -21857,6 +21965,7 @@ function Session(id, managers, config = {}) {
     processOffer,
     generateAnswer,
     processAnswer,
+    getLocalTracksIsSendingStatus,
     // Other APIs.
     recreatePeer,
     addIceCandidate,
@@ -21870,7 +21979,8 @@ function Session(id, managers, config = {}) {
   };
 }
 
-// SDP Helpers.
+// Libraries.
+// Helpers.
 
 /***/ }),
 
