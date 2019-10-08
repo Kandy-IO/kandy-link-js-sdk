@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.remote.js
- * Version: 4.9.0-beta.156
+ * Version: 4.9.0-beta.157
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -21557,8 +21557,13 @@ function Session(id, managers, config = {}) {
     if ((0, _sdpSemantics.isUnifiedPlan)(config.peer.rtcConfig.sdpSemantics)) {
       const transceivers = peer.peerConnection.getTransceivers();
       transceivers.forEach(transceiver => {
-        if (transceiver.sender.track) {
+        if (transceiver.sender.track && transceiver.currentDirection) {
           tracksIsSending[transceiver.sender.track.id] = transceiver.currentDirection.includes('send');
+        } else {
+          // If `currentDirection` doesn't exist yet then use `direction`.
+          // This is because if the remote sdp didn't have a certain kind of media and we add that new kind of media,
+          //  the transceiver will have `currentDirection` as null.
+          tracksIsSending[transceiver.sender.track.id] = transceiver.direction.includes('send');
         }
       });
     } else {
@@ -21582,7 +21587,13 @@ function Session(id, managers, config = {}) {
       });
       peer.localTracks.forEach(track => {
         const nativeTrack = track.track;
-        tracksIsSending[nativeTrack.id] = directions[nativeTrack.kind].includes('recv');
+        // If the track's kind isn't on the latest remote sdp, that means it may be supported
+        //  (since it doesn't explicitly have direction of `inactive`).
+        if (directions[nativeTrack.kind] === undefined) {
+          tracksIsSending[nativeTrack.id] = true;
+        } else {
+          tracksIsSending[nativeTrack.id] = directions[nativeTrack.kind].includes('recv');
+        }
       });
     }
     return tracksIsSending;
