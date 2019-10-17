@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.9.0-beta.160
+ * Version: 4.9.0-beta.161
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -27387,6 +27387,7 @@ function getRequestInfo(state, platform) {
       return requestInfo;
     }
   } else {
+    // Platform is not supported
     return {};
   }
 
@@ -38296,11 +38297,14 @@ var _selectors = __webpack_require__("../kandy/src/call/interfaceNew/selectors.j
 
 var _constants = __webpack_require__("../kandy/src/call/constants.js");
 
+var _midcall = __webpack_require__("../kandy/src/callstack/webrtc/midcall.js");
+
 var _logs = __webpack_require__("../kandy/src/logs/index.js");
 
 var _effects = __webpack_require__("../../node_modules/redux-saga/es/effects.js");
 
 // Other plugins.
+// Call plugin.
 const log = (0, _logs.getLogManager)().getLogger('CALL');
 
 /**
@@ -38322,6 +38326,7 @@ const log = (0, _logs.getLogManager)().getLogger('CALL');
  *        - Triggers the next loop. Includes info about the call context.
  * @method sendCallAudit
  * @param {Object}   deps          Dependencies that the saga uses.
+ * @param {Object}   deps.webRTC   The WebRTC stack.
  * @param {Object}   deps.requests The set of platform-specific signalling functions.
  * @param {Function} deps.requests.auditCall "Call audit" signalling function.
  * @param {Object}   action        The action that triggered the audit.
@@ -38329,43 +38334,48 @@ const log = (0, _logs.getLogManager)().getLogger('CALL');
 
 
 // Libraries.
-// Call plugin.
+
+
+// Callstack plugin.
 function* sendCallAudit(deps, action) {
-  const { requests } = deps;
+  const { webRTC, requests } = deps;
 
   const { error, id, status } = action.payload;
   const delayMs = error ? 5000 : 25000;
+
   yield (0, _effects.delay)(delayMs);
-
-  if (!status) {
-    // If the action has no status, then the call starting triggered this audit.
-    log.debug(`Starting audits for call ${id}.`);
-  } else if (status === 'Closed') {
-    // If the previous audit returned 'Closed', then the audit loop should stop.
-    log.debug(`Call status is "Closed"; stopping call audits for call ${id}.`);
-    return;
-  } else if (status === 'Retry') {
-    // If the previous audit failed for an unknown reason, retry it.
-    log.debug(`Call status is "Unknown"; retrying failed audit for call ${id}.`);
-  }
-
   const currentCall = yield (0, _effects.select)(_selectors.getCallById, id);
+
+  // Some basic validation
   if (!currentCall) {
     log.error(`Error: call id ${id} not found.`);
     return;
   }
+
   if (currentCall.state === _constants.CALL_STATES.ENDED) {
     log.debug(`Call id ${id} has ended; stopping call audits`);
     return;
   }
 
+  // If we get here, we know we have an active call. Just log our next intent...
+  if (!status) {
+    // If the action has no status, then the call starting triggered this audit.
+    log.debug(`Starting audits for call ${id}.`);
+  } else if (status === 'Retry') {
+    // If the previous audit failed for an unknown reason, retry it.
+    log.debug(`Call status is "Unknown"; retrying failed audit for call ${id}.`);
+  }
+
+  // Send our audit request
   const updateStatusResponse = yield (0, _effects.call)(requests.auditCall, {
     wrtcsSessionId: currentCall.wrtcsSessionId,
     isAnonymous: currentCall.isAnonymous,
     account: currentCall.account
   });
 
+  // Schedule for another audit request
   if (updateStatusResponse.error) {
+    // We have an error but status is not Closed, so we continue sending audit request in hoping audit will recover
     log.debug(`Error: Update session status error - ${updateStatusResponse.error.code}: ${updateStatusResponse.error.message}.`);
     yield (0, _effects.put)(_actions.callActions.sendCallAudit(id, {
       error: updateStatusResponse.error,
@@ -38374,6 +38384,20 @@ function* sendCallAudit(deps, action) {
   } else {
     log.debug(`Call audit for ${id}: Call is ${updateStatusResponse.status}.`);
     yield (0, _effects.put)(_actions.callActions.sendCallAudit(id, { status: updateStatusResponse.status }));
+  }
+
+  if (updateStatusResponse.status === 'Closed') {
+    // If this audit returned 'Closed', then the audit loop should stop right away.
+    log.debug(`Call status is "Closed"; Hanging up the active call & stopping associated call audits for id: ${id}.`);
+
+    // Also hangup call automatically (from webRTC perspective)
+    yield (0, _effects.call)(_midcall.closeCall, webRTC, currentCall.webrtcSessionId);
+
+    // Also, cleanup Redux state by sending END_CALL_FINISH action
+    yield (0, _effects.put)(_actions.callActions.endCallFinish(id, {
+      isLocal: true,
+      transition: { statusCode: 9909, reasonText: 'Call has ended due to call audit failure.' }
+    }));
   }
 }
 
@@ -43507,7 +43531,7 @@ const factoryDefaults = {
    */
 };function factory(plugins, options = factoryDefaults) {
   // Log the SDK's version (templated by webpack) on initialization.
-  let version = '4.9.0-beta.160';
+  let version = '4.9.0-beta.161';
   log.info(`SDK version: ${version}`);
 
   var sagas = [];
