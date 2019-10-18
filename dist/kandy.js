@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.9.0-beta.163
+ * Version: 4.9.0-beta.164
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -32530,7 +32530,8 @@ function* endSession(callInfo) {
   const requestInfo = yield (0, _effects3.select)(_selectors2.getRequestInfo, _constants.platforms.LINK);
 
   const options = {
-    method: 'DELETE'
+    method: 'DELETE',
+    responseType: 'none'
   };
 
   const response = yield (0, _effects3.call)(linkCallRequest, requestInfo, (0, _extends3.default)({}, options, callInfo));
@@ -35269,7 +35270,7 @@ function* removeCallLogs(action) {
   let response = yield (0, _effects2.default)({
     url,
     method: 'DELETE',
-    responseType: 'text'
+    responseType: 'none'
   }, requestInfo.requestOptions);
 
   if (response.error) {
@@ -43531,7 +43532,7 @@ const factoryDefaults = {
    */
 };function factory(plugins, options = factoryDefaults) {
   // Log the SDK's version (templated by webpack) on initialization.
-  let version = '4.9.0-beta.163';
+  let version = '4.9.0-beta.164';
   log.info(`SDK version: ${version}`);
 
   var sagas = [];
@@ -47945,8 +47946,9 @@ function* pushNotificationsDeRegistration(connection, options) {
   const { server, requestOptions } = connection;
   let url = `${server.protocol}://${server.server}:${server.port}${options.registration}`;
   const method = 'DELETE';
+  const responseType = 'none';
 
-  const response = yield (0, _effects2.default)({ url, method }, requestOptions);
+  const response = yield (0, _effects2.default)({ url, method, responseType }, requestOptions);
 
   if (response.error) {
     if (response.payload.body) {
@@ -49583,11 +49585,16 @@ const log = (0, _logs.getLogManager)().getLogger('REQUEST');
 const responseTypes = (0, _freeze2.default)({
   json: 'json',
   blob: 'blob',
-  text: 'text'
+  text: 'text',
+  none: 'none'
 });
 
 const contentTypes = (0, _freeze2.default)({
-  jsonType: 'application/json'
+  jsonType: 'application/json',
+  vdnJsonType: 'application/vdn.kandy.json',
+  plainTextType: 'text/plain',
+  xmlTextType: 'text/xml',
+  octetStream: 'application/octet-stream'
 });
 
 /*
@@ -49722,15 +49729,51 @@ async function makeRequest(options, requestId) {
         result
       };
     } else {
-      const isJson = contentType && contentType.includes(contentTypes.jsonType);
-
+      /**
+       * The SDK should only be parsing the responses as is expected without checking the content type of the response.
+       * This is deterministic depending on the `responseType` passed in to the request through the request options.
+       * However, if parsing with the expected responseType does fail, attempt parsing using the response's content-type
+       * header before returning a parse error.
+       */
       responseBody = {};
-      if (isJson && responseType === responseTypes.json) {
-        responseBody = await response.json();
-      } else if (responseType === responseTypes.blob) {
-        responseBody = await response.blob();
-      } else if (responseType === responseTypes.text) {
-        responseBody = await response.text();
+      try {
+        switch (responseType) {
+          case responseTypes.json:
+            responseBody = await response.json();
+            break;
+          case responseTypes.blob:
+            responseBody = await response.blob();
+            break;
+          case responseTypes.text:
+            responseBody = await response.text();
+            break;
+          case responseTypes.none:
+            // Do not parse the response
+            break;
+          default:
+            // Should never reach here
+            log.warn('Unexepected response type: ', responseType);
+        }
+      } catch (e) {
+        log.warn(`Failed to parse with response type: ${responseType}. Error: ${e}`);
+
+        // "Fallback" to try response parsing using the Content-Type header of the response
+        log.debug('Attempting to parse with the response content-type');
+        if (contentType) {
+          // Need to clone the response as the response body can only be read/attempted to be read once.
+          const responseClone = response.clone();
+          if (contentType.includes(contentTypes.jsonType) || contentType.includes(contentTypes.vdnJsonType)) {
+            responseBody = await responseClone.json();
+          } else if (contentType.includes(contentTypes.plainTextType) || contentType.includes(contentTypes.xmlTextType)) {
+            responseBody = await responseClone.text();
+          } else if (contentType.includes(contentTypes.octetStream)) {
+            responseBody = await responseClone.blob();
+          } else {
+            log.warn('Unexepected content-type of response: ', contentType);
+          }
+        } else {
+          log.debug('No content-type set in response, returning an empty object as the body');
+        }
       }
 
       return {
@@ -50797,6 +50840,7 @@ function* sipEventUnsubscribe() {
 
     const requestOptions = {};
     requestOptions.method = 'DELETE';
+    requestOptions.responseType = 'none';
 
     requestOptions.url = `${server.protocol}://${server.server}:${server.port}/` + `rest/version/${server.version}/` + `user/${username}/` + `eventSubscription/${eventInfo.sessionData}`;
 
