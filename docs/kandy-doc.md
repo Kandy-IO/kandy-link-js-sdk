@@ -374,19 +374,14 @@ SIP users and PSTN phones.
 
 Call functions are all part of the 'call' namespace.
 
-### SdpHandlerFunction
+### SdpHandlerInfo
 
-The form of an SDP handler function and the expected arguments that it receives.
+Type: [Object][4]
 
-Type: [Function][12]
+**Properties**
 
-**Parameters**
-
--   `newSdp` **[Object][4]** The SDP so far (could have been modified by previous handlers).
--   `info` **SdpHandlerInfo** Additional information that might be useful when making SDP modifications.
--   `originalSdp` **[Object][4]** The SDP in its initial state.
-
-Returns **[Object][4]** The resulting modified SDP based on the changes made by this function.
+-   `type` **RTCSdpType** The session description's type.
+-   `endpoint` **[string][5]** Which end of the connection created the SDP.
 
 ### DeviceInfo
 
@@ -444,14 +439,19 @@ Type: [Object][4]
 -   `local` **[boolean][7]** Indicator on whether this media is local or remote.
 -   `tracks` **[Array][9]&lt;TrackObject>** A list of Track objects that are contained in this Media object.
 
-### SdpHandlerInfo
+### SdpHandlerFunction
 
-Type: [Object][4]
+The form of an SDP handler function and the expected arguments that it receives.
 
-**Properties**
+Type: [Function][12]
 
--   `type` **RTCSdpType** The session description's type.
--   `endpoint` **[string][5]** Which end of the connection created the SDP.
+**Parameters**
+
+-   `newSdp` **[Object][4]** The SDP so far (could have been modified by previous handlers).
+-   `info` **SdpHandlerInfo** Additional information that might be useful when making SDP modifications.
+-   `originalSdp` **[Object][4]** The SDP in its initial state.
+
+Returns **[Object][4]** The resulting modified SDP based on the changes made by this function.
 
 ### IceServer
 
@@ -1275,19 +1275,6 @@ If a conversation with the given user ID already exists in the store, it will be
 
 Returns **Conversation** A Conversation object.
 
-### Message
-
-A Message object represents an individual message. Messages have parts
-which represent pieces of a message, such as a text part or a file part. Once
-all the desired parts have been added, a message can be sent with the send()
-function.
-
-Type: [Object][4]
-
-#### send
-
-Sends the message.
-
 ### Conversation
 
 A Conversation object represents a conversation between either two users, or a
@@ -1375,6 +1362,19 @@ Messages can then be retrieved using getMessages.
 **Parameters**
 
 -   `amount` **[number][8]** An amount of messages to fetch. (optional, default `50`)
+
+### Message
+
+A Message object represents an individual message. Messages have parts
+which represent pieces of a message, such as a text part or a file part. Once
+all the desired parts have been added, a message can be sent with the send()
+function.
+
+Type: [Object][4]
+
+#### send
+
+Sends the message.
 
 ## logger
 
@@ -1718,6 +1718,14 @@ appChannel.on('message', data => {
 client.proxy.setChannel(channel)
 ```
 
+#### send
+
+Channel function that the Proxy module will use to send messages to the remote side.
+
+**Parameters**
+
+-   `data` **[Object][4]** Message to be sent over the channel.
+
 #### receive
 
 API that the Proxy module will assign a listener function for accepting received messages.
@@ -1726,14 +1734,6 @@ This function should receive all messages sent from the remote side of the chann
 **Parameters**
 
 -   `data` **[Object][4]** The message received from the Channel.
-
-#### send
-
-Channel function that the Proxy module will use to send messages to the remote side.
-
-**Parameters**
-
--   `data` **[Object][4]** Message to be sent over the channel.
 
 ### setProxyMode
 
