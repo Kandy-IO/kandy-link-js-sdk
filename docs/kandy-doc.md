@@ -374,49 +374,6 @@ SIP users and PSTN phones.
 
 Call functions are all part of the 'call' namespace.
 
-### BandwidthControls
-
-The BandwidthControls type defines the format for configuring media and/or track bandwidth options.
-BandwidthControls only affect received remote tracks of the specified type.
-
-Type: [Object][4]
-
-**Properties**
-
--   `audio` **[number][8]?** The desired bandwidth bitrate in kilobits per second for received remote audio.
--   `video` **[number][8]?** The desired bandwidth bitrate in kilobits per second for received remote video.
-
-**Examples**
-
-```javascript
-// Specify received remote video bandwidth limits when making a call.
-client.call.make(destination, mediaConstraints,
- {
-   bandwidth: {
-     video: 5
-   }
- }
-)
-```
-
-### IceServer
-
-Type: [Object][4]
-
-**Properties**
-
--   `urls` **([Array][9]&lt;[string][5]> | [string][5])** Either an array of URLs for reaching out several ICE servers or a single URL for reaching one ICE server.
--   `credential` **[string][5]?** The credential needed by the ICE server.
-
-### SdpHandlerInfo
-
-Type: [Object][4]
-
-**Properties**
-
--   `type` **RTCSdpType** The session description's type.
--   `endpoint` **[string][5]** Which end of the connection created the SDP.
-
 ### SdpHandlerFunction
 
 The form of an SDP handler function and the expected arguments that it receives.
@@ -545,6 +502,49 @@ Type: [Object][4]
 -   `bandwidth` **BandwidthControls** The bandwidth limitations set for the call.
 -   `startTime` **[number][8]** The start time of the call in milliseconds since the epoch.
 -   `endTime` **[number][8]?** The end time of the call in milliseconds since the epoch.
+
+### SdpHandlerInfo
+
+Type: [Object][4]
+
+**Properties**
+
+-   `type` **RTCSdpType** The session description's type.
+-   `endpoint` **[string][5]** Which end of the connection created the SDP.
+
+### IceServer
+
+Type: [Object][4]
+
+**Properties**
+
+-   `urls` **([Array][9]&lt;[string][5]> | [string][5])** Either an array of URLs for reaching out several ICE servers or a single URL for reaching one ICE server.
+-   `credential` **[string][5]?** The credential needed by the ICE server.
+
+### BandwidthControls
+
+The BandwidthControls type defines the format for configuring media and/or track bandwidth options.
+BandwidthControls only affect received remote tracks of the specified type.
+
+Type: [Object][4]
+
+**Properties**
+
+-   `audio` **[number][8]?** The desired bandwidth bitrate in kilobits per second for received remote audio.
+-   `video` **[number][8]?** The desired bandwidth bitrate in kilobits per second for received remote video.
+
+**Examples**
+
+```javascript
+// Specify received remote video bandwidth limits when making a call.
+client.call.make(destination, mediaConstraints,
+ {
+   bandwidth: {
+     video: 5
+   }
+ }
+)
+```
 
 ### make
 
@@ -1718,14 +1718,6 @@ appChannel.on('message', data => {
 client.proxy.setChannel(channel)
 ```
 
-#### send
-
-Channel function that the Proxy module will use to send messages to the remote side.
-
-**Parameters**
-
--   `data` **[Object][4]** Message to be sent over the channel.
-
 #### receive
 
 API that the Proxy module will assign a listener function for accepting received messages.
@@ -1734,6 +1726,14 @@ This function should receive all messages sent from the remote side of the chann
 **Parameters**
 
 -   `data` **[Object][4]** The message received from the Channel.
+
+#### send
+
+Channel function that the Proxy module will use to send messages to the remote side.
+
+**Parameters**
+
+-   `data` **[Object][4]** Message to be sent over the channel.
 
 ### setProxyMode
 
