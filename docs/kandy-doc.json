@@ -16986,6 +16986,588 @@
       ],
       "static": [
         {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "The BandwidthControls type defines the format for configuring media and/or track bandwidth options.\nBandwidthControls only affect received remote tracks of the specified type.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 76,
+                        "offset": 175
+                      },
+                      "indent": [
+                        1
+                      ]
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 76,
+                    "offset": 175
+                  },
+                  "indent": [
+                    1
+                  ]
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 76,
+                "offset": 175
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "public",
+              "description": null,
+              "lineNumber": 4,
+              "type": null
+            },
+            {
+              "title": "module",
+              "description": null,
+              "lineNumber": 5,
+              "type": null,
+              "name": "BandwidthControls"
+            },
+            {
+              "title": "typedef",
+              "description": null,
+              "lineNumber": 6,
+              "type": {
+                "type": "NameExpression",
+                "name": "Object"
+              },
+              "name": "BandwidthControls"
+            },
+            {
+              "title": "memberof",
+              "description": "call",
+              "lineNumber": 7
+            },
+            {
+              "title": "property",
+              "description": "The desired bandwidth bitrate in kilobits per second for received remote audio.",
+              "lineNumber": 8,
+              "type": {
+                "type": "OptionalType",
+                "expression": {
+                  "type": "NameExpression",
+                  "name": "number"
+                }
+              },
+              "name": "audio"
+            },
+            {
+              "title": "property",
+              "description": "The desired bandwidth bitrate in kilobits per second for received remote video.",
+              "lineNumber": 9,
+              "type": {
+                "type": "OptionalType",
+                "expression": {
+                  "type": "NameExpression",
+                  "name": "number"
+                }
+              },
+              "name": "video"
+            },
+            {
+              "title": "example",
+              "description": "// Specify received remote video bandwidth limits when making a call.\nclient.call.make(destination, mediaConstraints,\n {\n   bandwidth: {\n     video: 5\n   }\n }\n)",
+              "lineNumber": 10
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 88,
+              "column": 0
+            },
+            "end": {
+              "line": 107,
+              "column": 3
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 204,
+                "column": 0
+              },
+              "end": {
+                "line": 208,
+                "column": 1
+              }
+            },
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/api/index.js"
+          },
+          "augments": [],
+          "examples": [
+            {
+              "description": "// Specify received remote video bandwidth limits when making a call.\nclient.call.make(destination, mediaConstraints,\n {\n   bandwidth: {\n     video: 5\n   }\n }\n)"
+            }
+          ],
+          "params": [],
+          "properties": [
+            {
+              "title": "property",
+              "name": "audio",
+              "lineNumber": 8,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "The desired bandwidth bitrate in kilobits per second for received remote audio.",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 80,
+                            "offset": 79
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 80,
+                        "offset": 79
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 80,
+                    "offset": 79
+                  }
+                }
+              },
+              "type": {
+                "type": "OptionalType",
+                "expression": {
+                  "type": "NameExpression",
+                  "name": "number"
+                }
+              }
+            },
+            {
+              "title": "property",
+              "name": "video",
+              "lineNumber": 9,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "The desired bandwidth bitrate in kilobits per second for received remote video.",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 80,
+                            "offset": 79
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 80,
+                        "offset": 79
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 80,
+                    "offset": 79
+                  }
+                }
+              },
+              "type": {
+                "type": "OptionalType",
+                "expression": {
+                  "type": "NameExpression",
+                  "name": "number"
+                }
+              }
+            }
+          ],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
+          "access": "public",
+          "kind": "typedef",
+          "name": "BandwidthControls",
+          "type": {
+            "type": "NameExpression",
+            "name": "Object"
+          },
+          "memberof": "call",
+          "members": {
+            "global": [],
+            "inner": [],
+            "instance": [],
+            "events": [],
+            "static": []
+          },
+          "path": [
+            {
+              "name": "call"
+            },
+            {
+              "name": "BandwidthControls",
+              "kind": "typedef"
+            }
+          ],
+          "namespace": "callBandwidthControls"
+        },
+        {
+          "description": "",
+          "tags": [
+            {
+              "title": "public",
+              "description": null,
+              "lineNumber": 1,
+              "type": null
+            },
+            {
+              "title": "module",
+              "description": null,
+              "lineNumber": 2,
+              "type": null,
+              "name": "IceServer"
+            },
+            {
+              "title": "typedef",
+              "description": null,
+              "lineNumber": 3,
+              "type": {
+                "type": "NameExpression",
+                "name": "Object"
+              },
+              "name": "IceServer"
+            },
+            {
+              "title": "memberof",
+              "description": "call",
+              "lineNumber": 4
+            },
+            {
+              "title": "property",
+              "description": "Either an array of URLs for reaching out several ICE servers or a single URL for reaching one ICE server.",
+              "lineNumber": 5,
+              "type": {
+                "type": "UnionType",
+                "elements": [
+                  {
+                    "type": "TypeApplication",
+                    "expression": {
+                      "type": "NameExpression",
+                      "name": "Array"
+                    },
+                    "applications": [
+                      {
+                        "type": "NameExpression",
+                        "name": "string"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NameExpression",
+                    "name": "string"
+                  }
+                ]
+              },
+              "name": "urls"
+            },
+            {
+              "title": "property",
+              "description": "The credential needed by the ICE server.",
+              "lineNumber": 6,
+              "type": {
+                "type": "OptionalType",
+                "expression": {
+                  "type": "NameExpression",
+                  "name": "string"
+                }
+              },
+              "name": "credential"
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 109,
+              "column": 0
+            },
+            "end": {
+              "line": 116,
+              "column": 3
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 204,
+                "column": 0
+              },
+              "end": {
+                "line": 208,
+                "column": 1
+              }
+            },
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/api/index.js"
+          },
+          "augments": [],
+          "examples": [],
+          "params": [],
+          "properties": [
+            {
+              "title": "property",
+              "name": "urls",
+              "lineNumber": 5,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Either an array of URLs for reaching out several ICE servers or a single URL for reaching one ICE server.",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 106,
+                            "offset": 105
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 106,
+                        "offset": 105
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 106,
+                    "offset": 105
+                  }
+                }
+              },
+              "type": {
+                "type": "UnionType",
+                "elements": [
+                  {
+                    "type": "TypeApplication",
+                    "expression": {
+                      "type": "NameExpression",
+                      "name": "Array"
+                    },
+                    "applications": [
+                      {
+                        "type": "NameExpression",
+                        "name": "string"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NameExpression",
+                    "name": "string"
+                  }
+                ]
+              }
+            },
+            {
+              "title": "property",
+              "name": "credential",
+              "lineNumber": 6,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "The credential needed by the ICE server.",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 41,
+                            "offset": 40
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 41,
+                        "offset": 40
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 41,
+                    "offset": 40
+                  }
+                }
+              },
+              "type": {
+                "type": "OptionalType",
+                "expression": {
+                  "type": "NameExpression",
+                  "name": "string"
+                }
+              }
+            }
+          ],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
+          "access": "public",
+          "kind": "typedef",
+          "name": "IceServer",
+          "type": {
+            "type": "NameExpression",
+            "name": "Object"
+          },
+          "memberof": "call",
+          "members": {
+            "global": [],
+            "inner": [],
+            "instance": [],
+            "events": [],
+            "static": []
+          },
+          "path": [
+            {
+              "name": "call"
+            },
+            {
+              "name": "IceServer",
+              "kind": "typedef"
+            }
+          ],
+          "namespace": "callIceServer"
+        },
+        {
           "description": "",
           "tags": [
             {
@@ -17226,7 +17808,7 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "Contains information about a device.",
+                    "value": "The form of an SDP handler function and the expected arguments that it receives.",
                     "position": {
                       "start": {
                         "line": 1,
@@ -17235,8 +17817,8 @@
                       },
                       "end": {
                         "line": 1,
-                        "column": 37,
-                        "offset": 36
+                        "column": 81,
+                        "offset": 80
                       },
                       "indent": []
                     }
@@ -17250,8 +17832,8 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 37,
-                    "offset": 36
+                    "column": 81,
+                    "offset": 80
                   },
                   "indent": []
                 }
@@ -17265,8 +17847,8 @@
               },
               "end": {
                 "line": 1,
-                "column": 37,
-                "offset": 36
+                "column": 81,
+                "offset": 80
               }
             }
           },
@@ -17274,79 +17856,78 @@
             {
               "title": "public",
               "description": null,
-              "lineNumber": 3,
+              "lineNumber": 2,
               "type": null
             },
             {
               "title": "module",
               "description": null,
-              "lineNumber": 4,
+              "lineNumber": 3,
               "type": null,
-              "name": "DeviceInfo"
+              "name": "SdpHandlerFunction"
             },
             {
               "title": "typedef",
               "description": null,
-              "lineNumber": 5,
+              "lineNumber": 4,
               "type": {
                 "type": "NameExpression",
-                "name": "Object"
+                "name": "Function"
               },
-              "name": "DeviceInfo"
+              "name": "SdpHandlerFunction"
             },
             {
               "title": "memberof",
               "description": "call",
-              "lineNumber": 6
+              "lineNumber": 5
             },
             {
-              "title": "property",
-              "description": "The ID of the device.",
+              "title": "param",
+              "description": "The SDP so far (could have been modified by previous handlers).",
+              "lineNumber": 6,
+              "type": {
+                "type": "NameExpression",
+                "name": "Object"
+              },
+              "name": "newSdp"
+            },
+            {
+              "title": "param",
+              "description": "Additional information that might be useful when making SDP modifications.",
               "lineNumber": 7,
               "type": {
                 "type": "NameExpression",
-                "name": "string"
+                "name": "SdpHandlerInfo"
               },
-              "name": "deviceId"
+              "name": "info"
             },
             {
-              "title": "property",
-              "description": "The group ID of the device. Devices that share a `groupId` belong to the same physical device.",
+              "title": "param",
+              "description": "The SDP in its initial state.",
               "lineNumber": 8,
               "type": {
                 "type": "NameExpression",
-                "name": "string"
+                "name": "Object"
               },
-              "name": "groupId"
+              "name": "originalSdp"
             },
             {
-              "title": "property",
-              "description": "The type of the device (audioinput, audiooutput, videoinput).",
+              "title": "returns",
+              "description": "The resulting modified SDP based on the changes made by this function.",
               "lineNumber": 9,
               "type": {
                 "type": "NameExpression",
-                "name": "string"
-              },
-              "name": "kind"
-            },
-            {
-              "title": "property",
-              "description": "The name of the device.",
-              "lineNumber": 10,
-              "type": {
-                "type": "NameExpression",
-                "name": "string"
-              },
-              "name": "label"
+                "name": "Object"
+              }
             }
           ],
           "loc": {
             "start": {
-              "line": 182,
+              "line": 127,
               "column": 0
             },
             "end": {
-              "line": 193,
+              "line": 137,
               "column": 3
             }
           },
@@ -17365,11 +17946,71 @@
           },
           "augments": [],
           "examples": [],
-          "params": [],
-          "properties": [
+          "params": [
             {
-              "title": "property",
-              "name": "deviceId",
+              "title": "param",
+              "name": "newSdp",
+              "lineNumber": 6,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "The SDP so far (could have been modified by previous handlers).",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 64,
+                            "offset": 63
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 64,
+                        "offset": 63
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 64,
+                    "offset": 63
+                  }
+                }
+              },
+              "type": {
+                "type": "NameExpression",
+                "name": "Object"
+              }
+            },
+            {
+              "title": "param",
+              "name": "info",
               "lineNumber": 7,
               "description": {
                 "type": "root",
@@ -17379,7 +18020,7 @@
                     "children": [
                       {
                         "type": "text",
-                        "value": "The ID of the device.",
+                        "value": "Additional information that might be useful when making SDP modifications.",
                         "position": {
                           "start": {
                             "line": 1,
@@ -17388,8 +18029,8 @@
                           },
                           "end": {
                             "line": 1,
-                            "column": 22,
-                            "offset": 21
+                            "column": 75,
+                            "offset": 74
                           },
                           "indent": []
                         }
@@ -17403,8 +18044,8 @@
                       },
                       "end": {
                         "line": 1,
-                        "column": 22,
-                        "offset": 21
+                        "column": 75,
+                        "offset": 74
                       },
                       "indent": []
                     }
@@ -17418,19 +18059,19 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 22,
-                    "offset": 21
+                    "column": 75,
+                    "offset": 74
                   }
                 }
               },
               "type": {
                 "type": "NameExpression",
-                "name": "string"
+                "name": "SdpHandlerInfo"
               }
             },
             {
-              "title": "property",
-              "name": "groupId",
+              "title": "param",
+              "name": "originalSdp",
               "lineNumber": 8,
               "description": {
                 "type": "root",
@@ -17440,7 +18081,7 @@
                     "children": [
                       {
                         "type": "text",
-                        "value": "The group ID of the device. Devices that share a ",
+                        "value": "The SDP in its initial state.",
                         "position": {
                           "start": {
                             "line": 1,
@@ -17449,42 +18090,8 @@
                           },
                           "end": {
                             "line": 1,
-                            "column": 50,
-                            "offset": 49
-                          },
-                          "indent": []
-                        }
-                      },
-                      {
-                        "type": "inlineCode",
-                        "value": "groupId",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 50,
-                            "offset": 49
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 59,
-                            "offset": 58
-                          },
-                          "indent": []
-                        }
-                      },
-                      {
-                        "type": "text",
-                        "value": " belong to the same physical device.",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 59,
-                            "offset": 58
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 95,
-                            "offset": 94
+                            "column": 30,
+                            "offset": 29
                           },
                           "indent": []
                         }
@@ -17498,8 +18105,8 @@
                       },
                       "end": {
                         "line": 1,
-                        "column": 95,
-                        "offset": 94
+                        "column": 30,
+                        "offset": 29
                       },
                       "indent": []
                     }
@@ -17513,149 +18120,88 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 95,
-                    "offset": 94
+                    "column": 30,
+                    "offset": 29
                   }
                 }
               },
               "type": {
                 "type": "NameExpression",
-                "name": "string"
-              }
-            },
-            {
-              "title": "property",
-              "name": "kind",
-              "lineNumber": 9,
-              "description": {
-                "type": "root",
-                "children": [
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "The type of the device (audioinput, audiooutput, videoinput).",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 62,
-                            "offset": 61
-                          },
-                          "indent": []
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 62,
-                        "offset": 61
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 62,
-                    "offset": 61
-                  }
-                }
-              },
-              "type": {
-                "type": "NameExpression",
-                "name": "string"
-              }
-            },
-            {
-              "title": "property",
-              "name": "label",
-              "lineNumber": 10,
-              "description": {
-                "type": "root",
-                "children": [
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "The name of the device.",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 24,
-                            "offset": 23
-                          },
-                          "indent": []
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 24,
-                        "offset": 23
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 24,
-                    "offset": 23
-                  }
-                }
-              },
-              "type": {
-                "type": "NameExpression",
-                "name": "string"
+                "name": "Object"
               }
             }
           ],
-          "returns": [],
+          "properties": [],
+          "returns": [
+            {
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "The resulting modified SDP based on the changes made by this function.",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 71,
+                            "offset": 70
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 71,
+                        "offset": 70
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 71,
+                    "offset": 70
+                  }
+                }
+              },
+              "title": "returns",
+              "type": {
+                "type": "NameExpression",
+                "name": "Object"
+              }
+            }
+          ],
           "sees": [],
           "throws": [],
           "todos": [],
           "access": "public",
           "kind": "typedef",
-          "name": "DeviceInfo",
+          "name": "SdpHandlerFunction",
           "type": {
             "type": "NameExpression",
-            "name": "Object"
+            "name": "Function"
           },
           "memberof": "call",
           "members": {
@@ -17670,11 +18216,11 @@
               "name": "call"
             },
             {
-              "name": "DeviceInfo",
+              "name": "SdpHandlerFunction",
               "kind": "typedef"
             }
           ],
-          "namespace": "callDeviceInfo"
+          "namespace": "callSdpHandlerFunction"
         },
         {
           "description": {
@@ -17685,7 +18231,7 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "A collection of media devices and their information.",
+                    "value": "The state representation of a Media object.\nMedia is a collection of Track objects.",
                     "position": {
                       "start": {
                         "line": 1,
@@ -17693,11 +18239,13 @@
                         "offset": 0
                       },
                       "end": {
-                        "line": 1,
-                        "column": 53,
-                        "offset": 52
+                        "line": 2,
+                        "column": 40,
+                        "offset": 83
                       },
-                      "indent": []
+                      "indent": [
+                        1
+                      ]
                     }
                   }
                 ],
@@ -17708,11 +18256,13 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 1,
-                    "column": 53,
-                    "offset": 52
+                    "line": 2,
+                    "column": 40,
+                    "offset": 83
                   },
-                  "indent": []
+                  "indent": [
+                    1
+                  ]
                 }
               }
             ],
@@ -17723,9 +18273,9 @@
                 "offset": 0
               },
               "end": {
-                "line": 1,
-                "column": 53,
-                "offset": 52
+                "line": 2,
+                "column": 40,
+                "offset": 83
               }
             }
           },
@@ -17733,73 +18283,55 @@
             {
               "title": "public",
               "description": null,
-              "lineNumber": 3,
+              "lineNumber": 4,
               "type": null
             },
             {
               "title": "module",
               "description": null,
-              "lineNumber": 4,
+              "lineNumber": 5,
               "type": null,
-              "name": "DevicesObject"
+              "name": "MediaObject"
             },
             {
               "title": "typedef",
               "description": null,
-              "lineNumber": 5,
+              "lineNumber": 6,
               "type": {
                 "type": "NameExpression",
                 "name": "Object"
               },
-              "name": "DevicesObject"
+              "name": "MediaObject"
             },
             {
               "title": "memberof",
               "description": "call",
-              "lineNumber": 6
+              "lineNumber": 7
             },
             {
               "title": "property",
-              "description": "A list of camera device information.",
-              "lineNumber": 7,
-              "type": {
-                "type": "TypeApplication",
-                "expression": {
-                  "type": "NameExpression",
-                  "name": "Array"
-                },
-                "applications": [
-                  {
-                    "type": "NameExpression",
-                    "name": "DeviceInfo"
-                  }
-                ]
-              },
-              "name": "camera"
-            },
-            {
-              "title": "property",
-              "description": "A list of microphone device information.",
+              "description": "The ID of the Media object.",
               "lineNumber": 8,
               "type": {
-                "type": "TypeApplication",
-                "expression": {
-                  "type": "NameExpression",
-                  "name": "Array"
-                },
-                "applications": [
-                  {
-                    "type": "NameExpression",
-                    "name": "DeviceInfo"
-                  }
-                ]
+                "type": "NameExpression",
+                "name": "string"
               },
-              "name": "microphone"
+              "name": "id"
             },
             {
               "title": "property",
-              "description": "A list of speaker device information.",
+              "description": "Indicator on whether this media is local or remote.",
               "lineNumber": 9,
+              "type": {
+                "type": "NameExpression",
+                "name": "boolean"
+              },
+              "name": "local"
+            },
+            {
+              "title": "property",
+              "description": "A list of Track objects that are contained in this Media object.",
+              "lineNumber": 10,
               "type": {
                 "type": "TypeApplication",
                 "expression": {
@@ -17809,20 +18341,20 @@
                 "applications": [
                   {
                     "type": "NameExpression",
-                    "name": "DeviceInfo"
+                    "name": "TrackObject"
                   }
                 ]
               },
-              "name": "speaker"
+              "name": "tracks"
             }
           ],
           "loc": {
             "start": {
-              "line": 170,
+              "line": 139,
               "column": 0
             },
             "end": {
-              "line": 180,
+              "line": 150,
               "column": 3
             }
           },
@@ -17845,77 +18377,7 @@
           "properties": [
             {
               "title": "property",
-              "name": "camera",
-              "lineNumber": 7,
-              "description": {
-                "type": "root",
-                "children": [
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "A list of camera device information.",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 37,
-                            "offset": 36
-                          },
-                          "indent": []
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 37,
-                        "offset": 36
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 37,
-                    "offset": 36
-                  }
-                }
-              },
-              "type": {
-                "type": "TypeApplication",
-                "expression": {
-                  "type": "NameExpression",
-                  "name": "Array"
-                },
-                "applications": [
-                  {
-                    "type": "NameExpression",
-                    "name": "DeviceInfo"
-                  }
-                ]
-              }
-            },
-            {
-              "title": "property",
-              "name": "microphone",
+              "name": "id",
               "lineNumber": 8,
               "description": {
                 "type": "root",
@@ -17925,7 +18387,7 @@
                     "children": [
                       {
                         "type": "text",
-                        "value": "A list of microphone device information.",
+                        "value": "The ID of the Media object.",
                         "position": {
                           "start": {
                             "line": 1,
@@ -17934,8 +18396,8 @@
                           },
                           "end": {
                             "line": 1,
-                            "column": 41,
-                            "offset": 40
+                            "column": 28,
+                            "offset": 27
                           },
                           "indent": []
                         }
@@ -17949,8 +18411,8 @@
                       },
                       "end": {
                         "line": 1,
-                        "column": 41,
-                        "offset": 40
+                        "column": 28,
+                        "offset": 27
                       },
                       "indent": []
                     }
@@ -17964,28 +18426,19 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 41,
-                    "offset": 40
+                    "column": 28,
+                    "offset": 27
                   }
                 }
               },
               "type": {
-                "type": "TypeApplication",
-                "expression": {
-                  "type": "NameExpression",
-                  "name": "Array"
-                },
-                "applications": [
-                  {
-                    "type": "NameExpression",
-                    "name": "DeviceInfo"
-                  }
-                ]
+                "type": "NameExpression",
+                "name": "string"
               }
             },
             {
               "title": "property",
-              "name": "speaker",
+              "name": "local",
               "lineNumber": 9,
               "description": {
                 "type": "root",
@@ -17995,7 +18448,7 @@
                     "children": [
                       {
                         "type": "text",
-                        "value": "A list of speaker device information.",
+                        "value": "Indicator on whether this media is local or remote.",
                         "position": {
                           "start": {
                             "line": 1,
@@ -18004,8 +18457,8 @@
                           },
                           "end": {
                             "line": 1,
-                            "column": 38,
-                            "offset": 37
+                            "column": 52,
+                            "offset": 51
                           },
                           "indent": []
                         }
@@ -18019,8 +18472,8 @@
                       },
                       "end": {
                         "line": 1,
-                        "column": 38,
-                        "offset": 37
+                        "column": 52,
+                        "offset": 51
                       },
                       "indent": []
                     }
@@ -18034,8 +18487,69 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 38,
-                    "offset": 37
+                    "column": 52,
+                    "offset": 51
+                  }
+                }
+              },
+              "type": {
+                "type": "NameExpression",
+                "name": "boolean"
+              }
+            },
+            {
+              "title": "property",
+              "name": "tracks",
+              "lineNumber": 10,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A list of Track objects that are contained in this Media object.",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 65,
+                            "offset": 64
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 65,
+                        "offset": 64
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 65,
+                    "offset": 64
                   }
                 }
               },
@@ -18048,7 +18562,7 @@
                 "applications": [
                   {
                     "type": "NameExpression",
-                    "name": "DeviceInfo"
+                    "name": "TrackObject"
                   }
                 ]
               }
@@ -18060,7 +18574,7 @@
           "todos": [],
           "access": "public",
           "kind": "typedef",
-          "name": "DevicesObject",
+          "name": "MediaObject",
           "type": {
             "type": "NameExpression",
             "name": "Object"
@@ -18078,11 +18592,11 @@
               "name": "call"
             },
             {
-              "name": "DevicesObject",
+              "name": "MediaObject",
               "kind": "typedef"
             }
           ],
-          "namespace": "callDevicesObject"
+          "namespace": "callMediaObject"
         },
         {
           "description": {
@@ -18858,178 +19372,7 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "The state representation of a Media object.\nMedia is a collection of Track objects.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 2,
-                        "column": 40,
-                        "offset": 83
-                      },
-                      "indent": [
-                        1
-                      ]
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 40,
-                    "offset": 83
-                  },
-                  "indent": [
-                    1
-                  ]
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 2,
-                "column": 40,
-                "offset": 83
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "public",
-              "description": null,
-              "lineNumber": 4,
-              "type": null
-            },
-            {
-              "title": "module",
-              "description": null,
-              "lineNumber": 5,
-              "type": null,
-              "name": "MediaObject"
-            },
-            {
-              "title": "typedef",
-              "description": null,
-              "lineNumber": 6,
-              "type": {
-                "type": "NameExpression",
-                "name": "Object"
-              },
-              "name": "MediaObject"
-            },
-            {
-              "title": "memberof",
-              "description": "call",
-              "lineNumber": 7
-            },
-            {
-              "title": "property",
-              "description": "The ID of the Media object.",
-              "lineNumber": 8,
-              "type": {
-                "type": "NameExpression",
-                "name": "string"
-              },
-              "name": "id"
-            },
-            {
-              "title": "property",
-              "description": "Indicator on whether this media is local or remote.",
-              "lineNumber": 9,
-              "type": {
-                "type": "NameExpression",
-                "name": "boolean"
-              },
-              "name": "local"
-            },
-            {
-              "title": "property",
-              "description": "A list of Track objects that are contained in this Media object.",
-              "lineNumber": 10,
-              "type": {
-                "type": "TypeApplication",
-                "expression": {
-                  "type": "NameExpression",
-                  "name": "Array"
-                },
-                "applications": [
-                  {
-                    "type": "NameExpression",
-                    "name": "TrackObject"
-                  }
-                ]
-              },
-              "name": "tracks"
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 139,
-              "column": 0
-            },
-            "end": {
-              "line": 150,
-              "column": 3
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 204,
-                "column": 0
-              },
-              "end": {
-                "line": 208,
-                "column": 1
-              }
-            },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/api/index.js"
-          },
-          "augments": [],
-          "examples": [],
-          "params": [],
-          "properties": [
-            {
-              "title": "property",
-              "name": "id",
-              "lineNumber": 8,
-              "description": {
-                "type": "root",
-                "children": [
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "The ID of the Media object.",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 28,
-                            "offset": 27
-                          },
-                          "indent": []
-                        }
-                      }
-                    ],
+                    "value": "A collection of media devices and their information.",
                     "position": {
                       "start": {
                         "line": 1,
@@ -19038,8 +19381,8 @@
                       },
                       "end": {
                         "line": 1,
-                        "column": 28,
-                        "offset": 27
+                        "column": 53,
+                        "offset": 52
                       },
                       "indent": []
                     }
@@ -19053,213 +19396,8 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 28,
-                    "offset": 27
-                  }
-                }
-              },
-              "type": {
-                "type": "NameExpression",
-                "name": "string"
-              }
-            },
-            {
-              "title": "property",
-              "name": "local",
-              "lineNumber": 9,
-              "description": {
-                "type": "root",
-                "children": [
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "Indicator on whether this media is local or remote.",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 52,
-                            "offset": 51
-                          },
-                          "indent": []
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 52,
-                        "offset": 51
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 52,
-                    "offset": 51
-                  }
-                }
-              },
-              "type": {
-                "type": "NameExpression",
-                "name": "boolean"
-              }
-            },
-            {
-              "title": "property",
-              "name": "tracks",
-              "lineNumber": 10,
-              "description": {
-                "type": "root",
-                "children": [
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "A list of Track objects that are contained in this Media object.",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 65,
-                            "offset": 64
-                          },
-                          "indent": []
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 65,
-                        "offset": 64
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 65,
-                    "offset": 64
-                  }
-                }
-              },
-              "type": {
-                "type": "TypeApplication",
-                "expression": {
-                  "type": "NameExpression",
-                  "name": "Array"
-                },
-                "applications": [
-                  {
-                    "type": "NameExpression",
-                    "name": "TrackObject"
-                  }
-                ]
-              }
-            }
-          ],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
-          "access": "public",
-          "kind": "typedef",
-          "name": "MediaObject",
-          "type": {
-            "type": "NameExpression",
-            "name": "Object"
-          },
-          "memberof": "call",
-          "members": {
-            "global": [],
-            "inner": [],
-            "instance": [],
-            "events": [],
-            "static": []
-          },
-          "path": [
-            {
-              "name": "call"
-            },
-            {
-              "name": "MediaObject",
-              "kind": "typedef"
-            }
-          ],
-          "namespace": "callMediaObject"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "The form of an SDP handler function and the expected arguments that it receives.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 81,
-                        "offset": 80
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 81,
-                    "offset": 80
+                    "column": 53,
+                    "offset": 52
                   },
                   "indent": []
                 }
@@ -19273,8 +19411,8 @@
               },
               "end": {
                 "line": 1,
-                "column": 81,
-                "offset": 80
+                "column": 53,
+                "offset": 52
               }
             }
           },
@@ -19282,452 +19420,96 @@
             {
               "title": "public",
               "description": null,
-              "lineNumber": 2,
+              "lineNumber": 3,
               "type": null
             },
             {
               "title": "module",
-              "description": null,
-              "lineNumber": 3,
-              "type": null,
-              "name": "SdpHandlerFunction"
-            },
-            {
-              "title": "typedef",
               "description": null,
               "lineNumber": 4,
-              "type": {
-                "type": "NameExpression",
-                "name": "Function"
-              },
-              "name": "SdpHandlerFunction"
-            },
-            {
-              "title": "memberof",
-              "description": "call",
-              "lineNumber": 5
-            },
-            {
-              "title": "param",
-              "description": "The SDP so far (could have been modified by previous handlers).",
-              "lineNumber": 6,
-              "type": {
-                "type": "NameExpression",
-                "name": "Object"
-              },
-              "name": "newSdp"
-            },
-            {
-              "title": "param",
-              "description": "Additional information that might be useful when making SDP modifications.",
-              "lineNumber": 7,
-              "type": {
-                "type": "NameExpression",
-                "name": "SdpHandlerInfo"
-              },
-              "name": "info"
-            },
-            {
-              "title": "param",
-              "description": "The SDP in its initial state.",
-              "lineNumber": 8,
-              "type": {
-                "type": "NameExpression",
-                "name": "Object"
-              },
-              "name": "originalSdp"
-            },
-            {
-              "title": "returns",
-              "description": "The resulting modified SDP based on the changes made by this function.",
-              "lineNumber": 9,
-              "type": {
-                "type": "NameExpression",
-                "name": "Object"
-              }
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 127,
-              "column": 0
-            },
-            "end": {
-              "line": 137,
-              "column": 3
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 204,
-                "column": 0
-              },
-              "end": {
-                "line": 208,
-                "column": 1
-              }
-            },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/api/index.js"
-          },
-          "augments": [],
-          "examples": [],
-          "params": [
-            {
-              "title": "param",
-              "name": "newSdp",
-              "lineNumber": 6,
-              "description": {
-                "type": "root",
-                "children": [
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "The SDP so far (could have been modified by previous handlers).",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 64,
-                            "offset": 63
-                          },
-                          "indent": []
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 64,
-                        "offset": 63
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 64,
-                    "offset": 63
-                  }
-                }
-              },
-              "type": {
-                "type": "NameExpression",
-                "name": "Object"
-              }
-            },
-            {
-              "title": "param",
-              "name": "info",
-              "lineNumber": 7,
-              "description": {
-                "type": "root",
-                "children": [
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "Additional information that might be useful when making SDP modifications.",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 75,
-                            "offset": 74
-                          },
-                          "indent": []
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 75,
-                        "offset": 74
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 75,
-                    "offset": 74
-                  }
-                }
-              },
-              "type": {
-                "type": "NameExpression",
-                "name": "SdpHandlerInfo"
-              }
-            },
-            {
-              "title": "param",
-              "name": "originalSdp",
-              "lineNumber": 8,
-              "description": {
-                "type": "root",
-                "children": [
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "The SDP in its initial state.",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 30,
-                            "offset": 29
-                          },
-                          "indent": []
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 30,
-                        "offset": 29
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 30,
-                    "offset": 29
-                  }
-                }
-              },
-              "type": {
-                "type": "NameExpression",
-                "name": "Object"
-              }
-            }
-          ],
-          "properties": [],
-          "returns": [
-            {
-              "description": {
-                "type": "root",
-                "children": [
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "The resulting modified SDP based on the changes made by this function.",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 71,
-                            "offset": 70
-                          },
-                          "indent": []
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 71,
-                        "offset": 70
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 71,
-                    "offset": 70
-                  }
-                }
-              },
-              "title": "returns",
-              "type": {
-                "type": "NameExpression",
-                "name": "Object"
-              }
-            }
-          ],
-          "sees": [],
-          "throws": [],
-          "todos": [],
-          "access": "public",
-          "kind": "typedef",
-          "name": "SdpHandlerFunction",
-          "type": {
-            "type": "NameExpression",
-            "name": "Function"
-          },
-          "memberof": "call",
-          "members": {
-            "global": [],
-            "inner": [],
-            "instance": [],
-            "events": [],
-            "static": []
-          },
-          "path": [
-            {
-              "name": "call"
-            },
-            {
-              "name": "SdpHandlerFunction",
-              "kind": "typedef"
-            }
-          ],
-          "namespace": "callSdpHandlerFunction"
-        },
-        {
-          "description": "",
-          "tags": [
-            {
-              "title": "public",
-              "description": null,
-              "lineNumber": 1,
-              "type": null
-            },
-            {
-              "title": "module",
-              "description": null,
-              "lineNumber": 2,
               "type": null,
-              "name": "IceServer"
+              "name": "DevicesObject"
             },
             {
               "title": "typedef",
               "description": null,
-              "lineNumber": 3,
+              "lineNumber": 5,
               "type": {
                 "type": "NameExpression",
                 "name": "Object"
               },
-              "name": "IceServer"
+              "name": "DevicesObject"
             },
             {
               "title": "memberof",
               "description": "call",
-              "lineNumber": 4
+              "lineNumber": 6
             },
             {
               "title": "property",
-              "description": "Either an array of URLs for reaching out several ICE servers or a single URL for reaching one ICE server.",
-              "lineNumber": 5,
+              "description": "A list of camera device information.",
+              "lineNumber": 7,
               "type": {
-                "type": "UnionType",
-                "elements": [
-                  {
-                    "type": "TypeApplication",
-                    "expression": {
-                      "type": "NameExpression",
-                      "name": "Array"
-                    },
-                    "applications": [
-                      {
-                        "type": "NameExpression",
-                        "name": "string"
-                      }
-                    ]
-                  },
+                "type": "TypeApplication",
+                "expression": {
+                  "type": "NameExpression",
+                  "name": "Array"
+                },
+                "applications": [
                   {
                     "type": "NameExpression",
-                    "name": "string"
+                    "name": "DeviceInfo"
                   }
                 ]
               },
-              "name": "urls"
+              "name": "camera"
             },
             {
               "title": "property",
-              "description": "The credential needed by the ICE server.",
-              "lineNumber": 6,
+              "description": "A list of microphone device information.",
+              "lineNumber": 8,
               "type": {
-                "type": "OptionalType",
+                "type": "TypeApplication",
                 "expression": {
                   "type": "NameExpression",
-                  "name": "string"
-                }
+                  "name": "Array"
+                },
+                "applications": [
+                  {
+                    "type": "NameExpression",
+                    "name": "DeviceInfo"
+                  }
+                ]
               },
-              "name": "credential"
+              "name": "microphone"
+            },
+            {
+              "title": "property",
+              "description": "A list of speaker device information.",
+              "lineNumber": 9,
+              "type": {
+                "type": "TypeApplication",
+                "expression": {
+                  "type": "NameExpression",
+                  "name": "Array"
+                },
+                "applications": [
+                  {
+                    "type": "NameExpression",
+                    "name": "DeviceInfo"
+                  }
+                ]
+              },
+              "name": "speaker"
             }
           ],
           "loc": {
             "start": {
-              "line": 109,
+              "line": 170,
               "column": 0
             },
             "end": {
-              "line": 116,
+              "line": 180,
               "column": 3
             }
           },
@@ -19750,8 +19532,8 @@
           "properties": [
             {
               "title": "property",
-              "name": "urls",
-              "lineNumber": 5,
+              "name": "camera",
+              "lineNumber": 7,
               "description": {
                 "type": "root",
                 "children": [
@@ -19760,7 +19542,7 @@
                     "children": [
                       {
                         "type": "text",
-                        "value": "Either an array of URLs for reaching out several ICE servers or a single URL for reaching one ICE server.",
+                        "value": "A list of camera device information.",
                         "position": {
                           "start": {
                             "line": 1,
@@ -19769,8 +19551,8 @@
                           },
                           "end": {
                             "line": 1,
-                            "column": 106,
-                            "offset": 105
+                            "column": 37,
+                            "offset": 36
                           },
                           "indent": []
                         }
@@ -19784,8 +19566,8 @@
                       },
                       "end": {
                         "line": 1,
-                        "column": 106,
-                        "offset": 105
+                        "column": 37,
+                        "offset": 36
                       },
                       "indent": []
                     }
@@ -19799,38 +19581,29 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 106,
-                    "offset": 105
+                    "column": 37,
+                    "offset": 36
                   }
                 }
               },
               "type": {
-                "type": "UnionType",
-                "elements": [
-                  {
-                    "type": "TypeApplication",
-                    "expression": {
-                      "type": "NameExpression",
-                      "name": "Array"
-                    },
-                    "applications": [
-                      {
-                        "type": "NameExpression",
-                        "name": "string"
-                      }
-                    ]
-                  },
+                "type": "TypeApplication",
+                "expression": {
+                  "type": "NameExpression",
+                  "name": "Array"
+                },
+                "applications": [
                   {
                     "type": "NameExpression",
-                    "name": "string"
+                    "name": "DeviceInfo"
                   }
                 ]
               }
             },
             {
               "title": "property",
-              "name": "credential",
-              "lineNumber": 6,
+              "name": "microphone",
+              "lineNumber": 8,
               "description": {
                 "type": "root",
                 "children": [
@@ -19839,7 +19612,7 @@
                     "children": [
                       {
                         "type": "text",
-                        "value": "The credential needed by the ICE server.",
+                        "value": "A list of microphone device information.",
                         "position": {
                           "start": {
                             "line": 1,
@@ -19884,11 +19657,87 @@
                 }
               },
               "type": {
-                "type": "OptionalType",
+                "type": "TypeApplication",
                 "expression": {
                   "type": "NameExpression",
-                  "name": "string"
+                  "name": "Array"
+                },
+                "applications": [
+                  {
+                    "type": "NameExpression",
+                    "name": "DeviceInfo"
+                  }
+                ]
+              }
+            },
+            {
+              "title": "property",
+              "name": "speaker",
+              "lineNumber": 9,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A list of speaker device information.",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 38,
+                            "offset": 37
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 38,
+                        "offset": 37
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 38,
+                    "offset": 37
+                  }
                 }
+              },
+              "type": {
+                "type": "TypeApplication",
+                "expression": {
+                  "type": "NameExpression",
+                  "name": "Array"
+                },
+                "applications": [
+                  {
+                    "type": "NameExpression",
+                    "name": "DeviceInfo"
+                  }
+                ]
               }
             }
           ],
@@ -19898,7 +19747,7 @@
           "todos": [],
           "access": "public",
           "kind": "typedef",
-          "name": "IceServer",
+          "name": "DevicesObject",
           "type": {
             "type": "NameExpression",
             "name": "Object"
@@ -19916,11 +19765,11 @@
               "name": "call"
             },
             {
-              "name": "IceServer",
+              "name": "DevicesObject",
               "kind": "typedef"
             }
           ],
-          "namespace": "callIceServer"
+          "namespace": "callDevicesObject"
         },
         {
           "description": {
@@ -19931,7 +19780,7 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "The BandwidthControls type defines the format for configuring media and/or track bandwidth options.\nBandwidthControls only affect received remote tracks of the specified type.",
+                    "value": "Contains information about a device.",
                     "position": {
                       "start": {
                         "line": 1,
@@ -19939,13 +19788,11 @@
                         "offset": 0
                       },
                       "end": {
-                        "line": 2,
-                        "column": 76,
-                        "offset": 175
+                        "line": 1,
+                        "column": 37,
+                        "offset": 36
                       },
-                      "indent": [
-                        1
-                      ]
+                      "indent": []
                     }
                   }
                 ],
@@ -19956,13 +19803,11 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 2,
-                    "column": 76,
-                    "offset": 175
+                    "line": 1,
+                    "column": 37,
+                    "offset": 36
                   },
-                  "indent": [
-                    1
-                  ]
+                  "indent": []
                 }
               }
             ],
@@ -19973,9 +19818,9 @@
                 "offset": 0
               },
               "end": {
-                "line": 2,
-                "column": 76,
-                "offset": 175
+                "line": 1,
+                "column": 37,
+                "offset": 36
               }
             }
           },
@@ -19983,70 +19828,79 @@
             {
               "title": "public",
               "description": null,
-              "lineNumber": 4,
+              "lineNumber": 3,
               "type": null
             },
             {
               "title": "module",
               "description": null,
-              "lineNumber": 5,
+              "lineNumber": 4,
               "type": null,
-              "name": "BandwidthControls"
+              "name": "DeviceInfo"
             },
             {
               "title": "typedef",
               "description": null,
-              "lineNumber": 6,
+              "lineNumber": 5,
               "type": {
                 "type": "NameExpression",
                 "name": "Object"
               },
-              "name": "BandwidthControls"
+              "name": "DeviceInfo"
             },
             {
               "title": "memberof",
               "description": "call",
-              "lineNumber": 7
+              "lineNumber": 6
             },
             {
               "title": "property",
-              "description": "The desired bandwidth bitrate in kilobits per second for received remote audio.",
+              "description": "The ID of the device.",
+              "lineNumber": 7,
+              "type": {
+                "type": "NameExpression",
+                "name": "string"
+              },
+              "name": "deviceId"
+            },
+            {
+              "title": "property",
+              "description": "The group ID of the device. Devices that share a `groupId` belong to the same physical device.",
               "lineNumber": 8,
               "type": {
-                "type": "OptionalType",
-                "expression": {
-                  "type": "NameExpression",
-                  "name": "number"
-                }
+                "type": "NameExpression",
+                "name": "string"
               },
-              "name": "audio"
+              "name": "groupId"
             },
             {
               "title": "property",
-              "description": "The desired bandwidth bitrate in kilobits per second for received remote video.",
+              "description": "The type of the device (audioinput, audiooutput, videoinput).",
               "lineNumber": 9,
               "type": {
-                "type": "OptionalType",
-                "expression": {
-                  "type": "NameExpression",
-                  "name": "number"
-                }
+                "type": "NameExpression",
+                "name": "string"
               },
-              "name": "video"
+              "name": "kind"
             },
             {
-              "title": "example",
-              "description": "// Specify received remote video bandwidth limits when making a call.\nclient.call.make(destination, mediaConstraints,\n {\n   bandwidth: {\n     video: 5\n   }\n }\n)",
-              "lineNumber": 10
+              "title": "property",
+              "description": "The name of the device.",
+              "lineNumber": 10,
+              "type": {
+                "type": "NameExpression",
+                "name": "string"
+              },
+              "name": "label"
             }
           ],
           "loc": {
             "start": {
-              "line": 88,
+              "line": 182,
               "column": 0
             },
             "end": {
-              "line": 107,
+              "line": 193,
               "column": 3
             }
           },
@@ -20064,16 +19918,73 @@
             "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/api/index.js"
           },
           "augments": [],
-          "examples": [
-            {
-              "description": "// Specify received remote video bandwidth limits when making a call.\nclient.call.make(destination, mediaConstraints,\n {\n   bandwidth: {\n     video: 5\n   }\n }\n)"
-            }
-          ],
+          "examples": [],
           "params": [],
           "properties": [
             {
               "title": "property",
-              "name": "audio",
+              "name": "deviceId",
+              "lineNumber": 7,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "The ID of the device.",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 22,
+                            "offset": 21
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 22,
+                        "offset": 21
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 22,
+                    "offset": 21
+                  }
+                }
+              },
+              "type": {
+                "type": "NameExpression",
+                "name": "string"
+              }
+            },
+            {
+              "title": "property",
+              "name": "groupId",
               "lineNumber": 8,
               "description": {
                 "type": "root",
@@ -20083,7 +19994,7 @@
                     "children": [
                       {
                         "type": "text",
-                        "value": "The desired bandwidth bitrate in kilobits per second for received remote audio.",
+                        "value": "The group ID of the device. Devices that share a ",
                         "position": {
                           "start": {
                             "line": 1,
@@ -20092,8 +20003,42 @@
                           },
                           "end": {
                             "line": 1,
-                            "column": 80,
-                            "offset": 79
+                            "column": 50,
+                            "offset": 49
+                          },
+                          "indent": []
+                        }
+                      },
+                      {
+                        "type": "inlineCode",
+                        "value": "groupId",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 50,
+                            "offset": 49
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 59,
+                            "offset": 58
+                          },
+                          "indent": []
+                        }
+                      },
+                      {
+                        "type": "text",
+                        "value": " belong to the same physical device.",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 59,
+                            "offset": 58
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 95,
+                            "offset": 94
                           },
                           "indent": []
                         }
@@ -20107,8 +20052,8 @@
                       },
                       "end": {
                         "line": 1,
-                        "column": 80,
-                        "offset": 79
+                        "column": 95,
+                        "offset": 94
                       },
                       "indent": []
                     }
@@ -20122,22 +20067,19 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 80,
-                    "offset": 79
+                    "column": 95,
+                    "offset": 94
                   }
                 }
               },
               "type": {
-                "type": "OptionalType",
-                "expression": {
-                  "type": "NameExpression",
-                  "name": "number"
-                }
+                "type": "NameExpression",
+                "name": "string"
               }
             },
             {
               "title": "property",
-              "name": "video",
+              "name": "kind",
               "lineNumber": 9,
               "description": {
                 "type": "root",
@@ -20147,7 +20089,7 @@
                     "children": [
                       {
                         "type": "text",
-                        "value": "The desired bandwidth bitrate in kilobits per second for received remote video.",
+                        "value": "The type of the device (audioinput, audiooutput, videoinput).",
                         "position": {
                           "start": {
                             "line": 1,
@@ -20156,8 +20098,8 @@
                           },
                           "end": {
                             "line": 1,
-                            "column": 80,
-                            "offset": 79
+                            "column": 62,
+                            "offset": 61
                           },
                           "indent": []
                         }
@@ -20171,8 +20113,8 @@
                       },
                       "end": {
                         "line": 1,
-                        "column": 80,
-                        "offset": 79
+                        "column": 62,
+                        "offset": 61
                       },
                       "indent": []
                     }
@@ -20186,17 +20128,75 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 80,
-                    "offset": 79
+                    "column": 62,
+                    "offset": 61
                   }
                 }
               },
               "type": {
-                "type": "OptionalType",
-                "expression": {
-                  "type": "NameExpression",
-                  "name": "number"
+                "type": "NameExpression",
+                "name": "string"
+              }
+            },
+            {
+              "title": "property",
+              "name": "label",
+              "lineNumber": 10,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "The name of the device.",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 24,
+                            "offset": 23
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 24,
+                        "offset": 23
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 24,
+                    "offset": 23
+                  }
                 }
+              },
+              "type": {
+                "type": "NameExpression",
+                "name": "string"
               }
             }
           ],
@@ -20206,7 +20206,7 @@
           "todos": [],
           "access": "public",
           "kind": "typedef",
-          "name": "BandwidthControls",
+          "name": "DeviceInfo",
           "type": {
             "type": "NameExpression",
             "name": "Object"
@@ -20224,11 +20224,11 @@
               "name": "call"
             },
             {
-              "name": "BandwidthControls",
+              "name": "DeviceInfo",
               "kind": "typedef"
             }
           ],
-          "namespace": "callBandwidthControls"
+          "namespace": "callDeviceInfo"
         },
         {
           "description": {

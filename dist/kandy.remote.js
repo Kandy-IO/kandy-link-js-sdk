@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.remote.js
- * Version: 4.9.0-beta.165
+ * Version: 4.9.0-beta.166
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -21555,7 +21555,10 @@ function Session(id, managers, config = {}) {
      *  currentDirection is `sendrecv` or `sendonly` (both contain `send`).
      */
     if ((0, _sdpSemantics.isUnifiedPlan)(config.peer.rtcConfig.sdpSemantics)) {
-      const transceivers = peer.peerConnection.getTransceivers();
+      const transceivers = peer.peerConnection.getTransceivers()
+      // Only check transceivers that have tracks.
+      .filter(transceiver => Boolean(transceiver.sender && transceiver.sender.track));
+
       transceivers.forEach(transceiver => {
         if (transceiver.sender.track && transceiver.currentDirection) {
           tracksIsSending[transceiver.sender.track.id] = transceiver.currentDirection.includes('send');
