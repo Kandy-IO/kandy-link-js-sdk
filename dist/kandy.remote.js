@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.remote.js
- * Version: 4.9.0-beta.167
+ * Version: 4.9.0-beta.168
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -16754,8 +16754,12 @@ function* watchDeviceEvents(manager) {
 // Webrtc plugin.
 function setListeners(manager, emit, END = 'END') {
   // Manager event handlers.
-  const change = devices => {
-    emit(_actions.deviceActions.devicesChanged(devices));
+  const change = () => {
+    // Get the latest devices after they changed, then emit the device list
+    //  upwards.
+    manager.checkDevices().then(devices => {
+      emit(_actions.deviceActions.devicesChanged(devices));
+    });
   };
 
   manager.on('change', change);
@@ -17955,6 +17959,35 @@ function wrapChannel(channel) {
 
 /***/ }),
 
+/***/ "../kandy/src/webrtcProxy/converters/deviceManager.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+/**
+ * Device Manager "converter".
+ * Receives a webRTC command intended for the Media Manager, performs the webRTC
+ *    operation and returns/resolves a proxy response.
+ * @method mediaManager
+ * @param {Object} webRTC The local webRTC stack.
+ * @param {Object} command A webRTC command.
+ * @return {Promise} Resolves when the webRTC operation has completed.
+ */
+exports.default = async function deviceManager(webRTC, command) {
+  const { operation, params } = command;
+  const manager = webRTC.managers.devices;
+
+  // General case: Don't convert the return.
+  return manager[operation](...params);
+};
+
+/***/ }),
+
 /***/ "../kandy/src/webrtcProxy/converters/index.js":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -17973,6 +18006,10 @@ exports.default = convertCommand;
 exports.convertTrack = convertTrack;
 exports.convertMedia = convertMedia;
 exports.convertSession = convertSession;
+
+var _deviceManager = __webpack_require__("../kandy/src/webrtcProxy/converters/deviceManager.js");
+
+var _deviceManager2 = _interopRequireDefault(_deviceManager);
 
 var _mediaManager = __webpack_require__("../kandy/src/webrtcProxy/converters/mediaManager.js");
 
@@ -18002,17 +18039,18 @@ var _logs = __webpack_require__("../kandy/src/logs/index.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// Proxy plugin.
 const log = (0, _logs.getLogManager)().getLogger('PROXY');
 
 // Converters for the webRTC managers.
 
 
 // Other plugins.
-// Proxy plugin.
 const managers = {
   media: _mediaManager2.default,
   sessionManager: _sessionManager2.default,
-  track: _trackManager2.default
+  track: _trackManager2.default,
+  devices: _deviceManager2.default
 
   // Converters for the webRTC models.
 };const models = {
@@ -18610,8 +18648,10 @@ function setupEvents() {
      *    const devices = remoteClient.media.getDevices()
      * })
      */
-    deviceMan.on('change', devices => {
-      emitter.emit('devices:change', devices);
+    deviceMan.on('change', () => {
+      deviceMan.checkDevices().then(devices => {
+        emitter.emit('devices:change', devices);
+      });
     });
 
     /**
@@ -19270,8 +19310,8 @@ const WEBRTC_DEVICE_KINDS = exports.WEBRTC_DEVICE_KINDS = {
 
   // Check devices on initialization.
   checkDevices().then(() => {
-    // Emit an initial event with the device lists.
-    emitter.emit('change', get());
+    // Emit an initial event to notify that devices are available.
+    emitter.emit('change');
   });
 
   // Check devices whenever they change.
@@ -19285,8 +19325,8 @@ const WEBRTC_DEVICE_KINDS = exports.WEBRTC_DEVICE_KINDS = {
       setTimeout(() => {
         recentDeviceChange = false;
         checkDevices().then(() => {
-          // Emit an event with the updated device lists.
-          emitter.emit('change', get());
+          // Emit an event to notify of the change.
+          emitter.emit('change');
         });
       }, 50);
     }
@@ -19319,7 +19359,7 @@ const WEBRTC_DEVICE_KINDS = exports.WEBRTC_DEVICE_KINDS = {
               break;
           }
         });
-        resolve();
+        resolve(get());
       }).catch(reject);
     });
   }

@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.9.0-beta.167
+ * Version: 4.9.0-beta.168
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -43532,7 +43532,7 @@ const factoryDefaults = {
    */
 };function factory(plugins, options = factoryDefaults) {
   // Log the SDK's version (templated by webpack) on initialization.
-  let version = '4.9.0-beta.167';
+  let version = '4.9.0-beta.168';
   log.info(`SDK version: ${version}`);
 
   var sagas = [];
@@ -52826,8 +52826,12 @@ function* watchDeviceEvents(manager) {
 // Webrtc plugin.
 function setListeners(manager, emit, END = 'END') {
   // Manager event handlers.
-  const change = devices => {
-    emit(_actions.deviceActions.devicesChanged(devices));
+  const change = () => {
+    // Get the latest devices after they changed, then emit the device list
+    //  upwards.
+    manager.checkDevices().then(devices => {
+      emit(_actions.deviceActions.devicesChanged(devices));
+    });
   };
 
   manager.on('change', change);
@@ -56510,9 +56514,13 @@ var _actions = __webpack_require__("../kandy/src/webrtcProxy/interface/actions.j
 
 var actions = _interopRequireWildcard(_actions);
 
-var _selectors = __webpack_require__("../kandy/src/call/interfaceNew/selectors.js");
+var _selectors = __webpack_require__("../kandy/src/webrtcProxy/interface/selectors.js");
+
+var _selectors2 = __webpack_require__("../kandy/src/call/interfaceNew/selectors.js");
 
 var _logs = __webpack_require__("../kandy/src/logs/index.js");
+
+var _devices = __webpack_require__("../kandy/src/webrtc/interface/actions/devices.js");
 
 var _errors = __webpack_require__("../kandy/src/errors/index.js");
 
@@ -56527,6 +56535,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 // Libraries.
+
+
+// Other plugins.
 // Proxy Plugin.
 const log = (0, _logs.getLogManager)().getLogger('PROXY');
 
@@ -56539,12 +56550,9 @@ const log = (0, _logs.getLogManager)().getLogger('PROXY');
 
 
 // Helpers.
-
-
-// Other plugins.
 function* setProxyMode(webRTC, action) {
   // Check to see if there are any on-going calls.
-  const calls = yield (0, _effects.select)(_selectors.getActiveCalls);
+  const calls = yield (0, _effects.select)(_selectors2.getActiveCalls);
 
   if (calls.length > 0) {
     yield (0, _effects.put)(actions.setProxyModeFinish({
@@ -56571,6 +56579,15 @@ function* setProxyMode(webRTC, action) {
   }
 
   yield (0, _effects.put)(actions.setProxyModeFinish(response));
+
+  // After Proxy mode is changed, manually update devices to ensure they are
+  //    from the correct machine.
+  const devices = yield (0, _effects.call)([webRTC.managers.devices, 'checkDevices']);
+  if (devices.microphone && devices.camera && devices.speaker) {
+    // Only update state with the devices if its an actual device object.
+    // If the Remote SDK is not initialized yet, it will return garbage.
+    yield (0, _effects.put)((0, _devices.devicesChanged)(devices));
+  }
 }
 
 /**
@@ -56581,7 +56598,7 @@ function* setProxyMode(webRTC, action) {
  */
 function* setChannel(webRTC, action) {
   // Check to see if there are any on-going calls.
-  const calls = yield (0, _effects.select)(_selectors.getActiveCalls);
+  const calls = yield (0, _effects.select)(_selectors2.getActiveCalls);
 
   if (calls.length > 0) {
     yield (0, _effects.put)(actions.setChannelFinish({
@@ -56639,6 +56656,13 @@ function* handleMessages(webRTC) {
   while (true) {
     const { messageId, data } = yield (0, _effects.take)(messageChannel);
     log.debug(`Received message from channel: ${messageId}`);
+
+    // Ignore messages from the channel if we're not in Proxy mode.
+    const proxyState = yield (0, _effects.select)(_selectors.getProxyState);
+    if (!proxyState.proxyMode) {
+      log.debug('Not in Proxy mode, ignoring previous message.');
+      continue;
+    }
 
     // If the received message is an event, dispatch it.
     if (data.event) {
@@ -56872,8 +56896,8 @@ const WEBRTC_DEVICE_KINDS = exports.WEBRTC_DEVICE_KINDS = {
 
   // Check devices on initialization.
   checkDevices().then(() => {
-    // Emit an initial event with the device lists.
-    emitter.emit('change', get());
+    // Emit an initial event to notify that devices are available.
+    emitter.emit('change');
   });
 
   // Check devices whenever they change.
@@ -56887,8 +56911,8 @@ const WEBRTC_DEVICE_KINDS = exports.WEBRTC_DEVICE_KINDS = {
       setTimeout(() => {
         recentDeviceChange = false;
         checkDevices().then(() => {
-          // Emit an event with the updated device lists.
-          emitter.emit('change', get());
+          // Emit an event to notify of the change.
+          emitter.emit('change');
         });
       }, 50);
     }
@@ -56921,7 +56945,7 @@ const WEBRTC_DEVICE_KINDS = exports.WEBRTC_DEVICE_KINDS = {
               break;
           }
         });
-        resolve();
+        resolve(get());
       }).catch(reject);
     });
   }
