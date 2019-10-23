@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.9.0-beta.168
+ * Version: 4.9.0-beta.169
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -32437,6 +32437,15 @@ function* createSession(callInfo) {
     requestBody.supported.push('earlymedia');
   }
 
+  /*
+   * If there are no (extra) supported items, remove the field from the request
+   *    body. This is to avoid SPiDR rejecting the body when it is an empty
+   *    array (which happens for anonymous calls).
+   */
+  if (requestBody.supported.length === 0) {
+    delete requestBody.supported;
+  }
+
   if (callInfo.isAnonymous) {
     const getWebsocketIdResult = yield (0, _effects3.call)(_utils.getWebsocketId);
     if (getWebsocketIdResult.error) {
@@ -43532,7 +43541,7 @@ const factoryDefaults = {
    */
 };function factory(plugins, options = factoryDefaults) {
   // Log the SDK's version (templated by webpack) on initialization.
-  let version = '4.9.0-beta.168';
+  let version = '4.9.0-beta.169';
   log.info(`SDK version: ${version}`);
 
   var sagas = [];
