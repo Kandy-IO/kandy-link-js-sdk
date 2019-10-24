@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.9.0-beta.171
+ * Version: 4.9.0-beta.172
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -29555,20 +29555,22 @@ const log = (0, _logs.getLogManager)().getLogger('CALL');
 function callAPI({ dispatch, getState }) {
   return {
     /**
-     * Starts an outgoing call to a {@link UserID UserID} or a {@link PhoneNumber PhoneNumber}.
+     * Starts an outgoing call to a {@link call.UserID UserID} or a
+     *    {@link call.PhoneNumber PhoneNumber}.
      *
      * The call will be tracked by a unique ID that is returned by the API. The
      *    application will use this ID to identify and control the call after it
      *    has been initiated.
      *
-     * The {@link Calls.getById call.getById} API can be used to retrieve the
+     * The {@link call.getById} API can be used to retrieve the
      *    current information about the call.
      *
-     * The progress of the operation will be tracked via the {@link Calls.event:call:operation call:operation} event.
+     * The progress of the operation will be tracked via the
+     *    {@link call.event:call:operation call:operation} event.
      *
-     * The SDK will emit a {@link Calls.event:call:start call:start} event
+     * The SDK will emit a {@link call.event:call:start call:start} event
      *    locally when the operation completes. When the remote participant
-     *    receives the call, a {@link Calls.event:call:receive call:receive}
+     *    receives the call, a {@link call.event:call:receive call:receive}
      *    event will be emitted remotely for them.
      *
      * The SDK requires access to the machine's media devices (e.g. microphone)
@@ -29609,21 +29611,22 @@ function callAPI({ dispatch, getState }) {
      */
 
     /**
-     * Starts an outgoing call to a {@link SIP_URI SIP URI} or a
-     *    {@link TEL_URI TEL URI}.
+     * Starts an outgoing call to a {@link call.SIP_URI SIP_URI} or a
+     *    {@link call.TEL_URI TEL_URI}.
      *
      * The call will be tracked by a unique ID that is returned by the API. The
      *    application will use this ID to identify and control the call after it
      *    has been initiated.
      *
-     * The {@link Calls.getCallById call.getById} API can be used to retrieve
+     * The {@link call.getById} API can be used to retrieve
      *    the current information about the call.
      *
-     * The progress of the operation will be tracked via the {@link Calls.event:call:operation call:operation} event.
+     * The progress of the operation will be tracked via the
+     *    {@link call.event:call:operation call:operation} event.
      *
-     * The SDK will emit a {@link Calls.event:call:start call:start} event
+     * The SDK will emit a {@link call.event:call:start call:start} event
      *    locally when the operation completes. When the remote participant
-     *    receives the call, a {@link Calls.event:call:receive call:receive}
+     *    receives the call, a {@link call.event:call:receive call:receive}
      *    event will be emitted remotely for them.
      *
      * The SDK requires access to the machine's media devices (eg. microphone)
@@ -29702,12 +29705,13 @@ function callAPI({ dispatch, getState }) {
      * The specified call to reject must be in a ringing state with an incoming
      *    direction. The call will be ended as a result of the operation.
      *
-     * The progress of the operation will be tracked via the {@link Calls.event:call:operation call:operation} event.
+     * The progress of the operation will be tracked via the
+     *    {@link call.event:call:operation call:operation} event.
      *
-     * The SDK will emit a {@link Calls.event:call:stateChange call:stateChange}
+     * The SDK will emit a {@link call.event:call:stateChange call:stateChange}
      *    event locally when the operation completes. The remote participant
      *    will be notified, through their own
-     *    {@link Calls.event:call:stateChange call:stateChange} event, that the
+     *    {@link call.event:call:stateChange call:stateChange} event, that the
      *    call was rejected.
      * @public
      * @static
@@ -29727,16 +29731,17 @@ function callAPI({ dispatch, getState }) {
      * The specified call to answer must be in a ringing state with an incoming
      *    direction. The call will become connected as a result of the operation.
      *
-     * The progress of the operation will be tracked via the {@link Calls.event:call:operation call:operation} event.
+     * The progress of the operation will be tracked via the
+     *    {@link call.event:call:operation call:operation} event.
      *
-     * The SDK will emit a {@link Calls.event:call:stateChange call:stateChange}
+     * The SDK will emit a {@link call.event:call:stateChange call:stateChange}
      *    event locally when the operation completes. This indicates that the
      *    call has connected with the remote participant. The
-     *    {@link Calls.getById call.getById} API can be used to retrieve the
-     *    latest call state after the change. Further events will be emitted to
-     *    indicate that the call has received media from the remote participant.
-     *    See the {@link Calls.event:call:newTrack call:newTrack} event for
-     *    more information about this.
+     *    {@link call.getById} API can be used to retrieve the latest call state
+     *    after the change. Further events will be emitted to indicate that the
+     *    call has received media from the remote participant. See the
+     *    {@link call.event:call:newTrack call:newTrack} event for more
+     *    information about this.
      *
      * The SDK requires access to the system's media devices (eg. microphone)
      *    in order to answer a call. If it does not already have permissions to
@@ -29786,9 +29791,10 @@ function callAPI({ dispatch, getState }) {
      * The specified call to ignore must be in a ringing state with an incoming
      *    direction. The call will be ended as a result of the operation.
      *
-     * The progress of the operation will be tracked via the {@link Calls.event:call:operation call:operation} event.
+     * The progress of the operation will be tracked via the
+     *    {@link call.event:call:operation call:operation} event.
      *
-     * The SDK will emit a {@link Calls.event:call:stateChange call:stateChange}
+     * The SDK will emit a {@link call.event:call:stateChange call:stateChange}
      *    event locally when the operation completes. The remote participant
      *    will not be notified that the call was ignored.
      * @public
@@ -29812,14 +29818,15 @@ function callAPI({ dispatch, getState }) {
      *    being sent.
      *
      * Some call operations cannot be performed while the call is on hold. The
-     *    call can be taken off hold with the {@link Calls.unhold call.unhold} API.
+     *    call can be taken off hold with the {@link call.unhold} API.
      *
-     * The progress of the operation will be tracked via the {@link Calls.event:call:operation call:operation} event.
+     * The progress of the operation will be tracked via the
+     *    {@link call.event:call:operation call:operation} event.
      *
-     * The SDK will emit a {@link Calls.event:call:stateChange call:stateChange}
+     * The SDK will emit a {@link call.event:call:stateChange call:stateChange}
      *    event locally when the operation completes. The remote participant
      *    will be notified of the operation through a
-     *    {@link Calls.event:call:stateChange call:stateChange} event as well.
+     *    {@link call.event:call:stateChange call:stateChange} event as well.
      * @public
      * @static
      * @memberof call
@@ -29840,12 +29847,13 @@ function callAPI({ dispatch, getState }) {
      *    also remotely held, call media will be reconnected as it was before
      *    the call was held.
      *
-     * The progress of the operation will be tracked via the {@link Calls.event:call:operation call:operation} event.
+     * The progress of the operation will be tracked via the
+     *    {@link call.event:call:operation call:operation} event.
      *
-     * The SDK will emit a {@link Calls.event:call:stateChange call:stateChange}
+     * The SDK will emit a {@link call.event:call:stateChange call:stateChange}
      *    event locally when the operation completes. The remote participant
      *    will be notified of the operation through a
-     *    {@link Calls.event:call:stateChange call:stateChange} event as well.
+     *    {@link call.event:call:stateChange call:stateChange} event as well.
      * @public
      * @static
      * @memberof call
@@ -29901,15 +29909,16 @@ function callAPI({ dispatch, getState }) {
      *
      * The SDK will stop any/all local media associated with the call. Events
      *    will be emitted to indicate which media tracks were stopped. See the
-     *    {@link Calls.event:call:trackEnded call:trackEnded} event for more
+     *    {@link call.event:call:trackEnded call:trackEnded} event for more
      *    information.
      *
-     * The progress of the operation will be tracked via the {@link Calls.event:call:operation call:operation} event.
+     * The progress of the operation will be tracked via the
+     *    {@link call.event:call:operation call:operation} event.
      *
-     * The SDK will emit a {@link Calls.event:call:stateChange call:stateChange}
+     * The SDK will emit a {@link call.event:call:stateChange call:stateChange}
      *    event locally when the operation completes. The remote participant
      *    will be notified, through their own
-     *    {@link Calls.event:call:stateChange call:stateChange} event, that the
+     *    {@link call.event:call:stateChange call:stateChange} event, that the
      *    call was ended.
      * @public
      * @static
@@ -29928,9 +29937,10 @@ function callAPI({ dispatch, getState }) {
      * Add new media tracks to an ongoing call.
      * Will get new media tracks from the specific sources to add to the call.
      *
-     * The progress of the operation will be tracked via the {@link Calls.event:call:operation call:operation} event.
+     * The progress of the operation will be tracked via the
+     *    {@link call.event:call:operation call:operation} event.
      *
-     * The SDK will emit a {@link Calls.event:call:newTrack call:newTrack} event
+     * The SDK will emit a {@link call.event:call:newTrack call:newTrack} event
      *    both for the local and remote users to indicate a track has been
      *    added to the Call.
      *
@@ -29972,9 +29982,10 @@ function callAPI({ dispatch, getState }) {
     /**
      * Remove tracks from an ongoing call.
      *
-     * The progress of the operation will be tracked via the {@link Calls.event:call:operation call:operation} event.
+     * The progress of the operation will be tracked via the
+     *    {@link call.event:call:operation call:operation} event.
      *
-     * The SDK will emit a {@link Calls.event:call:trackEnded call:trackEnded}
+     * The SDK will emit a {@link call.event:call:trackEnded call:trackEnded}
      *    event for both the local and remote users to indicate that a track
      *    has been removed.
      *
@@ -30152,7 +30163,8 @@ function callAPI({ dispatch, getState }) {
      * The tones will be sent as out-of-band tones if supported by the call,
      *    otherwise they will be added in-band to the call's audio.
      *
-     * The progress of the operation will be tracked via the {@link Calls.event:call:operation call:operation} event.
+     * The progress of the operation will be tracked via the
+     *    {@link call.event:call:operation call:operation} event.
      *
      * @public
      * @static
@@ -30177,10 +30189,11 @@ function callAPI({ dispatch, getState }) {
      * A Track ID can optionally be provided to get a report for a specific
      *    Track of the Call.
      *
-     * The progress of the operation will be tracked via the {@link Calls.event:call:operation call:operation} event.
+     * The progress of the operation will be tracked via the
+     *    {@link call.event:call:operation call:operation} event.
      *
      * The SDK will emit a
-     *    {@link Calls.event:call:statsReceived call:statsReceived} event, after
+     *    {@link call.event:call:statsReceived call:statsReceived} event, after
      *    the operation completes, that has the report.
      * @public
      * @static
@@ -30202,9 +30215,10 @@ function callAPI({ dispatch, getState }) {
      * The specified destination will receive the Call instead of the current
      *    user.
      *
-     * The progress of the operation will be tracked via the {@link Calls.event:call:operation call:operation} event.
+     * The progress of the operation will be tracked via the
+     *    {@link call.event:call:operation call:operation} event.
      *
-     * The SDK will emit a {@link Call.event:call:stateChange call:stateChange}
+     * The SDK will emit a {@link call.event:call:stateChange call:stateChange}
      *    event after the operation completes.
      *
      * @public
@@ -30222,9 +30236,10 @@ function callAPI({ dispatch, getState }) {
      * The specified destination will receive the Call instead of the current
      *    user.
      *
-     * The progress of the operation will be tracked via the {@link Calls.event:call:operation call:operation} event.
+     * The progress of the operation will be tracked via the
+     *    {@link call.event:call:operation call:operation} event.
      *
-     * The SDK will emit a {@link Call.event:call:stateChange call:stateChange}
+     * The SDK will emit a {@link call.event:call:stateChange call:stateChange}
      *    event after the operation completes.
      * @public
      * @static
@@ -30253,15 +30268,15 @@ function callAPI({ dispatch, getState }) {
      *
      * Both calls used for the transfer must be locally held. After the
      *    operation, these calls will be ended, as indicated by a
-     *    {@link Calls.event:call:stateChange call:stateChange} event.
+     *    {@link call.event:call:stateChange call:stateChange} event.
      *
      * Both remote participants will see their call be unheld by the operation,
      *    as indicated by a
-     *    {@link Calls.event:call:stateChange call:stateChange} event, and will
+     *    {@link call.event:call:stateChange call:stateChange} event, and will
      *    be connected to one another afterwards.
      *
      * The progression of the operation will be tracked via the
-     *    {@link Calls.event:call:operation call:operation} event. Both local
+     *    {@link call.event:call:operation call:operation} event. Both local
      *    calls will receive this event, since it is an operation on both calls,
      *    and the remote calls will receive it as if it were a "remote unhold"
      *    operation.
@@ -30285,14 +30300,14 @@ function callAPI({ dispatch, getState }) {
      *
      * The specified call must be locally held. After the operation, this call
      *    will be ended, as indicated by a
-     *    {@link Calls.event:call:stateChange call:stateChange} event.
+     *    {@link call.event:call:stateChange call:stateChange} event.
      *
      * The "destination" user will receive an incoming call, and when answered,
      *    they will be connected with the remote participant of the specified
      *    call.
      *
      * The progression of the operation will be tracked via the
-     *    {@link Calls.event:call:operation call:operation} event. The remote
+     *    {@link call.event:call:operation call:operation} event. The remote
      *    participant being transferred will receive it as if it were a "remote
      *    unhold" operation.
      * @public
@@ -30312,14 +30327,14 @@ function callAPI({ dispatch, getState }) {
      *
      * The specified call must be locally held. After the operation, this call
      *    will be ended, as indicated by a
-     *    {@link Calls.event:call:stateChange call:stateChange} event.
+     *    {@link call.event:call:stateChange call:stateChange} event.
      *
      * The "destination" user will receive an incoming call, and when answered,
      *    they will be connected with the remote participant of the specified
      *    call.
      *
      * The progression of the operation will be tracked via the
-     *    {@link Calls.event:call:operation call:operation} event. The remote
+     *    {@link call.event:call:operation call:operation} event. The remote
      *    participant being transferred will receive it as if it were a "remote
      *    unhold" operation.
      * @public
@@ -30352,10 +30367,10 @@ function callAPI({ dispatch, getState }) {
      *    call taken off hold, and will receive additional audio from other
      *    participants after the operation. Both previous calls for the current
      *    user will be ended after the operation, as indicated by a
-     *    {@link Calls.event:call:stateChange call:stateChange} event.
+     *    {@link call.event:call:stateChange call:stateChange} event.
      *
      * The progress of the operation will be tracked via the
-     *    {@link Calls.event:call:operation call:operation} event. Both remote
+     *    {@link call.event:call:operation call:operation} event. Both remote
      *    participants will also receive this event as if it were a "remote
      *    unhold" operation.
      * @public
@@ -30379,10 +30394,11 @@ function callAPI({ dispatch, getState }) {
      *    new track to the call. This effectively allows for changing the
      *    track constraints (eg. device used) for an ongoing call.
      *
-     * The progress of the operation will be tracked via the {@link Calls.event:call:operation call:operation} event.
+     * The progress of the operation will be tracked via the
+     *    {@link call.event:call:operation call:operation} event.
      *
      * The SDK will emit a
-     *    {@link Calls.event:call:trackReplaced call:trackReplaced} event
+     *    {@link call.event:call:trackReplaced call:trackReplaced} event
      *    locally when the operation completes. The newly added track will need
      *    to be handled by the local application. The track will be replaced
      *    seamlessly for the remote application, which will not receive an event.
@@ -30439,11 +30455,11 @@ function callAPI({ dispatch, getState }) {
      *    only be performed while in specific states, and tells an application
      *    whether the Call currently has media flowing between users.
      *
-     * The Call's state is a property of the {@link CallObject}, which can be
-     *    retrieved using the {@link Calls.getById call.getById} or
-     *    {@link Calls.getAll call.getAll} APIs.
+     * The Call's state is a property of the {@link call.CallObject CallObject},
+     *    which can be retrieved using the {@link call.getById} or
+     *    {@link call.getAll} APIs.
      *
-     * The SDK emits a {@link Calls.event:call:stateChange call:stateChange}
+     * The SDK emits a {@link call.event:call:stateChange call:stateChange}
      *    event when a Call's state changes from one state to another.
      *
      * @public
@@ -30604,8 +30620,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * Information about a Call.
  *
- * Can be retrieved using the {@link Calls.getAll call.getAll} or
- *    {@link Calls.getById call.getById} APIs.
+ * Can be retrieved using the {@link call.getAll} or {@link call.getById} APIs.
  *
  * @public
  * @static
@@ -30614,7 +30629,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @memberof call
  * @property {string} id The ID of the call.
  * @property {string} direction The direction in which the call was created. Can be 'outgoing' or 'incoming'.
- * @property {string} state The current state of the call. See {@link Calls.states call.states} for possible states.
+ * @property {string} state The current state of the call. See {@link call.states} for possible states.
  * @property {boolean} localHold Indicates whether this call is currently being held locally.
  * @property {boolean} remoteHold Indicates whether this call is currently being held remotely.
  * @property {Array<string>} localTracks A list of Track IDs that the call is sending to the remote participant.
@@ -30629,7 +30644,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 /**
  * The 'media' namespace provides an interface for interacting with Media that the
- *    SDK has access to. Media is used conjunction with the {@link Calls}
+ *    SDK has access to. Media is used in conjunction with the {@link call Calls}
  *    feature to manipulate and render the Tracks sent and received from a Call.
  *
  * Media and Track objects are not created directly, but are created as part of
@@ -30640,7 +30655,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * The Media feature also keeps track of media devices that the user's machine
  *    can access. Any media device (eg. USB headset) connected to the machine
  *    can be used as a source for media. Available devices can be found using
- *    the {@link Media.getDevices media.getDevices} API.
+ *    the {@link media.getDevices} API.
  *
  * @public
  * @namespace media
@@ -30882,8 +30897,8 @@ Object.defineProperty(exports, "__esModule", {
  * A call operation has either started, been updated, or finished.
  *
  * Information about ongoing call operations are stored with the call
- *    information (see the {@link Calls.getById call.getById} API). This event
- *    indicates that an operation's information has been changed.
+ *    information (see the {@link call.getById} API). This event indicates that
+ *    an operation's information has been changed.
  *
  * Local call operations will be tracked from start to finish. An operation may
  *    be updated as it progresses, based on the status of the operation. The
@@ -30893,7 +30908,7 @@ Object.defineProperty(exports, "__esModule", {
  * Except in the case of slow-start operations, remote operations will only be
  *    tracked as a "finish", to indicate that it occurred.
  * @public
- * @memberof Calls
+ * @memberof call
  * @event call:operation
  * @param {Object} params
  * @param {string} params.operation The call operation causing this event.
@@ -30910,8 +30925,8 @@ const CALL_OPERATION = exports.CALL_OPERATION = 'call:operation';
 /**
  * An outgoing call has been started.
  *
- * Information about the Call can be retrieved using the
- *    {@link Calls.getById call.getById} API.
+ * Information about the Call can be retrieved using the {@link call.getById}
+ *    API.
  *
  * @public
  * @memberof call
@@ -30925,8 +30940,8 @@ const CALL_STARTED = exports.CALL_STARTED = 'call:start';
 /**
  * A new joined call has been started.
  *
- * Information about the Call can be retrieved using the
- *    {@link Calls.getById call.getById} API.
+ * Information about the Call can be retrieved using the {@link call.getById}
+ *    API.
  *
  * @public
  * @memberof call
@@ -30940,8 +30955,8 @@ const CALL_JOIN = exports.CALL_JOIN = 'call:join';
 /**
  * A new incoming call has been received.
  *
- * Information about the Call can be retrieved using the
- *    {@link Calls.getById call.getById} API.
+ * Information about the Call can be retrieved using the {@linkcall.getById}
+ *    API.
  *
  * @public
  * @memberof call
@@ -30960,7 +30975,7 @@ const CALL_INCOMING = exports.CALL_INCOMING = 'call:receive';
 /**
  * A Call's state has changed.
  *
- * See {@link Calls.states call.states} for information about call states.
+ * See {@link call.states} for information about call states.
  * @public
  * @memberof call
  * @event call:stateChange
@@ -31023,10 +31038,10 @@ const CALL_REMOVED_MEDIA = exports.CALL_REMOVED_MEDIA = 'call:removedMedia';
  * A new Track has been added to the Call.
  *
  * The Track may have been added by either the local user or remote user using
- *    the {@link Calls.addMedia call.addMedia} API.
+ *    the {@link call.addMedia} API.
  *
  * Information about the Track can be retrieved using the
- *    {@link Media.getTrackById media.getTrackById} API.
+ *    {@linkmedia.getTrackById} API.
  *
  * @public
  * @memberof call
@@ -31043,8 +31058,8 @@ const CALL_NEW_TRACK = exports.CALL_NEW_TRACK = 'call:newTrack';
  * A Track has been removed from a Call.
  *
  * The Track may have been removed by either the local user or remote user using
- *    the {@link Calls.removeMedia call.removeMedia} API. Tracks are also
- *    removed from Calls automatically while the Call is on hold.
+ *    the {@link call.removeMedia} API. Tracks are also removed from Calls
+ *    automatically while the Call is on hold.
  *
  * @public
  * @memberof call
@@ -31060,7 +31075,7 @@ const CALL_TRACK_ENDED = exports.CALL_TRACK_ENDED = 'call:trackEnded';
 /**
  * Stats have been retrieved for a Call or specific Track of a Call.
  *
- * See the {@link Calls.getStats call.getStats} API for more information.
+ * See the {@link call.getStats} API for more information.
  *
  * @public
  * @memberof call
@@ -31076,10 +31091,10 @@ const STATS_RECEIVED = exports.STATS_RECEIVED = 'call:statsReceived';
 /**
  * A Track has been replaced on the Call.
  *
- * A Track is replaced by the local user using the
- *    {@link Calls.replaceTrack call.replaceTrack} API.
+ * A Track is replaced by the local user using the {@link call.replaceTrack}
+ *    API.
  *
- * This event is similar to the {@link Calls.event:call:newTrack call:newTrack}
+ * This event is similar to the {@link call.event:call:newTrack call:newTrack}
  *    event, where the call has a new Track, except that an existing Track has
  *    been removed at the same time. The event includes information about the
  *    Track that was replaced to help an application replace it seamlessly.
@@ -42788,6 +42803,68 @@ const connCheckMethods = exports.connCheckMethods = {
 
 /***/ }),
 
+/***/ "../kandy/src/docs/docs.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * The User ID ie: joe@test.3s5j.att.com
+ *
+ * @public
+ * @static
+ * @module UserID
+ * @typedef {string} UserID
+ * @memberof user
+ * @requires cpaas_user_id
+ */
+
+/**
+ * The User ID ie: joe@test.3s5j.att.com
+ *
+ * @public
+ * @static
+ * @module UserID
+ * @typedef {string} UserID
+ * @memberof call
+ * @requires cpaas_user_id
+ */
+
+/**
+ * The SIP URI ie: sip:joe@domain.com
+ *
+ * @public
+ * @static
+ * @module SIP_URI
+ * @typedef {string} SIP_URI
+ * @memberof call
+ * @requires link_user_id
+ */
+
+/**
+ * The Phone Numer ie: +18885559876
+ *
+ * @public
+ * @static
+ * @module PhoneNumber
+ * @typedef {string} PhoneNumber
+ * @memberof call
+ * @requires cpaas_pstn
+ */
+
+/**
+ * The TEL URI ie: tel:+18885559876
+ *
+ * @public
+ * @static
+ * @module TEL_URI
+ * @typedef {string} TEL_URI
+ * @memberof call
+ * @requires link_pstn
+ */
+
+
+/***/ }),
+
 /***/ "../kandy/src/errors/codes.js":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -43783,7 +43860,7 @@ const factoryDefaults = {
    */
 };function factory(plugins, options = factoryDefaults) {
   // Log the SDK's version (templated by webpack) on initialization.
-  let version = '4.9.0-beta.171';
+  let version = '4.9.0-beta.172';
   log.info(`SDK version: ${version}`);
 
   var sagas = [];
@@ -44176,6 +44253,8 @@ var _sipEvents2 = _interopRequireDefault(_sipEvents);
 var _link15 = __webpack_require__("../kandy/src/users/link.js");
 
 var _link16 = _interopRequireDefault(_link15);
+
+__webpack_require__("../kandy/src/docs/docs.js");
 
 var _codecRemover = __webpack_require__("../fcs/src/js/sdp/codecRemover.js");
 
@@ -54415,7 +54494,7 @@ function mediaAPI({ dispatch, getState }) {
     /**
      * Retrieves the available media devices for use.
      *
-     * The {@link Media.event:devices:change devices:change} event will be
+     * The {@link media.event:devices:change devices:change} event will be
      *    emitted when the available media devices have changed.
      *
      * @public
@@ -54518,7 +54597,7 @@ function mediaAPI({ dispatch, getState }) {
      *    noticeably muted for the remote user. If a remote Track received in a
      *    call is muted, the result will only be noticeable locally.
      *
-     * The SDK will emit a {@link Media.event:media:muted media:muted} event
+     * The SDK will emit a {@link media.event:media:muted media:muted} event
      *    when a Track has been muted.
      * @public
      * @static
@@ -54536,7 +54615,7 @@ function mediaAPI({ dispatch, getState }) {
      *
      * Media will resume as normal for the Tracks.
      *
-     * The SDK will emit a {@link Media.event:media:unmuted media:unmuted} event
+     * The SDK will emit a {@link media.event:media:unmuted media:unmuted} event
      *    when a Track has been unmuted.
      * @public
      * @static
@@ -54566,7 +54645,7 @@ Object.defineProperty(exports, "__esModule", {
  * The media devices available for use have changed.
  *
  * Information about the available media devices can be retrieved using the
- *    {@link Media.getDevices media.getDevices} API.
+ *    {@link media.getDevices} API.
  *
  * @public
  * @memberof media
@@ -54583,7 +54662,7 @@ const DEVICES_CHANGED = exports.DEVICES_CHANGED = 'devices:change';
 /**
  * The specified Tracks have been muted.
  *
- * A Track can be muted using the {@link Media.muteTracks media.muteTracks} API.
+ * A Track can be muted using the {@link media.muteTracks} API.
  * @public
  * @memberof media
  * @event media:muted
@@ -54595,7 +54674,7 @@ const TRACKS_MUTED = exports.TRACKS_MUTED = 'media:muted';
 /**
  * The specified Tracks have been unmuted.
  *
- * A Track can be unmuted using the {@link Media.unmuteTracks media.unmuteTracks}
+ * A Track can be unmuted using the {@link media.unmuteTracks}
  *    API.
  * @public
  * @memberof media
