@@ -20,6 +20,7 @@ Kandy.js change log.
   - Added explicit screenshare options for APIs, separate from video options. See the `call.make`, `call.answer`, and `call.addMedia` APIs.
   - A browser extension is no longer required for screensharing on Google Chrome.
   - A Call can now be started and/or answered with screenshare.
+- Updated README to include a link to tutorials with Kandy-EMEA configuration. `KAA-2050`
 
 ### Fixed
 
