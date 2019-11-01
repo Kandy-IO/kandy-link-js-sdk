@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.remote.js
- * Version: 4.8.0
+ * Version: 4.9.0
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -16100,7 +16100,7 @@ const logMgr = getLogManager(defaultOptions);
  * @requires logs
  * @instance
  * @param {Object} logs Logs configs.
- * @param  {string} [logs.logLevel='debug'] Log level to be set. See {@link Logger.levels levels}.
+ * @param  {string} [logs.logLevel='debug'] Log level to be set. See {@link logger.levels}.
  * @param  {boolean} [logs.flatten=false] Whether all logs should be output in a string-only format.
  * @param  {Object} [logs.logActions] Options specifically for action logs when logLevel is at DEBUG+ levels. Set this to false to not output action logs.
  * @param  {boolean} [logs.logActions.actionOnly=true] Only output information about the action itself. Omits the SDK context for when it occurred.
@@ -16232,7 +16232,7 @@ exports.default = api;
  * See {@link #configconfiglogs config.logs} .
  *
  * @public
- * @module Logger
+ * @namespace logger
  * @requires logs
  */
 
@@ -16242,7 +16242,7 @@ function api() {
      * Possible levels for the SDK logger.
      * @public
      * @static
-     * @memberof Logger
+     * @memberof logger
      * @property {string} SILENT Log nothing.
      * @property {string} ERROR Log only unhandled errors.
      * @property {string} WARN Log issues that may cause problems or unexpected behaviour.
@@ -16754,8 +16754,12 @@ function* watchDeviceEvents(manager) {
 // Webrtc plugin.
 function setListeners(manager, emit, END = 'END') {
   // Manager event handlers.
-  const change = devices => {
-    emit(_actions.deviceActions.devicesChanged(devices));
+  const change = () => {
+    // Get the latest devices after they changed, then emit the device list
+    //  upwards.
+    manager.checkDevices().then(devices => {
+      emit(_actions.deviceActions.devicesChanged(devices));
+    });
   };
 
   manager.on('change', change);
@@ -17955,6 +17959,35 @@ function wrapChannel(channel) {
 
 /***/ }),
 
+/***/ "../kandy/src/webrtcProxy/converters/deviceManager.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+/**
+ * Device Manager "converter".
+ * Receives a webRTC command intended for the Media Manager, performs the webRTC
+ *    operation and returns/resolves a proxy response.
+ * @method mediaManager
+ * @param {Object} webRTC The local webRTC stack.
+ * @param {Object} command A webRTC command.
+ * @return {Promise} Resolves when the webRTC operation has completed.
+ */
+exports.default = async function deviceManager(webRTC, command) {
+  const { operation, params } = command;
+  const manager = webRTC.managers.devices;
+
+  // General case: Don't convert the return.
+  return manager[operation](...params);
+};
+
+/***/ }),
+
 /***/ "../kandy/src/webrtcProxy/converters/index.js":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -17973,6 +18006,10 @@ exports.default = convertCommand;
 exports.convertTrack = convertTrack;
 exports.convertMedia = convertMedia;
 exports.convertSession = convertSession;
+
+var _deviceManager = __webpack_require__("../kandy/src/webrtcProxy/converters/deviceManager.js");
+
+var _deviceManager2 = _interopRequireDefault(_deviceManager);
 
 var _mediaManager = __webpack_require__("../kandy/src/webrtcProxy/converters/mediaManager.js");
 
@@ -18002,17 +18039,18 @@ var _logs = __webpack_require__("../kandy/src/logs/index.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// Proxy plugin.
 const log = (0, _logs.getLogManager)().getLogger('PROXY');
 
 // Converters for the webRTC managers.
 
 
 // Other plugins.
-// Proxy plugin.
 const managers = {
   media: _mediaManager2.default,
   sessionManager: _sessionManager2.default,
-  track: _trackManager2.default
+  track: _trackManager2.default,
+  devices: _deviceManager2.default
 
   // Converters for the webRTC models.
 };const models = {
@@ -18595,9 +18633,9 @@ function setupEvents() {
 
     /**
      * Media devices available for use have changed.
-     * Use the {@link Media.getDevices media.getDevices} API to retrieve the lists of devices.
+     * Use the {@link media.getDevices} API to retrieve the lists of devices.
      * @public
-     * @memberof Media
+     * @memberof media
      * @event devices:change
      * @param {Object} params
      * @param {Array<string>}  microphone The list of available audio input devices.
@@ -18610,15 +18648,17 @@ function setupEvents() {
      *    const devices = remoteClient.media.getDevices()
      * })
      */
-    deviceMan.on('change', devices => {
-      emitter.emit('devices:change', devices);
+    deviceMan.on('change', () => {
+      deviceMan.checkDevices().then(devices => {
+        emitter.emit('devices:change', devices);
+      });
     });
 
     /**
      * A new Media object is available.
      * It may represent either the local or remote media for a call.
      * @public
-     * @memberof Media
+     * @memberof media
      * @event media:new
      * @param {Object} params
      * @param {string} params.mediaId The ID of the new Media object.
@@ -18630,7 +18670,7 @@ function setupEvents() {
        * A new Track object is available.
        * The Track will be within a Media object that is already available.
        * @public
-       * @memberof Media
+       * @memberof media
        * @event track:new
        * @param {Object} params
        * @param {string} params.trackId The ID of the new Track object.
@@ -18643,7 +18683,7 @@ function setupEvents() {
       /**
        * An existing Track object has stopped being available.
        * @public
-       * @memberof Media
+       * @memberof media
        * @event track:removed
        * @param {Object} params
        * @param {string} params.trackId The ID of the removed Track object.
@@ -18659,7 +18699,7 @@ function setupEvents() {
     /**
      * An existing Media object has stopped being available.
      * @public
-     * @memberof Media
+     * @memberof media
      * @event media:removed
      * @param {Object} params
      * @param {string} params.mediaId The ID of the removed Media object.
@@ -18819,7 +18859,7 @@ const log = (0, _logs.getLogManager)().getLogger('PROXY');
 /**
  * Retrieves the available media devices for use.
  * @public
- * @memberof Media
+ * @memberof media
  * @method getDevices
  * @return {Object} The lists of camera, microphone, and speaker devices.
  */
@@ -18875,7 +18915,7 @@ function getDevices(webRTC) {
  * Retrieves a list of all existing Media object's IDs.
  * Use the `getMediaById` API to retrieve a specific Media object.
  * @public
- * @memberof Media
+ * @memberof media
  * @method getMedia
  * @return {Array} List of Media IDs.
  */
@@ -18887,7 +18927,7 @@ function getMedia(webRTC) {
 /**
  * Retrieves a media object from state with a specific media ID.
  * @public
- * @memberof Media
+ * @memberof media
  * @method getMediaById
  * @param  {string} mediaId The ID of the media to retrieve.
  * @return {MediaObject} A media object.
@@ -18900,7 +18940,7 @@ function getMediaById(webRTC, mediaId) {
 /**
  * Retrieves a Track object from state with a specific ID.
  * @public
- * @memberof Media
+ * @memberof media
  * @method getTrackById
  * @param  {string} trackId The ID of the track to retrieve.
  * @return {TrackObject} A track object.
@@ -18914,7 +18954,7 @@ function getTrackById(webRTC, trackId) {
  * Render media Tracks in a container.
  * The container is specified by providing a CSS selector string that corresponds to the HTMLElement to act as the container.
  * @public
- * @memberof Media
+ * @memberof media
  * @method renderTracks
  * @param  {Array}  tracks List of Track IDs to be rendered.
  * @param  {string} cssSelector A CSS selector string that uniquely identifies an element. Ensure that special characters are properly escaped.
@@ -18946,7 +18986,7 @@ function renderTracks(webRTC, trackIds, cssSelector) {
  * Remove media Tracks from a container.
  * The container is specified by providing a CSS selector string that corresponds to the HTMLElement to act as the container.
  * @public
- * @memberof Media
+ * @memberof media
  * @method removeTracks
  * @param  {Array}  tracks List of Track IDs to stop being rendered.
  * @param  {string} cssSelector A CSS selector string that uniquely identifies an element. Ensure that special characters are properly escaped.
@@ -19270,8 +19310,8 @@ const WEBRTC_DEVICE_KINDS = exports.WEBRTC_DEVICE_KINDS = {
 
   // Check devices on initialization.
   checkDevices().then(() => {
-    // Emit an initial event with the device lists.
-    emitter.emit('change', get());
+    // Emit an initial event to notify that devices are available.
+    emitter.emit('change');
   });
 
   // Check devices whenever they change.
@@ -19285,8 +19325,8 @@ const WEBRTC_DEVICE_KINDS = exports.WEBRTC_DEVICE_KINDS = {
       setTimeout(() => {
         recentDeviceChange = false;
         checkDevices().then(() => {
-          // Emit an event with the updated device lists.
-          emitter.emit('change', get());
+          // Emit an event to notify of the change.
+          emitter.emit('change');
         });
       }, 50);
     }
@@ -19319,7 +19359,7 @@ const WEBRTC_DEVICE_KINDS = exports.WEBRTC_DEVICE_KINDS = {
               break;
           }
         });
-        resolve();
+        resolve(get());
       }).catch(reject);
     });
   }
@@ -19425,13 +19465,13 @@ function MediaManager(managers) {
   }
 
   /**
-   * Create a new local Media object.
-   * Use the provided constraints to get user media as the base MediaStream.
-   * @method createLocal
+   * Workaround to get Firefox to behave similarly to Chrome regarding device permission prompts.
+   * @method browserContraintsWorkaround
    * @param  {MediaStreamConstraints}  constraints
-   * @return {Promise}
+   * @return {Object}  media contraints
    */
-  function createLocal(constraints) {
+
+  function browserContraintsWorkaround(constraints) {
     /**
      * Firefox workaround.
      *
@@ -19483,37 +19523,85 @@ function MediaManager(managers) {
         constraints[kind].deviceId = { exact: id };
       }
     }
+    return constraints;
+  }
+
+  /**
+   * Wraps native mediaStream, adds tracks to trackManager and Media, and sets up event handlers on a given media.
+   * @method setupMedia
+   * @param {MediaStream} mediaStream Creating a Media object with it.
+   * @return {Media}
+   */
+
+  function setupMedia(mediaStream) {
+    const media = new _media2.default(mediaStream, true);
+    _loglevel2.default.debug(`Creating Media with ID: ${media.id}.`);
+
+    // Only add tracks to a Media objects using the `addTrack` method.
+    mediaStream.getTracks().forEach(nativeTrack => {
+      const wrappedTrack = trackManager.add(nativeTrack, mediaStream);
+      media.addTrack(wrappedTrack);
+    });
+
+    media.once('media:stopped', mediaId => {
+      remove(mediaId);
+    });
+
+    media.on('track:removed', trackId => {
+      if (media.tracks.size === 0) {
+        remove(media.id);
+      }
+    });
+
+    media.on('track:ended', ({ mediaId, trackId }) => {
+      if (media.getTracks().length === 0) {
+        remove(mediaId);
+      }
+    });
+
+    return media;
+  }
+
+  /**
+   * Create a new local Media object.
+   * Use the provided constraints to get user media as the base MediaStream.
+   * @method createLocal
+   * @param  {MediaStreamConstraints}  constraints
+   * @return {Promise}
+   */
+  function createLocal(constraints) {
+    const constraintsWorkaround = browserContraintsWorkaround(constraints);
 
     // Get user media, ...
     return new _promise2.default((resolve, reject) => {
       // TODO: Proper error checking.
       // TODO: Use the WebAPI directly here? Probably not.
-      navigator.mediaDevices.getUserMedia(constraints).then(mediaStream => {
-        // ... then create a Media object with it.
-        const media = new _media2.default(mediaStream, true);
-        _loglevel2.default.debug(`Creating Media with ID: ${media.id}.`);
+      navigator.mediaDevices.getUserMedia(constraintsWorkaround).then(mediaStream => {
+        const media = setupMedia(mediaStream);
 
-        // Only add tracks to a Media objects using the `addTrack` method.
-        mediaStream.getTracks().forEach(nativeTrack => {
-          const wrappedTrack = trackManager.add(nativeTrack, mediaStream);
-          media.addTrack(wrappedTrack);
-        });
+        medias.set(media.id, media);
+        // TODO: Better event. Include metadata?
+        emitter.emit('media:new', media.id);
 
-        media.once('media:stopped', mediaId => {
-          remove(mediaId);
-        });
+        resolve(media);
+      }).catch(reject);
+    });
+  }
 
-        media.on('track:removed', trackId => {
-          if (media.tracks.size === 0) {
-            remove(media.id);
-          }
-        });
+  /**
+   * Creates a new local Screen Media object.
+   * Use the provided constraints to get user media as the base MediaStream.
+   * @method createLocalScreen
+   * @param {MediaStreamConstraints} constraints
+   * @return {promise}
+   */
 
-        media.on('track:ended', ({ mediaId, trackId }) => {
-          if (media.getTracks().length === 0) {
-            remove(mediaId);
-          }
-        });
+  function createLocalScreen(constraints) {
+    const constraintsWorkaround = browserContraintsWorkaround(constraints);
+
+    return new _promise2.default((resolve, reject) => {
+      navigator.mediaDevices.getDisplayMedia(constraintsWorkaround).then(mediaStream => {
+        const media = setupMedia(mediaStream);
 
         medias.set(media.id, media);
         // TODO: Better event. Include metadata?
@@ -19639,6 +19727,7 @@ function MediaManager(managers) {
     findTrack,
     // Create APIs.
     createLocal,
+    createLocalScreen,
     createRemote,
     // Event APIs.
     on,
@@ -21166,6 +21255,10 @@ var _eventemitter = __webpack_require__("../../node_modules/eventemitter3/index.
 
 var _eventemitter2 = _interopRequireDefault(_eventemitter);
 
+var _sdpTransform = __webpack_require__("../../node_modules/sdp-transform/lib/index.js");
+
+var _sdpTransform2 = _interopRequireDefault(_sdpTransform);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
@@ -21177,8 +21270,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  */
 
 
-// Libraries.
-// Helpers.
+// SDP Helpers.
 function Session(id, managers, config = {}) {
   // Internal variables.
   const sessionId = id;
@@ -21479,6 +21571,76 @@ function Session(id, managers, config = {}) {
     }
   }
 
+  /**
+   * This function is used to figure out if our local tracks are being sent to the other side.
+   * This is meant to be called after a remote sdp is processed so that:
+   *  a. Transceivers are up-to-date.
+   *  b. The latestRemoteDescription is really the latest one.
+   * @method getLocalTracksIsSendingStatus
+   * @return {TracksIsSendingStatuses}
+   */
+  function getLocalTracksIsSendingStatus() {
+    /**
+     * An object with flags indicating whether a track is sending data or not where:
+     *  key: <string> track ID
+     *  value: <boolean> isSending.
+     * @typedef {Object} TracksIsSendingStatuses
+     */
+    const tracksIsSending = {};
+
+    /**
+     * For Unified-plan, we consider a track to being sent if
+     *  currentDirection is NOT `inactive` and NOT `recvonly`.
+     * IE: Tracks are being sent if
+     *  currentDirection is `sendrecv` or `sendonly` (both contain `send`).
+     */
+    if ((0, _sdpSemantics.isUnifiedPlan)(config.peer.rtcConfig.sdpSemantics)) {
+      const transceivers = peer.peerConnection.getTransceivers()
+      // Only check transceivers that have tracks.
+      .filter(transceiver => Boolean(transceiver.sender && transceiver.sender.track));
+
+      transceivers.forEach(transceiver => {
+        if (transceiver.sender.track && transceiver.currentDirection) {
+          tracksIsSending[transceiver.sender.track.id] = transceiver.currentDirection.includes('send');
+        } else {
+          // If `currentDirection` doesn't exist yet then use `direction`.
+          // This is because if the remote sdp didn't have a certain kind of media and we add that new kind of media,
+          //  the transceiver will have `currentDirection` as null.
+          tracksIsSending[transceiver.sender.track.id] = transceiver.direction.includes('send');
+        }
+      });
+    } else {
+      /**
+       * For Plan-B, we check the remote sdp and consider a track be sent if
+       *  direction is NOT `inactive` and NOT `sendonly`.
+       * IE: Tracks are being sent if
+       *  direction is `sendrecv` or `recvonly` (both contain `recv`).
+       */
+      const sdpObj = _sdpTransform2.default.parse(latestRemoteDescription.sdp);
+
+      /**
+       * Get the direction of each kind of media.
+       * For plan-b, there are is only 1 m-line for audio and 1 m-line for video.
+       * This means that tracks of the same kind will share the same direction.
+       */
+      const directions = {};
+      sdpObj.media.forEach(media => {
+        const { type, direction } = media;
+        directions[type] = direction;
+      });
+      peer.localTracks.forEach(track => {
+        const nativeTrack = track.track;
+        // If the track's kind isn't on the latest remote sdp, that means it may be supported
+        //  (since it doesn't explicitly have direction of `inactive`).
+        if (directions[nativeTrack.kind] === undefined) {
+          tracksIsSending[nativeTrack.id] = true;
+        } else {
+          tracksIsSending[nativeTrack.id] = directions[nativeTrack.kind].includes('recv');
+        }
+      });
+    }
+    return tracksIsSending;
+  }
   /**
    * Processes (and sets) a remote SDP offer.
    * @method processOffer
@@ -21857,6 +22019,7 @@ function Session(id, managers, config = {}) {
     processOffer,
     generateAnswer,
     processAnswer,
+    getLocalTracksIsSendingStatus,
     // Other APIs.
     recreatePeer,
     addIceCandidate,
@@ -21870,7 +22033,8 @@ function Session(id, managers, config = {}) {
   };
 }
 
-// SDP Helpers.
+// Libraries.
+// Helpers.
 
 /***/ }),
 
