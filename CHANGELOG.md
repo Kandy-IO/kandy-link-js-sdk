@@ -5,7 +5,7 @@ Kandy.js change log.
 - This project adheres to [Semantic Versioning](http://semver.org/).
 - This change log follows [keepachangelog.com](http://keepachangelog.com/) recommendations.
 
-## 4.9.0 - beta
+## 4.9.0 - 2019-11-01
 
 ### Added
 
@@ -13,6 +13,8 @@ Kandy.js change log.
 - Add Call support for receiving early media. `KAA-1975`
   - When enabled via configuration (see `config.call.earlyMedia`), an outgoing Call may enter the "Early Media" state if the remote end responds with a provisional answer. This allows the Call to receive media before it has been answered.
 - Added a `call:operation` event which is fired by call operations to keep track of operation progress. `KAA-1949`
+- Added call related API docs to help with migration from 3.x API. `KAA-2062`
+- Added the emission of an event when call state changes from Initiating to Initiated. `KAA-2080`
 
 ### Changed
 
@@ -21,14 +23,17 @@ Kandy.js change log.
   - A browser extension is no longer required for screensharing on Google Chrome.
   - A Call can now be started and/or answered with screenshare.
 - Updated README to include a link to tutorials with Kandy-EMEA configuration. `KAA-2050`
+- Improved error return when a session is created (or ended) so that it more accurately reflects the issue.
 
 ### Fixed
 
 - Fixed an issue where the "to" information of the call wasn't being set to where the call was actually sent. `KAA-2014`
 - Fixed the inconsistent order of media events for both incoming & outgoing calls. `KAA-1757`
 - Fixed an issue where the SIP number normalization was unnecessarily removing an '@' symbol. `KAA-1793`
-- Fixed a Proxy issue where changing Proxy mode would not update available devices to reflect the changed machine.
+- Fixed a Proxy issue where changing Proxy mode would not update available devices to reflect the changed machine. `KAA-2059`
 - Fixed the issue where an active call did not hang up when the call audit failed. `KAA-2003`
+- Fixed documentation to reflect the correct default value for checkConnectivity parameter. `KAA-1876`
+- Fixed public doc links for call and media.
 
 ## 4.8.0 - 2019-09-27
 
