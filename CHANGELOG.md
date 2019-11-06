@@ -5,6 +5,12 @@ Kandy.js change log.
 - This project adheres to [Semantic Versioning](http://semver.org/).
 - This change log follows [keepachangelog.com](http://keepachangelog.com/) recommendations.
 
+## 4.10.0 - beta
+
+### Added
+
+- Added Call support for setting and sending custom parameters. `KAA-2063`
+
 ## 4.9.0 - 2019-11-01
 
 ### Added
