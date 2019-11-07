@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.10.0-beta.185
+ * Version: 4.10.0-beta.186
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -44224,7 +44224,7 @@ const factoryDefaults = {
    */
 };function factory(plugins, options = factoryDefaults) {
   // Log the SDK's version (templated by webpack) on initialization.
-  let version = '4.10.0-beta.185';
+  let version = '4.10.0-beta.186';
   log.info(`SDK version: ${version}`);
 
   var sagas = [];
@@ -52324,6 +52324,9 @@ function usersAPI({ dispatch, getState, primitives }) {
     /**
      * Searches the domain's directory for Users.
      *
+     * Directory searching only supports one filter. If multiple filters are provided, only one of the filters will be used for the search.
+     * A search with no filters provided will return all users.
+     *
      * The SDK will emit a {@link user.event:directory:change directory:change}
      *    event after the operation completes. The search results will be
      *    provided as part of the event, and will also be available using the
@@ -52333,6 +52336,29 @@ function usersAPI({ dispatch, getState, primitives }) {
      * @static
      * @memberof user
      * @method search
+     * @requires limitedSearch
+     * @param {Object} filters The filter options for the search.
+     * @param {string} [filters.userId] Matches the User ID of the user.
+     * @param {string} [filters.name] Matches the firstName or lastName.
+     * @param {string} [filters.firstName] Matches the firstName.
+     * @param {string} [filters.lastName] Matches the lastName.
+     * @param {string} [filters.userName] Matches the userName.
+     * @param {string} [filters.phoneNumber] Matches the phoneNumber.
+     */
+
+    /**
+     * Searches the domain's directory for Users.
+     *
+     * The SDK will emit a {@link user.event:directory:change directory:change}
+     *    event after the operation completes. The search results will be
+     *    provided as part of the event, and will also be available using the
+     *    {@link user.get} and {@link user.getAll} APIs.
+     *
+     * @public
+     * @static
+     * @memberof user
+     * @method search
+     * @requires advancedSearch
      * @param {Object} filters The filter options for the search.
      * @param {string} [filters.userId] Matches the User ID of the user.
      * @param {string} [filters.name] Matches the firstName or lastName.
@@ -52909,6 +52935,7 @@ var _extends3 = _interopRequireDefault(_extends2);
 
 exports.default = usersLink;
 exports.contactRequest = contactRequest;
+exports.getDirectory = getDirectory;
 exports.fetchSelfInfo = fetchSelfInfo;
 exports.fetchUserLocale = fetchUserLocale;
 
@@ -52967,7 +52994,7 @@ const log = (0, _logs.getLogManager)().getLogger('USERS');
 
 const { api, name, reducer } = _interface2.default;
 
-const capabilities = ['addContactAsFriend', 'selfInfoAsUserProfile'];
+const capabilities = ['addContactAsFriend', 'selfInfoAsUserProfile', 'limitedSearch'];
 
 function usersLink() {
   function* init() {
@@ -53090,8 +53117,16 @@ function usersLink() {
     while (true) {
       // Wait for SEARCH_DIRECTORY action.
       const action = yield (0, _effects3.take)(actionTypes.SEARCH_DIRECTORY);
-      // TODO: Ensure the value is defined.
-      const type = (0, _keys2.default)(action.payload.filters)[0];
+
+      let type;
+      // Look for first undefined filter provided
+      const filters = (0, _keys2.default)(action.payload.filters);
+      for (var i = 0; i < filters.length - 1; i++) {
+        if (action.payload.filters[filters[i]]) {
+          type = filters[i];
+          break;
+        }
+      }
 
       var body = {
         searchCriteria: action.payload.filters[type],
@@ -53116,7 +53151,7 @@ function usersLink() {
    */
   function* fetchUser() {
     while (true) {
-      // Wait for SEARCH_DIRECTORY action.
+      // Wait for FETCH_USER action.
       const { payload: userId } = yield (0, _effects3.take)(actionTypes.FETCH_USER);
       var body = {
         searchCriteria: userId,
