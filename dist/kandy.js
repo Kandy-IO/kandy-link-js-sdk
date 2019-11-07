@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.10.0-beta.188
+ * Version: 4.10.0-beta.189
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -26838,7 +26838,7 @@ const AUTH_CHANGE = exports.AUTH_CHANGE = 'auth:change';
  * @requires connect
  * @event auth:error
  * @param {Object} params
- * @param {BasicError} params.error The Basic error object.
+ * @param {api.BasicError} params.error The Basic error object.
  *
  */
 const AUTH_ERROR = exports.AUTH_ERROR = 'auth:error';
@@ -26856,7 +26856,7 @@ const AUTH_ERROR = exports.AUTH_ERROR = 'auth:error';
  * @param {Object} params
  * @param {number} params.attemptNum The attempt number of this resubscription.
  * @param {boolean} params.isFailure Whether the resubscription failed or not.
- * @param {BasicError} [params.error] The Basic error object.
+ * @param {api.BasicError} [params.error] The Basic error object.
  */
 const AUTH_RESUB = exports.AUTH_RESUB = 'auth:resub';
 
@@ -29685,7 +29685,7 @@ function callAPI({ dispatch, getState }) {
      * @param {Object} [options]
      * @param {call.BandwidthControls} [options.bandwidth] Options for configuring media's bandwidth.
      * @param {string} [options.displayName] Custom display name to be provided to the destination. Not supported in all environments and may use default display name.
-     * @param {Array<CustomParameter>} [options.customParameters] Custom SIP header parameters for the SIP backend
+     * @param {Array<call.CustomParameter>} [options.customParameters] Custom SIP header parameters for the SIP backend
      * @returns {string} The generated ID of the newly created call.
      * @example
      * // Listen for the event emitted after making a call.
@@ -29785,20 +29785,20 @@ function callAPI({ dispatch, getState }) {
      * @param {Object} media The media options the call should be initialized with.
      * @param {boolean} [media.audio=false] Whether the call should have audio on start. Currently, audio-less calls are not supported.
      * @param {Object} [media.audioOptions] Options for configuring the call's audio.
-     * @param {MediaConstraint} [media.audioOptions.deviceId] ID of the microphone to receive audio from.
+     * @param {call.MediaConstraint} [media.audioOptions.deviceId] ID of the microphone to receive audio from.
      * @param {boolean} [media.video=false] Whether the call should have video on start.
      * @param {boolean} [media.screen=false] Whether the call should have screenshare on start.
      * @param {Object} [media.videoOptions] Options for configuring the call's video.
      * @param {Object} [media.screenOptions] Options for configuring the call's screenShare.
-     * @param {MediaConstraint} [media.videoOptions.deviceId] ID of the camera to receive video from.
-     * @param {MediaConstraint} [media.videoOptions.height] The height of the video.
-     * @param {MediaConstraint} [media.videoOptions.width] The width of the video.
-     * @param {MediaConstraint} [media.videoOptions.frameRate] The frame rate of the video.
-     * @param {MediaConstraint} [media.screenOptions.height] The height of the screenShare.
-     * @param {MediaConstraint} [media.screenOptions.width] The width of the screenShare.
-     * @param {MediaConstraint} [media.screenOptions.frameRate] The frame rate of the screenShare.
+     * @param {call.MediaConstraint} [media.videoOptions.deviceId] ID of the camera to receive video from.
+     * @param {call.MediaConstraint} [media.videoOptions.height] The height of the video.
+     * @param {call.MediaConstraint} [media.videoOptions.width] The width of the video.
+     * @param {call.MediaConstraint} [media.videoOptions.frameRate] The frame rate of the video.
+     * @param {call.MediaConstraint} [media.screenOptions.height] The height of the screenShare.
+     * @param {call.MediaConstraint} [media.screenOptions.width] The width of the screenShare.
+     * @param {call.MediaConstraint} [media.screenOptions.frameRate] The frame rate of the screenShare.
      * @param {Object} [options]
-     * @param {BandwidthControls} [options.bandwidth] Options for configuring media's bandwidth.
+     * @param {call.BandwidthControls} [options.bandwidth] Options for configuring media's bandwidth.
      */
 
     /**
@@ -29846,7 +29846,7 @@ function callAPI({ dispatch, getState }) {
      * @param {call.MediaConstraint} [media.screenOptions.frameRate] The frame rate of the screenShare.
      * @param {Object} [options]
      * @param {call.BandwidthControls} [options.bandwidth] Options for configuring media's bandwidth.
-     * @param {Array<CustomParameter>} [options.customParameters] Custom SIP header parameters for the SIP backend
+     * @param {Array<call.CustomParameter>} [options.customParameters] Custom SIP header parameters for the SIP backend
      */
     answer(callId, media, options = {}) {
       log.debug(_logs.API_LOG_TAG + 'call.answer: ', callId, media, options);
@@ -29966,7 +29966,7 @@ function callAPI({ dispatch, getState }) {
      * @requires callMe
      * @method setCustomParameters
      * @param {string} callId The ID of the call.
-     * @param {Array<CustomParameter>} customParameters The custom parameters to set.
+     * @param {Array<call.CustomParameter>} customParameters The custom parameters to set.
      */
     setCustomParameters(callId, customParameters) {
       log.debug(_logs.API_LOG_TAG + 'call.setCustomParameters: ', callId, customParameters);
@@ -30793,8 +30793,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @property {Object} remoteParticipant Information about the other call participant.
  * @property {string} [remoteParticipant.displayNumber] The User ID of the remote participant in the form "username@domain".
  * @property {string} [remoteParticipant.displayName] The display name of the remote participant.
- * @property {BandwidthControls} bandwidth The bandwidth limitations set for the call.
- * @property {Array<CustomParameter>} customParameters The custom parameters set for the call.
+ * @property {call.BandwidthControls} bandwidth The bandwidth limitations set for the call.
+ * @property {Array<call.CustomParameter>} customParameters The custom parameters set for the call.
  * @property {number} startTime The start time of the call in milliseconds since the epoch.
  * @property {number} [endTime] The end time of the call in milliseconds since the epoch.
  */
@@ -32695,9 +32695,9 @@ const log = (0, _logs.getLogManager)().getLogger('CALL');
  * @instance
  * @param {Object} call The call configuration object.
  * @param {string} [call.sdpSemantics='unified-plan'] The sdpSemantics to use (`'unified-plan'` or `'plan-b'`).
- * @param {Array<IceServer>} [call.iceServers] The list of ICE servers to be used for calls.
+ * @param {Array<call.IceServer>} [call.iceServers] The list of ICE servers to be used for calls.
  * @param {boolean} [call.serverTurnCredentials=true] Whether server-provided TURN credentials should be used.
- * @param {Array<SdpHandlerFunction>} [call.sdpHandlers] List of SDP handler functions to modify SDP. Advanced usage.
+ * @param {Array<call.SdpHandlerFunction>} [call.sdpHandlers] List of SDP handler functions to modify SDP. Advanced usage.
  * @param {boolean} [call.removeH264Codecs=true] Whether to remove "H264" codec lines from incoming and outgoing SDP messages.
  * @param {boolean} [call.earlyMedia=false] Whether early media should be supported for calls.
  */
@@ -33087,7 +33087,7 @@ function* endSession(callInfo) {
  * @param  {Object} callInfo
  * @param  {string} callInfo.wrtcsSessionId ID that the server uses to identify the session.
  * @param  {string} callInfo.answer The local SDP to complete negotiation. This may be an offer is performing slow start answer.
- * @param  {Array<{CustomParameter}>} callInfo.customParameters The custom parameters of the call.
+ * @param  {Array<CustomParameter>} callInfo.customParameters The custom parameters of the call.
  * @return {Object} response Signalling response.
  * @return {Object} [response.error] An error object, if signalling failed.
  */
@@ -35094,7 +35094,7 @@ const CALL_HISTORY_CHANGE = exports.CALL_HISTORY_CHANGE = 'callHistory:change';
  * @memberof callHistory
  * @event callHistory:error
  * @param {Object} params
- * @param {BasicError} params.error The Basic error object.
+ * @param {api.BasicError} params.error The Basic error object.
  */
 const CALL_HISTORY_ERROR = exports.CALL_HISTORY_ERROR = 'callHistory:error';
 
@@ -41276,7 +41276,7 @@ const CLICK_TO_CALL_STARTED = exports.CLICK_TO_CALL_STARTED = 'clickToCall:start
  * @event clickToCall:error
  * @param {Object} params
  * @param {string} params.callId A unique id representing the call made
- * @param {BasicError} params.error The Basic error object.
+ * @param {api.BasicError} params.error The Basic error object.
  *
  */
 const CLICK_TO_CALL_ERROR = exports.CLICK_TO_CALL_ERROR = 'clickToCall:error';
@@ -43180,7 +43180,6 @@ const connCheckMethods = exports.connCheckMethods = {
  *
  * @public
  * @static
- * @module UserID
  * @typedef {string} UserID
  * @memberof user
  * @requires cpaas_user_id
@@ -44224,7 +44223,7 @@ const factoryDefaults = {
    */
 };function factory(plugins, options = factoryDefaults) {
   // Log the SDK's version (templated by webpack) on initialization.
-  let version = '4.10.0-beta.188';
+  let version = '4.10.0-beta.189';
   log.info(`SDK version: ${version}`);
 
   var sagas = [];
@@ -44525,7 +44524,7 @@ var _fp = __webpack_require__("../../node_modules/lodash/fp.js");
  * @memberof sdpHandlers
  * @method createCodecRemover
  * @param {Array<string>} codecs A list of codec names to remove from the SDP.
- * @returns {SdpHandlerFunction} The resulting SDP handler that will remove the codec.
+ * @returns {call.SdpHandlerFunction} The resulting SDP handler that will remove the codec.
  * @example
  * import { create, sdpHandlers } from 'kandy';
  * const codecRemover = sdpHandlers.createCodecRemover(['VP8', 'VP9'])
@@ -45875,7 +45874,7 @@ function api(context) {
      * @param {Object} [options] An optional configuration object to query for more specific results.
      * If this object is not passed, the function will query for "im" conversation with that recipient.
      * @param {string} [options.type] The type of conversation to retrieve. Can be one of "im", "sms" or "other".
-     * @returns {Conversation} A Conversation object.
+     * @returns {conversation.Conversation} A Conversation object.
      */
     /**
      * Get a conversation object matching the user IDs provided.
@@ -45891,7 +45890,7 @@ function api(context) {
      * @param {Object} [options] An optional configuration object to query for more specific results.
      * If this object is not passed, the function will query for "im" conversations associated with those destinations.
      * @param {string} [options.type] The type of conversation to retrieve. Can be one of "im", "sms" or "other".
-     * @returns {Conversation} A Conversation object.
+     * @returns {conversation.Conversation} A Conversation object.
      */
     /**
      * Get a conversation object matching the user ID provided.
@@ -45988,7 +45987,7 @@ function api(context) {
      * @memberof conversation
      * @requires internalAndSmsMessaging
      * @method getAll
-     * @returns {Array<Conversation>} An array of conversation objects.
+     * @returns {Array<conversation.Conversation>} An array of conversation objects.
      */
     getAll: function () {
       log.debug(_logs.API_LOG_TAG + 'conversation.getAll');
@@ -46056,7 +46055,7 @@ const MESSAGES_CHANGE = exports.MESSAGES_CHANGE = 'messages:change';
  * @memberof conversation
  * @event messages:error
  * @param {Object} params
- * @param {BasicError} params.error The Basic error object.
+ * @param {api.BasicError} params.error The Basic error object.
  */
 const MESSAGES_ERROR = exports.MESSAGES_ERROR = 'messages:error';
 
@@ -46285,9 +46284,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * A Conversation object represents a conversation between either two users, or a
  * user and a group. A Conversation can create messages via the conversation's
- * createMessage() function.
+ * {@link conversation.Conversation.createMessage createMessage()} function.
  * @public
- * @module Conversation
+ * @static
  * @typedef {Object} Conversation
  * @memberof conversation
  * @requires richMessagingWithoutLocation
@@ -46300,9 +46299,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * A Conversation object represents a conversation between either two users, or a
  * user and a group. A Conversation can create messages via the conversation's
- * createMessage() function.
+ * {@link conversation.Conversation.createMessage createMessage()} function.
  * @public
- * @module Conversation
+ * @static
  * @typedef {Object} Conversation
  * @memberof conversation
  * @requires simpleMessagingOnly
@@ -46312,10 +46311,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * A Message object represents an individual message. Messages have parts
  * which represent pieces of a message, such as a text part or a file part. Once
- * all the desired parts have been added, a message can be sent with the send()
+ * all the desired parts have been added, a message can be sent with the {@link conversation.Message.send send()}
  * function.
  * @public
- * @module Message
+ * @static
  * @typedef {Object} Message
  * @memberof conversation
  */
@@ -46403,7 +46402,7 @@ const conversationBase = {
      * @param {string} [part.text] The text of the part. Must be a part of type "text".
      * @param {Object} [part.json] The json of the part. Must be a part of type "json".
      * @param {File} [part.file] The file of the part. Must be a part of type "file".
-     * @returns {Message} The newly created Message object.
+     * @returns {conversation.Message} The newly created Message object.
      *
      * @example
      * conversation.createMessage({type: 'text', text: 'This is the message'});
@@ -46418,7 +46417,7 @@ const conversationBase = {
      * @param {Object} part The part to add to the message.
      * @param {string} part.type The type of part. Must be "text".
      * @param {string} part.text The text of the part. Must be a part of type "text".
-     * @returns {Message} The newly created Message object.
+     * @returns {conversation.Message} The newly created Message object.
      *
      * @example
      * conversation.createMessage({type: 'text', text: 'This is the message'});
@@ -47534,7 +47533,7 @@ const MWI_CHANGE = exports.MWI_CHANGE = 'voicemail:change';
  * @memberof voicemail
  * @event voicemail:error
  * @param {Object} params
- * @param {BasicError} params.error The Basic error object.
+ * @param {api.BasicError} params.error The Basic error object.
  */
 const MWI_ERROR = exports.MWI_ERROR = 'voicemail:error';
 
@@ -48213,7 +48212,7 @@ const NOTI_CHANGE = exports.NOTI_CHANGE = 'notifications:change';
  * @memberof notification
  * @event notifications:error
  * @param {Object} params
- * @param {BasicError} params.error The Basic error object.
+ * @param {api.BasicError} params.error The Basic error object.
  * @param {string} params.channel The channel for the notification.
  */
 const NOTI_ERROR = exports.NOTI_ERROR = 'notifications:error';
@@ -49476,7 +49475,7 @@ const SELF_CHANGE = exports.SELF_CHANGE = 'presence:selfChange';
  * @requires presence
  * @event presence:error
  * @param {Object} params
- * @param {BasicError} params.error The Basic error object.
+ * @param {api.BasicError} params.error The Basic error object.
  */
 const ERROR = exports.ERROR = 'presence:error';
 
@@ -50951,7 +50950,7 @@ const EVENT_SUBSCRIPTION_CHANGED = exports.EVENT_SUBSCRIPTION_CHANGED = 'sip:sub
  * @memberof sip
  * @event sip:error
  * @param {Object} params
- * @param {BasicError} params.error The Basic error object.
+ * @param {api.BasicError} params.error The Basic error object.
  */
 const EVENT_ERROR = exports.EVENT_ERROR = 'sip:error';
 
@@ -52216,7 +52215,7 @@ function usersAPI({ dispatch, getState, primitives }) {
    * The User data object.
    *
    * @public
-   * @module User
+   * @static
    * @typedef {Object} User
    * @memberof user
    * @property {string} userId The User ID of the user.
@@ -52298,7 +52297,7 @@ function usersAPI({ dispatch, getState, primitives }) {
      * @memberof user
      * @method get
      * @param {string} userId The User ID of the user.
-     * @returns {User} The User object for the specified user.
+     * @returns {user.User} The User object for the specified user.
      */
     get(userId) {
       log.debug(_logs.API_LOG_TAG + 'user.get: ', userId);
@@ -52314,7 +52313,7 @@ function usersAPI({ dispatch, getState, primitives }) {
      * @public
      * @memberof user
      * @method getAll
-     * @returns {Array<User>} An array of all the User objects.
+     * @returns {Array<user.User>} An array of all the User objects.
      */
     getAll() {
       log.debug(_logs.API_LOG_TAG + 'user.getAll');
@@ -52491,7 +52490,7 @@ const CONTACTS_CHANGE = exports.CONTACTS_CHANGE = 'contacts:change';
  * @memberof user
  * @event directory:change
  * @param {Object} params
- * @param {Array<User>} params.results The Users' information returned by the
+ * @param {Array<user.User>} params.results The Users' information returned by the
  *    operation.
  */
 const DIRECTORY_CHANGE = exports.DIRECTORY_CHANGE = 'directory:change';
@@ -54908,7 +54907,7 @@ function mediaAPI({ dispatch, getState }) {
      * @memberof media
      * @method getById
      * @param  {string} mediaId The ID of the Media to retrieve.
-     * @return {MediaObject} A Media object.
+     * @return {call.MediaObject} A Media object.
      */
     getById(mediaId) {
       log.debug(_logs.API_LOG_TAG + 'media.getById: ', mediaId);
@@ -54922,7 +54921,7 @@ function mediaAPI({ dispatch, getState }) {
      * @memberof media
      * @method getTrackById
      * @param  {string} trackId The ID of the Track to retrieve.
-     * @return {TrackObject} A Track object.
+     * @return {call.TrackObject} A Track object.
      */
     getTrackById(trackId) {
       log.debug(_logs.API_LOG_TAG + 'media.getByTrackId: ', trackId);
@@ -56339,7 +56338,6 @@ const log = (0, _logs.getLogManager)().getLogger('PROXY');
  *
  * @public
  * @static
- * @module Channel
  * @typedef {Object} Channel
  * @memberof proxy
  * @example
@@ -56444,7 +56442,7 @@ function api({ dispatch, getState }) {
      * @public
      * @memberof proxy
      * @method setChannel
-     * @param {Channel} channel See the `Channel` module for information.
+     * @param {proxy.Channel} channel See the `Channel` module for information.
      */
     setChannel(channel) {
       log.debug(_logs.API_LOG_TAG + 'proxy.setChannel: ', channel);

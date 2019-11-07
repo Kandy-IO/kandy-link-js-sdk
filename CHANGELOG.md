@@ -15,7 +15,8 @@ Kandy.js change log.
 
 - Fixed a Call issue where a call would enter `Ended` state (instead of `Cancelled`) when receiving a "cancelled" notification.
 - Fixed an issue where searching the directory would fail even if a filter was provided. `KAA-1161`
-    - Updated public documentation to accurately reflect directory `search` API.
+  - Updated public documentation to accurately reflect directory `search` API.
+- Fixed public documentation hyperlinks for custom type definitions. `KAA-2011`
 
 ## 4.9.0 - 2019-11-01
 
