@@ -11,6 +11,10 @@ Kandy.js change log.
 
 - Added Call support for setting and sending custom parameters. `KAA-2063`
 
+### Fixed
+
+- Fixed a Call issue where a call would enter `Ended` state (instead of `Cancelled`) when receiving a "cancelled" notification.
+
 ## 4.9.0 - 2019-11-01
 
 ### Added

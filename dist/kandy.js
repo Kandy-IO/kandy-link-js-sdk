@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.10.0-beta.184
+ * Version: 4.10.0-beta.185
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -33631,6 +33631,7 @@ exports.sendDtmfEntry = sendDtmfEntry;
 exports.incomingCallNotification = incomingCallNotification;
 exports.sessionProgressNotification = sessionProgressNotification;
 exports.callStatusNotification = callStatusNotification;
+exports.callCancelNotification = callCancelNotification;
 exports.receiveRemoteOffer = receiveRemoteOffer;
 exports.receiveRemoteAnswer = receiveRemoteAnswer;
 exports.endCallEntry = endCallEntry;
@@ -33651,10 +33652,6 @@ var _actionTypes = __webpack_require__("../kandy/src/call/interfaceNew/actionTyp
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _notifications = __webpack_require__("../kandy/src/call/link/sagas/notifications.js");
-
-var notificationSagas = _interopRequireWildcard(_notifications);
-
 var _support = __webpack_require__("../kandy/src/call/link/sagas/support.js");
 
 var supportSagas = _interopRequireWildcard(_support);
@@ -33665,13 +33662,17 @@ var requests = _interopRequireWildcard(_calls);
 
 var _utils = __webpack_require__("../kandy/src/call/link/sagas/utils.js");
 
+var _constants = __webpack_require__("../kandy/src/call/constants.js");
+
+var _selectors = __webpack_require__("../kandy/src/call/interfaceNew/selectors.js");
+
 var _establish = __webpack_require__("../kandy/src/callstack/call/establish.js");
 
 var _midcall = __webpack_require__("../kandy/src/callstack/call/midcall.js");
 
 var midcallSagas = _interopRequireWildcard(_midcall);
 
-var _notifications2 = __webpack_require__("../kandy/src/callstack/call/notifications.js");
+var _notifications = __webpack_require__("../kandy/src/callstack/call/notifications.js");
 
 var _dtmf = __webpack_require__("../kandy/src/callstack/call/dtmf.js");
 
@@ -33683,9 +33684,14 @@ var _actionTypes2 = __webpack_require__("../kandy/src/notifications/interface/ac
 
 var _actionTypes3 = __webpack_require__("../kandy/src/auth/interface/actionTypes.js");
 
+var _logs = __webpack_require__("../kandy/src/logs/index.js");
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// Libraries.
+const log = (0, _logs.getLogManager)().getLogger('CALL');
 
 /**
  * Call operations.
@@ -33704,6 +33710,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 
 // Callstack plugin.
+/**
+ * Call saga index.
+ * Defines which actions trigger which sagas.
+ */
+
+// Call plugin.
 function* createCall(deps) {
   yield (0, _effects.takeEvery)(actionTypes.MAKE_CALL, _establish.makeCall, (0, _extends3.default)({}, deps, { requests }));
 }
@@ -33715,15 +33727,6 @@ function* createCall(deps) {
  * @param {Object} deps.webRTC      The WebRTC stack.
  * @param {Array}  deps.sdpHandlers SDP handlers.
  */
-
-
-// Libraries.
-/**
- * Call saga index.
- * Defines which actions trigger which sagas.
- */
-
-// Call plugin.
 function* answerCallEntry(deps) {
   yield (0, _effects.takeEvery)(actionTypes.ANSWER_CALL, _establish.answerCall, (0, _extends3.default)({}, deps, { requests }));
 }
@@ -33812,7 +33815,7 @@ function* incomingCallNotification(deps) {
       calleeNumber: message.callNotificationParams.calleeDisplayNumber
 
       // Pass the incoming call parameters to the Callstack for handling.
-    };yield (0, _effects.call)(_notifications2.incomingCall, (0, _extends3.default)({}, deps, { requests }), params);
+    };yield (0, _effects.call)(_notifications.incomingCall, (0, _extends3.default)({}, deps, { requests }), params);
   }
 
   // Redux-saga take() pattern.
@@ -33850,7 +33853,7 @@ function* sessionProgressNotification(deps) {
       remoteNumber: message.callNotificationParams.remoteDisplayNumber
     };
 
-    yield (0, _effects.call)(_notifications2.receiveEarlyMedia, deps, params);
+    yield (0, _effects.call)(_notifications.receiveEarlyMedia, deps, params);
   }
 
   yield (0, _effects.takeEvery)(progressPattern, parseSessionProgress);
@@ -33882,11 +33885,11 @@ function* callStatusNotification(deps) {
       statusCode
     }, remoteInfo);
     if (eventType === 'callEnd' || eventType === 'sessionComplete') {
-      yield (0, _effects.call)(_notifications2.callStatusUpdateEnded, deps, params);
+      yield (0, _effects.call)(_notifications.callStatusUpdateEnded, deps, params);
     } else if (eventType === 'ringing') {
-      yield (0, _effects.call)(_notifications2.callStatusUpdateRinging, deps, params);
+      yield (0, _effects.call)(_notifications.callStatusUpdateRinging, deps, params);
     } else if (eventType === 'sessionFail') {
-      yield (0, _effects.call)(_notifications2.callStatusUpdateFailed, deps, params);
+      yield (0, _effects.call)(_notifications.callStatusUpdateFailed, deps, params);
     }
   }
 
@@ -33894,8 +33897,70 @@ function* callStatusNotification(deps) {
   yield (0, _effects.takeEvery)(statusUpdatePattern('ringing'), parseStatusNotification);
   yield (0, _effects.takeEvery)(statusUpdatePattern('callEnd'), parseStatusNotification);
   yield (0, _effects.takeEvery)(statusUpdatePattern('sessionComplete'), parseStatusNotification);
-  yield (0, _effects.takeEvery)(statusUpdatePattern('callCancel'), notificationSagas.parseCallRejectedResponse, deps.webRTC);
   yield (0, _effects.takeEvery)(statusUpdatePattern('sessionFail'), parseStatusNotification);
+}
+
+/**
+ * Handle a `callCancel` notification from Link.
+ * @method callCancelNotification
+ * @param {Object} deps             Dependencies to be injected.
+ * @param {Object} deps.webRTC      The WebRTC stack.
+ * @param {Array}  deps.sdpHandlers SDP handlers.
+ */
+function* callCancelNotification(deps) {
+  // Redux-saga take pattern.
+  function callCancelPattern(action) {
+    return action.type === _actionTypes2.NOTIFICATION_RECEIVED && action.payload.notificationMessage.eventType === 'callCancel';
+  }
+
+  /**
+   * Handle Link-specific behaviours before passing the notification off to the
+   *    Callstack.
+   * @method handleCallCancel
+   * @param  {Object} action
+   */
+  function* handleCallCancel(action) {
+    /*
+     * Workaround: Delay a short time before processing the notification.
+     * The backend sends a "callCancel" notification immediately after answering
+     *    (and rejecting, forwarding) a call. The backend's intention for this
+     *    is to notify other user subscriptions (eg. same user on another
+     *    device) that the call has been handled, so the call is "cancelled" for
+     *    this subscription. But they send it as a broadcast notification to all
+     *    subscriptions, even the one that handled the call.
+     *
+     * We need to ignore this notification for the subscription that handled the
+     *    call, but process it for any other subscriptions. We do this by
+     *    delaying the notification to ensure the "answer call" process is
+     *    finished. This delay ensures that the Call is in the correct state
+     *    after the user responded to the call, so we can tell whether the
+     *    notification needs to be ignored or not.
+     *
+     * This workaround has the side-effect that callCancel notifications we do
+     *    want to process are delayed.
+     *
+     * Slower networks may need a longer delay...
+     */
+    yield (0, _effects.delay)(3000);
+
+    // Get the current call
+    const { sessionData } = action.payload.notificationMessage.sessionParams;
+    const currentCall = yield (0, _effects.select)(_selectors.getCallByWrtcsSessionId, sessionData);
+
+    if (currentCall && currentCall.state !== _constants.CALL_STATES.RINGING && currentCall.state !== _constants.CALL_STATES.EARLY_MEDIA && currentCall.state !== _constants.CALL_STATES.INITIATED) {
+      // Don't process the notification if the call isn't "ringing".
+      log.debug(`Received call cancel notification when state is ${currentCall.state}. Ignoring.`);
+      return;
+    }
+
+    const params = {
+      wrtcsSessionId: sessionData
+
+      // Now process the notification after making sure we don't want to ignore it.
+    };yield (0, _effects.call)(_notifications.callCancelled, deps, params);
+  }
+
+  yield (0, _effects.takeEvery)(callCancelPattern, handleCallCancel);
 }
 
 /**
@@ -33925,7 +33990,7 @@ function* receiveRemoteOffer(deps) {
     }, remoteInfo);
 
     // Pass the call parameters to the Callstack for handling.
-    yield (0, _effects.call)(_notifications2.parseCallRequest, (0, _extends3.default)({}, deps, { requests }), params);
+    yield (0, _effects.call)(_notifications.parseCallRequest, (0, _extends3.default)({}, deps, { requests }), params);
   }
 
   // take() pattern for "update call w/ offer" notifications.
@@ -33968,7 +34033,7 @@ function* receiveRemoteAnswer(deps) {
     }, remoteInfo);
 
     // Pass the call parameters to the Callstack for handling.
-    yield (0, _effects.call)(_notifications2.parseCallResponse, (0, _extends3.default)({}, deps, { requests }), params);
+    yield (0, _effects.call)(_notifications.parseCallResponse, (0, _extends3.default)({}, deps, { requests }), params);
   }
 
   // take() pattern for "update call with answer" notifications.
@@ -34137,109 +34202,6 @@ function* joinEntry(deps) {
  */
 function* replaceTrackEntry(deps) {
   yield (0, _effects.takeEvery)(actionTypes.REPLACE_TRACK, midcallSagas.replaceTrack, deps);
-}
-
-/***/ }),
-
-/***/ "../kandy/src/call/link/sagas/notifications.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.parseCallRejectedResponse = parseCallRejectedResponse;
-exports.getCurrentCall = getCurrentCall;
-
-var _actions = __webpack_require__("../kandy/src/call/interfaceNew/actions/index.js");
-
-var _constants = __webpack_require__("../kandy/src/call/constants.js");
-
-var _logs = __webpack_require__("../kandy/src/logs/index.js");
-
-var _midcall = __webpack_require__("../kandy/src/callstack/webrtc/midcall.js");
-
-var _selectors = __webpack_require__("../kandy/src/call/interfaceNew/selectors.js");
-
-var _effects = __webpack_require__("../../node_modules/redux-saga/es/effects.js");
-
-// Helpers.
-
-
-// Other plugins
-/**
- * "Notification sagas" handle received notifications.
- * Each saga handles a single websocket notification that may be received from
- *    the backend.
- *
- * There may not be an established webRTC session for these sagas. This may be
- *    because (1) the notification is a new incoming call, or (2) there is a
- *    de-sync between SDK state and server state. This may or may not be
- *    considered as an error scenario (eg. a "call ended" notification for a
- *    call the SDK doesn't know about may be safely ignored).
- */
-
-// Call plugin.
-const log = (0, _logs.getLogManager)().getLogger('CALL');
-
-/**
- * Handles a notification reject call response from the remote side.
- * @method parseCallRejectedResponse
- * @param  {Object} webRTC The webRTC stack.
- * @param  {Object} action An action representing a call notification response.
- */
-
-
-// Libraries.
-function* parseCallRejectedResponse(webRTC, action) {
-  /*
-   * Workaround: Delay a short time before processing the notification.
-   * The backend sends a "callCancel" notification immediately after answering
-   *    a call for an unknown reason. This breaks things if the notification
-   *    is processed before the "anwer call" process is finished. So delay to
-   *    ensure that "answer call" finishes.
-   * Slower networks may need a longer delay...
-   * TODO: Investigate why we receive that notification and a better solution.
-   */
-  yield (0, _effects.delay)(3000);
-
-  // Get the current call
-  const { sessionData } = action.payload.notificationMessage.sessionParams;
-  const currentCall = yield (0, _effects.call)(getCurrentCall, sessionData);
-
-  if (currentCall && currentCall.state !== _constants.CALL_STATES.RINGING && currentCall.state !== _constants.CALL_STATES.INITIATED) {
-    // We often get a 'callCancel' request right after the remote party answers.
-    // We don't want to process this as it will end the call.
-    log.debug(`Received request cancel call when state is ${currentCall.state}. Ignoring.`);
-    return;
-  }
-
-  if (currentCall.webrtcSessionId) {
-    yield (0, _effects.call)(_midcall.closeCall, webRTC, currentCall.webrtcSessionId);
-  }
-
-  yield (0, _effects.put)(_actions.callActions.updateCall(currentCall.id, {
-    state: _constants.CALL_STATES.ENDED
-  }));
-}
-
-/**
- * Helper function that returns the call associated with the sessionData passed in.
- * @method getCurrentCall
- * @param  {Object} Information about a session.
- */
-function* getCurrentCall(sessionData) {
-  const calls = yield (0, _effects.select)(_selectors.getCalls);
-  // TODO: `find` --> IE11 support.
-  const currentCall = calls.find(call => call.wrtcsSessionId === sessionData);
-
-  if (!currentCall) {
-    log.error(`Error: wrtcs session call ${sessionData} not found.`);
-  }
-
-  return currentCall;
 }
 
 /***/ }),
@@ -38326,6 +38288,7 @@ exports.parseCallResponse = parseCallResponse;
 exports.callStatusUpdateEnded = callStatusUpdateEnded;
 exports.callStatusUpdateRinging = callStatusUpdateRinging;
 exports.callStatusUpdateFailed = callStatusUpdateFailed;
+exports.callCancelled = callCancelled;
 exports.receiveEarlyMedia = receiveEarlyMedia;
 
 var _actions = __webpack_require__("../kandy/src/call/interfaceNew/actions/index.js");
@@ -38849,6 +38812,40 @@ function* callStatusUpdateFailed(deps, params) {
   }
 
   yield (0, _effects.put)(_actions.callActions.updateCall(currentCall.id));
+}
+
+/**
+ * A "call cancelled" notification needs to be handled.
+ *
+ * A call can be "cancelled" for different reasons. In general, it means that
+ *    the call was not established (locally) but it is no longer available for
+ *    the user to respond. For example, it may have been answered on another
+ *    device, or the caller may have ended it while it was ringing.
+ *
+ * The call is cancelled locally by cleaning up any/all Webrtc resources and
+ *    changing the call state to indicate it was cancelled.
+ *
+ * @method callCancelled
+ * @param {Object} deps         Dependencies that the saga uses.
+ * @param {Object} deps.webRTC  The WebRTC stack.
+ * @param {Object} params       Parameters describing the notification.
+ */
+function* callCancelled(deps, params) {
+  const targetCall = yield (0, _effects.select)(_selectors.getCallByWrtcsSessionId, params.wrtcsSessionId);
+
+  if (!targetCall) {
+    log.debug(`Call for session ${params.wrtcsSessionId} not found.`);
+    return;
+  } else if ([_constants.CALL_STATES.ENDED, _constants.CALL_STATES.CANCELLED].includes(targetCall.state)) {
+    log.debug(`Call ${targetCall.id} is already in ${targetCall.state} state`);
+    return;
+  }
+
+  // Clean up the Webrtc portion of the Call.
+  yield (0, _effects.call)(_midcall.closeCall, deps.webRTC, targetCall.webrtcSessionId);
+
+  // Dispatch an action to handle the redux portion of the Call.
+  yield (0, _effects.put)(_actions.callActions.callCancelled(targetCall.id));
 }
 
 /**
@@ -44227,7 +44224,7 @@ const factoryDefaults = {
    */
 };function factory(plugins, options = factoryDefaults) {
   // Log the SDK's version (templated by webpack) on initialization.
-  let version = '4.10.0-beta.184';
+  let version = '4.10.0-beta.185';
   log.info(`SDK version: ${version}`);
 
   var sagas = [];
