@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.remote.js
- * Version: 4.10.0-beta.195
+ * Version: 4.10.0-beta.196
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -96,7 +96,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "../kandy/src/webrtcProxy/remote/index.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "../../packages/kandy/src/webrtcProxy/remote/index.js");
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -15403,12 +15403,12 @@ module.exports = {
 
 /***/ }),
 
-/***/ "../kandy/node_modules/query-string/index.js":
+/***/ "../../packages/kandy/node_modules/query-string/index.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-const strictUriEncode = __webpack_require__("../kandy/node_modules/strict-uri-encode/index.js");
+const strictUriEncode = __webpack_require__("../../packages/kandy/node_modules/strict-uri-encode/index.js");
 const decodeComponent = __webpack_require__("../../node_modules/decode-uri-component/index.js");
 const splitOnFirst = __webpack_require__("../../node_modules/split-on-first/index.js");
 
@@ -15676,7 +15676,7 @@ exports.parseUrl = (input, options) => {
 
 /***/ }),
 
-/***/ "../kandy/node_modules/strict-uri-encode/index.js":
+/***/ "../../packages/kandy/node_modules/strict-uri-encode/index.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15686,7 +15686,7 @@ module.exports = str => encodeURIComponent(str).replace(/[!'()*]/g, x => `%${x.c
 
 /***/ }),
 
-/***/ "../kandy/src/common/utils.js":
+/***/ "../../packages/kandy/src/common/utils.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15706,7 +15706,7 @@ exports.autoRestart = autoRestart;
 
 var _fp = __webpack_require__("../../node_modules/lodash/fp.js");
 
-var _queryString = __webpack_require__("../kandy/node_modules/query-string/index.js");
+var _queryString = __webpack_require__("../../packages/kandy/node_modules/query-string/index.js");
 
 var _queryString2 = _interopRequireDefault(_queryString);
 
@@ -15778,7 +15778,7 @@ function autoRestart(saga) {
 
 /***/ }),
 
-/***/ "../kandy/src/config/interface/actionTypes.js":
+/***/ "../../packages/kandy/src/config/interface/actionTypes.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15793,7 +15793,7 @@ const CONFIG_UPDATE = exports.CONFIG_UPDATE = PREFIX + 'CONFIG_UPDATE';
 
 /***/ }),
 
-/***/ "../kandy/src/config/interface/actions.js":
+/***/ "../../packages/kandy/src/config/interface/actions.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15804,7 +15804,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.update = update;
 
-var _actionTypes = __webpack_require__("../kandy/src/config/interface/actionTypes.js");
+var _actionTypes = __webpack_require__("../../packages/kandy/src/config/interface/actionTypes.js");
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -15836,7 +15836,7 @@ function update(values, pluginName = '') {
 
 /***/ }),
 
-/***/ "../kandy/src/events/eventEmitter.js":
+/***/ "../../packages/kandy/src/events/eventEmitter.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16009,7 +16009,7 @@ function eventEmitter(prototype = {}) {
 
 /***/ }),
 
-/***/ "../kandy/src/logs/index.js":
+/***/ "../../packages/kandy/src/logs/index.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16027,25 +16027,25 @@ var _extends3 = _interopRequireDefault(_extends2);
 exports.default = logger;
 exports.getLogManager = getLogManager;
 
-var _transformers = __webpack_require__("../kandy/src/logs/transformers.js");
+var _transformers = __webpack_require__("../../packages/kandy/src/logs/transformers.js");
 
 var _transformers2 = _interopRequireDefault(_transformers);
 
-var _api = __webpack_require__("../kandy/src/logs/interface/api.js");
+var _api = __webpack_require__("../../packages/kandy/src/logs/interface/api.js");
 
 var _api2 = _interopRequireDefault(_api);
 
-var _actions = __webpack_require__("../kandy/src/config/interface/actions.js");
+var _actions = __webpack_require__("../../packages/kandy/src/config/interface/actions.js");
 
 var _effects = __webpack_require__("../../node_modules/redux-saga/es/effects.js");
 
-var _utils = __webpack_require__("../kandy/src/common/utils.js");
+var _utils = __webpack_require__("../../packages/kandy/src/common/utils.js");
 
-var _logManager = __webpack_require__("../kandy/src/logs/logManager.js");
+var _logManager = __webpack_require__("../../packages/kandy/src/logs/logManager.js");
 
 var _logManager2 = _interopRequireDefault(_logManager);
 
-var _utils2 = __webpack_require__("../kandy/src/logs/utils.js");
+var _utils2 = __webpack_require__("../../packages/kandy/src/logs/utils.js");
 
 var _reduxLogger = __webpack_require__("../../node_modules/redux-logger/dist/redux-logger.js");
 
@@ -16212,7 +16212,7 @@ function excludeActions(actions) {
 
 /***/ }),
 
-/***/ "../kandy/src/logs/interface/api.js":
+/***/ "../../packages/kandy/src/logs/interface/api.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16265,7 +16265,7 @@ function api() {
 
 /***/ }),
 
-/***/ "../kandy/src/logs/logManager.js":
+/***/ "../../packages/kandy/src/logs/logManager.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16601,7 +16601,7 @@ function LogItem(level, msg, args) {
 
 /***/ }),
 
-/***/ "../kandy/src/logs/transformers.js":
+/***/ "../../packages/kandy/src/logs/transformers.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16669,7 +16669,7 @@ function removePayloads(action) {
 
 /***/ }),
 
-/***/ "../kandy/src/logs/utils.js":
+/***/ "../../packages/kandy/src/logs/utils.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16700,7 +16700,7 @@ function titleFormatter(action, time, took) {
 
 /***/ }),
 
-/***/ "../kandy/src/webrtc/channels/devices.js":
+/***/ "../../packages/kandy/src/webrtc/channels/devices.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16712,7 +16712,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = watchDeviceEvents;
 exports.setListeners = setListeners;
 
-var _actions = __webpack_require__("../kandy/src/webrtc/interface/actions/index.js");
+var _actions = __webpack_require__("../../packages/kandy/src/webrtc/interface/actions/index.js");
 
 var _effects = __webpack_require__("../../node_modules/redux-saga/es/effects.js");
 
@@ -16774,7 +16774,7 @@ function setListeners(manager, emit, END = 'END') {
 
 /***/ }),
 
-/***/ "../kandy/src/webrtc/channels/media.js":
+/***/ "../../packages/kandy/src/webrtc/channels/media.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16786,7 +16786,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = watchMediaEvents;
 exports.setListeners = setListeners;
 
-var _actions = __webpack_require__("../kandy/src/webrtc/interface/actions/index.js");
+var _actions = __webpack_require__("../../packages/kandy/src/webrtc/interface/actions/index.js");
 
 var _effects = __webpack_require__("../../node_modules/redux-saga/es/effects.js");
 
@@ -16874,7 +16874,7 @@ function setListeners(media, emit, END = 'END') {
 
 /***/ }),
 
-/***/ "../kandy/src/webrtc/channels/mediaManager.js":
+/***/ "../../packages/kandy/src/webrtc/channels/mediaManager.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16886,13 +16886,13 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = watchMediaManagerEvents;
 exports.setListeners = setListeners;
 
-var _actions = __webpack_require__("../kandy/src/webrtc/interface/actions/index.js");
+var _actions = __webpack_require__("../../packages/kandy/src/webrtc/interface/actions/index.js");
 
-var _actionTypes = __webpack_require__("../kandy/src/webrtc/interface/actionTypes.js");
+var _actionTypes = __webpack_require__("../../packages/kandy/src/webrtc/interface/actionTypes.js");
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _media = __webpack_require__("../kandy/src/webrtc/channels/media.js");
+var _media = __webpack_require__("../../packages/kandy/src/webrtc/channels/media.js");
 
 var _media2 = _interopRequireDefault(_media);
 
@@ -16987,7 +16987,7 @@ function setListeners(manager, emit, END = 'END') {
 
 /***/ }),
 
-/***/ "../kandy/src/webrtc/channels/session.js":
+/***/ "../../packages/kandy/src/webrtc/channels/session.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16999,7 +16999,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = watchSessionEvents;
 exports.setListeners = setListeners;
 
-var _actions = __webpack_require__("../kandy/src/webrtc/interface/actions/index.js");
+var _actions = __webpack_require__("../../packages/kandy/src/webrtc/interface/actions/index.js");
 
 var _effects = __webpack_require__("../../node_modules/redux-saga/es/effects.js");
 
@@ -17113,7 +17113,7 @@ function setListeners(session, emit, END = 'END') {
 
 /***/ }),
 
-/***/ "../kandy/src/webrtc/channels/sessionManager.js":
+/***/ "../../packages/kandy/src/webrtc/channels/sessionManager.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17125,13 +17125,13 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = watchSessionManagerEvents;
 exports.setListeners = setListeners;
 
-var _actions = __webpack_require__("../kandy/src/webrtc/interface/actions/index.js");
+var _actions = __webpack_require__("../../packages/kandy/src/webrtc/interface/actions/index.js");
 
-var _actionTypes = __webpack_require__("../kandy/src/webrtc/interface/actionTypes.js");
+var _actionTypes = __webpack_require__("../../packages/kandy/src/webrtc/interface/actionTypes.js");
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _session = __webpack_require__("../kandy/src/webrtc/channels/session.js");
+var _session = __webpack_require__("../../packages/kandy/src/webrtc/channels/session.js");
 
 var _session2 = _interopRequireDefault(_session);
 
@@ -17219,7 +17219,7 @@ function setListeners(manager, emit, END = 'END') {
 
 /***/ }),
 
-/***/ "../kandy/src/webrtc/channels/track.js":
+/***/ "../../packages/kandy/src/webrtc/channels/track.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17286,7 +17286,7 @@ function setListeners(track, emit, END = 'END') {
 
 /***/ }),
 
-/***/ "../kandy/src/webrtc/channels/trackManager.js":
+/***/ "../../packages/kandy/src/webrtc/channels/trackManager.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17298,13 +17298,13 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = watchTrackManagerEvents;
 exports.setListeners = setListeners;
 
-var _actions = __webpack_require__("../kandy/src/webrtc/interface/actions/index.js");
+var _actions = __webpack_require__("../../packages/kandy/src/webrtc/interface/actions/index.js");
 
-var _actionTypes = __webpack_require__("../kandy/src/webrtc/interface/actionTypes.js");
+var _actionTypes = __webpack_require__("../../packages/kandy/src/webrtc/interface/actionTypes.js");
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _track = __webpack_require__("../kandy/src/webrtc/channels/track.js");
+var _track = __webpack_require__("../../packages/kandy/src/webrtc/channels/track.js");
 
 var _track2 = _interopRequireDefault(_track);
 
@@ -17404,7 +17404,7 @@ function setListeners(manager, emit, END = 'END') {
 
 /***/ }),
 
-/***/ "../kandy/src/webrtc/interface/actionTypes.js":
+/***/ "../../packages/kandy/src/webrtc/interface/actionTypes.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17473,7 +17473,7 @@ const SET_BROWSER_DETAILS = exports.SET_BROWSER_DETAILS = prefix + 'SET_BROWSER_
 
 /***/ }),
 
-/***/ "../kandy/src/webrtc/interface/actions/devices.js":
+/***/ "../../packages/kandy/src/webrtc/interface/actions/devices.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17484,7 +17484,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.devicesChanged = devicesChanged;
 
-var _actionTypes = __webpack_require__("../kandy/src/webrtc/interface/actionTypes.js");
+var _actionTypes = __webpack_require__("../../packages/kandy/src/webrtc/interface/actionTypes.js");
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -17499,7 +17499,7 @@ function devicesChanged(devices) {
 
 /***/ }),
 
-/***/ "../kandy/src/webrtc/interface/actions/index.js":
+/***/ "../../packages/kandy/src/webrtc/interface/actions/index.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17510,23 +17510,23 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.miscActions = exports.mediaActions = exports.sessionActions = exports.trackActions = exports.deviceActions = undefined;
 
-var _devices = __webpack_require__("../kandy/src/webrtc/interface/actions/devices.js");
+var _devices = __webpack_require__("../../packages/kandy/src/webrtc/interface/actions/devices.js");
 
 var deviceActionsImport = _interopRequireWildcard(_devices);
 
-var _tracks = __webpack_require__("../kandy/src/webrtc/interface/actions/tracks.js");
+var _tracks = __webpack_require__("../../packages/kandy/src/webrtc/interface/actions/tracks.js");
 
 var trackActionsImport = _interopRequireWildcard(_tracks);
 
-var _sessions = __webpack_require__("../kandy/src/webrtc/interface/actions/sessions.js");
+var _sessions = __webpack_require__("../../packages/kandy/src/webrtc/interface/actions/sessions.js");
 
 var sessionActionsImport = _interopRequireWildcard(_sessions);
 
-var _media = __webpack_require__("../kandy/src/webrtc/interface/actions/media.js");
+var _media = __webpack_require__("../../packages/kandy/src/webrtc/interface/actions/media.js");
 
 var mediaActionsImport = _interopRequireWildcard(_media);
 
-var _misc = __webpack_require__("../kandy/src/webrtc/interface/actions/misc.js");
+var _misc = __webpack_require__("../../packages/kandy/src/webrtc/interface/actions/misc.js");
 
 var miscActionsImport = _interopRequireWildcard(_misc);
 
@@ -17543,7 +17543,7 @@ const miscActions = exports.miscActions = miscActionsImport;
 
 /***/ }),
 
-/***/ "../kandy/src/webrtc/interface/actions/media.js":
+/***/ "../../packages/kandy/src/webrtc/interface/actions/media.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17563,7 +17563,7 @@ exports.mediaNewTrack = mediaNewTrack;
 exports.mediaTrackRemoved = mediaTrackRemoved;
 exports.mediaTrackEnded = mediaTrackEnded;
 
-var _actionTypes = __webpack_require__("../kandy/src/webrtc/interface/actionTypes.js");
+var _actionTypes = __webpack_require__("../../packages/kandy/src/webrtc/interface/actionTypes.js");
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -17614,7 +17614,7 @@ function mediaTrackEnded(id, params) {
 
 /***/ }),
 
-/***/ "../kandy/src/webrtc/interface/actions/misc.js":
+/***/ "../../packages/kandy/src/webrtc/interface/actions/misc.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17625,7 +17625,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.setBrowserDetails = setBrowserDetails;
 
-var _actionTypes = __webpack_require__("../kandy/src/webrtc/interface/actionTypes.js");
+var _actionTypes = __webpack_require__("../../packages/kandy/src/webrtc/interface/actionTypes.js");
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -17648,7 +17648,7 @@ function setBrowserDetails(details) {
 
 /***/ }),
 
-/***/ "../kandy/src/webrtc/interface/actions/sessions.js":
+/***/ "../../packages/kandy/src/webrtc/interface/actions/sessions.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17670,7 +17670,7 @@ exports.sessionTrackEnded = sessionTrackEnded;
 exports.sessionChange = sessionChange;
 exports.sessionTrackReplaced = sessionTrackReplaced;
 
-var _actionTypes = __webpack_require__("../kandy/src/webrtc/interface/actionTypes.js");
+var _actionTypes = __webpack_require__("../../packages/kandy/src/webrtc/interface/actionTypes.js");
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -17729,7 +17729,7 @@ function sessionTrackReplaced(id, params) {
 
 /***/ }),
 
-/***/ "../kandy/src/webrtc/interface/actions/tracks.js":
+/***/ "../../packages/kandy/src/webrtc/interface/actions/tracks.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17754,7 +17754,7 @@ exports.renderTracksFinish = renderTracksFinish;
 exports.removeTracks = removeTracks;
 exports.removeTracksFinish = removeTracksFinish;
 
-var _actionTypes = __webpack_require__("../kandy/src/webrtc/interface/actionTypes.js");
+var _actionTypes = __webpack_require__("../../packages/kandy/src/webrtc/interface/actionTypes.js");
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -17829,7 +17829,7 @@ function removeTracksFinish(trackIds, params) {
 
 /***/ }),
 
-/***/ "../kandy/src/webrtcProxy/channel.js":
+/***/ "../../packages/kandy/src/webrtcProxy/channel.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17959,7 +17959,7 @@ function wrapChannel(channel) {
 
 /***/ }),
 
-/***/ "../kandy/src/webrtcProxy/converters/deviceManager.js":
+/***/ "../../packages/kandy/src/webrtcProxy/converters/deviceManager.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17988,7 +17988,7 @@ exports.default = async function deviceManager(webRTC, command) {
 
 /***/ }),
 
-/***/ "../kandy/src/webrtcProxy/converters/index.js":
+/***/ "../../packages/kandy/src/webrtcProxy/converters/index.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18007,35 +18007,35 @@ exports.convertTrack = convertTrack;
 exports.convertMedia = convertMedia;
 exports.convertSession = convertSession;
 
-var _deviceManager = __webpack_require__("../kandy/src/webrtcProxy/converters/deviceManager.js");
+var _deviceManager = __webpack_require__("../../packages/kandy/src/webrtcProxy/converters/deviceManager.js");
 
 var _deviceManager2 = _interopRequireDefault(_deviceManager);
 
-var _mediaManager = __webpack_require__("../kandy/src/webrtcProxy/converters/mediaManager.js");
+var _mediaManager = __webpack_require__("../../packages/kandy/src/webrtcProxy/converters/mediaManager.js");
 
 var _mediaManager2 = _interopRequireDefault(_mediaManager);
 
-var _sessionManager = __webpack_require__("../kandy/src/webrtcProxy/converters/sessionManager.js");
+var _sessionManager = __webpack_require__("../../packages/kandy/src/webrtcProxy/converters/sessionManager.js");
 
 var _sessionManager2 = _interopRequireDefault(_sessionManager);
 
-var _trackManager = __webpack_require__("../kandy/src/webrtcProxy/converters/trackManager.js");
+var _trackManager = __webpack_require__("../../packages/kandy/src/webrtcProxy/converters/trackManager.js");
 
 var _trackManager2 = _interopRequireDefault(_trackManager);
 
-var _media = __webpack_require__("../kandy/src/webrtcProxy/converters/media.js");
+var _media = __webpack_require__("../../packages/kandy/src/webrtcProxy/converters/media.js");
 
 var _media2 = _interopRequireDefault(_media);
 
-var _session = __webpack_require__("../kandy/src/webrtcProxy/converters/session.js");
+var _session = __webpack_require__("../../packages/kandy/src/webrtcProxy/converters/session.js");
 
 var _session2 = _interopRequireDefault(_session);
 
-var _track = __webpack_require__("../kandy/src/webrtcProxy/converters/track.js");
+var _track = __webpack_require__("../../packages/kandy/src/webrtcProxy/converters/track.js");
 
 var _track2 = _interopRequireDefault(_track);
 
-var _logs = __webpack_require__("../kandy/src/logs/index.js");
+var _logs = __webpack_require__("../../packages/kandy/src/logs/index.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -18132,7 +18132,7 @@ function convertSession(session) {
 
 /***/ }),
 
-/***/ "../kandy/src/webrtcProxy/converters/media.js":
+/***/ "../../packages/kandy/src/webrtcProxy/converters/media.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18142,7 +18142,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _index = __webpack_require__("../kandy/src/webrtcProxy/converters/index.js");
+var _index = __webpack_require__("../../packages/kandy/src/webrtcProxy/converters/index.js");
 
 /**
  * Media "converter".
@@ -18174,7 +18174,7 @@ exports.default = async function media(webRTC, command) {
 
 /***/ }),
 
-/***/ "../kandy/src/webrtcProxy/converters/mediaManager.js":
+/***/ "../../packages/kandy/src/webrtcProxy/converters/mediaManager.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18184,7 +18184,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _index = __webpack_require__("../kandy/src/webrtcProxy/converters/index.js");
+var _index = __webpack_require__("../../packages/kandy/src/webrtcProxy/converters/index.js");
 
 /**
  * Media Manager "converter".
@@ -18219,7 +18219,7 @@ exports.default = async function mediaManager(webRTC, command) {
 
 /***/ }),
 
-/***/ "../kandy/src/webrtcProxy/converters/session.js":
+/***/ "../../packages/kandy/src/webrtcProxy/converters/session.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18261,7 +18261,7 @@ exports.default = async function session(webRTC, command) {
 
 /***/ }),
 
-/***/ "../kandy/src/webrtcProxy/converters/sessionManager.js":
+/***/ "../../packages/kandy/src/webrtcProxy/converters/sessionManager.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18271,7 +18271,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _index = __webpack_require__("../kandy/src/webrtcProxy/converters/index.js");
+var _index = __webpack_require__("../../packages/kandy/src/webrtcProxy/converters/index.js");
 
 /**
  * Session Manager "converter".
@@ -18306,7 +18306,7 @@ exports.default = async function sessionManager(webRTC, command) {
 
 /***/ }),
 
-/***/ "../kandy/src/webrtcProxy/converters/track.js":
+/***/ "../../packages/kandy/src/webrtcProxy/converters/track.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18346,7 +18346,7 @@ exports.default = async function track(webRTC, command) {
 
 /***/ }),
 
-/***/ "../kandy/src/webrtcProxy/converters/trackManager.js":
+/***/ "../../packages/kandy/src/webrtcProxy/converters/trackManager.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18356,7 +18356,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _index = __webpack_require__("../kandy/src/webrtcProxy/converters/index.js");
+var _index = __webpack_require__("../../packages/kandy/src/webrtcProxy/converters/index.js");
 
 /**
  * Track Manager "converter".
@@ -18388,7 +18388,7 @@ exports.default = async function trackManager(webRTC, command) {
 
 /***/ }),
 
-/***/ "../kandy/src/webrtcProxy/remote/clientProxy.js":
+/***/ "../../packages/kandy/src/webrtcProxy/remote/clientProxy.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18399,25 +18399,25 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = clientProxy;
 
-var _converters = __webpack_require__("../kandy/src/webrtcProxy/converters/index.js");
+var _converters = __webpack_require__("../../packages/kandy/src/webrtcProxy/converters/index.js");
 
 var _converters2 = _interopRequireDefault(_converters);
 
-var _webrtcEvents = __webpack_require__("../kandy/src/webrtcProxy/webrtcEvents.js");
+var _webrtcEvents = __webpack_require__("../../packages/kandy/src/webrtcProxy/webrtcEvents.js");
 
 var _webrtcEvents2 = _interopRequireDefault(_webrtcEvents);
 
-var _channel = __webpack_require__("../kandy/src/webrtcProxy/channel.js");
+var _channel = __webpack_require__("../../packages/kandy/src/webrtcProxy/channel.js");
 
 var _channel2 = _interopRequireDefault(_channel);
 
-var _logs = __webpack_require__("../kandy/src/logs/index.js");
+var _logs = __webpack_require__("../../packages/kandy/src/logs/index.js");
 
 var _v = __webpack_require__("../../node_modules/uuid/v4.js");
 
 var _v2 = _interopRequireDefault(_v);
 
-var _kandyWebrtc = __webpack_require__("../webrtc/src/interface/index.js");
+var _kandyWebrtc = __webpack_require__("../../packages/webrtc/src/interface/index.js");
 
 var _kandyWebrtc2 = _interopRequireDefault(_kandyWebrtc);
 
@@ -18592,7 +18592,7 @@ function isWebrtcCommand(data) {
 
 /***/ }),
 
-/***/ "../kandy/src/webrtcProxy/remote/events.js":
+/***/ "../../packages/kandy/src/webrtcProxy/remote/events.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18608,7 +18608,7 @@ var _extends3 = _interopRequireDefault(_extends2);
 
 exports.default = setupEvents;
 
-var _eventEmitter = __webpack_require__("../kandy/src/events/eventEmitter.js");
+var _eventEmitter = __webpack_require__("../../packages/kandy/src/events/eventEmitter.js");
 
 var _eventEmitter2 = _interopRequireDefault(_eventEmitter);
 
@@ -18716,7 +18716,7 @@ function setupEvents() {
 
 /***/ }),
 
-/***/ "../kandy/src/webrtcProxy/remote/index.js":
+/***/ "../../packages/kandy/src/webrtcProxy/remote/index.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18726,19 +18726,19 @@ var _objectWithoutProperties2 = __webpack_require__("../../node_modules/babel-ru
 
 var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-var _clientProxy = __webpack_require__("../kandy/src/webrtcProxy/remote/clientProxy.js");
+var _clientProxy = __webpack_require__("../../packages/kandy/src/webrtcProxy/remote/clientProxy.js");
 
 var _clientProxy2 = _interopRequireDefault(_clientProxy);
 
-var _media = __webpack_require__("../kandy/src/webrtcProxy/remote/media.js");
+var _media = __webpack_require__("../../packages/kandy/src/webrtcProxy/remote/media.js");
 
 var mediaApis = _interopRequireWildcard(_media);
 
-var _events = __webpack_require__("../kandy/src/webrtcProxy/remote/events.js");
+var _events = __webpack_require__("../../packages/kandy/src/webrtcProxy/remote/events.js");
 
 var _events2 = _interopRequireDefault(_events);
 
-var _logs = __webpack_require__("../kandy/src/logs/index.js");
+var _logs = __webpack_require__("../../packages/kandy/src/logs/index.js");
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -18836,7 +18836,7 @@ module.exports = remoteClient;
 
 /***/ }),
 
-/***/ "../kandy/src/webrtcProxy/remote/media.js":
+/***/ "../../packages/kandy/src/webrtcProxy/remote/media.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18852,7 +18852,7 @@ exports.getTrackById = getTrackById;
 exports.renderTracks = renderTracks;
 exports.removeTracks = removeTracks;
 
-var _logs = __webpack_require__("../kandy/src/logs/index.js");
+var _logs = __webpack_require__("../../packages/kandy/src/logs/index.js");
 
 const log = (0, _logs.getLogManager)().getLogger('PROXY');
 
@@ -19010,7 +19010,7 @@ function removeTracks(webRTC, trackIds, cssSelector) {
 
 /***/ }),
 
-/***/ "../kandy/src/webrtcProxy/webrtcEvents.js":
+/***/ "../../packages/kandy/src/webrtcProxy/webrtcEvents.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19021,21 +19021,21 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = setupListeners;
 
-var _mediaManager = __webpack_require__("../kandy/src/webrtc/channels/mediaManager.js");
+var _mediaManager = __webpack_require__("../../packages/kandy/src/webrtc/channels/mediaManager.js");
 
-var _media = __webpack_require__("../kandy/src/webrtc/channels/media.js");
+var _media = __webpack_require__("../../packages/kandy/src/webrtc/channels/media.js");
 
-var _sessionManager = __webpack_require__("../kandy/src/webrtc/channels/sessionManager.js");
+var _sessionManager = __webpack_require__("../../packages/kandy/src/webrtc/channels/sessionManager.js");
 
-var _session = __webpack_require__("../kandy/src/webrtc/channels/session.js");
+var _session = __webpack_require__("../../packages/kandy/src/webrtc/channels/session.js");
 
-var _trackManager = __webpack_require__("../kandy/src/webrtc/channels/trackManager.js");
+var _trackManager = __webpack_require__("../../packages/kandy/src/webrtc/channels/trackManager.js");
 
-var _track = __webpack_require__("../kandy/src/webrtc/channels/track.js");
+var _track = __webpack_require__("../../packages/kandy/src/webrtc/channels/track.js");
 
-var _devices = __webpack_require__("../kandy/src/webrtc/channels/devices.js");
+var _devices = __webpack_require__("../../packages/kandy/src/webrtc/channels/devices.js");
 
-var _actionTypes = __webpack_require__("../kandy/src/webrtc/interface/actionTypes.js");
+var _actionTypes = __webpack_require__("../../packages/kandy/src/webrtc/interface/actionTypes.js");
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -19099,7 +19099,7 @@ function setupListeners(webRTC, emit) {
 
 /***/ }),
 
-/***/ "../webrtc/src/constants.js":
+/***/ "../../packages/webrtc/src/constants.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19145,7 +19145,7 @@ const PEER = exports.PEER = {
 
 /***/ }),
 
-/***/ "../webrtc/src/interface/index.js":
+/***/ "../../packages/webrtc/src/interface/index.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19156,43 +19156,43 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = initialize;
 
-var _track = __webpack_require__("../webrtc/src/models/track.js");
+var _track = __webpack_require__("../../packages/webrtc/src/models/track.js");
 
 var _track2 = _interopRequireDefault(_track);
 
-var _media = __webpack_require__("../webrtc/src/models/media.js");
+var _media = __webpack_require__("../../packages/webrtc/src/models/media.js");
 
 var _media2 = _interopRequireDefault(_media);
 
-var _peer = __webpack_require__("../webrtc/src/models/peer.js");
+var _peer = __webpack_require__("../../packages/webrtc/src/models/peer.js");
 
 var _peer2 = _interopRequireDefault(_peer);
 
-var _mediaManager = __webpack_require__("../webrtc/src/managers/mediaManager.js");
+var _mediaManager = __webpack_require__("../../packages/webrtc/src/managers/mediaManager.js");
 
 var _mediaManager2 = _interopRequireDefault(_mediaManager);
 
-var _peerManager = __webpack_require__("../webrtc/src/managers/peerManager.js");
+var _peerManager = __webpack_require__("../../packages/webrtc/src/managers/peerManager.js");
 
 var _peerManager2 = _interopRequireDefault(_peerManager);
 
-var _sessionManager = __webpack_require__("../webrtc/src/managers/sessionManager.js");
+var _sessionManager = __webpack_require__("../../packages/webrtc/src/managers/sessionManager.js");
 
 var _sessionManager2 = _interopRequireDefault(_sessionManager);
 
-var _deviceManager = __webpack_require__("../webrtc/src/managers/deviceManager.js");
+var _deviceManager = __webpack_require__("../../packages/webrtc/src/managers/deviceManager.js");
 
 var _deviceManager2 = _interopRequireDefault(_deviceManager);
 
-var _trackManager = __webpack_require__("../webrtc/src/managers/trackManager.js");
+var _trackManager = __webpack_require__("../../packages/webrtc/src/managers/trackManager.js");
 
 var _trackManager2 = _interopRequireDefault(_trackManager);
 
-var _pipeline = __webpack_require__("../webrtc/src/sdpUtils/pipeline.js");
+var _pipeline = __webpack_require__("../../packages/webrtc/src/sdpUtils/pipeline.js");
 
 var _pipeline2 = _interopRequireDefault(_pipeline);
 
-var _handlers = __webpack_require__("../webrtc/src/sdpUtils/handlers.js");
+var _handlers = __webpack_require__("../../packages/webrtc/src/sdpUtils/handlers.js");
 
 var sdpHandlers = _interopRequireWildcard(_handlers);
 
@@ -19256,7 +19256,7 @@ function initialize() {
 
 /***/ }),
 
-/***/ "../webrtc/src/managers/deviceManager.js":
+/***/ "../../packages/webrtc/src/managers/deviceManager.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19403,7 +19403,7 @@ const WEBRTC_DEVICE_KINDS = exports.WEBRTC_DEVICE_KINDS = {
 
 /***/ }),
 
-/***/ "../webrtc/src/managers/mediaManager.js":
+/***/ "../../packages/webrtc/src/managers/mediaManager.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19427,7 +19427,7 @@ var _map2 = _interopRequireDefault(_map);
 
 exports.default = MediaManager;
 
-var _media = __webpack_require__("../webrtc/src/models/media.js");
+var _media = __webpack_require__("../../packages/webrtc/src/models/media.js");
 
 var _media2 = _interopRequireDefault(_media);
 
@@ -19738,7 +19738,7 @@ function MediaManager(managers) {
 
 /***/ }),
 
-/***/ "../webrtc/src/managers/peerManager.js":
+/***/ "../../packages/webrtc/src/managers/peerManager.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19758,7 +19758,7 @@ var _map2 = _interopRequireDefault(_map);
 
 exports.default = PeerManager;
 
-var _peer = __webpack_require__("../webrtc/src/models/peer.js");
+var _peer = __webpack_require__("../../packages/webrtc/src/models/peer.js");
 
 var _peer2 = _interopRequireDefault(_peer);
 
@@ -19864,7 +19864,7 @@ function PeerManager(managers) {
 
 /***/ }),
 
-/***/ "../webrtc/src/managers/sessionManager.js":
+/***/ "../../packages/webrtc/src/managers/sessionManager.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19884,7 +19884,7 @@ var _map2 = _interopRequireDefault(_map);
 
 exports.default = SessionManager;
 
-var _session = __webpack_require__("../webrtc/src/models/session.js");
+var _session = __webpack_require__("../../packages/webrtc/src/models/session.js");
 
 var _session2 = _interopRequireDefault(_session);
 
@@ -19982,7 +19982,7 @@ function SessionManager(managers) {
 
 /***/ }),
 
-/***/ "../webrtc/src/managers/trackManager.js":
+/***/ "../../packages/webrtc/src/managers/trackManager.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20002,7 +20002,7 @@ var _map2 = _interopRequireDefault(_map);
 
 exports.default = TrackManager;
 
-var _track = __webpack_require__("../webrtc/src/models/track.js");
+var _track = __webpack_require__("../../packages/webrtc/src/models/track.js");
 
 var _track2 = _interopRequireDefault(_track);
 
@@ -20132,7 +20132,7 @@ function TrackManager() {
 
 /***/ }),
 
-/***/ "../webrtc/src/models/media.js":
+/***/ "../../packages/webrtc/src/models/media.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20367,7 +20367,7 @@ function Media(nativeStream, isLocal) {
 
 /***/ }),
 
-/***/ "../webrtc/src/models/peer.js":
+/***/ "../../packages/webrtc/src/models/peer.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20383,17 +20383,17 @@ var _promise2 = _interopRequireDefault(_promise);
 
 exports.default = Peer;
 
-var _constants = __webpack_require__("../webrtc/src/constants.js");
+var _constants = __webpack_require__("../../packages/webrtc/src/constants.js");
 
-var _pipeline = __webpack_require__("../webrtc/src/sdpUtils/pipeline.js");
+var _pipeline = __webpack_require__("../../packages/webrtc/src/sdpUtils/pipeline.js");
 
-var _handlers = __webpack_require__("../webrtc/src/sdpUtils/handlers.js");
+var _handlers = __webpack_require__("../../packages/webrtc/src/sdpUtils/handlers.js");
 
-var _sdpSemantics = __webpack_require__("../webrtc/src/sdpUtils/sdpSemantics.js");
+var _sdpSemantics = __webpack_require__("../../packages/webrtc/src/sdpUtils/sdpSemantics.js");
 
-var _utils = __webpack_require__("../webrtc/src/utils.js");
+var _utils = __webpack_require__("../../packages/webrtc/src/utils.js");
 
-var _transceiverUtils = __webpack_require__("../webrtc/src/sdpUtils/transceiverUtils.js");
+var _transceiverUtils = __webpack_require__("../../packages/webrtc/src/sdpUtils/transceiverUtils.js");
 
 var _loglevel = __webpack_require__("../../node_modules/loglevel/lib/loglevel.js");
 
@@ -21217,7 +21217,7 @@ function Peer(id, config = {}, trackManager) {
 
 /***/ }),
 
-/***/ "../webrtc/src/models/session.js":
+/***/ "../../packages/webrtc/src/models/session.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21237,15 +21237,15 @@ var _map2 = _interopRequireDefault(_map);
 
 exports.default = Session;
 
-var _constants = __webpack_require__("../webrtc/src/constants.js");
+var _constants = __webpack_require__("../../packages/webrtc/src/constants.js");
 
-var _pipeline = __webpack_require__("../webrtc/src/sdpUtils/pipeline.js");
+var _pipeline = __webpack_require__("../../packages/webrtc/src/sdpUtils/pipeline.js");
 
 var _pipeline2 = _interopRequireDefault(_pipeline);
 
-var _sdpSemantics = __webpack_require__("../webrtc/src/sdpUtils/sdpSemantics.js");
+var _sdpSemantics = __webpack_require__("../../packages/webrtc/src/sdpUtils/sdpSemantics.js");
 
-var _extractors = __webpack_require__("../webrtc/src/sdpUtils/extractors.js");
+var _extractors = __webpack_require__("../../packages/webrtc/src/sdpUtils/extractors.js");
 
 var _loglevel = __webpack_require__("../../node_modules/loglevel/lib/loglevel.js");
 
@@ -22038,7 +22038,7 @@ function Session(id, managers, config = {}) {
 
 /***/ }),
 
-/***/ "../webrtc/src/models/track.js":
+/***/ "../../packages/webrtc/src/models/track.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22057,7 +22057,7 @@ var _eventemitter = __webpack_require__("../../node_modules/eventemitter3/index.
 
 var _eventemitter2 = _interopRequireDefault(_eventemitter);
 
-var _utils = __webpack_require__("../webrtc/src/utils.js");
+var _utils = __webpack_require__("../../packages/webrtc/src/utils.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22366,7 +22366,7 @@ function Track(mediaTrack, mediaStream) {
 
 /***/ }),
 
-/***/ "../webrtc/src/sdpUtils/extractors.js":
+/***/ "../../packages/webrtc/src/sdpUtils/extractors.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22394,7 +22394,7 @@ function getSdpSessionId(sdp) {
 
 /***/ }),
 
-/***/ "../webrtc/src/sdpUtils/handlers.js":
+/***/ "../../packages/webrtc/src/sdpUtils/handlers.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22417,7 +22417,7 @@ var _loglevel = __webpack_require__("../../node_modules/loglevel/lib/loglevel.js
 
 var _loglevel2 = _interopRequireDefault(_loglevel);
 
-var _constants = __webpack_require__("../webrtc/src/constants.js");
+var _constants = __webpack_require__("../../packages/webrtc/src/constants.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22547,7 +22547,7 @@ function preventDtlsRoleChange(newSdp, info, originalSdp) {
 
 /***/ }),
 
-/***/ "../webrtc/src/sdpUtils/pipeline.js":
+/***/ "../../packages/webrtc/src/sdpUtils/pipeline.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22667,7 +22667,7 @@ exports.default = createPipeline();
 
 /***/ }),
 
-/***/ "../webrtc/src/sdpUtils/sdpSemantics.js":
+/***/ "../../packages/webrtc/src/sdpUtils/sdpSemantics.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22679,7 +22679,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.isUnifiedPlan = isUnifiedPlan;
 exports.getSdpSemanticsList = getSdpSemanticsList;
 
-var _constants = __webpack_require__("../webrtc/src/constants.js");
+var _constants = __webpack_require__("../../packages/webrtc/src/constants.js");
 
 var _fp = __webpack_require__("../../node_modules/lodash/fp.js");
 
@@ -22704,7 +22704,7 @@ function getSdpSemanticsList() {
 
 /***/ }),
 
-/***/ "../webrtc/src/sdpUtils/transceiverUtils.js":
+/***/ "../../packages/webrtc/src/sdpUtils/transceiverUtils.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22715,7 +22715,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.setTransceiverDirection = setTransceiverDirection;
 
-var _constants = __webpack_require__("../webrtc/src/constants.js");
+var _constants = __webpack_require__("../../packages/webrtc/src/constants.js");
 
 var _loglevel = __webpack_require__("../../node_modules/loglevel/lib/loglevel.js");
 
@@ -22752,7 +22752,7 @@ function setTransceiverDirection(transceiver, targetDirection) {
 
 /***/ }),
 
-/***/ "../webrtc/src/utils.js":
+/***/ "../../packages/webrtc/src/utils.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
