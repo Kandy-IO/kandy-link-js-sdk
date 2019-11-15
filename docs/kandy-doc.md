@@ -346,6 +346,40 @@ SIP users and PSTN phones.
 
 Call functions are all part of the 'call' namespace.
 
+### MediaConstraint
+
+The MediaConstraint type defines the format for configuring media options.
+Either the `exact` or `ideal` property should be provided. If both are present, the
+   `exact` value will be used.
+
+When the `exact` value is provided, it will be the only value considered for the option.
+   If it cannot be used, the constraint will be considered an error.
+
+When the `ideal` value is provided, it will be considered as the optimal value for the option.
+   If it cannot be used, the closest acceptable value will be used instead.
+
+Type: [Object][4]
+
+**Properties**
+
+-   `exact` **[string][5]?** The required value for the constraint. Other values will not be accepted.
+-   `ideal` **[string][5]?** The ideal value for the constraint. Other values will be considered if necessary.
+
+**Examples**
+
+```javascript
+// Specify video resolution when making a call.
+client.call.make(destination, {
+   audio: true,
+   video: true,
+   videoOptions: {
+     // Set height and width constraints to ideally be 1280x720.
+     height: { ideal: 720 },
+     width: { ideal: 1280 }
+   }
+})
+```
+
 ### CallObject
 
 Information about a Call.
@@ -370,6 +404,24 @@ Type: [Object][4]
 -   `customParameters` **[Array][9]&lt;[call.CustomParameter][19]>** The custom parameters set for the call.
 -   `startTime` **[number][8]** The start time of the call in milliseconds since the epoch.
 -   `endTime` **[number][8]?** The end time of the call in milliseconds since the epoch.
+
+### TrackObject
+
+A Track is a stream of audio or video media from a single source.
+Tracks can be retrieved using the Media module's `getTrackById` API and manipulated with other functions of the Media module.
+
+Type: [Object][4]
+
+**Properties**
+
+-   `containers` **[Array][9]&lt;[string][5]>** The list of CSS selectors that were used to render this Track.
+-   `disabled` **[boolean][7]** Indicator of whether this Track is disabled or not. If disabled, it cannot be re-enabled.
+-   `id` **[string][5]** The ID of the Track.
+-   `kind` **[string][5]** The kind of Track this is (audio, video).
+-   `label` **[string][5]** The label of the device this Track uses.
+-   `muted` **[boolean][7]** Indicator on whether this Track is muted or not.
+-   `state` **[string][5]** The state of this Track. Can be 'live' or 'ended'.
+-   `streamId` **[string][5]** The ID of the Media Stream that includes this Track.
 
 ### CustomParameter
 
@@ -407,19 +459,6 @@ client.call.make(destination, mediaConstraints,
 )
 ```
 
-### DeviceInfo
-
-Contains information about a device.
-
-Type: [Object][4]
-
-**Properties**
-
--   `deviceId` **[string][5]** The ID of the device.
--   `groupId` **[string][5]** The group ID of the device. Devices that share a `groupId` belong to the same physical device.
--   `kind` **[string][5]** The type of the device (audioinput, audiooutput, videoinput).
--   `label` **[string][5]** The name of the device.
-
 ### DevicesObject
 
 A collection of media devices and their information.
@@ -431,24 +470,6 @@ Type: [Object][4]
 -   `camera` **[Array][9]&lt;[call.DeviceInfo][25]>** A list of camera device information.
 -   `microphone` **[Array][9]&lt;[call.DeviceInfo][25]>** A list of microphone device information.
 -   `speaker` **[Array][9]&lt;[call.DeviceInfo][25]>** A list of speaker device information.
-
-### TrackObject
-
-A Track is a stream of audio or video media from a single source.
-Tracks can be retrieved using the Media module's `getTrackById` API and manipulated with other functions of the Media module.
-
-Type: [Object][4]
-
-**Properties**
-
--   `containers` **[Array][9]&lt;[string][5]>** The list of CSS selectors that were used to render this Track.
--   `disabled` **[boolean][7]** Indicator of whether this Track is disabled or not. If disabled, it cannot be re-enabled.
--   `id` **[string][5]** The ID of the Track.
--   `kind` **[string][5]** The kind of Track this is (audio, video).
--   `label` **[string][5]** The label of the device this Track uses.
--   `muted` **[boolean][7]** Indicator on whether this Track is muted or not.
--   `state` **[string][5]** The state of this Track. Can be 'live' or 'ended'.
--   `streamId` **[string][5]** The ID of the Media Stream that includes this Track.
 
 ### MediaObject
 
@@ -462,6 +483,20 @@ Type: [Object][4]
 -   `id` **[string][5]** The ID of the Media object.
 -   `local` **[boolean][7]** Indicator on whether this media is local or remote.
 -   `tracks` **[Array][9]&lt;[call.TrackObject][26]>** A list of Track objects that are contained in this Media object.
+
+### SdpHandlerFunction
+
+The form of an SDP handler function and the expected arguments that it receives.
+
+Type: [Function][13]
+
+**Parameters**
+
+-   `newSdp` **[Object][4]** The SDP so far (could have been modified by previous handlers).
+-   `info` **[call.SdpHandlerInfo][27]** Additional information that might be useful when making SDP modifications.
+-   `originalSdp` **[Object][4]** The SDP in its initial state.
+
+Returns **[Object][4]** The resulting modified SDP based on the changes made by this function.
 
 ### SdpHandlerInfo
 
@@ -506,53 +541,18 @@ client.call.make(destination, mediaConstraints,
 )
 ```
 
-### MediaConstraint
+### DeviceInfo
 
-The MediaConstraint type defines the format for configuring media options.
-Either the `exact` or `ideal` property should be provided. If both are present, the
-   `exact` value will be used.
-
-When the `exact` value is provided, it will be the only value considered for the option.
-   If it cannot be used, the constraint will be considered an error.
-
-When the `ideal` value is provided, it will be considered as the optimal value for the option.
-   If it cannot be used, the closest acceptable value will be used instead.
+Contains information about a device.
 
 Type: [Object][4]
 
 **Properties**
 
--   `exact` **[string][5]?** The required value for the constraint. Other values will not be accepted.
--   `ideal` **[string][5]?** The ideal value for the constraint. Other values will be considered if necessary.
-
-**Examples**
-
-```javascript
-// Specify video resolution when making a call.
-client.call.make(destination, {
-   audio: true,
-   video: true,
-   videoOptions: {
-     // Set height and width constraints to ideally be 1280x720.
-     height: { ideal: 720 },
-     width: { ideal: 1280 }
-   }
-})
-```
-
-### SdpHandlerFunction
-
-The form of an SDP handler function and the expected arguments that it receives.
-
-Type: [Function][13]
-
-**Parameters**
-
--   `newSdp` **[Object][4]** The SDP so far (could have been modified by previous handlers).
--   `info` **[call.SdpHandlerInfo][27]** Additional information that might be useful when making SDP modifications.
--   `originalSdp` **[Object][4]** The SDP in its initial state.
-
-Returns **[Object][4]** The resulting modified SDP based on the changes made by this function.
+-   `deviceId` **[string][5]** The ID of the device.
+-   `groupId` **[string][5]** The group ID of the device. Devices that share a `groupId` belong to the same physical device.
+-   `kind` **[string][5]** The type of the device (audioinput, audiooutput, videoinput).
+-   `label` **[string][5]** The name of the device.
 
 ### make
 
@@ -882,6 +882,38 @@ The SDK will emit a [call:trackEnded][40]
 -   `options` **[Object][4]?**  (optional, default `{}`)
     -   `options.bandwidth` **[call.BandwidthControls][18]?** Options for configuring media's bandwidth.
 
+### startScreenshare
+
+Adds local screenshare to an ongoing Call, to start sending to the remote
+   participant.
+
+The latest SDK release (v4.X+) has not yet implemented this API in the
+   same way that it was available in previous releases (v3.X). In place
+   of this API, the SDK has a more general API that can be used for this
+   same behaviour.
+
+The [call.addMedia][41] API can be used to perform the same behaviour
+   as `startScreenshare`. [call.addMedia][41] is a general-purpose API
+   for adding media to a call, which covers the same functionality as
+   `startScreenshare`. Selecting only screen options when using
+   [call.addMedia][41] will perform the same behaviour as using
+   `startScreenshare`.
+
+**Examples**
+
+```javascript
+// Select media options for adding only screenshare.
+const media = {
+   audio: false,
+   video: false,
+   screen: true,
+   screenOptions: { ... }
+}
+
+// Add the selected media to the call.
+client.call.addMedia(callId, media)
+```
+
 ### stopVideo
 
 Removes local video from an ongoing Call, stopping it from being sent
@@ -892,11 +924,11 @@ The latest SDK release (v4.X+) has not yet implemented this API in the
    of this API, the SDK has a more general API that can be used for this
    same behaviour.
 
-The [call.removeMedia][41] API can be used to perform the same
-   behaviour as `stopVideo`. [call.removeMedia][41] is a
+The [call.removeMedia][42] API can be used to perform the same
+   behaviour as `stopVideo`. [call.removeMedia][42] is a
    general-purpose API for removing media from a call, which covers the
    same functionality as `stopVideo`. Specifying only the video track(s)
-   when using [call.removeMedia][41] will perform the same behaviour
+   when using [call.removeMedia][42] will perform the same behaviour
    as using `stopVideo`.
 
 **Examples**
@@ -911,38 +943,6 @@ const videoTrack = call.localTracks.find(trackId => {
 
 // Remove video from the call.
 client.call.removeMedia(callId, [ videoTrack ])
-```
-
-### startVideo
-
-Adds local video to an ongoing Call, to start sending to the remote
-   participant.
-
-The latest SDK release (v4.X+) has not yet implemented this API in the
-   same way that it was available in previous releases (v3.X). In place
-   of this API, the SDK has a more general API that can be used for this
-   same behaviour.
-
-The [call.addMedia][42] API can be used to perform the same behaviour
-   as `startVideo`. [call.addMedia][42] is a general-purpose API for
-   adding media to a call, which covers the same functionality as
-   `startVideo`. Selecting only video options when using
-   [call.addMedia][42] will perform the same behaviour as using
-   `startVideo`.
-
-**Examples**
-
-```javascript
-// Select media options for adding only video.
-const media = {
-   audio: false,
-   video: true,
-   videoOptions: { ... },
-   screen: false
-}
-
-// Add the selected media to the call.
-client.call.addMedia(callId, media)
 ```
 
 ### sendDTMF
@@ -969,9 +969,9 @@ The progress of the operation will be tracked via the
 -   `duration` **[number][8]** The amount of time, in milliseconds, that each DTMF tone should last. (optional, default `100`)
 -   `intertoneGap` **[number][8]** The length of time, in milliseconds, to wait between tones. (optional, default `70`)
 
-### startScreenshare
+### startVideo
 
-Adds local screenshare to an ongoing Call, to start sending to the remote
+Adds local video to an ongoing Call, to start sending to the remote
    participant.
 
 The latest SDK release (v4.X+) has not yet implemented this API in the
@@ -979,22 +979,22 @@ The latest SDK release (v4.X+) has not yet implemented this API in the
    of this API, the SDK has a more general API that can be used for this
    same behaviour.
 
-The [call.addMedia][42] API can be used to perform the same behaviour
-   as `startScreenshare`. [call.addMedia][42] is a general-purpose API
-   for adding media to a call, which covers the same functionality as
-   `startScreenshare`. Selecting only screen options when using
-   [call.addMedia][42] will perform the same behaviour as using
-   `startScreenshare`.
+The [call.addMedia][41] API can be used to perform the same behaviour
+   as `startVideo`. [call.addMedia][41] is a general-purpose API for
+   adding media to a call, which covers the same functionality as
+   `startVideo`. Selecting only video options when using
+   [call.addMedia][41] will perform the same behaviour as using
+   `startVideo`.
 
 **Examples**
 
 ```javascript
-// Select media options for adding only screenshare.
+// Select media options for adding only video.
 const media = {
    audio: false,
-   video: false,
-   screen: true,
-   screenOptions: { ... }
+   video: true,
+   videoOptions: { ... },
+   screen: false
 }
 
 // Add the selected media to the call.
@@ -1011,11 +1011,11 @@ The latest SDK release (v4.X+) has not yet implemented this API in the
    of this API, the SDK has a more general API that can be used for this
    same behaviour.
 
-The [call.removeMedia][41] API can be used to perform the same
-   behaviour as `stopScreenshare`. [call.removeMedia][41] is a
+The [call.removeMedia][42] API can be used to perform the same
+   behaviour as `stopScreenshare`. [call.removeMedia][42] is a
    general-purpose API for removing media from a call, which covers the
    same functionality as `stopScreenshare`. Specifying only the screen
-   track when using [call.removeMedia][41] will perform the same
+   track when using [call.removeMedia][42] will perform the same
    behaviour as using `stopScreenshare`.
 
 There is a caveat that if a Call has multiple video tracks (for example,
@@ -1209,43 +1209,6 @@ client.call.replaceTrack(callId, videoTrack.id, {
 })
 ```
 
-### changeSpeaker
-
-Changes the speaker used for a Call's audio output. Supported on
-   browser's that support HTMLMediaElement.setSinkId().
-
-The latest SDK release (v4.X+) has not yet implemented this API in the
-   same way that it was available in previous releases (v3.X). In place
-   of this API, the SDK has a more general API that can be used for this
-   same behaviour.
-
-The same behaviour as the `changeSpeaker` API can be implemented by
-   re-rendering the Call's audio track.  A speaker can be selected when
-   rendering an audio track, so changing a speaker can be simulated
-   by unrendering the track with [media.removeTracks][45], then
-   re-rendering it with a new speaker with [media.renderTracks][46].
-
-**Examples**
-
-```javascript
-const call = client.call.getById(callId)
-// Get the ID of the Call's audio track.
-const audioTrack = call.localTracks.find(trackId => {
-   const track = client.media.getTrackById(trackId)
-   return track.kind === 'audio'
-})
-
-// Where the audio track was previously rendered.
-const audioContainer = ...
-
-// Unrender the audio track we want to change speaker for.
-client.media.removeTrack([ audioTrack ], audioContainer)
-// Re-render the audio track with a new speaker.
-client.media.renderTrack([ audioTrack ], audioContainer, {
-   speakerId: 'speakerId'
-})
-```
-
 ### states
 
 Possible states that a Call can be in.
@@ -1301,7 +1264,7 @@ The devices used for a call can be selected as part of the APIs for
    starting the call. Microphone and/or camera can be chosen in the
    [call.make][20] and [call.answer][21] APIs, and speaker can be
    chosen when the audio track is rendered with the
-   [media.renderTracks][46] API.
+   [media.renderTracks][45] API.
 
 ### changeInputDevices
 
@@ -1313,7 +1276,7 @@ The latest SDK release (v4.X+) has not yet implemented this API in the
    same behaviour.
 
 The same behaviour as the `changeInputDevices` API can be implemented
-   using the general-purpose [call.replaceTrack][47] API. This API can
+   using the general-purpose [call.replaceTrack][46] API. This API can
    be used to replace an existing media track with a new track of the
    same type, allowing an application to change certain aspects of the
    media, such as input device.
@@ -1338,6 +1301,43 @@ const media = {
 
 // Change the call's camera by replacing the video track.
 client.call.replaceTrack(callId, videoTrack, media)
+```
+
+### changeSpeaker
+
+Changes the speaker used for a Call's audio output. Supported on
+   browser's that support HTMLMediaElement.setSinkId().
+
+The latest SDK release (v4.X+) has not yet implemented this API in the
+   same way that it was available in previous releases (v3.X). In place
+   of this API, the SDK has a more general API that can be used for this
+   same behaviour.
+
+The same behaviour as the `changeSpeaker` API can be implemented by
+   re-rendering the Call's audio track.  A speaker can be selected when
+   rendering an audio track, so changing a speaker can be simulated
+   by unrendering the track with [media.removeTracks][47], then
+   re-rendering it with a new speaker with [media.renderTracks][45].
+
+**Examples**
+
+```javascript
+const call = client.call.getById(callId)
+// Get the ID of the Call's audio track.
+const audioTrack = call.localTracks.find(trackId => {
+   const track = client.media.getTrackById(trackId)
+   return track.kind === 'audio'
+})
+
+// Where the audio track was previously rendered.
+const audioContainer = ...
+
+// Unrender the audio track we want to change speaker for.
+client.media.removeTrack([ audioTrack ], audioContainer)
+// Re-render the audio track with a new speaker.
+client.media.renderTrack([ audioTrack ], audioContainer, {
+   speakerId: 'speakerId'
+})
 ```
 
 ### TEL_URI
@@ -1569,6 +1569,45 @@ If a conversation with the given user ID already exists in the store, it will be
 
 Returns **[conversation.Conversation][48]** A Conversation object.
 
+### Message
+
+A Message object is a means by which a sender can deliver information to a recipient.
+
+Creating and sending a message:
+
+A message object can be obtained through the [Conversation.createMessage][49] API on an existing conversation.
+
+Messages have Parts which represent pieces of a message, such as a text part, a json object part or a file part.
+Once all the desired parts have been added to the message using the [Message.addPart][50] function,
+the message can then be sent using the [Message.send][51] function.
+
+Once the sender sends a message, this message is saved in sender's state as an object.
+Similarly, once the recipient gets a message, this message is saved in recipient's state.
+
+Retrieving a delivered message:
+
+Once a message is delivered successfully, it can be
+obtained through the [Conversation.getMessages][52] or [Conversation.getMessage][53] API on an existing conversation.
+
+Below are the properties pertaining to the message object, returned by Conversation.getMessage(s) APIs, for either sender or recipient.
+
+Type: [Object][4]
+
+**Properties**
+
+-   `timestamp` **[number][8]** A Unix timestamp in seconds marking the time when the message was created by sender.
+-   `parts` **[Array][9]&lt;conversation.Part>** An array of Part Objects.
+-   `sender` **[string][5]** The primary contact address of the sender.
+-   `destination` **[Array][9]&lt;[string][5]>** An array of primary contact addresses associated with various destinations to which the message is meant to be delivered.
+-   `messageId` **[string][5]** The unique id of the message. The message object (stored in sender's state) has a different id
+    than the one associated with the message object stored in recipient's state.
+-   `type` **[string][5]** The type of message that was sent. See [conversation.chatTypes][54] for valid types.
+    This property applies only to message objects stored in sender's state.
+
+#### send
+
+Sends the message.
+
 ### Conversation
 
 A Conversation object represents a conversation between either two users, or a
@@ -1597,7 +1636,7 @@ Create and return a message object. You must provide a `text` part as demonstrat
 conversation.createMessage({type: 'text', text: 'This is the message'});
 ```
 
-Returns **[conversation.Message][50]** The newly created Message object.
+Returns **[conversation.Message][55]** The newly created Message object.
 
 #### clearMessages
 
@@ -1657,19 +1696,6 @@ Messages can then be retrieved using getMessages.
 
 -   `amount` **[number][8]** An amount of messages to fetch. (optional, default `50`)
 
-### Message
-
-A Message object represents an individual message. Messages have parts
-which represent pieces of a message, such as a text part or a file part. Once
-all the desired parts have been added, a message can be sent with the [send()][51]
-function.
-
-Type: [Object][4]
-
-#### send
-
-Sends the message.
-
 ## logger
 
 The internal logger is used to provide information about the SDK's behaviour.
@@ -1678,7 +1704,7 @@ logs are simple lines of information about what the SDK is doing during operatio
 Action logs are complete information about a specific action that occurred
 within the SDK, providing debug information describing it.
 The amount of information logged can be configured as part of the SDK configuration.
-See [config.logs][52] .
+See [config.logs][56] .
 
 ### levels
 
@@ -1695,7 +1721,7 @@ Possible levels for the SDK logger.
 ## media
 
 The 'media' namespace provides an interface for interacting with Media that the
-   SDK has access to. Media is used in conjunction with the [Calls][53]
+   SDK has access to. Media is used in conjunction with the [Calls][57]
    feature to manipulate and render the Tracks sent and received from a Call.
 
 Media and Track objects are not created directly, but are created as part of
@@ -1706,13 +1732,13 @@ Media and Track objects are not created directly, but are created as part of
 The Media feature also keeps track of media devices that the user's machine
    can access. Any media device (eg. USB headset) connected to the machine
    can be used as a source for media. Available devices can be found using
-   the [media.getDevices][54] API.
+   the [media.getDevices][58] API.
 
 ### getDevices
 
 Retrieves the available media devices for use.
 
-The [devices:change][55] event will be
+The [devices:change][59] event will be
    emitted when the available media devices have changed.
 
 Returns **[Object][4]** The lists of camera, microphone, and speaker devices.
@@ -1725,7 +1751,7 @@ Retrieves an available Media object with a specific Media ID.
 
 -   `mediaId` **[string][5]** The ID of the Media to retrieve.
 
-Returns **[call.MediaObject][56]** A Media object.
+Returns **[call.MediaObject][60]** A Media object.
 
 ### getTrackById
 
@@ -1791,7 +1817,7 @@ If a local Track being sent in a Call is muted, the Track will be
    noticeably muted for the remote user. If a remote Track received in a
    call is muted, the result will only be noticeable locally.
 
-The SDK will emit a [media:muted][57] event
+The SDK will emit a [media:muted][61] event
    when a Track has been muted.
 
 **Parameters**
@@ -1804,7 +1830,7 @@ Unmutes the specified Tracks.
 
 Media will resume as normal for the Tracks.
 
-The SDK will emit a [media:unmuted][58] event
+The SDK will emit a [media:unmuted][62] event
    when a Track has been unmuted.
 
 **Parameters**
@@ -1857,11 +1883,11 @@ The 'presence' namespace provides an interface for an application to set the
 
 Presence information is persisted by the server. When the SDK is initialized,
    there will be no information available. Presence information will become
-   available either by using [presence.fetch][59] or by subscribing for
-   updates about other Users, using [presence.subscribe][60].
+   available either by using [presence.fetch][63] or by subscribing for
+   updates about other Users, using [presence.subscribe][64].
 
-Available presence information can be retrieved using [presence.get][61] or
-   [presence.getAll][62].
+Available presence information can be retrieved using [presence.get][65] or
+   [presence.getAll][66].
 
 ### statuses
 
@@ -1899,16 +1925,16 @@ Possible activity values.
 
 Updates the presence information for the current user.
 
-See [presence.statuses][63] and [presence.activities][64] for valid
+See [presence.statuses][67] and [presence.activities][68] for valid
    values.
 
 The SDK will emit a
-   [presence:selfChange][65] event
+   [presence:selfChange][69] event
    when the operation completes. The updated presence information is
-   available and can be retrieved with [presence.getSelf][66].
+   available and can be retrieved with [presence.getSelf][70].
 
 Other users subscribed for this user's presence will receive a
-   [presence:change][67] event.
+   [presence:change][71] event.
 
 **Parameters**
 
@@ -1936,7 +1962,7 @@ Returns **[Array][9]&lt;[Object][4]>** List of user presence information.
 
 Retrieves the presence information for the current user.
 
-This information is set using the [presence.update][68] API.
+This information is set using the [presence.update][72] API.
 
 Returns **[Object][4]** Presence information for the current user.
 
@@ -1946,7 +1972,7 @@ Fetches presence information for the given users. This will refresh the
    available information with any new information from the server.
 
 Available presence information an be retrieved using the
-   [presence.get][61] or [presence.getAll][62] APIs.
+   [presence.get][65] or [presence.getAll][66] APIs.
 
 **Parameters**
 
@@ -1957,7 +1983,7 @@ Available presence information an be retrieved using the
 Subscribe to another User's presence updates.
 
 When the User updates their presence information, the SDK will emit a
-   [presence:change][67] event.
+   [presence:change][71] event.
 
 **Parameters**
 
@@ -2063,7 +2089,7 @@ Sets the channel to be used while proxy mode is enabled.
 
 **Parameters**
 
--   `channel` **[proxy.Channel][69]** See the `Channel` module for information.
+-   `channel` **[proxy.Channel][73]** See the `Channel` module for information.
 
 ### initializeRemote
 
@@ -2075,7 +2101,7 @@ Sends an initialization message over the channel with webRTC configurations.
 
 ## sdpHandlers
 
-A set of [SdpHandlerFunction][70]s for manipulating SDP information.
+A set of [SdpHandlerFunction][74]s for manipulating SDP information.
 These handlers are used to customize low-level call behaviour for very specific
 environments and/or scenarios. They can be provided during SDK instantiation
 to be used for all calls.
@@ -2189,12 +2215,12 @@ Type: [Object][4]
 
 Fetches information about a User.
 
-The SDK will emit a [directory:change][71]
+The SDK will emit a [directory:change][75]
    event after the operation completes. The User's information will then
    be available.
 
 Information about an available User can be retrieved using the
-   [user.get][72] API.
+   [user.get][76] API.
 
 **Parameters**
 
@@ -2203,36 +2229,36 @@ Information about an available User can be retrieved using the
 ### fetchSelfInfo
 
 Fetches information about the current User from directory.
-Compared to [user.fetch][73] API, this API retrieves additional user related information.
+Compared to [user.fetch][77] API, this API retrieves additional user related information.
 
-The SDK will emit a [directory:change][71]
+The SDK will emit a [directory:change][75]
    event after the operation completes. The User's information will then
    be available.
 
 Information about an available User can be retrieved using the
-   [user.get][72] API.
+   [user.get][76] API.
 
 ### get
 
 Retrieves information about a User, if available.
 
-See the [user.fetch][73] and [user.search][74] APIs for details about
+See the [user.fetch][77] and [user.search][78] APIs for details about
    making Users' information available.
 
 **Parameters**
 
 -   `userId` **[string][5]** The User ID of the user.
 
-Returns **[user.User][75]** The User object for the specified user.
+Returns **[user.User][79]** The User object for the specified user.
 
 ### getAll
 
 Retrieves information about all available Users.
 
-See the [user.fetch][73] and [user.search][74] APIs for details about
+See the [user.fetch][77] and [user.search][78] APIs for details about
    making Users' information available.
 
-Returns **[Array][9]&lt;[user.User][75]>** An array of all the User objects.
+Returns **[Array][9]&lt;[user.User][79]>** An array of all the User objects.
 
 ### search
 
@@ -2241,10 +2267,10 @@ Searches the domain's directory for Users.
 Directory searching only supports one filter. If multiple filters are provided, only one of the filters will be used for the search.
 A search with no filters provided will return all users.
 
-The SDK will emit a [directory:change][71]
+The SDK will emit a [directory:change][75]
    event after the operation completes. The search results will be
    provided as part of the event, and will also be available using the
-   [user.get][72] and [user.getAll][76] APIs.
+   [user.get][76] and [user.getAll][80] APIs.
 
 **Parameters**
 
@@ -2352,74 +2378,82 @@ Returns voicemail data from the store.
 
 [40]: #calleventcalltrackended
 
-[41]: #callremovemedia
+[41]: #calladdmedia
 
-[42]: #calladdmedia
+[42]: #callremovemedia
 
 [43]: #calleventcallstatsreceived
 
 [44]: #calleventcalltrackreplaced
 
-[45]: #mediaremovetracks
+[45]: #mediarendertracks
 
-[46]: #mediarendertracks
+[46]: #callreplacetrack
 
-[47]: #callreplacetrack
+[47]: #mediaremovetracks
 
 [48]: #conversationconversation
 
 [49]: #conversationconversationcreatemessage
 
-[50]: #conversationmessage
+[50]: conversation.Message.addPart
 
 [51]: #conversationmessagesend
 
-[52]: #configconfiglogs
+[52]: #conversationconversationgetmessages
 
-[53]: #call
+[53]: #conversationconversationgetmessage
 
-[54]: #mediagetdevices
+[54]: conversation.chatTypes
 
-[55]: #mediaeventdeviceschange
+[55]: #conversationmessage
 
-[56]: #callmediaobject
+[56]: #configconfiglogs
 
-[57]: #mediaeventmediamuted
+[57]: #call
 
-[58]: #mediaeventmediaunmuted
+[58]: #mediagetdevices
 
-[59]: #presencefetch
+[59]: #mediaeventdeviceschange
 
-[60]: #presencesubscribe
+[60]: #callmediaobject
 
-[61]: #presenceget
+[61]: #mediaeventmediamuted
 
-[62]: #presencegetall
+[62]: #mediaeventmediaunmuted
 
-[63]: #presencestatuses
+[63]: #presencefetch
 
-[64]: #presenceactivities
+[64]: #presencesubscribe
 
-[65]: #presenceeventpresenceselfchange
+[65]: #presenceget
 
-[66]: #presencegetself
+[66]: #presencegetall
 
-[67]: #presenceeventpresencechange
+[67]: #presencestatuses
 
-[68]: #presenceupdate
+[68]: #presenceactivities
 
-[69]: #proxychannel
+[69]: #presenceeventpresenceselfchange
 
-[70]: #callsdphandlerfunction
+[70]: #presencegetself
 
-[71]: #usereventdirectorychange
+[71]: #presenceeventpresencechange
 
-[72]: user.get
+[72]: #presenceupdate
 
-[73]: #userfetch
+[73]: #proxychannel
 
-[74]: #usersearch
+[74]: #callsdphandlerfunction
 
-[75]: #useruser
+[75]: #usereventdirectorychange
 
-[76]: user.getAll
+[76]: user.get
+
+[77]: #userfetch
+
+[78]: #usersearch
+
+[79]: #useruser
+
+[80]: user.getAll
