@@ -10,6 +10,11 @@ Kandy.js change log.
 ### Added
 
 - Added Call support for setting and sending custom parameters. `KAA-2063`
+- Added new user event, `users:change`, to notify when we fetch information about a user. `KAA-1882`
+
+### Changed
+
+- Changed the event emitted when a user is fetched to `users:change`. `KAA-1882`
 
 ### Fixed
 
