@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.remote.js
- * Version: 4.10.0-beta.202
+ * Version: 4.10.0-beta.203
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -20414,7 +20414,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @typedef {Object} PeerConfig
  * @property {Object} [rtcConfig] Configuration for the native RTCPeerConnection.
  * @property {String} [trickleIceMode=FULL] The initial mode the Peer will use when receiving ICE candidates.
- * @property {Number} [iceTimeout=3000] Duration (in ms) that the Peer should wait for ICE candidate collection.
+ * @property {Number} [maxIceTimeout=3000] Duration (in ms) that the Peer should wait for ICE candidate collection.
  * @property {Function} [halfTrickleThreshold] Function that determines whether the threshold has been met when in HALF trickle mode.
  * @property {Number} [iceCollectionDelay=1000] The time (in ms) between ICE collection checks.
  * @property {Function} [iceCollectionCheck] The function to check whether enough ICE candidates
@@ -20429,7 +20429,7 @@ const defaultConfig = {
   },
   trickleIceMode: _constants.PEER.TRICKLE_ICE.FULL,
   removeBundling: true,
-  iceTimeout: 3000,
+  maxIceTimeout: 3000,
   halfTrickleThreshold: isPassedHalfTrickleThreshold,
   iceCollectionDelay: 1000,
   iceCollectionCheck: iceCollectionCheck
@@ -20502,13 +20502,32 @@ function Peer(id, config = {}, trackManager) {
    * @method iceCollectionLoop
    */
   const iceCollectionLoop = () => {
+    // If gathering completed during the delay, we don't need to loop anymore.
+    if (peerConnection.iceGatheringState === 'complete') {
+      _loglevel2.default.debug('ICE collection completed; stopping candidate check loop.');
+      // Gathering completes when the null candidate is received. The "on
+      //    negotiation ready" event should be emitted at that time.
+      iceCandidates = [];
+      iceCollectionMaxTime = 0;
+      return;
+    }
+
     iceCollectionMaxTime += config.iceCollectionDelay;
-    const shouldTimeout = config.iceCollectionCheck(iceCandidates);
-    if (shouldTimeout || iceCollectionMaxTime >= config.iceTimeout) {
+    const enoughCandidates = config.iceCollectionCheck(iceCandidates);
+    const hasReachedTimeout = iceCollectionMaxTime >= config.maxIceTimeout;
+
+    if (hasReachedTimeout) {
+      _loglevel2.default.debug('ICE collection timeout reached; continuing with negotiation.');
+      iceCandidates = [];
+      iceCollectionMaxTime = 0;
+      emitter.emit('onnegotiationready');
+    } else if (enoughCandidates) {
+      _loglevel2.default.debug('ICE candidates sufficient for negotiation; continuing.');
       iceCandidates = [];
       iceCollectionMaxTime = 0;
       emitter.emit('onnegotiationready');
     } else {
+      _loglevel2.default.debug(`ICE candidates not sufficient for negotiation, delaying another ${config.iceCollectionDelay}ms.`);
       setTimeout(function () {
         iceCollectionLoop();
       }, config.iceCollectionDelay);
