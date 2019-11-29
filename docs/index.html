@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset='utf-8' />
-  <title>kandy 4.9.0 | Documentation</title>
+  <title>kandy 4.10.0 | Documentation</title>
   <meta name='viewport' content='width=device-width,initial-scale=1'>
   <link href='assets/bass.css' type='text/css' rel='stylesheet' />
   <link href='assets/style.css' type='text/css' rel='stylesheet' />
@@ -14,7 +14,7 @@
       <div id='split-left' class='overflow-auto fs0 height-viewport-100'>
         <div class='py1 px2'>
           <h3 class='mb0 no-anchor'>kandy</h3>
-          <div class='mb1'><code>4.9.0</code></div>
+          <div class='mb1'><code>4.10.0</code></div>
           <input
             placeholder='Filter'
             id='filter-input'
@@ -311,9 +311,21 @@
                       </a></li>
                     
                       <li><a
-                        href='#calliceserver'
+                        href='#callmediaconstraint'
                         class='regular pre-open'>
-                        <span style="color:blue">ⓣ</span> IceServer
+                        <span style="color:blue">ⓣ</span> MediaConstraint
+                      </a></li>
+                    
+                      <li><a
+                        href='#callcallobject'
+                        class='regular pre-open'>
+                        <span style="color:blue">ⓣ</span> CallObject
+                      </a></li>
+                    
+                      <li><a
+                        href='#callmediaobject'
+                        class='regular pre-open'>
+                        <span style="color:blue">ⓣ</span> MediaObject
                       </a></li>
                     
                       <li><a
@@ -329,15 +341,9 @@
                       </a></li>
                     
                       <li><a
-                        href='#callmediaobject'
+                        href='#callcustomparameter'
                         class='regular pre-open'>
-                        <span style="color:blue">ⓣ</span> MediaObject
-                      </a></li>
-                    
-                      <li><a
-                        href='#calltrackobject'
-                        class='regular pre-open'>
-                        <span style="color:blue">ⓣ</span> TrackObject
+                        <span style="color:blue">ⓣ</span> CustomParameter
                       </a></li>
                     
                       <li><a
@@ -347,21 +353,21 @@
                       </a></li>
                     
                       <li><a
-                        href='#callcallobject'
+                        href='#calliceserver'
                         class='regular pre-open'>
-                        <span style="color:blue">ⓣ</span> CallObject
-                      </a></li>
-                    
-                      <li><a
-                        href='#callmediaconstraint'
-                        class='regular pre-open'>
-                        <span style="color:blue">ⓣ</span> MediaConstraint
+                        <span style="color:blue">ⓣ</span> IceServer
                       </a></li>
                     
                       <li><a
                         href='#calldeviceinfo'
                         class='regular pre-open'>
                         <span style="color:blue">ⓣ</span> DeviceInfo
+                      </a></li>
+                    
+                      <li><a
+                        href='#calltrackobject'
+                        class='regular pre-open'>
+                        <span style="color:blue">ⓣ</span> TrackObject
                       </a></li>
                     
                       <li><a
@@ -418,6 +424,18 @@
                       </a></li>
                     
                       <li><a
+                        href='#callsetcustomparameters'
+                        class='regular pre-open'>
+                        <span style="color:green">ⓕ</span> .setCustomParameters
+                      </a></li>
+                    
+                      <li><a
+                        href='#callsendcustomparameters'
+                        class='regular pre-open'>
+                        <span style="color:green">ⓕ</span> .sendCustomParameters
+                      </a></li>
+                    
+                      <li><a
                         href='#callgetall'
                         class='regular pre-open'>
                         <span style="color:green">ⓕ</span> .getAll
@@ -448,9 +466,9 @@
                       </a></li>
                     
                       <li><a
-                        href='#callstartvideo'
+                        href='#callstopscreenshare'
                         class='regular pre-open'>
-                        <span style="color:green">ⓕ</span> .startVideo
+                        <span style="color:green">ⓕ</span> .stopScreenshare
                       </a></li>
                     
                       <li><a
@@ -460,15 +478,15 @@
                       </a></li>
                     
                       <li><a
-                        href='#callstartscreenshare'
+                        href='#callstartvideo'
                         class='regular pre-open'>
-                        <span style="color:green">ⓕ</span> .startScreenshare
+                        <span style="color:green">ⓕ</span> .startVideo
                       </a></li>
                     
                       <li><a
-                        href='#callstopscreenshare'
+                        href='#callstartscreenshare'
                         class='regular pre-open'>
-                        <span style="color:green">ⓕ</span> .stopScreenshare
+                        <span style="color:green">ⓕ</span> .startScreenshare
                       </a></li>
                     
                       <li><a
@@ -514,6 +532,12 @@
                       </a></li>
                     
                       <li><a
+                        href='#callstates'
+                        class='regular pre-open'>
+                        <span style="color:green">ⓕ</span> .states
+                      </a></li>
+                    
+                      <li><a
                         href='#callsetdefaultdevices'
                         class='regular pre-open'>
                         <span style="color:green">ⓕ</span> .setDefaultDevices
@@ -529,12 +553,6 @@
                         href='#callchangespeaker'
                         class='regular pre-open'>
                         <span style="color:green">ⓕ</span> .changeSpeaker
-                      </a></li>
-                    
-                      <li><a
-                        href='#callstates'
-                        class='regular pre-open'>
-                        <span style="color:green">ⓕ</span> .states
                       </a></li>
                     
                     </ul>
@@ -1596,6 +1614,18 @@
                           <span style="color:orange">ⓔ</span> directory:error
                         </a></li>
                       
+                        <li><a
+                          href='#usereventuserschange'
+                          class='regular pre-open'>
+                          <span style="color:orange">ⓔ</span> users:change
+                        </a></li>
+                      
+                        <li><a
+                          href='#usereventuserserror'
+                          class='regular pre-open'>
+                          <span style="color:orange">ⓔ</span> users:error
+                        </a></li>
+                      
                     </ul>
                   
                 </div>
@@ -2275,9 +2305,48 @@ values you can use when instantiating the SDK using the <a href="#create">create
 
               
                 <tr>
-  <td class='break-word'><span class='code bold'>call.iceServers</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;IceServer>?</code>
+  <td class='break-word'><span class='code bold'>call.iceServers</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#calliceserver">call.IceServer</a>>?</code>
   </td>
   <td class='break-word'><span>The list of ICE servers to be used for calls.
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>call.iceCollectionDelay</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></code>
+  
+    (default <code>1000</code>)
+  </td>
+  <td class='break-word'><span>Time, in milliseconds, to delay in between
+ICE candidate checks. If ICE collection does not complete normally, the SDK will check
+collected candidates at this interval to determine if the opertion can continue.
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>call.maxIceTimeout</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></code>
+  
+    (default <code>3000</code>)
+  </td>
+  <td class='break-word'><span>Maximum time, in milliseconds, to wait for ICE
+collection to complete normally. After this time, the process will timeout and the
+operation will attempt to continue no matter how many candidates have been collected.
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>call.iceCollectionCheck</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">Function</a>?</code>
+  </td>
+  <td class='break-word'><span>Function to check whether collected candidates
+can be used to continue the operation. The function will receive an array of ICE
+candidates and must return a boolean value of whether the SDK should attempt to continue
+the operation. By default, the check is to ensure at least one relay candidate has been
+collected.
 </span></td>
 </tr>
 
@@ -2295,7 +2364,7 @@ values you can use when instantiating the SDK using the <a href="#create">create
 
               
                 <tr>
-  <td class='break-word'><span class='code bold'>call.sdpHandlers</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;SdpHandlerFunction>?</code>
+  <td class='break-word'><span class='code bold'>call.sdpHandlers</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#callsdphandlerfunction">call.SdpHandlerFunction</a>>?</code>
   </td>
   <td class='break-word'><span>List of SDP handler functions to modify SDP. Advanced usage.
 </span></td>
@@ -3280,119 +3349,6 @@ log(<span class="hljs-string">`Browser in use: <span class="hljs-subst">${detail
 
   
 
-  <p>Connect with user credentials to any backend services that the SDK instance deals with.</p>
-
-
-  <div class='pre p1 fill-light mt0'>connect(credentials: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>)</div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>credentials</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>)</code>
-	    The credentials object.
-
-          </div>
-          
-          <table class='mt1 mb2 fixed-table h5 col-12'>
-            <colgroup>
-              <col width='30%' />
-              <col width='70%' />
-            </colgroup>
-            <thead>
-              <tr class='bold fill-light'>
-                <th>Name</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody class='mt1'>
-              
-                <tr>
-  <td class='break-word'><span class='code bold'>credentials.username</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
-  </td>
-  <td class='break-word'><span>The username including the application's domain.
-</span></td>
-</tr>
-
-
-              
-                <tr>
-  <td class='break-word'><span class='code bold'>credentials.password</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
-  </td>
-  <td class='break-word'><span>The user's password.
-</span></td>
-</tr>
-
-
-              
-                <tr>
-  <td class='break-word'><span class='code bold'>credentials.authname</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?</code>
-  </td>
-  <td class='break-word'><span>The user's authorization name.
-</span></td>
-</tr>
-
-
-              
-            </tbody>
-          </table>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Example</div>
-    
-      
-      <pre class='p1 overflow-auto round fill-light'>client.connect({
-  <span class="hljs-attr">username</span>: <span class="hljs-string">'alfred@example.com'</span>,
-  <span class="hljs-attr">password</span>: <span class="hljs-string">'********'</span>
-  authname: <span class="hljs-string">'********'</span>
-});</pre>
-    
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='apiconnect'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>connect(credentials)</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
   <p>Connect by providing a username and HMAC token. This connects to any backend services that the SDK instance deals with.
 An HMAC token is used to verify a user via the user's authorization within an organization.
 HMAC tokens are generated by using the HmacSHA1 algorithm and a key on a data object
@@ -3485,6 +3441,119 @@ client.connect({
   <span class="hljs-attr">username</span>: <span class="hljs-string">'alfred@example.com'</span>,
   hmacToken
 })</pre>
+    
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='apiconnect'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>connect(credentials)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Connect with user credentials to any backend services that the SDK instance deals with.</p>
+
+
+  <div class='pre p1 fill-light mt0'>connect(credentials: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>credentials</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>)</code>
+	    The credentials object.
+
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5 col-12'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <th>Name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>credentials.username</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
+  </td>
+  <td class='break-word'><span>The username including the application's domain.
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>credentials.password</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
+  </td>
+  <td class='break-word'><span>The user's password.
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>credentials.authname</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?</code>
+  </td>
+  <td class='break-word'><span>The user's authorization name.
+</span></td>
+</tr>
+
+
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Example</div>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'>client.connect({
+  <span class="hljs-attr">username</span>: <span class="hljs-string">'alfred@example.com'</span>,
+  <span class="hljs-attr">password</span>: <span class="hljs-string">'********'</span>
+  authname: <span class="hljs-string">'********'</span>
+});</pre>
     
   
 
@@ -4178,7 +4247,7 @@ It's not meant to be displayed to a user.
             <tbody class='mt1'>
               
                 <tr>
-  <td class='break-word'><span class='code bold'>params.error</span> <code class='quiet'>BasicError</code>
+  <td class='break-word'><span class='code bold'>params.error</span> <code class='quiet'><a href="#apibasicerror">api.BasicError</a></code>
   </td>
   <td class='break-word'><span>The Basic error object.
 </span></td>
@@ -4283,7 +4352,7 @@ session expires.</p>
 
               
                 <tr>
-  <td class='break-word'><span class='code bold'>params.error</span> <code class='quiet'>BasicError?</code>
+  <td class='break-word'><span class='code bold'>params.error</span> <code class='quiet'><a href="#apibasicerror">api.BasicError</a>?</code>
   </td>
   <td class='break-word'><span>The Basic error object.
 </span></td>
@@ -4468,11 +4537,11 @@ client.call.make(destination, mediaConstraints,
       </div>
     </div>
   
-    <div class='border-bottom' id='calliceserver'>
+    <div class='border-bottom' id='callmediaconstraint'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>IceServer</span>
+            <span class='code strong strong truncate'>MediaConstraint</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -4480,9 +4549,16 @@ client.call.make(destination, mediaConstraints,
 
   
 
-  
+  <p>The MediaConstraint type defines the format for configuring media options.
+Either the <code>exact</code> or <code>ideal</code> property should be provided. If both are present, the
+<code>exact</code> value will be used.</p>
+<p>When the <code>exact</code> value is provided, it will be the only value considered for the option.
+If it cannot be used, the constraint will be considered an error.</p>
+<p>When the <code>ideal</code> value is provided, it will be considered as the optimal value for the option.
+If it cannot be used, the closest acceptable value will be used instead.</p>
 
-  <div class='pre p1 fill-light mt0'>IceServer</div>
+
+  <div class='pre p1 fill-light mt0'>MediaConstraint</div>
   
     <p>
       Type:
@@ -4505,22 +4581,7 @@ client.call.make(destination, mediaConstraints,
     <div>
       
         <div class='space-bottom0'>
-          <span class='code bold'>urls</span> 
-          <code class='quiet'>
-            ((<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>))
-          </code>
-
-          
-
-          
-             : Either an array of URLs for reaching out several ICE servers or a single URL for reaching one ICE server.
-
-          
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>credential</span> 
+          <span class='code bold'>exact</span> 
           <code class='quiet'>
             (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?)
           </code>
@@ -4528,7 +4589,392 @@ client.call.make(destination, mediaConstraints,
           
 
           
-             : The credential needed by the ICE server.
+             : The required value for the constraint. Other values will not be accepted.
+
+          
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <span class='code bold'>ideal</span> 
+          <code class='quiet'>
+            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?)
+          </code>
+
+          
+
+          
+             : The ideal value for the constraint. Other values will be considered if necessary.
+
+          
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Example</div>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-comment">// Specify video resolution when making a call.</span>
+client.call.make(destination, {
+   <span class="hljs-attr">audio</span>: <span class="hljs-literal">true</span>,
+   <span class="hljs-attr">video</span>: <span class="hljs-literal">true</span>,
+   <span class="hljs-attr">videoOptions</span>: {
+     <span class="hljs-comment">// Set height and width constraints to ideally be 1280x720.</span>
+     height: { <span class="hljs-attr">ideal</span>: <span class="hljs-number">720</span> },
+     <span class="hljs-attr">width</span>: { <span class="hljs-attr">ideal</span>: <span class="hljs-number">1280</span> }
+   }
+})</pre>
+    
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='callcallobject'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>CallObject</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Information about a Call.</p>
+<p>Can be retrieved using the <a href="#callgetall">call.getAll</a> or <a href="#callgetbyid">call.getById</a> APIs.</p>
+
+
+  <div class='pre p1 fill-light mt0'>CallObject</div>
+  
+    <p>
+      Type:
+      <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>
+    </p>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Properties</div>
+    <div>
+      
+        <div class='space-bottom0'>
+          <span class='code bold'>id</span> 
+          <code class='quiet'>
+            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)
+          </code>
+
+          
+
+          
+             : The ID of the call.
+
+          
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <span class='code bold'>direction</span> 
+          <code class='quiet'>
+            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)
+          </code>
+
+          
+
+          
+             : The direction in which the call was created. Can be 'outgoing' or 'incoming'.
+
+          
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <span class='code bold'>state</span> 
+          <code class='quiet'>
+            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)
+          </code>
+
+          
+
+          
+             : The current state of the call. See 
+<a href="#callstates">call.states</a>
+ for possible states.
+
+          
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <span class='code bold'>localHold</span> 
+          <code class='quiet'>
+            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>)
+          </code>
+
+          
+
+          
+             : Indicates whether this call is currently being held locally.
+
+          
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <span class='code bold'>remoteHold</span> 
+          <code class='quiet'>
+            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>)
+          </code>
+
+          
+
+          
+             : Indicates whether this call is currently being held remotely.
+
+          
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <span class='code bold'>localTracks</span> 
+          <code class='quiet'>
+            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>>)
+          </code>
+
+          
+
+          
+             : A list of Track IDs that the call is sending to the remote participant.
+
+          
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <span class='code bold'>remoteTracks</span> 
+          <code class='quiet'>
+            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>>)
+          </code>
+
+          
+
+          
+             : A list of Track IDs that the call is receiving from the remote participant.
+
+          
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <span class='code bold'>remoteParticipant</span> 
+          <code class='quiet'>
+            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>)
+          </code>
+
+          
+
+          
+             : Information about the other call participant.
+
+          
+          
+            <ul>
+              
+                <li><code>remoteParticipant.displayNumber</code> <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?
+                  
+                  <p>The User ID of the remote participant in the form "username@domain".</p>
+</li>
+              
+                <li><code>remoteParticipant.displayName</code> <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?
+                  
+                  <p>The display name of the remote participant.</p>
+</li>
+              
+            </ul>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <span class='code bold'>bandwidth</span> 
+          <code class='quiet'>
+            (<a href="#callbandwidthcontrols">call.BandwidthControls</a>)
+          </code>
+
+          
+
+          
+             : The bandwidth limitations set for the call.
+
+          
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <span class='code bold'>customParameters</span> 
+          <code class='quiet'>
+            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#callcustomparameter">call.CustomParameter</a>>)
+          </code>
+
+          
+
+          
+             : The custom parameters set for the call.
+
+          
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <span class='code bold'>startTime</span> 
+          <code class='quiet'>
+            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)
+          </code>
+
+          
+
+          
+             : The start time of the call in milliseconds since the epoch.
+
+          
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <span class='code bold'>endTime</span> 
+          <code class='quiet'>
+            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>?)
+          </code>
+
+          
+
+          
+             : The end time of the call in milliseconds since the epoch.
+
+          
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='callmediaobject'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>MediaObject</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>The state representation of a Media object.
+Media is a collection of Track objects.</p>
+
+
+  <div class='pre p1 fill-light mt0'>MediaObject</div>
+  
+    <p>
+      Type:
+      <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>
+    </p>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Properties</div>
+    <div>
+      
+        <div class='space-bottom0'>
+          <span class='code bold'>id</span> 
+          <code class='quiet'>
+            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)
+          </code>
+
+          
+
+          
+             : The ID of the Media object.
+
+          
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <span class='code bold'>local</span> 
+          <code class='quiet'>
+            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>)
+          </code>
+
+          
+
+          
+             : Indicator on whether this media is local or remote.
+
+          
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <span class='code bold'>tracks</span> 
+          <code class='quiet'>
+            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#calltrackobject">call.TrackObject</a>>)
+          </code>
+
+          
+
+          
+             : A list of Track objects that are contained in this Media object.
 
           
           
@@ -4653,7 +5099,7 @@ client.call.make(destination, mediaConstraints,
   <p>The form of an SDP handler function and the expected arguments that it receives.</p>
 
 
-  <div class='pre p1 fill-light mt0'>SdpHandlerFunction(newSdp: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>, info: SdpHandlerInfo, originalSdp: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></div>
+  <div class='pre p1 fill-light mt0'>SdpHandlerFunction(newSdp: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>, info: <a href="#callsdphandlerinfo">call.SdpHandlerInfo</a>, originalSdp: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></div>
   
     <p>
       Type:
@@ -4684,7 +5130,7 @@ client.call.make(destination, mediaConstraints,
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>info</span> <code class='quiet'>(SdpHandlerInfo)</code>
+            <span class='code bold'>info</span> <code class='quiet'>(<a href="#callsdphandlerinfo">call.SdpHandlerInfo</a>)</code>
 	    Additional information that might be useful when making SDP modifications.
 
           </div>
@@ -4731,11 +5177,11 @@ client.call.make(destination, mediaConstraints,
       </div>
     </div>
   
-    <div class='border-bottom' id='callmediaobject'>
+    <div class='border-bottom' id='callcustomparameter'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>MediaObject</span>
+            <span class='code strong strong truncate'>CustomParameter</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -4743,11 +5189,16 @@ client.call.make(destination, mediaConstraints,
 
   
 
-  <p>The state representation of a Media object.
-Media is a collection of Track objects.</p>
+  <p>Custom SIP headers can be used to convey additional information to a SIP endpoint.</p>
+<p>These headers must be configured on the server prior to making a request, otherwise the request will fail when trying to set the headers.</p>
+<p>These headers can be specified with the <a href="#callmake">call.make</a> and <a href="#callanswer">call.answer</a> APIs.
+They can also be set on a call using the <a href="#callsetcustomparameters">call.setCustomParameters</a>, and sent using the <a href="#callsendcustomparameters">call.sendCustomParameters</a> API.</p>
+<p>A Call's custom parameters are a property of the Call's <a href="#callcallobject">CallObject</a>,
+which can be retrieved using the <a href="#callgetbyid">call.getById</a> or
+<a href="#callgetall">call.getAll</a> APIs.</p>
 
 
-  <div class='pre p1 fill-light mt0'>MediaObject</div>
+  <div class='pre p1 fill-light mt0'>CustomParameter</div>
   
     <p>
       Type:
@@ -4770,7 +5221,7 @@ Media is a collection of Track objects.</p>
     <div>
       
         <div class='space-bottom0'>
-          <span class='code bold'>id</span> 
+          <span class='code bold'>name</span> 
           <code class='quiet'>
             (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)
           </code>
@@ -4778,37 +5229,342 @@ Media is a collection of Track objects.</p>
           
 
           
-             : The ID of the Media object.
+             : The name of the custom parameter
 
           
           
         </div>
       
         <div class='space-bottom0'>
-          <span class='code bold'>local</span> 
+          <span class='code bold'>value</span> 
           <code class='quiet'>
-            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>)
+            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)
           </code>
 
           
 
           
-             : Indicator on whether this media is local or remote.
+             : The value of the custom parameter
+
+          
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Example</div>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-comment">// Specify custom parameters when making a call.</span>
+client.call.make(destination, mediaConstraints,
+ {
+   <span class="hljs-attr">customParameters</span>: [
+     {
+       <span class="hljs-attr">name</span>: <span class="hljs-string">'X-GPS'</span>,
+       <span class="hljs-attr">value</span>: <span class="hljs-string">'42.686032,23.344565'</span>
+     }
+   ]
+ }
+)</pre>
+    
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='calldevicesobject'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>DevicesObject</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>A collection of media devices and their information.</p>
+
+
+  <div class='pre p1 fill-light mt0'>DevicesObject</div>
+  
+    <p>
+      Type:
+      <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>
+    </p>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Properties</div>
+    <div>
+      
+        <div class='space-bottom0'>
+          <span class='code bold'>camera</span> 
+          <code class='quiet'>
+            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#calldeviceinfo">call.DeviceInfo</a>>)
+          </code>
+
+          
+
+          
+             : A list of camera device information.
 
           
           
         </div>
       
         <div class='space-bottom0'>
-          <span class='code bold'>tracks</span> 
+          <span class='code bold'>microphone</span> 
           <code class='quiet'>
-            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;TrackObject>)
+            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#calldeviceinfo">call.DeviceInfo</a>>)
           </code>
 
           
 
           
-             : A list of Track objects that are contained in this Media object.
+             : A list of microphone device information.
+
+          
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <span class='code bold'>speaker</span> 
+          <code class='quiet'>
+            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#calldeviceinfo">call.DeviceInfo</a>>)
+          </code>
+
+          
+
+          
+             : A list of speaker device information.
+
+          
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='calliceserver'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>IceServer</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  
+
+  <div class='pre p1 fill-light mt0'>IceServer</div>
+  
+    <p>
+      Type:
+      <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>
+    </p>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Properties</div>
+    <div>
+      
+        <div class='space-bottom0'>
+          <span class='code bold'>urls</span> 
+          <code class='quiet'>
+            ((<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>))
+          </code>
+
+          
+
+          
+             : Either an array of URLs for reaching out several ICE servers or a single URL for reaching one ICE server.
+
+          
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <span class='code bold'>credential</span> 
+          <code class='quiet'>
+            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?)
+          </code>
+
+          
+
+          
+             : The credential needed by the ICE server.
+
+          
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='calldeviceinfo'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>DeviceInfo</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Contains information about a device.</p>
+
+
+  <div class='pre p1 fill-light mt0'>DeviceInfo</div>
+  
+    <p>
+      Type:
+      <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>
+    </p>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Properties</div>
+    <div>
+      
+        <div class='space-bottom0'>
+          <span class='code bold'>deviceId</span> 
+          <code class='quiet'>
+            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)
+          </code>
+
+          
+
+          
+             : The ID of the device.
+
+          
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <span class='code bold'>groupId</span> 
+          <code class='quiet'>
+            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)
+          </code>
+
+          
+
+          
+             : The group ID of the device. Devices that share a 
+<code>groupId</code>
+ belong to the same physical device.
+
+          
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <span class='code bold'>kind</span> 
+          <code class='quiet'>
+            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)
+          </code>
+
+          
+
+          
+             : The type of the device (audioinput, audiooutput, videoinput).
+
+          
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <span class='code bold'>label</span> 
+          <code class='quiet'>
+            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)
+          </code>
+
+          
+
+          
+             : The name of the device.
 
           
           
@@ -5010,570 +5766,6 @@ Tracks can be retrieved using the Media module's <code>getTrackById</code> API a
       </div>
     </div>
   
-    <div class='border-bottom' id='calldevicesobject'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>DevicesObject</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>A collection of media devices and their information.</p>
-
-
-  <div class='pre p1 fill-light mt0'>DevicesObject</div>
-  
-    <p>
-      Type:
-      <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>
-    </p>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Properties</div>
-    <div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>camera</span> 
-          <code class='quiet'>
-            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;DeviceInfo>)
-          </code>
-
-          
-
-          
-             : A list of camera device information.
-
-          
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>microphone</span> 
-          <code class='quiet'>
-            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;DeviceInfo>)
-          </code>
-
-          
-
-          
-             : A list of microphone device information.
-
-          
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>speaker</span> 
-          <code class='quiet'>
-            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;DeviceInfo>)
-          </code>
-
-          
-
-          
-             : A list of speaker device information.
-
-          
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='callcallobject'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>CallObject</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>Information about a Call.</p>
-<p>Can be retrieved using the <a href="#callgetall">call.getAll</a> or <a href="#callgetbyid">call.getById</a> APIs.</p>
-
-
-  <div class='pre p1 fill-light mt0'>CallObject</div>
-  
-    <p>
-      Type:
-      <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>
-    </p>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Properties</div>
-    <div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>id</span> 
-          <code class='quiet'>
-            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)
-          </code>
-
-          
-
-          
-             : The ID of the call.
-
-          
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>direction</span> 
-          <code class='quiet'>
-            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)
-          </code>
-
-          
-
-          
-             : The direction in which the call was created. Can be 'outgoing' or 'incoming'.
-
-          
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>state</span> 
-          <code class='quiet'>
-            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)
-          </code>
-
-          
-
-          
-             : The current state of the call. See 
-<a href="#callstates">call.states</a>
- for possible states.
-
-          
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>localHold</span> 
-          <code class='quiet'>
-            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>)
-          </code>
-
-          
-
-          
-             : Indicates whether this call is currently being held locally.
-
-          
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>remoteHold</span> 
-          <code class='quiet'>
-            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>)
-          </code>
-
-          
-
-          
-             : Indicates whether this call is currently being held remotely.
-
-          
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>localTracks</span> 
-          <code class='quiet'>
-            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>>)
-          </code>
-
-          
-
-          
-             : A list of Track IDs that the call is sending to the remote participant.
-
-          
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>remoteTracks</span> 
-          <code class='quiet'>
-            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>>)
-          </code>
-
-          
-
-          
-             : A list of Track IDs that the call is receiving from the remote participant.
-
-          
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>remoteParticipant</span> 
-          <code class='quiet'>
-            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>)
-          </code>
-
-          
-
-          
-             : Information about the other call participant.
-
-          
-          
-            <ul>
-              
-                <li><code>remoteParticipant.displayNumber</code> <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?
-                  
-                  <p>The User ID of the remote participant in the form "username@domain".</p>
-</li>
-              
-                <li><code>remoteParticipant.displayName</code> <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?
-                  
-                  <p>The display name of the remote participant.</p>
-</li>
-              
-            </ul>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>bandwidth</span> 
-          <code class='quiet'>
-            (BandwidthControls)
-          </code>
-
-          
-
-          
-             : The bandwidth limitations set for the call.
-
-          
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>startTime</span> 
-          <code class='quiet'>
-            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)
-          </code>
-
-          
-
-          
-             : The start time of the call in milliseconds since the epoch.
-
-          
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>endTime</span> 
-          <code class='quiet'>
-            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>?)
-          </code>
-
-          
-
-          
-             : The end time of the call in milliseconds since the epoch.
-
-          
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='callmediaconstraint'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>MediaConstraint</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>The MediaConstraint type defines the format for configuring media options.
-Either the <code>exact</code> or <code>ideal</code> property should be provided. If both are present, the
-<code>exact</code> value will be used.</p>
-<p>When the <code>exact</code> value is provided, it will be the only value considered for the option.
-If it cannot be used, the constraint will be considered an error.</p>
-<p>When the <code>ideal</code> value is provided, it will be considered as the optimal value for the option.
-If it cannot be used, the closest acceptable value will be used instead.</p>
-
-
-  <div class='pre p1 fill-light mt0'>MediaConstraint</div>
-  
-    <p>
-      Type:
-      <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>
-    </p>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Properties</div>
-    <div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>exact</span> 
-          <code class='quiet'>
-            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?)
-          </code>
-
-          
-
-          
-             : The required value for the constraint. Other values will not be accepted.
-
-          
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>ideal</span> 
-          <code class='quiet'>
-            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?)
-          </code>
-
-          
-
-          
-             : The ideal value for the constraint. Other values will be considered if necessary.
-
-          
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Example</div>
-    
-      
-      <pre class='p1 overflow-auto round fill-light'><span class="hljs-comment">// Specify video resolution when making a call.</span>
-client.call.make(destination, {
-   <span class="hljs-attr">audio</span>: <span class="hljs-literal">true</span>,
-   <span class="hljs-attr">video</span>: <span class="hljs-literal">true</span>,
-   <span class="hljs-attr">videoOptions</span>: {
-     <span class="hljs-comment">// Set height and width constraints to ideally be 1280x720.</span>
-     height: { <span class="hljs-attr">ideal</span>: <span class="hljs-number">720</span> },
-     <span class="hljs-attr">width</span>: { <span class="hljs-attr">ideal</span>: <span class="hljs-number">1280</span> }
-   }
-})</pre>
-    
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='calldeviceinfo'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>DeviceInfo</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>Contains information about a device.</p>
-
-
-  <div class='pre p1 fill-light mt0'>DeviceInfo</div>
-  
-    <p>
-      Type:
-      <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>
-    </p>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Properties</div>
-    <div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>deviceId</span> 
-          <code class='quiet'>
-            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)
-          </code>
-
-          
-
-          
-             : The ID of the device.
-
-          
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>groupId</span> 
-          <code class='quiet'>
-            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)
-          </code>
-
-          
-
-          
-             : The group ID of the device. Devices that share a 
-<code>groupId</code>
- belong to the same physical device.
-
-          
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>kind</span> 
-          <code class='quiet'>
-            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)
-          </code>
-
-          
-
-          
-             : The type of the device (audioinput, audiooutput, videoinput).
-
-          
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>label</span> 
-          <code class='quiet'>
-            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)
-          </code>
-
-          
-
-          
-             : The name of the device.
-
-          
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
     <div class='border-bottom' id='calltel_uri'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
@@ -5715,7 +5907,7 @@ use the devices, the user may be prompted by the browser to give
 permissions.</p>
 
 
-  <div class='pre p1 fill-light mt0'>make(destination: (SIP_URI | TEL_URI), media: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>, options: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></div>
+  <div class='pre p1 fill-light mt0'>make(destination: (<a href="#callsip_uri">call.SIP_URI</a> | <a href="#calltel_uri">call.TEL_URI</a>), media: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>, options: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></div>
   
   
 
@@ -5732,7 +5924,7 @@ permissions.</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>destination</span> <code class='quiet'>((SIP_URI | TEL_URI))</code>
+            <span class='code bold'>destination</span> <code class='quiet'>((<a href="#callsip_uri">call.SIP_URI</a> | <a href="#calltel_uri">call.TEL_URI</a>))</code>
 	    The desired destination.
 
           </div>
@@ -5779,7 +5971,7 @@ permissions.</p>
 
   
     <tr>
-  <td class='break-word'><span class='code bold'>media.audioOptions.deviceId</span> <code class='quiet'>MediaConstraint?</code>
+  <td class='break-word'><span class='code bold'>media.audioOptions.deviceId</span> <code class='quiet'><a href="#callmediaconstraint">call.MediaConstraint</a>?</code>
   </td>
   <td class='break-word'><span>ID of the microphone to receive audio from.
 </span></td>
@@ -5821,7 +6013,7 @@ permissions.</p>
 
   
     <tr>
-  <td class='break-word'><span class='code bold'>media.videoOptions.deviceId</span> <code class='quiet'>MediaConstraint?</code>
+  <td class='break-word'><span class='code bold'>media.videoOptions.deviceId</span> <code class='quiet'><a href="#callmediaconstraint">call.MediaConstraint</a>?</code>
   </td>
   <td class='break-word'><span>ID of the camera to receive video from.
 </span></td>
@@ -5830,7 +6022,7 @@ permissions.</p>
 
   
     <tr>
-  <td class='break-word'><span class='code bold'>media.videoOptions.height</span> <code class='quiet'>MediaConstraint?</code>
+  <td class='break-word'><span class='code bold'>media.videoOptions.height</span> <code class='quiet'><a href="#callmediaconstraint">call.MediaConstraint</a>?</code>
   </td>
   <td class='break-word'><span>The height of the video.
 </span></td>
@@ -5839,7 +6031,7 @@ permissions.</p>
 
   
     <tr>
-  <td class='break-word'><span class='code bold'>media.videoOptions.width</span> <code class='quiet'>MediaConstraint?</code>
+  <td class='break-word'><span class='code bold'>media.videoOptions.width</span> <code class='quiet'><a href="#callmediaconstraint">call.MediaConstraint</a>?</code>
   </td>
   <td class='break-word'><span>The width of the video.
 </span></td>
@@ -5848,7 +6040,7 @@ permissions.</p>
 
   
     <tr>
-  <td class='break-word'><span class='code bold'>media.videoOptions.frameRate</span> <code class='quiet'>MediaConstraint?</code>
+  <td class='break-word'><span class='code bold'>media.videoOptions.frameRate</span> <code class='quiet'><a href="#callmediaconstraint">call.MediaConstraint</a>?</code>
   </td>
   <td class='break-word'><span>The frame rate of the video.
 </span></td>
@@ -5868,7 +6060,7 @@ permissions.</p>
 
   
     <tr>
-  <td class='break-word'><span class='code bold'>media.screenOptions.height</span> <code class='quiet'>MediaConstraint?</code>
+  <td class='break-word'><span class='code bold'>media.screenOptions.height</span> <code class='quiet'><a href="#callmediaconstraint">call.MediaConstraint</a>?</code>
   </td>
   <td class='break-word'><span>The height of the screenShare.
 </span></td>
@@ -5877,7 +6069,7 @@ permissions.</p>
 
   
     <tr>
-  <td class='break-word'><span class='code bold'>media.screenOptions.width</span> <code class='quiet'>MediaConstraint?</code>
+  <td class='break-word'><span class='code bold'>media.screenOptions.width</span> <code class='quiet'><a href="#callmediaconstraint">call.MediaConstraint</a>?</code>
   </td>
   <td class='break-word'><span>The width of the screenShare.
 </span></td>
@@ -5886,7 +6078,7 @@ permissions.</p>
 
   
     <tr>
-  <td class='break-word'><span class='code bold'>media.screenOptions.frameRate</span> <code class='quiet'>MediaConstraint?</code>
+  <td class='break-word'><span class='code bold'>media.screenOptions.frameRate</span> <code class='quiet'><a href="#callmediaconstraint">call.MediaConstraint</a>?</code>
   </td>
   <td class='break-word'><span>The frame rate of the screenShare.
 </span></td>
@@ -5922,7 +6114,7 @@ permissions.</p>
             <tbody class='mt1'>
               
                 <tr>
-  <td class='break-word'><span class='code bold'>options.bandwidth</span> <code class='quiet'>BandwidthControls?</code>
+  <td class='break-word'><span class='code bold'>options.bandwidth</span> <code class='quiet'><a href="#callbandwidthcontrols">call.BandwidthControls</a>?</code>
   </td>
   <td class='break-word'><span>Options for configuring media's bandwidth.
 </span></td>
@@ -5934,6 +6126,15 @@ permissions.</p>
   <td class='break-word'><span class='code bold'>options.displayName</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?</code>
   </td>
   <td class='break-word'><span>Custom display name to be provided to the destination. Not supported in all environments and may use default display name.
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>options.customParameters</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#callcustomparameter">call.CustomParameter</a>>?</code>
+  </td>
+  <td class='break-word'><span>Custom SIP header parameters for the SIP backend
 </span></td>
 </tr>
 
@@ -6155,7 +6356,7 @@ permissions.</p>
 
   
     <tr>
-  <td class='break-word'><span class='code bold'>media.audioOptions.deviceId</span> <code class='quiet'>MediaConstraint?</code>
+  <td class='break-word'><span class='code bold'>media.audioOptions.deviceId</span> <code class='quiet'><a href="#callmediaconstraint">call.MediaConstraint</a>?</code>
   </td>
   <td class='break-word'><span>ID of the microphone to receive audio from.
 </span></td>
@@ -6197,7 +6398,7 @@ permissions.</p>
 
   
     <tr>
-  <td class='break-word'><span class='code bold'>media.videoOptions.deviceId</span> <code class='quiet'>MediaConstraint?</code>
+  <td class='break-word'><span class='code bold'>media.videoOptions.deviceId</span> <code class='quiet'><a href="#callmediaconstraint">call.MediaConstraint</a>?</code>
   </td>
   <td class='break-word'><span>ID of the camera to receive video from.
 </span></td>
@@ -6206,7 +6407,7 @@ permissions.</p>
 
   
     <tr>
-  <td class='break-word'><span class='code bold'>media.videoOptions.height</span> <code class='quiet'>MediaConstraint?</code>
+  <td class='break-word'><span class='code bold'>media.videoOptions.height</span> <code class='quiet'><a href="#callmediaconstraint">call.MediaConstraint</a>?</code>
   </td>
   <td class='break-word'><span>The height of the video.
 </span></td>
@@ -6215,7 +6416,7 @@ permissions.</p>
 
   
     <tr>
-  <td class='break-word'><span class='code bold'>media.videoOptions.width</span> <code class='quiet'>MediaConstraint?</code>
+  <td class='break-word'><span class='code bold'>media.videoOptions.width</span> <code class='quiet'><a href="#callmediaconstraint">call.MediaConstraint</a>?</code>
   </td>
   <td class='break-word'><span>The width of the video.
 </span></td>
@@ -6224,7 +6425,7 @@ permissions.</p>
 
   
     <tr>
-  <td class='break-word'><span class='code bold'>media.videoOptions.frameRate</span> <code class='quiet'>MediaConstraint?</code>
+  <td class='break-word'><span class='code bold'>media.videoOptions.frameRate</span> <code class='quiet'><a href="#callmediaconstraint">call.MediaConstraint</a>?</code>
   </td>
   <td class='break-word'><span>The frame rate of the video.
 </span></td>
@@ -6244,7 +6445,7 @@ permissions.</p>
 
   
     <tr>
-  <td class='break-word'><span class='code bold'>media.screenOptions.height</span> <code class='quiet'>MediaConstraint?</code>
+  <td class='break-word'><span class='code bold'>media.screenOptions.height</span> <code class='quiet'><a href="#callmediaconstraint">call.MediaConstraint</a>?</code>
   </td>
   <td class='break-word'><span>The height of the screenShare.
 </span></td>
@@ -6253,7 +6454,7 @@ permissions.</p>
 
   
     <tr>
-  <td class='break-word'><span class='code bold'>media.screenOptions.width</span> <code class='quiet'>MediaConstraint?</code>
+  <td class='break-word'><span class='code bold'>media.screenOptions.width</span> <code class='quiet'><a href="#callmediaconstraint">call.MediaConstraint</a>?</code>
   </td>
   <td class='break-word'><span>The width of the screenShare.
 </span></td>
@@ -6262,7 +6463,7 @@ permissions.</p>
 
   
     <tr>
-  <td class='break-word'><span class='code bold'>media.screenOptions.frameRate</span> <code class='quiet'>MediaConstraint?</code>
+  <td class='break-word'><span class='code bold'>media.screenOptions.frameRate</span> <code class='quiet'><a href="#callmediaconstraint">call.MediaConstraint</a>?</code>
   </td>
   <td class='break-word'><span>The frame rate of the screenShare.
 </span></td>
@@ -6298,9 +6499,18 @@ permissions.</p>
             <tbody class='mt1'>
               
                 <tr>
-  <td class='break-word'><span class='code bold'>options.bandwidth</span> <code class='quiet'>BandwidthControls?</code>
+  <td class='break-word'><span class='code bold'>options.bandwidth</span> <code class='quiet'><a href="#callbandwidthcontrols">call.BandwidthControls</a>?</code>
   </td>
   <td class='break-word'><span>Options for configuring media's bandwidth.
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>options.customParameters</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#callcustomparameter">call.CustomParameter</a>>?</code>
+  </td>
+  <td class='break-word'><span>Custom SIP header parameters for the SIP backend
 </span></td>
 </tr>
 
@@ -6540,6 +6750,148 @@ will be notified of the operation through a
       </div>
     </div>
   
+    <div class='border-bottom' id='callsetcustomparameters'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>setCustomParameters(callId, customParameters)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Set the custom parameters of a call.</p>
+<p>The specified parameters will be saved as part of the call's information throughout the duration of the call.
+All subsequent call operations will include these custom parameters.
+Therefore, invalid parameters, or parameters not previously configured on the server, will cause subsequent call operations to fail.</p>
+<p>A Call's custom parameters are a property of the Call's <a href="#callcallobject">CallObject</a>,
+which can be retrieved using the <a href="#callgetbyid">call.getById</a> or
+<a href="#callgetall">call.getAll</a> APIs.</p>
+<p>The custom parameters set on a call can be sent directly with the <a href="#callsendcustomparameters">call.sendCustomParameters</a> API.</p>
+<p>Custom parameters can be removed from a call's information by setting them as undefined (e.g., <code>call.setCustomParameters(callId)</code>).
+Subsequent call operations will no longer send custom parameters.</p>
+
+
+  <div class='pre p1 fill-light mt0'>setCustomParameters(callId: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, customParameters: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#callcustomparameter">call.CustomParameter</a>>)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>callId</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+	    The ID of the call.
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>customParameters</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#callcustomparameter">call.CustomParameter</a>>)</code>
+	    The custom parameters to set.
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='callsendcustomparameters'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>sendCustomParameters(callId)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Send the custom parameters on an ongoing call.</p>
+<p>A Call's custom parameters are a property of the Call's <a href="#callcallobject">CallObject</a>,
+which can be retrieved using the <a href="#callgetbyid">call.getById</a> or
+<a href="#callgetall">call.getAll</a> APIs.</p>
+<p>To change or remove the custom parameters on a call, use the <a href="#callsetcustomparameters">call.setCustomParameters</a> API.</p>
+
+
+  <div class='pre p1 fill-light mt0'>sendCustomParameters(callId: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>callId</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+	    The ID of the call being acted on.
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
     <div class='border-bottom' id='callgetall'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
@@ -6555,7 +6907,7 @@ will be notified of the operation through a
   <p>Retrieves the information of all calls made during the current session.</p>
 
 
-  <div class='pre p1 fill-light mt0'>getAll(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;CallObject></div>
+  <div class='pre p1 fill-light mt0'>getAll(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#callcallobject">call.CallObject</a>></div>
   
   
 
@@ -6574,7 +6926,7 @@ will be notified of the operation through a
     <div class='py1 quiet mt1 prose-big'>Returns</div>
     
       <div>
-        <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;CallObject></code>:
+        <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#callcallobject">call.CallObject</a>></code>:
           Call objects.
 
         
@@ -6620,7 +6972,7 @@ will be notified of the operation through a
   <p>Retrieves the information of a single call with a specific call ID.</p>
 
 
-  <div class='pre p1 fill-light mt0'>getById(callId: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): CallObject</div>
+  <div class='pre p1 fill-light mt0'>getById(callId: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="#callcallobject">call.CallObject</a></div>
   
   
 
@@ -6653,7 +7005,7 @@ will be notified of the operation through a
     <div class='py1 quiet mt1 prose-big'>Returns</div>
     
       <div>
-        <code>CallObject</code>:
+        <code><a href="#callcallobject">call.CallObject</a></code>:
           A call object.
 
         
@@ -6832,7 +7184,7 @@ added to the Call.</p>
 
   
     <tr>
-  <td class='break-word'><span class='code bold'>media.audioOptions.deviceId</span> <code class='quiet'>MediaConstraint?</code>
+  <td class='break-word'><span class='code bold'>media.audioOptions.deviceId</span> <code class='quiet'><a href="#callmediaconstraint">call.MediaConstraint</a>?</code>
   </td>
   <td class='break-word'><span>ID of the microphone to receive audio from.
 </span></td>
@@ -6874,7 +7226,7 @@ added to the Call.</p>
 
   
     <tr>
-  <td class='break-word'><span class='code bold'>media.videoOptions.deviceId</span> <code class='quiet'>MediaConstraint?</code>
+  <td class='break-word'><span class='code bold'>media.videoOptions.deviceId</span> <code class='quiet'><a href="#callmediaconstraint">call.MediaConstraint</a>?</code>
   </td>
   <td class='break-word'><span>ID of the camera to receive video from.
 </span></td>
@@ -6883,7 +7235,7 @@ added to the Call.</p>
 
   
     <tr>
-  <td class='break-word'><span class='code bold'>media.videoOptions.height</span> <code class='quiet'>MediaConstraint?</code>
+  <td class='break-word'><span class='code bold'>media.videoOptions.height</span> <code class='quiet'><a href="#callmediaconstraint">call.MediaConstraint</a>?</code>
   </td>
   <td class='break-word'><span>The height of the video.
 </span></td>
@@ -6892,7 +7244,7 @@ added to the Call.</p>
 
   
     <tr>
-  <td class='break-word'><span class='code bold'>media.videoOptions.width</span> <code class='quiet'>MediaConstraint?</code>
+  <td class='break-word'><span class='code bold'>media.videoOptions.width</span> <code class='quiet'><a href="#callmediaconstraint">call.MediaConstraint</a>?</code>
   </td>
   <td class='break-word'><span>The width of the video.
 </span></td>
@@ -6901,7 +7253,7 @@ added to the Call.</p>
 
   
     <tr>
-  <td class='break-word'><span class='code bold'>media.videoOptions.frameRate</span> <code class='quiet'>MediaConstraint?</code>
+  <td class='break-word'><span class='code bold'>media.videoOptions.frameRate</span> <code class='quiet'><a href="#callmediaconstraint">call.MediaConstraint</a>?</code>
   </td>
   <td class='break-word'><span>The frame rate of the video.
 </span></td>
@@ -6921,7 +7273,7 @@ added to the Call.</p>
 
   
     <tr>
-  <td class='break-word'><span class='code bold'>media.screenOptions.height</span> <code class='quiet'>MediaConstraint?</code>
+  <td class='break-word'><span class='code bold'>media.screenOptions.height</span> <code class='quiet'><a href="#callmediaconstraint">call.MediaConstraint</a>?</code>
   </td>
   <td class='break-word'><span>The height of the screenShare.
 </span></td>
@@ -6930,7 +7282,7 @@ added to the Call.</p>
 
   
     <tr>
-  <td class='break-word'><span class='code bold'>media.screenOptions.width</span> <code class='quiet'>MediaConstraint?</code>
+  <td class='break-word'><span class='code bold'>media.screenOptions.width</span> <code class='quiet'><a href="#callmediaconstraint">call.MediaConstraint</a>?</code>
   </td>
   <td class='break-word'><span>The width of the screenShare.
 </span></td>
@@ -6939,7 +7291,7 @@ added to the Call.</p>
 
   
     <tr>
-  <td class='break-word'><span class='code bold'>media.screenOptions.frameRate</span> <code class='quiet'>MediaConstraint?</code>
+  <td class='break-word'><span class='code bold'>media.screenOptions.frameRate</span> <code class='quiet'><a href="#callmediaconstraint">call.MediaConstraint</a>?</code>
   </td>
   <td class='break-word'><span>The frame rate of the screenShare.
 </span></td>
@@ -6976,7 +7328,7 @@ added to the Call.</p>
             <tbody class='mt1'>
               
                 <tr>
-  <td class='break-word'><span class='code bold'>options.bandwidth</span> <code class='quiet'>BandwidthControls?</code>
+  <td class='break-word'><span class='code bold'>options.bandwidth</span> <code class='quiet'><a href="#callbandwidthcontrols">call.BandwidthControls</a>?</code>
   </td>
   <td class='break-word'><span>Options for configuring media's bandwidth.
 </span></td>
@@ -7084,7 +7436,7 @@ has been removed.</p>
             <tbody class='mt1'>
               
                 <tr>
-  <td class='break-word'><span class='code bold'>options.bandwidth</span> <code class='quiet'>BandwidthControls?</code>
+  <td class='break-word'><span class='code bold'>options.bandwidth</span> <code class='quiet'><a href="#callbandwidthcontrols">call.BandwidthControls</a>?</code>
   </td>
   <td class='break-word'><span>Options for configuring media's bandwidth.
 </span></td>
@@ -7118,11 +7470,11 @@ has been removed.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='callstartvideo'>
+    <div class='border-bottom' id='callstopscreenshare'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>startVideo()</span>
+            <span class='code strong strong truncate'>stopScreenshare()</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -7130,21 +7482,25 @@ has been removed.</p>
 
   
 
-  <p>Adds local video to an ongoing Call, to start sending to the remote
-participant.</p>
+  <p>Removes local screenshare from an ongoing Call, stopping it from being
+sent to the remote participant.</p>
 <p>The latest SDK release (v4.X+) has not yet implemented this API in the
 same way that it was available in previous releases (v3.X). In place
 of this API, the SDK has a more general API that can be used for this
 same behaviour.</p>
-<p>The <a href="#calladdmedia">call.addMedia</a> API can be used to perform the same behaviour
-as <code>startVideo</code>. <a href="#calladdmedia">call.addMedia</a> is a general-purpose API for
-adding media to a call, which covers the same functionality as
-<code>startVideo</code>. Selecting only video options when using
-<a href="#calladdmedia">call.addMedia</a> will perform the same behaviour as using
-<code>startVideo</code>.</p>
+<p>The <a href="#callremovemedia">call.removeMedia</a> API can be used to perform the same
+behaviour as <code>stopScreenshare</code>. <a href="#callremovemedia">call.removeMedia</a> is a
+general-purpose API for removing media from a call, which covers the
+same functionality as <code>stopScreenshare</code>. Specifying only the screen
+track when using <a href="#callremovemedia">call.removeMedia</a> will perform the same
+behaviour as using <code>stopScreenshare</code>.</p>
+<p>There is a caveat that if a Call has multiple video tracks (for example,
+both a video and a screen track), the SDK itself cannot yet
+differentiate one from the other. The application will need to know
+which track was the screen track in this scenario.</p>
 
 
-  <div class='pre p1 fill-light mt0'>startVideo()</div>
+  <div class='pre p1 fill-light mt0'>stopScreenshare()</div>
   
   
 
@@ -7167,16 +7523,19 @@ adding media to a call, which covers the same functionality as
     <div class='py1 quiet mt1 prose-big'>Example</div>
     
       
-      <pre class='p1 overflow-auto round fill-light'><span class="hljs-comment">// Select media options for adding only video.</span>
-<span class="hljs-keyword">const</span> media = {
-   <span class="hljs-attr">audio</span>: <span class="hljs-literal">false</span>,
-   <span class="hljs-attr">video</span>: <span class="hljs-literal">true</span>,
-   <span class="hljs-attr">videoOptions</span>: { ... },
-   <span class="hljs-attr">screen</span>: <span class="hljs-literal">false</span>
-}
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">const</span> call = client.call.getById(callId)
+<span class="hljs-comment">// Get the ID of any/all video tracks on the call.</span>
+<span class="hljs-keyword">const</span> videoTracks = call.localTracks.filter(<span class="hljs-function"><span class="hljs-params">trackId</span> =&gt;</span> {
+   <span class="hljs-keyword">const</span> track = call.media.getTrackById(trackId)
+   <span class="hljs-comment">// Both video and screen tracks have kind of 'video'.</span>
+   <span class="hljs-keyword">return</span> track.kind === <span class="hljs-string">'video'</span>
+})
 
-<span class="hljs-comment">// Add the selected media to the call.</span>
-client.call.addMedia(callId, media)</pre>
+<span class="hljs-comment">// Pick out the screen track.</span>
+<span class="hljs-keyword">const</span> screenTrack = videoTracks[<span class="hljs-number">0</span>]
+
+<span class="hljs-comment">// Remove screen from the call.</span>
+client.call.removeMedia(callId, [ screenTrack ])</pre>
     
   
 
@@ -7261,6 +7620,78 @@ client.call.removeMedia(callId, [ videoTrack ])</pre>
       </div>
     </div>
   
+    <div class='border-bottom' id='callstartvideo'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>startVideo()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Adds local video to an ongoing Call, to start sending to the remote
+participant.</p>
+<p>The latest SDK release (v4.X+) has not yet implemented this API in the
+same way that it was available in previous releases (v3.X). In place
+of this API, the SDK has a more general API that can be used for this
+same behaviour.</p>
+<p>The <a href="#calladdmedia">call.addMedia</a> API can be used to perform the same behaviour
+as <code>startVideo</code>. <a href="#calladdmedia">call.addMedia</a> is a general-purpose API for
+adding media to a call, which covers the same functionality as
+<code>startVideo</code>. Selecting only video options when using
+<a href="#calladdmedia">call.addMedia</a> will perform the same behaviour as using
+<code>startVideo</code>.</p>
+
+
+  <div class='pre p1 fill-light mt0'>startVideo()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Example</div>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-comment">// Select media options for adding only video.</span>
+<span class="hljs-keyword">const</span> media = {
+   <span class="hljs-attr">audio</span>: <span class="hljs-literal">false</span>,
+   <span class="hljs-attr">video</span>: <span class="hljs-literal">true</span>,
+   <span class="hljs-attr">videoOptions</span>: { ... },
+   <span class="hljs-attr">screen</span>: <span class="hljs-literal">false</span>
+}
+
+<span class="hljs-comment">// Add the selected media to the call.</span>
+client.call.addMedia(callId, media)</pre>
+    
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
     <div class='border-bottom' id='callstartscreenshare'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
@@ -7320,85 +7751,6 @@ for adding media to a call, which covers the same functionality as
 
 <span class="hljs-comment">// Add the selected media to the call.</span>
 client.call.addMedia(callId, media)</pre>
-    
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='callstopscreenshare'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>stopScreenshare()</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>Removes local screenshare from an ongoing Call, stopping it from being
-sent to the remote participant.</p>
-<p>The latest SDK release (v4.X+) has not yet implemented this API in the
-same way that it was available in previous releases (v3.X). In place
-of this API, the SDK has a more general API that can be used for this
-same behaviour.</p>
-<p>The <a href="#callremovemedia">call.removeMedia</a> API can be used to perform the same
-behaviour as <code>stopScreenshare</code>. <a href="#callremovemedia">call.removeMedia</a> is a
-general-purpose API for removing media from a call, which covers the
-same functionality as <code>stopScreenshare</code>. Specifying only the screen
-track when using <a href="#callremovemedia">call.removeMedia</a> will perform the same
-behaviour as using <code>stopScreenshare</code>.</p>
-<p>There is a caveat that if a Call has multiple video tracks (for example,
-both a video and a screen track), the SDK itself cannot yet
-differentiate one from the other. The application will need to know
-which track was the screen track in this scenario.</p>
-
-
-  <div class='pre p1 fill-light mt0'>stopScreenshare()</div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Example</div>
-    
-      
-      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">const</span> call = client.call.getById(callId)
-<span class="hljs-comment">// Get the ID of any/all video tracks on the call.</span>
-<span class="hljs-keyword">const</span> videoTracks = call.localTracks.filter(<span class="hljs-function"><span class="hljs-params">trackId</span> =&gt;</span> {
-   <span class="hljs-keyword">const</span> track = call.media.getTrackById(trackId)
-   <span class="hljs-comment">// Both video and screen tracks have kind of 'video'.</span>
-   <span class="hljs-keyword">return</span> track.kind === <span class="hljs-string">'video'</span>
-})
-
-<span class="hljs-comment">// Pick out the screen track.</span>
-<span class="hljs-keyword">const</span> screenTrack = videoTracks[<span class="hljs-number">0</span>]
-
-<span class="hljs-comment">// Remove screen from the call.</span>
-client.call.removeMedia(callId, [ screenTrack ])</pre>
     
   
 
@@ -7610,7 +7962,7 @@ user.</p>
 event after the operation completes.</p>
 
 
-  <div class='pre p1 fill-light mt0'>forward(callId: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, destination: (SIP_URI | TEL_URI))</div>
+  <div class='pre p1 fill-light mt0'>forward(callId: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, destination: (<a href="#callsip_uri">call.SIP_URI</a> | <a href="#calltel_uri">call.TEL_URI</a>))</div>
   
   
 
@@ -7636,7 +7988,7 @@ event after the operation completes.</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>destination</span> <code class='quiet'>((SIP_URI | TEL_URI))</code>
+            <span class='code bold'>destination</span> <code class='quiet'>((<a href="#callsip_uri">call.SIP_URI</a> | <a href="#calltel_uri">call.TEL_URI</a>))</code>
 	    The destination to forward the call to.
 
           </div>
@@ -7776,7 +8128,7 @@ participant being transferred will receive it as if it were a "remote
 unhold" operation.</p>
 
 
-  <div class='pre p1 fill-light mt0'>directTransfer(callId: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, destination: (SIP_URI | TEL_URI))</div>
+  <div class='pre p1 fill-light mt0'>directTransfer(callId: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, destination: (<a href="#callsip_uri">call.SIP_URI</a> | <a href="#calltel_uri">call.TEL_URI</a>))</div>
   
   
 
@@ -7802,7 +8154,7 @@ unhold" operation.</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>destination</span> <code class='quiet'>((SIP_URI | TEL_URI))</code>
+            <span class='code bold'>destination</span> <code class='quiet'>((<a href="#callsip_uri">call.SIP_URI</a> | <a href="#calltel_uri">call.TEL_URI</a>))</code>
 	    The destination to transfer the call to.
 
           </div>
@@ -7852,6 +8204,7 @@ call taken off hold, and will receive additional audio from other
 participants after the operation. Both previous calls for the current
 user will be ended after the operation, as indicated by a
 <a href="#calleventcallstatechange">call:stateChange</a> event.</p>
+<p>If the first call specified has custom parameters set, these parameters will be carried over to the new call.</p>
 <p>The progress of the operation will be tracked via the
 <a href="#calleventcalloperation">call:operation</a> event. Both remote
 participants will also receive this event as if it were a "remote
@@ -8011,7 +8364,7 @@ seamlessly for the remote application, which will not receive an event.</p>
 
   
     <tr>
-  <td class='break-word'><span class='code bold'>media.audioOptions.deviceId</span> <code class='quiet'>MediaConstraint?</code>
+  <td class='break-word'><span class='code bold'>media.audioOptions.deviceId</span> <code class='quiet'><a href="#callmediaconstraint">call.MediaConstraint</a>?</code>
   </td>
   <td class='break-word'><span>ID of the microphone to receive audio from.
 </span></td>
@@ -8042,7 +8395,7 @@ seamlessly for the remote application, which will not receive an event.</p>
 
   
     <tr>
-  <td class='break-word'><span class='code bold'>media.videoOptions.deviceId</span> <code class='quiet'>MediaConstraint?</code>
+  <td class='break-word'><span class='code bold'>media.videoOptions.deviceId</span> <code class='quiet'><a href="#callmediaconstraint">call.MediaConstraint</a>?</code>
   </td>
   <td class='break-word'><span>ID of the camera to receive video from.
 </span></td>
@@ -8051,7 +8404,7 @@ seamlessly for the remote application, which will not receive an event.</p>
 
   
     <tr>
-  <td class='break-word'><span class='code bold'>media.videoOptions.height</span> <code class='quiet'>MediaConstraint?</code>
+  <td class='break-word'><span class='code bold'>media.videoOptions.height</span> <code class='quiet'><a href="#callmediaconstraint">call.MediaConstraint</a>?</code>
   </td>
   <td class='break-word'><span>The height of the video.
 </span></td>
@@ -8060,7 +8413,7 @@ seamlessly for the remote application, which will not receive an event.</p>
 
   
     <tr>
-  <td class='break-word'><span class='code bold'>media.videoOptions.width</span> <code class='quiet'>MediaConstraint?</code>
+  <td class='break-word'><span class='code bold'>media.videoOptions.width</span> <code class='quiet'><a href="#callmediaconstraint">call.MediaConstraint</a>?</code>
   </td>
   <td class='break-word'><span>The width of the video.
 </span></td>
@@ -8069,7 +8422,7 @@ seamlessly for the remote application, which will not receive an event.</p>
 
   
     <tr>
-  <td class='break-word'><span class='code bold'>media.videoOptions.frameRate</span> <code class='quiet'>MediaConstraint?</code>
+  <td class='break-word'><span class='code bold'>media.videoOptions.frameRate</span> <code class='quiet'><a href="#callmediaconstraint">call.MediaConstraint</a>?</code>
   </td>
   <td class='break-word'><span>The frame rate of the video.
 </span></td>
@@ -8112,6 +8465,204 @@ client.call.replaceTrack(callId, videoTrack.id, {
   <span class="hljs-attr">videoOptions</span>: {
     <span class="hljs-attr">deviceId</span>: cameraId
   }
+})</pre>
+    
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='callstates'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>states</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Possible states that a Call can be in.</p>
+<p>A Call's state describes the current status of the Call. An application
+should use the state to understand how the Call, and any media
+associated with the Call, should be handled. Which state the Call is
+in defines how it can be interacted with, as certain operations can
+only be performed while in specific states, and tells an application
+whether the Call currently has media flowing between users.</p>
+<p>The Call's state is a property of the <a href="#callcallobject">CallObject</a>,
+which can be retrieved using the <a href="#callgetbyid">call.getById</a> or
+<a href="#callgetall">call.getAll</a> APIs.</p>
+<p>The SDK emits a <a href="#calleventcallstatechange">call:stateChange</a>
+event when a Call's state changes from one state to another.</p>
+
+
+  <div class='pre p1 fill-light mt0'>states</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Properties</div>
+    <div>
+      
+        <div class='space-bottom0'>
+          <span class='code bold'>INITIATING</span> 
+          <code class='quiet'>
+            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)
+          </code>
+
+          
+
+          
+             : The (outgoing) call is being started.
+
+          
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <span class='code bold'>INITIATED</span> 
+          <code class='quiet'>
+            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)
+          </code>
+
+          
+
+          
+             : The (outgoing) call has been sent over the network, but has not been received.
+
+          
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <span class='code bold'>RINGING</span> 
+          <code class='quiet'>
+            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)
+          </code>
+
+          
+
+          
+             : The call has been received by both parties, and is waiting to be answered.
+
+          
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <span class='code bold'>EARLY_MEDIA</span> 
+          <code class='quiet'>
+            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)
+          </code>
+
+          
+
+          
+             : The call has not been answered, but media
+is already being received. This may be network-ringing media, IVR
+system media, or other pre-answer medias. When early media is
+supported, this state may replace the Ringing state.
+
+          
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <span class='code bold'>CANCELLED</span> 
+          <code class='quiet'>
+            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)
+          </code>
+
+          
+
+          
+             : The call was disconnected before it could be answered.
+
+          
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <span class='code bold'>CONNECTED</span> 
+          <code class='quiet'>
+            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)
+          </code>
+
+          
+
+          
+             : Both parties are connected and media is flowing.
+
+          
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <span class='code bold'>ON_HOLD</span> 
+          <code class='quiet'>
+            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)
+          </code>
+
+          
+
+          
+             : Both parties are connected but no media is flowing.
+
+          
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <span class='code bold'>ENDED</span> 
+          <code class='quiet'>
+            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)
+          </code>
+
+          
+
+          
+             : The call has ended.
+
+          
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Example</div>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-comment">// Use the call states to know how to handle a change in the call.</span>
+client.on(<span class="hljs-string">'call:stateChange'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">params</span>) </span>{
+   <span class="hljs-keyword">const</span> call = client.call.getById(params.callId)
+   <span class="hljs-comment">// Check if the call now has media flowing.</span>
+   <span class="hljs-keyword">if</span> (call.state === client.call.states.CONNECTED) {
+     <span class="hljs-comment">// The call is now active, and can perform midcall operations.</span>
+   }
 })</pre>
     
   
@@ -8333,204 +8884,6 @@ client.media.renderTrack([ audioTrack ], audioContainer, {
       </div>
     </div>
   
-    <div class='border-bottom' id='callstates'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>states</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>Possible states that a Call can be in.</p>
-<p>A Call's state describes the current status of the Call. An application
-should use the state to understand how the Call, and any media
-associated with the Call, should be handled. Which state the Call is
-in defines how it can be interacted with, as certain operations can
-only be performed while in specific states, and tells an application
-whether the Call currently has media flowing between users.</p>
-<p>The Call's state is a property of the <a href="#callcallobject">CallObject</a>,
-which can be retrieved using the <a href="#callgetbyid">call.getById</a> or
-<a href="#callgetall">call.getAll</a> APIs.</p>
-<p>The SDK emits a <a href="#calleventcallstatechange">call:stateChange</a>
-event when a Call's state changes from one state to another.</p>
-
-
-  <div class='pre p1 fill-light mt0'>states</div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Properties</div>
-    <div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>INITIATING</span> 
-          <code class='quiet'>
-            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)
-          </code>
-
-          
-
-          
-             : The (outgoing) call is being started.
-
-          
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>INITIATED</span> 
-          <code class='quiet'>
-            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)
-          </code>
-
-          
-
-          
-             : The (outgoing) call has been sent over the network, but has not been received.
-
-          
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>RINGING</span> 
-          <code class='quiet'>
-            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)
-          </code>
-
-          
-
-          
-             : The call has been received by both parties, and is waiting to be answered.
-
-          
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>EARLY_MEDIA</span> 
-          <code class='quiet'>
-            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)
-          </code>
-
-          
-
-          
-             : The call has not been answered, but media
-is already being received. This may be network-ringing media, IVR
-system media, or other pre-answer medias. When early media is
-supported, this state may replace the Ringing state.
-
-          
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>CANCELLED</span> 
-          <code class='quiet'>
-            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)
-          </code>
-
-          
-
-          
-             : The call was disconnected before it could be answered.
-
-          
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>CONNECTED</span> 
-          <code class='quiet'>
-            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)
-          </code>
-
-          
-
-          
-             : Both parties are connected and media is flowing.
-
-          
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>ON_HOLD</span> 
-          <code class='quiet'>
-            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)
-          </code>
-
-          
-
-          
-             : Both parties are connected but no media is flowing.
-
-          
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>ENDED</span> 
-          <code class='quiet'>
-            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)
-          </code>
-
-          
-
-          
-             : The call has ended.
-
-          
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Example</div>
-    
-      
-      <pre class='p1 overflow-auto round fill-light'><span class="hljs-comment">// Use the call states to know how to handle a change in the call.</span>
-client.on(<span class="hljs-string">'call:stateChange'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">params</span>) </span>{
-   <span class="hljs-keyword">const</span> call = client.call.getById(params.callId)
-   <span class="hljs-comment">// Check if the call now has media flowing.</span>
-   <span class="hljs-keyword">if</span> (call.state === client.call.states.CONNECTED) {
-     <span class="hljs-comment">// The call is now active, and can perform midcall operations.</span>
-   }
-})</pre>
-    
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
 </div>
 
     
@@ -8658,7 +9011,7 @@ If the transition is to "start" the operation, there will be no previous informa
 
               
                 <tr>
-  <td class='break-word'><span class='code bold'>params.error</span> <code class='quiet'>BasicError?</code>
+  <td class='break-word'><span class='code bold'>params.error</span> <code class='quiet'><a href="#apibasicerror">api.BasicError</a>?</code>
   </td>
   <td class='break-word'><span>An error object, if the operation was not successful.
 </span></td>
@@ -8753,7 +9106,7 @@ API.</p>
 
               
                 <tr>
-  <td class='break-word'><span class='code bold'>params.error</span> <code class='quiet'>BasicError?</code>
+  <td class='break-word'><span class='code bold'>params.error</span> <code class='quiet'><a href="#apibasicerror">api.BasicError</a>?</code>
   </td>
   <td class='break-word'><span>An error object, if the operation was not successful.
 </span></td>
@@ -8848,7 +9201,7 @@ API.</p>
 
               
                 <tr>
-  <td class='break-word'><span class='code bold'>params.error</span> <code class='quiet'>BasicError?</code>
+  <td class='break-word'><span class='code bold'>params.error</span> <code class='quiet'><a href="#apibasicerror">api.BasicError</a>?</code>
   </td>
   <td class='break-word'><span>An error object, if the operation was not successful.
 </span></td>
@@ -8943,7 +9296,7 @@ API.</p>
 
               
                 <tr>
-  <td class='break-word'><span class='code bold'>params.error</span> <code class='quiet'>BasicError?</code>
+  <td class='break-word'><span class='code bold'>params.error</span> <code class='quiet'><a href="#apibasicerror">api.BasicError</a>?</code>
   </td>
   <td class='break-word'><span>An error object, if the operation was not successful.
 </span></td>
@@ -9112,7 +9465,7 @@ API.</p>
 
               
                 <tr>
-  <td class='break-word'><span class='code bold'>params.error</span> <code class='quiet'>BasicError?</code>
+  <td class='break-word'><span class='code bold'>params.error</span> <code class='quiet'><a href="#apibasicerror">api.BasicError</a>?</code>
   </td>
   <td class='break-word'><span>An error object, if the operation was not successful.
 </span></td>
@@ -9687,7 +10040,7 @@ automatically while the Call is on hold.</p>
 
               
                 <tr>
-  <td class='break-word'><span class='code bold'>params.error</span> <code class='quiet'>BasicError?</code>
+  <td class='break-word'><span class='code bold'>params.error</span> <code class='quiet'><a href="#apibasicerror">api.BasicError</a>?</code>
   </td>
   <td class='break-word'><span>An error object, if the operation was not successful.
 </span></td>
@@ -9795,7 +10148,7 @@ Track that was replaced to help an application replace it seamlessly.</p>
 
               
                 <tr>
-  <td class='break-word'><span class='code bold'>params.oldTrack</span> <code class='quiet'>TrackObject?</code>
+  <td class='break-word'><span class='code bold'>params.oldTrack</span> <code class='quiet'><a href="#calltrackobject">call.TrackObject</a>?</code>
   </td>
   <td class='break-word'><span>State of the replaced track.
 </span></td>
@@ -9804,7 +10157,7 @@ Track that was replaced to help an application replace it seamlessly.</p>
 
               
                 <tr>
-  <td class='break-word'><span class='code bold'>params.error</span> <code class='quiet'>BasicError?</code>
+  <td class='break-word'><span class='code bold'>params.error</span> <code class='quiet'><a href="#apibasicerror">api.BasicError</a>?</code>
   </td>
   <td class='break-word'><span>An error object, if the operation was not successful.
 </span></td>
@@ -10360,7 +10713,7 @@ has been updated.</p>
             <tbody class='mt1'>
               
                 <tr>
-  <td class='break-word'><span class='code bold'>params.error</span> <code class='quiet'>BasicError</code>
+  <td class='break-word'><span class='code bold'>params.error</span> <code class='quiet'><a href="#apibasicerror">api.BasicError</a></code>
   </td>
   <td class='break-word'><span>The Basic error object.
 </span></td>
@@ -10780,7 +11133,7 @@ has been updated.</p>
 
               
                 <tr>
-  <td class='break-word'><span class='code bold'>params.error</span> <code class='quiet'>BasicError</code>
+  <td class='break-word'><span class='code bold'>params.error</span> <code class='quiet'><a href="#apibasicerror">api.BasicError</a></code>
   </td>
   <td class='break-word'><span>The Basic error object.
 </span></td>
@@ -12109,10 +12462,18 @@ and its messages, and return conversation objects when requested.</p>
 
   
 
-  <p>A Message object represents an individual message. Messages have parts
-which represent pieces of a message, such as a text part or a file part. Once
-all the desired parts have been added, a message can be sent with the send()
-function.</p>
+  <p>A Message object is a means by which a sender can deliver information to a recipient.</p>
+<p>Creating and sending a message:</p>
+<p>A message object can be obtained through the <a href="#conversationconversationcreatemessage">Conversation.createMessage</a> API on an existing conversation.</p>
+<p>Messages have Parts which represent pieces of a message, such as a text part, a json object part or a file part.
+Once all the desired parts have been added to the message using the <a href="conversation.Message.addPart">Message.addPart</a> function,
+the message can then be sent using the <a href="#conversationmessagesend">Message.send</a> function.</p>
+<p>Once the sender sends a message, this message is saved in sender's state as an object.
+Similarly, once the recipient gets a message, this message is saved in recipient's state.</p>
+<p>Retrieving a delivered message:</p>
+<p>Once a message is delivered successfully, it can be
+obtained through the <a href="#conversationconversationgetmessages">Conversation.getMessages</a> or <a href="#conversationconversationgetmessage">Conversation.getMessage</a> API on an existing conversation.</p>
+<p>Below are the properties pertaining to the message object, returned by Conversation.getMessage(s) APIs, for either sender or recipient.</p>
 
 
   <div class='pre p1 fill-light mt0'>Message</div>
@@ -12133,6 +12494,105 @@ function.</p>
 
   
 
+  
+    <div class='py1 quiet mt1 prose-big'>Properties</div>
+    <div>
+      
+        <div class='space-bottom0'>
+          <span class='code bold'>timestamp</span> 
+          <code class='quiet'>
+            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)
+          </code>
+
+          
+
+          
+             : A Unix timestamp in seconds marking the time when the message was created by sender.
+
+          
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <span class='code bold'>parts</span> 
+          <code class='quiet'>
+            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;conversation.Part>)
+          </code>
+
+          
+
+          
+             : An array of Part Objects.
+
+          
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <span class='code bold'>sender</span> 
+          <code class='quiet'>
+            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)
+          </code>
+
+          
+
+          
+             : The primary contact address of the sender.
+
+          
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <span class='code bold'>destination</span> 
+          <code class='quiet'>
+            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>>)
+          </code>
+
+          
+
+          
+             : An array of primary contact addresses associated with various destinations to which the message is meant to be delivered.
+
+          
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <span class='code bold'>messageId</span> 
+          <code class='quiet'>
+            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)
+          </code>
+
+          
+
+          
+             : The unique id of the message. The message object (stored in sender's state) has a different id
+than the one associated with the message object stored in recipient's state.
+
+          
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <span class='code bold'>type</span> 
+          <code class='quiet'>
+            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)
+          </code>
+
+          
+
+          
+             : The type of message that was sent. See 
+<a href="conversation.chatTypes">conversation.chatTypes</a>
+ for valid types.
+This property applies only to message objects stored in sender's state.
+
+          
+          
+        </div>
+      
+    </div>
   
 
   
@@ -12220,7 +12680,7 @@ function.</p>
 
   <p>A Conversation object represents a conversation between either two users, or a
 user and a group. A Conversation can create messages via the conversation's
-createMessage() function.</p>
+<a href="#conversationconversationcreatemessage">createMessage()</a> function.</p>
 
 
   <div class='pre p1 fill-light mt0'>Conversation</div>
@@ -12290,7 +12750,7 @@ createMessage() function.</p>
   <p>Create and return a message object. You must provide a <code>text</code> part as demonstrated in the example.</p>
 
 
-  <div class='pre p1 fill-light mt0'>createMessage(part: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>): Message</div>
+  <div class='pre p1 fill-light mt0'>createMessage(part: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>): <a href="#conversationmessage">conversation.Message</a></div>
   
   
 
@@ -12357,7 +12817,7 @@ createMessage() function.</p>
     <div class='py1 quiet mt1 prose-big'>Returns</div>
     
       <div>
-        <code>Message</code>:
+        <code><a href="#conversationmessage">conversation.Message</a></code>:
           The newly created Message object.
 
         
@@ -12818,7 +13278,7 @@ If successful, the event 'conversations:change' will be emitted.
 If a conversation with the given user ID already exists in the store, it will be returned; otherwise, a new conversation will be created.</p>
 
 
-  <div class='pre p1 fill-light mt0'>get(destination: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, options: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): Conversation</div>
+  <div class='pre p1 fill-light mt0'>get(destination: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, options: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?): <a href="#conversationconversation">conversation.Conversation</a></div>
   
   
 
@@ -12887,7 +13347,7 @@ If this object is not passed, the function will query for "im" conversation with
     <div class='py1 quiet mt1 prose-big'>Returns</div>
     
       <div>
-        <code>Conversation</code>:
+        <code><a href="#conversationconversation">conversation.Conversation</a></code>:
           A Conversation object.
 
         
@@ -13225,7 +13685,7 @@ as part of the event argument.</p>
             <tbody class='mt1'>
               
                 <tr>
-  <td class='break-word'><span class='code bold'>params.error</span> <code class='quiet'>BasicError</code>
+  <td class='break-word'><span class='code bold'>params.error</span> <code class='quiet'><a href="#apibasicerror">api.BasicError</a></code>
   </td>
   <td class='break-word'><span>The Basic error object.
 </span></td>
@@ -13581,7 +14041,7 @@ emitted when the available media devices have changed.</p>
   <p>Retrieves an available Media object with a specific Media ID.</p>
 
 
-  <div class='pre p1 fill-light mt0'>getById(mediaId: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): MediaObject</div>
+  <div class='pre p1 fill-light mt0'>getById(mediaId: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="#callmediaobject">call.MediaObject</a></div>
   
   
 
@@ -13614,7 +14074,7 @@ emitted when the available media devices have changed.</p>
     <div class='py1 quiet mt1 prose-big'>Returns</div>
     
       <div>
-        <code>MediaObject</code>:
+        <code><a href="#callmediaobject">call.MediaObject</a></code>:
           A Media object.
 
         
@@ -13651,7 +14111,7 @@ emitted when the available media devices have changed.</p>
   <p>Retrieve an available Track object with a specific Track ID.</p>
 
 
-  <div class='pre p1 fill-light mt0'>getTrackById(trackId: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): TrackObject</div>
+  <div class='pre p1 fill-light mt0'>getTrackById(trackId: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="#calltrackobject">call.TrackObject</a></div>
   
   
 
@@ -13684,7 +14144,7 @@ emitted when the available media devices have changed.</p>
     <div class='py1 quiet mt1 prose-big'>Returns</div>
     
       <div>
-        <code>TrackObject</code>:
+        <code><a href="#calltrackobject">call.TrackObject</a></code>:
           A Track object.
 
         
@@ -14751,7 +15211,7 @@ enabling/disabling the processing of websocket notifications.</p>
             <tbody class='mt1'>
               
                 <tr>
-  <td class='break-word'><span class='code bold'>params.error</span> <code class='quiet'>BasicError</code>
+  <td class='break-word'><span class='code bold'>params.error</span> <code class='quiet'><a href="#apibasicerror">api.BasicError</a></code>
   </td>
   <td class='break-word'><span>The Basic error object.
 </span></td>
@@ -15760,7 +16220,7 @@ API.</p>
             <tbody class='mt1'>
               
                 <tr>
-  <td class='break-word'><span class='code bold'>params.error</span> <code class='quiet'>BasicError</code>
+  <td class='break-word'><span class='code bold'>params.error</span> <code class='quiet'><a href="#apibasicerror">api.BasicError</a></code>
   </td>
   <td class='break-word'><span>The Basic error object.
 </span></td>
@@ -16262,7 +16722,7 @@ log(<span class="hljs-string">`Proxy Browser in use: <span class="hljs-subst">${
   <p>Sets the channel to be used while proxy mode is enabled.</p>
 
 
-  <div class='pre p1 fill-light mt0'>setChannel(channel: Channel)</div>
+  <div class='pre p1 fill-light mt0'>setChannel(channel: <a href="#proxychannel">proxy.Channel</a>)</div>
   
   
 
@@ -16279,7 +16739,7 @@ log(<span class="hljs-string">`Proxy Browser in use: <span class="hljs-subst">${
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>channel</span> <code class='quiet'>(Channel)</code>
+            <span class='code bold'>channel</span> <code class='quiet'>(<a href="#proxychannel">proxy.Channel</a>)</code>
 	    See the 
 <code>Channel</code>
  module for information.
@@ -16594,7 +17054,7 @@ While creating an SDP handler would allow a user to perform this type of manipul
 <p>The SDP handlers are exposed on the entry point of the SDK. They need to be added to the list of SDP handlers via configuration on creation of an instance of the SDK.</p>
 
 
-  <div class='pre p1 fill-light mt0'>createCodecRemover(codecs: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>>): SdpHandlerFunction</div>
+  <div class='pre p1 fill-light mt0'>createCodecRemover(codecs: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>>): <a href="#callsdphandlerfunction">call.SdpHandlerFunction</a></div>
   
   
 
@@ -16627,7 +17087,7 @@ While creating an SDP handler would allow a user to perform this type of manipul
     <div class='py1 quiet mt1 prose-big'>Returns</div>
     
       <div>
-        <code>SdpHandlerFunction</code>:
+        <code><a href="#callsdphandlerfunction">call.SdpHandlerFunction</a></code>:
           The resulting SDP handler that will remove the codec.
 
         
@@ -17217,7 +17677,7 @@ While creating an SDP handler would allow a user to perform this type of manipul
             <tbody class='mt1'>
               
                 <tr>
-  <td class='break-word'><span class='code bold'>params.error</span> <code class='quiet'>BasicError</code>
+  <td class='break-word'><span class='code bold'>params.error</span> <code class='quiet'><a href="#apibasicerror">api.BasicError</a></code>
   </td>
   <td class='break-word'><span>The Basic error object.
 </span></td>
@@ -17443,7 +17903,7 @@ While creating an SDP handler would allow a user to perform this type of manipul
         <div class='space-bottom0'>
           <span class='code bold'>userId</span> 
           <code class='quiet'>
-            (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)
+            (user.UserID)
           </code>
 
           
@@ -17570,11 +18030,11 @@ While creating an SDP handler would allow a user to perform this type of manipul
   
 
   <p>Fetches information about a User.</p>
-<p>The SDK will emit a <a href="#usereventdirectorychange">directory:change</a>
+<p>The SDK will emit a <a href="#usereventuserschange">users:change</a>
 event after the operation completes. The User's information will then
 be available.</p>
 <p>Information about an available User can be retrieved using the
-<a href="user.get">user.get</a> API.</p>
+<a href="#userget">user.get</a> API.</p>
 
 
   <div class='pre p1 fill-light mt0'>fetch(userId: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
@@ -17636,11 +18096,11 @@ be available.</p>
 
   <p>Fetches information about the current User from directory.
 Compared to <a href="#userfetch">user.fetch</a> API, this API retrieves additional user related information.</p>
-<p>The SDK will emit a <a href="#usereventdirectorychange">directory:change</a>
+<p>The SDK will emit a <a href="#usereventuserschange">users:change</a>
 event after the operation completes. The User's information will then
 be available.</p>
 <p>Information about an available User can be retrieved using the
-<a href="user.get">user.get</a> API.</p>
+<a href="#userget">user.get</a> API.</p>
 
 
   <div class='pre p1 fill-light mt0'>fetchSelfInfo()</div>
@@ -17691,7 +18151,7 @@ be available.</p>
 making Users' information available.</p>
 
 
-  <div class='pre p1 fill-light mt0'>get(userId: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): User</div>
+  <div class='pre p1 fill-light mt0'>get(userId: user.UserID): <a href="#useruser">user.User</a></div>
   
   
 
@@ -17708,7 +18168,7 @@ making Users' information available.</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>userId</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+            <span class='code bold'>userId</span> <code class='quiet'>(user.UserID)</code>
 	    The User ID of the user.
 
           </div>
@@ -17724,7 +18184,7 @@ making Users' information available.</p>
     <div class='py1 quiet mt1 prose-big'>Returns</div>
     
       <div>
-        <code>User</code>:
+        <code><a href="#useruser">user.User</a></code>:
           The User object for the specified user.
 
         
@@ -17763,7 +18223,7 @@ making Users' information available.</p>
 making Users' information available.</p>
 
 
-  <div class='pre p1 fill-light mt0'>getAll(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;User></div>
+  <div class='pre p1 fill-light mt0'>getAll(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#useruser">user.User</a>></div>
   
   
 
@@ -17782,7 +18242,7 @@ making Users' information available.</p>
     <div class='py1 quiet mt1 prose-big'>Returns</div>
     
       <div>
-        <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;User></code>:
+        <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#useruser">user.User</a>></code>:
           An array of all the User objects.
 
         
@@ -17808,7 +18268,7 @@ making Users' information available.</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>search(filters, options?)</span>
+            <span class='code strong strong truncate'>search(filters)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -17817,13 +18277,15 @@ making Users' information available.</p>
   
 
   <p>Searches the domain's directory for Users.</p>
+<p>Directory searching only supports one filter. If multiple filters are provided, only one of the filters will be used for the search.
+A search with no filters provided will return all users.</p>
 <p>The SDK will emit a <a href="#usereventdirectorychange">directory:change</a>
 event after the operation completes. The search results will be
 provided as part of the event, and will also be available using the
-<a href="user.get">user.get</a> and <a href="user.getAll">user.getAll</a> APIs.</p>
+<a href="#userget">user.get</a> and <a href="#usergetall">user.getAll</a> APIs.</p>
 
 
-  <div class='pre p1 fill-light mt0'>search(filters: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>, options: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</div>
+  <div class='pre p1 fill-light mt0'>search(filters: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>)</div>
   
   
 
@@ -17859,7 +18321,7 @@ provided as part of the event, and will also be available using the
             <tbody class='mt1'>
               
                 <tr>
-  <td class='break-word'><span class='code bold'>filters.userId</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?</code>
+  <td class='break-word'><span class='code bold'>filters.userId</span> <code class='quiet'>user.UserID?</code>
   </td>
   <td class='break-word'><span>Matches the User ID of the user.
 </span></td>
@@ -17907,67 +18369,6 @@ provided as part of the event, and will also be available using the
   <td class='break-word'><span class='code bold'>filters.phoneNumber</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?</code>
   </td>
   <td class='break-word'><span>Matches the phoneNumber.
-</span></td>
-</tr>
-
-
-              
-            </tbody>
-          </table>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>options</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>?)</code>
-	    Sorting options.
-
-          </div>
-          
-          <table class='mt1 mb2 fixed-table h5 col-12'>
-            <colgroup>
-              <col width='30%' />
-              <col width='70%' />
-            </colgroup>
-            <thead>
-              <tr class='bold fill-light'>
-                <th>Name</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody class='mt1'>
-              
-                <tr>
-  <td class='break-word'><span class='code bold'>options.sortBy</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?</code>
-  </td>
-  <td class='break-word'><span>The User property to sort the results by. This can be any of the above listed filters.
-</span></td>
-</tr>
-
-
-              
-                <tr>
-  <td class='break-word'><span class='code bold'>options.order</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?</code>
-  </td>
-  <td class='break-word'><span>Order in which results are returned. Can be either "asc" or "desc".
-</span></td>
-</tr>
-
-
-              
-                <tr>
-  <td class='break-word'><span class='code bold'>options.max</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>?</code>
-  </td>
-  <td class='break-word'><span>The maximum number of results to return.
-</span></td>
-</tr>
-
-
-              
-                <tr>
-  <td class='break-word'><span class='code bold'>options.next</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?</code>
-  </td>
-  <td class='break-word'><span>The pointer for a chunk of results, which may be returned from a previous query.
 </span></td>
 </tr>
 
@@ -18060,7 +18461,7 @@ provided as part of the event, and will also be available using the
             <tbody class='mt1'>
               
                 <tr>
-  <td class='break-word'><span class='code bold'>params.results</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;User></code>
+  <td class='break-word'><span class='code bold'>params.results</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#useruser">user.User</a>></code>
   </td>
   <td class='break-word'><span>The Users' information returned by the
 operation.
@@ -18148,6 +18549,175 @@ operation.
   <td class='break-word'><span class='code bold'>params.error</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></code>
   </td>
   <td class='break-word'><span>The Basic error object.
+</span></td>
+</tr>
+
+
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='usereventuserschange'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>users:change</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>A change has occurred in the users list</p>
+
+
+  <div class='pre p1 fill-light mt0'>users:change</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>params</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>)</code>
+	    
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5 col-12'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <th>Name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>params.results</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#useruser">user.User</a>></code>
+  </td>
+  <td class='break-word'><span>The Users' information returned by the
+operation.
+</span></td>
+</tr>
+
+
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='usereventuserserror'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>users:error</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>An error occured while retrieving the user information</p>
+
+
+  <div class='pre p1 fill-light mt0'>users:error</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>params</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>)</code>
+	    
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5 col-12'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <th>Name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>params.error</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></code>
+  </td>
+  <td class='break-word'><span>params.error The Basic error object.
 </span></td>
 </tr>
 
@@ -18525,7 +19095,7 @@ A <code>voicemail:new</code> event is emitted upon completion.</p>
             <tbody class='mt1'>
               
                 <tr>
-  <td class='break-word'><span class='code bold'>params.error</span> <code class='quiet'>BasicError</code>
+  <td class='break-word'><span class='code bold'>params.error</span> <code class='quiet'><a href="#apibasicerror">api.BasicError</a></code>
   </td>
   <td class='break-word'><span>The Basic error object.
 </span></td>

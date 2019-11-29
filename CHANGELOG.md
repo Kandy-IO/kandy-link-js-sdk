@@ -5,6 +5,29 @@ Kandy.js change log.
 - This project adheres to [Semantic Versioning](http://semver.org/).
 - This change log follows [keepachangelog.com](http://keepachangelog.com/) recommendations.
 
+## 4.10.0 - 2019-11-29
+
+### Added
+
+- Added Call support for setting and sending custom parameters. `KAA-2063`
+- Added new user event, `users:change`, to notify when we fetch information about a user. `KAA-1882`
+- Added new Call configurations to provide flexibility for the ICE collection process. `KAA-1469`
+  - See `config.call` for new configs: `iceCollectionDelay`, `maxIceTimeout`, and `iceCollectionCheck`.
+  - These configs should only be needed when the ICE collection process does not complete normally. This should not happen in most scenarios, but can be determined if there is a delay (of 3 seconds or the value set for `maxIceTimeout`) during call establishment.
+  - These configurations allow an application to customize the ICE collection process according to their network / scenario, in order to workaround issues.
+
+### Changed
+
+- Changed the event emitted when a user is fetched to `users:change`. `KAA-1882`
+
+### Fixed
+
+- Fixed a Call issue where a call would enter `Ended` state (instead of `Cancelled`) when receiving a "cancelled" notification.
+- Fixed an issue where searching the directory would fail even if a filter was provided. `KAA-1161`
+  - Updated public documentation to accurately reflect directory `search` API.
+- Fixed public documentation hyperlinks for custom type definitions. `KAA-2011`
+- Fixed a Call configuration issue where midcall operations may be slow when no ICE server configurations were provided.
+
 ## 4.9.0 - 2019-11-01
 
 ### Added
