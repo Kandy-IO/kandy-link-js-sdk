@@ -357,37 +357,17 @@ SIP users and PSTN phones.
 
 Call functions are all part of the 'call' namespace.
 
-### IceServer
+### DevicesObject
+
+A collection of media devices and their information.
 
 Type: [Object][4]
 
 **Properties**
 
--   `urls` **([Array][9]&lt;[string][5]> | [string][5])** Either an array of URLs for reaching out several ICE servers or a single URL for reaching one ICE server.
--   `credential` **[string][5]?** The credential needed by the ICE server.
-
-### SdpHandlerInfo
-
-Type: [Object][4]
-
-**Properties**
-
--   `type` **RTCSdpType** The session description's type.
--   `endpoint` **[string][5]** Which end of the connection created the SDP.
-
-### SdpHandlerFunction
-
-The form of an SDP handler function and the expected arguments that it receives.
-
-Type: [Function][11]
-
-**Parameters**
-
--   `newSdp` **[Object][4]** The SDP so far (could have been modified by previous handlers).
--   `info` **[call.SdpHandlerInfo][15]** Additional information that might be useful when making SDP modifications.
--   `originalSdp` **[Object][4]** The SDP in its initial state.
-
-Returns **[Object][4]** The resulting modified SDP based on the changes made by this function.
+-   `camera` **[Array][9]&lt;[call.DeviceInfo][15]>** A list of camera device information.
+-   `microphone` **[Array][9]&lt;[call.DeviceInfo][15]>** A list of microphone device information.
+-   `speaker` **[Array][9]&lt;[call.DeviceInfo][15]>** A list of speaker device information.
 
 ### MediaObject
 
@@ -402,35 +382,37 @@ Type: [Object][4]
 -   `local` **[boolean][7]** Indicator on whether this media is local or remote.
 -   `tracks` **[Array][9]&lt;[call.TrackObject][16]>** A list of Track objects that are contained in this Media object.
 
-### TrackObject
+### SdpHandlerFunction
 
-A Track is a stream of audio or video media from a single source.
-Tracks can be retrieved using the Media module's `getTrackById` API and manipulated with other functions of the Media module.
+The form of an SDP handler function and the expected arguments that it receives.
 
-Type: [Object][4]
+Type: [Function][11]
 
-**Properties**
+**Parameters**
 
--   `containers` **[Array][9]&lt;[string][5]>** The list of CSS selectors that were used to render this Track.
--   `disabled` **[boolean][7]** Indicator of whether this Track is disabled or not. If disabled, it cannot be re-enabled.
--   `id` **[string][5]** The ID of the Track.
--   `kind` **[string][5]** The kind of Track this is (audio, video).
--   `label` **[string][5]** The label of the device this Track uses.
--   `muted` **[boolean][7]** Indicator on whether this Track is muted or not.
--   `state` **[string][5]** The state of this Track. Can be 'live' or 'ended'.
--   `streamId` **[string][5]** The ID of the Media Stream that includes this Track.
+-   `newSdp` **[Object][4]** The SDP so far (could have been modified by previous handlers).
+-   `info` **[call.SdpHandlerInfo][17]** Additional information that might be useful when making SDP modifications.
+-   `originalSdp` **[Object][4]** The SDP in its initial state.
 
-### DevicesObject
+Returns **[Object][4]** The resulting modified SDP based on the changes made by this function.
 
-A collection of media devices and their information.
+### SdpHandlerInfo
 
 Type: [Object][4]
 
 **Properties**
 
--   `camera` **[Array][9]&lt;[call.DeviceInfo][17]>** A list of camera device information.
--   `microphone` **[Array][9]&lt;[call.DeviceInfo][17]>** A list of microphone device information.
--   `speaker` **[Array][9]&lt;[call.DeviceInfo][17]>** A list of speaker device information.
+-   `type` **RTCSdpType** The session description's type.
+-   `endpoint` **[string][5]** Which end of the connection created the SDP.
+
+### IceServer
+
+Type: [Object][4]
+
+**Properties**
+
+-   `urls` **([Array][9]&lt;[string][5]> | [string][5])** Either an array of URLs for reaching out several ICE servers or a single URL for reaching one ICE server.
+-   `credential` **[string][5]?** The credential needed by the ICE server.
 
 ### BandwidthControls
 
@@ -453,6 +435,42 @@ client.call.make(destination, mediaConstraints,
    bandwidth: {
      video: 5
    }
+ }
+)
+```
+
+### CustomParameter
+
+Custom SIP headers can be used to convey additional information to a SIP endpoint.
+
+These headers must be configured on the server prior to making a request, otherwise the request will fail when trying to set the headers.
+
+These headers can be specified with the [call.make][18] and [call.answer][19] APIs.
+They can also be set on a call using the [call.setCustomParameters][20], and sent using the [call.sendCustomParameters][21] API.
+
+A Call's custom parameters are a property of the Call's [CallObject][22],
+ which can be retrieved using the [call.getById][23] or
+ [call.getAll][24] APIs.
+
+Type: [Object][4]
+
+**Properties**
+
+-   `name` **[string][5]** The name of the custom parameter
+-   `value` **[string][5]** The value of the custom parameter
+
+**Examples**
+
+```javascript
+// Specify custom parameters when making a call.
+client.call.make(destination, mediaConstraints,
+ {
+   customParameters: [
+     {
+       name: 'X-GPS',
+       value: '42.686032,23.344565'
+     }
+   ]
  }
 )
 ```
@@ -504,41 +522,23 @@ Type: [Object][4]
 -   `kind` **[string][5]** The type of the device (audioinput, audiooutput, videoinput).
 -   `label` **[string][5]** The name of the device.
 
-### CustomParameter
+### TrackObject
 
-Custom SIP headers can be used to convey additional information to a SIP endpoint.
-
-These headers must be configured on the server prior to making a request, otherwise the request will fail when trying to set the headers.
-
-These headers can be specified with the [call.make][18] and [call.answer][19] APIs.
-They can also be set on a call using the [call.setCustomParameters][20], and sent using the [call.sendCustomParameters][21] API.
-
-A Call's custom parameters are a property of the Call's [CallObject][22],
- which can be retrieved using the [call.getById][23] or
- [call.getAll][24] APIs.
+A Track is a stream of audio or video media from a single source.
+Tracks can be retrieved using the Media module's `getTrackById` API and manipulated with other functions of the Media module.
 
 Type: [Object][4]
 
 **Properties**
 
--   `name` **[string][5]** The name of the custom parameter
--   `value` **[string][5]** The value of the custom parameter
-
-**Examples**
-
-```javascript
-// Specify custom parameters when making a call.
-client.call.make(destination, mediaConstraints,
- {
-   customParameters: [
-     {
-       name: 'X-GPS',
-       value: '42.686032,23.344565'
-     }
-   ]
- }
-)
-```
+-   `containers` **[Array][9]&lt;[string][5]>** The list of CSS selectors that were used to render this Track.
+-   `disabled` **[boolean][7]** Indicator of whether this Track is disabled or not. If disabled, it cannot be re-enabled.
+-   `id` **[string][5]** The ID of the Track.
+-   `kind` **[string][5]** The kind of Track this is (audio, video).
+-   `label` **[string][5]** The label of the device this Track uses.
+-   `muted` **[boolean][7]** Indicator on whether this Track is muted or not.
+-   `state` **[string][5]** The state of this Track. Can be 'live' or 'ended'.
+-   `streamId` **[string][5]** The ID of the Media Stream that includes this Track.
 
 ### CallObject
 
@@ -893,6 +893,37 @@ The SDK will emit a [call:trackEnded][40]
 -   `options` **[Object][4]?**  (optional, default `{}`)
     -   `options.bandwidth` **[call.BandwidthControls][26]?** Options for configuring media's bandwidth.
 
+### stopVideo
+
+Removes local video from an ongoing Call, stopping it from being sent
+   to the remote participant.
+
+The latest SDK release (v4.X+) has not yet implemented this API in the
+   same way that it was available in previous releases (v3.X). In place
+   of this API, the SDK has a more general API that can be used for this
+   same behaviour.
+
+The [call.removeMedia][41] API can be used to perform the same
+   behaviour as `stopVideo`. [call.removeMedia][41] is a
+   general-purpose API for removing media from a call, which covers the
+   same functionality as `stopVideo`. Specifying only the video track(s)
+   when using [call.removeMedia][41] will perform the same behaviour
+   as using `stopVideo`.
+
+**Examples**
+
+```javascript
+const call = client.call.getById(callId)
+// Get the ID of the Call's video track.
+const videoTrack = call.localTracks.find(trackId => {
+   const track = call.media.getTrackById(trackId)
+   return track.kind === 'video'
+})
+
+// Remove video from the call.
+client.call.removeMedia(callId, [ videoTrack ])
+```
+
 ### sendDTMF
 
 Send DTMF tones to a call's audio.
@@ -957,35 +988,36 @@ const screenTrack = videoTracks[0]
 client.call.removeMedia(callId, [ screenTrack ])
 ```
 
-### stopVideo
+### startScreenshare
 
-Removes local video from an ongoing Call, stopping it from being sent
-   to the remote participant.
+Adds local screenshare to an ongoing Call, to start sending to the remote
+   participant.
 
 The latest SDK release (v4.X+) has not yet implemented this API in the
    same way that it was available in previous releases (v3.X). In place
    of this API, the SDK has a more general API that can be used for this
    same behaviour.
 
-The [call.removeMedia][41] API can be used to perform the same
-   behaviour as `stopVideo`. [call.removeMedia][41] is a
-   general-purpose API for removing media from a call, which covers the
-   same functionality as `stopVideo`. Specifying only the video track(s)
-   when using [call.removeMedia][41] will perform the same behaviour
-   as using `stopVideo`.
+The [call.addMedia][42] API can be used to perform the same behaviour
+   as `startScreenshare`. [call.addMedia][42] is a general-purpose API
+   for adding media to a call, which covers the same functionality as
+   `startScreenshare`. Selecting only screen options when using
+   [call.addMedia][42] will perform the same behaviour as using
+   `startScreenshare`.
 
 **Examples**
 
 ```javascript
-const call = client.call.getById(callId)
-// Get the ID of the Call's video track.
-const videoTrack = call.localTracks.find(trackId => {
-   const track = call.media.getTrackById(trackId)
-   return track.kind === 'video'
-})
+// Select media options for adding only screenshare.
+const media = {
+   audio: false,
+   video: false,
+   screen: true,
+   screenOptions: { ... }
+}
 
-// Remove video from the call.
-client.call.removeMedia(callId, [ videoTrack ])
+// Add the selected media to the call.
+client.call.addMedia(callId, media)
 ```
 
 ### startVideo
@@ -1014,38 +1046,6 @@ const media = {
    video: true,
    videoOptions: { ... },
    screen: false
-}
-
-// Add the selected media to the call.
-client.call.addMedia(callId, media)
-```
-
-### startScreenshare
-
-Adds local screenshare to an ongoing Call, to start sending to the remote
-   participant.
-
-The latest SDK release (v4.X+) has not yet implemented this API in the
-   same way that it was available in previous releases (v3.X). In place
-   of this API, the SDK has a more general API that can be used for this
-   same behaviour.
-
-The [call.addMedia][42] API can be used to perform the same behaviour
-   as `startScreenshare`. [call.addMedia][42] is a general-purpose API
-   for adding media to a call, which covers the same functionality as
-   `startScreenshare`. Selecting only screen options when using
-   [call.addMedia][42] will perform the same behaviour as using
-   `startScreenshare`.
-
-**Examples**
-
-```javascript
-// Select media options for adding only screenshare.
-const media = {
-   audio: false,
-   video: false,
-   screen: true,
-   screenOptions: { ... }
 }
 
 // Add the selected media to the call.
@@ -1220,43 +1220,6 @@ client.call.replaceTrack(callId, videoTrack.id, {
 })
 ```
 
-### changeSpeaker
-
-Changes the speaker used for a Call's audio output. Supported on
-   browser's that support HTMLMediaElement.setSinkId().
-
-The latest SDK release (v4.X+) has not yet implemented this API in the
-   same way that it was available in previous releases (v3.X). In place
-   of this API, the SDK has a more general API that can be used for this
-   same behaviour.
-
-The same behaviour as the `changeSpeaker` API can be implemented by
-   re-rendering the Call's audio track.  A speaker can be selected when
-   rendering an audio track, so changing a speaker can be simulated
-   by unrendering the track with [media.removeTracks][45], then
-   re-rendering it with a new speaker with [media.renderTracks][46].
-
-**Examples**
-
-```javascript
-const call = client.call.getById(callId)
-// Get the ID of the Call's audio track.
-const audioTrack = call.localTracks.find(trackId => {
-   const track = client.media.getTrackById(trackId)
-   return track.kind === 'audio'
-})
-
-// Where the audio track was previously rendered.
-const audioContainer = ...
-
-// Unrender the audio track we want to change speaker for.
-client.media.removeTrack([ audioTrack ], audioContainer)
-// Re-render the audio track with a new speaker.
-client.media.renderTrack([ audioTrack ], audioContainer, {
-   speakerId: 'speakerId'
-})
-```
-
 ### changeInputDevices
 
 Changes the camera and/or microphone used for a Call's media input.
@@ -1267,7 +1230,7 @@ The latest SDK release (v4.X+) has not yet implemented this API in the
    same behaviour.
 
 The same behaviour as the `changeInputDevices` API can be implemented
-   using the general-purpose [call.replaceTrack][47] API. This API can
+   using the general-purpose [call.replaceTrack][45] API. This API can
    be used to replace an existing media track with a new track of the
    same type, allowing an application to change certain aspects of the
    media, such as input device.
@@ -1293,18 +1256,6 @@ const media = {
 // Change the call's camera by replacing the video track.
 client.call.replaceTrack(callId, videoTrack, media)
 ```
-
-### setDefaultDevices
-
-The `setDefaultDevices` API from previous SDK releases (3.X) has been
-   deprecated in the latest releases (4.X+). The SDK no longer keeps
-   track of "default devices" on behalf of the application.
-
-The devices used for a call can be selected as part of the APIs for
-   starting the call. Microphone and/or camera can be chosen in the
-   [call.make][18] and [call.answer][19] APIs, and speaker can be
-   chosen when the audio track is rendered with the
-   [media.renderTracks][46] API.
 
 ### states
 
@@ -1348,6 +1299,55 @@ client.on('call:stateChange', function (params) {
    if (call.state === client.call.states.CONNECTED) {
      // The call is now active, and can perform midcall operations.
    }
+})
+```
+
+### setDefaultDevices
+
+The `setDefaultDevices` API from previous SDK releases (3.X) has been
+   deprecated in the latest releases (4.X+). The SDK no longer keeps
+   track of "default devices" on behalf of the application.
+
+The devices used for a call can be selected as part of the APIs for
+   starting the call. Microphone and/or camera can be chosen in the
+   [call.make][18] and [call.answer][19] APIs, and speaker can be
+   chosen when the audio track is rendered with the
+   [media.renderTracks][46] API.
+
+### changeSpeaker
+
+Changes the speaker used for a Call's audio output. Supported on
+   browser's that support HTMLMediaElement.setSinkId().
+
+The latest SDK release (v4.X+) has not yet implemented this API in the
+   same way that it was available in previous releases (v3.X). In place
+   of this API, the SDK has a more general API that can be used for this
+   same behaviour.
+
+The same behaviour as the `changeSpeaker` API can be implemented by
+   re-rendering the Call's audio track.  A speaker can be selected when
+   rendering an audio track, so changing a speaker can be simulated
+   by unrendering the track with [media.removeTracks][47], then
+   re-rendering it with a new speaker with [media.renderTracks][46].
+
+**Examples**
+
+```javascript
+const call = client.call.getById(callId)
+// Get the ID of the Call's audio track.
+const audioTrack = call.localTracks.find(trackId => {
+   const track = client.media.getTrackById(trackId)
+   return track.kind === 'audio'
+})
+
+// Where the audio track was previously rendered.
+const audioContainer = ...
+
+// Unrender the audio track we want to change speaker for.
+client.media.removeTrack([ audioTrack ], audioContainer)
+// Re-render the audio track with a new speaker.
+client.media.renderTrack([ audioTrack ], audioContainer, {
+   speakerId: 'speakerId'
 })
 ```
 
@@ -2360,11 +2360,11 @@ Returns voicemail data from the store.
 
 [14]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error
 
-[15]: #callsdphandlerinfo
+[15]: #calldeviceinfo
 
 [16]: #calltrackobject
 
-[17]: #calldeviceinfo
+[17]: #callsdphandlerinfo
 
 [18]: #callmake
 
@@ -2420,11 +2420,11 @@ Returns voicemail data from the store.
 
 [44]: #calleventcalltrackreplaced
 
-[45]: #mediaremovetracks
+[45]: #callreplacetrack
 
 [46]: #mediarendertracks
 
-[47]: #callreplacetrack
+[47]: #mediaremovetracks
 
 [48]: #conversationconversation
 
