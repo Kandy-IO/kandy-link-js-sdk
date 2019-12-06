@@ -5,6 +5,16 @@ Kandy.js change log.
 - This project adheres to [Semantic Versioning](http://semver.org/).
 - This change log follows [keepachangelog.com](http://keepachangelog.com/) recommendations.
 
+## 4.11.0 - beta
+
+### Added
+
+- Added a 'forceLogOut' option to the `kandy.connect` API to log out the oldest connection with the credentialed user. Helps get around errors that occur when there are too many simultaneous connections. `KAA-2082`
+- Added new Logger functionality to allow applications to customize the format of information that the SDK logs.
+  - See `config.logs.handler`, `config.logs.logActions.handler`, `logger.LogHandler`, and `logger.LogEntry`.
+  - An application can now provide a `LogHandler` function to the SDK via configuration. The SDK will use this function for logging information. By default, the SDK will continue to log information to the console.
+- Added new helper functions for simple call scenarios. `startVideo` is used to add video to a call that doesn't have a video track yet. `stopVideo` is used to remove video from a call that only has one video track started. The idea is these are simpler to use than the more configurable `addMedia`/`removeMedia`. `KAA-1971`
+
 ## 4.10.0 - 2019-11-29
 
 ### Added
