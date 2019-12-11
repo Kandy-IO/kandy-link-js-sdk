@@ -15,6 +15,10 @@ Kandy.js change log.
   - An application can now provide a `LogHandler` function to the SDK via configuration. The SDK will use this function for logging information. By default, the SDK will continue to log information to the console.
 - Added new helper functions for simple call scenarios. `startVideo` is used to add video to a call that doesn't have a video track yet. `stopVideo` is used to remove video from a call that only has one video track started. The idea is these are simpler to use than the more configurable `addMedia`/`removeMedia`. `KAA-1971`
 
+### Fixed
+
+- Fixed an issue where call was failing when the user(caller) has no user@domain format. `KAA-2131`
+
 ## 4.10.0 - 2019-11-29
 
 ### Added
