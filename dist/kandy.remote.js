@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.remote.js
- * Version: 4.11.0-beta.232
+ * Version: 4.11.0-beta.233
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -22421,10 +22421,6 @@ var _eventemitter = __webpack_require__("../../node_modules/eventemitter3/index.
 
 var _eventemitter2 = _interopRequireDefault(_eventemitter);
 
-var _sdpTransform = __webpack_require__("../../node_modules/sdp-transform/lib/index.js");
-
-var _sdpTransform2 = _interopRequireDefault(_sdpTransform);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
@@ -22436,7 +22432,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  */
 
 
-// SDP Helpers.
+// Libraries.
+// Helpers.
 function Session(id, managers, config = {}) {
   // Internal variables.
   const sessionId = id;
@@ -22737,76 +22734,6 @@ function Session(id, managers, config = {}) {
     }
   }
 
-  /**
-   * This function is used to figure out if our local tracks are being sent to the other side.
-   * This is meant to be called after a remote sdp is processed so that:
-   *  a. Transceivers are up-to-date.
-   *  b. The latestRemoteDescription is really the latest one.
-   * @method getLocalTracksIsSendingStatus
-   * @return {TracksIsSendingStatuses}
-   */
-  function getLocalTracksIsSendingStatus() {
-    /**
-     * An object with flags indicating whether a track is sending data or not where:
-     *  key: <string> track ID
-     *  value: <boolean> isSending.
-     * @typedef {Object} TracksIsSendingStatuses
-     */
-    const tracksIsSending = {};
-
-    /**
-     * For Unified-plan, we consider a track to being sent if
-     *  currentDirection is NOT `inactive` and NOT `recvonly`.
-     * IE: Tracks are being sent if
-     *  currentDirection is `sendrecv` or `sendonly` (both contain `send`).
-     */
-    if ((0, _sdpSemantics.isUnifiedPlan)(config.peer.rtcConfig.sdpSemantics)) {
-      const transceivers = peer.getTransceivers()
-      // Only check transceivers that have tracks.
-      .filter(transceiver => Boolean(transceiver.sender && transceiver.sender.track));
-
-      transceivers.forEach(transceiver => {
-        if (transceiver.sender.track && transceiver.currentDirection) {
-          tracksIsSending[transceiver.sender.track.id] = transceiver.currentDirection.includes('send');
-        } else {
-          // If `currentDirection` doesn't exist yet then use `direction`.
-          // This is because if the remote sdp didn't have a certain kind of media and we add that new kind of media,
-          //  the transceiver will have `currentDirection` as null.
-          tracksIsSending[transceiver.sender.track.id] = transceiver.direction.includes('send');
-        }
-      });
-    } else {
-      /**
-       * For Plan-B, we check the remote sdp and consider a track be sent if
-       *  direction is NOT `inactive` and NOT `sendonly`.
-       * IE: Tracks are being sent if
-       *  direction is `sendrecv` or `recvonly` (both contain `recv`).
-       */
-      const sdpObj = _sdpTransform2.default.parse(latestRemoteDescription.sdp);
-
-      /**
-       * Get the direction of each kind of media.
-       * For plan-b, there are is only 1 m-line for audio and 1 m-line for video.
-       * This means that tracks of the same kind will share the same direction.
-       */
-      const directions = {};
-      sdpObj.media.forEach(media => {
-        const { type, direction } = media;
-        directions[type] = direction;
-      });
-      peer.localTracks.forEach(track => {
-        const nativeTrack = track.track;
-        // If the track's kind isn't on the latest remote sdp, that means it may be supported
-        //  (since it doesn't explicitly have direction of `inactive`).
-        if (directions[nativeTrack.kind] === undefined) {
-          tracksIsSending[nativeTrack.id] = true;
-        } else {
-          tracksIsSending[nativeTrack.id] = directions[nativeTrack.kind].includes('recv');
-        }
-      });
-    }
-    return tracksIsSending;
-  }
   /**
    * Processes (and sets) a remote SDP offer.
    * @method processOffer
@@ -23185,7 +23112,6 @@ function Session(id, managers, config = {}) {
     processOffer,
     generateAnswer,
     processAnswer,
-    getLocalTracksIsSendingStatus,
     // Other APIs.
     recreatePeer,
     addIceCandidate,
@@ -23199,8 +23125,7 @@ function Session(id, managers, config = {}) {
   };
 }
 
-// Libraries.
-// Helpers.
+// SDP Helpers.
 
 /***/ }),
 
