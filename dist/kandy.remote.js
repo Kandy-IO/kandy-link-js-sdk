@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.remote.js
- * Version: 4.11.0-beta.234
+ * Version: 4.11.0-beta.235
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -17210,7 +17210,7 @@ function setListeners(session, emit, END = 'END') {
     }));
   };
 
-  const trackEnded = ({ local, trackId }) => {
+  const trackEnded = ({ local, trackId, performRenegotiation }) => {
     /**
      * When a track has ended,
      * update redux state's webrtc.session.localTracks/remoteTracks array
@@ -17219,7 +17219,8 @@ function setListeners(session, emit, END = 'END') {
      */
     emit(_actions.sessionActions.sessionTrackEnded(session.id, {
       local,
-      trackId
+      trackId,
+      performRenegotiation
     }));
   };
 
@@ -20245,7 +20246,8 @@ function getState() {
     localDesc: proxyPeer.localDescription,
     signalingState: proxyPeer.signalingState,
     localTracks: proxyPeer.localTracks,
-    remoteTracks: proxyPeer.remoteTracks
+    remoteTracks: proxyPeer.remoteTracks,
+    senderTracks: proxyPeer.senderTracks
   };
 }
 
@@ -20422,7 +20424,7 @@ function removeTrack(trackId) {
   const { nativePeer, proxyPeer, id } = this;
   _loglevel2.default.info(`Peer ${id} removing track ${trackId}.`);
 
-  const track = proxyPeer.localTracks.find(track => track.id === trackId);
+  const track = proxyPeer.senderTracks.find(track => track.id === trackId);
   if (!track) {
     _loglevel2.default.debug(`Invalid track ID ${trackId}; cannot remove track.`);
     return;
@@ -20870,9 +20872,13 @@ var _remoteTracks = __webpack_require__("../../packages/webrtc/src/Peer/properti
 
 var _remoteTracks2 = _interopRequireDefault(_remoteTracks);
 
+var _senderTracks = __webpack_require__("../../packages/webrtc/src/Peer/properties/senderTracks.js");
+
+var _senderTracks2 = _interopRequireDefault(_senderTracks);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = { localDescription: _localDescription2.default, localTracks: _localTracks2.default, remoteDescription: _remoteDescription2.default, remoteTracks: _remoteTracks2.default };
+exports.default = { localDescription: _localDescription2.default, localTracks: _localTracks2.default, remoteDescription: _remoteDescription2.default, remoteTracks: _remoteTracks2.default, senderTracks: _senderTracks2.default };
 
 /***/ }),
 
@@ -21044,6 +21050,49 @@ function getRemoteTracks() {
     // It's possble that Peer has the receiver but not the actual track yet.
     return track && track.getState().state === 'live' && track.getStream().active;
   });
+}
+
+/***/ }),
+
+/***/ "../../packages/webrtc/src/Peer/properties/senderTracks.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = senderTracks;
+
+var _loglevel = __webpack_require__("../../node_modules/loglevel/lib/loglevel.js");
+
+var _loglevel2 = _interopRequireDefault(_loglevel);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * This method is similar to the `localTracks` method, however this method returns
+ *  all of the sender's tracks (ended or not) rather than just the active/live ones.
+ *
+ * @method senderTracks
+ * @return {Array} List of Track objects added to the Peer locally.
+ */
+function senderTracks() {
+  const { proxyPeer, id } = this;
+  _loglevel2.default.info(`Peer ${id} getting sender tracks.`);
+
+  // Return the list of Tracks from senders.
+  return proxyPeer.getSenders()
+  /**
+   * Remove any Senders that do not have an associated track.
+   * We only want to retrieve Senders that do have tracks, because those are
+   *    the local tracks that have been added to the Peer.
+   * Senders without tracks are part of a Transceiver where the Receiver has
+   *    a remote track, but no local track has been added to it. We don't
+   *    care about this for the "get local tracks" operation.
+   */
+  .filter(sender => Boolean(sender.track)).map(sender => sender.track);
 }
 
 /***/ }),
@@ -22106,7 +22155,7 @@ function TrackManager() {
    * @param  {string} trackId
    * @return {Boolean} Whether the Track existed (and hence removed).
    */
-  function remove(trackId) {
+  function remove({ trackId }) {
     const track = get(trackId);
     if (track) {
       tracks.delete(trackId);
@@ -22581,14 +22630,15 @@ function Session(id, managers, config = {}) {
             });
           }
 
-          track.once('ended', () => {
+          track.once('ended', ({ performRenegotiation }) => {
             // If the PeerConnection is closed, we don't need to worry about
             //    removing the track (and it would throw an error anyway).
             if (peer.signalingState !== 'closed') {
               peer.removeTrack(track.id);
               emitter.emit('track:ended', {
                 local: true,
-                trackId: track.id
+                trackId: track.id,
+                performRenegotiation: performRenegotiation
               });
             }
           });
@@ -23028,7 +23078,9 @@ function Session(id, managers, config = {}) {
       track.once('ended', () => {
         emitter.emit('track:ended', {
           local: false,
-          trackId: track.id
+          trackId: track.id,
+          // If a remote track is ended, we don't want to manually perform a renegotiation
+          performRenegotiation: false
         });
       });
 
@@ -23172,7 +23224,17 @@ function Track(mediaTrack, mediaStream) {
    */
   track.onended = event => {
     _loglevel2.default.debug('Event emitted: ', event);
-    emitter.emit('ended', track.id);
+    emitter.emit('ended', {
+      trackId: track.id,
+      // If the event is defined:
+      //   The event is triggered either from a remote notification or browser action.
+      //   In case of browser action (e.g. "Stop sharing" screenshare on chrome), SDK will (eventually) receive a SESSION_TRACK_REMOVED action.
+      //   This action is dispatched when the session picks up on this ended event and triggers a 'track:ended' event.
+      //   When dispatching this action, we need to tell the SDK to perform renegotiation (but for browser actions only)
+      // If the event is undefined:
+      //   `track.onended` is manually triggered and the saga that eventually triggered this function will handle the renegotiation itself.
+      performRenegotiation: !!event
+    });
   };
 
   function setStream(newStream) {

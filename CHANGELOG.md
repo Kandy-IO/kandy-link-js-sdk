@@ -20,6 +20,7 @@ Kandy.js change log.
 - Fixed a Call issue where some slow-start midcall operations (eg. transfer, unhold) would fail. `KAA-2110`
   - This fix re-introduces a previous issue fixed in v4.9.0: `KAA-1890`.
 - Fixed an issue where call was failing when the user(caller) has no user@domain format. `KAA-2131`
+- Fixed an issue where callee(s) would not get notified when caller stops screen sharing through browser control. `KAA-2093`
 
 ## 4.10.0 - 2019-11-29
 
