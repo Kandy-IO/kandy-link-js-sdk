@@ -5,6 +5,14 @@ Kandy.js change log.
 - This project adheres to [Semantic Versioning](http://semver.org/).
 - This change log follows [keepachangelog.com](http://keepachangelog.com/) recommendations.
 
+## 4.12.0 - beta
+
+### Added
+
+- Added Call support for receiving custom parameters throughout a call. `KAA-2084`
+  - A `call:customParameters` event is emitted which contains the custom parameters when they are received.
+  - This feature requires Kandy Link 4.7+.
+
 ## 4.11.1 - 2020-01-02
 
 ### Fixed
