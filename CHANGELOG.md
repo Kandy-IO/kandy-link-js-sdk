@@ -13,6 +13,10 @@ Kandy.js change log.
   - A `call:customParameters` event is emitted which contains the custom parameters when they are received.
   - This feature requires Kandy Link 4.7+.
 
+### Fixed
+
+- Fixed an issue where PUSH notification channel was closed by default. `KAA-719`
+
 ## 4.11.1 - 2020-01-02
 
 ### Fixed
