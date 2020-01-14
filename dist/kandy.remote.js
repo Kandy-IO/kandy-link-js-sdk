@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.remote.js
- * Version: 4.12.0-beta.269
+ * Version: 4.12.0-beta.270
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -18376,6 +18376,12 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _from = __webpack_require__("../../node_modules/babel-runtime/core-js/array/from.js");
+
+var _from2 = _interopRequireDefault(_from);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 /**
  * Session "converter".
  * Receives webRTC commands intended for a Session object.
@@ -18400,6 +18406,11 @@ exports.default = async function session(webRTC, command) {
     const trackIds = params[0].map(track => track.id);
     const tracks = webRTC.managers.track.getTracks(trackIds);
     return session.addTracks(tracks);
+  }
+
+  if (operation === 'getStats') {
+    const getStats = session.getStats(...params);
+    return getStats.then(stats => (0, _from2.default)(stats.entries()));
   }
 
   // General case: Don't convert the return.

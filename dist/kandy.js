@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.12.0-beta.269
+ * Version: 4.12.0-beta.270
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -44726,7 +44726,7 @@ const factoryDefaults = {
    */
 };function factory(plugins, options = factoryDefaults) {
   // Log the SDK's version (templated by webpack) on initialization.
-  let version = '4.12.0-beta.269';
+  let version = '4.12.0-beta.270';
   log.info(`SDK version: ${version}`);
 
   var sagas = [];
@@ -57388,6 +57388,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _map = __webpack_require__("../../node_modules/babel-runtime/core-js/map.js");
+
+var _map2 = _interopRequireDefault(_map);
+
 var _promise = __webpack_require__("../../node_modules/babel-runtime/core-js/promise.js");
 
 var _promise2 = _interopRequireDefault(_promise);
@@ -57473,6 +57477,13 @@ function modelProxy(base, channel) {
                */
             };return new _promise2.default(resolve => {
               function callback(data) {
+                if (operation.operation === 'getStats') {
+                  // If-block required for https://jira.rbbn.com/browse/KAA-2056
+                  // The RTCStatsReport does not serialize over the wire natively
+                  // So we need to reconstruct it here
+                  data = new _map2.default(data);
+                }
+
                 log.debug(`Received model response for ${messageId}.`, data);
 
                 resolve(data);
