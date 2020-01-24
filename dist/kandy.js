@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.12.0-beta.277
+ * Version: 4.12.0-beta.278
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -38826,15 +38826,18 @@ function* incomingCall(deps, params) {
   if (sdp) {
     // Regular call.
     const turnInfo = yield (0, _effects.select)(_selectors.getTurnInfo);
-    const { trickleIceMode, sdpSemantics } = yield (0, _effects.select)(_selectors.getOptions);
+    const callOptions = yield (0, _effects.select)(_selectors.getOptions);
 
     // Since we have the remote offer SDP, we can setup a webRTC session.
     yield (0, _effects.call)(_establish.setupIncomingCall, deps, {
       offer: {
         sdp
       },
-      trickleIceMode,
-      sdpSemantics,
+      trickleIceMode: callOptions.sdpSemantics,
+      sdpSemantics: callOptions.sdpSemantics,
+      iceCollectionDelay: callOptions.iceCollectionDelay,
+      iceCollectionCheck: callOptions.iceCollectionCheck,
+      maxIceTimeout: callOptions.maxIceTimeout,
       turnInfo,
       callId
     });
@@ -44726,7 +44729,7 @@ const factoryDefaults = {
    */
 };function factory(plugins, options = factoryDefaults) {
   // Log the SDK's version (templated by webpack) on initialization.
-  let version = '4.12.0-beta.277';
+  let version = '4.12.0-beta.278';
   log.info(`SDK version: ${version}`);
 
   var sagas = [];

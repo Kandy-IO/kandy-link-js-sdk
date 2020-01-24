@@ -18,6 +18,8 @@ Kandy.js change log.
 - Fixed an issue where PUSH notification channel was closed by default. `KAA-719`
 - Fixed an issue where getStats was not returning any data in Proxy mode. `KAA-2056`
 - Fixed a Call issue where remote hold and unhold operations would not be handled properly if the remote application is using a v3.X Kandy SDK. `KAA-2105`
+- Fixed a Call issue where Call configurations for the ICE collection process were not used for incoming calls. `KAA-2184`
+  - See `KAA-1469` in v4.10.0 for affected configurations.
 
 ## 4.11.1 - 2020-01-02
 
