@@ -5,6 +5,27 @@ Kandy.js change log.
 - This project adheres to [Semantic Versioning](http://semver.org/).
 - This change log follows [keepachangelog.com](http://keepachangelog.com/) recommendations.
 
+## 4.12.0 - 2020-01-31
+
+### Added
+
+- Added Call support for receiving custom parameters throughout a call. `KAA-2084`
+  - A `call:customParameters` event is emitted which contains the custom parameters when they are received.
+  - This feature requires Kandy Link 4.7+.
+- Added SDP Handler functionality to allow modifying a local SDP after it has been set locally but before sending it to the remote endpoint. `KAA-2136`
+  - A `step` property has been added to the `SdpHandlerInfo` parameter given to a `SdpHandlerFunction`. This indicates whether the next step is to `set` the SDP locally or `send` the SDP to the remote endpoint.
+
+### Fixed
+
+- Fixed an issue where PUSH notification channel was closed by default. `KAA-719`
+- Fixed an issue where getStats was not returning any data in Proxy mode. `KAA-2056`
+- Fixed a Call issue where remote hold and unhold operations would not be handled properly if the remote application is using a v3.X Kandy SDK. `KAA-2105`
+- Fixed a Call issue where Call configurations for the ICE collection process were not used for incoming calls. `KAA-2184`
+  - See `KAA-1469` in v4.10.0 for affected configurations.
+- Fixed an SDP Handler issue where `SdpHandlerInfo.type` was undefined the first time an SDP Handler is called on receiving a call.
+- Fixed a midcall issue where removal of a remote media track did not trigger an event notification to application level (when using unified-plan). `KAA-2150`
+- Fixed issue where fetching users call log with incorrect credentials throws an error. `KAA-1077`
+
 ## 4.11.1 - 2020-01-02
 
 ### Fixed

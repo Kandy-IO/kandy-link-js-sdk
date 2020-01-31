@@ -14,8 +14,8 @@ To install a particular build branch or beta branch with the Github URL, run:
 
 ### In the browser :
 ```html
-<script src="https://unpkg.com/@kandy-io/link-sdk@4.11.1/dist/kandy.js"
-  integrity="sha384-IDlu+UflSVh1B9XebYn71bYLQgFrZgUW8sgUhe36GPp5TFP5H/p3SFMU0ny76Eh/"
+<script src="https://unpkg.com/@kandy-io/link-sdk@4.12.0/dist/kandy.js"
+  integrity="sha384-hH/nBjziGt7M5Lr//Py804IapE6QHA5Gdm54VJP6mm0eDyJpADai0MXR7Y9Gl7ts"
   crossorigin="anonymous">
 </script>
 ```
@@ -25,4 +25,4 @@ The information about tutorials and documents can be found in the links below
 
 * `Documents`: [docs](https://kandy-io.github.io/kandy-link-js-sdk/docs)
 
-* `Tutorials`: Choose your configuration ( [Kandy-US](https://Kandy-IO.github.io/kandy-link-js-sdk/tutorials/?SUBSCRIPTIONFQDN=spidr-ucc.genband.com&WEBSOCKETFQDN=spidr-ucc.genband.com&ICESERVER1=turns:turn-ucc-2.genband.com:443?transport=tcp&ICESERVER2=turns:turn-ucc-1.genband.com:443?transport=tcp#/Configurations) | [Kandy-EMEA](https://Kandy-IO.github.io/kandy-link-js-sdk/tutorials/?SUBSCRIPTIONFQDN=spidr-em.genband.com&WEBSOCKETFQDN=spidr-em.genband.com&ICESERVER1=turns:turn-em-2.genband.com:443?transport=tcp&ICESERVER2=turns:turn-em-1.genband.com:443?transport=tcp#/Configurations) )
+* `Tutorials`: Choose your configuration ( [Kandy-US](https://kandy-io.github.io/kandy-link-js-sdk/tutorials/?SUBSCRIPTIONFQDN=spidr-ucc.genband.com&WEBSOCKETFQDN=spidr-ucc.genband.com&ICESERVER1=turns:turn-ucc-2.genband.com:443?transport=tcp&ICESERVER2=turns:turn-ucc-1.genband.com:443?transport=tcp#/Configurations) | [Kandy-EMEA](https://kandy-io.github.io/kandy-link-js-sdk/tutorials/?SUBSCRIPTIONFQDN=spidr-em.genband.com&WEBSOCKETFQDN=spidr-em.genband.com&ICESERVER1=turns:turn-em-2.genband.com:443?transport=tcp&ICESERVER2=turns:turn-em-1.genband.com:443?transport=tcp#/Configurations) )
