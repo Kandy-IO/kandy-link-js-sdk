@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.remote.js
- * Version: 4.13.0-beta.294
+ * Version: 4.13.0-beta.295
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -16570,6 +16570,7 @@ function logPlugin(options = {}) {
     api: _api2.default
   };
 
+  options.logLevel = options.logLevel.toUpperCase();
   const setLevel = _kandyLogger.logLevels[options.logLevel];
   // Consider actions to be at the INFO log level.
   // Only export a middleware (for actions) at the appropriate levels.
