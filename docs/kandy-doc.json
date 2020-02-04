@@ -112,7 +112,7 @@
         },
         "end": {
           "line": 87,
-          "column": 43
+          "column": 58
         }
       },
       "file": "/var/jenkins_home/workspace/Kandy.js_beta/builds/core/index.js"
@@ -401,7 +401,7 @@
         },
         "end": {
           "line": 87,
-          "column": 43
+          "column": 58
         }
       },
       "file": "/var/jenkins_home/workspace/Kandy.js_beta/builds/core/index.js"
@@ -812,22 +812,22 @@
           ],
           "loc": {
             "start": {
-              "line": 4,
+              "line": 3,
               "column": 0
             },
             "end": {
-              "line": 42,
+              "line": 41,
               "column": 3
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 43,
+                "line": 42,
                 "column": 0
               },
               "end": {
-                "line": 57,
+                "line": 56,
                 "column": 1
               }
             },
@@ -2722,26 +2722,40 @@
               },
               "name": "call.earlyMedia",
               "default": "false"
+            },
+            {
+              "title": "param",
+              "description": "Whether the SDK should re-sync all call states after connecting (requires Kandy Link 4.7.1+).",
+              "lineNumber": 24,
+              "type": {
+                "type": "OptionalType",
+                "expression": {
+                  "type": "NameExpression",
+                  "name": "boolean"
+                }
+              },
+              "name": "call.resyncOnConnect",
+              "default": "false"
             }
           ],
           "loc": {
             "start": {
-              "line": 22,
+              "line": 23,
               "column": 0
             },
             "end": {
-              "line": 46,
+              "line": 48,
               "column": 3
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 48,
+                "line": 49,
                 "column": 0
               },
               "end": {
-                "line": 131,
+                "line": 133,
                 "column": 1
               }
             },
@@ -3474,6 +3488,68 @@
                         "line": 1,
                         "column": 51,
                         "offset": 50
+                      }
+                    }
+                  },
+                  "type": {
+                    "type": "NameExpression",
+                    "name": "boolean"
+                  },
+                  "default": "false"
+                },
+                {
+                  "title": "param",
+                  "name": "call.resyncOnConnect",
+                  "lineNumber": 24,
+                  "description": {
+                    "type": "root",
+                    "children": [
+                      {
+                        "type": "paragraph",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "Whether the SDK should re-sync all call states after connecting (requires Kandy Link 4.7.1+).",
+                            "position": {
+                              "start": {
+                                "line": 1,
+                                "column": 1,
+                                "offset": 0
+                              },
+                              "end": {
+                                "line": 1,
+                                "column": 94,
+                                "offset": 93
+                              },
+                              "indent": []
+                            }
+                          }
+                        ],
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 94,
+                            "offset": 93
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 94,
+                        "offset": 93
                       }
                     }
                   },
@@ -4356,8 +4432,22 @@
             },
             {
               "title": "param",
-              "description": "Object describing the server to use for push services.",
+              "description": "Communication channel mode used for incoming call notifications. Supported values are 'any-channel' or 'push-channel-only'.",
               "lineNumber": 8,
+              "type": {
+                "type": "OptionalType",
+                "expression": {
+                  "type": "NameExpression",
+                  "name": "string"
+                }
+              },
+              "name": "notifications.incomingCallNotificationMode",
+              "default": "'any-channel'"
+            },
+            {
+              "title": "param",
+              "description": "Object describing the server to use for push services.",
+              "lineNumber": 9,
               "type": {
                 "type": "OptionalType",
                 "expression": {
@@ -4370,7 +4460,7 @@
             {
               "title": "param",
               "description": "Hostname for the push registration server.",
-              "lineNumber": 9,
+              "lineNumber": 10,
               "type": {
                 "type": "OptionalType",
                 "expression": {
@@ -4383,7 +4473,7 @@
             {
               "title": "param",
               "description": "Port for the push registration server.",
-              "lineNumber": 10,
+              "lineNumber": 11,
               "type": {
                 "type": "OptionalType",
                 "expression": {
@@ -4396,7 +4486,7 @@
             {
               "title": "param",
               "description": "Protocol for the push registration server.",
-              "lineNumber": 11,
+              "lineNumber": 12,
               "type": {
                 "type": "OptionalType",
                 "expression": {
@@ -4409,19 +4499,6 @@
             {
               "title": "param",
               "description": "Version for the push registration server.",
-              "lineNumber": 12,
-              "type": {
-                "type": "OptionalType",
-                "expression": {
-                  "type": "NameExpression",
-                  "name": "string"
-                }
-              },
-              "name": "notifications.pushRegistration.version"
-            },
-            {
-              "title": "param",
-              "description": "The realm used for push notifications",
               "lineNumber": 13,
               "type": {
                 "type": "OptionalType",
@@ -4430,25 +4507,12 @@
                   "name": "string"
                 }
               },
-              "name": "notifications.realm"
-            },
-            {
-              "title": "param",
-              "description": "The bundle id used for push notifications",
-              "lineNumber": 14,
-              "type": {
-                "type": "OptionalType",
-                "expression": {
-                  "type": "NameExpression",
-                  "name": "string"
-                }
-              },
-              "name": "notifications.bundleId"
+              "name": "notifications.pushRegistration.version"
             }
           ],
           "loc": {
             "start": {
-              "line": 14,
+              "line": 15,
               "column": 0
             },
             "end": {
@@ -4463,7 +4527,7 @@
                 "column": 0
               },
               "end": {
-                "line": 61,
+                "line": 59,
                 "column": 1
               }
             },
@@ -4597,8 +4661,70 @@
                 },
                 {
                   "title": "param",
-                  "name": "notifications.pushRegistration",
+                  "name": "notifications.incomingCallNotificationMode",
                   "lineNumber": 8,
+                  "description": {
+                    "type": "root",
+                    "children": [
+                      {
+                        "type": "paragraph",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "Communication channel mode used for incoming call notifications. Supported values are 'any-channel' or 'push-channel-only'.",
+                            "position": {
+                              "start": {
+                                "line": 1,
+                                "column": 1,
+                                "offset": 0
+                              },
+                              "end": {
+                                "line": 1,
+                                "column": 124,
+                                "offset": 123
+                              },
+                              "indent": []
+                            }
+                          }
+                        ],
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 124,
+                            "offset": 123
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 124,
+                        "offset": 123
+                      }
+                    }
+                  },
+                  "type": {
+                    "type": "NameExpression",
+                    "name": "string"
+                  },
+                  "default": "'any-channel'"
+                },
+                {
+                  "title": "param",
+                  "name": "notifications.pushRegistration",
+                  "lineNumber": 9,
                   "description": {
                     "type": "root",
                     "children": [
@@ -4662,7 +4788,7 @@
                     {
                       "title": "param",
                       "name": "notifications.pushRegistration.server",
-                      "lineNumber": 9,
+                      "lineNumber": 10,
                       "description": {
                         "type": "root",
                         "children": [
@@ -4726,7 +4852,7 @@
                     {
                       "title": "param",
                       "name": "notifications.pushRegistration.port",
-                      "lineNumber": 10,
+                      "lineNumber": 11,
                       "description": {
                         "type": "root",
                         "children": [
@@ -4790,7 +4916,7 @@
                     {
                       "title": "param",
                       "name": "notifications.pushRegistration.protocol",
-                      "lineNumber": 11,
+                      "lineNumber": 12,
                       "description": {
                         "type": "root",
                         "children": [
@@ -4854,7 +4980,7 @@
                     {
                       "title": "param",
                       "name": "notifications.pushRegistration.version",
-                      "lineNumber": 12,
+                      "lineNumber": 13,
                       "description": {
                         "type": "root",
                         "children": [
@@ -4916,134 +5042,6 @@
                       }
                     }
                   ]
-                },
-                {
-                  "title": "param",
-                  "name": "notifications.realm",
-                  "lineNumber": 13,
-                  "description": {
-                    "type": "root",
-                    "children": [
-                      {
-                        "type": "paragraph",
-                        "children": [
-                          {
-                            "type": "text",
-                            "value": "The realm used for push notifications",
-                            "position": {
-                              "start": {
-                                "line": 1,
-                                "column": 1,
-                                "offset": 0
-                              },
-                              "end": {
-                                "line": 1,
-                                "column": 38,
-                                "offset": 37
-                              },
-                              "indent": []
-                            }
-                          }
-                        ],
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 38,
-                            "offset": 37
-                          },
-                          "indent": []
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 38,
-                        "offset": 37
-                      }
-                    }
-                  },
-                  "type": {
-                    "type": "OptionalType",
-                    "expression": {
-                      "type": "NameExpression",
-                      "name": "string"
-                    }
-                  }
-                },
-                {
-                  "title": "param",
-                  "name": "notifications.bundleId",
-                  "lineNumber": 14,
-                  "description": {
-                    "type": "root",
-                    "children": [
-                      {
-                        "type": "paragraph",
-                        "children": [
-                          {
-                            "type": "text",
-                            "value": "The bundle id used for push notifications",
-                            "position": {
-                              "start": {
-                                "line": 1,
-                                "column": 1,
-                                "offset": 0
-                              },
-                              "end": {
-                                "line": 1,
-                                "column": 42,
-                                "offset": 41
-                              },
-                              "indent": []
-                            }
-                          }
-                        ],
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 42,
-                            "offset": 41
-                          },
-                          "indent": []
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 42,
-                        "offset": 41
-                      }
-                    }
-                  },
-                  "type": {
-                    "type": "OptionalType",
-                    "expression": {
-                      "type": "NameExpression",
-                      "name": "string"
-                    }
-                  }
                 }
               ]
             }
@@ -5180,7 +5178,7 @@
         },
         "end": {
           "line": 87,
-          "column": 43
+          "column": 58
         }
       },
       "file": "/var/jenkins_home/workspace/Kandy.js_beta/builds/core/index.js"
@@ -6132,6 +6130,273 @@
         }
       ],
       "static": [
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Returns the current version of the API.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 40,
+                        "offset": 39
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 40,
+                    "offset": 39
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 40,
+                "offset": 39
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "public",
+              "description": null,
+              "lineNumber": 3,
+              "type": null
+            },
+            {
+              "title": "memberof",
+              "description": "api",
+              "lineNumber": 4
+            },
+            {
+              "title": "method",
+              "description": null,
+              "lineNumber": 5,
+              "name": "getVersion"
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 247,
+              "column": 4
+            },
+            "end": {
+              "line": 253,
+              "column": 7
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 254,
+                "column": 4
+              },
+              "end": {
+                "line": 256,
+                "column": 5
+              }
+            },
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/factory.js"
+          },
+          "augments": [],
+          "examples": [],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
+          "access": "public",
+          "memberof": "api",
+          "kind": "function",
+          "name": "getVersion",
+          "members": {
+            "global": [],
+            "inner": [],
+            "instance": [],
+            "events": [],
+            "static": []
+          },
+          "path": [
+            {
+              "name": "api",
+              "kind": "module"
+            },
+            {
+              "name": "getVersion",
+              "kind": "function"
+            }
+          ],
+          "namespace": "apigetVersion"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Destroys the SDK, and removes its state, rendering the SDK unusable.\nUseful when a user logs out and their call data needs to be destroyed.\nThe SDK must be recreated to be usable again.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 46,
+                        "offset": 185
+                      },
+                      "indent": [
+                        1,
+                        1
+                      ]
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 46,
+                    "offset": 185
+                  },
+                  "indent": [
+                    1,
+                    1
+                  ]
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 3,
+                "column": 46,
+                "offset": 185
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "public",
+              "description": null,
+              "lineNumber": 5,
+              "type": null
+            },
+            {
+              "title": "memberof",
+              "description": "api",
+              "lineNumber": 6
+            },
+            {
+              "title": "method",
+              "description": null,
+              "lineNumber": 7,
+              "name": "destroy"
+            },
+            {
+              "title": "example",
+              "description": "// Instantiate the SDK.\nimport { create } from 'kandy'\nconst config = {\n    authentication: { ... },\n    logs: { ... },\n    ...\n}\nlet client = create(config);\nclient.on( ... )\n// Use the SDK\n...\n// Destroy the SDK, then recreate on the next step\nclient.destroy()\nclient = create(config)\nclient.on( ... )",
+              "lineNumber": 8
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 259,
+              "column": 4
+            },
+            "end": {
+              "line": 283,
+              "column": 7
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 284,
+                "column": 4
+              },
+              "end": {
+                "line": 299,
+                "column": 5
+              }
+            },
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/factory.js"
+          },
+          "augments": [],
+          "examples": [
+            {
+              "description": "// Instantiate the SDK.\nimport { create } from 'kandy'\nconst config = {\n    authentication: { ... },\n    logs: { ... },\n    ...\n}\nlet client = create(config);\nclient.on( ... )\n// Use the SDK\n...\n// Destroy the SDK, then recreate on the next step\nclient.destroy()\nclient = create(config)\nclient.on( ... )"
+            }
+          ],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
+          "access": "public",
+          "memberof": "api",
+          "kind": "function",
+          "name": "destroy",
+          "members": {
+            "global": [],
+            "inner": [],
+            "instance": [],
+            "events": [],
+            "static": []
+          },
+          "path": [
+            {
+              "name": "api",
+              "kind": "module"
+            },
+            {
+              "name": "destroy",
+              "kind": "function"
+            }
+          ],
+          "namespace": "apidestroy"
+        },
         {
           "description": {
             "type": "root",
@@ -11864,11 +12129,11 @@
     "context": {
       "loc": {
         "start": {
-          "line": 274,
+          "line": 271,
           "column": 0
         },
         "end": {
-          "line": 278,
+          "line": 275,
           "column": 1
         }
       },
@@ -18680,22 +18945,22 @@
           ],
           "loc": {
             "start": {
-              "line": 225,
+              "line": 222,
               "column": 0
             },
             "end": {
-              "line": 263,
+              "line": 260,
               "column": 3
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 274,
+                "line": 271,
                 "column": 0
               },
               "end": {
-                "line": 278,
+                "line": 275,
                 "column": 1
               }
             },
@@ -18863,873 +19128,6 @@
             }
           ],
           "namespace": "call.CustomParameter"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "The MediaConstraint type defines the format for configuring media options.\nEither the ",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 2,
-                        "column": 12,
-                        "offset": 86
-                      },
-                      "indent": [
-                        1
-                      ]
-                    }
-                  },
-                  {
-                    "type": "inlineCode",
-                    "value": "exact",
-                    "position": {
-                      "start": {
-                        "line": 2,
-                        "column": 12,
-                        "offset": 86
-                      },
-                      "end": {
-                        "line": 2,
-                        "column": 19,
-                        "offset": 93
-                      },
-                      "indent": []
-                    }
-                  },
-                  {
-                    "type": "text",
-                    "value": " or ",
-                    "position": {
-                      "start": {
-                        "line": 2,
-                        "column": 19,
-                        "offset": 93
-                      },
-                      "end": {
-                        "line": 2,
-                        "column": 23,
-                        "offset": 97
-                      },
-                      "indent": []
-                    }
-                  },
-                  {
-                    "type": "inlineCode",
-                    "value": "ideal",
-                    "position": {
-                      "start": {
-                        "line": 2,
-                        "column": 23,
-                        "offset": 97
-                      },
-                      "end": {
-                        "line": 2,
-                        "column": 30,
-                        "offset": 104
-                      },
-                      "indent": []
-                    }
-                  },
-                  {
-                    "type": "text",
-                    "value": " property should be provided. If both are present, the\n   ",
-                    "position": {
-                      "start": {
-                        "line": 2,
-                        "column": 30,
-                        "offset": 104
-                      },
-                      "end": {
-                        "line": 3,
-                        "column": 4,
-                        "offset": 162
-                      },
-                      "indent": [
-                        1
-                      ]
-                    }
-                  },
-                  {
-                    "type": "inlineCode",
-                    "value": "exact",
-                    "position": {
-                      "start": {
-                        "line": 3,
-                        "column": 4,
-                        "offset": 162
-                      },
-                      "end": {
-                        "line": 3,
-                        "column": 11,
-                        "offset": 169
-                      },
-                      "indent": []
-                    }
-                  },
-                  {
-                    "type": "text",
-                    "value": " value will be used.",
-                    "position": {
-                      "start": {
-                        "line": 3,
-                        "column": 11,
-                        "offset": 169
-                      },
-                      "end": {
-                        "line": 3,
-                        "column": 31,
-                        "offset": 189
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 31,
-                    "offset": 189
-                  },
-                  "indent": [
-                    1,
-                    1
-                  ]
-                }
-              },
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "When the ",
-                    "position": {
-                      "start": {
-                        "line": 5,
-                        "column": 1,
-                        "offset": 191
-                      },
-                      "end": {
-                        "line": 5,
-                        "column": 10,
-                        "offset": 200
-                      },
-                      "indent": []
-                    }
-                  },
-                  {
-                    "type": "inlineCode",
-                    "value": "exact",
-                    "position": {
-                      "start": {
-                        "line": 5,
-                        "column": 10,
-                        "offset": 200
-                      },
-                      "end": {
-                        "line": 5,
-                        "column": 17,
-                        "offset": 207
-                      },
-                      "indent": []
-                    }
-                  },
-                  {
-                    "type": "text",
-                    "value": " value is provided, it will be the only value considered for the option.\n   If it cannot be used, the constraint will be considered an error.",
-                    "position": {
-                      "start": {
-                        "line": 5,
-                        "column": 17,
-                        "offset": 207
-                      },
-                      "end": {
-                        "line": 6,
-                        "column": 69,
-                        "offset": 348
-                      },
-                      "indent": [
-                        1
-                      ]
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 5,
-                    "column": 1,
-                    "offset": 191
-                  },
-                  "end": {
-                    "line": 6,
-                    "column": 69,
-                    "offset": 348
-                  },
-                  "indent": [
-                    1
-                  ]
-                }
-              },
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "When the ",
-                    "position": {
-                      "start": {
-                        "line": 8,
-                        "column": 1,
-                        "offset": 350
-                      },
-                      "end": {
-                        "line": 8,
-                        "column": 10,
-                        "offset": 359
-                      },
-                      "indent": []
-                    }
-                  },
-                  {
-                    "type": "inlineCode",
-                    "value": "ideal",
-                    "position": {
-                      "start": {
-                        "line": 8,
-                        "column": 10,
-                        "offset": 359
-                      },
-                      "end": {
-                        "line": 8,
-                        "column": 17,
-                        "offset": 366
-                      },
-                      "indent": []
-                    }
-                  },
-                  {
-                    "type": "text",
-                    "value": " value is provided, it will be considered as the optimal value for the option.\n   If it cannot be used, the closest acceptable value will be used instead.",
-                    "position": {
-                      "start": {
-                        "line": 8,
-                        "column": 17,
-                        "offset": 366
-                      },
-                      "end": {
-                        "line": 9,
-                        "column": 76,
-                        "offset": 520
-                      },
-                      "indent": [
-                        1
-                      ]
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 8,
-                    "column": 1,
-                    "offset": 350
-                  },
-                  "end": {
-                    "line": 9,
-                    "column": 76,
-                    "offset": 520
-                  },
-                  "indent": [
-                    1
-                  ]
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 9,
-                "column": 76,
-                "offset": 520
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "public",
-              "description": null,
-              "lineNumber": 11,
-              "type": null
-            },
-            {
-              "title": "static",
-              "description": null,
-              "lineNumber": 12
-            },
-            {
-              "title": "typedef",
-              "description": null,
-              "lineNumber": 13,
-              "type": {
-                "type": "NameExpression",
-                "name": "Object"
-              },
-              "name": "MediaConstraint"
-            },
-            {
-              "title": "memberof",
-              "description": "call",
-              "lineNumber": 14
-            },
-            {
-              "title": "property",
-              "description": "The required value for the constraint. Other values will not be accepted.",
-              "lineNumber": 15,
-              "type": {
-                "type": "OptionalType",
-                "expression": {
-                  "type": "NameExpression",
-                  "name": "string"
-                }
-              },
-              "name": "exact"
-            },
-            {
-              "title": "property",
-              "description": "The ideal value for the constraint. Other values will be considered if necessary.",
-              "lineNumber": 16,
-              "type": {
-                "type": "OptionalType",
-                "expression": {
-                  "type": "NameExpression",
-                  "name": "string"
-                }
-              },
-              "name": "ideal"
-            },
-            {
-              "title": "example",
-              "description": "// Specify video resolution when making a call.\nclient.call.make(destination, {\n   audio: true,\n   video: true,\n   videoOptions: {\n     // Set height and width constraints to ideally be 1280x720.\n     height: { ideal: 720 },\n     width: { ideal: 1280 }\n   }\n})",
-              "lineNumber": 17
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 85,
-              "column": 0
-            },
-            "end": {
-              "line": 113,
-              "column": 3
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 274,
-                "column": 0
-              },
-              "end": {
-                "line": 278,
-                "column": 1
-              }
-            },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/api/index.js"
-          },
-          "augments": [],
-          "examples": [
-            {
-              "description": "// Specify video resolution when making a call.\nclient.call.make(destination, {\n   audio: true,\n   video: true,\n   videoOptions: {\n     // Set height and width constraints to ideally be 1280x720.\n     height: { ideal: 720 },\n     width: { ideal: 1280 }\n   }\n})"
-            }
-          ],
-          "params": [],
-          "properties": [
-            {
-              "title": "property",
-              "name": "exact",
-              "lineNumber": 15,
-              "description": {
-                "type": "root",
-                "children": [
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "The required value for the constraint. Other values will not be accepted.",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 74,
-                            "offset": 73
-                          },
-                          "indent": []
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 74,
-                        "offset": 73
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 74,
-                    "offset": 73
-                  }
-                }
-              },
-              "type": {
-                "type": "OptionalType",
-                "expression": {
-                  "type": "NameExpression",
-                  "name": "string"
-                }
-              }
-            },
-            {
-              "title": "property",
-              "name": "ideal",
-              "lineNumber": 16,
-              "description": {
-                "type": "root",
-                "children": [
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "The ideal value for the constraint. Other values will be considered if necessary.",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 82,
-                            "offset": 81
-                          },
-                          "indent": []
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 82,
-                        "offset": 81
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 82,
-                    "offset": 81
-                  }
-                }
-              },
-              "type": {
-                "type": "OptionalType",
-                "expression": {
-                  "type": "NameExpression",
-                  "name": "string"
-                }
-              }
-            }
-          ],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
-          "access": "public",
-          "scope": "static",
-          "kind": "typedef",
-          "name": "MediaConstraint",
-          "type": {
-            "type": "NameExpression",
-            "name": "Object"
-          },
-          "memberof": "call",
-          "members": {
-            "global": [],
-            "inner": [],
-            "instance": [],
-            "events": [],
-            "static": []
-          },
-          "path": [
-            {
-              "name": "call"
-            },
-            {
-              "name": "MediaConstraint",
-              "kind": "typedef",
-              "scope": "static"
-            }
-          ],
-          "namespace": "call.MediaConstraint"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "The BandwidthControls type defines the format for configuring media and/or track bandwidth options.\nBandwidthControls only affect received remote tracks of the specified type.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 2,
-                        "column": 76,
-                        "offset": 175
-                      },
-                      "indent": [
-                        1
-                      ]
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 76,
-                    "offset": 175
-                  },
-                  "indent": [
-                    1
-                  ]
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 2,
-                "column": 76,
-                "offset": 175
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "public",
-              "description": null,
-              "lineNumber": 4,
-              "type": null
-            },
-            {
-              "title": "static",
-              "description": null,
-              "lineNumber": 5
-            },
-            {
-              "title": "typedef",
-              "description": null,
-              "lineNumber": 6,
-              "type": {
-                "type": "NameExpression",
-                "name": "Object"
-              },
-              "name": "BandwidthControls"
-            },
-            {
-              "title": "memberof",
-              "description": "call",
-              "lineNumber": 7
-            },
-            {
-              "title": "property",
-              "description": "The desired bandwidth bitrate in kilobits per second for received remote audio.",
-              "lineNumber": 8,
-              "type": {
-                "type": "OptionalType",
-                "expression": {
-                  "type": "NameExpression",
-                  "name": "number"
-                }
-              },
-              "name": "audio"
-            },
-            {
-              "title": "property",
-              "description": "The desired bandwidth bitrate in kilobits per second for received remote video.",
-              "lineNumber": 9,
-              "type": {
-                "type": "OptionalType",
-                "expression": {
-                  "type": "NameExpression",
-                  "name": "number"
-                }
-              },
-              "name": "video"
-            },
-            {
-              "title": "example",
-              "description": "// Specify received remote video bandwidth limits when making a call.\nclient.call.make(destination, mediaConstraints,\n {\n   bandwidth: {\n     video: 5\n   }\n }\n)",
-              "lineNumber": 10
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 115,
-              "column": 0
-            },
-            "end": {
-              "line": 134,
-              "column": 3
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 274,
-                "column": 0
-              },
-              "end": {
-                "line": 278,
-                "column": 1
-              }
-            },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/api/index.js"
-          },
-          "augments": [],
-          "examples": [
-            {
-              "description": "// Specify received remote video bandwidth limits when making a call.\nclient.call.make(destination, mediaConstraints,\n {\n   bandwidth: {\n     video: 5\n   }\n }\n)"
-            }
-          ],
-          "params": [],
-          "properties": [
-            {
-              "title": "property",
-              "name": "audio",
-              "lineNumber": 8,
-              "description": {
-                "type": "root",
-                "children": [
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "The desired bandwidth bitrate in kilobits per second for received remote audio.",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 80,
-                            "offset": 79
-                          },
-                          "indent": []
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 80,
-                        "offset": 79
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 80,
-                    "offset": 79
-                  }
-                }
-              },
-              "type": {
-                "type": "OptionalType",
-                "expression": {
-                  "type": "NameExpression",
-                  "name": "number"
-                }
-              }
-            },
-            {
-              "title": "property",
-              "name": "video",
-              "lineNumber": 9,
-              "description": {
-                "type": "root",
-                "children": [
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "The desired bandwidth bitrate in kilobits per second for received remote video.",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 80,
-                            "offset": 79
-                          },
-                          "indent": []
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 80,
-                        "offset": 79
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 80,
-                    "offset": 79
-                  }
-                }
-              },
-              "type": {
-                "type": "OptionalType",
-                "expression": {
-                  "type": "NameExpression",
-                  "name": "number"
-                }
-              }
-            }
-          ],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
-          "access": "public",
-          "scope": "static",
-          "kind": "typedef",
-          "name": "BandwidthControls",
-          "type": {
-            "type": "NameExpression",
-            "name": "Object"
-          },
-          "memberof": "call",
-          "members": {
-            "global": [],
-            "inner": [],
-            "instance": [],
-            "events": [],
-            "static": []
-          },
-          "path": [
-            {
-              "name": "call"
-            },
-            {
-              "name": "BandwidthControls",
-              "kind": "typedef",
-              "scope": "static"
-            }
-          ],
-          "namespace": "call.BandwidthControls"
         },
         {
           "description": {
@@ -20139,11 +19537,11 @@
           "context": {
             "loc": {
               "start": {
-                "line": 274,
+                "line": 271,
                 "column": 0
               },
               "end": {
-                "line": 278,
+                "line": 275,
                 "column": 1
               }
             },
@@ -21121,6 +20519,314 @@
           "namespace": "call.CallObject"
         },
         {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "The BandwidthControls type defines the format for configuring media and/or track bandwidth options.\nBandwidthControls only affect received remote tracks of the specified type.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 76,
+                        "offset": 175
+                      },
+                      "indent": [
+                        1
+                      ]
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 76,
+                    "offset": 175
+                  },
+                  "indent": [
+                    1
+                  ]
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 76,
+                "offset": 175
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "public",
+              "description": null,
+              "lineNumber": 4,
+              "type": null
+            },
+            {
+              "title": "static",
+              "description": null,
+              "lineNumber": 5
+            },
+            {
+              "title": "typedef",
+              "description": null,
+              "lineNumber": 6,
+              "type": {
+                "type": "NameExpression",
+                "name": "Object"
+              },
+              "name": "BandwidthControls"
+            },
+            {
+              "title": "memberof",
+              "description": "call",
+              "lineNumber": 7
+            },
+            {
+              "title": "property",
+              "description": "The desired bandwidth bitrate in kilobits per second for received remote audio.",
+              "lineNumber": 8,
+              "type": {
+                "type": "OptionalType",
+                "expression": {
+                  "type": "NameExpression",
+                  "name": "number"
+                }
+              },
+              "name": "audio"
+            },
+            {
+              "title": "property",
+              "description": "The desired bandwidth bitrate in kilobits per second for received remote video.",
+              "lineNumber": 9,
+              "type": {
+                "type": "OptionalType",
+                "expression": {
+                  "type": "NameExpression",
+                  "name": "number"
+                }
+              },
+              "name": "video"
+            },
+            {
+              "title": "example",
+              "description": "// Specify received remote video bandwidth limits when making a call.\nclient.call.make(destination, mediaConstraints,\n {\n   bandwidth: {\n     video: 5\n   }\n }\n)",
+              "lineNumber": 10
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 115,
+              "column": 0
+            },
+            "end": {
+              "line": 134,
+              "column": 3
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 271,
+                "column": 0
+              },
+              "end": {
+                "line": 275,
+                "column": 1
+              }
+            },
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/api/index.js"
+          },
+          "augments": [],
+          "examples": [
+            {
+              "description": "// Specify received remote video bandwidth limits when making a call.\nclient.call.make(destination, mediaConstraints,\n {\n   bandwidth: {\n     video: 5\n   }\n }\n)"
+            }
+          ],
+          "params": [],
+          "properties": [
+            {
+              "title": "property",
+              "name": "audio",
+              "lineNumber": 8,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "The desired bandwidth bitrate in kilobits per second for received remote audio.",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 80,
+                            "offset": 79
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 80,
+                        "offset": 79
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 80,
+                    "offset": 79
+                  }
+                }
+              },
+              "type": {
+                "type": "OptionalType",
+                "expression": {
+                  "type": "NameExpression",
+                  "name": "number"
+                }
+              }
+            },
+            {
+              "title": "property",
+              "name": "video",
+              "lineNumber": 9,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "The desired bandwidth bitrate in kilobits per second for received remote video.",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 80,
+                            "offset": 79
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 80,
+                        "offset": 79
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 80,
+                    "offset": 79
+                  }
+                }
+              },
+              "type": {
+                "type": "OptionalType",
+                "expression": {
+                  "type": "NameExpression",
+                  "name": "number"
+                }
+              }
+            }
+          ],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
+          "access": "public",
+          "scope": "static",
+          "kind": "typedef",
+          "name": "BandwidthControls",
+          "type": {
+            "type": "NameExpression",
+            "name": "Object"
+          },
+          "memberof": "call",
+          "members": {
+            "global": [],
+            "inner": [],
+            "instance": [],
+            "events": [],
+            "static": []
+          },
+          "path": [
+            {
+              "name": "call"
+            },
+            {
+              "name": "BandwidthControls",
+              "kind": "typedef",
+              "scope": "static"
+            }
+          ],
+          "namespace": "call.BandwidthControls"
+        },
+        {
           "description": "",
           "tags": [
             {
@@ -21204,11 +20910,11 @@
           "context": {
             "loc": {
               "start": {
-                "line": 274,
+                "line": 271,
                 "column": 0
               },
               "end": {
-                "line": 278,
+                "line": 275,
                 "column": 1
               }
             },
@@ -21435,18 +21141,8 @@
             },
             {
               "title": "property",
-              "description": "The step that will occur after the SDP Handlers are run.\n   Will be either 'set' (the SDP will be set locally) or 'send' (the SDP will\n   be sent to the remote endpoint).",
-              "lineNumber": 6,
-              "type": {
-                "type": "NameExpression",
-                "name": "string"
-              },
-              "name": "step"
-            },
-            {
-              "title": "property",
               "description": "Which end of the connection created the SDP.",
-              "lineNumber": 9,
+              "lineNumber": 6,
               "type": {
                 "type": "NameExpression",
                 "name": "string"
@@ -21460,18 +21156,18 @@
               "column": 0
             },
             "end": {
-              "line": 155,
+              "line": 152,
               "column": 3
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 274,
+                "line": 271,
                 "column": 0
               },
               "end": {
-                "line": 278,
+                "line": 275,
                 "column": 1
               }
             },
@@ -21544,75 +21240,8 @@
             },
             {
               "title": "property",
-              "name": "step",
-              "lineNumber": 6,
-              "description": {
-                "type": "root",
-                "children": [
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "The step that will occur after the SDP Handlers are run.\n   Will be either 'set' (the SDP will be set locally) or 'send' (the SDP will\n   be sent to the remote endpoint).",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 3,
-                            "column": 36,
-                            "offset": 170
-                          },
-                          "indent": [
-                            1,
-                            1
-                          ]
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 3,
-                        "column": 36,
-                        "offset": 170
-                      },
-                      "indent": [
-                        1,
-                        1
-                      ]
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 36,
-                    "offset": 170
-                  }
-                }
-              },
-              "type": {
-                "type": "NameExpression",
-                "name": "string"
-              }
-            },
-            {
-              "title": "property",
               "name": "endpoint",
-              "lineNumber": 9,
+              "lineNumber": 6,
               "description": {
                 "type": "root",
                 "children": [
@@ -21825,22 +21454,22 @@
           ],
           "loc": {
             "start": {
-              "line": 157,
+              "line": 154,
               "column": 0
             },
             "end": {
-              "line": 167,
+              "line": 164,
               "column": 3
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 274,
+                "line": 271,
                 "column": 0
               },
               "end": {
-                "line": 278,
+                "line": 275,
                 "column": 1
               }
             },
@@ -22135,6 +21764,465 @@
                 "children": [
                   {
                     "type": "text",
+                    "value": "Contains information about a device.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 37,
+                        "offset": 36
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 37,
+                    "offset": 36
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 37,
+                "offset": 36
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "public",
+              "description": null,
+              "lineNumber": 3,
+              "type": null
+            },
+            {
+              "title": "static",
+              "description": null,
+              "lineNumber": 4
+            },
+            {
+              "title": "typedef",
+              "description": null,
+              "lineNumber": 5,
+              "type": {
+                "type": "NameExpression",
+                "name": "Object"
+              },
+              "name": "DeviceInfo"
+            },
+            {
+              "title": "memberof",
+              "description": "call",
+              "lineNumber": 6
+            },
+            {
+              "title": "property",
+              "description": "The ID of the device.",
+              "lineNumber": 7,
+              "type": {
+                "type": "NameExpression",
+                "name": "string"
+              },
+              "name": "deviceId"
+            },
+            {
+              "title": "property",
+              "description": "The group ID of the device. Devices that share a `groupId` belong to the same physical device.",
+              "lineNumber": 8,
+              "type": {
+                "type": "NameExpression",
+                "name": "string"
+              },
+              "name": "groupId"
+            },
+            {
+              "title": "property",
+              "description": "The type of the device (audioinput, audiooutput, videoinput).",
+              "lineNumber": 9,
+              "type": {
+                "type": "NameExpression",
+                "name": "string"
+              },
+              "name": "kind"
+            },
+            {
+              "title": "property",
+              "description": "The name of the device.",
+              "lineNumber": 10,
+              "type": {
+                "type": "NameExpression",
+                "name": "string"
+              },
+              "name": "label"
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 209,
+              "column": 0
+            },
+            "end": {
+              "line": 220,
+              "column": 3
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 271,
+                "column": 0
+              },
+              "end": {
+                "line": 275,
+                "column": 1
+              }
+            },
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/api/index.js"
+          },
+          "augments": [],
+          "examples": [],
+          "params": [],
+          "properties": [
+            {
+              "title": "property",
+              "name": "deviceId",
+              "lineNumber": 7,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "The ID of the device.",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 22,
+                            "offset": 21
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 22,
+                        "offset": 21
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 22,
+                    "offset": 21
+                  }
+                }
+              },
+              "type": {
+                "type": "NameExpression",
+                "name": "string"
+              }
+            },
+            {
+              "title": "property",
+              "name": "groupId",
+              "lineNumber": 8,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "The group ID of the device. Devices that share a ",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 50,
+                            "offset": 49
+                          },
+                          "indent": []
+                        }
+                      },
+                      {
+                        "type": "inlineCode",
+                        "value": "groupId",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 50,
+                            "offset": 49
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 59,
+                            "offset": 58
+                          },
+                          "indent": []
+                        }
+                      },
+                      {
+                        "type": "text",
+                        "value": " belong to the same physical device.",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 59,
+                            "offset": 58
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 95,
+                            "offset": 94
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 95,
+                        "offset": 94
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 95,
+                    "offset": 94
+                  }
+                }
+              },
+              "type": {
+                "type": "NameExpression",
+                "name": "string"
+              }
+            },
+            {
+              "title": "property",
+              "name": "kind",
+              "lineNumber": 9,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "The type of the device (audioinput, audiooutput, videoinput).",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 62,
+                            "offset": 61
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 62,
+                        "offset": 61
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 62,
+                    "offset": 61
+                  }
+                }
+              },
+              "type": {
+                "type": "NameExpression",
+                "name": "string"
+              }
+            },
+            {
+              "title": "property",
+              "name": "label",
+              "lineNumber": 10,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "The name of the device.",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 24,
+                            "offset": 23
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 24,
+                        "offset": 23
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 24,
+                    "offset": 23
+                  }
+                }
+              },
+              "type": {
+                "type": "NameExpression",
+                "name": "string"
+              }
+            }
+          ],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
+          "access": "public",
+          "scope": "static",
+          "kind": "typedef",
+          "name": "DeviceInfo",
+          "type": {
+            "type": "NameExpression",
+            "name": "Object"
+          },
+          "memberof": "call",
+          "members": {
+            "global": [],
+            "inner": [],
+            "instance": [],
+            "events": [],
+            "static": []
+          },
+          "path": [
+            {
+              "name": "call"
+            },
+            {
+              "name": "DeviceInfo",
+              "kind": "typedef",
+              "scope": "static"
+            }
+          ],
+          "namespace": "call.DeviceInfo"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
                     "value": "The state representation of a Media object.\nMedia is a collection of Track objects.",
                     "position": {
                       "start": {
@@ -22252,22 +22340,22 @@
           ],
           "loc": {
             "start": {
-              "line": 169,
+              "line": 166,
               "column": 0
             },
             "end": {
-              "line": 180,
+              "line": 177,
               "column": 3
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 274,
+                "line": 271,
                 "column": 0
               },
               "end": {
-                "line": 278,
+                "line": 275,
                 "column": 1
               }
             },
@@ -22712,22 +22800,22 @@
           ],
           "loc": {
             "start": {
-              "line": 182,
+              "line": 179,
               "column": 0
             },
             "end": {
-              "line": 198,
+              "line": 195,
               "column": 3
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 274,
+                "line": 271,
                 "column": 0
               },
               "end": {
-                "line": 278,
+                "line": 275,
                 "column": 1
               }
             },
@@ -23276,465 +23364,6 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "Contains information about a device.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 37,
-                        "offset": 36
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 37,
-                    "offset": 36
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 37,
-                "offset": 36
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "public",
-              "description": null,
-              "lineNumber": 3,
-              "type": null
-            },
-            {
-              "title": "static",
-              "description": null,
-              "lineNumber": 4
-            },
-            {
-              "title": "typedef",
-              "description": null,
-              "lineNumber": 5,
-              "type": {
-                "type": "NameExpression",
-                "name": "Object"
-              },
-              "name": "DeviceInfo"
-            },
-            {
-              "title": "memberof",
-              "description": "call",
-              "lineNumber": 6
-            },
-            {
-              "title": "property",
-              "description": "The ID of the device.",
-              "lineNumber": 7,
-              "type": {
-                "type": "NameExpression",
-                "name": "string"
-              },
-              "name": "deviceId"
-            },
-            {
-              "title": "property",
-              "description": "The group ID of the device. Devices that share a `groupId` belong to the same physical device.",
-              "lineNumber": 8,
-              "type": {
-                "type": "NameExpression",
-                "name": "string"
-              },
-              "name": "groupId"
-            },
-            {
-              "title": "property",
-              "description": "The type of the device (audioinput, audiooutput, videoinput).",
-              "lineNumber": 9,
-              "type": {
-                "type": "NameExpression",
-                "name": "string"
-              },
-              "name": "kind"
-            },
-            {
-              "title": "property",
-              "description": "The name of the device.",
-              "lineNumber": 10,
-              "type": {
-                "type": "NameExpression",
-                "name": "string"
-              },
-              "name": "label"
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 212,
-              "column": 0
-            },
-            "end": {
-              "line": 223,
-              "column": 3
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 274,
-                "column": 0
-              },
-              "end": {
-                "line": 278,
-                "column": 1
-              }
-            },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/api/index.js"
-          },
-          "augments": [],
-          "examples": [],
-          "params": [],
-          "properties": [
-            {
-              "title": "property",
-              "name": "deviceId",
-              "lineNumber": 7,
-              "description": {
-                "type": "root",
-                "children": [
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "The ID of the device.",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 22,
-                            "offset": 21
-                          },
-                          "indent": []
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 22,
-                        "offset": 21
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 22,
-                    "offset": 21
-                  }
-                }
-              },
-              "type": {
-                "type": "NameExpression",
-                "name": "string"
-              }
-            },
-            {
-              "title": "property",
-              "name": "groupId",
-              "lineNumber": 8,
-              "description": {
-                "type": "root",
-                "children": [
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "The group ID of the device. Devices that share a ",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 50,
-                            "offset": 49
-                          },
-                          "indent": []
-                        }
-                      },
-                      {
-                        "type": "inlineCode",
-                        "value": "groupId",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 50,
-                            "offset": 49
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 59,
-                            "offset": 58
-                          },
-                          "indent": []
-                        }
-                      },
-                      {
-                        "type": "text",
-                        "value": " belong to the same physical device.",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 59,
-                            "offset": 58
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 95,
-                            "offset": 94
-                          },
-                          "indent": []
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 95,
-                        "offset": 94
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 95,
-                    "offset": 94
-                  }
-                }
-              },
-              "type": {
-                "type": "NameExpression",
-                "name": "string"
-              }
-            },
-            {
-              "title": "property",
-              "name": "kind",
-              "lineNumber": 9,
-              "description": {
-                "type": "root",
-                "children": [
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "The type of the device (audioinput, audiooutput, videoinput).",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 62,
-                            "offset": 61
-                          },
-                          "indent": []
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 62,
-                        "offset": 61
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 62,
-                    "offset": 61
-                  }
-                }
-              },
-              "type": {
-                "type": "NameExpression",
-                "name": "string"
-              }
-            },
-            {
-              "title": "property",
-              "name": "label",
-              "lineNumber": 10,
-              "description": {
-                "type": "root",
-                "children": [
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "The name of the device.",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 24,
-                            "offset": 23
-                          },
-                          "indent": []
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 24,
-                        "offset": 23
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 24,
-                    "offset": 23
-                  }
-                }
-              },
-              "type": {
-                "type": "NameExpression",
-                "name": "string"
-              }
-            }
-          ],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
-          "access": "public",
-          "scope": "static",
-          "kind": "typedef",
-          "name": "DeviceInfo",
-          "type": {
-            "type": "NameExpression",
-            "name": "Object"
-          },
-          "memberof": "call",
-          "members": {
-            "global": [],
-            "inner": [],
-            "instance": [],
-            "events": [],
-            "static": []
-          },
-          "path": [
-            {
-              "name": "call"
-            },
-            {
-              "name": "DeviceInfo",
-              "kind": "typedef",
-              "scope": "static"
-            }
-          ],
-          "namespace": "call.DeviceInfo"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
                     "value": "A collection of media devices and their information.",
                     "position": {
                       "start": {
@@ -23866,22 +23495,22 @@
           ],
           "loc": {
             "start": {
-              "line": 200,
+              "line": 197,
               "column": 0
             },
             "end": {
-              "line": 210,
+              "line": 207,
               "column": 3
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 274,
+                "line": 271,
                 "column": 0
               },
               "end": {
-                "line": 278,
+                "line": 275,
                 "column": 1
               }
             },
@@ -24133,6 +23762,565 @@
             }
           ],
           "namespace": "call.DevicesObject"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "The MediaConstraint type defines the format for configuring media options.\nEither the ",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 12,
+                        "offset": 86
+                      },
+                      "indent": [
+                        1
+                      ]
+                    }
+                  },
+                  {
+                    "type": "inlineCode",
+                    "value": "exact",
+                    "position": {
+                      "start": {
+                        "line": 2,
+                        "column": 12,
+                        "offset": 86
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 19,
+                        "offset": 93
+                      },
+                      "indent": []
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": " or ",
+                    "position": {
+                      "start": {
+                        "line": 2,
+                        "column": 19,
+                        "offset": 93
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 23,
+                        "offset": 97
+                      },
+                      "indent": []
+                    }
+                  },
+                  {
+                    "type": "inlineCode",
+                    "value": "ideal",
+                    "position": {
+                      "start": {
+                        "line": 2,
+                        "column": 23,
+                        "offset": 97
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 30,
+                        "offset": 104
+                      },
+                      "indent": []
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": " property should be provided. If both are present, the\n   ",
+                    "position": {
+                      "start": {
+                        "line": 2,
+                        "column": 30,
+                        "offset": 104
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 4,
+                        "offset": 162
+                      },
+                      "indent": [
+                        1
+                      ]
+                    }
+                  },
+                  {
+                    "type": "inlineCode",
+                    "value": "exact",
+                    "position": {
+                      "start": {
+                        "line": 3,
+                        "column": 4,
+                        "offset": 162
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 11,
+                        "offset": 169
+                      },
+                      "indent": []
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": " value will be used.",
+                    "position": {
+                      "start": {
+                        "line": 3,
+                        "column": 11,
+                        "offset": 169
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 31,
+                        "offset": 189
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 31,
+                    "offset": 189
+                  },
+                  "indent": [
+                    1,
+                    1
+                  ]
+                }
+              },
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "When the ",
+                    "position": {
+                      "start": {
+                        "line": 5,
+                        "column": 1,
+                        "offset": 191
+                      },
+                      "end": {
+                        "line": 5,
+                        "column": 10,
+                        "offset": 200
+                      },
+                      "indent": []
+                    }
+                  },
+                  {
+                    "type": "inlineCode",
+                    "value": "exact",
+                    "position": {
+                      "start": {
+                        "line": 5,
+                        "column": 10,
+                        "offset": 200
+                      },
+                      "end": {
+                        "line": 5,
+                        "column": 17,
+                        "offset": 207
+                      },
+                      "indent": []
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": " value is provided, it will be the only value considered for the option.\n   If it cannot be used, the constraint will be considered an error.",
+                    "position": {
+                      "start": {
+                        "line": 5,
+                        "column": 17,
+                        "offset": 207
+                      },
+                      "end": {
+                        "line": 6,
+                        "column": 69,
+                        "offset": 348
+                      },
+                      "indent": [
+                        1
+                      ]
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 191
+                  },
+                  "end": {
+                    "line": 6,
+                    "column": 69,
+                    "offset": 348
+                  },
+                  "indent": [
+                    1
+                  ]
+                }
+              },
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "When the ",
+                    "position": {
+                      "start": {
+                        "line": 8,
+                        "column": 1,
+                        "offset": 350
+                      },
+                      "end": {
+                        "line": 8,
+                        "column": 10,
+                        "offset": 359
+                      },
+                      "indent": []
+                    }
+                  },
+                  {
+                    "type": "inlineCode",
+                    "value": "ideal",
+                    "position": {
+                      "start": {
+                        "line": 8,
+                        "column": 10,
+                        "offset": 359
+                      },
+                      "end": {
+                        "line": 8,
+                        "column": 17,
+                        "offset": 366
+                      },
+                      "indent": []
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": " value is provided, it will be considered as the optimal value for the option.\n   If it cannot be used, the closest acceptable value will be used instead.",
+                    "position": {
+                      "start": {
+                        "line": 8,
+                        "column": 17,
+                        "offset": 366
+                      },
+                      "end": {
+                        "line": 9,
+                        "column": 76,
+                        "offset": 520
+                      },
+                      "indent": [
+                        1
+                      ]
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 8,
+                    "column": 1,
+                    "offset": 350
+                  },
+                  "end": {
+                    "line": 9,
+                    "column": 76,
+                    "offset": 520
+                  },
+                  "indent": [
+                    1
+                  ]
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 9,
+                "column": 76,
+                "offset": 520
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "public",
+              "description": null,
+              "lineNumber": 11,
+              "type": null
+            },
+            {
+              "title": "static",
+              "description": null,
+              "lineNumber": 12
+            },
+            {
+              "title": "typedef",
+              "description": null,
+              "lineNumber": 13,
+              "type": {
+                "type": "NameExpression",
+                "name": "Object"
+              },
+              "name": "MediaConstraint"
+            },
+            {
+              "title": "memberof",
+              "description": "call",
+              "lineNumber": 14
+            },
+            {
+              "title": "property",
+              "description": "The required value for the constraint. Other values will not be accepted.",
+              "lineNumber": 15,
+              "type": {
+                "type": "OptionalType",
+                "expression": {
+                  "type": "NameExpression",
+                  "name": "string"
+                }
+              },
+              "name": "exact"
+            },
+            {
+              "title": "property",
+              "description": "The ideal value for the constraint. Other values will be considered if necessary.",
+              "lineNumber": 16,
+              "type": {
+                "type": "OptionalType",
+                "expression": {
+                  "type": "NameExpression",
+                  "name": "string"
+                }
+              },
+              "name": "ideal"
+            },
+            {
+              "title": "example",
+              "description": "// Specify video resolution when making a call.\nclient.call.make(destination, {\n   audio: true,\n   video: true,\n   videoOptions: {\n     // Set height and width constraints to ideally be 1280x720.\n     height: { ideal: 720 },\n     width: { ideal: 1280 }\n   }\n})",
+              "lineNumber": 17
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 85,
+              "column": 0
+            },
+            "end": {
+              "line": 113,
+              "column": 3
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 271,
+                "column": 0
+              },
+              "end": {
+                "line": 275,
+                "column": 1
+              }
+            },
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/api/index.js"
+          },
+          "augments": [],
+          "examples": [
+            {
+              "description": "// Specify video resolution when making a call.\nclient.call.make(destination, {\n   audio: true,\n   video: true,\n   videoOptions: {\n     // Set height and width constraints to ideally be 1280x720.\n     height: { ideal: 720 },\n     width: { ideal: 1280 }\n   }\n})"
+            }
+          ],
+          "params": [],
+          "properties": [
+            {
+              "title": "property",
+              "name": "exact",
+              "lineNumber": 15,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "The required value for the constraint. Other values will not be accepted.",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 74,
+                            "offset": 73
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 74,
+                        "offset": 73
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 74,
+                    "offset": 73
+                  }
+                }
+              },
+              "type": {
+                "type": "OptionalType",
+                "expression": {
+                  "type": "NameExpression",
+                  "name": "string"
+                }
+              }
+            },
+            {
+              "title": "property",
+              "name": "ideal",
+              "lineNumber": 16,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "The ideal value for the constraint. Other values will be considered if necessary.",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 82,
+                            "offset": 81
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 82,
+                        "offset": 81
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 82,
+                    "offset": 81
+                  }
+                }
+              },
+              "type": {
+                "type": "OptionalType",
+                "expression": {
+                  "type": "NameExpression",
+                  "name": "string"
+                }
+              }
+            }
+          ],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
+          "access": "public",
+          "scope": "static",
+          "kind": "typedef",
+          "name": "MediaConstraint",
+          "type": {
+            "type": "NameExpression",
+            "name": "Object"
+          },
+          "memberof": "call",
+          "members": {
+            "global": [],
+            "inner": [],
+            "instance": [],
+            "events": [],
+            "static": []
+          },
+          "path": [
+            {
+              "name": "call"
+            },
+            {
+              "name": "MediaConstraint",
+              "kind": "typedef",
+              "scope": "static"
+            }
+          ],
+          "namespace": "call.MediaConstraint"
         },
         {
           "description": {
@@ -58470,37 +58658,37 @@
             },
             {
               "title": "example",
-              "description": "// Define a custom function to handle logs.\nfunction logHandler (logEntry) {\n  // Compile the meta info of the log for a prefix.\n  const { timestamp, level, method, target } = logEntry\n  const logInfo = `${timestamp} - ${target.name} - ${level}`\n\n  // Assume that the first message parameter is a string.\n  const [log, ...extra] = logEntry.messages\n\n  console[method](`${logInfo} - ${log}`, ...extra)\n}\n\n// Provide the LogHandler as part of the SDK configurations.\nconst configs = { ... }\nconfigs.logs.handler = logHandler\nconst client = create(configs)",
+              "description": "// Define a custom function to handle logs.\nfunction logHandler (logEntry) {\n  // Compile the meta info of the log for a prefix.\n  const { timestamp, level, method, target } = logEntry\n  const logInfo = `${timestamp} - ${target.type} - ${level}`\n\n  // Assume that the first message parameter is a string.\n  const [log, ...extra] = logEntry.messages\n\n  console[method](`${logInfo} - ${log}`, ...extra)\n}\n\n// Provide the LogHandler as part of the SDK configurations.\nconst configs = { ... }\nconfigs.logs.handler = logHandler\nconst client = create(configs)",
               "lineNumber": 15
             }
           ],
           "loc": {
             "start": {
-              "line": 1,
+              "line": 46,
               "column": 0
             },
             "end": {
-              "line": 33,
+              "line": 78,
               "column": 3
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 41,
+                "line": 1,
                 "column": 0
               },
               "end": {
-                "line": 50,
-                "column": 1
+                "line": 79,
+                "column": 0
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/logs/logHandler.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/logs/docs.js"
           },
           "augments": [],
           "examples": [
             {
-              "description": "// Define a custom function to handle logs.\nfunction logHandler (logEntry) {\n  // Compile the meta info of the log for a prefix.\n  const { timestamp, level, method, target } = logEntry\n  const logInfo = `${timestamp} - ${target.name} - ${level}`\n\n  // Assume that the first message parameter is a string.\n  const [log, ...extra] = logEntry.messages\n\n  console[method](`${logInfo} - ${log}`, ...extra)\n}\n\n// Provide the LogHandler as part of the SDK configurations.\nconst configs = { ... }\nconfigs.logs.handler = logHandler\nconst client = create(configs)"
+              "description": "// Define a custom function to handle logs.\nfunction logHandler (logEntry) {\n  // Compile the meta info of the log for a prefix.\n  const { timestamp, level, method, target } = logEntry\n  const logInfo = `${timestamp} - ${target.type} - ${level}`\n\n  // Assume that the first message parameter is a string.\n  const [log, ...extra] = logEntry.messages\n\n  console[method](`${logInfo} - ${log}`, ...extra)\n}\n\n// Provide the LogHandler as part of the SDK configurations.\nconst configs = { ... }\nconfigs.logs.handler = logHandler\nconst client = create(configs)"
             }
           ],
           "params": [
@@ -58860,13 +59048,13 @@
             },
             {
               "title": "property",
-              "description": "The name of the target. This is also\n   used as the name of the Logger.",
+              "description": "The type of the target. This is also\n   used as part of the name of the Logger.",
               "lineNumber": 18,
               "type": {
                 "type": "NameExpression",
                 "name": "string"
               },
-              "name": "target.name"
+              "name": "target.type"
             },
             {
               "title": "property",
@@ -58883,8 +59071,18 @@
             },
             {
               "title": "property",
-              "description": "The logged information, given to the Logger\n   method as parameters.",
+              "description": "A combination of the target type and ID. If no\n   id was provided, this will be the same as the type.",
               "lineNumber": 21,
+              "type": {
+                "type": "NameExpression",
+                "name": "string"
+              },
+              "name": "target.name"
+            },
+            {
+              "title": "property",
+              "description": "The logged information, given to the Logger\n   method as parameters.",
+              "lineNumber": 23,
               "type": {
                 "type": "NameExpression",
                 "name": "Array"
@@ -58893,37 +59091,37 @@
             },
             {
               "title": "example",
-              "description": "function defaultLogHandler (logEntry) {\n  // Compile the meta info of the log for a prefix.\n  const { timestamp, level, method, target } = logEntry\n  const logInfo = `${timestamp} - ${target.name} - ${level}`\n\n  // Assume that the first message parameter is a string.\n  const [log, ...extra] = logEntry.messages\n\n  console[method](`${logInfo} - ${log}`, ...extra)\n}",
-              "lineNumber": 23
+              "description": "function defaultLogHandler (logEntry) {\n  // Compile the meta info of the log for a prefix.\n  const { timestamp, level, method, target } = logEntry\n  const logInfo = `${timestamp} - ${target.type} - ${level}`\n\n  // Assume that the first message parameter is a string.\n  const [log, ...extra] = logEntry.messages\n\n  console[method](`${logInfo} - ${log}`, ...extra)\n}",
+              "lineNumber": 25
             }
           ],
           "loc": {
             "start": {
-              "line": 3,
+              "line": 8,
               "column": 0
             },
             "end": {
-              "line": 37,
+              "line": 44,
               "column": 3
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 47,
+                "line": 1,
                 "column": 0
               },
               "end": {
-                "line": 124,
-                "column": 1
+                "line": 79,
+                "column": 0
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/logs/logger.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/logs/docs.js"
           },
           "augments": [],
           "examples": [
             {
-              "description": "function defaultLogHandler (logEntry) {\n  // Compile the meta info of the log for a prefix.\n  const { timestamp, level, method, target } = logEntry\n  const logInfo = `${timestamp} - ${target.name} - ${level}`\n\n  // Assume that the first message parameter is a string.\n  const [log, ...extra] = logEntry.messages\n\n  console[method](`${logInfo} - ${log}`, ...extra)\n}"
+              "description": "function defaultLogHandler (logEntry) {\n  // Compile the meta info of the log for a prefix.\n  const { timestamp, level, method, target } = logEntry\n  const logInfo = `${timestamp} - ${target.type} - ${level}`\n\n  // Assume that the first message parameter is a string.\n  const [log, ...extra] = logEntry.messages\n\n  console[method](`${logInfo} - ${log}`, ...extra)\n}"
             }
           ],
           "params": [],
@@ -59174,7 +59372,7 @@
               "properties": [
                 {
                   "title": "property",
-                  "name": "target.name",
+                  "name": "target.type",
                   "lineNumber": 18,
                   "description": {
                     "type": "root",
@@ -59184,7 +59382,7 @@
                         "children": [
                           {
                             "type": "text",
-                            "value": "The name of the target. This is also\n   used as the name of the Logger.",
+                            "value": "The type of the target. This is also\n   used as part of the name of the Logger.",
                             "position": {
                               "start": {
                                 "line": 1,
@@ -59193,8 +59391,8 @@
                               },
                               "end": {
                                 "line": 2,
-                                "column": 35,
-                                "offset": 71
+                                "column": 43,
+                                "offset": 79
                               },
                               "indent": [
                                 1
@@ -59210,8 +59408,8 @@
                           },
                           "end": {
                             "line": 2,
-                            "column": 35,
-                            "offset": 71
+                            "column": 43,
+                            "offset": 79
                           },
                           "indent": [
                             1
@@ -59227,8 +59425,8 @@
                       },
                       "end": {
                         "line": 2,
-                        "column": 35,
-                        "offset": 71
+                        "column": 43,
+                        "offset": 79
                       }
                     }
                   },
@@ -59300,13 +59498,78 @@
                       "name": "string"
                     }
                   }
+                },
+                {
+                  "title": "property",
+                  "name": "target.name",
+                  "lineNumber": 21,
+                  "description": {
+                    "type": "root",
+                    "children": [
+                      {
+                        "type": "paragraph",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "A combination of the target type and ID. If no\n   id was provided, this will be the same as the type.",
+                            "position": {
+                              "start": {
+                                "line": 1,
+                                "column": 1,
+                                "offset": 0
+                              },
+                              "end": {
+                                "line": 2,
+                                "column": 55,
+                                "offset": 101
+                              },
+                              "indent": [
+                                1
+                              ]
+                            }
+                          }
+                        ],
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 2,
+                            "column": 55,
+                            "offset": 101
+                          },
+                          "indent": [
+                            1
+                          ]
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 55,
+                        "offset": 101
+                      }
+                    }
+                  },
+                  "type": {
+                    "type": "NameExpression",
+                    "name": "string"
+                  }
                 }
               ]
             },
             {
               "title": "property",
               "name": "messages",
-              "lineNumber": 21,
+              "lineNumber": 23,
               "description": {
                 "type": "root",
                 "children": [
@@ -59670,11 +59933,11 @@
     "context": {
       "loc": {
         "start": {
-          "line": 274,
+          "line": 271,
           "column": 0
         },
         "end": {
-          "line": 278,
+          "line": 275,
           "column": 1
         }
       },
@@ -63691,22 +63954,22 @@
           ],
           "loc": {
             "start": {
-              "line": 25,
+              "line": 26,
               "column": 4
             },
             "end": {
-              "line": 34,
+              "line": 35,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 35,
+                "line": 36,
                 "column": 4
               },
               "end": {
-                "line": 38,
+                "line": 39,
                 "column": 5
               }
             },
@@ -63826,7 +64089,7 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "Registers a device token for push notifications.",
+                    "value": "Registers with Apple push notification service. Once registration is successful, the application will be able to receive\nstandard and/or voip push notifications. It can then send these notifications to the SDK with ",
                     "position": {
                       "start": {
                         "line": 1,
@@ -63834,11 +64097,57 @@
                         "offset": 0
                       },
                       "end": {
-                        "line": 1,
-                        "column": 49,
-                        "offset": 48
+                        "line": 2,
+                        "column": 95,
+                        "offset": 215
+                      },
+                      "indent": [
+                        1
+                      ]
+                    }
+                  },
+                  {
+                    "type": "link",
+                    "url": "api.notifications.process",
+                    "title": null,
+                    "jsdoc": true,
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "api.notifications.process"
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 2,
+                        "column": 95,
+                        "offset": 215
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 128,
+                        "offset": 248
                       },
                       "indent": []
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": "\nin order for the SDK to process them.",
+                    "position": {
+                      "start": {
+                        "line": 2,
+                        "column": 128,
+                        "offset": 248
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 38,
+                        "offset": 286
+                      },
+                      "indent": [
+                        1
+                      ]
                     }
                   }
                 ],
@@ -63849,11 +64158,14 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 1,
-                    "column": 49,
-                    "offset": 48
+                    "line": 3,
+                    "column": 38,
+                    "offset": 286
                   },
-                  "indent": []
+                  "indent": [
+                    1,
+                    1
+                  ]
                 }
               }
             ],
@@ -63864,9 +64176,9 @@
                 "offset": 0
               },
               "end": {
-                "line": 1,
-                "column": 49,
-                "offset": 48
+                "line": 3,
+                "column": 38,
+                "offset": 286
               }
             }
           },
@@ -63874,30 +64186,30 @@
             {
               "title": "public",
               "description": null,
-              "lineNumber": 3,
+              "lineNumber": 5,
               "type": null
             },
             {
               "title": "requires",
               "description": null,
-              "lineNumber": 4,
+              "lineNumber": 6,
               "name": "push"
             },
             {
               "title": "memberof",
               "description": "notification",
-              "lineNumber": 5
+              "lineNumber": 7
             },
             {
               "title": "method",
               "description": null,
-              "lineNumber": 6,
-              "name": "registerPush"
+              "lineNumber": 8,
+              "name": "registerApplePush"
             },
             {
               "title": "param",
               "description": null,
-              "lineNumber": 7,
+              "lineNumber": 9,
               "type": {
                 "type": "NameExpression",
                 "name": "Object"
@@ -63906,18 +64218,8 @@
             },
             {
               "title": "param",
-              "description": "The device token to be registered.",
-              "lineNumber": 8,
-              "type": {
-                "type": "NameExpression",
-                "name": "string"
-              },
-              "name": "params.deviceToken"
-            },
-            {
-              "title": "param",
-              "description": "Array of services to register for.",
-              "lineNumber": 9,
+              "description": "Array of services for which we wish to receive notifications.",
+              "lineNumber": 10,
               "type": {
                 "type": "TypeApplication",
                 "expression": {
@@ -63935,43 +64237,92 @@
             },
             {
               "title": "param",
-              "description": "The push provider, can be either 'apple' or 'google'.",
-              "lineNumber": 10,
-              "type": {
-                "type": "NameExpression",
-                "name": "string"
-              },
-              "name": "params.pushProvider"
-            },
-            {
-              "title": "param",
-              "description": "Unique identifier for a client device.",
+              "description": "The voip device token used for voip push on iOS.\n                                         This token is required if registering for call service notifications on iOS.",
               "lineNumber": 11,
               "type": {
                 "type": "NameExpression",
                 "name": "string"
               },
+              "name": "params.voipDeviceToken"
+            },
+            {
+              "title": "param",
+              "description": "The standardDevice token used for standard push on iOS .\n                                             This token is required when registering for non-call service notifications.",
+              "lineNumber": 13,
+              "type": {
+                "type": "NameExpression",
+                "name": "string"
+              },
+              "name": "params.standardDeviceToken"
+            },
+            {
+              "title": "param",
+              "description": "The bundleId to identify the application receiving the push notification.",
+              "lineNumber": 15,
+              "type": {
+                "type": "NameExpression",
+                "name": "string"
+              },
+              "name": "params.bundleId"
+            },
+            {
+              "title": "param",
+              "description": "Unique identifier for a client device.",
+              "lineNumber": 16,
+              "type": {
+                "type": "NameExpression",
+                "name": "string"
+              },
               "name": "params.clientCorrelator"
+            },
+            {
+              "title": "param",
+              "description": "The realm used by the push registration service to identify and\n                               establish a connection with the service gateway.",
+              "lineNumber": 17,
+              "type": {
+                "type": "NameExpression",
+                "name": "string"
+              },
+              "name": "params.realm"
+            },
+            {
+              "title": "param",
+              "description": "If true, push notification will be sent to production.\n                                       If false, push notification will be sent to sandbox.",
+              "lineNumber": 19,
+              "type": {
+                "type": "NameExpression",
+                "name": "boolean"
+              },
+              "name": "params.isProduction"
+            },
+            {
+              "title": "return",
+              "description": "When successful,  the information of the registration.\n                  Promise will reject with error object otherwise.",
+              "lineNumber": 21,
+              "type": {
+                "type": "NameExpression",
+                "name": "Promise"
+              }
             }
           ],
           "loc": {
             "start": {
-              "line": 40,
+              "line": 41,
               "column": 4
             },
             "end": {
-              "line": 52,
+              "line": 64,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 53,
+                "line": 65,
                 "column": 4
               },
               "end": {
-                "line": 61,
+                "line": 93,
                 "column": 5
               }
             },
@@ -63983,7 +64334,7 @@
             {
               "title": "param",
               "name": "params",
-              "lineNumber": 7,
+              "lineNumber": 9,
               "type": {
                 "type": "NameExpression",
                 "name": "Object"
@@ -63991,8 +64342,8 @@
               "properties": [
                 {
                   "title": "param",
-                  "name": "params.deviceToken",
-                  "lineNumber": 8,
+                  "name": "params.services",
+                  "lineNumber": 10,
                   "description": {
                     "type": "root",
                     "children": [
@@ -64001,7 +64352,7 @@
                         "children": [
                           {
                             "type": "text",
-                            "value": "The device token to be registered.",
+                            "value": "Array of services for which we wish to receive notifications.",
                             "position": {
                               "start": {
                                 "line": 1,
@@ -64010,8 +64361,8 @@
                               },
                               "end": {
                                 "line": 1,
-                                "column": 35,
-                                "offset": 34
+                                "column": 62,
+                                "offset": 61
                               },
                               "indent": []
                             }
@@ -64025,8 +64376,8 @@
                           },
                           "end": {
                             "line": 1,
-                            "column": 35,
-                            "offset": 34
+                            "column": 62,
+                            "offset": 61
                           },
                           "indent": []
                         }
@@ -64040,8 +64391,82 @@
                       },
                       "end": {
                         "line": 1,
-                        "column": 35,
-                        "offset": 34
+                        "column": 62,
+                        "offset": 61
+                      }
+                    }
+                  },
+                  "type": {
+                    "type": "TypeApplication",
+                    "expression": {
+                      "type": "NameExpression",
+                      "name": "Array"
+                    },
+                    "applications": [
+                      {
+                        "type": "NameExpression",
+                        "name": "string"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "title": "param",
+                  "name": "params.voipDeviceToken",
+                  "lineNumber": 11,
+                  "description": {
+                    "type": "root",
+                    "children": [
+                      {
+                        "type": "paragraph",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "The voip device token used for voip push on iOS.\n                                         This token is required if registering for call service notifications on iOS.",
+                            "position": {
+                              "start": {
+                                "line": 1,
+                                "column": 1,
+                                "offset": 0
+                              },
+                              "end": {
+                                "line": 2,
+                                "column": 118,
+                                "offset": 166
+                              },
+                              "indent": [
+                                1
+                              ]
+                            }
+                          }
+                        ],
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 2,
+                            "column": 118,
+                            "offset": 166
+                          },
+                          "indent": [
+                            1
+                          ]
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 118,
+                        "offset": 166
                       }
                     }
                   },
@@ -64052,8 +64477,660 @@
                 },
                 {
                   "title": "param",
+                  "name": "params.standardDeviceToken",
+                  "lineNumber": 13,
+                  "description": {
+                    "type": "root",
+                    "children": [
+                      {
+                        "type": "paragraph",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "The standardDevice token used for standard push on iOS .\n                                             This token is required when registering for non-call service notifications.",
+                            "position": {
+                              "start": {
+                                "line": 1,
+                                "column": 1,
+                                "offset": 0
+                              },
+                              "end": {
+                                "line": 2,
+                                "column": 121,
+                                "offset": 177
+                              },
+                              "indent": [
+                                1
+                              ]
+                            }
+                          }
+                        ],
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 2,
+                            "column": 121,
+                            "offset": 177
+                          },
+                          "indent": [
+                            1
+                          ]
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 121,
+                        "offset": 177
+                      }
+                    }
+                  },
+                  "type": {
+                    "type": "NameExpression",
+                    "name": "string"
+                  }
+                },
+                {
+                  "title": "param",
+                  "name": "params.bundleId",
+                  "lineNumber": 15,
+                  "description": {
+                    "type": "root",
+                    "children": [
+                      {
+                        "type": "paragraph",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "The bundleId to identify the application receiving the push notification.",
+                            "position": {
+                              "start": {
+                                "line": 1,
+                                "column": 1,
+                                "offset": 0
+                              },
+                              "end": {
+                                "line": 1,
+                                "column": 74,
+                                "offset": 73
+                              },
+                              "indent": []
+                            }
+                          }
+                        ],
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 74,
+                            "offset": 73
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 74,
+                        "offset": 73
+                      }
+                    }
+                  },
+                  "type": {
+                    "type": "NameExpression",
+                    "name": "string"
+                  }
+                },
+                {
+                  "title": "param",
+                  "name": "params.clientCorrelator",
+                  "lineNumber": 16,
+                  "description": {
+                    "type": "root",
+                    "children": [
+                      {
+                        "type": "paragraph",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "Unique identifier for a client device.",
+                            "position": {
+                              "start": {
+                                "line": 1,
+                                "column": 1,
+                                "offset": 0
+                              },
+                              "end": {
+                                "line": 1,
+                                "column": 39,
+                                "offset": 38
+                              },
+                              "indent": []
+                            }
+                          }
+                        ],
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 39,
+                            "offset": 38
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 39,
+                        "offset": 38
+                      }
+                    }
+                  },
+                  "type": {
+                    "type": "NameExpression",
+                    "name": "string"
+                  }
+                },
+                {
+                  "title": "param",
+                  "name": "params.realm",
+                  "lineNumber": 17,
+                  "description": {
+                    "type": "root",
+                    "children": [
+                      {
+                        "type": "paragraph",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "The realm used by the push registration service to identify and\n                               establish a connection with the service gateway.",
+                            "position": {
+                              "start": {
+                                "line": 1,
+                                "column": 1,
+                                "offset": 0
+                              },
+                              "end": {
+                                "line": 2,
+                                "column": 80,
+                                "offset": 143
+                              },
+                              "indent": [
+                                1
+                              ]
+                            }
+                          }
+                        ],
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 2,
+                            "column": 80,
+                            "offset": 143
+                          },
+                          "indent": [
+                            1
+                          ]
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 80,
+                        "offset": 143
+                      }
+                    }
+                  },
+                  "type": {
+                    "type": "NameExpression",
+                    "name": "string"
+                  }
+                },
+                {
+                  "title": "param",
+                  "name": "params.isProduction",
+                  "lineNumber": 19,
+                  "description": {
+                    "type": "root",
+                    "children": [
+                      {
+                        "type": "paragraph",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "If true, push notification will be sent to production.\n                                       If false, push notification will be sent to sandbox.",
+                            "position": {
+                              "start": {
+                                "line": 1,
+                                "column": 1,
+                                "offset": 0
+                              },
+                              "end": {
+                                "line": 2,
+                                "column": 92,
+                                "offset": 146
+                              },
+                              "indent": [
+                                1
+                              ]
+                            }
+                          }
+                        ],
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 2,
+                            "column": 92,
+                            "offset": 146
+                          },
+                          "indent": [
+                            1
+                          ]
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 92,
+                        "offset": 146
+                      }
+                    }
+                  },
+                  "type": {
+                    "type": "NameExpression",
+                    "name": "boolean"
+                  }
+                }
+              ]
+            }
+          ],
+          "properties": [],
+          "returns": [
+            {
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "When successful,  the information of the registration.\n                  Promise will reject with error object otherwise.",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 2,
+                            "column": 67,
+                            "offset": 121
+                          },
+                          "indent": [
+                            1
+                          ]
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 67,
+                        "offset": 121
+                      },
+                      "indent": [
+                        1
+                      ]
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 67,
+                    "offset": 121
+                  }
+                }
+              },
+              "title": "returns",
+              "type": {
+                "type": "NameExpression",
+                "name": "Promise"
+              }
+            }
+          ],
+          "sees": [],
+          "throws": [],
+          "todos": [],
+          "access": "public",
+          "memberof": "notification",
+          "kind": "function",
+          "name": "registerApplePush",
+          "members": {
+            "global": [],
+            "inner": [],
+            "instance": [],
+            "events": [],
+            "static": []
+          },
+          "path": [
+            {
+              "name": "notification",
+              "kind": "namespace"
+            },
+            {
+              "name": "registerApplePush",
+              "kind": "function"
+            }
+          ],
+          "namespace": "notificationregisterApplePush"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Registers with Google push notification service. Once registration is successful, the application will be able to receive\nstandard and/or voip push notifications. It can then send these notifications to the SDK with ",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 95,
+                        "offset": 216
+                      },
+                      "indent": [
+                        1
+                      ]
+                    }
+                  },
+                  {
+                    "type": "link",
+                    "url": "api.notifications.process",
+                    "title": null,
+                    "jsdoc": true,
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "api.notifications.process"
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 2,
+                        "column": 95,
+                        "offset": 216
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 128,
+                        "offset": 249
+                      },
+                      "indent": []
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": "\nin order for the SDK to process them.",
+                    "position": {
+                      "start": {
+                        "line": 2,
+                        "column": 128,
+                        "offset": 249
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 38,
+                        "offset": 287
+                      },
+                      "indent": [
+                        1
+                      ]
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 38,
+                    "offset": 287
+                  },
+                  "indent": [
+                    1,
+                    1
+                  ]
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 3,
+                "column": 38,
+                "offset": 287
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "public",
+              "description": null,
+              "lineNumber": 5,
+              "type": null
+            },
+            {
+              "title": "requires",
+              "description": null,
+              "lineNumber": 6,
+              "name": "push"
+            },
+            {
+              "title": "memberof",
+              "description": "notification",
+              "lineNumber": 7
+            },
+            {
+              "title": "method",
+              "description": null,
+              "lineNumber": 8,
+              "name": "registerAndroidPush"
+            },
+            {
+              "title": "param",
+              "description": null,
+              "lineNumber": 9,
+              "type": {
+                "type": "NameExpression",
+                "name": "Object"
+              },
+              "name": "params"
+            },
+            {
+              "title": "param",
+              "description": "Array of services to register for.",
+              "lineNumber": 10,
+              "type": {
+                "type": "TypeApplication",
+                "expression": {
+                  "type": "NameExpression",
+                  "name": "Array"
+                },
+                "applications": [
+                  {
+                    "type": "NameExpression",
+                    "name": "string"
+                  }
+                ]
+              },
+              "name": "params.services"
+            },
+            {
+              "title": "param",
+              "description": "The device token used for standard push on Android. This token is required\n                                     when registering for all related services notifications.",
+              "lineNumber": 11,
+              "type": {
+                "type": "NameExpression",
+                "name": "string"
+              },
+              "name": "params.deviceToken"
+            },
+            {
+              "title": "param",
+              "description": "The bundleId to identify the application receiving the push notification.",
+              "lineNumber": 13,
+              "type": {
+                "type": "NameExpression",
+                "name": "string"
+              },
+              "name": "params.bundleId"
+            },
+            {
+              "title": "param",
+              "description": "Unique identifier for a client device.",
+              "lineNumber": 14,
+              "type": {
+                "type": "NameExpression",
+                "name": "string"
+              },
+              "name": "params.clientCorrelator"
+            },
+            {
+              "title": "param",
+              "description": "The realm used by the push registration service to identify\n                               and establish a connection with the service gateway.",
+              "lineNumber": 15,
+              "type": {
+                "type": "NameExpression",
+                "name": "string"
+              },
+              "name": "params.realm"
+            },
+            {
+              "title": "return",
+              "description": "When successful,  the information of the registration.\n                  Promise will reject with error object otherwise.",
+              "lineNumber": 17,
+              "type": {
+                "type": "NameExpression",
+                "name": "Promise"
+              }
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 95,
+              "column": 4
+            },
+            "end": {
+              "line": 114,
+              "column": 7
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 115,
+                "column": 4
+              },
+              "end": {
+                "line": 132,
+                "column": 5
+              }
+            },
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/notifications/interface/api.js"
+          },
+          "augments": [],
+          "examples": [],
+          "params": [
+            {
+              "title": "param",
+              "name": "params",
+              "lineNumber": 9,
+              "type": {
+                "type": "NameExpression",
+                "name": "Object"
+              },
+              "properties": [
+                {
+                  "title": "param",
                   "name": "params.services",
-                  "lineNumber": 9,
+                  "lineNumber": 10,
                   "description": {
                     "type": "root",
                     "children": [
@@ -64122,8 +65199,8 @@
                 },
                 {
                   "title": "param",
-                  "name": "params.pushProvider",
-                  "lineNumber": 10,
+                  "name": "params.deviceToken",
+                  "lineNumber": 11,
                   "description": {
                     "type": "root",
                     "children": [
@@ -64132,7 +65209,72 @@
                         "children": [
                           {
                             "type": "text",
-                            "value": "The push provider, can be either 'apple' or 'google'.",
+                            "value": "The device token used for standard push on Android. This token is required\n                                     when registering for all related services notifications.",
+                            "position": {
+                              "start": {
+                                "line": 1,
+                                "column": 1,
+                                "offset": 0
+                              },
+                              "end": {
+                                "line": 2,
+                                "column": 94,
+                                "offset": 168
+                              },
+                              "indent": [
+                                1
+                              ]
+                            }
+                          }
+                        ],
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 2,
+                            "column": 94,
+                            "offset": 168
+                          },
+                          "indent": [
+                            1
+                          ]
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 94,
+                        "offset": 168
+                      }
+                    }
+                  },
+                  "type": {
+                    "type": "NameExpression",
+                    "name": "string"
+                  }
+                },
+                {
+                  "title": "param",
+                  "name": "params.bundleId",
+                  "lineNumber": 13,
+                  "description": {
+                    "type": "root",
+                    "children": [
+                      {
+                        "type": "paragraph",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "The bundleId to identify the application receiving the push notification.",
                             "position": {
                               "start": {
                                 "line": 1,
@@ -64141,8 +65283,8 @@
                               },
                               "end": {
                                 "line": 1,
-                                "column": 54,
-                                "offset": 53
+                                "column": 74,
+                                "offset": 73
                               },
                               "indent": []
                             }
@@ -64156,8 +65298,8 @@
                           },
                           "end": {
                             "line": 1,
-                            "column": 54,
-                            "offset": 53
+                            "column": 74,
+                            "offset": 73
                           },
                           "indent": []
                         }
@@ -64171,8 +65313,8 @@
                       },
                       "end": {
                         "line": 1,
-                        "column": 54,
-                        "offset": 53
+                        "column": 74,
+                        "offset": 73
                       }
                     }
                   },
@@ -64184,7 +65326,7 @@
                 {
                   "title": "param",
                   "name": "params.clientCorrelator",
-                  "lineNumber": 11,
+                  "lineNumber": 14,
                   "description": {
                     "type": "root",
                     "children": [
@@ -64241,19 +65383,148 @@
                     "type": "NameExpression",
                     "name": "string"
                   }
+                },
+                {
+                  "title": "param",
+                  "name": "params.realm",
+                  "lineNumber": 15,
+                  "description": {
+                    "type": "root",
+                    "children": [
+                      {
+                        "type": "paragraph",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "The realm used by the push registration service to identify\n                               and establish a connection with the service gateway.",
+                            "position": {
+                              "start": {
+                                "line": 1,
+                                "column": 1,
+                                "offset": 0
+                              },
+                              "end": {
+                                "line": 2,
+                                "column": 84,
+                                "offset": 143
+                              },
+                              "indent": [
+                                1
+                              ]
+                            }
+                          }
+                        ],
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 2,
+                            "column": 84,
+                            "offset": 143
+                          },
+                          "indent": [
+                            1
+                          ]
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 84,
+                        "offset": 143
+                      }
+                    }
+                  },
+                  "type": {
+                    "type": "NameExpression",
+                    "name": "string"
+                  }
                 }
               ]
             }
           ],
           "properties": [],
-          "returns": [],
+          "returns": [
+            {
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "When successful,  the information of the registration.\n                  Promise will reject with error object otherwise.",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 2,
+                            "column": 67,
+                            "offset": 121
+                          },
+                          "indent": [
+                            1
+                          ]
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 67,
+                        "offset": 121
+                      },
+                      "indent": [
+                        1
+                      ]
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 67,
+                    "offset": 121
+                  }
+                }
+              },
+              "title": "returns",
+              "type": {
+                "type": "NameExpression",
+                "name": "Promise"
+              }
+            }
+          ],
           "sees": [],
           "throws": [],
           "todos": [],
           "access": "public",
           "memberof": "notification",
           "kind": "function",
-          "name": "registerPush",
+          "name": "registerAndroidPush",
           "members": {
             "global": [],
             "inner": [],
@@ -64267,11 +65538,11 @@
               "kind": "namespace"
             },
             {
-              "name": "registerPush",
+              "name": "registerAndroidPush",
               "kind": "function"
             }
           ],
-          "namespace": "notificationregisterPush"
+          "namespace": "notificationregisterAndroidPush"
         },
         {
           "description": {
@@ -64282,7 +65553,7 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "Deregisters for push notifications.",
+                    "value": "Unregister Apple push notifications.",
                     "position": {
                       "start": {
                         "line": 1,
@@ -64291,8 +65562,8 @@
                       },
                       "end": {
                         "line": 1,
-                        "column": 36,
-                        "offset": 35
+                        "column": 37,
+                        "offset": 36
                       },
                       "indent": []
                     }
@@ -64306,8 +65577,8 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 36,
-                    "offset": 35
+                    "column": 37,
+                    "offset": 36
                   },
                   "indent": []
                 }
@@ -64321,8 +65592,8 @@
               },
               "end": {
                 "line": 1,
-                "column": 36,
-                "offset": 35
+                "column": 37,
+                "offset": 36
               }
             }
           },
@@ -64348,27 +65619,46 @@
               "title": "method",
               "description": null,
               "lineNumber": 6,
-              "name": "deregisterPush"
+              "name": "unregisterApplePush"
+            },
+            {
+              "title": "param",
+              "description": "The data returned from the push registration",
+              "lineNumber": 7,
+              "type": {
+                "type": "NameExpression",
+                "name": "string"
+              },
+              "name": "registrationInfo"
+            },
+            {
+              "title": "return",
+              "description": "When successful, the promise will resolve with undefined.\n                  Promise will reject with error object otherwise.",
+              "lineNumber": 8,
+              "type": {
+                "type": "NameExpression",
+                "name": "Promise"
+              }
             }
           ],
           "loc": {
             "start": {
-              "line": 63,
+              "line": 134,
               "column": 4
             },
             "end": {
-              "line": 70,
+              "line": 144,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 71,
+                "line": 145,
                 "column": 4
               },
               "end": {
-                "line": 78,
+                "line": 151,
                 "column": 5
               }
             },
@@ -64376,16 +65666,142 @@
           },
           "augments": [],
           "examples": [],
-          "params": [],
+          "params": [
+            {
+              "title": "param",
+              "name": "registrationInfo",
+              "lineNumber": 7,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "The data returned from the push registration",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 45,
+                            "offset": 44
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 45,
+                        "offset": 44
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 45,
+                    "offset": 44
+                  }
+                }
+              },
+              "type": {
+                "type": "NameExpression",
+                "name": "string"
+              }
+            }
+          ],
           "properties": [],
-          "returns": [],
+          "returns": [
+            {
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "When successful, the promise will resolve with undefined.\n                  Promise will reject with error object otherwise.",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 2,
+                            "column": 67,
+                            "offset": 124
+                          },
+                          "indent": [
+                            1
+                          ]
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 67,
+                        "offset": 124
+                      },
+                      "indent": [
+                        1
+                      ]
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 67,
+                    "offset": 124
+                  }
+                }
+              },
+              "title": "returns",
+              "type": {
+                "type": "NameExpression",
+                "name": "Promise"
+              }
+            }
+          ],
           "sees": [],
           "throws": [],
           "todos": [],
           "access": "public",
           "memberof": "notification",
           "kind": "function",
-          "name": "deregisterPush",
+          "name": "unregisterApplePush",
           "members": {
             "global": [],
             "inner": [],
@@ -64399,11 +65815,288 @@
               "kind": "namespace"
             },
             {
-              "name": "deregisterPush",
+              "name": "unregisterApplePush",
               "kind": "function"
             }
           ],
-          "namespace": "notificationderegisterPush"
+          "namespace": "notificationunregisterApplePush"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Unregister Android push notifications.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 39,
+                        "offset": 38
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 39,
+                    "offset": 38
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 39,
+                "offset": 38
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "public",
+              "description": null,
+              "lineNumber": 3,
+              "type": null
+            },
+            {
+              "title": "requires",
+              "description": null,
+              "lineNumber": 4,
+              "name": "push"
+            },
+            {
+              "title": "memberof",
+              "description": "notification",
+              "lineNumber": 5
+            },
+            {
+              "title": "method",
+              "description": null,
+              "lineNumber": 6,
+              "name": "unregisterAndroidPush"
+            },
+            {
+              "title": "param",
+              "description": "The data returned from the push registration",
+              "lineNumber": 7,
+              "type": {
+                "type": "NameExpression",
+                "name": "string"
+              },
+              "name": "registrationInfo"
+            },
+            {
+              "title": "return",
+              "description": "When successful, the promise will resolve with undefined.\n                  Promise will reject with error object otherwise.",
+              "lineNumber": 8,
+              "type": {
+                "type": "NameExpression",
+                "name": "Promise"
+              }
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 153,
+              "column": 4
+            },
+            "end": {
+              "line": 163,
+              "column": 7
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 164,
+                "column": 4
+              },
+              "end": {
+                "line": 170,
+                "column": 5
+              }
+            },
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/notifications/interface/api.js"
+          },
+          "augments": [],
+          "examples": [],
+          "params": [
+            {
+              "title": "param",
+              "name": "registrationInfo",
+              "lineNumber": 7,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "The data returned from the push registration",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 45,
+                            "offset": 44
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 45,
+                        "offset": 44
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 45,
+                    "offset": 44
+                  }
+                }
+              },
+              "type": {
+                "type": "NameExpression",
+                "name": "string"
+              }
+            }
+          ],
+          "properties": [],
+          "returns": [
+            {
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "When successful, the promise will resolve with undefined.\n                  Promise will reject with error object otherwise.",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 2,
+                            "column": 67,
+                            "offset": 124
+                          },
+                          "indent": [
+                            1
+                          ]
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 67,
+                        "offset": 124
+                      },
+                      "indent": [
+                        1
+                      ]
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 67,
+                    "offset": 124
+                  }
+                }
+              },
+              "title": "returns",
+              "type": {
+                "type": "NameExpression",
+                "name": "Promise"
+              }
+            }
+          ],
+          "sees": [],
+          "throws": [],
+          "todos": [],
+          "access": "public",
+          "memberof": "notification",
+          "kind": "function",
+          "name": "unregisterAndroidPush",
+          "members": {
+            "global": [],
+            "inner": [],
+            "instance": [],
+            "events": [],
+            "static": []
+          },
+          "path": [
+            {
+              "name": "notification",
+              "kind": "namespace"
+            },
+            {
+              "name": "unregisterAndroidPush",
+              "kind": "function"
+            }
+          ],
+          "namespace": "notificationunregisterAndroidPush"
         },
         {
           "description": {
@@ -64495,22 +66188,22 @@
           ],
           "loc": {
             "start": {
-              "line": 80,
+              "line": 172,
               "column": 4
             },
             "end": {
-              "line": 88,
+              "line": 180,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 89,
+                "line": 181,
                 "column": 4
               },
               "end": {
-                "line": 96,
+                "line": 188,
                 "column": 5
               }
             },
@@ -72784,7 +74477,7 @@
         },
         "end": {
           "line": 87,
-          "column": 43
+          "column": 58
         }
       },
       "file": "/var/jenkins_home/workspace/Kandy.js_beta/builds/core/index.js"
@@ -73007,7 +74700,7 @@
               },
               "end": {
                 "line": 87,
-                "column": 43
+                "column": 58
               }
             },
             "file": "/var/jenkins_home/workspace/Kandy.js_beta/builds/core/index.js"

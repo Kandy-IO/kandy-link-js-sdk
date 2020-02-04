@@ -109,6 +109,7 @@ Configuration options for the call feature.
     -   `call.sdpHandlers` **[Array][12]&lt;[call.SdpHandlerFunction][15]>?** List of SDP handler functions to modify SDP. Advanced usage.
     -   `call.removeH264Codecs` **[boolean][10]** Whether to remove "H264" codec lines from incoming and outgoing SDP messages. (optional, default `true`)
     -   `call.earlyMedia` **[boolean][10]** Whether early media should be supported for calls. (optional, default `false`)
+    -   `call.resyncOnConnect` **[boolean][10]** Whether the SDK should re-sync all call states after connecting (requires Kandy Link 4.7.1+). (optional, default `false`)
 
 ### config.connectivity
 
@@ -133,19 +134,48 @@ Configuration options for the notification feature.
 
 -   `notifications` **[Object][6]** The notifications configuration object.
     -   `notifications.idCacheLength` **[number][11]** Default amount of event ids to remember for de-duplication purposes. (optional, default `100`)
+    -   `notifications.incomingCallNotificationMode` **[string][7]** Communication channel mode used for incoming call notifications. Supported values are 'any-channel' or 'push-channel-only'. (optional, default `'any-channel'`)
     -   `notifications.pushRegistration` **[Object][6]?** Object describing the server to use for push services.
         -   `notifications.pushRegistration.server` **[string][7]?** Hostname for the push registration server.
         -   `notifications.pushRegistration.port` **[string][7]?** Port for the push registration server.
         -   `notifications.pushRegistration.protocol` **[string][7]?** Protocol for the push registration server.
         -   `notifications.pushRegistration.version` **[string][7]?** Version for the push registration server.
-    -   `notifications.realm` **[string][7]?** The realm used for push notifications
-    -   `notifications.bundleId` **[string][7]?** The bundle id used for push notifications
 
 ## api
 
 The 'api' is the type returned by the create function.
 It contains various top-level functions that pertain to SDK global instance
 as well as several nested namespaces that pertain to various features (e.g. call, contacts, presence, etc).
+
+### getVersion
+
+Returns the current version of the API.
+
+### destroy
+
+Destroys the SDK, and removes its state, rendering the SDK unusable.
+Useful when a user logs out and their call data needs to be destroyed.
+The SDK must be recreated to be usable again.
+
+**Examples**
+
+```javascript
+// Instantiate the SDK.
+import { create } from 'kandy'
+const config = {
+    authentication: { ... },
+    logs: { ... },
+    ...
+}
+let client = create(config);
+client.on( ... )
+// Use the SDK
+...
+// Destroy the SDK, then recreate on the next step
+client.destroy()
+client = create(config)
+client.on( ... )
+```
 
 ### getConfig
 
@@ -425,6 +455,144 @@ client.call.make(destination, mediaConstraints,
 )
 ```
 
+### CallObject
+
+Information about a Call.
+
+Can be retrieved using the [call.getAll][25] or [call.getById][24] APIs.
+
+Type: [Object][6]
+
+**Properties**
+
+-   `id` **[string][7]** The ID of the call.
+-   `direction` **[string][7]** The direction in which the call was created. Can be 'outgoing' or 'incoming'.
+-   `state` **[string][7]** The current state of the call. See [call.states][26] for possible states.
+-   `localHold` **[boolean][10]** Indicates whether this call is currently being held locally.
+-   `remoteHold` **[boolean][10]** Indicates whether this call is currently being held remotely.
+-   `localTracks` **[Array][12]&lt;[string][7]>** A list of Track IDs that the call is sending to the remote participant.
+-   `remoteTracks` **[Array][12]&lt;[string][7]>** A list of Track IDs that the call is receiving from the remote participant.
+-   `remoteParticipant` **[Object][6]** Information about the other call participant.
+    -   `remoteParticipant.displayNumber` **[string][7]?** The User ID of the remote participant in the form "username@domain".
+    -   `remoteParticipant.displayName` **[string][7]?** The display name of the remote participant.
+-   `bandwidth` **[call.BandwidthControls][27]** The bandwidth limitations set for the call.
+-   `customParameters` **[Array][12]&lt;[call.CustomParameter][28]>** The custom parameters set for the call.
+-   `startTime` **[number][11]** The start time of the call in milliseconds since the epoch.
+-   `endTime` **[number][11]?** The end time of the call in milliseconds since the epoch.
+
+### BandwidthControls
+
+The BandwidthControls type defines the format for configuring media and/or track bandwidth options.
+BandwidthControls only affect received remote tracks of the specified type.
+
+Type: [Object][6]
+
+**Properties**
+
+-   `audio` **[number][11]?** The desired bandwidth bitrate in kilobits per second for received remote audio.
+-   `video` **[number][11]?** The desired bandwidth bitrate in kilobits per second for received remote video.
+
+**Examples**
+
+```javascript
+// Specify received remote video bandwidth limits when making a call.
+client.call.make(destination, mediaConstraints,
+ {
+   bandwidth: {
+     video: 5
+   }
+ }
+)
+```
+
+### IceServer
+
+Type: [Object][6]
+
+**Properties**
+
+-   `urls` **([Array][12]&lt;[string][7]> | [string][7])** Either an array of URLs for reaching out several ICE servers or a single URL for reaching one ICE server.
+-   `credential` **[string][7]?** The credential needed by the ICE server.
+
+### SdpHandlerInfo
+
+Type: [Object][6]
+
+**Properties**
+
+-   `type` **RTCSdpType** The session description's type.
+-   `endpoint` **[string][7]** Which end of the connection created the SDP.
+
+### SdpHandlerFunction
+
+The form of an SDP handler function and the expected arguments that it receives.
+
+Type: [Function][14]
+
+**Parameters**
+
+-   `newSdp` **[Object][6]** The SDP so far (could have been modified by previous handlers).
+-   `info` **[call.SdpHandlerInfo][29]** Additional information that might be useful when making SDP modifications.
+-   `originalSdp` **[Object][6]** The SDP in its initial state.
+
+Returns **[Object][6]** The resulting modified SDP based on the changes made by this function.
+
+### DeviceInfo
+
+Contains information about a device.
+
+Type: [Object][6]
+
+**Properties**
+
+-   `deviceId` **[string][7]** The ID of the device.
+-   `groupId` **[string][7]** The group ID of the device. Devices that share a `groupId` belong to the same physical device.
+-   `kind` **[string][7]** The type of the device (audioinput, audiooutput, videoinput).
+-   `label` **[string][7]** The name of the device.
+
+### MediaObject
+
+The state representation of a Media object.
+Media is a collection of Track objects.
+
+Type: [Object][6]
+
+**Properties**
+
+-   `id` **[string][7]** The ID of the Media object.
+-   `local` **[boolean][10]** Indicator on whether this media is local or remote.
+-   `tracks` **[Array][12]&lt;[call.TrackObject][30]>** A list of Track objects that are contained in this Media object.
+
+### TrackObject
+
+A Track is a stream of audio or video media from a single source.
+Tracks can be retrieved using the Media module's `getTrackById` API and manipulated with other functions of the Media module.
+
+Type: [Object][6]
+
+**Properties**
+
+-   `containers` **[Array][12]&lt;[string][7]>** The list of CSS selectors that were used to render this Track.
+-   `disabled` **[boolean][10]** Indicator of whether this Track is disabled or not. If disabled, it cannot be re-enabled.
+-   `id` **[string][7]** The ID of the Track.
+-   `kind` **[string][7]** The kind of Track this is (audio, video).
+-   `label` **[string][7]** The label of the device this Track uses.
+-   `muted` **[boolean][10]** Indicator on whether this Track is muted or not.
+-   `state` **[string][7]** The state of this Track. Can be 'live' or 'ended'.
+-   `streamId` **[string][7]** The ID of the Media Stream that includes this Track.
+
+### DevicesObject
+
+A collection of media devices and their information.
+
+Type: [Object][6]
+
+**Properties**
+
+-   `camera` **[Array][12]&lt;[call.DeviceInfo][31]>** A list of camera device information.
+-   `microphone` **[Array][12]&lt;[call.DeviceInfo][31]>** A list of microphone device information.
+-   `speaker` **[Array][12]&lt;[call.DeviceInfo][31]>** A list of speaker device information.
+
 ### MediaConstraint
 
 The MediaConstraint type defines the format for configuring media options.
@@ -458,147 +626,6 @@ client.call.make(destination, {
    }
 })
 ```
-
-### BandwidthControls
-
-The BandwidthControls type defines the format for configuring media and/or track bandwidth options.
-BandwidthControls only affect received remote tracks of the specified type.
-
-Type: [Object][6]
-
-**Properties**
-
--   `audio` **[number][11]?** The desired bandwidth bitrate in kilobits per second for received remote audio.
--   `video` **[number][11]?** The desired bandwidth bitrate in kilobits per second for received remote video.
-
-**Examples**
-
-```javascript
-// Specify received remote video bandwidth limits when making a call.
-client.call.make(destination, mediaConstraints,
- {
-   bandwidth: {
-     video: 5
-   }
- }
-)
-```
-
-### CallObject
-
-Information about a Call.
-
-Can be retrieved using the [call.getAll][25] or [call.getById][24] APIs.
-
-Type: [Object][6]
-
-**Properties**
-
--   `id` **[string][7]** The ID of the call.
--   `direction` **[string][7]** The direction in which the call was created. Can be 'outgoing' or 'incoming'.
--   `state` **[string][7]** The current state of the call. See [call.states][26] for possible states.
--   `localHold` **[boolean][10]** Indicates whether this call is currently being held locally.
--   `remoteHold` **[boolean][10]** Indicates whether this call is currently being held remotely.
--   `localTracks` **[Array][12]&lt;[string][7]>** A list of Track IDs that the call is sending to the remote participant.
--   `remoteTracks` **[Array][12]&lt;[string][7]>** A list of Track IDs that the call is receiving from the remote participant.
--   `remoteParticipant` **[Object][6]** Information about the other call participant.
-    -   `remoteParticipant.displayNumber` **[string][7]?** The User ID of the remote participant in the form "username@domain".
-    -   `remoteParticipant.displayName` **[string][7]?** The display name of the remote participant.
--   `bandwidth` **[call.BandwidthControls][27]** The bandwidth limitations set for the call.
--   `customParameters` **[Array][12]&lt;[call.CustomParameter][28]>** The custom parameters set for the call.
--   `startTime` **[number][11]** The start time of the call in milliseconds since the epoch.
--   `endTime` **[number][11]?** The end time of the call in milliseconds since the epoch.
-
-### IceServer
-
-Type: [Object][6]
-
-**Properties**
-
--   `urls` **([Array][12]&lt;[string][7]> | [string][7])** Either an array of URLs for reaching out several ICE servers or a single URL for reaching one ICE server.
--   `credential` **[string][7]?** The credential needed by the ICE server.
-
-### SdpHandlerInfo
-
-Type: [Object][6]
-
-**Properties**
-
--   `type` **RTCSdpType** The session description's type.
--   `step` **[string][7]** The step that will occur after the SDP Handlers are run.
-       Will be either 'set' (the SDP will be set locally) or 'send' (the SDP will
-       be sent to the remote endpoint).
--   `endpoint` **[string][7]** Which end of the connection created the SDP.
-
-### SdpHandlerFunction
-
-The form of an SDP handler function and the expected arguments that it receives.
-
-Type: [Function][14]
-
-**Parameters**
-
--   `newSdp` **[Object][6]** The SDP so far (could have been modified by previous handlers).
--   `info` **[call.SdpHandlerInfo][29]** Additional information that might be useful when making SDP modifications.
--   `originalSdp` **[Object][6]** The SDP in its initial state.
-
-Returns **[Object][6]** The resulting modified SDP based on the changes made by this function.
-
-### MediaObject
-
-The state representation of a Media object.
-Media is a collection of Track objects.
-
-Type: [Object][6]
-
-**Properties**
-
--   `id` **[string][7]** The ID of the Media object.
--   `local` **[boolean][10]** Indicator on whether this media is local or remote.
--   `tracks` **[Array][12]&lt;[call.TrackObject][30]>** A list of Track objects that are contained in this Media object.
-
-### TrackObject
-
-A Track is a stream of audio or video media from a single source.
-Tracks can be retrieved using the Media module's `getTrackById` API and manipulated with other functions of the Media module.
-
-Type: [Object][6]
-
-**Properties**
-
--   `containers` **[Array][12]&lt;[string][7]>** The list of CSS selectors that were used to render this Track.
--   `disabled` **[boolean][10]** Indicator of whether this Track is disabled or not. If disabled, it cannot be re-enabled.
--   `id` **[string][7]** The ID of the Track.
--   `kind` **[string][7]** The kind of Track this is (audio, video).
--   `label` **[string][7]** The label of the device this Track uses.
--   `muted` **[boolean][10]** Indicator on whether this Track is muted or not.
--   `state` **[string][7]** The state of this Track. Can be 'live' or 'ended'.
--   `streamId` **[string][7]** The ID of the Media Stream that includes this Track.
-
-### DeviceInfo
-
-Contains information about a device.
-
-Type: [Object][6]
-
-**Properties**
-
--   `deviceId` **[string][7]** The ID of the device.
--   `groupId` **[string][7]** The group ID of the device. Devices that share a `groupId` belong to the same physical device.
--   `kind` **[string][7]** The type of the device (audioinput, audiooutput, videoinput).
--   `label` **[string][7]** The name of the device.
-
-### DevicesObject
-
-A collection of media devices and their information.
-
-Type: [Object][6]
-
-**Properties**
-
--   `camera` **[Array][12]&lt;[call.DeviceInfo][31]>** A list of camera device information.
--   `microphone` **[Array][12]&lt;[call.DeviceInfo][31]>** A list of microphone device information.
--   `speaker` **[Array][12]&lt;[call.DeviceInfo][31]>** A list of speaker device information.
 
 ### make
 
@@ -1770,7 +1797,7 @@ Type: [Function][14]
 function logHandler (logEntry) {
   // Compile the meta info of the log for a prefix.
   const { timestamp, level, method, target } = logEntry
-  const logInfo = `${timestamp} - ${target.name} - ${level}`
+  const logInfo = `${timestamp} - ${target.type} - ${level}`
 
   // Assume that the first message parameter is a string.
   const [log, ...extra] = logEntry.messages
@@ -1802,9 +1829,11 @@ Type: [Object][6]
 -   `method` **[string][7]** The log function that was used to create the log.
 -   `level` **[string][7]** The level of severity the log.
 -   `target` **[Object][6]** The subject that the log is about.
-    -   `target.name` **[string][7]** The name of the target. This is also
-           used as the name of the Logger.
+    -   `target.type` **[string][7]** The type of the target. This is also
+           used as part of the name of the Logger.
     -   `target.id` **[string][7]?** A unique identifer for the target.
+    -   `target.name` **[string][7]** A combination of the target type and ID. If no
+           id was provided, this will be the same as the type.
 -   `messages` **[Array][12]** The logged information, given to the Logger
        method as parameters.
 
@@ -1814,7 +1843,7 @@ Type: [Object][6]
 function defaultLogHandler (logEntry) {
   // Compile the meta info of the log for a prefix.
   const { timestamp, level, method, target } = logEntry
-  const logInfo = `${timestamp} - ${target.name} - ${level}`
+  const logInfo = `${timestamp} - ${target.type} - ${level}`
 
   // Assume that the first message parameter is a string.
   const [log, ...extra] = logEntry.messages
@@ -1956,21 +1985,71 @@ Provides an external notification to the system for processing.
 -   `notification` **[Object][6]** 
 -   `channel` **[string][7]?** The channel that the notification came from.
 
-### registerPush
+### registerApplePush
 
-Registers a device token for push notifications.
+Registers with Apple push notification service. Once registration is successful, the application will be able to receive
+standard and/or voip push notifications. It can then send these notifications to the SDK with [api.notifications.process][67]
+in order for the SDK to process them.
 
 **Parameters**
 
 -   `params` **[Object][6]** 
-    -   `params.deviceToken` **[string][7]** The device token to be registered.
-    -   `params.services` **[Array][12]&lt;[string][7]>** Array of services to register for.
-    -   `params.pushProvider` **[string][7]** The push provider, can be either 'apple' or 'google'.
+    -   `params.services` **[Array][12]&lt;[string][7]>** Array of services for which we wish to receive notifications.
+    -   `params.voipDeviceToken` **[string][7]** The voip device token used for voip push on iOS.
+                                                 This token is required if registering for call service notifications on iOS.
+    -   `params.standardDeviceToken` **[string][7]** The standardDevice token used for standard push on iOS .
+                                                     This token is required when registering for non-call service notifications.
+    -   `params.bundleId` **[string][7]** The bundleId to identify the application receiving the push notification.
     -   `params.clientCorrelator` **[string][7]** Unique identifier for a client device.
+    -   `params.realm` **[string][7]** The realm used by the push registration service to identify and
+                                       establish a connection with the service gateway.
+    -   `params.isProduction` **[boolean][10]** If true, push notification will be sent to production.
+                                               If false, push notification will be sent to sandbox.
 
-### deregisterPush
+Returns **[Promise][68]** When successful,  the information of the registration.
+                  Promise will reject with error object otherwise.
 
-Deregisters for push notifications.
+### registerAndroidPush
+
+Registers with Google push notification service. Once registration is successful, the application will be able to receive
+standard and/or voip push notifications. It can then send these notifications to the SDK with [api.notifications.process][67]
+in order for the SDK to process them.
+
+**Parameters**
+
+-   `params` **[Object][6]** 
+    -   `params.services` **[Array][12]&lt;[string][7]>** Array of services to register for.
+    -   `params.deviceToken` **[string][7]** The device token used for standard push on Android. This token is required
+                                             when registering for all related services notifications.
+    -   `params.bundleId` **[string][7]** The bundleId to identify the application receiving the push notification.
+    -   `params.clientCorrelator` **[string][7]** Unique identifier for a client device.
+    -   `params.realm` **[string][7]** The realm used by the push registration service to identify
+                                       and establish a connection with the service gateway.
+
+Returns **[Promise][68]** When successful,  the information of the registration.
+                  Promise will reject with error object otherwise.
+
+### unregisterApplePush
+
+Unregister Apple push notifications.
+
+**Parameters**
+
+-   `registrationInfo` **[string][7]** The data returned from the push registration
+
+Returns **[Promise][68]** When successful, the promise will resolve with undefined.
+                  Promise will reject with error object otherwise.
+
+### unregisterAndroidPush
+
+Unregister Android push notifications.
+
+**Parameters**
+
+-   `registrationInfo` **[string][7]** The data returned from the push registration
+
+Returns **[Promise][68]** When successful, the promise will resolve with undefined.
+                  Promise will reject with error object otherwise.
 
 ### enableWebsocket
 
@@ -1988,11 +2067,11 @@ The 'presence' namespace provides an interface for an application to set the
 
 Presence information is persisted by the server. When the SDK is initialized,
    there will be no information available. Presence information will become
-   available either by using [presence.fetch][67] or by subscribing for
-   updates about other Users, using [presence.subscribe][68].
+   available either by using [presence.fetch][69] or by subscribing for
+   updates about other Users, using [presence.subscribe][70].
 
-Available presence information can be retrieved using [presence.get][69] or
-   [presence.getAll][70].
+Available presence information can be retrieved using [presence.get][71] or
+   [presence.getAll][72].
 
 ### statuses
 
@@ -2030,22 +2109,22 @@ Possible activity values.
 
 The PresenceStatus type defines the user's current status in terms of the user's availability to
 communicate/respond to other users in the network.
-An instance of this type can be obtained by invoking the [presence.get][69] function.
+An instance of this type can be obtained by invoking the [presence.get][71] function.
 
 Reporting when a user is on the phone is enabled (by default), which means that presence update notifications
 will be sent whenever a user is in a call, as well as when the call has ended.
 This is a user preference enabled or disabled on server side, and it can only be changed on the server side.
 
-The status is set to [open][71] as soon as a user subscribes for the presence service.
+The status is set to [open][73] as soon as a user subscribes for the presence service.
 
 Type: [Object][6]
 
 **Properties**
 
 -   `userId` **[string][7]** The unique identifier for the user associated with this presence status.
--   `status` **[string][7]** The current status the user has set for themselves. For supported values see [presence.statuses][71].
+-   `status` **[string][7]** The current status the user has set for themselves. For supported values see [presence.statuses][73].
 -   `activity` **[string][7]** The current activity of the user.
-         For supported values see [presence.activities][72].
+         For supported values see [presence.activities][74].
 -   `note` **[string][7]** Additional message acompanying the status & activity.
 -   `loading` **[boolean][10]** Whether the presence information has been loaded or is in the process of loading.
 
@@ -2053,16 +2132,16 @@ Type: [Object][6]
 
 Updates the presence information for the current user.
 
-See [presence.statuses][71] and [presence.activities][72] for valid
+See [presence.statuses][73] and [presence.activities][74] for valid
    values.
 
 The SDK will emit a
-   [presence:selfChange][73] event
+   [presence:selfChange][75] event
    when the operation completes. The updated presence information is
-   available and can be retrieved with [presence.getSelf][74].
+   available and can be retrieved with [presence.getSelf][76].
 
 Other users subscribed for this user's presence will receive a
-   [presence:change][75] event.
+   [presence:change][77] event.
 
 **Parameters**
 
@@ -2090,7 +2169,7 @@ Returns **[Array][12]&lt;[Object][6]>** List of user presence information.
 
 Retrieves the presence information for the current user.
 
-This information is set using the [presence.update][76] API.
+This information is set using the [presence.update][78] API.
 
 Returns **[Object][6]** Presence information for the current user.
 
@@ -2100,7 +2179,7 @@ Fetches presence information for the given users. This will refresh the
    available information with any new information from the server.
 
 Available presence information an be retrieved using the
-   [presence.get][69] or [presence.getAll][70] APIs.
+   [presence.get][71] or [presence.getAll][72] APIs.
 
 **Parameters**
 
@@ -2111,7 +2190,7 @@ Available presence information an be retrieved using the
 Subscribe to another User's presence updates.
 
 When the User updates their presence information, the SDK will emit a
-   [presence:change][75] event.
+   [presence:change][77] event.
 
 **Parameters**
 
@@ -2217,7 +2296,7 @@ Sets the channel to be used while proxy mode is enabled.
 
 **Parameters**
 
--   `channel` **[proxy.Channel][77]** See the `Channel` module for information.
+-   `channel` **[proxy.Channel][79]** See the `Channel` module for information.
 
 ### initializeRemote
 
@@ -2229,7 +2308,7 @@ Sends an initialization message over the channel with webRTC configurations.
 
 ## sdpHandlers
 
-A set of [SdpHandlerFunction][78]s for manipulating SDP information.
+A set of [SdpHandlerFunction][80]s for manipulating SDP information.
 These handlers are used to customize low-level call behaviour for very specific
 environments and/or scenarios. They can be provided during SDK instantiation
 to be used for all calls.
@@ -2343,12 +2422,12 @@ Type: [Object][6]
 
 Fetches information about a User.
 
-The SDK will emit a [users:change][79]
+The SDK will emit a [users:change][81]
    event after the operation completes. The User's information will then
    be available.
 
 Information about an available User can be retrieved using the
-   [user.get][80] API.
+   [user.get][82] API.
 
 **Parameters**
 
@@ -2357,36 +2436,36 @@ Information about an available User can be retrieved using the
 ### fetchSelfInfo
 
 Fetches information about the current User from directory.
-Compared to [user.fetch][81] API, this API retrieves additional user related information.
+Compared to [user.fetch][83] API, this API retrieves additional user related information.
 
-The SDK will emit a [users:change][79]
+The SDK will emit a [users:change][81]
    event after the operation completes. The User's information will then
    be available.
 
 Information about an available User can be retrieved using the
-   [user.get][80] API.
+   [user.get][82] API.
 
 ### get
 
 Retrieves information about a User, if available.
 
-See the [user.fetch][81] and [user.search][82] APIs for details about
+See the [user.fetch][83] and [user.search][84] APIs for details about
    making Users' information available.
 
 **Parameters**
 
 -   `userId` **user.UserID** The User ID of the user.
 
-Returns **[user.User][83]** The User object for the specified user.
+Returns **[user.User][85]** The User object for the specified user.
 
 ### getAll
 
 Retrieves information about all available Users.
 
-See the [user.fetch][81] and [user.search][82] APIs for details about
+See the [user.fetch][83] and [user.search][84] APIs for details about
    making Users' information available.
 
-Returns **[Array][12]&lt;[user.User][83]>** An array of all the User objects.
+Returns **[Array][12]&lt;[user.User][85]>** An array of all the User objects.
 
 ### search
 
@@ -2395,10 +2474,10 @@ Searches the domain's directory for Users.
 Directory searching only supports one filter. If multiple filters are provided, only one of the filters will be used for the search.
 A search with no filters provided will return all users.
 
-The SDK will emit a [directory:change][84]
+The SDK will emit a [directory:change][86]
    event after the operation completes. The search results will be
    provided as part of the event, and will also be available using the
-   [user.get][80] and [user.getAll][85] APIs.
+   [user.get][82] and [user.getAll][87] APIs.
 
 **Parameters**
 
@@ -2558,40 +2637,44 @@ Returns voicemail data from the store.
 
 [66]: #mediaeventmediaunmuted
 
-[67]: #presencefetch
+[67]: api.notifications.process
 
-[68]: #presencesubscribe
+[68]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise
 
-[69]: #presenceget
+[69]: #presencefetch
 
-[70]: #presencegetall
+[70]: #presencesubscribe
 
-[71]: #presencestatuses
+[71]: #presenceget
 
-[72]: #presenceactivities
+[72]: #presencegetall
 
-[73]: #presenceeventpresenceselfchange
+[73]: #presencestatuses
 
-[74]: #presencegetself
+[74]: #presenceactivities
 
-[75]: #presenceeventpresencechange
+[75]: #presenceeventpresenceselfchange
 
-[76]: #presenceupdate
+[76]: #presencegetself
 
-[77]: #proxychannel
+[77]: #presenceeventpresencechange
 
-[78]: #callsdphandlerfunction
+[78]: #presenceupdate
 
-[79]: #usereventuserschange
+[79]: #proxychannel
 
-[80]: #userget
+[80]: #callsdphandlerfunction
 
-[81]: #userfetch
+[81]: #usereventuserschange
 
-[82]: #usersearch
+[82]: #userget
 
-[83]: #useruser
+[83]: #userfetch
 
-[84]: #usereventdirectorychange
+[84]: #usersearch
 
-[85]: #usergetall
+[85]: #useruser
+
+[86]: #usereventdirectorychange
+
+[87]: #usergetall

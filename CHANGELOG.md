@@ -5,6 +5,23 @@ Kandy.js change log.
 - This project adheres to [Semantic Versioning](http://semver.org/).
 - This change log follows [keepachangelog.com](http://keepachangelog.com/) recommendations.
 
+## 4.13.0 - beta
+
+### Changed
+
+- Changed the `kandy.notification.registerPush` API to accommodate the breaking changes forced by iOS13 for iOS push registration. This changes require a voip device Token when registering for call service notifications and device token when registering for non-call service notifications .`KAA-2153`
+
+### Added
+
+- Added a destroy function to allow users to wipe the SDK state and render the SDK unusuable. `KAA-2181`
+  - This is useful when a user is finished with the SDK and wants their data to not be available to the next SDK consumer. After destroy is called, the SDK must be recreated for an application to continue working.
+- Added four API's `kandy.notification.registerApplePush`,`kandy.notification.registerAndroidPush`, `kandy.notification.unregisterAndroidPush` and `kandy.notification.unregisterApplePush` to handle the push registration notifications for Apple and Android respectively.
+- Added a new call configuration to trigger a resync of all active calls upon connecting to the websocket. `KAA-2154`
+  - The new call configuration `resyncOnConnect` is disabled by default.
+  - The resync feature requires Kandy Link 4.7.1+.
+- Added push-mode option for receiving incoming calls exclusively through push on Apple's mobile platform. `KAA-2155`
+  - See `config.notifications.incomingCallNotificationMode`
+
 ## 4.12.0 - 2020-01-31
 
 ### Added
