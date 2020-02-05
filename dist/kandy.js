@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.13.0-beta.295
+ * Version: 4.13.0-beta.296
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -32968,7 +32968,7 @@ const log = (0, _logs.getLogManager)().getLogger('CALL');
  * @param {Array<call.IceServer>} [call.iceServers] The list of ICE servers to be used for calls.
  * @param {number} [call.iceCollectionDelay=1000] Time, in milliseconds, to delay in between
  *    ICE candidate checks. If ICE collection does not complete normally, the SDK will check
- *    collected candidates at this interval to determine if the opertion can continue.
+ *    collected candidates at this interval to determine if the operation can continue.
  * @param {number} [call.maxIceTimeout=3000] Maximum time, in milliseconds, to wait for ICE
  *    collection to complete normally. After this time, the process will timeout and the
  *    operation will attempt to continue no matter how many candidates have been collected.
@@ -33019,6 +33019,14 @@ function callsLink(options = {}) {
   options = (0, _utils2.mergeValues)(defaultOptions, options);
 
   function* init({ webRTC }) {
+    // Change sdpSemantics if not supported
+    const isPlanB = options.sdpSemantics === 'plan-b';
+    const isNotChrome = webRTC.getBrowserDetails().browser !== 'chrome';
+    if (isPlanB && isNotChrome) {
+      log.warn('Only Chrome supports `plan-b` sdpSemantics. Switching to `unified-plan`.');
+      options.sdpSemantics = 'unified-plan';
+    }
+
     yield (0, _effects.put)((0, _actions2.update)(options, _interfaceNew2.default.name));
     yield (0, _effects.put)((0, _actions.mapEvents)(_events2.default));
 
@@ -33029,7 +33037,7 @@ function callsLink(options = {}) {
      *
      * 2. Disable DTLS-SDES crypto method (ie. delete the line) if there's a better
      *    crypto method enabled. WebRTC only allows one method to be enabled.
-     *    This is needed for interopability with non-browser endpoints that include
+     *    This is needed for interoperability with non-browser endpoints that include
      *    SDES as a fallback method.
      *
      * 3. [optional] Disable H264 Codecs for video calls, used to reduce SDP size
@@ -42503,7 +42511,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.13.0-beta.295';
+  return '4.13.0-beta.296';
 }
 
 /***/ }),
