@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.13.0-beta.302
+ * Version: 4.13.0-beta.303
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -42530,7 +42530,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.13.0-beta.302';
+  return '4.13.0-beta.303';
 }
 
 /***/ }),
@@ -49393,7 +49393,7 @@ function* pushNotificationsRegistration(connection, {
   }
 
   if (response.error) {
-    if (response.payload.body) {
+    if (registrationResponse) {
       // Handle errors from the server.
       let statusCode = registrationResponse.statusCode;
       log.debug(`Failed to register device token for push notifications. Status: ${statusCode}`);
@@ -49401,7 +49401,7 @@ function* pushNotificationsRegistration(connection, {
       return {
         error: true,
         status: statusCode,
-        text: `Failed to register device token. Error: ${response.payload.statusCode}`
+        text: `Failed to register device token. Error: ${statusCode}`
       };
     } else {
       // Handle errors from the request helper.
