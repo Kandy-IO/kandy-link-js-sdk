@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.13.0-beta.306
+ * Version: 4.13.0-beta.307
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -31070,7 +31070,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @static
  * @typedef {Object} IceServer
  * @memberof call
- * @property {Array<string>|string} urls Either an array of URLs for reaching out several ICE servers or a single URL for reaching one ICE server.
+ * @property {Array<string>|string} urls Either an array of URLs for reaching out several ICE servers or a single URL for reaching one ICE server. See {@link https://developer.mozilla.org/en-US/docs/Web/API/RTCIceServer/urls RTCIceServers.urls documentation} to learn more about the actual url format.
  * @property {string} [credential] The credential needed by the ICE server.
  */
 
@@ -42530,7 +42530,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.13.0-beta.306';
+  return '4.13.0-beta.307';
 }
 
 /***/ }),
