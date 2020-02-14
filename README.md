@@ -15,7 +15,7 @@ To install a particular build branch or beta branch with the Github URL, run:
 ### In the browser :
 ```html
 <script src="https://unpkg.com/@kandy-io/link-sdk@4.13.0/dist/kandy.js"
-  integrity="sha384-1DaRfueM34Jp6O/LdG+HyGzpnhJ6+b7hDHwp3DN2pLwu+igP20svOUF1/QY41kcJ"
+  integrity="sha384-igZjwby0CcvBsw2fTl2TA1cYG01kxkKy2nRsPil3ClQWctypP+iTmW09GLu46KM3"
   crossorigin="anonymous">
 </script>
 ```
@@ -25,4 +25,4 @@ The information about tutorials and documents can be found in the links below
 
 * `Documents`: [docs](https://kandy-io.github.io/kandy-link-js-sdk/docs)
 
-* `Tutorials`: Choose your configuration ( [Kandy-US](https://kandy-io.github.io/kandy-link-js-sdk/tutorials/?SUBSCRIPTIONFQDN=spidr-ucc.genband.com&WEBSOCKETFQDN=spidr-ucc.genband.com&ICESERVER1=turns:turn-ucc-2.genband.com:443?transport=tcp&ICESERVER2=turns:turn-ucc-1.genband.com:443?transport=tcp#/Configurations) | [Kandy-EMEA](https://kandy-io.github.io/kandy-link-js-sdk/tutorials/?SUBSCRIPTIONFQDN=spidr-em.genband.com&WEBSOCKETFQDN=spidr-em.genband.com&ICESERVER1=turns:turn-em-2.genband.com:443?transport=tcp&ICESERVER2=turns:turn-em-1.genband.com:443?transport=tcp#/Configurations) )
+* `Tutorials`: Choose your configuration ( [Kandy-US](https://kandy-io.github.io/kandy-link-js-sdk/tutorials/?SUBSCRIPTIONFQDN=spidr-ucc.genband.com&WEBSOCKETFQDN=spidr-ucc.genband.com&KANDYTURN2=turns:turn-ucc-2.genband.com:443?transport=tcp&KANDYTURN1=turns:turn-ucc-1.genband.com:443?transport=tcp&KANDYSTUN1=stun:turn-ucc-1.genband.com:3478?transport=udp&KANDYSTUN2=stun:turn-ucc-2.genband.com:3478?transport=udp#/Configurations) | [Kandy-EMEA](https://kandy-io.github.io/kandy-link-js-sdk/tutorials/?SUBSCRIPTIONFQDN=spidr-em.genband.com&WEBSOCKETFQDN=spidr-em.genband.com&KANDYTURN2=turns:turn-em-2.genband.com:443?transport=tcp&KANDYTURN1=turns:turn-em-1.genband.com:443?transport=tcp&KANDYSTUN1=stun:turn-em-1.genband.com:3478?transport=udp&KANDYSTUN2=stun:turn-em-2.genband.com:3478?transport=udp#/Configurations) )
