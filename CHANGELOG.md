@@ -28,6 +28,7 @@ Kandy.js change log.
 - Fixed problems with Firefox Hold/Unhold under `plan-b` sdpSemantics by making it impossible to start the SDK in `plan-b` under any browser that is not Chrome. `KAA-2174`
 - Fixed the ICE servers documentation for the Link SDK. `KAA-2197`
 - Fixed an issue where the `conversation.subscribe` listener not being triggered. `KAA-2200`
+- Fixed an issue where incoming call notifications would be dropped when on `push-channel-only` mode if the notification arrived on the websocket channel first. `KAA-2156`
 
 ## 4.12.0 - 2020-01-31
 

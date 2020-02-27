@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.13.0-beta.316
+ * Version: 4.13.0-beta.317
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -42530,7 +42530,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.13.0-beta.316';
+  return '4.13.0-beta.317';
 }
 
 /***/ }),
@@ -49583,19 +49583,20 @@ function* processNotification() {
    *      judging by its event ID.
    * @method isDuplicate
    * @param  {string} id
-   * @return {boolean}
    */
   function isDuplicate(id) {
-    if (idCache.indexOf(id) !== -1) {
-      return true; // duplicate.
-    } else {
-      // Not a duplicate.
-      idCache.push(id);
-      if (idCache.length > config.idCacheLength) {
-        idCache.shift();
-      }
+    return idCache.includes(id);
+  }
 
-      return false;
+  /**
+   * Adds an ID to the idCache list which is used to keep track of duplicate notifications
+   * @method addIdToCache
+   * @param {string} id
+   */
+  function addIdToCache(id) {
+    idCache.push(id);
+    if (idCache.length > config.idCacheLength) {
+      idCache.shift();
     }
   }
 
@@ -49645,24 +49646,27 @@ function* processNotification() {
       formattedPayload = yield (0, _effects.call)(normalizeSDP, action.payload);
     }
 
-    if (!isDuplicate(notificationId)) {
-      // If we're in the PUSH-only notification mode and
-      // this incoming notification is coming through a channel other than PUSH channel (e.g. WEBSOCKET) and
-      // this notification is for an incoming call
-      if (config.incomingCallNotificationMode === 'push-channel-only' && action.meta.channel !== 'PUSH' && formattedPayload.notificationMessage.eventType === 'call') {
-        // Ignore this call-related notification, but at a minimum generate a log so that user is aware.
-        log.warn('Dropped incoming call notification with id: ' + notificationId + ' received through channel: ' + action.meta.channel + ' because current mode for handling notifications is set to: push-channel-only.');
-        continue;
-      }
-
-      yield (0, _effects.put)(actions.notificationReceived(formattedPayload, action.meta.platform));
+    // If we're in the PUSH-only notification mode and
+    // this incoming notification is coming through a channel other than PUSH channel (e.g. WEBSOCKET) and
+    // this notification is for an incoming call
+    if (formattedPayload.notificationMessage.eventType === 'call' && config.incomingCallNotificationMode === 'push-channel-only' && action.meta.channel !== 'PUSH') {
+      // Ignore this call-related notification, but at a minimum generate a log so that user is aware.
+      log.warn('Dropped incoming call notification with id: ' + notificationId + ' received through channel: ' + action.meta.channel + ' because current mode for handling notifications is set to: push-channel-only.');
+      continue;
     } else {
-      const error = new Error(`Notification id ${notificationId} is duplicate.`);
-      // TODO: Tech-debt; this action should be a notificationReceived error action.
-      //      But that requires all sagas listening for notifications to filter out
-      //      error actions ..which requires their take() patterns changed, which
-      //      is another tech-debt item.
-      yield (0, _effects.put)(actions.processNotificationFinish(error));
+      if (!isDuplicate(notificationId)) {
+        // Add the notification ID to the idCache to prevent handling incoming duplicate notifications
+        addIdToCache(notificationId);
+
+        yield (0, _effects.put)(actions.notificationReceived(formattedPayload, action.meta.platform));
+      } else {
+        const error = new Error(`Notification id ${notificationId} is duplicate.`);
+        // TODO: Tech-debt; this action should be a notificationReceived error action.
+        //      But that requires all sagas listening for notifications to filter out
+        //      error actions ..which requires their take() patterns changed, which
+        //      is another tech-debt item.
+        yield (0, _effects.put)(actions.processNotificationFinish(error));
+      }
     }
   }
 }
