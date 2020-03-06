@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.14.0-beta.328
+ * Version: 4.14.0-beta.329
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -42680,7 +42680,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.14.0-beta.328';
+  return '4.14.0-beta.329';
 }
 
 /***/ }),
@@ -49232,13 +49232,14 @@ function externalNotification(notification, channel = 'PUSH', platform) {
  * @param  {string} platform
  * @return {Object} A flux standard action.
  */
-function notificationReceived(notification, platform) {
+function notificationReceived(notification, platform, channel) {
   return {
     type: actionTypes.NOTIFICATION_RECEIVED,
     payload: notification,
     error: notification instanceof Error,
     meta: {
-      platform
+      platform,
+      channel
     }
   };
 }
@@ -50277,7 +50278,8 @@ function* processNotification() {
         // Add the notification ID to the idCache to prevent handling incoming duplicate notifications
         addIdToCache(notificationId);
 
-        yield (0, _effects.put)(actions.notificationReceived(formattedPayload, action.meta.platform));
+        const { platform, channel } = action.meta;
+        yield (0, _effects.put)(actions.notificationReceived(formattedPayload, platform, channel));
       } else {
         const error = new Error(`Notification id ${notificationId} is duplicate.`);
         // TODO: Tech-debt; this action should be a notificationReceived error action.
