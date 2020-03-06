@@ -31,6 +31,7 @@ Kandy.js change log.
 - Fixed the ICE servers documentation for the Link SDK. `KAA-2197`
 - Fixed an issue where the `conversation.subscribe` listener not being triggered. `KAA-2200`
 - Fixed an issue where incoming call notifications would be dropped when on `push-channel-only` mode if the notification arrived on the websocket channel first. `KAA-2156`
+- Fixed an issue where an existing local video track could not be replaced by a screen sharing track. `KAA-2144`
 
 ## 4.12.0 - 2020-01-31
 
