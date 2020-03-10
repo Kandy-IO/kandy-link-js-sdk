@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.14.0-beta.331
+ * Version: 4.14.0-beta.332
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -42680,7 +42680,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.14.0-beta.331';
+  return '4.14.0-beta.332';
 }
 
 /***/ }),
@@ -43157,7 +43157,7 @@ function* websocketLifecycle(wsConnectAction) {
 }
 
 /**
- * if we receieve a server ping we want to respond with a pong,
+ * if we receive a server ping we want to respond with a pong,
  * if there is none we want to check to see if its been too long since the server last pinged us and if it has been then reconnect,
  * otherwise we just want to increment the time since the last ping
  * @param {Object} ws a websocket connected to the backend
@@ -43179,7 +43179,7 @@ function* serverPingFlow(ws) {
       disconnect: (0, _effects.take)(actionTypes.WS_DISCONNECT_FINISHED)
     });
 
-    // is disconnect action receieved then exit
+    // is disconnect action received then exit
     if (disconnect) {
       break;
     }
@@ -43190,7 +43190,7 @@ function* serverPingFlow(ws) {
 
       // pingInterval is stored in milliseconds but comes in as seconds so convert
       const pingIntervalMillis = serverPing.payload.connCheck.interval * 1000;
-      // Prevent firing actions if pingInterval hasnt changed
+      // Prevent firing actions if pingInterval hasn't changed
       if (pingIntervalMillis !== pingInterval) {
         yield (0, _effects.put)(actions.changePingInterval(pingIntervalMillis, platform));
       }
@@ -43222,11 +43222,11 @@ function* serverPingFlow(ws) {
 }
 
 /**
- * This flow is rewponsible for handling keepAlive and pingPong methods for client,
+ * This flow is responsible for handling keepAlive and pingPong methods for client,
  * if keepAlive is used the client simply sends the keepAlive message to the websocket after waiting the pingInterval
  * if pingPong is used the client is responsible for pinging the server and listening for server "pong" responses via the websocket
  * the client will then determine if too much time has passed and attempt to reconnect if its not receiving server pongs or if an error occurs
- * @param {Object} ws a websoocket connected to the backend
+ * @param {Object} ws a websocket connected to the backend
  * @return {Object} yields a Flux standard action
  */
 function* clientPingFlow(ws) {
@@ -43295,7 +43295,7 @@ function* clientPingFlow(ws) {
 
     if (method.type === _constants.connCheckMethods.PING_PONG) {
       if (serverPong) {
-        // we receieved a pong, wait pingInterval to send another ping
+        // we received a pong, wait pingInterval to send another ping
         timeOfLastPong = Date.now();
 
         const timeUntilNextPing = pingInterval - timeElapsed;
@@ -44140,18 +44140,24 @@ const defaultValues = {
 
   /**
    * Configuration options for the Connectivity feature.
+   * The SDK can only use keepalive as the connectivity check.
+   *
+   * Keep Alive: The client sends "keepalive" messages (to the server) on the websocket at regular intervals. This lets the server know that the client is still connected, and that it should "keep the connection alive".
+   *
+   * For more information on keepalive see here: https://en.wikipedia.org/wiki/Keepalive
    * @public
    * @name config.connectivity
    * @memberof config
    * @instance
-   * @param {Number} [pingInterval=30000] Time in between websocket ping attempts (milliseconds).
-   * @param {Number} [reconnectLimit=5] Number of failed reconnect attempts before reporting an error. Can be set to 0 to not limit reconnection attempts.
-   * @param {Number} [reconnectDelay=5000] Base time between websocket reconnect attempts (milliseconds).
-   * @param {Number} [reconnectTimeMultiplier=1] Reconnect delay multiplier for subsequent attempts. The reconnect delay time will be multiplied by this factor after each failed reconnect attempt to increase the delay between attempts.
-   * @param {Number} [reconnectTimeLimit=640000] Maximum time delay between reconnect attempts (milliseconds). Used in conjunction with the reconnect time multiplier to prevent overly long delays between reconnection attempts.
-   * @param {Boolean} [autoReconnect=true] Flag to determine whether the SDK will attempt to automatically reconnect after connectivity disruptions.
-   * @param {Number} [maxMissedPings=3] Maximum pings sent (without receiving a response) before reporting an error.
-   * @param {Boolean} [checkConnectivity=true] Flag to determine whether the SDK should check connectivity.
+   * @param {Object} connectivity Connectivity configs.
+   * @param {Number} [connectivity.pingInterval=30000] Time in between websocket ping attempts (milliseconds).
+   * @param {Number} [connectivity.reconnectLimit=5] Number of failed reconnect attempts before reporting an error. Can be set to 0 to not limit reconnection attempts.
+   * @param {Number} [connectivity.reconnectDelay=5000] Base time between websocket reconnect attempts (milliseconds).
+   * @param {Number} [connectivity.reconnectTimeMultiplier=1] Reconnect delay multiplier for subsequent attempts. The reconnect delay time will be multiplied by this after each failed reconnect attempt to increase the delay between attempts. eg. 5000ms then 10000ms then 20000ms delay if value is 2.
+   * @param {Number} [connectivity.reconnectTimeLimit=640000] Maximum time delay between reconnect attempts (milliseconds). Used in conjunction with the reconnect time multiplier to prevent overly long delays between reconnection attempts.
+   * @param {Boolean} [connectivity.autoReconnect=true] Flag to determine whether the SDK will attempt to automatically reconnect after connectivity disruptions.
+   * @param {Number} [connectivity.maxMissedPings=3] Maximum pings sent (without receiving a response) before reporting an error.
+   * @param {Boolean} [connectivity.checkConnectivity=true] Flag to determine whether the SDK should check connectivity.
    */
 };function connectivity(options = {}) {
   return (0, _base2.default)((0, _fp.defaults)(defaultValues, options));

@@ -150,11 +150,28 @@ The Connectivity configs are used to customize the behaviour of the websocket an
 
 ```javascript
 connectivity: {
-    // Specify that a ping should be sent every 30 seconds, and an error should
-    //      be reported after 3 missed pong responses.
-    method: 'pingPong',
+    // Specify that a keepAlive ping should be sent every 30 seconds,
+    // and an error should be reported after 3 missed pong responses.
     pingInterval: 30000, // milliseconds
     maxMissedPings: 3
+}
+```
+
+```javascript
+connectivity: {
+    // Specify that a keepAlive ping should be sent every 60 seconds,
+    // and if unable to connect should try to reconnect 3 times before
+    // throwing an error. Specify to wait 10 seconds before attempting
+    // to connect, and double that time every connection attempt, while
+    // keeping maximum wait time under 300 seconds.
+    pingInterval: 60000, // milliseconds
+    reconnectLimit: 3,
+    reconnectDelay: 10000, // milliseconds
+    reconnectTimeMultiplier: 2,
+    reconnectTimeLimit: 300000, // milliseconds
+    autoReconnect: true,
+    maxMissedPings: 3,
+    checkConnectivity: true
 }
 ```
 
