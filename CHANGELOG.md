@@ -7,6 +7,10 @@ Kandy.js change log.
 
 ## 4.14.0 - beta
 
+### Fixed
+
+- Fixed an issue where the calee of a call with slow-start negotiations would start the call audit twice. `KAA-2076`
+
 ## 4.13.0 - 2020-02-28
 
 ### Changed
