@@ -27,6 +27,7 @@ Kandy.js change log.
   - The resync feature requires Kandy Link 4.7.1+.
 - Added push-mode option for receiving incoming calls exclusively through push on Apple's mobile platform. `KAA-2155`
   - See `config.notifications.incomingCallNotificationMode`
+- Added a new tutorial topic describing 'Call States' and few minor updates on API documentation. `KAA-2169`
 
 ### Fixed
 
