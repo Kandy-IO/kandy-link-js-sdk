@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.remote.js
- * Version: 4.14.0-beta.337
+ * Version: 4.14.0-beta.338
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -24533,7 +24533,8 @@ function Session(id, managers, config = {}) {
    */
   function replaceTrack(newTrack, options) {
     const peer = peerManager.get(peerId);
-    return peer.replaceTrack(newTrack, options).then(() => {
+    const track = trackManager.get(newTrack.id);
+    return peer.replaceTrack(track.track, options).then(() => {
       emitter.emit('track:replaced', {
         oldTrackId: options.trackId,
         trackId: newTrack.id

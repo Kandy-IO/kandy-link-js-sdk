@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.14.0-beta.337
+ * Version: 4.14.0-beta.338
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -41845,7 +41845,7 @@ function* webRtcReplaceTrack(webRTC, params) {
   }
 
   // Replaces the track
-  const replaceTrackError = yield (0, _effects.call)([session, 'replaceTrack'], newTrack.track, { trackId });
+  const replaceTrackError = yield (0, _effects.call)([session, 'replaceTrack'], newTrack, { trackId });
   if (replaceTrackError) {
     // If cannot replace old track, cleanup the newly created track
     yield (0, _effects.call)([newTrack, 'cleanup']);
@@ -42695,7 +42695,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.14.0-beta.337';
+  return '4.14.0-beta.338';
 }
 
 /***/ }),
@@ -58569,6 +58569,17 @@ function modelProxy(base, channel) {
         return undefined;
       }
 
+      /*
+       * Tell the Proxy channel (and anything else) that the original object is
+       *    already a JSON object.
+       * When sending this Proxy over the channel, it will try to JSON.stringify()
+       *    it, which actually first tries to call toJSON on it.
+       * Mimic the real toJSON with a function that returns the original object.
+       */
+      if (prop === 'toJSON') {
+        return () => objTarget;
+      }
+
       /**
        * The base object used to create a model's proxy may have references to
        *    other webRTC objects. We need to proxy those references as well.
@@ -58622,6 +58633,31 @@ function modelProxy(base, channel) {
 
                 log.debug(`Received model response for ${messageId}.`, data);
 
+                /**
+                 * Parse the data received from the remote side.
+                 */
+                function parseData(data) {
+                  if (data && data.type && operation.operation === 'getTracks') {
+                    // If the operation we sent across was `getTracks`, then the
+                    //    response data should be Webrtc model(s). We need to
+                    //    wrap it with a proxy for the Callstack.
+                    return modelProxy(data, channel);
+                  } else if (data === null) {
+                    // The JSON codec encoder/decoder converts undefined to
+                    //    null (because of JSON stringify/parse), so undo
+                    //    that if the data is explicitly null value.
+                    return undefined;
+                  } else {
+                    return data;
+                  }
+                }
+
+                if (Array.isArray(data)) {
+                  const proxies = data.map(parseData);
+                  resolve(proxies);
+                } else {
+                  resolve(parseData(data));
+                }
                 resolve(data);
               }
 
@@ -63257,7 +63293,8 @@ function Session(id, managers, config = {}) {
    */
   function replaceTrack(newTrack, options) {
     const peer = peerManager.get(peerId);
-    return peer.replaceTrack(newTrack, options).then(() => {
+    const track = trackManager.get(newTrack.id);
+    return peer.replaceTrack(track.track, options).then(() => {
       emitter.emit('track:replaced', {
         oldTrackId: options.trackId,
         trackId: newTrack.id

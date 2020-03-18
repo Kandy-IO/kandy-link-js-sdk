@@ -10,6 +10,7 @@ Kandy.js change log.
 ### Fixed
 
 - Fixed an issue where the calee of a call with slow-start negotiations would start the call audit twice. `KAA-2076`
+- Fixed an issue where `call.replaceTrack` API would fail for calls made on proxy mode. `KAA-2147`
 
 ## 4.13.0 - 2020-02-28
 
