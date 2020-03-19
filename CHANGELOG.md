@@ -9,7 +9,8 @@ Kandy.js change log.
 
 ### Fixed
 
-- Fixed an issue where the calee of a call with slow-start negotiations would start the call audit twice. `KAA-2076`
+- Added checking for media willSend and willReceive when a Hold operation is received in case the remote side answered an audio only call with audio and video. `KAA-2209`
+- Fixed an issue where the callee of a call with slow-start negotiations would start the call audit twice. `KAA-2076`
 - Fixed an issue where `call.replaceTrack` API would fail for calls made on proxy mode. `KAA-2147`
 
 ## 4.13.0 - 2020-02-28
