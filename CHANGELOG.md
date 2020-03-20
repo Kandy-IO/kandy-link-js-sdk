@@ -7,6 +7,11 @@ Kandy.js change log.
 
 ## 4.14.0 - beta
 
+### Changed
+
+- Changed the error codes and error messages of Consultative Transfer, Direct Transfer, and Join call operation failures to be consistent with the ones received from the Kandy Link backend server. `KAA-2239`
+  - These changes are reflected in the `transition` argument of the `call:stateChange` event which is emitted after an operation fails.
+
 ### Fixed
 
 - Added checking for media willSend and willReceive when a Hold operation is received in case the remote side answered an audio only call with audio and video. `KAA-2209`
