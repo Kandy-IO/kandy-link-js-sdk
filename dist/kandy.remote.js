@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.remote.js
- * Version: 4.13.0
+ * Version: 4.14.0
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -154,6 +154,13 @@ module.exports = { "default": __webpack_require__("../../node_modules/core-js/li
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = { "default": __webpack_require__("../../node_modules/core-js/library/fn/object/get-own-property-descriptor.js"), __esModule: true };
+
+/***/ }),
+
+/***/ "../../node_modules/babel-runtime/core-js/object/get-own-property-descriptors.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__("../../node_modules/core-js/library/fn/object/get-own-property-descriptors.js"), __esModule: true };
 
 /***/ }),
 
@@ -359,6 +366,15 @@ var $Object = __webpack_require__("../../node_modules/core-js/library/modules/_c
 module.exports = function getOwnPropertyDescriptor(it, key) {
   return $Object.getOwnPropertyDescriptor(it, key);
 };
+
+
+/***/ }),
+
+/***/ "../../node_modules/core-js/library/fn/object/get-own-property-descriptors.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__("../../node_modules/core-js/library/modules/es7.object.get-own-property-descriptors.js");
+module.exports = __webpack_require__("../../node_modules/core-js/library/modules/_core.js").Object.getOwnPropertyDescriptors;
 
 
 /***/ }),
@@ -1925,6 +1941,23 @@ module.exports = function (isEntries) {
 
 /***/ }),
 
+/***/ "../../node_modules/core-js/library/modules/_own-keys.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+// all object keys, includes non-enumerable and symbols
+var gOPN = __webpack_require__("../../node_modules/core-js/library/modules/_object-gopn.js");
+var gOPS = __webpack_require__("../../node_modules/core-js/library/modules/_object-gops.js");
+var anObject = __webpack_require__("../../node_modules/core-js/library/modules/_an-object.js");
+var Reflect = __webpack_require__("../../node_modules/core-js/library/modules/_global.js").Reflect;
+module.exports = Reflect && Reflect.ownKeys || function ownKeys(it) {
+  var keys = gOPN.f(anObject(it));
+  var getSymbols = gOPS.f;
+  return getSymbols ? keys.concat(getSymbols(it)) : keys;
+};
+
+
+/***/ }),
+
 /***/ "../../node_modules/core-js/library/modules/_perform.js":
 /***/ (function(module, exports) {
 
@@ -3293,6 +3326,35 @@ $export($export.P + $export.R, 'Map', { toJSON: __webpack_require__("../../node_
 
 /***/ }),
 
+/***/ "../../node_modules/core-js/library/modules/es7.object.get-own-property-descriptors.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+// https://github.com/tc39/proposal-object-getownpropertydescriptors
+var $export = __webpack_require__("../../node_modules/core-js/library/modules/_export.js");
+var ownKeys = __webpack_require__("../../node_modules/core-js/library/modules/_own-keys.js");
+var toIObject = __webpack_require__("../../node_modules/core-js/library/modules/_to-iobject.js");
+var gOPD = __webpack_require__("../../node_modules/core-js/library/modules/_object-gopd.js");
+var createProperty = __webpack_require__("../../node_modules/core-js/library/modules/_create-property.js");
+
+$export($export.S, 'Object', {
+  getOwnPropertyDescriptors: function getOwnPropertyDescriptors(object) {
+    var O = toIObject(object);
+    var getDesc = gOPD.f;
+    var keys = ownKeys(O);
+    var result = {};
+    var i = 0;
+    var key, desc;
+    while (keys.length > i) {
+      desc = getDesc(O, key = keys[i++]);
+      if (desc !== undefined) createProperty(result, key, desc);
+    }
+    return result;
+  }
+});
+
+
+/***/ }),
+
 /***/ "../../node_modules/core-js/library/modules/es7.object.values.js":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3395,108 +3457,6 @@ for (var i = 0; i < DOMIterables.length; i++) {
   if (proto && !proto[TO_STRING_TAG]) hide(proto, TO_STRING_TAG, NAME);
   Iterators[NAME] = Iterators.Array;
 }
-
-
-/***/ }),
-
-/***/ "../../node_modules/decode-uri-component/index.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var token = '%[a-f0-9]{2}';
-var singleMatcher = new RegExp(token, 'gi');
-var multiMatcher = new RegExp('(' + token + ')+', 'gi');
-
-function decodeComponents(components, split) {
-	try {
-		// Try to decode the entire string first
-		return decodeURIComponent(components.join(''));
-	} catch (err) {
-		// Do nothing
-	}
-
-	if (components.length === 1) {
-		return components;
-	}
-
-	split = split || 1;
-
-	// Split the array in 2 parts
-	var left = components.slice(0, split);
-	var right = components.slice(split);
-
-	return Array.prototype.concat.call([], decodeComponents(left), decodeComponents(right));
-}
-
-function decode(input) {
-	try {
-		return decodeURIComponent(input);
-	} catch (err) {
-		var tokens = input.match(singleMatcher);
-
-		for (var i = 1; i < tokens.length; i++) {
-			input = decodeComponents(tokens, i).join('');
-
-			tokens = input.match(singleMatcher);
-		}
-
-		return input;
-	}
-}
-
-function customDecodeURIComponent(input) {
-	// Keep track of all the replacements and prefill the map with the `BOM`
-	var replaceMap = {
-		'%FE%FF': '\uFFFD\uFFFD',
-		'%FF%FE': '\uFFFD\uFFFD'
-	};
-
-	var match = multiMatcher.exec(input);
-	while (match) {
-		try {
-			// Decode as big chunks as possible
-			replaceMap[match[0]] = decodeURIComponent(match[0]);
-		} catch (err) {
-			var result = decode(match[0]);
-
-			if (result !== match[0]) {
-				replaceMap[match[0]] = result;
-			}
-		}
-
-		match = multiMatcher.exec(input);
-	}
-
-	// Add `%C2` at the end of the map to make sure it does not replace the combinator before everything else
-	replaceMap['%C2'] = '\uFFFD';
-
-	var entries = Object.keys(replaceMap);
-
-	for (var i = 0; i < entries.length; i++) {
-		// Replace all decoded components
-		var key = entries[i];
-		input = input.replace(new RegExp(key, 'g'), replaceMap[key]);
-	}
-
-	return input;
-}
-
-module.exports = function (encodedURI) {
-	if (typeof encodedURI !== 'string') {
-		throw new TypeError('Expected `encodedURI` to be of type `string`, got `' + typeof encodedURI + '`');
-	}
-
-	try {
-		encodedURI = encodedURI.replace(/\+/g, ' ');
-
-		// Try the built in decoder first
-		return decodeURIComponent(encodedURI);
-	} catch (err) {
-		// Fallback to a more advanced decoder
-		return customDecodeURIComponent(encodedURI);
-	}
-};
 
 
 /***/ }),
@@ -5439,263 +5399,6 @@ An}(); true?($n._=rt, !(__WEBPACK_AMD_DEFINE_RESULT__ = (function(){return rt}).
 
 /***/ }),
 
-/***/ "../../node_modules/loglevel/lib/loglevel.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
-* loglevel - https://github.com/pimterry/loglevel
-*
-* Copyright (c) 2013 Tim Perry
-* Licensed under the MIT license.
-*/
-(function (root, definition) {
-    "use strict";
-    if (true) {
-        !(__WEBPACK_AMD_DEFINE_FACTORY__ = (definition),
-				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-				(__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) :
-				__WEBPACK_AMD_DEFINE_FACTORY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-    } else {}
-}(this, function () {
-    "use strict";
-
-    // Slightly dubious tricks to cut down minimized file size
-    var noop = function() {};
-    var undefinedType = "undefined";
-
-    var logMethods = [
-        "trace",
-        "debug",
-        "info",
-        "warn",
-        "error"
-    ];
-
-    // Cross-browser bind equivalent that works at least back to IE6
-    function bindMethod(obj, methodName) {
-        var method = obj[methodName];
-        if (typeof method.bind === 'function') {
-            return method.bind(obj);
-        } else {
-            try {
-                return Function.prototype.bind.call(method, obj);
-            } catch (e) {
-                // Missing bind shim or IE8 + Modernizr, fallback to wrapping
-                return function() {
-                    return Function.prototype.apply.apply(method, [obj, arguments]);
-                };
-            }
-        }
-    }
-
-    // Build the best logging method possible for this env
-    // Wherever possible we want to bind, not wrap, to preserve stack traces
-    function realMethod(methodName) {
-        if (methodName === 'debug') {
-            methodName = 'log';
-        }
-
-        if (typeof console === undefinedType) {
-            return false; // No method possible, for now - fixed later by enableLoggingWhenConsoleArrives
-        } else if (console[methodName] !== undefined) {
-            return bindMethod(console, methodName);
-        } else if (console.log !== undefined) {
-            return bindMethod(console, 'log');
-        } else {
-            return noop;
-        }
-    }
-
-    // These private functions always need `this` to be set properly
-
-    function replaceLoggingMethods(level, loggerName) {
-        /*jshint validthis:true */
-        for (var i = 0; i < logMethods.length; i++) {
-            var methodName = logMethods[i];
-            this[methodName] = (i < level) ?
-                noop :
-                this.methodFactory(methodName, level, loggerName);
-        }
-
-        // Define log.log as an alias for log.debug
-        this.log = this.debug;
-    }
-
-    // In old IE versions, the console isn't present until you first open it.
-    // We build realMethod() replacements here that regenerate logging methods
-    function enableLoggingWhenConsoleArrives(methodName, level, loggerName) {
-        return function () {
-            if (typeof console !== undefinedType) {
-                replaceLoggingMethods.call(this, level, loggerName);
-                this[methodName].apply(this, arguments);
-            }
-        };
-    }
-
-    // By default, we use closely bound real methods wherever possible, and
-    // otherwise we wait for a console to appear, and then try again.
-    function defaultMethodFactory(methodName, level, loggerName) {
-        /*jshint validthis:true */
-        return realMethod(methodName) ||
-               enableLoggingWhenConsoleArrives.apply(this, arguments);
-    }
-
-    function Logger(name, defaultLevel, factory) {
-      var self = this;
-      var currentLevel;
-      var storageKey = "loglevel";
-      if (name) {
-        storageKey += ":" + name;
-      }
-
-      function persistLevelIfPossible(levelNum) {
-          var levelName = (logMethods[levelNum] || 'silent').toUpperCase();
-
-          if (typeof window === undefinedType) return;
-
-          // Use localStorage if available
-          try {
-              window.localStorage[storageKey] = levelName;
-              return;
-          } catch (ignore) {}
-
-          // Use session cookie as fallback
-          try {
-              window.document.cookie =
-                encodeURIComponent(storageKey) + "=" + levelName + ";";
-          } catch (ignore) {}
-      }
-
-      function getPersistedLevel() {
-          var storedLevel;
-
-          if (typeof window === undefinedType) return;
-
-          try {
-              storedLevel = window.localStorage[storageKey];
-          } catch (ignore) {}
-
-          // Fallback to cookies if local storage gives us nothing
-          if (typeof storedLevel === undefinedType) {
-              try {
-                  var cookie = window.document.cookie;
-                  var location = cookie.indexOf(
-                      encodeURIComponent(storageKey) + "=");
-                  if (location !== -1) {
-                      storedLevel = /^([^;]+)/.exec(cookie.slice(location))[1];
-                  }
-              } catch (ignore) {}
-          }
-
-          // If the stored level is not valid, treat it as if nothing was stored.
-          if (self.levels[storedLevel] === undefined) {
-              storedLevel = undefined;
-          }
-
-          return storedLevel;
-      }
-
-      /*
-       *
-       * Public logger API - see https://github.com/pimterry/loglevel for details
-       *
-       */
-
-      self.name = name;
-
-      self.levels = { "TRACE": 0, "DEBUG": 1, "INFO": 2, "WARN": 3,
-          "ERROR": 4, "SILENT": 5};
-
-      self.methodFactory = factory || defaultMethodFactory;
-
-      self.getLevel = function () {
-          return currentLevel;
-      };
-
-      self.setLevel = function (level, persist) {
-          if (typeof level === "string" && self.levels[level.toUpperCase()] !== undefined) {
-              level = self.levels[level.toUpperCase()];
-          }
-          if (typeof level === "number" && level >= 0 && level <= self.levels.SILENT) {
-              currentLevel = level;
-              if (persist !== false) {  // defaults to true
-                  persistLevelIfPossible(level);
-              }
-              replaceLoggingMethods.call(self, level, name);
-              if (typeof console === undefinedType && level < self.levels.SILENT) {
-                  return "No console available for logging";
-              }
-          } else {
-              throw "log.setLevel() called with invalid level: " + level;
-          }
-      };
-
-      self.setDefaultLevel = function (level) {
-          if (!getPersistedLevel()) {
-              self.setLevel(level, false);
-          }
-      };
-
-      self.enableAll = function(persist) {
-          self.setLevel(self.levels.TRACE, persist);
-      };
-
-      self.disableAll = function(persist) {
-          self.setLevel(self.levels.SILENT, persist);
-      };
-
-      // Initialize with the right level
-      var initialLevel = getPersistedLevel();
-      if (initialLevel == null) {
-          initialLevel = defaultLevel == null ? "WARN" : defaultLevel;
-      }
-      self.setLevel(initialLevel, false);
-    }
-
-    /*
-     *
-     * Top-level API
-     *
-     */
-
-    var defaultLogger = new Logger();
-
-    var _loggersByName = {};
-    defaultLogger.getLogger = function getLogger(name) {
-        if (typeof name !== "string" || name === "") {
-          throw new TypeError("You must supply a name when creating a logger.");
-        }
-
-        var logger = _loggersByName[name];
-        if (!logger) {
-          logger = _loggersByName[name] = new Logger(
-            name, defaultLogger.getLevel(), defaultLogger.methodFactory);
-        }
-        return logger;
-    };
-
-    // Grab the current global log variable in case of overwrite
-    var _log = (typeof window !== undefinedType) ? window.log : undefined;
-    defaultLogger.noConflict = function() {
-        if (typeof window !== undefinedType &&
-               window.log === defaultLogger) {
-            window.log = _log;
-        }
-
-        return defaultLogger;
-    };
-
-    defaultLogger.getLoggers = function getLoggers() {
-        return _loggersByName;
-    };
-
-    return defaultLogger;
-}));
-
-
-/***/ }),
-
 /***/ "../../node_modules/process/browser.js":
 /***/ (function(module, exports) {
 
@@ -5884,313 +5587,6 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-
-/***/ }),
-
-/***/ "../../node_modules/redux-logger/dist/redux-logger.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(global) {
-
-var _defineProperties = __webpack_require__("../../node_modules/babel-runtime/core-js/object/define-properties.js");
-
-var _defineProperties2 = _interopRequireDefault(_defineProperties);
-
-var _from = __webpack_require__("../../node_modules/babel-runtime/core-js/array/from.js");
-
-var _from2 = _interopRequireDefault(_from);
-
-var _iterator = __webpack_require__("../../node_modules/babel-runtime/core-js/symbol/iterator.js");
-
-var _iterator2 = _interopRequireDefault(_iterator);
-
-var _symbol = __webpack_require__("../../node_modules/babel-runtime/core-js/symbol.js");
-
-var _symbol2 = _interopRequireDefault(_symbol);
-
-var _assign = __webpack_require__("../../node_modules/babel-runtime/core-js/object/assign.js");
-
-var _assign2 = _interopRequireDefault(_assign);
-
-var _keys = __webpack_require__("../../node_modules/babel-runtime/core-js/object/keys.js");
-
-var _keys2 = _interopRequireDefault(_keys);
-
-var _create = __webpack_require__("../../node_modules/babel-runtime/core-js/object/create.js");
-
-var _create2 = _interopRequireDefault(_create);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-!function (e, t) {
-   true ? t(exports) : undefined;
-}(undefined, function (e) {
-  "use strict";
-  function t(e, t) {
-    e.super_ = t, e.prototype = (0, _create2.default)(t.prototype, { constructor: { value: e, enumerable: !1, writable: !0, configurable: !0 } });
-  }function r(e, t) {
-    Object.defineProperty(this, "kind", { value: e, enumerable: !0 }), t && t.length && Object.defineProperty(this, "path", { value: t, enumerable: !0 });
-  }function n(e, t, r) {
-    n.super_.call(this, "E", e), Object.defineProperty(this, "lhs", { value: t, enumerable: !0 }), Object.defineProperty(this, "rhs", { value: r, enumerable: !0 });
-  }function o(e, t) {
-    o.super_.call(this, "N", e), Object.defineProperty(this, "rhs", { value: t, enumerable: !0 });
-  }function i(e, t) {
-    i.super_.call(this, "D", e), Object.defineProperty(this, "lhs", { value: t, enumerable: !0 });
-  }function a(e, t, r) {
-    a.super_.call(this, "A", e), Object.defineProperty(this, "index", { value: t, enumerable: !0 }), Object.defineProperty(this, "item", { value: r, enumerable: !0 });
-  }function f(e, t, r) {
-    var n = e.slice((r || t) + 1 || e.length);return e.length = t < 0 ? e.length + t : t, e.push.apply(e, n), e;
-  }function u(e) {
-    var t = "undefined" == typeof e ? "undefined" : N(e);return "object" !== t ? t : e === Math ? "math" : null === e ? "null" : Array.isArray(e) ? "array" : "[object Date]" === Object.prototype.toString.call(e) ? "date" : "function" == typeof e.toString && /^\/.*\//.test(e.toString()) ? "regexp" : "object";
-  }function l(e, t, r, c, s, d, p) {
-    s = s || [], p = p || [];var g = s.slice(0);if ("undefined" != typeof d) {
-      if (c) {
-        if ("function" == typeof c && c(g, d)) return;if ("object" === ("undefined" == typeof c ? "undefined" : N(c))) {
-          if (c.prefilter && c.prefilter(g, d)) return;if (c.normalize) {
-            var h = c.normalize(g, d, e, t);h && (e = h[0], t = h[1]);
-          }
-        }
-      }g.push(d);
-    }"regexp" === u(e) && "regexp" === u(t) && (e = e.toString(), t = t.toString());var y = "undefined" == typeof e ? "undefined" : N(e),
-        v = "undefined" == typeof t ? "undefined" : N(t),
-        b = "undefined" !== y || p && p[p.length - 1].lhs && p[p.length - 1].lhs.hasOwnProperty(d),
-        m = "undefined" !== v || p && p[p.length - 1].rhs && p[p.length - 1].rhs.hasOwnProperty(d);if (!b && m) r(new o(g, t));else if (!m && b) r(new i(g, e));else if (u(e) !== u(t)) r(new n(g, e, t));else if ("date" === u(e) && e - t !== 0) r(new n(g, e, t));else if ("object" === y && null !== e && null !== t) {
-      if (p.filter(function (t) {
-        return t.lhs === e;
-      }).length) e !== t && r(new n(g, e, t));else {
-        if (p.push({ lhs: e, rhs: t }), Array.isArray(e)) {
-          var w;e.length;for (w = 0; w < e.length; w++) w >= t.length ? r(new a(g, w, new i(void 0, e[w]))) : l(e[w], t[w], r, c, g, w, p);for (; w < t.length;) r(new a(g, w, new o(void 0, t[w++])));
-        } else {
-          var x = (0, _keys2.default)(e),
-              S = (0, _keys2.default)(t);x.forEach(function (n, o) {
-            var i = S.indexOf(n);i >= 0 ? (l(e[n], t[n], r, c, g, n, p), S = f(S, i)) : l(e[n], void 0, r, c, g, n, p);
-          }), S.forEach(function (e) {
-            l(void 0, t[e], r, c, g, e, p);
-          });
-        }p.length = p.length - 1;
-      }
-    } else e !== t && ("number" === y && isNaN(e) && isNaN(t) || r(new n(g, e, t)));
-  }function c(e, t, r, n) {
-    return n = n || [], l(e, t, function (e) {
-      e && n.push(e);
-    }, r), n.length ? n : void 0;
-  }function s(e, t, r) {
-    if (r.path && r.path.length) {
-      var n,
-          o = e[t],
-          i = r.path.length - 1;for (n = 0; n < i; n++) o = o[r.path[n]];switch (r.kind) {case "A":
-          s(o[r.path[n]], r.index, r.item);break;case "D":
-          delete o[r.path[n]];break;case "E":case "N":
-          o[r.path[n]] = r.rhs;}
-    } else switch (r.kind) {case "A":
-        s(e[t], r.index, r.item);break;case "D":
-        e = f(e, t);break;case "E":case "N":
-        e[t] = r.rhs;}return e;
-  }function d(e, t, r) {
-    if (e && t && r && r.kind) {
-      for (var n = e, o = -1, i = r.path ? r.path.length - 1 : 0; ++o < i;) "undefined" == typeof n[r.path[o]] && (n[r.path[o]] = "number" == typeof r.path[o] ? [] : {}), n = n[r.path[o]];switch (r.kind) {case "A":
-          s(r.path ? n[r.path[o]] : n, r.index, r.item);break;case "D":
-          delete n[r.path[o]];break;case "E":case "N":
-          n[r.path[o]] = r.rhs;}
-    }
-  }function p(e, t, r) {
-    if (r.path && r.path.length) {
-      var n,
-          o = e[t],
-          i = r.path.length - 1;for (n = 0; n < i; n++) o = o[r.path[n]];switch (r.kind) {case "A":
-          p(o[r.path[n]], r.index, r.item);break;case "D":
-          o[r.path[n]] = r.lhs;break;case "E":
-          o[r.path[n]] = r.lhs;break;case "N":
-          delete o[r.path[n]];}
-    } else switch (r.kind) {case "A":
-        p(e[t], r.index, r.item);break;case "D":
-        e[t] = r.lhs;break;case "E":
-        e[t] = r.lhs;break;case "N":
-        e = f(e, t);}return e;
-  }function g(e, t, r) {
-    if (e && t && r && r.kind) {
-      var n,
-          o,
-          i = e;for (o = r.path.length - 1, n = 0; n < o; n++) "undefined" == typeof i[r.path[n]] && (i[r.path[n]] = {}), i = i[r.path[n]];switch (r.kind) {case "A":
-          p(i[r.path[n]], r.index, r.item);break;case "D":
-          i[r.path[n]] = r.lhs;break;case "E":
-          i[r.path[n]] = r.lhs;break;case "N":
-          delete i[r.path[n]];}
-    }
-  }function h(e, t, r) {
-    if (e && t) {
-      var n = function (n) {
-        r && !r(e, t, n) || d(e, t, n);
-      };l(e, t, n);
-    }
-  }function y(e) {
-    return "color: " + F[e].color + "; font-weight: bold";
-  }function v(e) {
-    var t = e.kind,
-        r = e.path,
-        n = e.lhs,
-        o = e.rhs,
-        i = e.index,
-        a = e.item;switch (t) {case "E":
-        return [r.join("."), n, "→", o];case "N":
-        return [r.join("."), o];case "D":
-        return [r.join(".")];case "A":
-        return [r.join(".") + "[" + i + "]", a];default:
-        return [];}
-  }function b(e, t, r, n) {
-    var o = c(e, t);try {
-      n ? r.groupCollapsed("diff") : r.group("diff");
-    } catch (e) {
-      r.log("diff");
-    }o ? o.forEach(function (e) {
-      var t = e.kind,
-          n = v(e);r.log.apply(r, ["%c " + F[t].text, y(t)].concat(P(n)));
-    }) : r.log("—— no diff ——");try {
-      r.groupEnd();
-    } catch (e) {
-      r.log("—— diff end —— ");
-    }
-  }function m(e, t, r, n) {
-    switch ("undefined" == typeof e ? "undefined" : N(e)) {case "object":
-        return "function" == typeof e[n] ? e[n].apply(e, P(r)) : e[n];case "function":
-        return e(t);default:
-        return e;}
-  }function w(e) {
-    var t = e.timestamp,
-        r = e.duration;return function (e, n, o) {
-      var i = ["action"];return i.push("%c" + String(e.type)), t && i.push("%c@ " + n), r && i.push("%c(in " + o.toFixed(2) + " ms)"), i.join(" ");
-    };
-  }function x(e, t) {
-    var r = t.logger,
-        n = t.actionTransformer,
-        o = t.titleFormatter,
-        i = void 0 === o ? w(t) : o,
-        a = t.collapsed,
-        f = t.colors,
-        u = t.level,
-        l = t.diff,
-        c = "undefined" == typeof t.titleFormatter;e.forEach(function (o, s) {
-      var d = o.started,
-          p = o.startedTime,
-          g = o.action,
-          h = o.prevState,
-          y = o.error,
-          v = o.took,
-          w = o.nextState,
-          x = e[s + 1];x && (w = x.prevState, v = x.started - d);var S = n(g),
-          k = "function" == typeof a ? a(function () {
-        return w;
-      }, g, o) : a,
-          j = D(p),
-          E = f.title ? "color: " + f.title(S) + ";" : "",
-          A = ["color: gray; font-weight: lighter;"];A.push(E), t.timestamp && A.push("color: gray; font-weight: lighter;"), t.duration && A.push("color: gray; font-weight: lighter;");var O = i(S, j, v);try {
-        k ? f.title && c ? r.groupCollapsed.apply(r, ["%c " + O].concat(A)) : r.groupCollapsed(O) : f.title && c ? r.group.apply(r, ["%c " + O].concat(A)) : r.group(O);
-      } catch (e) {
-        r.log(O);
-      }var N = m(u, S, [h], "prevState"),
-          P = m(u, S, [S], "action"),
-          C = m(u, S, [y, h], "error"),
-          F = m(u, S, [w], "nextState");if (N) if (f.prevState) {
-        var L = "color: " + f.prevState(h) + "; font-weight: bold";r[N]("%c prev state", L, h);
-      } else r[N]("prev state", h);if (P) if (f.action) {
-        var T = "color: " + f.action(S) + "; font-weight: bold";r[P]("%c action    ", T, S);
-      } else r[P]("action    ", S);if (y && C) if (f.error) {
-        var M = "color: " + f.error(y, h) + "; font-weight: bold;";r[C]("%c error     ", M, y);
-      } else r[C]("error     ", y);if (F) if (f.nextState) {
-        var _ = "color: " + f.nextState(w) + "; font-weight: bold";r[F]("%c next state", _, w);
-      } else r[F]("next state", w);l && b(h, w, r, k);try {
-        r.groupEnd();
-      } catch (e) {
-        r.log("—— log end ——");
-      }
-    });
-  }function S() {
-    var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {},
-        t = (0, _assign2.default)({}, L, e),
-        r = t.logger,
-        n = t.stateTransformer,
-        o = t.errorTransformer,
-        i = t.predicate,
-        a = t.logErrors,
-        f = t.diffPredicate;if ("undefined" == typeof r) return function () {
-      return function (e) {
-        return function (t) {
-          return e(t);
-        };
-      };
-    };if (e.getState && e.dispatch) return console.error("[redux-logger] redux-logger not installed. Make sure to pass logger instance as middleware:\n// Logger with default options\nimport { logger } from 'redux-logger'\nconst store = createStore(\n  reducer,\n  applyMiddleware(logger)\n)\n// Or you can create your own logger with custom options http://bit.ly/redux-logger-options\nimport createLogger from 'redux-logger'\nconst logger = createLogger({\n  // ...options\n});\nconst store = createStore(\n  reducer,\n  applyMiddleware(logger)\n)\n"), function () {
-      return function (e) {
-        return function (t) {
-          return e(t);
-        };
-      };
-    };var u = [];return function (e) {
-      var r = e.getState;return function (e) {
-        return function (l) {
-          if ("function" == typeof i && !i(r, l)) return e(l);var c = {};u.push(c), c.started = O.now(), c.startedTime = new Date(), c.prevState = n(r()), c.action = l;var s = void 0;if (a) try {
-            s = e(l);
-          } catch (e) {
-            c.error = o(e);
-          } else s = e(l);c.took = O.now() - c.started, c.nextState = n(r());var d = t.diff && "function" == typeof f ? f(r, l) : t.diff;if (x(u, (0, _assign2.default)({}, t, { diff: d })), u.length = 0, c.error) throw c.error;return s;
-        };
-      };
-    };
-  }var k,
-      j,
-      E = function (e, t) {
-    return new Array(t + 1).join(e);
-  },
-      A = function (e, t) {
-    return E("0", t - e.toString().length) + e;
-  },
-      D = function (e) {
-    return A(e.getHours(), 2) + ":" + A(e.getMinutes(), 2) + ":" + A(e.getSeconds(), 2) + "." + A(e.getMilliseconds(), 3);
-  },
-      O = "undefined" != typeof performance && null !== performance && "function" == typeof performance.now ? performance : Date,
-      N = "function" == typeof _symbol2.default && "symbol" == typeof _iterator2.default ? function (e) {
-    return typeof e;
-  } : function (e) {
-    return e && "function" == typeof _symbol2.default && e.constructor === _symbol2.default && e !== _symbol2.default.prototype ? "symbol" : typeof e;
-  },
-      P = function (e) {
-    if (Array.isArray(e)) {
-      for (var t = 0, r = Array(e.length); t < e.length; t++) r[t] = e[t];return r;
-    }return (0, _from2.default)(e);
-  },
-      C = [];k = "object" === ("undefined" == typeof global ? "undefined" : N(global)) && global ? global : "undefined" != typeof window ? window : {}, j = k.DeepDiff, j && C.push(function () {
-    "undefined" != typeof j && k.DeepDiff === c && (k.DeepDiff = j, j = void 0);
-  }), t(n, r), t(o, r), t(i, r), t(a, r), (0, _defineProperties2.default)(c, { diff: { value: c, enumerable: !0 }, observableDiff: { value: l, enumerable: !0 }, applyDiff: { value: h, enumerable: !0 }, applyChange: { value: d, enumerable: !0 }, revertChange: { value: g, enumerable: !0 }, isConflict: { value: function () {
-        return "undefined" != typeof j;
-      }, enumerable: !0 }, noConflict: { value: function () {
-        return C && (C.forEach(function (e) {
-          e();
-        }), C = null), c;
-      }, enumerable: !0 } });var F = { E: { color: "#2196F3", text: "CHANGED:" }, N: { color: "#4CAF50", text: "ADDED:" }, D: { color: "#F44336", text: "DELETED:" }, A: { color: "#2196F3", text: "ARRAY:" } },
-      L = { level: "log", logger: console, logErrors: !0, collapsed: void 0, predicate: void 0, duration: !1, timestamp: !0, stateTransformer: function (e) {
-      return e;
-    }, actionTransformer: function (e) {
-      return e;
-    }, errorTransformer: function (e) {
-      return e;
-    }, colors: { title: function () {
-        return "inherit";
-      }, prevState: function () {
-        return "#9E9E9E";
-      }, action: function () {
-        return "#03A9F4";
-      }, nextState: function () {
-        return "#4CAF50";
-      }, error: function () {
-        return "#F20404";
-      } }, diff: !1, diffPredicate: void 0, transformer: void 0 },
-      T = function () {
-    var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {},
-        t = e.dispatch,
-        r = e.getState;return "function" == typeof t || "function" == typeof r ? S()({ dispatch: t, getState: r }) : void console.error("\n[redux-logger v3] BREAKING CHANGE\n[redux-logger v3] Since 3.0.0 redux-logger exports by default logger with default settings.\n[redux-logger v3] Change\n[redux-logger v3] import createLogger from 'redux-logger'\n[redux-logger v3] to\n[redux-logger v3] import { createLogger } from 'redux-logger'\n");
-  };e.defaults = L, e.createLogger = S, e.logger = T, e.default = T, Object.defineProperty(e, "__esModule", { value: !0 });
-});
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__("../../node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -9526,7 +8922,15 @@ Object.defineProperty(exports, 'CHANNEL_END', {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.__DO_NOT_USE__ActionTypes = exports.compose = exports.applyMiddleware = exports.bindActionCreators = exports.combineReducers = exports.createStore = undefined;
+exports.createStore = exports.compose = exports.combineReducers = exports.bindActionCreators = exports.applyMiddleware = exports.__DO_NOT_USE__ActionTypes = undefined;
+
+var _defineProperties = __webpack_require__("../../node_modules/babel-runtime/core-js/object/define-properties.js");
+
+var _defineProperties2 = _interopRequireDefault(_defineProperties);
+
+var _getOwnPropertyDescriptors = __webpack_require__("../../node_modules/babel-runtime/core-js/object/get-own-property-descriptors.js");
+
+var _getOwnPropertyDescriptors2 = _interopRequireDefault(_getOwnPropertyDescriptors);
 
 var _getOwnPropertyDescriptor = __webpack_require__("../../node_modules/babel-runtime/core-js/object/get-own-property-descriptor.js");
 
@@ -9617,7 +9021,7 @@ function createStore(reducer, preloadedState, enhancer) {
   var _ref2;
 
   if (typeof preloadedState === 'function' && typeof enhancer === 'function' || typeof enhancer === 'function' && typeof arguments[3] === 'function') {
-    throw new Error('It looks like you are passing several store enhancers to ' + 'createStore(). This is not supported. Instead, compose them ' + 'together to a single function');
+    throw new Error('It looks like you are passing several store enhancers to ' + 'createStore(). This is not supported. Instead, compose them ' + 'together to a single function.');
   }
 
   if (typeof preloadedState === 'function' && typeof enhancer === 'undefined') {
@@ -9642,6 +9046,13 @@ function createStore(reducer, preloadedState, enhancer) {
   var currentListeners = [];
   var nextListeners = currentListeners;
   var isDispatching = false;
+  /**
+   * This makes a shallow copy of currentListeners so we can use
+   * nextListeners as a temporary list while dispatching.
+   *
+   * This prevents any bugs around consumers calling
+   * subscribe/unsubscribe in the middle of a dispatch.
+   */
 
   function ensureCanMutateNextListeners() {
     if (nextListeners === currentListeners) {
@@ -9691,7 +9102,7 @@ function createStore(reducer, preloadedState, enhancer) {
     }
 
     if (isDispatching) {
-      throw new Error('You may not call store.subscribe() while the reducer is executing. ' + 'If you would like to be notified after the store has been updated, subscribe from a ' + 'component and invoke store.getState() in the callback to access the latest state. ' + 'See https://redux.js.org/api-reference/store#subscribe(listener) for more details.');
+      throw new Error('You may not call store.subscribe() while the reducer is executing. ' + 'If you would like to be notified after the store has been updated, subscribe from a ' + 'component and invoke store.getState() in the callback to access the latest state. ' + 'See https://redux.js.org/api-reference/store#subscribelistener for more details.');
     }
 
     var isSubscribed = true;
@@ -9703,13 +9114,14 @@ function createStore(reducer, preloadedState, enhancer) {
       }
 
       if (isDispatching) {
-        throw new Error('You may not unsubscribe from a store listener while the reducer is executing. ' + 'See https://redux.js.org/api-reference/store#subscribe(listener) for more details.');
+        throw new Error('You may not unsubscribe from a store listener while the reducer is executing. ' + 'See https://redux.js.org/api-reference/store#subscribelistener for more details.');
       }
 
       isSubscribed = false;
       ensureCanMutateNextListeners();
       var index = nextListeners.indexOf(listener);
       nextListeners.splice(index, 1);
+      currentListeners = null;
     };
   }
   /**
@@ -9783,7 +9195,11 @@ function createStore(reducer, preloadedState, enhancer) {
       throw new Error('Expected the nextReducer to be a function.');
     }
 
-    currentReducer = nextReducer;
+    currentReducer = nextReducer; // This action has a similiar effect to ActionTypes.INIT.
+    // Any reducers that existed in both the new and old rootReducer
+    // will receive the previous state. This effectively populates
+    // the new state tree with any relevant data from the old one.
+
     dispatch({
       type: ActionTypes.REPLACE
     });
@@ -9949,7 +9365,9 @@ function combineReducers(reducers) {
     }
   }
 
-  var finalReducerKeys = (0, _keys2.default)(finalReducers);
+  var finalReducerKeys = (0, _keys2.default)(finalReducers); // This is used to make sure we don't warn about the same
+  // keys multiple times.
+
   var unexpectedKeyCache;
 
   if (true) {
@@ -9999,6 +9417,7 @@ function combineReducers(reducers) {
       hasChanged = hasChanged || nextStateForKey !== previousStateForKey;
     }
 
+    hasChanged = hasChanged || finalReducerKeys.length !== (0, _keys2.default)(state).length;
     return hasChanged ? nextState : state;
   };
 }
@@ -10014,8 +9433,8 @@ function bindActionCreator(actionCreator, dispatch) {
  * may be invoked directly. This is just a convenience method, as you can call
  * `store.dispatch(MyActionCreators.doSomething())` yourself just fine.
  *
- * For convenience, you can also pass a single function as the first argument,
- * and get a function in return.
+ * For convenience, you can also pass an action creator as the first argument,
+ * and get a dispatch wrapped function in return.
  *
  * @param {Function|Object} actionCreators An object whose values are action
  * creator functions. One handy way to obtain it is to use ES6 `import * as`
@@ -10039,11 +9458,9 @@ function bindActionCreators(actionCreators, dispatch) {
     throw new Error("bindActionCreators expected an object or a function, instead received " + (actionCreators === null ? 'null' : typeof actionCreators) + ". " + "Did you write \"import ActionCreators from\" instead of \"import * as ActionCreators from\"?");
   }
 
-  var keys = (0, _keys2.default)(actionCreators);
   var boundActionCreators = {};
 
-  for (var i = 0; i < keys.length; i++) {
-    var key = keys[i];
+  for (var key in actionCreators) {
     var actionCreator = actionCreators[key];
 
     if (typeof actionCreator === 'function') {
@@ -10069,20 +9486,34 @@ function _defineProperty(obj, key, value) {
   return obj;
 }
 
-function _objectSpread(target) {
+function ownKeys(object, enumerableOnly) {
+  var keys = (0, _keys2.default)(object);
+
+  if (_getOwnPropertySymbols2.default) {
+    keys.push.apply(keys, (0, _getOwnPropertySymbols2.default)(object));
+  }
+
+  if (enumerableOnly) keys = keys.filter(function (sym) {
+    return (0, _getOwnPropertyDescriptor2.default)(object, sym).enumerable;
+  });
+  return keys;
+}
+
+function _objectSpread2(target) {
   for (var i = 1; i < arguments.length; i++) {
     var source = arguments[i] != null ? arguments[i] : {};
-    var ownKeys = (0, _keys2.default)(source);
 
-    if (typeof _getOwnPropertySymbols2.default === 'function') {
-      ownKeys = ownKeys.concat((0, _getOwnPropertySymbols2.default)(source).filter(function (sym) {
-        return (0, _getOwnPropertyDescriptor2.default)(source, sym).enumerable;
-      }));
+    if (i % 2) {
+      ownKeys(source, true).forEach(function (key) {
+        _defineProperty(target, key, source[key]);
+      });
+    } else if (_getOwnPropertyDescriptors2.default) {
+      (0, _defineProperties2.default)(target, (0, _getOwnPropertyDescriptors2.default)(source));
+    } else {
+      ownKeys(source).forEach(function (key) {
+        (0, _defineProperty3.default)(target, key, (0, _getOwnPropertyDescriptor2.default)(source, key));
+      });
     }
-
-    ownKeys.forEach(function (key) {
-      _defineProperty(target, key, source[key]);
-    });
   }
 
   return target;
@@ -10147,7 +9578,7 @@ function applyMiddleware() {
       var store = createStore.apply(void 0, arguments);
 
       var _dispatch = function dispatch() {
-        throw new Error("Dispatching while constructing your middleware is not allowed. " + "Other middleware would not be applied to this dispatch.");
+        throw new Error('Dispatching while constructing your middleware is not allowed. ' + 'Other middleware would not be applied to this dispatch.');
       };
 
       var middlewareAPI = {
@@ -10160,7 +9591,7 @@ function applyMiddleware() {
         return middleware(middlewareAPI);
       });
       _dispatch = compose.apply(void 0, chain)(store.dispatch);
-      return _objectSpread({}, store, {
+      return _objectSpread2({}, store, {
         dispatch: _dispatch
       });
     };
@@ -10178,12 +9609,12 @@ if ( true && typeof isCrushed.name === 'string' && isCrushed.name !== 'isCrushed
   warning('You are currently using minified code outside of NODE_ENV === "production". ' + 'This means that you are running a slower development build of Redux. ' + 'You can use loose-envify (https://github.com/zertosh/loose-envify) for browserify ' + 'or setting mode to production in webpack (https://webpack.js.org/concepts/mode/) ' + 'to ensure you have the correct code for your production build.');
 }
 
-exports.createStore = createStore;
-exports.combineReducers = combineReducers;
-exports.bindActionCreators = bindActionCreators;
-exports.applyMiddleware = applyMiddleware;
-exports.compose = compose;
 exports.__DO_NOT_USE__ActionTypes = ActionTypes;
+exports.applyMiddleware = applyMiddleware;
+exports.bindActionCreators = bindActionCreators;
+exports.combineReducers = combineReducers;
+exports.compose = compose;
+exports.createStore = createStore;
 
 /***/ }),
 
@@ -10829,36 +10260,6 @@ module.exports = function (session, opts) {
   });
 
   return sdp.join('\r\n') + '\r\n';
-};
-
-
-/***/ }),
-
-/***/ "../../node_modules/split-on-first/index.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = (string, separator) => {
-	if (!(typeof string === 'string' && typeof separator === 'string')) {
-		throw new TypeError('Expected the arguments to be of type `string`');
-	}
-
-	if (separator === '') {
-		return [string];
-	}
-
-	const separatorIndex = string.indexOf(separator);
-
-	if (separatorIndex === -1) {
-		return [string];
-	}
-
-	return [
-		string.slice(0, separatorIndex),
-		string.slice(separatorIndex + separator.length)
-	];
 };
 
 
@@ -11838,111 +11239,639 @@ exports.callbackify = callbackify;
 
 /***/ }),
 
-/***/ "../../node_modules/uuid/lib/bytesToUuid.js":
-/***/ (function(module, exports) {
+/***/ "../../node_modules/uuid/dist/esm-browser/bytesToUuid.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
 /**
  * Convert array of 16 byte values to UUID string format of the form:
  * XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
  */
 var byteToHex = [];
+
 for (var i = 0; i < 256; ++i) {
   byteToHex[i] = (i + 0x100).toString(16).substr(1);
 }
 
 function bytesToUuid(buf, offset) {
   var i = offset || 0;
-  var bth = byteToHex;
-  // join used to fix memory issue caused by concatenation: https://bugs.chromium.org/p/v8/issues/detail?id=3175#c4
-  return ([bth[buf[i++]], bth[buf[i++]], 
-	bth[buf[i++]], bth[buf[i++]], '-',
-	bth[buf[i++]], bth[buf[i++]], '-',
-	bth[buf[i++]], bth[buf[i++]], '-',
-	bth[buf[i++]], bth[buf[i++]], '-',
-	bth[buf[i++]], bth[buf[i++]],
-	bth[buf[i++]], bth[buf[i++]],
-	bth[buf[i++]], bth[buf[i++]]]).join('');
+  var bth = byteToHex; // join used to fix memory issue caused by concatenation: https://bugs.chromium.org/p/v8/issues/detail?id=3175#c4
+
+  return [bth[buf[i++]], bth[buf[i++]], bth[buf[i++]], bth[buf[i++]], '-', bth[buf[i++]], bth[buf[i++]], '-', bth[buf[i++]], bth[buf[i++]], '-', bth[buf[i++]], bth[buf[i++]], '-', bth[buf[i++]], bth[buf[i++]], bth[buf[i++]], bth[buf[i++]], bth[buf[i++]], bth[buf[i++]]].join('');
 }
 
-module.exports = bytesToUuid;
+/* harmony default export */ __webpack_exports__["default"] = (bytesToUuid);
+
+/***/ }),
+
+/***/ "../../node_modules/uuid/dist/esm-browser/index.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _v1_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../node_modules/uuid/dist/esm-browser/v1.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "v1", function() { return _v1_js__WEBPACK_IMPORTED_MODULE_0__["default"]; });
+
+/* harmony import */ var _v3_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../node_modules/uuid/dist/esm-browser/v3.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "v3", function() { return _v3_js__WEBPACK_IMPORTED_MODULE_1__["default"]; });
+
+/* harmony import */ var _v4_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../node_modules/uuid/dist/esm-browser/v4.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "v4", function() { return _v4_js__WEBPACK_IMPORTED_MODULE_2__["default"]; });
+
+/* harmony import */ var _v5_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../node_modules/uuid/dist/esm-browser/v5.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "v5", function() { return _v5_js__WEBPACK_IMPORTED_MODULE_3__["default"]; });
+
+
+
+
 
 
 /***/ }),
 
-/***/ "../../node_modules/uuid/lib/rng-browser.js":
-/***/ (function(module, exports) {
+/***/ "../../node_modules/uuid/dist/esm-browser/md5.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-// Unique ID creation requires a high quality random # generator.  In the
-// browser this is a little complicated due to unknown quality of Math.random()
-// and inconsistent support for the `crypto` API.  We do the best we can via
-// feature-detection
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/*
+ * Browser-compatible JavaScript MD5
+ *
+ * Modification of JavaScript MD5
+ * https://github.com/blueimp/JavaScript-MD5
+ *
+ * Copyright 2011, Sebastian Tschan
+ * https://blueimp.net
+ *
+ * Licensed under the MIT license:
+ * https://opensource.org/licenses/MIT
+ *
+ * Based on
+ * A JavaScript implementation of the RSA Data Security, Inc. MD5 Message
+ * Digest Algorithm, as defined in RFC 1321.
+ * Version 2.2 Copyright (C) Paul Johnston 1999 - 2009
+ * Other contributors: Greg Holt, Andrew Kepert, Ydnar, Lostinet
+ * Distributed under the BSD License
+ * See http://pajhome.org.uk/crypt/md5 for more info.
+ */
+function md5(bytes) {
+  if (typeof bytes == 'string') {
+    var msg = unescape(encodeURIComponent(bytes)); // UTF8 escape
 
-// getRandomValues needs to be invoked in a context where "this" is a Crypto
-// implementation. Also, find the complete implementation of crypto on IE11.
-var getRandomValues = (typeof(crypto) != 'undefined' && crypto.getRandomValues && crypto.getRandomValues.bind(crypto)) ||
-                      (typeof(msCrypto) != 'undefined' && typeof window.msCrypto.getRandomValues == 'function' && msCrypto.getRandomValues.bind(msCrypto));
+    bytes = new Array(msg.length);
 
-if (getRandomValues) {
-  // WHATWG crypto RNG - http://wiki.whatwg.org/wiki/Crypto
-  var rnds8 = new Uint8Array(16); // eslint-disable-line no-undef
+    for (var i = 0; i < msg.length; i++) {
+      bytes[i] = msg.charCodeAt(i);
+    }
+  }
 
-  module.exports = function whatwgRNG() {
-    getRandomValues(rnds8);
-    return rnds8;
-  };
-} else {
-  // Math.random()-based (RNG)
-  //
-  // If all else fails, use Math.random().  It's fast, but is of unspecified
-  // quality.
-  var rnds = new Array(16);
+  return md5ToHexEncodedArray(wordsToMd5(bytesToWords(bytes), bytes.length * 8));
+}
+/*
+ * Convert an array of little-endian words to an array of bytes
+ */
 
-  module.exports = function mathRNG() {
-    for (var i = 0, r; i < 16; i++) {
-      if ((i & 0x03) === 0) r = Math.random() * 0x100000000;
-      rnds[i] = r >>> ((i & 0x03) << 3) & 0xff;
+
+function md5ToHexEncodedArray(input) {
+  var i;
+  var x;
+  var output = [];
+  var length32 = input.length * 32;
+  var hexTab = '0123456789abcdef';
+  var hex;
+
+  for (i = 0; i < length32; i += 8) {
+    x = input[i >> 5] >>> i % 32 & 0xff;
+    hex = parseInt(hexTab.charAt(x >>> 4 & 0x0f) + hexTab.charAt(x & 0x0f), 16);
+    output.push(hex);
+  }
+
+  return output;
+}
+/*
+ * Calculate the MD5 of an array of little-endian words, and a bit length.
+ */
+
+
+function wordsToMd5(x, len) {
+  /* append padding */
+  x[len >> 5] |= 0x80 << len % 32;
+  x[(len + 64 >>> 9 << 4) + 14] = len;
+  var i;
+  var olda;
+  var oldb;
+  var oldc;
+  var oldd;
+  var a = 1732584193;
+  var b = -271733879;
+  var c = -1732584194;
+  var d = 271733878;
+
+  for (i = 0; i < x.length; i += 16) {
+    olda = a;
+    oldb = b;
+    oldc = c;
+    oldd = d;
+    a = md5ff(a, b, c, d, x[i], 7, -680876936);
+    d = md5ff(d, a, b, c, x[i + 1], 12, -389564586);
+    c = md5ff(c, d, a, b, x[i + 2], 17, 606105819);
+    b = md5ff(b, c, d, a, x[i + 3], 22, -1044525330);
+    a = md5ff(a, b, c, d, x[i + 4], 7, -176418897);
+    d = md5ff(d, a, b, c, x[i + 5], 12, 1200080426);
+    c = md5ff(c, d, a, b, x[i + 6], 17, -1473231341);
+    b = md5ff(b, c, d, a, x[i + 7], 22, -45705983);
+    a = md5ff(a, b, c, d, x[i + 8], 7, 1770035416);
+    d = md5ff(d, a, b, c, x[i + 9], 12, -1958414417);
+    c = md5ff(c, d, a, b, x[i + 10], 17, -42063);
+    b = md5ff(b, c, d, a, x[i + 11], 22, -1990404162);
+    a = md5ff(a, b, c, d, x[i + 12], 7, 1804603682);
+    d = md5ff(d, a, b, c, x[i + 13], 12, -40341101);
+    c = md5ff(c, d, a, b, x[i + 14], 17, -1502002290);
+    b = md5ff(b, c, d, a, x[i + 15], 22, 1236535329);
+    a = md5gg(a, b, c, d, x[i + 1], 5, -165796510);
+    d = md5gg(d, a, b, c, x[i + 6], 9, -1069501632);
+    c = md5gg(c, d, a, b, x[i + 11], 14, 643717713);
+    b = md5gg(b, c, d, a, x[i], 20, -373897302);
+    a = md5gg(a, b, c, d, x[i + 5], 5, -701558691);
+    d = md5gg(d, a, b, c, x[i + 10], 9, 38016083);
+    c = md5gg(c, d, a, b, x[i + 15], 14, -660478335);
+    b = md5gg(b, c, d, a, x[i + 4], 20, -405537848);
+    a = md5gg(a, b, c, d, x[i + 9], 5, 568446438);
+    d = md5gg(d, a, b, c, x[i + 14], 9, -1019803690);
+    c = md5gg(c, d, a, b, x[i + 3], 14, -187363961);
+    b = md5gg(b, c, d, a, x[i + 8], 20, 1163531501);
+    a = md5gg(a, b, c, d, x[i + 13], 5, -1444681467);
+    d = md5gg(d, a, b, c, x[i + 2], 9, -51403784);
+    c = md5gg(c, d, a, b, x[i + 7], 14, 1735328473);
+    b = md5gg(b, c, d, a, x[i + 12], 20, -1926607734);
+    a = md5hh(a, b, c, d, x[i + 5], 4, -378558);
+    d = md5hh(d, a, b, c, x[i + 8], 11, -2022574463);
+    c = md5hh(c, d, a, b, x[i + 11], 16, 1839030562);
+    b = md5hh(b, c, d, a, x[i + 14], 23, -35309556);
+    a = md5hh(a, b, c, d, x[i + 1], 4, -1530992060);
+    d = md5hh(d, a, b, c, x[i + 4], 11, 1272893353);
+    c = md5hh(c, d, a, b, x[i + 7], 16, -155497632);
+    b = md5hh(b, c, d, a, x[i + 10], 23, -1094730640);
+    a = md5hh(a, b, c, d, x[i + 13], 4, 681279174);
+    d = md5hh(d, a, b, c, x[i], 11, -358537222);
+    c = md5hh(c, d, a, b, x[i + 3], 16, -722521979);
+    b = md5hh(b, c, d, a, x[i + 6], 23, 76029189);
+    a = md5hh(a, b, c, d, x[i + 9], 4, -640364487);
+    d = md5hh(d, a, b, c, x[i + 12], 11, -421815835);
+    c = md5hh(c, d, a, b, x[i + 15], 16, 530742520);
+    b = md5hh(b, c, d, a, x[i + 2], 23, -995338651);
+    a = md5ii(a, b, c, d, x[i], 6, -198630844);
+    d = md5ii(d, a, b, c, x[i + 7], 10, 1126891415);
+    c = md5ii(c, d, a, b, x[i + 14], 15, -1416354905);
+    b = md5ii(b, c, d, a, x[i + 5], 21, -57434055);
+    a = md5ii(a, b, c, d, x[i + 12], 6, 1700485571);
+    d = md5ii(d, a, b, c, x[i + 3], 10, -1894986606);
+    c = md5ii(c, d, a, b, x[i + 10], 15, -1051523);
+    b = md5ii(b, c, d, a, x[i + 1], 21, -2054922799);
+    a = md5ii(a, b, c, d, x[i + 8], 6, 1873313359);
+    d = md5ii(d, a, b, c, x[i + 15], 10, -30611744);
+    c = md5ii(c, d, a, b, x[i + 6], 15, -1560198380);
+    b = md5ii(b, c, d, a, x[i + 13], 21, 1309151649);
+    a = md5ii(a, b, c, d, x[i + 4], 6, -145523070);
+    d = md5ii(d, a, b, c, x[i + 11], 10, -1120210379);
+    c = md5ii(c, d, a, b, x[i + 2], 15, 718787259);
+    b = md5ii(b, c, d, a, x[i + 9], 21, -343485551);
+    a = safeAdd(a, olda);
+    b = safeAdd(b, oldb);
+    c = safeAdd(c, oldc);
+    d = safeAdd(d, oldd);
+  }
+
+  return [a, b, c, d];
+}
+/*
+ * Convert an array bytes to an array of little-endian words
+ * Characters >255 have their high-byte silently ignored.
+ */
+
+
+function bytesToWords(input) {
+  var i;
+  var output = [];
+  output[(input.length >> 2) - 1] = undefined;
+
+  for (i = 0; i < output.length; i += 1) {
+    output[i] = 0;
+  }
+
+  var length8 = input.length * 8;
+
+  for (i = 0; i < length8; i += 8) {
+    output[i >> 5] |= (input[i / 8] & 0xff) << i % 32;
+  }
+
+  return output;
+}
+/*
+ * Add integers, wrapping at 2^32. This uses 16-bit operations internally
+ * to work around bugs in some JS interpreters.
+ */
+
+
+function safeAdd(x, y) {
+  var lsw = (x & 0xffff) + (y & 0xffff);
+  var msw = (x >> 16) + (y >> 16) + (lsw >> 16);
+  return msw << 16 | lsw & 0xffff;
+}
+/*
+ * Bitwise rotate a 32-bit number to the left.
+ */
+
+
+function bitRotateLeft(num, cnt) {
+  return num << cnt | num >>> 32 - cnt;
+}
+/*
+ * These functions implement the four basic operations the algorithm uses.
+ */
+
+
+function md5cmn(q, a, b, x, s, t) {
+  return safeAdd(bitRotateLeft(safeAdd(safeAdd(a, q), safeAdd(x, t)), s), b);
+}
+
+function md5ff(a, b, c, d, x, s, t) {
+  return md5cmn(b & c | ~b & d, a, b, x, s, t);
+}
+
+function md5gg(a, b, c, d, x, s, t) {
+  return md5cmn(b & d | c & ~d, a, b, x, s, t);
+}
+
+function md5hh(a, b, c, d, x, s, t) {
+  return md5cmn(b ^ c ^ d, a, b, x, s, t);
+}
+
+function md5ii(a, b, c, d, x, s, t) {
+  return md5cmn(c ^ (b | ~d), a, b, x, s, t);
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (md5);
+
+/***/ }),
+
+/***/ "../../node_modules/uuid/dist/esm-browser/rng.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return rng; });
+// Unique ID creation requires a high quality random # generator. In the browser we therefore
+// require the crypto API and do not support built-in fallback to lower quality random number
+// generators (like Math.random()).
+// getRandomValues needs to be invoked in a context where "this" is a Crypto implementation. Also,
+// find the complete implementation of crypto (msCrypto) on IE11.
+var getRandomValues = typeof crypto != 'undefined' && crypto.getRandomValues && crypto.getRandomValues.bind(crypto) || typeof msCrypto != 'undefined' && typeof msCrypto.getRandomValues == 'function' && msCrypto.getRandomValues.bind(msCrypto);
+var rnds8 = new Uint8Array(16); // eslint-disable-line no-undef
+
+function rng() {
+  if (!getRandomValues) {
+    throw new Error('crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported');
+  }
+
+  return getRandomValues(rnds8);
+}
+
+/***/ }),
+
+/***/ "../../node_modules/uuid/dist/esm-browser/sha1.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// Adapted from Chris Veness' SHA1 code at
+// http://www.movable-type.co.uk/scripts/sha1.html
+function f(s, x, y, z) {
+  switch (s) {
+    case 0:
+      return x & y ^ ~x & z;
+
+    case 1:
+      return x ^ y ^ z;
+
+    case 2:
+      return x & y ^ x & z ^ y & z;
+
+    case 3:
+      return x ^ y ^ z;
+  }
+}
+
+function ROTL(x, n) {
+  return x << n | x >>> 32 - n;
+}
+
+function sha1(bytes) {
+  var K = [0x5a827999, 0x6ed9eba1, 0x8f1bbcdc, 0xca62c1d6];
+  var H = [0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476, 0xc3d2e1f0];
+
+  if (typeof bytes == 'string') {
+    var msg = unescape(encodeURIComponent(bytes)); // UTF8 escape
+
+    bytes = new Array(msg.length);
+
+    for (var i = 0; i < msg.length; i++) {
+      bytes[i] = msg.charCodeAt(i);
+    }
+  }
+
+  bytes.push(0x80);
+  var l = bytes.length / 4 + 2;
+  var N = Math.ceil(l / 16);
+  var M = new Array(N);
+
+  for (var i = 0; i < N; i++) {
+    M[i] = new Array(16);
+
+    for (var j = 0; j < 16; j++) {
+      M[i][j] = bytes[i * 64 + j * 4] << 24 | bytes[i * 64 + j * 4 + 1] << 16 | bytes[i * 64 + j * 4 + 2] << 8 | bytes[i * 64 + j * 4 + 3];
+    }
+  }
+
+  M[N - 1][14] = (bytes.length - 1) * 8 / Math.pow(2, 32);
+  M[N - 1][14] = Math.floor(M[N - 1][14]);
+  M[N - 1][15] = (bytes.length - 1) * 8 & 0xffffffff;
+
+  for (var i = 0; i < N; i++) {
+    var W = new Array(80);
+
+    for (var t = 0; t < 16; t++) {
+      W[t] = M[i][t];
     }
 
-    return rnds;
-  };
+    for (var t = 16; t < 80; t++) {
+      W[t] = ROTL(W[t - 3] ^ W[t - 8] ^ W[t - 14] ^ W[t - 16], 1);
+    }
+
+    var a = H[0];
+    var b = H[1];
+    var c = H[2];
+    var d = H[3];
+    var e = H[4];
+
+    for (var t = 0; t < 80; t++) {
+      var s = Math.floor(t / 20);
+      var T = ROTL(a, 5) + f(s, b, c, d) + e + K[s] + W[t] >>> 0;
+      e = d;
+      d = c;
+      c = ROTL(b, 30) >>> 0;
+      b = a;
+      a = T;
+    }
+
+    H[0] = H[0] + a >>> 0;
+    H[1] = H[1] + b >>> 0;
+    H[2] = H[2] + c >>> 0;
+    H[3] = H[3] + d >>> 0;
+    H[4] = H[4] + e >>> 0;
+  }
+
+  return [H[0] >> 24 & 0xff, H[0] >> 16 & 0xff, H[0] >> 8 & 0xff, H[0] & 0xff, H[1] >> 24 & 0xff, H[1] >> 16 & 0xff, H[1] >> 8 & 0xff, H[1] & 0xff, H[2] >> 24 & 0xff, H[2] >> 16 & 0xff, H[2] >> 8 & 0xff, H[2] & 0xff, H[3] >> 24 & 0xff, H[3] >> 16 & 0xff, H[3] >> 8 & 0xff, H[3] & 0xff, H[4] >> 24 & 0xff, H[4] >> 16 & 0xff, H[4] >> 8 & 0xff, H[4] & 0xff];
 }
 
+/* harmony default export */ __webpack_exports__["default"] = (sha1);
 
 /***/ }),
 
-/***/ "../../node_modules/uuid/v4.js":
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../node_modules/uuid/dist/esm-browser/v1.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-var rng = __webpack_require__("../../node_modules/uuid/lib/rng-browser.js");
-var bytesToUuid = __webpack_require__("../../node_modules/uuid/lib/bytesToUuid.js");
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _rng_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../node_modules/uuid/dist/esm-browser/rng.js");
+/* harmony import */ var _bytesToUuid_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../node_modules/uuid/dist/esm-browser/bytesToUuid.js");
+
+ // **`v1()` - Generate time-based UUID**
+//
+// Inspired by https://github.com/LiosK/UUID.js
+// and http://docs.python.org/library/uuid.html
+
+var _nodeId;
+
+var _clockseq; // Previous uuid creation time
+
+
+var _lastMSecs = 0;
+var _lastNSecs = 0; // See https://github.com/uuidjs/uuid for API details
+
+function v1(options, buf, offset) {
+  var i = buf && offset || 0;
+  var b = buf || [];
+  options = options || {};
+  var node = options.node || _nodeId;
+  var clockseq = options.clockseq !== undefined ? options.clockseq : _clockseq; // node and clockseq need to be initialized to random values if they're not
+  // specified.  We do this lazily to minimize issues related to insufficient
+  // system entropy.  See #189
+
+  if (node == null || clockseq == null) {
+    var seedBytes = options.random || (options.rng || _rng_js__WEBPACK_IMPORTED_MODULE_0__["default"])();
+
+    if (node == null) {
+      // Per 4.5, create and 48-bit node id, (47 random bits + multicast bit = 1)
+      node = _nodeId = [seedBytes[0] | 0x01, seedBytes[1], seedBytes[2], seedBytes[3], seedBytes[4], seedBytes[5]];
+    }
+
+    if (clockseq == null) {
+      // Per 4.2.2, randomize (14 bit) clockseq
+      clockseq = _clockseq = (seedBytes[6] << 8 | seedBytes[7]) & 0x3fff;
+    }
+  } // UUID timestamps are 100 nano-second units since the Gregorian epoch,
+  // (1582-10-15 00:00).  JSNumbers aren't precise enough for this, so
+  // time is handled internally as 'msecs' (integer milliseconds) and 'nsecs'
+  // (100-nanoseconds offset from msecs) since unix epoch, 1970-01-01 00:00.
+
+
+  var msecs = options.msecs !== undefined ? options.msecs : new Date().getTime(); // Per 4.2.1.2, use count of uuid's generated during the current clock
+  // cycle to simulate higher resolution clock
+
+  var nsecs = options.nsecs !== undefined ? options.nsecs : _lastNSecs + 1; // Time since last uuid creation (in msecs)
+
+  var dt = msecs - _lastMSecs + (nsecs - _lastNSecs) / 10000; // Per 4.2.1.2, Bump clockseq on clock regression
+
+  if (dt < 0 && options.clockseq === undefined) {
+    clockseq = clockseq + 1 & 0x3fff;
+  } // Reset nsecs if clock regresses (new clockseq) or we've moved onto a new
+  // time interval
+
+
+  if ((dt < 0 || msecs > _lastMSecs) && options.nsecs === undefined) {
+    nsecs = 0;
+  } // Per 4.2.1.2 Throw error if too many uuids are requested
+
+
+  if (nsecs >= 10000) {
+    throw new Error("uuid.v1(): Can't create more than 10M uuids/sec");
+  }
+
+  _lastMSecs = msecs;
+  _lastNSecs = nsecs;
+  _clockseq = clockseq; // Per 4.1.4 - Convert from unix epoch to Gregorian epoch
+
+  msecs += 12219292800000; // `time_low`
+
+  var tl = ((msecs & 0xfffffff) * 10000 + nsecs) % 0x100000000;
+  b[i++] = tl >>> 24 & 0xff;
+  b[i++] = tl >>> 16 & 0xff;
+  b[i++] = tl >>> 8 & 0xff;
+  b[i++] = tl & 0xff; // `time_mid`
+
+  var tmh = msecs / 0x100000000 * 10000 & 0xfffffff;
+  b[i++] = tmh >>> 8 & 0xff;
+  b[i++] = tmh & 0xff; // `time_high_and_version`
+
+  b[i++] = tmh >>> 24 & 0xf | 0x10; // include version
+
+  b[i++] = tmh >>> 16 & 0xff; // `clock_seq_hi_and_reserved` (Per 4.2.2 - include variant)
+
+  b[i++] = clockseq >>> 8 | 0x80; // `clock_seq_low`
+
+  b[i++] = clockseq & 0xff; // `node`
+
+  for (var n = 0; n < 6; ++n) {
+    b[i + n] = node[n];
+  }
+
+  return buf ? buf : Object(_bytesToUuid_js__WEBPACK_IMPORTED_MODULE_1__["default"])(b);
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (v1);
+
+/***/ }),
+
+/***/ "../../node_modules/uuid/dist/esm-browser/v3.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _v35_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../node_modules/uuid/dist/esm-browser/v35.js");
+/* harmony import */ var _md5_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../node_modules/uuid/dist/esm-browser/md5.js");
+
+
+var v3 = Object(_v35_js__WEBPACK_IMPORTED_MODULE_0__["default"])('v3', 0x30, _md5_js__WEBPACK_IMPORTED_MODULE_1__["default"]);
+/* harmony default export */ __webpack_exports__["default"] = (v3);
+
+/***/ }),
+
+/***/ "../../node_modules/uuid/dist/esm-browser/v35.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DNS", function() { return DNS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "URL", function() { return URL; });
+/* harmony import */ var _bytesToUuid_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../node_modules/uuid/dist/esm-browser/bytesToUuid.js");
+
+
+function uuidToBytes(uuid) {
+  // Note: We assume we're being passed a valid uuid string
+  var bytes = [];
+  uuid.replace(/[a-fA-F0-9]{2}/g, function (hex) {
+    bytes.push(parseInt(hex, 16));
+  });
+  return bytes;
+}
+
+function stringToBytes(str) {
+  str = unescape(encodeURIComponent(str)); // UTF8 escape
+
+  var bytes = new Array(str.length);
+
+  for (var i = 0; i < str.length; i++) {
+    bytes[i] = str.charCodeAt(i);
+  }
+
+  return bytes;
+}
+
+var DNS = '6ba7b810-9dad-11d1-80b4-00c04fd430c8';
+var URL = '6ba7b811-9dad-11d1-80b4-00c04fd430c8';
+/* harmony default export */ __webpack_exports__["default"] = (function (name, version, hashfunc) {
+  var generateUUID = function generateUUID(value, namespace, buf, offset) {
+    var off = buf && offset || 0;
+    if (typeof value == 'string') value = stringToBytes(value);
+    if (typeof namespace == 'string') namespace = uuidToBytes(namespace);
+    if (!Array.isArray(value)) throw TypeError('value must be an array of bytes');
+    if (!Array.isArray(namespace) || namespace.length !== 16) throw TypeError('namespace must be uuid string or an Array of 16 byte values'); // Per 4.3
+
+    var bytes = hashfunc(namespace.concat(value));
+    bytes[6] = bytes[6] & 0x0f | version;
+    bytes[8] = bytes[8] & 0x3f | 0x80;
+
+    if (buf) {
+      for (var idx = 0; idx < 16; ++idx) {
+        buf[off + idx] = bytes[idx];
+      }
+    }
+
+    return buf || Object(_bytesToUuid_js__WEBPACK_IMPORTED_MODULE_0__["default"])(bytes);
+  }; // Function#name is not settable on some platforms (#270)
+
+
+  try {
+    generateUUID.name = name;
+  } catch (err) {} // For CommonJS default export support
+
+
+  generateUUID.DNS = DNS;
+  generateUUID.URL = URL;
+  return generateUUID;
+});
+
+/***/ }),
+
+/***/ "../../node_modules/uuid/dist/esm-browser/v4.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _rng_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../node_modules/uuid/dist/esm-browser/rng.js");
+/* harmony import */ var _bytesToUuid_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../node_modules/uuid/dist/esm-browser/bytesToUuid.js");
+
+
 
 function v4(options, buf, offset) {
   var i = buf && offset || 0;
 
-  if (typeof(options) == 'string') {
+  if (typeof options == 'string') {
     buf = options === 'binary' ? new Array(16) : null;
     options = null;
   }
+
   options = options || {};
+  var rnds = options.random || (options.rng || _rng_js__WEBPACK_IMPORTED_MODULE_0__["default"])(); // Per 4.4, set bits for version and `clock_seq_hi_and_reserved`
 
-  var rnds = options.random || (options.rng || rng)();
+  rnds[6] = rnds[6] & 0x0f | 0x40;
+  rnds[8] = rnds[8] & 0x3f | 0x80; // Copy bytes to buffer, if provided
 
-  // Per 4.4, set bits for version and `clock_seq_hi_and_reserved`
-  rnds[6] = (rnds[6] & 0x0f) | 0x40;
-  rnds[8] = (rnds[8] & 0x3f) | 0x80;
-
-  // Copy bytes to buffer, if provided
   if (buf) {
     for (var ii = 0; ii < 16; ++ii) {
       buf[i + ii] = rnds[ii];
     }
   }
 
-  return buf || bytesToUuid(rnds);
+  return buf || Object(_bytesToUuid_js__WEBPACK_IMPORTED_MODULE_1__["default"])(rnds);
 }
 
-module.exports = v4;
+/* harmony default export */ __webpack_exports__["default"] = (v4);
 
+/***/ }),
+
+/***/ "../../node_modules/uuid/dist/esm-browser/v5.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _v35_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../node_modules/uuid/dist/esm-browser/v35.js");
+/* harmony import */ var _sha1_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../node_modules/uuid/dist/esm-browser/sha1.js");
+
+
+var v5 = Object(_v35_js__WEBPACK_IMPORTED_MODULE_0__["default"])('v5', 0x50, _sha1_js__WEBPACK_IMPORTED_MODULE_1__["default"]);
+/* harmony default export */ __webpack_exports__["default"] = (v5);
 
 /***/ }),
 
@@ -15440,439 +15369,6 @@ module.exports = {
 
 /***/ }),
 
-/***/ "../../packages/kandy/node_modules/query-string/index.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-const strictUriEncode = __webpack_require__("../../packages/kandy/node_modules/strict-uri-encode/index.js");
-const decodeComponent = __webpack_require__("../../node_modules/decode-uri-component/index.js");
-const splitOnFirst = __webpack_require__("../../node_modules/split-on-first/index.js");
-
-function encoderForArrayFormat(options) {
-	switch (options.arrayFormat) {
-		case 'index':
-			return key => (result, value) => {
-				const index = result.length;
-				if (value === undefined) {
-					return result;
-				}
-
-				if (value === null) {
-					return [...result, [encode(key, options), '[', index, ']'].join('')];
-				}
-
-				return [
-					...result,
-					[encode(key, options), '[', encode(index, options), ']=', encode(value, options)].join('')
-				];
-			};
-
-		case 'bracket':
-			return key => (result, value) => {
-				if (value === undefined) {
-					return result;
-				}
-
-				if (value === null) {
-					return [...result, [encode(key, options), '[]'].join('')];
-				}
-
-				return [...result, [encode(key, options), '[]=', encode(value, options)].join('')];
-			};
-
-		case 'comma':
-			return key => (result, value, index) => {
-				if (value === null || value === undefined || value.length === 0) {
-					return result;
-				}
-
-				if (index === 0) {
-					return [[encode(key, options), '=', encode(value, options)].join('')];
-				}
-
-				return [[result, encode(value, options)].join(',')];
-			};
-
-		default:
-			return key => (result, value) => {
-				if (value === undefined) {
-					return result;
-				}
-
-				if (value === null) {
-					return [...result, encode(key, options)];
-				}
-
-				return [...result, [encode(key, options), '=', encode(value, options)].join('')];
-			};
-	}
-}
-
-function parserForArrayFormat(options) {
-	let result;
-
-	switch (options.arrayFormat) {
-		case 'index':
-			return (key, value, accumulator) => {
-				result = /\[(\d*)\]$/.exec(key);
-
-				key = key.replace(/\[\d*\]$/, '');
-
-				if (!result) {
-					accumulator[key] = value;
-					return;
-				}
-
-				if (accumulator[key] === undefined) {
-					accumulator[key] = {};
-				}
-
-				accumulator[key][result[1]] = value;
-			};
-
-		case 'bracket':
-			return (key, value, accumulator) => {
-				result = /(\[\])$/.exec(key);
-				key = key.replace(/\[\]$/, '');
-
-				if (!result) {
-					accumulator[key] = value;
-					return;
-				}
-
-				if (accumulator[key] === undefined) {
-					accumulator[key] = [value];
-					return;
-				}
-
-				accumulator[key] = [].concat(accumulator[key], value);
-			};
-
-		case 'comma':
-			return (key, value, accumulator) => {
-				const isArray = typeof value === 'string' && value.split('').indexOf(',') > -1;
-				const newValue = isArray ? value.split(',') : value;
-				accumulator[key] = newValue;
-			};
-
-		default:
-			return (key, value, accumulator) => {
-				if (accumulator[key] === undefined) {
-					accumulator[key] = value;
-					return;
-				}
-
-				accumulator[key] = [].concat(accumulator[key], value);
-			};
-	}
-}
-
-function encode(value, options) {
-	if (options.encode) {
-		return options.strict ? strictUriEncode(value) : encodeURIComponent(value);
-	}
-
-	return value;
-}
-
-function decode(value, options) {
-	if (options.decode) {
-		return decodeComponent(value);
-	}
-
-	return value;
-}
-
-function keysSorter(input) {
-	if (Array.isArray(input)) {
-		return input.sort();
-	}
-
-	if (typeof input === 'object') {
-		return keysSorter(Object.keys(input))
-			.sort((a, b) => Number(a) - Number(b))
-			.map(key => input[key]);
-	}
-
-	return input;
-}
-
-function removeHash(input) {
-	const hashStart = input.indexOf('#');
-	if (hashStart !== -1) {
-		input = input.slice(0, hashStart);
-	}
-
-	return input;
-}
-
-function extract(input) {
-	input = removeHash(input);
-	const queryStart = input.indexOf('?');
-	if (queryStart === -1) {
-		return '';
-	}
-
-	return input.slice(queryStart + 1);
-}
-
-function parse(input, options) {
-	options = Object.assign({
-		decode: true,
-		arrayFormat: 'none'
-	}, options);
-
-	const formatter = parserForArrayFormat(options);
-
-	// Create an object with no prototype
-	const ret = Object.create(null);
-
-	if (typeof input !== 'string') {
-		return ret;
-	}
-
-	input = input.trim().replace(/^[?#&]/, '');
-
-	if (!input) {
-		return ret;
-	}
-
-	for (const param of input.split('&')) {
-		let [key, value] = splitOnFirst(param.replace(/\+/g, ' '), '=');
-
-		// Missing `=` should be `null`:
-		// http://w3.org/TR/2012/WD-url-20120524/#collect-url-parameters
-		value = value === undefined ? null : decode(value, options);
-
-		formatter(decode(key, options), value, ret);
-	}
-
-	return Object.keys(ret).sort().reduce((result, key) => {
-		const value = ret[key];
-		if (Boolean(value) && typeof value === 'object' && !Array.isArray(value)) {
-			// Sort object keys, not values
-			result[key] = keysSorter(value);
-		} else {
-			result[key] = value;
-		}
-
-		return result;
-	}, Object.create(null));
-}
-
-exports.extract = extract;
-exports.parse = parse;
-
-exports.stringify = (object, options) => {
-	if (!object) {
-		return '';
-	}
-
-	options = Object.assign({
-		encode: true,
-		strict: true,
-		arrayFormat: 'none'
-	}, options);
-
-	const formatter = encoderForArrayFormat(options);
-	const keys = Object.keys(object);
-
-	if (options.sort !== false) {
-		keys.sort(options.sort);
-	}
-
-	return keys.map(key => {
-		const value = object[key];
-
-		if (value === undefined) {
-			return '';
-		}
-
-		if (value === null) {
-			return encode(key, options);
-		}
-
-		if (Array.isArray(value)) {
-			return value
-				.reduce(formatter(key), [])
-				.join('&');
-		}
-
-		return encode(key, options) + '=' + encode(value, options);
-	}).filter(x => x.length > 0).join('&');
-};
-
-exports.parseUrl = (input, options) => {
-	return {
-		url: removeHash(input).split('?')[0] || '',
-		query: parse(extract(input), options)
-	};
-};
-
-
-/***/ }),
-
-/***/ "../../packages/kandy/node_modules/strict-uri-encode/index.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-module.exports = str => encodeURIComponent(str).replace(/[!'()*]/g, x => `%${x.charCodeAt(0).toString(16).toUpperCase()}`);
-
-
-/***/ }),
-
-/***/ "../../packages/kandy/src/common/utils.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _keys = __webpack_require__("../../node_modules/babel-runtime/core-js/object/keys.js");
-
-var _keys2 = _interopRequireDefault(_keys);
-
-exports.mergeValues = mergeValues;
-exports.toQueryString = toQueryString;
-exports.autoRestart = autoRestart;
-
-var _fp = __webpack_require__("../../node_modules/lodash/fp.js");
-
-var _queryString = __webpack_require__("../../packages/kandy/node_modules/query-string/index.js");
-
-var _queryString2 = _interopRequireDefault(_queryString);
-
-var _effects = __webpack_require__("../../node_modules/redux-saga/es/effects.js");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/**
- * Deeply merges the values of multiple objects. Objects on the left receive the values from objects on their right.
- * Unlike lodash's default merge behavior this doesn't merge arrays.
- *
- * @name mergeValues
- * @param {...Object} objects - Objects to merge
- * @return {Object} A new object containing the merged values.
- */
-function mergeValues(...objects) {
-  return (0, _fp.mergeAllWith)((leftValue, rightValue) => {
-    // Overwrite the default behavior of lodash's merge for arrays and simply
-    // clobber what's on the left so we don't end up with merged arrays.
-    if ((0, _fp.isArray)(leftValue)) {
-      return rightValue;
-    }
-  }, objects);
-}
-
-/**
- * Utility function to convert an object to a query string.
- *
- * @param {Object} params An object of query parameters to be parsed and converted for use in a URL string
- * @param {Object} [options] Options to be passed to the query-string library
- * * @param {String} [options.arrayFormat] Format in which to compose array values which were passed as query parameters
- */
-// Libraries.
-function toQueryString(params = {}, options = {}) {
-  if ((0, _keys2.default)(params).length > 0) {
-    const stringifiedParams = _queryString2.default.stringify(params, options);
-    return '?' + stringifiedParams;
-  }
-  return '';
-}
-
-/**
- * Higher-order function to auto-restart sagas when they crash.
- * Based on: https://github.com/redux-saga/redux-saga/pull/644#issuecomment-266454875
- * @method autoRestart
- * @param  {Generator} saga The saga to wrap.
- * @return {Generator} Wrapped saga.
- */
-function autoRestart(saga) {
-  return function* autoRestarting(...args) {
-    // Only restart the saga if it crashed; avoid restarting it if
-    //      it returned normally.
-    let shouldRestart = false;
-    do {
-      try {
-        yield (0, _effects.call)(saga, ...args);
-        shouldRestart = false;
-      } catch (e) {
-        // TODO: Re-add this log line.
-        // Importing the LogManager in this file breaks tests for an unknown
-        //    reason. Should find out why so that we can log in our utils.
-        // log.error(`Unhandled error in saga ${saga.name}.`, e)
-        console.log(`Unhandled error in saga ${saga.name}.`, e);
-        shouldRestart = true;
-      }
-    } while (shouldRestart);
-  };
-}
-
-/***/ }),
-
-/***/ "../../packages/kandy/src/config/interface/actionTypes.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-const PREFIX = '@@KANDY/';
-
-const CONFIG_UPDATE = exports.CONFIG_UPDATE = PREFIX + 'CONFIG_UPDATE';
-
-/***/ }),
-
-/***/ "../../packages/kandy/src/config/interface/actions.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.update = update;
-
-var _actionTypes = __webpack_require__("../../packages/kandy/src/config/interface/actionTypes.js");
-
-var actionTypes = _interopRequireWildcard(_actionTypes);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-/**
- * Add or update a specific key within the store.config.
- *
- * @param {Object} values The values that will be placed in the store.
- * @param {string} [pluginName] The plugin name of the config being set.
- * @return {Action} action A redux action.
- */
-function update(values, pluginName = '') {
-  var payload;
-  // Use the plugin name as a substate key, if present.
-  if (pluginName) {
-    payload = {
-      [pluginName]: values
-    };
-  } else {
-    payload = values;
-  }
-
-  return {
-    type: actionTypes.CONFIG_UPDATE,
-    payload: payload
-  };
-}
-
-/***/ }),
-
 /***/ "../../packages/kandy/src/events/eventEmitter.js":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -16096,207 +15592,6 @@ function defaultActionHandler(entry) {
 
 /***/ }),
 
-/***/ "../../packages/kandy/src/logs/actions/index.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _extends2 = __webpack_require__("../../node_modules/babel-runtime/helpers/extends.js");
-
-var _extends3 = _interopRequireDefault(_extends2);
-
-exports.default = createActionLogger;
-
-var _index = __webpack_require__("../../packages/kandy/src/logs/index.js");
-
-var _constants = __webpack_require__("../../packages/logger/src/constants.js");
-
-var _transformers = __webpack_require__("../../packages/kandy/src/logs/actions/transformers.js");
-
-var _transformers2 = _interopRequireDefault(_transformers);
-
-var _utils = __webpack_require__("../../packages/kandy/src/logs/actions/utils.js");
-
-var _reduxLogger = __webpack_require__("../../node_modules/redux-logger/dist/redux-logger.js");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/**
- * Creates a redux middleware for logging actions.
- * @method createActionLogger
- * @param  {Object}     options
- * @return {Middleware}
- */
-function createActionLogger(options) {
-  const logManager = (0, _index.getLogManager)();
-  // Create a Logger for handling the action logs.
-  const logger = logManager.getLogger('ACTION');
-  logger.logHandler = options.logActions.handler;
-  logger.level = options.logActions.level;
-
-  const setLevel = _constants.logLevels[options.logLevel];
-
-  let actionOptions = {};
-  // Use different options for redux-logger depending on log level.
-  if (setLevel === _constants.logLevels.INFO) {
-    // At the INFO level, hide everything except the action name.
-    actionOptions.level = false;
-    actionOptions.diff = false;
-  } else {
-    // At the DEBUG+ levels, use the configs.
-    actionOptions = (0, _extends3.default)({}, options.logActions);
-  }
-
-  if (options.logActions.actionOnly) {
-    // Hide prevState and nextState.
-    // Log action and error at info level, so the browser won't hide it by default.
-    actionOptions.level = {
-      prevState: false,
-      action: 'info',
-      error: 'info',
-      nextState: false
-    };
-  }
-
-  if (options.logActions.excludeActions) {
-    actionOptions.predicate = excludeActions(options.logActions.excludeActions);
-  }
-
-  // ALWAYS use our own logger
-  actionOptions.logger = logger;
-  // ALWAYS remove theming/styling from the action log messages
-  actionOptions.titleFormatter = _utils.titleFormatter;
-  actionOptions.colors = false;
-
-  // Setup the transformers based on the options.
-  let transformers = (0, _transformers2.default)(options.logActions);
-  // Create the logger middleware.
-
-  return (0, _reduxLogger.createLogger)((0, _extends3.default)({}, actionOptions, transformers));
-}
-
-/**
- * Logger predicate function that will take an array of action types
- * and exclude them from logs
- * @param {Array} actions An array of action types to exclude from logs
- * @returns {function} A predicate function
- */
-
-
-// Libraries.
-
-// Action specific.
-// Logs plugin.
-function excludeActions(actions) {
-  return (getState, action) => !actions.includes(action.type);
-}
-
-/***/ }),
-
-/***/ "../../packages/kandy/src/logs/actions/transformers.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = setupTransformers;
-
-var _fp = __webpack_require__("../../node_modules/lodash/fp.js");
-
-/**
- * Determines which redux-logger transformers we need based on options.
- * @method setupTransformers
- * @param  {Object} options
- * @return {Object} An object of transformers to be provided to redux-logger.
- */
-function setupTransformers(options) {
-  // A "pipeline" of all redux-logger action transformers.
-  function actionPipeline(transformers) {
-    return function (action) {
-      transformers.forEach(function (transformer) {
-        action = transformer(action);
-      });
-      return action;
-    };
-  }
-
-  const transformers = {};
-  const actionTransformers = [];
-  if (!options.exposePayloads) {
-    // If exposePayloads is disabled, include the removePayloads transformer
-    actionTransformers.push(removePayloads);
-  } else {
-    // Otherwise, we should still hide passwords
-    actionTransformers.push(passwordHider);
-  }
-  // Create the actionTransformer pipeline with the included transformers.
-  transformers.actionTransformer = actionPipeline(actionTransformers);
-
-  return transformers;
-}
-
-// Redux-logger actionTransformer to prevent passwords from being logged.
-// Libraries
-function passwordHider(action) {
-  if (action.meta && action.meta.isSensitive) {
-    // Only log the action name for actions that have sensitive data in them.
-    return (0, _fp.omit)('payload', action);
-  }
-  return action;
-}
-
-/**
- * Helper function removes secure data if secure mode is enabled
- * @param {Object} action
- */
-function removePayloads(action) {
-  if (!(action.meta && action.meta.isSafe)) {
-    return (0, _fp.omit)('payload', action);
-  }
-  return action;
-}
-
-/***/ }),
-
-/***/ "../../packages/kandy/src/logs/actions/utils.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.titleFormatter = titleFormatter;
-/**
- * Standard title formatter function is almost identical to the defaultTitleFormatter found in redux-logger
- * but removes placeholder characters previously used for styling, which is not being used in the logging
- * configuration
- *
- * @param action
- * @param time
- * @param took
- * @returns {string}
- */
-function titleFormatter(action, time, took) {
-  var parts = ['action'];
-  parts.push(action.type);
-  parts.push('@ ' + time);
-  parts.push('(in ' + took.toFixed(2) + ' ms)');
-
-  return parts.join(' ');
-}
-
-/***/ }),
-
 /***/ "../../packages/kandy/src/logs/config.js":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -16370,92 +15665,6 @@ exports.default = {
 
 /***/ }),
 
-/***/ "../../packages/kandy/src/logs/docs.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/*
- * This file contains SDK documentation for stuff defined by the Logger package.
- * They are here to 1) ensure they are picked up by our documentation tool and
- *    2) ensure they are written from the perspective of the SDK (not the Logger
- *    library).
- */
-
-/**
- * A LogEntry object is the data that the SDK compiles when information is
- *    logged. It contains both the logged information and meta-info about when
- *    and who logged it.
- *
- * A {@link logger.LogHandler LogHandler} provided to the SDK (see
- *    {@link #configconfiglogs config.logs}) will need to handle LogEntry
- *    objects.
- *
- * @public
- * @static
- * @typedef {Object} LogEntry
- * @memberof logger
- * @requires logs
- * @property {number} timestamp When the log was created, based on UNIX epoch.
- * @property {string} method The log function that was used to create the log.
- * @property {string} level The level of severity the log.
- * @property {Object} target The subject that the log is about.
- * @property {string} target.type The type of the target. This is also
- *    used as part of the name of the Logger.
- * @property {string} [target.id] A unique identifer for the target.
- * @property {string} target.name A combination of the target type and ID. If no
- *    id was provided, this will be the same as the type.
- * @property {Array} messages The logged information, given to the Logger
- *    method as parameters.
- * @example
- * function defaultLogHandler (logEntry) {
- *   // Compile the meta info of the log for a prefix.
- *   const { timestamp, level, method, target } = logEntry
- *   const logInfo = `${timestamp} - ${target.type} - ${level}`
- *
- *   // Assume that the first message parameter is a string.
- *   const [log, ...extra] = logEntry.messages
- *
- *   console[method](`${logInfo} - ${log}`, ...extra)
- * }
- */
-
-/**
- * A LogHandler can be used to customize how the SDK should log information. By
- *    default, the SDK will log information to the console, but a LogHandler can
- *    be configured to change this behaviour.
- *
- * A LogHandler can be provided to the SDK as part of its configuration (see
- *    {@link #configconfiglogs config.logs}). The SDK will then provide this
- *    function with the logged information.
- *
- * @public
- * @static
- * @typedef {Function} LogHandler
- * @memberof logger
- * @requires logs
- * @param {Object} LogEntry The LogEntry to be logged.
- * @example
- * // Define a custom function to handle logs.
- * function logHandler (logEntry) {
- *   // Compile the meta info of the log for a prefix.
- *   const { timestamp, level, method, target } = logEntry
- *   const logInfo = `${timestamp} - ${target.type} - ${level}`
- *
- *   // Assume that the first message parameter is a string.
- *   const [log, ...extra] = logEntry.messages
- *
- *   console[method](`${logInfo} - ${log}`, ...extra)
- * }
- *
- * // Provide the LogHandler as part of the SDK configurations.
- * const configs = { ... }
- * configs.logs.handler = logHandler
- * const client = create(configs)
- */
-
-
-/***/ }),
-
 /***/ "../../packages/kandy/src/logs/index.js":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -16465,174 +15674,32 @@ exports.default = {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.API_LOG_TAG = undefined;
-
-var _values = __webpack_require__("../../node_modules/babel-runtime/core-js/object/values.js");
-
-var _values2 = _interopRequireDefault(_values);
-
-var _keys = __webpack_require__("../../node_modules/babel-runtime/core-js/object/keys.js");
-
-var _keys2 = _interopRequireDefault(_keys);
-
-exports.getLogManager = getLogManager;
-exports.default = logPlugin;
-
-var _api = __webpack_require__("../../packages/kandy/src/logs/interface/api.js");
-
-var _api2 = _interopRequireDefault(_api);
-
-var _config = __webpack_require__("../../packages/kandy/src/logs/config.js");
-
-var _config2 = _interopRequireDefault(_config);
-
-var _actions = __webpack_require__("../../packages/kandy/src/logs/actions/index.js");
-
-var _actions2 = _interopRequireDefault(_actions);
-
-var _actions3 = __webpack_require__("../../packages/kandy/src/config/interface/actions.js");
-
-var _utils = __webpack_require__("../../packages/kandy/src/common/utils.js");
-
-var _effects = __webpack_require__("../../node_modules/redux-saga/es/effects.js");
+exports.logManager = exports.API_LOG_TAG = undefined;
 
 var _kandyLogger = __webpack_require__("../../packages/logger/src/index.js");
 
 var _kandyLogger2 = _interopRequireDefault(_kandyLogger);
 
-__webpack_require__("../../packages/kandy/src/logs/docs.js");
+var _config = __webpack_require__("../../packages/kandy/src/logs/config.js");
+
+var _config2 = _interopRequireDefault(_config);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+const API_LOG_TAG = exports.API_LOG_TAG = 'API invoked: ';
 
 /**
  * Create the LogManager right away so that it is available. The SDK has not
  *    been instantiated yet, so we have to use the default options until we get
  *    the application's configs.
  */
-// Logs plugin.
-const logManager = (0, _kandyLogger2.default)(_config2.default);
-
-// Include the extra JSDoc items.
-
-
-// Libraries.
-
-
-// Other plugins.
-function getLogManager() {
-  return logManager;
-}
-
-// Logs generated as a result of invoking the public API will contain this tag
-const API_LOG_TAG = exports.API_LOG_TAG = 'API invoked: ';
-
-function logPlugin(options = {}) {
-  const name = 'logs';
-
-  const logger = logManager.getLogger('LOGS');
-  // Make sure the configured log handler was a function.
-  if (typeof options.handler !== 'function') {
-    delete options.handler;
-    logger.warn('Invalid log handler configuration provided; using default instead.');
-  }
-
-  // Make sure configured log level is supported.
-  if (options.logLevel && !(0, _keys2.default)(_kandyLogger.logLevels).includes(options.logLevel.toUpperCase())) {
-    delete options.logLevel;
-    logger.warn('Invalid log level configuration provided; using default instead.');
-  }
-
-  options = (0, _utils.mergeValues)(_config2.default, options);
-  // Now that we have the application's log configs, update everything to
-  //    use those values instead of default values.
-  logManager.level = options.logLevel;
-  if (options.handler) {
-    logManager.handler = options.handler;
-  }
-
-  (0, _values2.default)(logManager.getLoggers()).forEach(logger => {
-    logger.level = options.logLevel;
-    if (options.handler) {
-      logger.handler = options.handler;
-    }
-  });
-
-  function* init() {
-    // Send the provided options to the store.
-    // This will be `state.config[name]`.
-    yield (0, _effects.put)((0, _actions3.update)(options, name));
-  }
-
-  const components = {
-    name,
-    capabilities: ['logs'],
-    init,
-    api: _api2.default
-  };
-
-  options.logLevel = options.logLevel.toUpperCase();
-  const setLevel = _kandyLogger.logLevels[options.logLevel];
-  // Consider actions to be at the INFO log level.
-  // Only export a middleware (for actions) at the appropriate levels.
-  if (setLevel <= _kandyLogger.logLevels.INFO && options.logActions !== false) {
-    components.middleware = (0, _actions2.default)(options);
-  }
-
-  return components;
-}
-
-/***/ }),
-
-/***/ "../../packages/kandy/src/logs/interface/api.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = api;
 /**
- * The internal logger is used to provide information about the SDK's behaviour.
- * The logger can provide two types of logs: basic logs and action logs. Basic
- * logs are simple lines of information about what the SDK is doing during operations.
- * Action logs are complete information about a specific action that occurred
- * within the SDK, providing debug information describing it.
- * The amount of information logged can be configured as part of the SDK configuration.
- * See {@link #configconfiglogs config.logs} .
- *
- * @public
- * @namespace logger
- * @requires logs
+ * TODO: There is a technical debt associated with having a loggerManager along with it's
+ * loggers created at the global scope. Multiple instances of the SDK would end up sharing
+ * the log manager and therefore loggers.
  */
-
-function api() {
-  let api = {
-    /**
-     * Possible levels for the SDK logger.
-     * @public
-     * @static
-     * @memberof logger
-     * @property {string} SILENT Log nothing.
-     * @property {string} ERROR Log only unhandled errors.
-     * @property {string} WARN Log issues that may cause problems or unexpected behaviour.
-     * @property {string} INFO Log useful information and messages to indicate the SDK's internal operations.
-     * @property {string} DEBUG Log information to help diagnose problematic behaviour.
-     */
-    levels: {
-      SILENT: 'silent',
-      ERROR: 'error',
-      WARN: 'warn',
-      INFO: 'info',
-      DEBUG: 'debug'
-    }
-  };
-
-  return {
-    logger: api
-  };
-}
+const manager = (0, _kandyLogger2.default)(_config2.default);
+const logManager = exports.logManager = manager;
 
 /***/ }),
 
@@ -17977,7 +17044,7 @@ var _logs = __webpack_require__("../../packages/kandy/src/logs/index.js");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Proxy plugin.
-const log = (0, _logs.getLogManager)().getLogger('PROXY');
+const log = _logs.logManager.getLogger('PROXY');
 
 // Converters for the webRTC managers.
 
@@ -18361,9 +17428,7 @@ var _channel2 = _interopRequireDefault(_channel);
 
 var _logs = __webpack_require__("../../packages/kandy/src/logs/index.js");
 
-var _v = __webpack_require__("../../node_modules/uuid/v4.js");
-
-var _v2 = _interopRequireDefault(_v);
+var _uuid = __webpack_require__("../../node_modules/uuid/dist/esm-browser/index.js");
 
 var _kandyWebrtc = __webpack_require__("../../packages/webrtc/src/interface/index.js");
 
@@ -18373,7 +17438,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // Libraries.
 // Proxy Plugin.
-const log = (0, _logs.getLogManager)().getLogger('PROXY');
+const log = _logs.logManager.getLogger('PROXY');
 
 /**
  * The Remote SDK's Proxy module provides the connection point for the remote end of the channel. After being provide with a channel, the Remote SDK will use it to receive and reply to messages from the main SDK on the other end.
@@ -18461,7 +17526,7 @@ function clientProxy() {
           if (typeof action === 'object' && action.type) {
             // Make sure that the action is an actual action, though.
             log.debug(`Sending event over channel: ${action.type}.`);
-            const messageId = (0, _v2.default)();
+            const messageId = (0, _uuid.v4)();
             base.channel.send(messageId, { event: action });
           } else {
             log.debug(`Proxy event listeners received unexpected format; ignoring.`, action);
@@ -18692,7 +17757,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const log = (0, _logs.getLogManager)().getLogger('PROXY');
+const log = _logs.logManager.getLogger('PROXY');
 
 /**
  * The Remote SDK creation factory. Create an instance of the Remote SDK by calling this factory with the desired configurations.
@@ -18802,7 +17867,7 @@ exports.removeTracks = removeTracks;
 
 var _logs = __webpack_require__("../../packages/kandy/src/logs/index.js");
 
-const log = (0, _logs.getLogManager)().getLogger('PROXY');
+const log = _logs.logManager.getLogger('PROXY');
 
 /**
  * Retrieves the available media devices for use.
@@ -19081,7 +18146,30 @@ const logLevels = exports.logLevels = {
   WARN: 3,
   ERROR: 4,
   SILENT: 5
-};
+
+  /**
+   * Supported Log methods and their set log level; `<logMethod>: <logLevel>`
+   * Used to construct the logging methods on a Logger.
+   * @type {Object}
+   */
+};const logMethods = exports.logMethods = {
+  // Standard methods.
+  trace: logLevels.TRACE,
+  debug: logLevels.DEBUG,
+  info: logLevels.INFO,
+  warn: logLevels.WARN,
+  error: logLevels.ERROR,
+  // Extra console methods.
+  log: logLevels.DEBUG,
+  group: logLevels.DEBUG,
+  groupEnd: logLevels.DEBUG,
+  groupCollapsed: logLevels.DEBUG
+
+  /**
+   * The log level for all timer methods.
+   * @type {string}
+   */
+};const timeLevel = exports.timeLevel = logLevels.DEBUG;
 
 /***/ }),
 
@@ -19135,11 +18223,18 @@ exports.default = defaultLogHandler;
  */
 function defaultLogHandler(entry) {
   // Compile the meta info of the log for a prefix.
-  const { timestamp, level, method, target } = entry;
+  const { timestamp, level, target } = entry;
+  let { method } = entry;
   const logInfo = `${timestamp} - ${target.type} - ${level}`;
 
   // Assume that the first message parameter is a string.
   const [log, ...extra] = entry.messages;
+
+  // For the time-related methods, don't actually use the console methods.
+  //    The Logger already did the timing, so simply log out the info.
+  if (method.includes('time')) {
+    method = 'debug';
+  }
 
   console[method](`${logInfo} - ${log}`, ...extra);
 }
@@ -19160,6 +18255,10 @@ var _values = __webpack_require__("../../node_modules/babel-runtime/core-js/obje
 
 var _values2 = _interopRequireDefault(_values);
 
+var _symbol = __webpack_require__("../../node_modules/babel-runtime/core-js/symbol.js");
+
+var _symbol2 = _interopRequireDefault(_symbol);
+
 exports.default = createManager;
 
 var _logger = __webpack_require__("../../packages/logger/src/logger.js");
@@ -19176,12 +18275,16 @@ var _validation = __webpack_require__("../../packages/logger/src/validation.js")
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+const defaultType = (0, _symbol2.default)('Default');
+
 /**
  * Creates a Log Manager.
  * @method createManager
  * @param  {Object}     [options={}]
- * @param  {Function}   [options.handler] The function to receive/handle log entries.
- * @param  {string}     [options.level='INFO'] The log level to be set.
+ * @param  {Function}   [options.handler]      The default log handler used for
+ *    Loggers that don't have a handler set.
+ * @param  {string}     [options.level='INFO'] The default log level used for
+ *    Loggers that don't have a level set.
  * @return {LogManager}
  */
 function createManager(options = {}) {
@@ -19194,20 +18297,29 @@ function createManager(options = {}) {
    *    a developer.
    */
   console.debug(`Creating LogManager.`);
-
-  let handler = options.handler ? (0, _validation.checkHandler)(options.handler) : _logHandler2.default;
-  let level = options.level ? (0, _validation.checkLevel)(options.level) : _constants.logLevels.INFO;
   const loggers = {};
 
   /**
-   * Gets a specific logger. If the logger doesn't exist, a new one will be
-   *    created.
-   * @method getLogger
-   * @param  {string} type Human-readable type/name for the logger.
-   * @param  {string} [id] A unique identifier for the logger.
-   * @return {Logger}
+   * Mapping between a Logger `type` and their default settings. Created Loggers
+   *    will use their `type` settings if they exist. Otherwise the "global"
+   *    options provided during Manager creation.
+   * @type {Object}
    */
-  function getLogger(type, id) {
+  const settings = {
+    [defaultType]: {
+      handler: options.handler ? (0, _validation.checkHandler)(options.handler) : _logHandler2.default,
+      level: options.level ? (0, _validation.checkLevel)(options.level) : _constants.logLevels.INFO
+    }
+
+    /**
+     * Gets a specific logger. If the logger doesn't exist, a new one will be
+     *    created.
+     * @method getLogger
+     * @param  {string} type Human-readable type/name for the logger.
+     * @param  {string} [id] A unique identifier for the logger.
+     * @return {Logger}
+     */
+  };function getLogger(type, id) {
     // Combine the name and ID to create the "full" logger name.
     const loggerName = id ? `${type}-${id}` : type;
 
@@ -19216,7 +18328,12 @@ function createManager(options = {}) {
     if (!logger) {
       // This logger logs items from a specific "target".
       const target = { type, id, name: loggerName };
-      logger = (0, _logger2.default)(target, { level, handler });
+      let options = {
+        level: getLevel(type),
+        handler: getHandler(type)
+      };
+
+      logger = (0, _logger2.default)(target, options);
 
       // Save the new logger to be returned by future getter cals.
       loggers[loggerName] = logger;
@@ -19239,21 +18356,183 @@ function createManager(options = {}) {
     }
   }
 
+  /**
+   * Sets the default `level` to be used when creating Loggers.
+   *
+   * Can set the level "globally" or per `type`, depending if `type` is provided
+   *    or not. When set for a specific type, only Loggers of that type will use
+   *    the set level. When set "globally", all Loggers without a set type will
+   *    use the level as a default.
+   *
+   * Setting the level only affects Loggers created after that point.
+   * @method setLevel
+   * @param  {string} type  The type of Logger to set the option for.
+   * @param  {string} level The logLevel to be set.
+   * @throws Throws an error if level is not a valid log level.
+   * @example
+   * const manager = createManager({ level: logLevels.WARN })
+   *
+   * // Setting the level for a type sets it for created Loggers of that type.
+   * manager.setLevel('Call', logLevels.DEBUG)
+   * const logger1 = manager.getLogger('Call')
+   * // logger1.getLevel() === logLevels.DEBUG
+   *
+   * // Loggers created of types without a set level uses the Manager's level.
+   * const logger2 = manager.getLogger('Auth')
+   * // logger2.getLevel() === logLevels.WARN
+   *
+   * // Setting the level without a type changes the Manager's level.
+   * manager.setLevel(logLevels.INFO)
+   * const logger3 = manager.getLogger('Messaging')
+   * // logger3.getLevel() === logLevels.INFO
+   *
+   * // Setting the level for a type does not affect previously created Loggers.
+   * manager.setLevel('Auth', logLevels.INFO)
+   * // logger2.getLevel() !== logLevels.INFO
+   * // logger2.getLevel() === logLevels.WARN
+   */
+  function setLevel(type, level) {
+    // Signature can be: `setLevel(type, level)` or `setLevel(level)`.
+    // Normalize the parameters to always be consistent.
+    if (level === undefined) {
+      level = type;
+      type = defaultType;
+    }
+
+    // Ensure `settings[type]` is an object.
+    if (!settings[type]) {
+      settings[type] = {};
+    }
+
+    // Set the level.
+    settings[type].level = (0, _validation.checkLevel)(level);
+  }
+
+  /**
+   * Gets the default `level` that is used when creating Loggers.
+   *
+   * Can get the level used "globally" or per `type`, depending if `type` is
+   *    provided or not.
+   *
+   * See the `setLevel` API for setting these values.
+   * See the Logger APIs for getting this value for an already created Logger.
+   * @method getLevel
+   * @param  {string} [type] A type of Logger.
+   * @return {LogLevel}
+   * @example
+   * const manager = createManager({ level: logLevels.WARN })
+   *
+   * // If a type's level has not been set, gets the "global" level.
+   * // manager.getLevel('Call') === logLevels.WARN
+   *
+   * // If a type's level has been set, gets its level.
+   * manager.setLevel('Auth', logLevels.DEBUG)
+   * // manager.getLevel('Auth') === logLevels.DEBUG
+   *
+   * // Can get the "global" level.
+   * manager.setLevel(logLevels.INFO)
+   * // manager.getLevel() === logLevels.INFO
+   */
+  function getLevel(type) {
+    // Signature can be: `getLevel(type)` or `getLevel()`.
+    // Normalize the parameters to always be consistent.
+    type = type || defaultType;
+
+    return settings[type] && settings[type].level || settings[defaultType].level;
+  }
+
+  /**
+   * Sets the default `handler` to be used when creating Loggers.
+   *
+   * Can set the handler "globally" or per `type`, depending if `type` is
+   *    provided or not. When set for a specific type, only Loggers of that type
+   *    will use the set handler. When set "globally", all Loggers without a set
+   *    type will use the handler as a default.
+   *
+   * Setting the handler only affects Loggers created after that point.
+   * @method setHandler
+   * @param  {string}     type    The type of Logger to set the option for.
+   * @param  {LogHandler} handler The log handler to be set.
+   * @throws Throws an error if handler is not a function.
+   * @example
+   * const manager = createManager({ handler: managerHandler })
+   *
+   * // Setting the handler for a type sets it for created Loggers of that type.
+   * manager.setHandler('Call', callHandler)
+   * const logger1 = manager.getLogger('Call')
+   * // logger1.getHandler() === callHandler
+   *
+   * // Loggers created of types without a set handler uses the Manager's handler.
+   * const logger2 = manager.getLogger('Auth')
+   * // logger2.getHandler() === managerHandler
+   *
+   * // Setting the handler without a type changes the Manager's handler.
+   * manager.setHandler(newHandler)
+   * const logger3 = manager.getLogger('Messaging')
+   * // logger3.getHandler() === newHandler
+   *
+   * // Setting the handler for a type does not affect previously created Loggers.
+   * manager.setHandler('Auth', authHandler)
+   * // logger2.getHandler() !== authHandler
+   * // logger2.getHandler() === managerHandler
+   */
+  function setHandler(type, handler) {
+    // Signature can be: `setHandler(type, handler)` or `setHandler(handler)`.
+    // Normalize the parameters to always be consistent.
+    if (typeof type === 'function' && handler === undefined) {
+      handler = type;
+      type = defaultType;
+    }
+
+    // Ensure `settings[type]` is an object.
+    if (!settings[type]) {
+      settings[type] = {};
+    }
+
+    // Set the handler.
+    settings[type].handler = (0, _validation.checkHandler)(handler);
+  }
+
+  /**
+   * Gets the default `handler` that is used when creating Loggers.
+   *
+   * Can get the handler used "globally" or per `type`, depending if `type` is
+   *    provided or not.
+   *
+   * See the `setHandler` API for setting these values.
+   * See the Logger APIs for getting this value for an already created Logger.
+   * @method getHandler
+   * @param  {string} [type] A type of Logger.
+   * @return {LogHandler}
+   * @example
+   * const manager = createManager({ handler: managerHandler })
+   *
+   * // If a type's handler has not been set, gets the "global" handler.
+   * // manager.getHandler('Call') === managerHandler
+   *
+   * // If a type's handler has been set, gets its handler.
+   * manager.setHandler('Auth', authHandler)
+   * // manager.getHandler('Auth') === authHandler
+   *
+   * // Can get the "global" handler.
+   * manager.setHandler(newHandler)
+   * // manager.getHandler() === newHandler
+   */
+  function getHandler(type) {
+    // Signature can be: `getHandler(type)` or `getHandler()`.
+    // Normalize the parameters to always be consistent.
+    type = type || defaultType;
+
+    return settings[type] && settings[type].handler || settings[defaultType].handler;
+  }
+
   return {
     getLogger,
     getLoggers,
-    get handler() {
-      return handler;
-    },
-    set handler(newHandler) {
-      handler = (0, _validation.checkHandler)(newHandler);
-    },
-    set level(newLevel) {
-      level = (0, _validation.checkLevel)(newLevel);
-    },
-    get level() {
-      return level;
-    }
+    setLevel,
+    getLevel,
+    setHandler,
+    getHandler
   };
 }
 
@@ -19268,11 +18547,22 @@ function createManager(options = {}) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _extends2 = __webpack_require__("../../node_modules/babel-runtime/helpers/extends.js");
+
+var _extends3 = _interopRequireDefault(_extends2);
+
 exports.default = createLogger;
 
 var _constants = __webpack_require__("../../packages/logger/src/constants.js");
 
 var _validation = __webpack_require__("../../packages/logger/src/validation.js");
+
+var _timer = __webpack_require__("../../packages/logger/src/timer.js");
+
+var _timer2 = _interopRequireDefault(_timer);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * Creates a Logger.
@@ -19289,36 +18579,39 @@ function createLogger(target, options = {}) {
   const handler = (0, _validation.checkHandler)(options.handler);
 
   /**
-   * Currying function to dynamically create the Logger's logging methods.
-   * @method logFunc
-   * @param  {string} method Name of the logger method to create.
-   * @return {Function} A log method.
+   * Logger data.
+   * @type {Object}
+   * @property {Object}   target  Metadata about the "target" of the Logger.
+   * @property {LogLevel} level   The currently set log level.
+   * @property {Function} handler The currently set Log Handler.
    */
-  function logFunc(method) {
-    // The level that this function logs at.
-    let logLevel;
-    // Consider non-standard log levels to be debug.
-    if (['group', 'groupEnd', 'groupCollapsed', 'log'].includes(method)) {
-      logLevel = _constants.logLevels.DEBUG;
-    } else {
-      // Otherwise, the method and log level match directly.
-      logLevel = _constants.logLevels[method.toUpperCase()];
-    }
+  const logger = {
+    target,
+    level,
+    handler
 
+    /**
+     * Currying function to dynamically create the Logger's logging methods.
+     * @method logFunc
+     * @param  {string} method   Name of the logger method to create.
+     * @param  {string} logLevel The log level for the method.
+     * @param  {Object} [injectables] Other values to include in the LogEntry.
+     * @return {Function} A log method.
+     */
+  };function logFunc(method, logLevel, injectables) {
     /*
      * Return the function that will be used as `log.<method>`.
      */
     return function (...args) {
       // Compare the logged level and the configured level.
-      const setLevel = _constants.levelValues[logger.level];
-      const shouldLog = _constants.levelValues[logLevel] >= setLevel;
+      const shouldLog = _constants.levelValues[logLevel] >= _constants.levelValues[logger.level];
       // If this entry shouldn't be logged, don't do anything.
       if (!shouldLog) {
         return;
       }
 
       // Create the Log Entry to be handed off to the handler.
-      const entry = {
+      const entry = (0, _extends3.default)({}, injectables, {
         // Meta-info about the log.
         method,
         timestamp: Date.now(),
@@ -19326,33 +18619,74 @@ function createLogger(target, options = {}) {
         target: logger.target,
         // The actual arguments logged.
         messages: [...args]
-      };
+      });
 
       logger.handler(entry);
     };
   }
 
-  const logger = {
-    target,
-    level,
-    handler
+  /**
+   * Sets the Logger's current log level.
+   * @method setLevel
+   * @param  {string} level The logLevel to be set.
+   * @throws Throws an error if level is not a valid log level.
+   * @example
+   * logger.setLevel(logLevels.INFO)
+   * logger.info('This will be logged.')
+   * logger.debug('This will not be logged.')
+   */
+  function setLevel(level) {
+    logger.level = (0, _validation.checkLevel)(level);
+  }
 
-    // Supported console methods.
-  };const consoleMethods = ['trace', 'debug', 'warn', 'info', 'error', 'log', 'group', 'groupEnd', 'groupCollapsed'];
+  /**
+   * Gets the Logger's current log level.
+   * @method getLevel
+   * @return {string} The log level.
+   * @example
+   * logger.setLevel(logLevels.DEBUG)
+   * const level = logger.getLevel()
+   * // level === logLevels.DEBUG
+   */
+  function getLevel() {
+    return logger.level;
+  }
+
+  /**
+   * Sets the Logger's current log handler.
+   * @method setHandler
+   * @param  {Function} handler The log handler to be set.
+   * @throws Throws an error if handler is not a function.
+   * @example
+   * const logger = manager.getLogger('Test', '123')
+   * logger.setHandler((logEntry) => {
+   *    console.log(logEntry.target.name, ...logEntry.messages)
+   * })
+   * logger.info('I am a logged message.')
+   * // logs: "Test-123 I am a logged message."
+   */
+  function setHandler(handler) {
+    logger.handler = (0, _validation.checkHandler)(handler);
+  }
+
+  /**
+   * Gets the Logger's current log handler.
+   * @method getHandler
+   * @return {Function} The log handler.
+   * @example
+   * logger.setHandler(customHandler)
+   * const handler = logger.getHandler()
+   * // handler === customHandler.DEBUG
+   */
+  function getHandler() {
+    return logger.handler;
+  }
 
   const api = {
-    get handler() {
-      return logger.handler;
-    },
-    set handler(handler) {
-      logger.handler = (0, _validation.checkHandler)(handler);
-    },
-    get level() {
-      return logger.level;
-    },
-    set level(newLevel) {
-      logger.level = (0, _validation.checkLevel)(newLevel);
-    },
+    getHandler,
+    setHandler,
+    getLevel,
+    setLevel,
     get type() {
       return logger.target.type;
     },
@@ -19365,11 +18699,142 @@ function createLogger(target, options = {}) {
   };
 
   // For all supported log methods, create a function on the Logger for it.
-  consoleMethods.forEach(method => {
-    api[method] = logFunc(method);
-  });
+  for (let method in _constants.logMethods) {
+    api[method] = logFunc(method, _constants.logMethods[method]);
+  }
 
-  return api;
+  // Create log functions for the Timer to use.
+  // Follows the same style as above logMethods, but curries it once more
+  //    to align the timer parameters as needed.
+  const timeLog = (message, data) => logFunc(data.event, _constants.timeLevel, { timer: data })(message);
+  const timeWarn = (message, data) => logFunc('warn', _constants.logLevels.WARN, { timer: data })(message);
+  const timer = (0, _timer2.default)(timeLog, timeWarn);
+
+  return (0, _extends3.default)({}, api, timer);
+}
+
+/***/ }),
+
+/***/ "../../packages/logger/src/timer.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = createTimer;
+
+var _validation = __webpack_require__("../../packages/logger/src/validation.js");
+
+/**
+ * Timer factory function.
+ * The Timer imitates the Console's Time APIs.
+ * Ref: https://developer.mozilla.org/en-US/docs/Web/API/console#Timers
+ * @method createTimer
+ * @param  {Function} log  Function for logging timer information.
+ * @param  {Function} warn Function for warning about timer misuse.
+ * @return {Timer}
+ */
+function createTimer(log, warn) {
+  // Validate that params are a function.
+  //    Uses funtions as `log(message, data)`.
+  (0, _validation.checkHandler)(log);
+  (0, _validation.checkHandler)(warn);
+
+  /**
+   * Mapping of on-going timers; <name>: <start>.
+   * @type {Object}
+   */
+  const timers = {};
+
+  /**
+   * Starts a timer. Logs a message to indicate it was started.
+   * Logs a warning if the timer has already been started.
+   * @method timeStart
+   * @param  {string} name Name to identify the timer.
+   */
+  function time(name) {
+    const now = Date.now();
+    // Base info about this timer call.
+    const data = {
+      event: 'time',
+      name
+    };
+
+    if (timers.hasOwnProperty(name)) {
+      data.start = timers[name];
+      warn(`Timer ${name} already started.`, data);
+    } else {
+      // Set the new timer.
+      timers[name] = now;
+
+      data.start = now;
+      log(`Timer ${name} started.`, data);
+    }
+  }
+
+  /**
+   * Ends a timer. Logs a message with the elapsed time.
+   * @method timeEnd
+   * @param  {string} name Name to identify the timer.
+   */
+  function timeEnd(name) {
+    const now = Date.now();
+    // Base info about this timer call.
+    const data = {
+      event: 'timeEnd',
+      name,
+      start: timers[name]
+    };
+
+    if (timers.hasOwnProperty(name)) {
+      const start = timers[name];
+      // End the timer.
+      delete timers[name];
+
+      const elapsed = now - start;
+      data.end = now;
+      data.elapsed = elapsed;
+
+      log(`Timer ${name} ended, taking ${elapsed}ms.`, data);
+    } else {
+      warn(`Timer ${name} has not been started.`, data);
+    }
+  }
+
+  /**
+   * Adds a split to the timer. Logs a message with the elapsed time so far.
+   * Logs a warning if the timer has not been started.
+   * @method timeSplit
+   * @param  {string} name Name to identify the timer.
+   */
+  function timeLog(name) {
+    const now = Date.now();
+    // Base info about this timer call.
+    const data = {
+      event: 'timeLog',
+      name,
+      start: timers[name]
+    };
+
+    if (timers.hasOwnProperty(name)) {
+      const elapsed = now - timers[name];
+      data.split = now;
+      data.elapsed = elapsed;
+
+      log(`Timer ${name} split, at ${elapsed}ms so far.`, data);
+    } else {
+      warn(`Timer ${name} has not been started.`, data);
+    }
+  }
+
+  return {
+    time,
+    timeEnd,
+    timeLog
+  };
 }
 
 /***/ }),
@@ -19435,13 +18900,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _loglevel = __webpack_require__("../../node_modules/loglevel/lib/loglevel.js");
-
-var _loglevel2 = _interopRequireDefault(_loglevel);
-
 var _constants = __webpack_require__("../../packages/webrtc/src/constants.js");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * Configuration object for a Peer.
@@ -19478,7 +18937,6 @@ exports.default = {
 };
 function isPassedHalfTrickleThreshold({ sdp, iceCandidate, time }) {
   const passedHalf = iceCandidate.candidate.indexOf('relay') !== -1;
-  _loglevel2.default.debug(`Peer's half trickle threshold ${!passedHalf ? 'not ' : ''}reached.`);
   return passedHalf;
 }
 
@@ -19506,13 +18964,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = onicecandidate;
 
-var _loglevel = __webpack_require__("../../node_modules/loglevel/lib/loglevel.js");
-
-var _loglevel2 = _interopRequireDefault(_loglevel);
-
 var _constants = __webpack_require__("../../packages/webrtc/src/constants.js");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * Event wrapper for `icecandidate` event.
@@ -19522,7 +18974,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @return {Boolean}  Whether the assignment succeeded or not.
  */
 function onicecandidate(listener) {
-  const { nativePeer, proxyPeer, config, iceTimer, emitter, iceCandidates } = this;
+  const { nativePeer, proxyPeer, config, iceTimer, emitter, iceCandidates, log } = this;
 
   /**
    * Intercept the PeerConnection onicecandidate event.
@@ -19534,7 +18986,7 @@ function onicecandidate(listener) {
    *   - NONE: Wait for null candidate.
    */
   nativePeer.onicecandidate = event => {
-    _loglevel2.default.debug(`ICE candidate received (trickling?: ${config.trickleIceMode === _constants.PEER.TRICKLE_ICE.FULL}): `, event.candidate);
+    log.debug(`ICE candidate received (trickling?: ${config.trickleIceMode === _constants.PEER.TRICKLE_ICE.FULL}): `, event.candidate);
 
     // Keep track of all candidates gathered by this collection process.
     if (event.candidate !== null) {
@@ -19551,7 +19003,7 @@ function onicecandidate(listener) {
     } else if (event.candidate === null) {
       // If we received the last candidate (null), then gathering is done and
       //    Peer is ready for negotiation (no matter the scenario).
-      _loglevel2.default.debug('ICE collection process complete; ready for negotiation.');
+      log.debug('ICE collection process complete; ready for negotiation.');
 
       // Clear the candidate array without redefining it (it's a const).
       iceCandidates.length = 0;
@@ -19567,9 +19019,11 @@ function onicecandidate(listener) {
       });
 
       if (haveHalf) {
-        _loglevel2.default.debug('Half ICE collection process complete; ready for negotiation.');
+        log.debug('Half ICE collection process complete; ready for negotiation.');
         config.trickleIceMode = _constants.PEER.TRICKLE_ICE.FULL;
         emitter.emit('onnegotiationready');
+      } else {
+        log.debug("Peer's half trickle threshold not reached.");
       }
     }
   };
@@ -19589,13 +19043,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = oniceconnectionstatechange;
-
-var _loglevel = __webpack_require__("../../node_modules/loglevel/lib/loglevel.js");
-
-var _loglevel2 = _interopRequireDefault(_loglevel);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 /**
  * Event wrapper for `iceconnectionstatechange` event.
  * Reference: developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/oniceconnectionstatechange
@@ -19604,10 +19051,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @return {Boolean}  Whether the assignment succeeded or not.
  */
 function oniceconnectionstatechange(listener) {
-  const { nativePeer, id } = this;
+  const { nativePeer, id, log } = this;
 
   nativePeer.oniceconnectionstatechange = function (event) {
-    _loglevel2.default.debug(`Peer ${id} received iceconnectionstatechange event: ${nativePeer.iceConnectionState}`);
+    log.debug(`Peer ${id} received iceconnectionstatechange event: ${nativePeer.iceConnectionState}`);
     listener(event);
   };
 
@@ -19627,13 +19074,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = onicegatheringstatechange;
 
-var _loglevel = __webpack_require__("../../node_modules/loglevel/lib/loglevel.js");
-
-var _loglevel2 = _interopRequireDefault(_loglevel);
-
 var _constants = __webpack_require__("../../packages/webrtc/src/constants.js");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * Event wrapper for `icegatheringstatechange` event.
@@ -19643,7 +19084,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @return {Boolean}  Whether the assignment succeeded or not.
  */
 function onicegatheringstatechange(listener) {
-  const { nativePeer, id, iceTimer } = this;
+  const { nativePeer, id, iceTimer, log } = this;
 
   /**
    * Intercept the PeerConnection onicegatheringstatechange event.
@@ -19652,13 +19093,13 @@ function onicegatheringstatechange(listener) {
    */
   nativePeer.onicegatheringstatechange = event => {
     const gatheringState = event.target.iceGatheringState;
-    _loglevel2.default.debug(`Peer ${id} iceGatheringState changed to ${gatheringState}.`);
+    log.debug(`Peer ${id} iceGatheringState changed to ${gatheringState}.`);
 
     if (gatheringState === _constants.PEER.ICE_GATHERING_STATE.GATHERING) {
       iceTimer.start();
       // TODO: Handle "ICE collection taking too long" scenario.
     } else if (gatheringState === _constants.PEER.ICE_GATHERING_STATE.COMPLETE) {
-      _loglevel2.default.debug(`Peer took ${iceTimer.timeFromStart()}ms to collect ICE candidates.`);
+      log.debug(`Peer took ${iceTimer.timeFromStart()}ms to collect ICE candidates.`);
       iceTimer.stop();
     }
     // Bubble the event up.
@@ -19727,13 +19168,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = onnegotiationneeded;
-
-var _loglevel = __webpack_require__("../../node_modules/loglevel/lib/loglevel.js");
-
-var _loglevel2 = _interopRequireDefault(_loglevel);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 /**
  * Event wrapper for `negotiationneeded` event.
  * Reference: developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/onnegotiationneeded
@@ -19742,10 +19176,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @return {Boolean}  Whether the assignment succeeded or not.
  */
 function onnegotiationneeded(listener) {
-  const { nativePeer, id } = this;
+  const { nativePeer, id, log } = this;
 
   nativePeer.onnegotiationneeded = function (event) {
-    _loglevel2.default.debug(`Peer ${id} received negotiationneeded event.`);
+    log.debug(`Peer ${id} received negotiationneeded event.`);
     listener(event);
   };
 
@@ -19764,13 +19198,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = onsignalingstatechange;
-
-var _loglevel = __webpack_require__("../../node_modules/loglevel/lib/loglevel.js");
-
-var _loglevel2 = _interopRequireDefault(_loglevel);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 /**
  * Event wrapper for `signalingstatechange` event.
  * Reference: developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/onsignalingstatechange
@@ -19779,10 +19206,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @return {Boolean}  Whether the assignment succeeded or not.
  */
 function onsignalingstatechange(listener) {
-  const { nativePeer, id } = this;
+  const { nativePeer, id, log } = this;
 
   nativePeer.onsignalingstatechange = function (event) {
-    _loglevel2.default.debug(`Peer ${id} received signalingstatechange event: ${nativePeer.signalingState}`);
+    log.debug(`Peer ${id} received signalingstatechange event: ${nativePeer.signalingState}`);
     listener(event);
   };
 
@@ -19801,13 +19228,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = ontrack;
-
-var _loglevel = __webpack_require__("../../node_modules/loglevel/lib/loglevel.js");
-
-var _loglevel2 = _interopRequireDefault(_loglevel);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 /**
  * Event wrapper for `track` event.
  * Reference: developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/ontrack
@@ -19816,7 +19236,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @return {Boolean}  Whether the assignment succeeded or not.
  */
 function ontrack(listener) {
-  const { nativePeer, id, trackManager } = this;
+  const { nativePeer, id, trackManager, log } = this;
 
   nativePeer.ontrack = event => {
     /**
@@ -19843,7 +19263,7 @@ function ontrack(listener) {
     // Convert the native MediaStreamTrack into a Track object.
     const track = trackManager.add(nativeTrack, targetStream);
 
-    _loglevel2.default.debug(`Peer ${id} received ${nativeTrack.kind} Track ${track.id}.`);
+    log.debug(`Peer ${id} received ${nativeTrack.kind} Track ${track.id}.`);
     listener(track);
   };
 
@@ -19894,9 +19314,7 @@ var _config = __webpack_require__("../../packages/webrtc/src/Peer/config.js");
 
 var _config2 = _interopRequireDefault(_config);
 
-var _loglevel = __webpack_require__("../../node_modules/loglevel/lib/loglevel.js");
-
-var _loglevel2 = _interopRequireDefault(_loglevel);
+var _logs = __webpack_require__("../../packages/webrtc/src/logs.js");
 
 var _eventemitter = __webpack_require__("../../node_modules/eventemitter3/index.js");
 
@@ -19917,18 +19335,22 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @method peer
  * @return {Peer}
  */
+
+
+// Libraries.
 /*
  * Wrapper imports.
  * Events, methods, and properties that we want to wrap/add to the native Peer.
  */
 function peer(id, config = {}, trackManager) {
+  const log = _logs.logManager.getLogger('Peer', id);
   config = (0, _utils.mergeValues)(_config2.default, config);
 
   const iceTimer = _timerMachine2.default.get(`ice-${id}`);
   const emitter = new _eventemitter2.default();
 
   // Create the native Peer.
-  _loglevel2.default.info(`Creating peer connection with ID: ${id}.`, config);
+  log.info(`Creating peer connection with ID: ${id}.`, config);
   const nativePeer = new RTCPeerConnection(config.rtcConfig);
 
   // Add the event emitter methods to the wrapped methods as well.
@@ -19944,6 +19366,7 @@ function peer(id, config = {}, trackManager) {
      * @property {string}            id       The unique identifier for the Peer.
      * @property {boolean}           dtlsRole The DTLS role selected for this PeerConnection. Set after the initial negotiation is completed.
      * @property {Object}            trackManager Manager that tracks all MediaStreamTracks.
+     * @property {Object}            log      Logger specific to this Peer.
      * @property {Object}            iceTimer Timer tool (specifically for ICE collection).
      * @property {EventEmitter}      emitter
      * @property {Array<RTCIceCandidate>} iceCandidates Gathered candidates.
@@ -19955,6 +19378,7 @@ function peer(id, config = {}, trackManager) {
     dtlsRole: null,
     config,
     trackManager,
+    log,
     iceTimer,
     emitter,
     iceCandidates: []
@@ -20070,8 +19494,6 @@ function peer(id, config = {}, trackManager) {
   return base.proxyPeer;
 }
 
-// Libraries.
-
 /***/ }),
 
 /***/ "../../packages/webrtc/src/Peer/methods/addIceCandidate.js":
@@ -20090,10 +19512,6 @@ var _promise2 = _interopRequireDefault(_promise);
 
 exports.default = addIceCandidate;
 
-var _loglevel = __webpack_require__("../../node_modules/loglevel/lib/loglevel.js");
-
-var _loglevel2 = _interopRequireDefault(_loglevel);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
@@ -20103,14 +19521,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @return {Promise} Resolves when the candidate is successfully added.
  */
 function addIceCandidate(candidate) {
-  const { nativePeer, proxyPeer, id } = this;
-  _loglevel2.default.info(`Peer ${id} adding ICE candidate.`);
+  const { nativePeer, proxyPeer, id, log } = this;
+  log.info(`Peer ${id} adding ICE candidate.`);
 
   return new _promise2.default((resolve, reject) => {
     if (proxyPeer.remoteDescription.type && proxyPeer.remoteDescription.sdp) {
       nativePeer.addIceCandidate(candidate).then(resolve).catch(reject);
     } else {
-      _loglevel2.default.debug(`Peer ${id} cannot set remote ICE candidate without a remote description.`);
+      log.debug(`Peer ${id} cannot set remote ICE candidate without a remote description.`);
       // TODO: Better error.
       reject(new Error(`Peer ${id} cannot set remote ICE candidate without a remote description.`));
     }
@@ -20129,13 +19547,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = addTrack;
-
-var _loglevel = __webpack_require__("../../node_modules/loglevel/lib/loglevel.js");
-
-var _loglevel2 = _interopRequireDefault(_loglevel);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 /**
  * Add a Track to the connection.
  * @method addTrack
@@ -20143,16 +19554,16 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @return {RTCRtpSender}
  */
 function addTrack(track) {
-  const { nativePeer, id } = this;
+  const { nativePeer, id, log } = this;
 
-  _loglevel2.default.info(`Peer ${id} adding new track.`);
+  log.info(`Peer ${id} adding new track.`);
 
   let sender;
   try {
     sender = nativePeer.addTrack(track.track, track.getStream());
   } catch (err) {
     // TODO: Better error handling.
-    _loglevel2.default.debug(err.message);
+    log.debug(err.message);
   }
   // TODO: What to return here? Probably shouldn't expose the rtpSender itself.
   return sender;
@@ -20170,20 +19581,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = close;
-
-var _loglevel = __webpack_require__("../../node_modules/loglevel/lib/loglevel.js");
-
-var _loglevel2 = _interopRequireDefault(_loglevel);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 /**
  * Clean the Peer by closing the RTCPeerConnection.
  * @method close
  */
 function close() {
-  const { nativePeer, id, emitter } = this;
-  _loglevel2.default.debug(`Peer ${id} closing.`);
+  const { nativePeer, id, emitter, log } = this;
+  log.debug(`Peer ${id} closing.`);
 
   nativePeer.close();
   emitter.emit('peer:closed', id);
@@ -20207,10 +19611,6 @@ var _promise2 = _interopRequireDefault(_promise);
 
 exports.default = createAnswer;
 
-var _loglevel = __webpack_require__("../../node_modules/loglevel/lib/loglevel.js");
-
-var _loglevel2 = _interopRequireDefault(_loglevel);
-
 var _constants = __webpack_require__("../../packages/webrtc/src/constants.js");
 
 var _sdpSemantics = __webpack_require__("../../packages/webrtc/src/sdpUtils/sdpSemantics.js");
@@ -20231,9 +19631,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @return {Promise} Resolves with the answer.
  */
 function createAnswer(options = {}) {
-  const { nativePeer, id, config, dtlsRole } = this;
+  const { nativePeer, id, config, dtlsRole, log } = this;
 
-  _loglevel2.default.info(`Peer ${id} creating local answer.`);
+  log.info(`Peer ${id} creating local answer.`);
 
   // If using unified-plan, remove options.mediaDirections.
   // This is because directions are now set in transceivers.
@@ -20294,10 +19694,6 @@ var _promise2 = _interopRequireDefault(_promise);
 
 exports.default = createOffer;
 
-var _loglevel = __webpack_require__("../../node_modules/loglevel/lib/loglevel.js");
-
-var _loglevel2 = _interopRequireDefault(_loglevel);
-
 var _constants = __webpack_require__("../../packages/webrtc/src/constants.js");
 
 var _sdpSemantics = __webpack_require__("../../packages/webrtc/src/sdpUtils/sdpSemantics.js");
@@ -20318,9 +19714,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @return {Promise} Resolves with the offer.
  */
 function createOffer(options = {}) {
-  const { nativePeer, id, config } = this;
+  const { nativePeer, id, config, log } = this;
 
-  _loglevel2.default.info(`Peer ${id} creating local offer.`);
+  log.info(`Peer ${id} creating local offer.`);
 
   // If using unified-plan, remove options.mediaDirections.
   // This is because directions are now set in transceivers.
@@ -20368,13 +19764,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = findReusableTransceiver;
 
-var _loglevel = __webpack_require__("../../node_modules/loglevel/lib/loglevel.js");
-
-var _loglevel2 = _interopRequireDefault(_loglevel);
-
 var _sdpSemantics = __webpack_require__("../../packages/webrtc/src/sdpUtils/sdpSemantics.js");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * Finds a transceiver that can be reused.
@@ -20387,15 +19777,15 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @returns {Object} Transceiver object that matches kind, has no sender track, and has currentDirection. Otherwise undefined.
  */
 function findReusableTransceiver(kind) {
-  const { proxyPeer, config, id } = this;
-  _loglevel2.default.info(`Peer ${id} finding reusable transceiver.`);
+  const { proxyPeer, config, id, log } = this;
+  log.info(`Peer ${id} finding reusable transceiver.`);
 
   if ((0, _sdpSemantics.isUnifiedPlan)(config.rtcConfig.sdpSemantics)) {
     const transceivers = proxyPeer.getTransceivers();
     return transceivers.find(transceiver => transceiver.sender.track == null && transceiver.receiver && transceiver.receiver.track && transceiver.receiver.track.kind === kind && transceiver.currentDirection // If this has been set, then transceiver has been used before.
     );
   } else {
-    _loglevel2.default.info(`Transceivers are only available in unified-plan.`);
+    log.info(`Transceivers are only available in unified-plan.`);
   }
 }
 
@@ -20448,10 +19838,6 @@ var _promise2 = _interopRequireDefault(_promise);
 
 exports.default = getStats;
 
-var _loglevel = __webpack_require__("../../node_modules/loglevel/lib/loglevel.js");
-
-var _loglevel2 = _interopRequireDefault(_loglevel);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
@@ -20461,8 +19847,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @return {Promise} Resolves with the RTCStatsReport
  */
 function getStats(trackId) {
-  const { nativePeer, proxyPeer, id } = this;
-  _loglevel2.default.info(`Peer ${id} getting stats ${trackId ? 'for track.' : '.'}`);
+  const { nativePeer, proxyPeer, id, log } = this;
+  log.info(`Peer ${id} getting stats ${trackId ? 'for track.' : '.'}`);
   // If no trackId is supplied, get the stats from the RTCPeerConnection. Otherwise, find an RTCSender
   // associated with the trackId and get the stats from it.
 
@@ -20476,7 +19862,7 @@ function getStats(trackId) {
         sender.getStats().then(resolve).catch(reject);
       } else {
         const errMsg = `Cannot find sender with trackId: ${trackId}`;
-        _loglevel2.default.debug(errMsg);
+        log.debug(errMsg);
         reject(new Error(errMsg));
       }
     });
@@ -20587,28 +19973,21 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = removeTrack;
-
-var _loglevel = __webpack_require__("../../node_modules/loglevel/lib/loglevel.js");
-
-var _loglevel2 = _interopRequireDefault(_loglevel);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 /**
  * Remove a Track from the connection.
  * @method removeTrack
  * @param  {string} trackId An id for a Track object.
  */
 function removeTrack(trackId) {
-  const { nativePeer, proxyPeer, id } = this;
-  _loglevel2.default.info(`Peer ${id} removing track ${trackId}.`);
+  const { nativePeer, proxyPeer, id, log } = this;
+  log.info(`Peer ${id} removing track ${trackId}.`);
 
   const track = proxyPeer.senderTracks.find(track => track.id === trackId);
   if (!track) {
-    _loglevel2.default.debug(`Invalid track ID ${trackId}; cannot remove track.`);
+    log.debug(`Invalid track ID ${trackId}; cannot remove track.`);
     return;
   } else if (proxyPeer.signalingState === ' closed') {
-    _loglevel2.default.debug(`Peer ${id} is closed; cannot remove track.`);
+    log.debug(`Peer ${id} is closed; cannot remove track.`);
     return;
   }
 
@@ -20635,10 +20014,6 @@ var _promise2 = _interopRequireDefault(_promise);
 
 exports.default = replaceTrack;
 
-var _loglevel = __webpack_require__("../../node_modules/loglevel/lib/loglevel.js");
-
-var _loglevel2 = _interopRequireDefault(_loglevel);
-
 var _sdpSemantics = __webpack_require__("../../packages/webrtc/src/sdpUtils/sdpSemantics.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -20652,8 +20027,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @return {Object} A Promise object which is fulfilled once the track has been replaced
  */
 function replaceTrack(newTrack, options) {
-  const { proxyPeer, id, config } = this;
-  _loglevel2.default.info(`Peer ${id} replacing track ${options.trackId}.`);
+  const { proxyPeer, id, config, log } = this;
+  log.info(`Peer ${id} replacing track ${options.trackId}.`);
 
   return new _promise2.default((resolve, reject) => {
     let sender;
@@ -20686,13 +20061,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = sendDTMF;
-
-var _loglevel = __webpack_require__("../../node_modules/loglevel/lib/loglevel.js");
-
-var _loglevel2 = _interopRequireDefault(_loglevel);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 /**
  * Send DTMF tones.
  * @method sendDTMF
@@ -20706,11 +20074,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @return {Boolean} Whether the DTMF tones were inserted
  */
 function sendDTMF({ tone, duration = 100, intertoneGap = 70 }, { callback, trackId }) {
-  const { proxyPeer, id } = this;
-  _loglevel2.default.info(`Peer ${id} sending DTMF tones.`);
+  const { proxyPeer, id, log } = this;
+  log.info(`Peer ${id} sending DTMF tones.`);
 
   if (!proxyPeer.getSenders) {
-    _loglevel2.default.debug('RTCPeerConnection method getSenders() is required which is not support by this browser.');
+    log.debug('RTCPeerConnection method getSenders() is required which is not support by this browser.');
     return false;
   }
   const senders = proxyPeer.getSenders();
@@ -20718,35 +20086,21 @@ function sendDTMF({ tone, duration = 100, intertoneGap = 70 }, { callback, track
   if (trackId) {
     let sender = senders.find(sender => sender.track.id === trackId);
     if (!sender) {
-      _loglevel2.default.debug('No sender with that trackId');
+      log.debug('No sender with that trackId');
       return false;
     }
-    insertDTMF(sender, tone, duration, intertoneGap, callback);
+    insertDTMF(sender, tone, duration, intertoneGap, callback, log);
     return true;
   } else {
     let result;
     for (let i = 0; i < senders.length; i++) {
-      result = insertDTMF(senders[i], tone, duration, intertoneGap, callback);
+      result = insertDTMF(senders[i], tone, duration, intertoneGap, callback, log);
       if (result) {
         return true;
       }
     }
-    _loglevel2.default.debug('No appropriate senders were found');
+    log.debug('No appropriate senders were found');
     return false;
-  }
-}
-
-/**
- * Event handler when tone is played.
- * @private
- * @method handleToneChangeEvent
- * @param  {event} event
- */
-function handleToneChangeEvent(event) {
-  if (event.tone !== '') {
-    _loglevel2.default.debug('Tone played: ' + event.tone);
-  } else {
-    _loglevel2.default.debug('All tones have played.');
   }
 }
 
@@ -20760,7 +20114,21 @@ function handleToneChangeEvent(event) {
  * @param {number} intertoneGap
  * @param {Function} callback
  */
-function insertDTMF(sender, tone, duration, intertoneGap, callback) {
+function insertDTMF(sender, tone, duration, intertoneGap, callback, log) {
+  /**
+   * Event handler when tone is played.
+   * @private
+   * @method handleToneChangeEvent
+   * @param  {event} event
+   */
+  function handleToneChangeEvent(event) {
+    if (event.tone !== '') {
+      log.debug('Tone played: ' + event.tone);
+    } else {
+      log.debug('All tones have played.');
+    }
+  }
+
   if (sender.dtmf) {
     const dtmfSender = sender.dtmf;
     if (callback) {
@@ -20772,11 +20140,11 @@ function insertDTMF(sender, tone, duration, intertoneGap, callback) {
       dtmfSender.insertDTMF(tone, duration, intertoneGap);
       return true;
     } catch (err) {
-      _loglevel2.default.debug(err.message);
+      log.debug(err.message);
       return false;
     }
   } else {
-    _loglevel2.default.debug('The sender requires DTMF which is not support by this browser.');
+    log.debug('The sender requires DTMF which is not support by this browser.');
     return false;
   }
 }
@@ -20799,10 +20167,6 @@ var _promise2 = _interopRequireDefault(_promise);
 
 exports.default = setLocalDescription;
 
-var _loglevel = __webpack_require__("../../node_modules/loglevel/lib/loglevel.js");
-
-var _loglevel2 = _interopRequireDefault(_loglevel);
-
 var _constants = __webpack_require__("../../packages/webrtc/src/constants.js");
 
 var _iceCollectionLoop = __webpack_require__("../../packages/webrtc/src/Peer/utils/iceCollectionLoop.js");
@@ -20820,10 +20184,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @return {Promise}
  */
 function setLocalDescription(desc) {
-  const { nativePeer, proxyPeer, config, id, emitter, iceTimer } = this;
+  const { nativePeer, proxyPeer, config, id, emitter, iceTimer, log } = this;
 
   // TODO: SDP pipeline here.
-  _loglevel2.default.debug(`Peer ${id} setting local description ${desc.type}:`, desc.sdp);
+  log.debug(`Peer ${id} setting local description ${desc.type}:`, desc.sdp);
 
   /**
    * Scenario: A local answer SDP is being applied to the Peer, but it does
@@ -20835,7 +20199,7 @@ function setLocalDescription(desc) {
   if (!this.dtlsRole && desc.type === 'answer') {
     const dtlsMatch = desc.sdp.match(/a=setup:(\w*?)[\r\n]/);
     if (dtlsMatch) {
-      _loglevel2.default.debug(`Peer ${id} selecting DTLS role ${dtlsMatch[1]}.`);
+      log.debug(`Peer ${id} selecting DTLS role ${dtlsMatch[1]}.`);
       this.dtlsRole = dtlsMatch[1];
     }
   }
@@ -20848,18 +20212,18 @@ function setLocalDescription(desc) {
       if (iceTimer.isStarted()) {
         // In a HALF trickle scenario, the Peer will be ready for negotiation
         //    before ICE collection has completed. Log that timing.
-        _loglevel2.default.debug(`Peer ${id} took ${iceTimer.timeFromStart()}ms to collect ICE candidates before negotiation.`);
+        log.debug(`Peer ${id} took ${iceTimer.timeFromStart()}ms to collect ICE candidates before negotiation.`);
       }
       resolve();
     });
 
     nativePeer.setLocalDescription(desc).then(() => {
-      _loglevel2.default.info(`Peer ${id} set local description.`);
-      _loglevel2.default.debug(`Peer ${id} state is now ${proxyPeer.signalingState}.`);
+      log.info(`Peer ${id} set local description.`);
+      log.debug(`Peer ${id} state is now ${proxyPeer.signalingState}.`);
 
       if (config.trickleIceMode === _constants.PEER.TRICKLE_ICE.FULL) {
         // Trickling ICE candidates means that we can begin negotiation immediately.
-        _loglevel2.default.debug(`Peer ${id} ready for negotiation (full trickleICE).`);
+        log.debug(`Peer ${id} ready for negotiation (full trickleICE).`);
         emitter.emit('onnegotiationready');
       } else {
         // ICE candidates aren't always gathered (only initially and when something
@@ -20873,10 +20237,10 @@ function setLocalDescription(desc) {
         setTimeout(() => {
           if (proxyPeer.iceGatheringState === 'complete') {
             // Gathering is "complete", so we are ready for negotiation.
-            _loglevel2.default.debug(`Peer ${id} ready for negotiation; ICE candidate collection not needed.`);
+            log.debug(`Peer ${id} ready for negotiation; ICE candidate collection not needed.`);
             emitter.emit('onnegotiationready');
           } else {
-            _loglevel2.default.debug(`Peer ${id} waiting for ICE collection process (${config.trickleIceMode}).`);
+            log.debug(`Peer ${id} waiting for ICE collection process (${config.trickleIceMode}).`);
             // If ICE collection never finishes, we need to time it out at some point.
             //    Start the timeout-out loop after an initial delay.
             setTimeout(() => {
@@ -20886,8 +20250,8 @@ function setLocalDescription(desc) {
         }, 25);
       }
     }).catch(err => {
-      _loglevel2.default.info(`Peer ${id} failed to set local description.`);
-      _loglevel2.default.debug(`Peer ${id}: ${err}`);
+      log.info(`Peer ${id} failed to set local description.`);
+      log.debug(`Peer ${id}: ${err}`);
       // Parse native error. Make it more understand and/or
       //    provide a better log about what went wrong.
       reject(err);
@@ -20915,10 +20279,6 @@ var _promise2 = _interopRequireDefault(_promise);
 
 exports.default = setRemoteDescription;
 
-var _loglevel = __webpack_require__("../../node_modules/loglevel/lib/loglevel.js");
-
-var _loglevel2 = _interopRequireDefault(_loglevel);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
@@ -20927,7 +20287,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @param  {RTCSessionDescription} sessionDesc
  */
 function setRemoteDescription(desc) {
-  const { nativePeer, proxyPeer, id } = this;
+  const { nativePeer, proxyPeer, id, log } = this;
 
   /**
    * Scenario: A remote answer SDP is being applied to the Peer, but it does
@@ -20940,7 +20300,7 @@ function setRemoteDescription(desc) {
     const dtlsMatch = desc.sdp.match(/a=setup:(\w*?)[\r\n]/);
     if (dtlsMatch) {
       const localRole = dtlsMatch[1] === 'active' ? 'passive' : 'active';
-      _loglevel2.default.debug(`Peer ${id} selecting DTLS role ${localRole}. Remote Peer selected ${dtlsMatch[1]} DTLS role.`);
+      log.debug(`Peer ${id} selecting DTLS role ${localRole}. Remote Peer selected ${dtlsMatch[1]} DTLS role.`);
       this.dtlsRole = localRole;
     }
   }
@@ -20948,14 +20308,14 @@ function setRemoteDescription(desc) {
   // TODO: Update `config.trickleIceMode` to either NONE or FULL (from HALF)
   //    depending on remote support, since HALF is only needed for initial.
   return new _promise2.default((resolve, reject) => {
-    _loglevel2.default.debug(`Peer ${id} setting remote description ${desc.type}:`, desc.sdp);
+    log.debug(`Peer ${id} setting remote description ${desc.type}:`, desc.sdp);
     nativePeer.setRemoteDescription(desc).then(() => {
-      _loglevel2.default.info(`Peer ${id} set remote description.`);
-      _loglevel2.default.debug(`Peer ${id} state is now ${proxyPeer.signalingState}.`);
+      log.info(`Peer ${id} set remote description.`);
+      log.debug(`Peer ${id} state is now ${proxyPeer.signalingState}.`);
       resolve();
     }).catch(err => {
-      _loglevel2.default.info(`Peer ${id} failed to set remote description.`);
-      _loglevel2.default.debug(`Peer ${id}: ${err}`);
+      log.info(`Peer ${id} failed to set remote description.`);
+      log.debug(`Peer ${id}: ${err}`);
       // Parse native error. Make it more understand and/or
       //    provide a better log about what went wrong.
       reject(err);
@@ -20976,15 +20336,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = setTransceiversDirection;
 
-var _loglevel = __webpack_require__("../../node_modules/loglevel/lib/loglevel.js");
-
-var _loglevel2 = _interopRequireDefault(_loglevel);
-
 var _sdpSemantics = __webpack_require__("../../packages/webrtc/src/sdpUtils/sdpSemantics.js");
 
 var _transceiverUtils = __webpack_require__("../../packages/webrtc/src/sdpUtils/transceiverUtils.js");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * Sets the direction of transceivers.
@@ -20995,8 +20349,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @return {Object} An object containing an `error` flag and  an array `failures` of transceivers whose directions weren't changed.
  */
 function setTransceiversDirection(targetDirection, options = {}) {
-  const { proxyPeer, config, id } = this;
-  _loglevel2.default.info(`Peer ${id} setting transceiver direction to ${targetDirection}.`);
+  const { proxyPeer, config, id, log } = this;
+  log.info(`Peer ${id} setting transceiver direction to ${targetDirection}.`);
 
   if ((0, _sdpSemantics.isUnifiedPlan)(config.rtcConfig.sdpSemantics)) {
     let transceivers = proxyPeer.getTransceivers();
@@ -21016,7 +20370,7 @@ function setTransceiversDirection(targetDirection, options = {}) {
       failures
     };
   } else {
-    _loglevel2.default.info(`Transceiver direction modification is only available in unified-plan.`);
+    log.info(`Transceiver direction modification is only available in unified-plan.`);
     return {
       error: true
     };
@@ -21071,20 +20425,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = getLocalDescription;
-
-var _loglevel = __webpack_require__("../../node_modules/loglevel/lib/loglevel.js");
-
-var _loglevel2 = _interopRequireDefault(_loglevel);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 /**
  * The SDP for the local end of the connection.
  * @method getLocalDescription
  */
 function getLocalDescription() {
-  const { nativePeer, id } = this;
-  _loglevel2.default.debug(`Peer ${id} getting local description.`);
+  const { nativePeer, id, log } = this;
+  log.debug(`Peer ${id} getting local description.`);
 
   const localDesc = nativePeer.localDescription;
   /*
@@ -21113,20 +20460,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = localTracks;
-
-var _loglevel = __webpack_require__("../../node_modules/loglevel/lib/loglevel.js");
-
-var _loglevel2 = _interopRequireDefault(_loglevel);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 /**
  * @method getLocalTracks
  * @return {Array} List of active Track objects added to the Peer locally.
  */
 function localTracks() {
-  const { proxyPeer, id, trackManager } = this;
-  _loglevel2.default.info(`Peer ${id} getting local tracks.`);
+  const { proxyPeer, id, trackManager, log } = this;
+  log.info(`Peer ${id} getting local tracks.`);
 
   // Return the list of Tracks from active senders.
   return proxyPeer.getSenders()
@@ -21157,20 +20497,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = getRemoteDescription;
-
-var _loglevel = __webpack_require__("../../node_modules/loglevel/lib/loglevel.js");
-
-var _loglevel2 = _interopRequireDefault(_loglevel);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 /**
  * The SDP for the remote end of the connection.
  * @method getRemoteDescription
  */
 function getRemoteDescription() {
-  const { nativePeer, id } = this;
-  _loglevel2.default.debug(`Peer ${id} getting remote description.`);
+  const { nativePeer, id, log } = this;
+  log.debug(`Peer ${id} getting remote description.`);
 
   const remoteDesc = nativePeer.remoteDescription;
   /*
@@ -21199,20 +20532,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = getRemoteTracks;
-
-var _loglevel = __webpack_require__("../../node_modules/loglevel/lib/loglevel.js");
-
-var _loglevel2 = _interopRequireDefault(_loglevel);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 /**
  * @method getRemoteTracks
  * @return {Array} List of active Track objects the Peer has received remotely.
  */
 function getRemoteTracks() {
-  const { proxyPeer, id, trackManager } = this;
-  _loglevel2.default.info(`Peer ${id} getting remote tracks.`);
+  const { proxyPeer, id, trackManager, log } = this;
+  log.info(`Peer ${id} getting remote tracks.`);
 
   // Return the list of Tracks from active receivers.
   return proxyPeer.getReceivers()
@@ -21243,13 +20569,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = senderTracks;
-
-var _loglevel = __webpack_require__("../../node_modules/loglevel/lib/loglevel.js");
-
-var _loglevel2 = _interopRequireDefault(_loglevel);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 /**
  * This method is similar to the `localTracks` method, however this method returns
  *  all of the sender's tracks (ended or not) rather than just the active/live ones.
@@ -21258,8 +20577,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @return {Array} List of Track objects added to the Peer locally.
  */
 function senderTracks() {
-  const { proxyPeer, id } = this;
-  _loglevel2.default.info(`Peer ${id} getting sender tracks.`);
+  const { proxyPeer, id, log } = this;
+  log.info(`Peer ${id} getting sender tracks.`);
 
   // Return the list of Tracks from senders.
   return proxyPeer.getSenders()
@@ -21286,13 +20605,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = iceCollectionLoop;
-
-var _loglevel = __webpack_require__("../../node_modules/loglevel/lib/loglevel.js");
-
-var _loglevel2 = _interopRequireDefault(_loglevel);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 /**
  * Recursive function for checking whether the ICE collection process should
  *    be timed-out.
@@ -21309,11 +20621,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @param {number} elapsedTime The time, in milliseconds, that ICE collection has taken so far.
  */
 function iceCollectionLoop(proxyBase, elapsedTime) {
-  const { proxyPeer, iceCandidates, emitter, config } = proxyBase;
+  const { proxyPeer, iceCandidates, emitter, config, log } = proxyBase;
 
   // If gathering completed during the delay, we don't need to loop anymore.
   if (proxyPeer.iceGatheringState === 'complete') {
-    _loglevel2.default.debug('ICE collection completed; stopping candidate check loop.');
+    log.debug('ICE collection completed; stopping candidate check loop.');
     // Gathering completes when the null candidate is received. The "on
     //    negotiation ready" event should be emitted at that time.
 
@@ -21326,15 +20638,15 @@ function iceCollectionLoop(proxyBase, elapsedTime) {
   const hasReachedTimeout = elapsedTime >= config.maxIceTimeout;
 
   if (hasReachedTimeout) {
-    _loglevel2.default.debug('ICE collection timeout reached; continuing with negotiation.');
+    log.debug('ICE collection timeout reached; continuing with negotiation.');
     iceCandidates.length = 0;
     emitter.emit('onnegotiationready');
   } else if (enoughCandidates) {
-    _loglevel2.default.debug('ICE candidates sufficient for negotiation; continuing.');
+    log.debug('ICE candidates sufficient for negotiation; continuing.');
     iceCandidates.length = 0;
     emitter.emit('onnegotiationready');
   } else {
-    _loglevel2.default.debug(`ICE candidates not sufficient for negotiation, delaying another ${config.iceCollectionDelay}ms.`);
+    log.debug(`ICE candidates not sufficient for negotiation, delaying another ${config.iceCollectionDelay}ms.`);
     setTimeout(function () {
       iceCollectionLoop(proxyBase, elapsedTime + config.iceCollectionDelay);
     }, config.iceCollectionDelay);
@@ -21432,6 +20744,8 @@ var _trackManager = __webpack_require__("../../packages/webrtc/src/managers/trac
 
 var _trackManager2 = _interopRequireDefault(_trackManager);
 
+var _logs = __webpack_require__("../../packages/webrtc/src/logs.js");
+
 var _pipeline = __webpack_require__("../../packages/webrtc/src/sdpUtils/pipeline.js");
 
 var _pipeline2 = _interopRequireDefault(_pipeline);
@@ -21439,10 +20753,6 @@ var _pipeline2 = _interopRequireDefault(_pipeline);
 var _handlers = __webpack_require__("../../packages/webrtc/src/sdpUtils/handlers.js");
 
 var sdpHandlers = _interopRequireWildcard(_handlers);
-
-var _loglevel = __webpack_require__("../../node_modules/loglevel/lib/loglevel.js");
-
-var _loglevel2 = _interopRequireDefault(_loglevel);
 
 var _adapter_no_edge = __webpack_require__("../../node_modules/webrtc-adapter/out/adapter_no_edge.js");
 
@@ -21452,14 +20762,15 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// SDP helpers.
 // Models.
 function initialize() {
+  const log = _logs.logManager.getLogger('WebRTC');
+
   const browserDetails = _adapter_no_edge2.default.browserDetails;
   if (browserDetails.version) {
-    _loglevel2.default.debug(`Browser details: ${browserDetails.browser}, version ${browserDetails.version}.`);
+    log.debug(`Browser details: ${browserDetails.browser}, version ${browserDetails.version}.`);
   } else {
-    _loglevel2.default.debug('Browser details: Not supported by webRTC adapter.');
+    log.debug('Browser details: Not supported by webRTC adapter.');
   }
 
   const deviceManager = new _deviceManager2.default();
@@ -21496,7 +20807,32 @@ function initialize() {
   };
 }
 
+// SDP helpers.
+
+
 // Managers.
+
+/***/ }),
+
+/***/ "../../packages/webrtc/src/logs.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.logManager = undefined;
+
+var _kandyLogger = __webpack_require__("../../packages/logger/src/index.js");
+
+var _kandyLogger2 = _interopRequireDefault(_kandyLogger);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+const manager = (0, _kandyLogger2.default)({ level: 'DEBUG' });
+const logManager = exports.logManager = manager;
 
 /***/ }),
 
@@ -21517,9 +20853,7 @@ var _promise2 = _interopRequireDefault(_promise);
 
 exports.default = DeviceManager;
 
-var _loglevel = __webpack_require__("../../node_modules/loglevel/lib/loglevel.js");
-
-var _loglevel2 = _interopRequireDefault(_loglevel);
+var _logs = __webpack_require__("../../packages/webrtc/src/logs.js");
 
 var _eventemitter = __webpack_require__("../../node_modules/eventemitter3/index.js");
 
@@ -21532,7 +20866,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * See: https://developer.mozilla.org/en-US/docs/Web/API/MediaDeviceInfo/kind
  * @enum {String}
  */
-// Libraries.
 const WEBRTC_DEVICE_KINDS = exports.WEBRTC_DEVICE_KINDS = {
   audioinput: 'microphone',
   videoinput: 'camera',
@@ -21543,7 +20876,12 @@ const WEBRTC_DEVICE_KINDS = exports.WEBRTC_DEVICE_KINDS = {
    * Keeps an up-to-date list of all devices.
    * @class DeviceManager
    */
-};function DeviceManager() {
+};
+
+// Libraries.
+function DeviceManager() {
+  const log = _logs.logManager.getLogger('Manager', 'Device');
+
   // Internal variables.
   const emitter = new _eventemitter2.default();
   // Store each device type separately, so that `deviceId` is unique
@@ -21561,7 +20899,7 @@ const WEBRTC_DEVICE_KINDS = exports.WEBRTC_DEVICE_KINDS = {
   // Check devices whenever they change.
   let recentDeviceChange = false;
   navigator.mediaDevices.addEventListener('devicechange', () => {
-    _loglevel2.default.info('Media device change detected.');
+    log.info('Media device change detected.');
     // A physical device change results in one event per
     // device "kind". Group the events together.
     if (!recentDeviceChange) {
@@ -21582,7 +20920,7 @@ const WEBRTC_DEVICE_KINDS = exports.WEBRTC_DEVICE_KINDS = {
    * @return {Promise}
    */
   function checkDevices() {
-    _loglevel2.default.info('Checking media devices.');
+    log.info('Checking media devices.');
     return new _promise2.default((resolve, reject) => {
       navigator.mediaDevices.enumerateDevices().then(devices => {
         // Clear the stored devices, to prevent duplicates.
@@ -21671,13 +21009,11 @@ var _map2 = _interopRequireDefault(_map);
 
 exports.default = MediaManager;
 
+var _logs = __webpack_require__("../../packages/webrtc/src/logs.js");
+
 var _media = __webpack_require__("../../packages/webrtc/src/models/media.js");
 
 var _media2 = _interopRequireDefault(_media);
-
-var _loglevel = __webpack_require__("../../node_modules/loglevel/lib/loglevel.js");
-
-var _loglevel2 = _interopRequireDefault(_loglevel);
 
 var _eventemitter = __webpack_require__("../../node_modules/eventemitter3/index.js");
 
@@ -21692,8 +21028,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  */
 
 
-// Libraries.
+// Models that this manager directly manages.
 function MediaManager(managers) {
+  const log = _logs.logManager.getLogger('Manager', 'Media');
+
   // Internal variables.
   const trackManager = managers.trackManager;
   const medias = new _map2.default();
@@ -21779,7 +21117,7 @@ function MediaManager(managers) {
 
   function setupMedia(mediaStream) {
     const media = new _media2.default(mediaStream, true);
-    _loglevel2.default.debug(`Creating Media with ID: ${media.id}.`);
+    log.debug(`Creating Media with ID: ${media.id}.`);
 
     // Only add tracks to a Media objects using the `addTrack` method.
     mediaStream.getTracks().forEach(nativeTrack => {
@@ -21801,6 +21139,10 @@ function MediaManager(managers) {
       if (media.getTracks().length === 0) {
         remove(mediaId);
       }
+    });
+
+    media.on('track:muted', ({ mediaId, trackId }) => {
+      // TBD: Add any extra behaviour (if needed) here
     });
 
     return media;
@@ -21916,7 +21258,7 @@ function MediaManager(managers) {
   function get(mediaId) {
     const media = medias.get(mediaId);
     if (!media) {
-      _loglevel2.default.debug(`No media found with ID: ${mediaId}.`);
+      log.debug(`No media found with ID: ${mediaId}.`);
     }
     return media;
   }
@@ -21941,10 +21283,10 @@ function MediaManager(managers) {
     const allMedia = (0, _from2.default)(medias.values());
     const media = allMedia.find(media => media.getTrack(trackId));
     if (media) {
-      _loglevel2.default.debug(`Found Media (${media.id}) with Track ${trackId}.`);
+      log.debug(`Found Media (${media.id}) with Track ${trackId}.`);
       return media.id;
     } else {
-      _loglevel2.default.debug(`Found no Media with Track ${trackId}.`);
+      log.debug(`Found no Media with Track ${trackId}.`);
     }
   }
 
@@ -21978,7 +21320,9 @@ function MediaManager(managers) {
     once,
     off
   };
-} // Models that this manager directly manages.
+}
+
+// Libraries.
 
 /***/ }),
 
@@ -22002,17 +21346,13 @@ var _map2 = _interopRequireDefault(_map);
 
 exports.default = PeerManager;
 
+var _logs = __webpack_require__("../../packages/webrtc/src/logs.js");
+
 var _Peer = __webpack_require__("../../packages/webrtc/src/Peer/index.js");
 
 var _Peer2 = _interopRequireDefault(_Peer);
 
-var _loglevel = __webpack_require__("../../node_modules/loglevel/lib/loglevel.js");
-
-var _loglevel2 = _interopRequireDefault(_loglevel);
-
-var _v = __webpack_require__("../../node_modules/uuid/v4.js");
-
-var _v2 = _interopRequireDefault(_v);
+var _uuid = __webpack_require__("../../node_modules/uuid/dist/esm-browser/index.js");
 
 var _eventemitter = __webpack_require__("../../node_modules/eventemitter3/index.js");
 
@@ -22025,7 +21365,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * Allows the creation and retrieval of peer objects.
  * @method PeerManager
  */
+
+
+// Libraries.
 function PeerManager(managers) {
+  const log = _logs.logManager.getLogger('Manager', 'Peer');
+
   // Internal variables.
   const trackManager = managers.trackManager;
   const peers = new _map2.default();
@@ -22047,7 +21392,7 @@ function PeerManager(managers) {
    * @return {Peer}
    */
   function create(config = {}) {
-    const peer = new _Peer2.default((0, _v2.default)(), config, trackManager);
+    const peer = new _Peer2.default((0, _uuid.v4)(), config, trackManager);
     peer.once('peer:closed', id => peers.delete(id));
     peers.set(peer.id, peer);
     emitter.emit('peer:new', peer.id);
@@ -22063,7 +21408,7 @@ function PeerManager(managers) {
   function get(id) {
     const peer = peers.get(id);
     if (!peer) {
-      _loglevel2.default.debug(`No Peer found with ID: ${id}.`);
+      log.debug(`No Peer found with ID: ${id}.`);
     }
     return peer;
   }
@@ -22104,8 +21449,6 @@ function PeerManager(managers) {
   };
 }
 
-// Libraries.
-
 /***/ }),
 
 /***/ "../../packages/webrtc/src/managers/sessionManager.js":
@@ -22128,17 +21471,13 @@ var _map2 = _interopRequireDefault(_map);
 
 exports.default = SessionManager;
 
+var _logs = __webpack_require__("../../packages/webrtc/src/logs.js");
+
 var _session = __webpack_require__("../../packages/webrtc/src/models/session.js");
 
 var _session2 = _interopRequireDefault(_session);
 
-var _v = __webpack_require__("../../node_modules/uuid/v4.js");
-
-var _v2 = _interopRequireDefault(_v);
-
-var _loglevel = __webpack_require__("../../node_modules/loglevel/lib/loglevel.js");
-
-var _loglevel2 = _interopRequireDefault(_loglevel);
+var _uuid = __webpack_require__("../../node_modules/uuid/dist/esm-browser/index.js");
 
 var _eventemitter = __webpack_require__("../../node_modules/eventemitter3/index.js");
 
@@ -22151,7 +21490,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * Allows for creation and retrieval of session objects.
  * @method SessionManager
  */
+
+
+// Libraries.
 function SessionManager(managers) {
+  const log = _logs.logManager.getLogger('Manager', 'Session');
   // Internal variables.
   const sessions = new _map2.default();
   const emitter = new _eventemitter2.default();
@@ -22164,7 +21507,7 @@ function SessionManager(managers) {
    * @return {Session}
    */
   function create(config = {}) {
-    const session = new _session2.default((0, _v2.default)(), managers, config);
+    const session = new _session2.default((0, _uuid.v4)(), managers, config);
     session.once('session:ended', id => {
       sessions.delete(id);
       emitter.emit('session:removed', id);
@@ -22183,7 +21526,7 @@ function SessionManager(managers) {
   function get(sessionId) {
     const session = sessions.get(sessionId);
     if (!session) {
-      _loglevel2.default.debug(`No session found with ID: ${sessionId}.`);
+      log.debug(`No session found with ID: ${sessionId}.`);
     }
     return session;
   }
@@ -22221,8 +21564,6 @@ function SessionManager(managers) {
     off
   };
 }
-
-// Libraries.
 
 /***/ }),
 
@@ -22396,13 +21737,11 @@ var _map2 = _interopRequireDefault(_map);
 
 exports.default = Media;
 
+var _logs = __webpack_require__("../../packages/webrtc/src/logs.js");
+
 var _eventemitter = __webpack_require__("../../node_modules/eventemitter3/index.js");
 
 var _eventemitter2 = _interopRequireDefault(_eventemitter);
-
-var _loglevel = __webpack_require__("../../node_modules/loglevel/lib/loglevel.js");
-
-var _loglevel2 = _interopRequireDefault(_loglevel);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22413,8 +21752,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * TODO: Rename to Stream? Would be more straight-forward since Tracks can be
  *    managed directly (with trackManager), instead of through a "Media" object.
  */
-// Libraries.
 function Media(nativeStream, isLocal) {
+  const log = _logs.logManager.getLogger('Media', nativeStream.id);
+
   // Internal variables.
   const id = nativeStream.id;
   const stream = nativeStream;
@@ -22451,7 +21791,7 @@ function Media(nativeStream, isLocal) {
    */
   function addTrack(track) {
     if (tracks.has(track.id)) {
-      _loglevel2.default.debug(`Track (${track.id}) is already in Media (${id}).`);
+      log.debug(`Track (${track.id}) is already in Media (${id}).`);
       return;
     }
 
@@ -22478,6 +21818,36 @@ function Media(nativeStream, isLocal) {
     emitter.emit('track:new', {
       mediaId: id,
       trackId: track.id
+    });
+
+    /**
+     * When a track is muted, we generate our own internal event
+     */
+    track.on('muted', event => {
+      const wrappedTrack = getTrack(event.trackId);
+      if (wrappedTrack && wrappedTrack.track && wrappedTrack.track.muted) {
+        // Emit our internal event.
+        // Note that wrappedTrack.id is same as wrappedTrack.track & event.trackId
+        emitter.emit('track:muted', {
+          mediaId: id,
+          trackId: event.trackId
+        });
+      }
+    });
+
+    /**
+     * When a track is unmuted, we generate our own internal event
+     */
+    track.on('unmuted', event => {
+      const wrappedTrack = getTrack(event.trackId);
+      if (wrappedTrack && wrappedTrack.track && wrappedTrack.track.muted === false) {
+        // Emit our internal event.
+        // Note that wrappedTrack.id is same as wrappedTrack.track & event.trackId
+        emitter.emit('track:unmuted', {
+          mediaId: id,
+          trackId: event.trackId
+        });
+      }
     });
   }
 
@@ -22609,6 +21979,8 @@ function Media(nativeStream, isLocal) {
   };
 }
 
+// Libraries.
+
 /***/ }),
 
 /***/ "../../packages/webrtc/src/models/session.js":
@@ -22631,6 +22003,8 @@ var _map2 = _interopRequireDefault(_map);
 
 exports.default = Session;
 
+var _logs = __webpack_require__("../../packages/webrtc/src/logs.js");
+
 var _constants = __webpack_require__("../../packages/webrtc/src/constants.js");
 
 var _pipeline = __webpack_require__("../../packages/webrtc/src/sdpUtils/pipeline.js");
@@ -22640,10 +22014,6 @@ var _pipeline2 = _interopRequireDefault(_pipeline);
 var _sdpSemantics = __webpack_require__("../../packages/webrtc/src/sdpUtils/sdpSemantics.js");
 
 var _extractors = __webpack_require__("../../packages/webrtc/src/sdpUtils/extractors.js");
-
-var _loglevel = __webpack_require__("../../node_modules/loglevel/lib/loglevel.js");
-
-var _loglevel2 = _interopRequireDefault(_loglevel);
 
 var _eventemitter = __webpack_require__("../../node_modules/eventemitter3/index.js");
 
@@ -22660,9 +22030,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  */
 
 
-// Libraries.
-// Helpers.
+// SDP Helpers.
 function Session(id, managers, config = {}) {
+  const log = _logs.logManager.getLogger('Session', id);
+
   // Internal variables.
   const sessionId = id;
   let peerId;
@@ -22778,7 +22149,7 @@ function Session(id, managers, config = {}) {
               reusableTransceiver.direction = reusableTransceiver.direction === 'recvonly' ? 'sendrecv' : 'sendonly';
               resolve(`Track (${track.track.kind} : ${track.id}) reused transceiver (mid: ${reusableTransceiver.mid}).`);
             }).catch(err => {
-              _loglevel2.default.error(err);
+              log.error(err);
               reject(err);
             });
           } else {
@@ -22791,7 +22162,7 @@ function Session(id, managers, config = {}) {
           }
         }).then(message => {
           // Set event emitters and handlers
-          _loglevel2.default.info(message);
+          log.info(message);
 
           // Indicate that the Session has a new Track.
           emitter.emit('new:track', {
@@ -22855,7 +22226,7 @@ function Session(id, managers, config = {}) {
               trackIds: peer.localTracks.filter(track => track.track.kind === 'audio').map(track => track.id)
             });
             if (result.error) {
-              _loglevel2.default.info(`Failed to process the following transceivers: ${result.failures}`);
+              log.info(`Failed to process the following transceivers: ${result.failures}`);
             }
           }
           if (videoTransceiverTargetDir) {
@@ -22863,7 +22234,7 @@ function Session(id, managers, config = {}) {
               trackIds: peer.localTracks.filter(track => track.track.kind === 'video').map(track => track.id)
             });
             if (result.error) {
-              _loglevel2.default.info(`Failed to process the following transceivers: ${result.failures}`);
+              log.info(`Failed to process the following transceivers: ${result.failures}`);
             }
           }
           delete options.mediaDirections;
@@ -22872,7 +22243,7 @@ function Session(id, managers, config = {}) {
 
       peer.createOffer(options).then(offer => {
         if (options.sdpHandlers || _pipeline2.default.getHandlers().length) {
-          _loglevel2.default.debug('Modifying local offer with SDP pipeline.');
+          log.debug('Modifying local offer with SDP pipeline.');
           offer.sdp = _pipeline2.default.run(options.sdpHandlers, offer.sdp, {
             type: offer.type,
             endpoint: _constants.PEER.ENDPOINT.LOCAL
@@ -22936,7 +22307,8 @@ function Session(id, managers, config = {}) {
    */
   function replaceTrack(newTrack, options) {
     const peer = peerManager.get(peerId);
-    return peer.replaceTrack(newTrack, options).then(() => {
+    const track = trackManager.get(newTrack.id);
+    return peer.replaceTrack(track.track, options).then(() => {
       emitter.emit('track:replaced', {
         oldTrackId: options.trackId,
         trackId: newTrack.id
@@ -22958,7 +22330,7 @@ function Session(id, managers, config = {}) {
       const peer = peerManager.get(peerId);
       return peer.setTransceiversDirection(targetDirection, options);
     } else {
-      _loglevel2.default.info(`Transceiver direction modification is only available in unified-plan.`);
+      log.info(`Transceiver direction modification is only available in unified-plan.`);
       return { error: true };
     }
   }
@@ -22979,7 +22351,7 @@ function Session(id, managers, config = {}) {
       }
 
       if (options.sdpHandlers || _pipeline2.default.getHandlers().length) {
-        _loglevel2.default.debug('Modifying remote offer with SDP pipeline.');
+        log.debug('Modifying remote offer with SDP pipeline.');
         offer.sdp = _pipeline2.default.run(options.sdpHandlers, offer.sdp, {
           type: offer.type,
           endpoint: _constants.PEER.ENDPOINT.REMOTE
@@ -23021,7 +22393,7 @@ function Session(id, managers, config = {}) {
               trackIds: peer.localTracks.filter(track => track.track.kind === 'audio').map(track => track.id)
             });
             if (result.error) {
-              _loglevel2.default.info(`Failed to process the following transceivers: ${result.failures}`);
+              log.info(`Failed to process the following transceivers: ${result.failures}`);
             }
           }
           if (videoTransceiverTargetDir) {
@@ -23029,7 +22401,7 @@ function Session(id, managers, config = {}) {
               trackIds: peer.localTracks.filter(track => track.track.kind === 'video').map(track => track.id)
             });
             if (result.error) {
-              _loglevel2.default.info(`Failed to process the following transceivers: ${result.failures}`);
+              log.info(`Failed to process the following transceivers: ${result.failures}`);
             }
           }
           delete options.mediaDirections;
@@ -23047,7 +22419,7 @@ function Session(id, managers, config = {}) {
 
       peer.createAnswer(options).then(answer => {
         if (options.sdpHandlers || _pipeline2.default.getHandlers().length) {
-          _loglevel2.default.debug('Modifying local answer with SDP pipeline.');
+          log.debug('Modifying local answer with SDP pipeline.');
           answer.sdp = _pipeline2.default.run(options.sdpHandlers, answer.sdp, {
             type: answer.type,
             endpoint: _constants.PEER.ENDPOINT.LOCAL
@@ -23083,7 +22455,7 @@ function Session(id, managers, config = {}) {
    */
   function processAnswer(answer, options = {}) {
     if (options.sdpHandlers || _pipeline2.default.getHandlers().length) {
-      _loglevel2.default.debug('Modifying remote answer with SDP pipeline.');
+      log.debug('Modifying remote answer with SDP pipeline.');
       answer.sdp = _pipeline2.default.run(options.sdpHandlers, answer.sdp, {
         type: answer.type,
         endpoint: _constants.PEER.ENDPOINT.REMOTE
@@ -23242,9 +22614,9 @@ function Session(id, managers, config = {}) {
           const trackToCleanup = trackManager.get(trackId);
           if (trackToCleanup) {
             trackToCleanup.cleanup();
-            _loglevel2.default.info(`Cleaning up track ${trackId}.`);
+            log.info(`Cleaning up track ${trackId}.`);
           } else {
-            _loglevel2.default.info(`Track ${trackId} not found.`);
+            log.info(`Track ${trackId} not found.`);
           }
         }
 
@@ -23356,7 +22728,10 @@ function Session(id, managers, config = {}) {
   };
 }
 
-// SDP Helpers.
+// Libraries.
+
+
+// Helpers.
 
 /***/ }),
 
@@ -23371,9 +22746,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = Track;
 
-var _loglevel = __webpack_require__("../../node_modules/loglevel/lib/loglevel.js");
-
-var _loglevel2 = _interopRequireDefault(_loglevel);
+var _logs = __webpack_require__("../../packages/webrtc/src/logs.js");
 
 var _eventemitter = __webpack_require__("../../node_modules/eventemitter3/index.js");
 
@@ -23388,7 +22761,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * Ref: https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamTrack
  * @method Track
  */
+
+
+// Libraries.
 function Track(mediaTrack, mediaStream) {
+  const log = _logs.logManager.getLogger('Track', mediaTrack.id);
+
   // Internal variables.
   const id = mediaTrack.id;
   const track = mediaTrack;
@@ -23402,7 +22780,7 @@ function Track(mediaTrack, mediaStream) {
    * It "bubbles" the event up to be handled at a higher level.
    */
   track.onended = event => {
-    _loglevel2.default.debug('Event emitted: ', event);
+    log.debug('Event emitted: ', event);
     emitter.emit('ended', {
       trackId: track.id,
       // If the event is defined:
@@ -23413,6 +22791,30 @@ function Track(mediaTrack, mediaStream) {
       // If the event is undefined:
       //   `track.onended` is manually triggered and the saga that eventually triggered this function will handle the renegotiation itself.
       performRenegotiation: !!event
+    });
+  };
+
+  /**
+   * When a track is muted, we forward this to any listener.
+   * This handler is tipically invoked by actions triggered outside the
+   * direct control of the webrtc SDK.
+   */
+  track.onmute = event => {
+    log.debug('Event emitted: ', event);
+    emitter.emit('muted', {
+      trackId: track.id
+    });
+  };
+
+  /**
+   * When a track is unmuted, we forward this to any listener.
+   * This handler is tipically invoked by actions triggered outside the
+   * direct control of the webrtc SDK.
+   */
+  track.onunmute = event => {
+    log.debug('Event emitted: ', event);
+    emitter.emit('unmuted', {
+      trackId: track.id
     });
   };
 
@@ -23452,15 +22854,15 @@ function Track(mediaTrack, mediaStream) {
     let element;
     // If a string was provided, use it as a CSS selector to find the element.
     if (typeof container === 'string') {
-      _loglevel2.default.debug(`Track ${id} rendering in element using selector: ${container}`);
+      log.debug(`Track ${id} rendering in element using selector: ${container}`);
 
       element = document.querySelector(container);
       if (!element) {
-        _loglevel2.default.error(`Unable to get container with selector: ${container}.`);
+        log.error(`Unable to get container with selector: ${container}.`);
         return false;
       }
     } else {
-      _loglevel2.default.debug(`Track ${id} rendering in provided HTMLElement.`);
+      log.debug(`Track ${id} rendering in provided HTMLElement.`);
 
       element = container;
     }
@@ -23469,7 +22871,7 @@ function Track(mediaTrack, mediaStream) {
 
     if (containers.indexOf(element) > -1) {
       // Already rendered in element.
-      _loglevel2.default.debug(`Track ${id} already rendered in element.`, element);
+      log.debug(`Track ${id} already rendered in element.`, element);
       return;
     }
 
@@ -23488,7 +22890,7 @@ function Track(mediaTrack, mediaStream) {
     try {
       renderer.srcObject = stream;
     } catch (error) {
-      _loglevel2.default.debug('srcObject property not supported; reverting to createObjectURL.');
+      log.debug('srcObject property not supported; reverting to createObjectURL.');
       // TODO: AdapterJS handles this, we should remove this.
       renderer.src = window.URL.createObjectURL(stream);
     }
@@ -23498,16 +22900,16 @@ function Track(mediaTrack, mediaStream) {
     if (type === 'video') {
       renderer.muted = 'true';
       // Needed for Android.
-      renderer.play().catch(err => _loglevel2.default.error(`video tag (#${renderer.id}) - play() - ${err}`));
+      renderer.play().catch(err => log.error(`video tag (#${renderer.id}) - play() - ${err}`));
     }
 
     // Set speaker if it was provided and it's supported.
     if (speakerId && typeof renderer.setSinkId !== 'undefined') {
       // TODO: Better then/catch handling.
       renderer.setSinkId(speakerId).then(() => {
-        _loglevel2.default.debug('Set to use speaker: ', speakerId);
+        log.debug('Set to use speaker: ', speakerId);
       }).catch(error => {
-        _loglevel2.default.debug('Could not set speaker to use. ' + speakerId, error);
+        log.debug('Could not set speaker to use. ' + speakerId, error);
       });
     }
 
@@ -23527,15 +22929,15 @@ function Track(mediaTrack, mediaStream) {
     let element;
     // If a string was provided, use it as a CSS selector to find the element.
     if (typeof container === 'string') {
-      _loglevel2.default.debug(`Track ${id} removing from element using selector: ${container}`);
+      log.debug(`Track ${id} removing from element using selector: ${container}`);
 
       element = document.querySelector(container);
       if (!element) {
-        _loglevel2.default.error(`Unable to get container with selector: ${container}.`);
+        log.error(`Unable to get container with selector: ${container}.`);
         return false;
       }
     } else {
-      _loglevel2.default.debug(`Track ${id} removing from provided HTMLElement.`);
+      log.debug(`Track ${id} removing from provided HTMLElement.`);
 
       element = container;
     }
@@ -23543,7 +22945,7 @@ function Track(mediaTrack, mediaStream) {
     let index = containers.indexOf(element);
     if (index === -1) {
       // Not rendered in element.
-      _loglevel2.default.debug(`Track ${id} not rendered in element.`, element);
+      log.debug(`Track ${id} not rendered in element.`, element);
       return;
     }
     containers.splice(index, 1);
@@ -23694,7 +23096,7 @@ function Track(mediaTrack, mediaStream) {
     setStream,
     getStream
   };
-} // Libraries.
+}
 
 /***/ }),
 
@@ -23745,13 +23147,13 @@ exports.removeBundling = removeBundling;
 exports.changeMediaDirection = changeMediaDirection;
 exports.preventDtlsRoleChange = preventDtlsRoleChange;
 
-var _loglevel = __webpack_require__("../../node_modules/loglevel/lib/loglevel.js");
-
-var _loglevel2 = _interopRequireDefault(_loglevel);
+var _logs = __webpack_require__("../../packages/webrtc/src/logs.js");
 
 var _constants = __webpack_require__("../../packages/webrtc/src/constants.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+const log = _logs.logManager.getLogger('SdpPipeline');
 
 /**
  * SDP handler to remove the trickle ICE option from media groups.
@@ -23764,11 +23166,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @param  {Object} originalSdp
  * @return {Object}
  */
-// Libraries.
+
+// Constants.
 function removeTrickleIce(sdp, info, originalSdp) {
   sdp.media.forEach(media => {
     if (media.iceOptions === 'trickle') {
-      _loglevel2.default.debug(`Removing trickle ICE option from ${media.type} media.`);
+      log.debug(`Removing trickle ICE option from ${media.type} media.`);
       delete media.iceOptions;
     }
   });
@@ -23788,9 +23191,6 @@ function removeTrickleIce(sdp, info, originalSdp) {
  * @param  {Object}     originalSdp   The original SDP before any modifications.
  * @return {Object}
  */
-
-
-// Constants.
 function removeBundling(sdp, info, originalSdp) {
   if (sdp.groups) {
     delete sdp.groups;
@@ -23869,7 +23269,7 @@ function preventDtlsRoleChange(newSdp, info, originalSdp) {
        *    throughout renegotiations.
        */
       if (mLine.setup && info.dtlsRole && mLine.setup !== info.dtlsRole) {
-        _loglevel2.default.debug(`Changing DTLS role from ${mLine.setup} to ${info.dtlsRole}.`);
+        log.debug(`Changing DTLS role from ${mLine.setup} to ${info.dtlsRole}.`);
         mLine.setup = info.dtlsRole;
       }
     }
@@ -23895,17 +23295,17 @@ var _freeze2 = _interopRequireDefault(_freeze);
 
 exports.runPipeline = runPipeline;
 
-var _loglevel = __webpack_require__("../../node_modules/loglevel/lib/loglevel.js");
-
-var _loglevel2 = _interopRequireDefault(_loglevel);
-
 var _sdpTransform = __webpack_require__("../../node_modules/sdp-transform/lib/index.js");
 
 var _sdpTransform2 = _interopRequireDefault(_sdpTransform);
 
 var _fp = __webpack_require__("../../node_modules/lodash/fp.js");
 
+var _logs = __webpack_require__("../../packages/webrtc/src/logs.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+const log = _logs.logManager.getLogger('SdpPipeline');
 
 /**
  * Basic SDP pipeline runner.
@@ -23920,6 +23320,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @return {String}     The modified session description.
 
  */
+// Libraries.
 function runPipeline(handlers, sdp, info) {
   let objectSdp = _sdpTransform2.default.parse(sdp);
 
@@ -23931,7 +23332,7 @@ function runPipeline(handlers, sdp, info) {
       if ((0, _fp.isFunction)(handler)) {
         newSdp = handler(newSdp, info, originalSdp);
       } else {
-        _loglevel2.default.error(`SDP handler not a function; skipping.`);
+        log.error(`SDP handler not a function; skipping.`);
       }
     });
   }
@@ -23945,7 +23346,6 @@ function runPipeline(handlers, sdp, info) {
  * @method createPipeline
  * @return {Object} An SDP pipeline.
  */
-// Libraries.
 function createPipeline() {
   /**
    * SDP handlers that should be included with every pipeline run.
@@ -24049,13 +23449,11 @@ exports.setTransceiverDirection = setTransceiverDirection;
 
 var _constants = __webpack_require__("../../packages/webrtc/src/constants.js");
 
-var _loglevel = __webpack_require__("../../node_modules/loglevel/lib/loglevel.js");
-
-var _loglevel2 = _interopRequireDefault(_loglevel);
-
 var _fp = __webpack_require__("../../node_modules/lodash/fp.js");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _logs = __webpack_require__("../../packages/webrtc/src/logs.js");
+
+const log = _logs.logManager.getLogger('SdpPipeline');
 
 /**
  * Sets a transceiver's direction.
@@ -24067,7 +23465,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  */
 function setTransceiverDirection(transceiver, targetDirection) {
   if (!(0, _fp.includes)(targetDirection, (0, _fp.values)(_constants.MEDIA_DIR))) {
-    _loglevel2.default.info(`Invalid direction "${targetDirection}"`);
+    log.info(`Invalid direction "${targetDirection}"`);
     return false;
   }
 

@@ -9,6 +9,10 @@
   description: # Connecting and Disconnecting
   link: /quickstarts/javascript/newLink/User%20Connect
 
+- name: Call States
+  description: # Call States
+  link: /quickstarts/javascript/newLink/Call%20States
+
 - name: Voice and Video Calls
   description: # Voice and Video Calls
   link: /quickstarts/javascript/newLink/Voice%20and%20Video%20Calls
