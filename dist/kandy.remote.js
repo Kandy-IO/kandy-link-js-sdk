@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.remote.js
- * Version: 4.14.0-beta.350
+ * Version: 4.15.0-beta.351
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -15369,6 +15369,29 @@ module.exports = {
 
 /***/ }),
 
+/***/ "../../packages/kandy/src/common/version.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getVersion = getVersion;
+/**
+ * Returns the version of the currently running SDK.
+ *
+ * It must be used by any plugins (including the factory) as the unique source of truth when it comes to determine the current SDK version.
+ * The actual version value is provided by the build process scripts (aka webpack.config.***.js) which simply do a string substitution
+ * for the @@ tag below with actual version value.
+ */
+function getVersion() {
+  return '4.15.0-beta.351';
+}
+
+/***/ }),
+
 /***/ "../../packages/kandy/src/events/eventEmitter.js":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -16849,7 +16872,11 @@ var _promise2 = _interopRequireDefault(_promise);
 
 exports.default = wrapChannel;
 
+var _logs = __webpack_require__("../../packages/kandy/src/logs/index.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+const log = _logs.logManager.getLogger('CHANNEL');
 
 /**
  * Wraps a channel with only `send` and `receive` functionality into one that
@@ -16861,6 +16888,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @param  {Object} channel
  * @return {Object} The same channel, but with a `reply` method as well.
  */
+// Other plugins.
 function wrapChannel(channel) {
   /**
    * Track sent messages by their ID.
@@ -16875,18 +16903,20 @@ function wrapChannel(channel) {
     if (messageId && sentMessages[messageId]) {
       // If the message has an ID from a sent message, then it is a reply to
       //    that message. Resolve the promise associated with it.
+      log.debug(`Received reply from message ${messageId}.`);
       sentMessages[messageId].resolve(data);
     } else if (messageId && !sentMessages[messageId]) {
       // If the message has an ID that we don't know about, then the application
       //    will need to handle it.
       if (api.receive) {
+        log.debug(`Received new message ${messageId}.`);
         api.receive(messageId, data);
       } else {
-        console.warn('No listener for receiving messages.', data);
+        log.error('No listener set for handling received messages.', data);
       }
     } else {
       // If the message didn't have an ID, then it wasn't from our test channel.
-      console.log('Unknown message.');
+      log.warn('Received message without an ID on the channel; ignoring.', message);
     }
   };
 
@@ -16922,7 +16952,8 @@ function wrapChannel(channel) {
       sentMessages[messageId] = {
         resolve
         // Send the message over the channel.
-      };channel.send(message);
+      };log.debug(`Sending new message ${messageId}.`);
+      channel.send(message);
     }).then(data => {
       // The message received a reply, so remove the reference.
       delete sentMessages[messageId];
@@ -16955,6 +16986,7 @@ function wrapChannel(channel) {
       messageId
     };
 
+    log.debug(`Replying to message ${messageId}.`);
     channel.send(message);
   };
 
@@ -17010,6 +17042,7 @@ exports.default = convertCommand;
 exports.convertTrack = convertTrack;
 exports.convertMedia = convertMedia;
 exports.convertSession = convertSession;
+exports.convertLogger = convertLogger;
 
 var _deviceManager = __webpack_require__("../../packages/kandy/src/webrtcProxy/converters/deviceManager.js");
 
@@ -17027,6 +17060,10 @@ var _trackManager = __webpack_require__("../../packages/kandy/src/webrtcProxy/co
 
 var _trackManager2 = _interopRequireDefault(_trackManager);
 
+var _logManager = __webpack_require__("../../packages/kandy/src/webrtcProxy/converters/logManager.js");
+
+var _logManager2 = _interopRequireDefault(_logManager);
+
 var _media = __webpack_require__("../../packages/kandy/src/webrtcProxy/converters/media.js");
 
 var _media2 = _interopRequireDefault(_media);
@@ -17038,6 +17075,10 @@ var _session2 = _interopRequireDefault(_session);
 var _track = __webpack_require__("../../packages/kandy/src/webrtcProxy/converters/track.js");
 
 var _track2 = _interopRequireDefault(_track);
+
+var _logger = __webpack_require__("../../packages/kandy/src/webrtcProxy/converters/logger.js");
+
+var _logger2 = _interopRequireDefault(_logger);
 
 var _logs = __webpack_require__("../../packages/kandy/src/logs/index.js");
 
@@ -17054,13 +17095,15 @@ const managers = {
   media: _mediaManager2.default,
   sessionManager: _sessionManager2.default,
   track: _trackManager2.default,
-  devices: _deviceManager2.default
+  devices: _deviceManager2.default,
+  logs: _logManager2.default
 
   // Converters for the webRTC models.
 };const models = {
   media: _media2.default,
   session: _session2.default,
-  track: _track2.default
+  track: _track2.default,
+  logger: _logger2.default
 
   /**
    * Forwards a webRTC command to the appropriate "converter".
@@ -17075,11 +17118,25 @@ const managers = {
   if (command.id === 'manager') {
     // Forward the command to the appropriate manager converter.
     log.debug(`Performing ${command.type} manager operation ${command.operation}.`, command.params);
-    return managers[command.type](webRTC, command);
+    const result = managers[command.type](webRTC, command);
+
+    // The result is a Promise. Add a .then for debugging after it completes.
+    result.then(data => {
+      log.debug(`Completed ${command.type} manager operation ${command.operation}.`, data);
+    });
+
+    return result;
   } else {
     // Forward the command to the appropriate model converter.
     log.debug(`Performing ${command.type} model operation ${command.operation}.`, command.params);
-    return models[command.type](webRTC, command);
+    const result = models[command.type](webRTC, command);
+
+    // The result is a Promise. Add a .then for debugging after it completes.
+    result.then(data => {
+      log.debug(`Completed ${command.type} model operation ${command.operation}.`, data);
+    });
+
+    return result;
   }
 }
 
@@ -17133,6 +17190,121 @@ function convertSession(session) {
     });
   }
 }
+
+/**
+ * Converts a Logger object into a serializable object.
+ * @method convertLogger
+ * @param  {Logger} logger A WebRTC logger.
+ * @return {Object}  A serializable object.
+ */
+function convertLogger(logger) {
+  if (logger) {
+    return {
+      type: 'logger',
+      // Use the name as the unique Logger ID (which is what it is).
+      id: logger.name
+    };
+  }
+}
+
+/***/ }),
+
+/***/ "../../packages/kandy/src/webrtcProxy/converters/logManager.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _index = __webpack_require__("../../packages/kandy/src/webrtcProxy/converters/index.js");
+
+/**
+ * Log Manager "converter".
+ * Defines how received Log Manager commands are performed, and how any data is
+ *    returned over the channel (if needed).
+ * @method logManager
+ * @param {Object} webRTC The local webRTC stack.
+ * @param {Object} command A webRTC command.
+ * @return {Promise} Resolves when the operation has completed.
+ */
+exports.default = async function logManager(webRTC, command) {
+  const { operation, params } = command;
+  const manager = webRTC.managers.logs;
+
+  // Handle different APIs differently, depending on what they return.
+  if (operation === 'getLogger') {
+    const logger = manager.getLogger(...params);
+    return (0, _index.convertLogger)(logger);
+  } else if (operation === 'getLoggers') {
+    const loggers = manager.getLoggers(...params);
+    return loggers.map(_index.convertLogger);
+  } else if (operation === 'getHandler') {
+    // We can't send a function over the channel; return nothing.
+    return undefined;
+  } else if (operation === 'setLevel') {
+    // Set the level on the LogManager itself.
+    manager.setLevel(...params);
+
+    // Signature was either setLevel(type, level) or setLevel(level).
+    const level = params[1] || params[0];
+    // Set the level on all already-created Loggers.
+    manager.getLoggers().forEach(logger => logger.setLevel(level));
+  } else {
+    // General case: Don't convert the return.
+    return manager[operation](...params);
+  }
+};
+
+/***/ }),
+
+/***/ "../../packages/kandy/src/webrtcProxy/converters/logger.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _logs = __webpack_require__("../../packages/kandy/src/logs/index.js");
+
+/**
+ * Logger "converter".
+ *
+ * Defines how received Logger commands are performed, and how any data is
+ *    returned over the channel (if needed).
+ * @method logger
+ * @param {Object} webRTC The local webRTC stack.
+ * @param {Object} command A webRTC command.
+ * @return {Promise} Resolves when the Logger operation has completed.
+ */
+exports.default = async function logger(webRTC, command) {
+  const { id, operation, params } = command;
+
+  /**
+   * Special-case: If the operation is for the PROXY or CHANNEL Logger, that is
+   *    actually the Remote SDK's own Logger, not the WebRTC stack's Logger.
+   */
+  if (id === 'PROXY' || id === 'CHANNEL') {
+    // Get the logger from the SDK's log manager.
+    const logger = _logs.logManager.getLogger(id);
+    return logger[operation](...params);
+  }
+
+  // Get the logger from the WebRTC Stack's log manager.
+  const logger = webRTC.managers.logs.getLogger(id);
+  if (operation === 'getHandler') {
+    // We can't send a function over the channel; return nothing.
+    return undefined;
+  } else {
+    // General case: Don't convert the return.
+    return logger[operation](...params);
+  }
+};
 
 /***/ }),
 
@@ -17509,14 +17681,25 @@ function clientProxy() {
    * @param {Channel} channel See the `Channel` module for information.
    */
   api.setChannel = channel => {
+    log.debug(`${_logs.API_LOG_TAG}proxy.setChannel`);
+
     base.channel = (0, _channel2.default)(channel);
-
     base.channel.receive = (id, data) => {
-      log.debug(`Received message ${id}.`);
-
       if (!base.isReady && data.initialize) {
         log.info('Initializing local webRTC stack.', data.config);
         base.webRTC = base.webRTC(data.config);
+
+        // Set the initial log levels if they were provided.
+        if (data.logLevels) {
+          const { WEBRTC, PROXY, CHANNEL } = data.logLevels;
+          // Set the log level in the WebRTC stack's Log Manager.
+          base.webRTC.managers.logs.setLevel(WEBRTC);
+          // Also set the log level in the Remote SDK's PROXY logger.
+          log.setLevel(PROXY);
+          // Also also set the log level in the Remote SDK's CHANNEL logger.
+          _logs.logManager.getLogger('CHANNEL').setLevel(CHANNEL);
+        }
+
         base.isReady = true;
 
         // Setup listeners for events from the webRTC stack.
@@ -17525,8 +17708,8 @@ function clientProxy() {
           //    action), send it over the channel.
           if (typeof action === 'object' && action.type) {
             // Make sure that the action is an actual action, though.
-            log.debug(`Sending event over channel: ${action.type}.`);
-            const messageId = (0, _uuid.v4)();
+            log.info(`Sending event over channel: ${action.type}.`);
+            const messageId = (0, _uuid.v4)().substring(0, 8);
             base.channel.send(messageId, { event: action });
           } else {
             log.debug(`Proxy event listeners received unexpected format; ignoring.`, action);
@@ -17541,15 +17724,18 @@ function clientProxy() {
           api.onInit(base.webRTC);
         }
         base.channel.reply(id, { initialized: true, browser });
+        log.info('Finished initializing local webRTC stack.');
       } else if (!base.isReady) {
+        // If we received a (non-initialize) message, but haven't yet initialized
+        //    the local WebRTC stack, reply that this side is not ready yet.
         log.info('Client not ready! Still needs to be initialized.');
         base.channel.reply(id, { initialized: false });
       } else if (isWebrtcCommand(data)) {
-        log.info('Received Webrtc command.');
+        log.info(`Received ${data.type} ${data.operation} operation, performing...`);
         // WebRTC operations may be async. Need to ensure that
         //    they finish before replying to the command.
         (0, _converters2.default)(base.webRTC, data).then(result => {
-          log.debug(`Completed operation, sending reply to ${id}.`, result);
+          log.info(`Finished ${data.type} ${data.operation} operation, replying with result.`);
           base.channel.reply(id, result);
         });
       } else {
@@ -17567,6 +17753,7 @@ function clientProxy() {
    * @return {Channel}
    */
   api.getChannel = () => {
+    log.debug(`${_logs.API_LOG_TAG}proxy.getChannel`);
     return base.channel;
   };
 
@@ -17576,6 +17763,8 @@ function clientProxy() {
    * @param {Any} args Depends on channel used.
    */
   api.send = (...args) => {
+    log.debug(`${_logs.API_LOG_TAG}proxy.send`);
+
     if (base.channel && base.channel.send) {
       base.channel.send(...args);
     } else {
@@ -17753,10 +17942,13 @@ var _events2 = _interopRequireDefault(_events);
 
 var _logs = __webpack_require__("../../packages/kandy/src/logs/index.js");
 
+var _version = __webpack_require__("../../packages/kandy/src/common/version.js");
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// Other plugins.
 const log = _logs.logManager.getLogger('PROXY');
 
 /**
@@ -17777,10 +17969,11 @@ const log = _logs.logManager.getLogger('PROXY');
  * @method remoteClient
  * @return {Object} The remote SDK's API.
  */
-
-
-// Other plugins.
 function remoteClient() {
+  // Log the SDK's version (templated by webpack) on initialization.
+  const version = (0, _version.getVersion)();
+  log.info(`Remote SDK version: ${version}`);
+
   // Setup the Client Proxy.
   const proxy = (0, _clientProxy2.default)();
   // The webRTC stack ...when initialized.
@@ -17836,7 +18029,8 @@ function remoteClient() {
     media: mediaApi,
     on: emitter.on,
     off: emitter.off,
-    getCapabilities: () => []
+    getCapabilities: () => [],
+    getVersion: () => version
   };
 }
 
@@ -17920,6 +18114,8 @@ const log = _logs.logManager.getLogger('PROXY');
 
 // Other plugins.
 function getDevices(webRTC) {
+  log.debug(`${_logs.API_LOG_TAG}media.getDevices`);
+
   const manager = webRTC.managers.devices;
   return manager.get();
 }
@@ -17933,6 +18129,8 @@ function getDevices(webRTC) {
  * @return {Array} List of Media IDs.
  */
 function getMedia(webRTC) {
+  log.debug(`${_logs.API_LOG_TAG}media.getMedia`);
+
   const manager = webRTC.managers.media;
   return manager.getAll();
 }
@@ -17946,6 +18144,8 @@ function getMedia(webRTC) {
  * @return {MediaObject} A media object.
  */
 function getMediaById(webRTC, mediaId) {
+  log.debug(`${_logs.API_LOG_TAG}media.getMediaById: ${mediaId}`);
+
   const manager = webRTC.managers.media;
   return manager.get(mediaId).getState();
 }
@@ -17959,6 +18159,8 @@ function getMediaById(webRTC, mediaId) {
  * @return {TrackObject} A track object.
  */
 function getTrackById(webRTC, trackId) {
+  log.debug(`${_logs.API_LOG_TAG}media.getTrackById: ${trackId}`);
+
   const manager = webRTC.managers.track;
   return manager.get(trackId);
 }
@@ -17979,6 +18181,8 @@ function getTrackById(webRTC, trackId) {
  * })
  */
 function renderTracks(webRTC, trackIds, cssSelector) {
+  log.debug(`${_logs.API_LOG_TAG}media.renderTracks: ${trackIds}, ${cssSelector}`);
+
   const trackManager = webRTC.managers.track;
   const tracks = trackIds.map(trackManager.get);
 
@@ -18005,6 +18209,8 @@ function renderTracks(webRTC, trackIds, cssSelector) {
  * @param  {string} cssSelector A CSS selector string that uniquely identifies an element. Ensure that special characters are properly escaped.
  */
 function removeTracks(webRTC, trackIds, cssSelector) {
+  log.debug(`${_logs.API_LOG_TAG}media.removeTracks: ${trackIds}, ${cssSelector}`);
+
   const trackManager = webRTC.managers.track;
   const tracks = trackIds.map(trackManager.get);
 
@@ -18225,7 +18431,13 @@ function defaultLogHandler(entry) {
   // Compile the meta info of the log for a prefix.
   const { timestamp, level, target } = entry;
   let { method } = entry;
-  const logInfo = `${timestamp} - ${target.type} - ${level}`;
+
+  // Find a short name to reference which Logger this log is from.
+  //    This is mostly to cut down the ID if it's too long for a human to read.
+  const shortId = target.id && target.id.length > 8 ? target.id.substring(0, 6) : target.id;
+  const shortName = shortId ? `${target.type}/${shortId}` : target.type;
+
+  const logInfo = `${timestamp} - ${shortName} - ${level}`;
 
   // Assume that the first message parameter is a string.
   const [log, ...extra] = entry.messages;
@@ -18319,7 +18531,9 @@ function createManager(options = {}) {
      * @param  {string} [id] A unique identifier for the logger.
      * @return {Logger}
      */
-  };function getLogger(type, id) {
+  };function getLogger(type, id = '') {
+    id = String(id);
+
     // Combine the name and ID to create the "full" logger name.
     const loggerName = id ? `${type}-${id}` : type;
 
@@ -19051,10 +19265,10 @@ exports.default = oniceconnectionstatechange;
  * @return {Boolean}  Whether the assignment succeeded or not.
  */
 function oniceconnectionstatechange(listener) {
-  const { nativePeer, id, log } = this;
+  const { nativePeer, log } = this;
 
   nativePeer.oniceconnectionstatechange = function (event) {
-    log.debug(`Peer ${id} received iceconnectionstatechange event: ${nativePeer.iceConnectionState}`);
+    log.debug(`Peer received iceconnectionstatechange event: ${nativePeer.iceConnectionState}`);
     listener(event);
   };
 
@@ -19084,7 +19298,7 @@ var _constants = __webpack_require__("../../packages/webrtc/src/constants.js");
  * @return {Boolean}  Whether the assignment succeeded or not.
  */
 function onicegatheringstatechange(listener) {
-  const { nativePeer, id, iceTimer, log } = this;
+  const { nativePeer, iceTimer, log } = this;
 
   /**
    * Intercept the PeerConnection onicegatheringstatechange event.
@@ -19093,7 +19307,7 @@ function onicegatheringstatechange(listener) {
    */
   nativePeer.onicegatheringstatechange = event => {
     const gatheringState = event.target.iceGatheringState;
-    log.debug(`Peer ${id} iceGatheringState changed to ${gatheringState}.`);
+    log.debug(`Peer iceGatheringState changed to ${gatheringState}.`);
 
     if (gatheringState === _constants.PEER.ICE_GATHERING_STATE.GATHERING) {
       iceTimer.start();
@@ -19176,10 +19390,10 @@ exports.default = onnegotiationneeded;
  * @return {Boolean}  Whether the assignment succeeded or not.
  */
 function onnegotiationneeded(listener) {
-  const { nativePeer, id, log } = this;
+  const { nativePeer, log } = this;
 
   nativePeer.onnegotiationneeded = function (event) {
-    log.debug(`Peer ${id} received negotiationneeded event.`);
+    log.debug(`Peer received negotiationneeded event.`);
     listener(event);
   };
 
@@ -19206,10 +19420,10 @@ exports.default = onsignalingstatechange;
  * @return {Boolean}  Whether the assignment succeeded or not.
  */
 function onsignalingstatechange(listener) {
-  const { nativePeer, id, log } = this;
+  const { nativePeer, log } = this;
 
   nativePeer.onsignalingstatechange = function (event) {
-    log.debug(`Peer ${id} received signalingstatechange event: ${nativePeer.signalingState}`);
+    log.debug(`Peer received signalingstatechange event: ${nativePeer.signalingState}`);
     listener(event);
   };
 
@@ -19236,7 +19450,7 @@ exports.default = ontrack;
  * @return {Boolean}  Whether the assignment succeeded or not.
  */
 function ontrack(listener) {
-  const { nativePeer, id, trackManager, log } = this;
+  const { nativePeer, trackManager, log } = this;
 
   nativePeer.ontrack = event => {
     /**
@@ -19263,7 +19477,7 @@ function ontrack(listener) {
     // Convert the native MediaStreamTrack into a Track object.
     const track = trackManager.add(nativeTrack, targetStream);
 
-    log.debug(`Peer ${id} received ${nativeTrack.kind} Track ${track.id}.`);
+    log.debug(`Peer received ${nativeTrack.kind} Track ${track.id}.`);
     listener(track);
   };
 
@@ -19345,12 +19559,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function peer(id, config = {}, trackManager) {
   const log = _logs.logManager.getLogger('Peer', id);
   config = (0, _utils.mergeValues)(_config2.default, config);
+  log.info(`Creating new Peer.`);
 
   const iceTimer = _timerMachine2.default.get(`ice-${id}`);
   const emitter = new _eventemitter2.default();
 
   // Create the native Peer.
-  log.info(`Creating peer connection with ID: ${id}.`, config);
+  log.debug(`Creating native PeerConnection.`, config.rtcConfig);
   const nativePeer = new RTCPeerConnection(config.rtcConfig);
 
   // Add the event emitter methods to the wrapped methods as well.
@@ -19522,13 +19737,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  */
 function addIceCandidate(candidate) {
   const { nativePeer, proxyPeer, id, log } = this;
-  log.info(`Peer ${id} adding ICE candidate.`);
+  log.info(`Adding ICE candidate.`);
 
   return new _promise2.default((resolve, reject) => {
     if (proxyPeer.remoteDescription.type && proxyPeer.remoteDescription.sdp) {
       nativePeer.addIceCandidate(candidate).then(resolve).catch(reject);
     } else {
-      log.debug(`Peer ${id} cannot set remote ICE candidate without a remote description.`);
+      log.info(`Cannot set remote ICE candidate without a remote description.`);
       // TODO: Better error.
       reject(new Error(`Peer ${id} cannot set remote ICE candidate without a remote description.`));
     }
@@ -19554,16 +19769,15 @@ exports.default = addTrack;
  * @return {RTCRtpSender}
  */
 function addTrack(track) {
-  const { nativePeer, id, log } = this;
-
-  log.info(`Peer ${id} adding new track.`);
+  const { nativePeer, log } = this;
+  log.info(`Adding new ${track.track.kind} track.`);
 
   let sender;
   try {
     sender = nativePeer.addTrack(track.track, track.getStream());
   } catch (err) {
     // TODO: Better error handling.
-    log.debug(err.message);
+    log.info(`Failed to add track: ${err.message}`);
   }
   // TODO: What to return here? Probably shouldn't expose the rtpSender itself.
   return sender;
@@ -19587,7 +19801,7 @@ exports.default = close;
  */
 function close() {
   const { nativePeer, id, emitter, log } = this;
-  log.debug(`Peer ${id} closing.`);
+  log.info(`Closing Peer.`);
 
   nativePeer.close();
   emitter.emit('peer:closed', id);
@@ -19631,9 +19845,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @return {Promise} Resolves with the answer.
  */
 function createAnswer(options = {}) {
-  const { nativePeer, id, config, dtlsRole, log } = this;
-
-  log.info(`Peer ${id} creating local answer.`);
+  const { nativePeer, config, dtlsRole, log } = this;
+  log.info(`Creating local answer.`);
 
   // If using unified-plan, remove options.mediaDirections.
   // This is because directions are now set in transceivers.
@@ -19671,6 +19884,8 @@ function createAnswer(options = {}) {
           dtlsRole: dtlsRole
         });
       }
+
+      log.info(`Finished creating local answer.`);
       resolve(answer);
     }).catch(reject);
   });
@@ -19714,9 +19929,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @return {Promise} Resolves with the offer.
  */
 function createOffer(options = {}) {
-  const { nativePeer, id, config, log } = this;
-
-  log.info(`Peer ${id} creating local offer.`);
+  const { nativePeer, config, log } = this;
+  log.info(`Creating local offer.`);
 
   // If using unified-plan, remove options.mediaDirections.
   // This is because directions are now set in transceivers.
@@ -19746,6 +19960,8 @@ function createOffer(options = {}) {
           endpoint: _constants.PEER.ENDPOINT.LOCAL
         });
       }
+
+      log.info(`Finished creating local offer.`);
       resolve(offer);
     }).catch(reject);
   });
@@ -19777,15 +19993,12 @@ var _sdpSemantics = __webpack_require__("../../packages/webrtc/src/sdpUtils/sdpS
  * @returns {Object} Transceiver object that matches kind, has no sender track, and has currentDirection. Otherwise undefined.
  */
 function findReusableTransceiver(kind) {
-  const { proxyPeer, config, id, log } = this;
-  log.info(`Peer ${id} finding reusable transceiver.`);
+  const { proxyPeer, config } = this;
 
   if ((0, _sdpSemantics.isUnifiedPlan)(config.rtcConfig.sdpSemantics)) {
     const transceivers = proxyPeer.getTransceivers();
     return transceivers.find(transceiver => transceiver.sender.track == null && transceiver.receiver && transceiver.receiver.track && transceiver.receiver.track.kind === kind && transceiver.currentDirection // If this has been set, then transceiver has been used before.
     );
-  } else {
-    log.info(`Transceivers are only available in unified-plan.`);
   }
 }
 
@@ -19847,8 +20060,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @return {Promise} Resolves with the RTCStatsReport
  */
 function getStats(trackId) {
-  const { nativePeer, proxyPeer, id, log } = this;
-  log.info(`Peer ${id} getting stats ${trackId ? 'for track.' : '.'}`);
+  const { nativePeer, proxyPeer, log } = this;
+  log.info(`Getting stats ${trackId ? 'for track.' : '.'}`);
   // If no trackId is supplied, get the stats from the RTCPeerConnection. Otherwise, find an RTCSender
   // associated with the trackId and get the stats from it.
 
@@ -19862,7 +20075,7 @@ function getStats(trackId) {
         sender.getStats().then(resolve).catch(reject);
       } else {
         const errMsg = `Cannot find sender with trackId: ${trackId}`;
-        log.debug(errMsg);
+        log.info(errMsg);
         reject(new Error(errMsg));
       }
     });
@@ -19979,15 +20192,15 @@ exports.default = removeTrack;
  * @param  {string} trackId An id for a Track object.
  */
 function removeTrack(trackId) {
-  const { nativePeer, proxyPeer, id, log } = this;
-  log.info(`Peer ${id} removing track ${trackId}.`);
+  const { nativePeer, proxyPeer, log } = this;
+  log.info(`Removing track ${trackId}.`);
 
   const track = proxyPeer.senderTracks.find(track => track.id === trackId);
   if (!track) {
-    log.debug(`Invalid track ID ${trackId}; cannot remove track.`);
+    log.info(`Invalid track ID ${trackId}; no such track found.`);
     return;
   } else if (proxyPeer.signalingState === ' closed') {
-    log.debug(`Peer ${id} is closed; cannot remove track.`);
+    log.info(`Peer is closed; cannot remove track.`);
     return;
   }
 
@@ -20027,8 +20240,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @return {Object} A Promise object which is fulfilled once the track has been replaced
  */
 function replaceTrack(newTrack, options) {
-  const { proxyPeer, id, config, log } = this;
-  log.info(`Peer ${id} replacing track ${options.trackId}.`);
+  const { proxyPeer, config, log } = this;
+  log.info(`Replacing track ${options.trackId} with new ${newTrack.kind} track.`);
 
   return new _promise2.default((resolve, reject) => {
     let sender;
@@ -20042,8 +20255,12 @@ function replaceTrack(newTrack, options) {
     }
 
     if (sender) {
-      sender.replaceTrack(newTrack).then(resolve).catch(reject);
+      sender.replaceTrack(newTrack).then(resolve).catch(error => {
+        log.info(`Failed to replace track; ${error.message}`);
+        reject(error);
+      });
     } else {
+      log.info(`Failed to replace track; could not find track ${options.trackId}.`);
       reject(new Error(`Sender for track ${options.trackId} not found.`));
     }
   });
@@ -20074,11 +20291,11 @@ exports.default = sendDTMF;
  * @return {Boolean} Whether the DTMF tones were inserted
  */
 function sendDTMF({ tone, duration = 100, intertoneGap = 70 }, { callback, trackId }) {
-  const { proxyPeer, id, log } = this;
-  log.info(`Peer ${id} sending DTMF tones.`);
+  const { proxyPeer, log } = this;
+  log.info(`Sending DTMF tones.`, tone);
 
   if (!proxyPeer.getSenders) {
-    log.debug('RTCPeerConnection method getSenders() is required which is not support by this browser.');
+    log.info(`Failed to send tones; getSenders is not supported by this browser.`);
     return false;
   }
   const senders = proxyPeer.getSenders();
@@ -20086,7 +20303,7 @@ function sendDTMF({ tone, duration = 100, intertoneGap = 70 }, { callback, track
   if (trackId) {
     let sender = senders.find(sender => sender.track.id === trackId);
     if (!sender) {
-      log.debug('No sender with that trackId');
+      log.info(`Failed to send tones; could not find track ${trackId}.`);
       return false;
     }
     insertDTMF(sender, tone, duration, intertoneGap, callback, log);
@@ -20099,7 +20316,8 @@ function sendDTMF({ tone, duration = 100, intertoneGap = 70 }, { callback, track
         return true;
       }
     }
-    log.debug('No appropriate senders were found');
+
+    log.info(`Failed to send tones; could not find an appropriate track.`);
     return false;
   }
 }
@@ -20187,7 +20405,8 @@ function setLocalDescription(desc) {
   const { nativePeer, proxyPeer, config, id, emitter, iceTimer, log } = this;
 
   // TODO: SDP pipeline here.
-  log.debug(`Peer ${id} setting local description ${desc.type}:`, desc.sdp);
+  log.info(`Setting local description ${desc.type} in ${proxyPeer.signalingState} state.`);
+  log.debug(`Setting local description ${desc.type}:`, desc.sdp);
 
   /**
    * Scenario: A local answer SDP is being applied to the Peer, but it does
@@ -20199,7 +20418,7 @@ function setLocalDescription(desc) {
   if (!this.dtlsRole && desc.type === 'answer') {
     const dtlsMatch = desc.sdp.match(/a=setup:(\w*?)[\r\n]/);
     if (dtlsMatch) {
-      log.debug(`Peer ${id} selecting DTLS role ${dtlsMatch[1]}.`);
+      log.debug(`Selecting DTLS role ${dtlsMatch[1]}.`);
       this.dtlsRole = dtlsMatch[1];
     }
   }
@@ -20212,18 +20431,18 @@ function setLocalDescription(desc) {
       if (iceTimer.isStarted()) {
         // In a HALF trickle scenario, the Peer will be ready for negotiation
         //    before ICE collection has completed. Log that timing.
-        log.debug(`Peer ${id} took ${iceTimer.timeFromStart()}ms to collect ICE candidates before negotiation.`);
+        log.debug(`Took ${iceTimer.timeFromStart()}ms to collect ICE candidates before negotiation.`);
       }
       resolve();
     });
 
     nativePeer.setLocalDescription(desc).then(() => {
-      log.info(`Peer ${id} set local description.`);
-      log.debug(`Peer ${id} state is now ${proxyPeer.signalingState}.`);
+      log.info(`Finished setting local description.`);
+      log.debug(`State is now ${proxyPeer.signalingState}.`);
 
       if (config.trickleIceMode === _constants.PEER.TRICKLE_ICE.FULL) {
         // Trickling ICE candidates means that we can begin negotiation immediately.
-        log.debug(`Peer ${id} ready for negotiation (full trickleICE).`);
+        log.debug(`Ready for negotiation (full trickleICE).`);
         emitter.emit('onnegotiationready');
       } else {
         // ICE candidates aren't always gathered (only initially and when something
@@ -20237,10 +20456,10 @@ function setLocalDescription(desc) {
         setTimeout(() => {
           if (proxyPeer.iceGatheringState === 'complete') {
             // Gathering is "complete", so we are ready for negotiation.
-            log.debug(`Peer ${id} ready for negotiation; ICE candidate collection not needed.`);
+            log.debug(`Ready for negotiation; ICE candidate collection not needed.`);
             emitter.emit('onnegotiationready');
           } else {
-            log.debug(`Peer ${id} waiting for ICE collection process (${config.trickleIceMode}).`);
+            log.debug(`Waiting for ICE collection process (${config.trickleIceMode}).`);
             // If ICE collection never finishes, we need to time it out at some point.
             //    Start the timeout-out loop after an initial delay.
             setTimeout(() => {
@@ -20250,7 +20469,7 @@ function setLocalDescription(desc) {
         }, 25);
       }
     }).catch(err => {
-      log.info(`Peer ${id} failed to set local description.`);
+      log.info(`Failed to set local description.`);
       log.debug(`Peer ${id}: ${err}`);
       // Parse native error. Make it more understand and/or
       //    provide a better log about what went wrong.
@@ -20289,6 +20508,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function setRemoteDescription(desc) {
   const { nativePeer, proxyPeer, id, log } = this;
 
+  // TODO: SDP pipeline here.
+  log.info(`Setting remote description ${desc.type} in ${proxyPeer.signalingState} state.`);
+  log.debug(`Setting remote description ${desc.type}:`, desc.sdp);
+
   /**
    * Scenario: A remote answer SDP is being applied to the Peer, but it does
    *    not have a selected DTLS role yet. This should occur only when the
@@ -20300,7 +20523,7 @@ function setRemoteDescription(desc) {
     const dtlsMatch = desc.sdp.match(/a=setup:(\w*?)[\r\n]/);
     if (dtlsMatch) {
       const localRole = dtlsMatch[1] === 'active' ? 'passive' : 'active';
-      log.debug(`Peer ${id} selecting DTLS role ${localRole}. Remote Peer selected ${dtlsMatch[1]} DTLS role.`);
+      log.debug(`Selecting DTLS role ${localRole}. Remote Peer selected ${dtlsMatch[1]} DTLS role.`);
       this.dtlsRole = localRole;
     }
   }
@@ -20308,13 +20531,12 @@ function setRemoteDescription(desc) {
   // TODO: Update `config.trickleIceMode` to either NONE or FULL (from HALF)
   //    depending on remote support, since HALF is only needed for initial.
   return new _promise2.default((resolve, reject) => {
-    log.debug(`Peer ${id} setting remote description ${desc.type}:`, desc.sdp);
     nativePeer.setRemoteDescription(desc).then(() => {
-      log.info(`Peer ${id} set remote description.`);
-      log.debug(`Peer ${id} state is now ${proxyPeer.signalingState}.`);
+      log.info(`Finished setting remote description.`);
+      log.debug(`State is now ${proxyPeer.signalingState}.`);
       resolve();
     }).catch(err => {
-      log.info(`Peer ${id} failed to set remote description.`);
+      log.info(`Failed to set remote description.`);
       log.debug(`Peer ${id}: ${err}`);
       // Parse native error. Make it more understand and/or
       //    provide a better log about what went wrong.
@@ -20349,8 +20571,8 @@ var _transceiverUtils = __webpack_require__("../../packages/webrtc/src/sdpUtils/
  * @return {Object} An object containing an `error` flag and  an array `failures` of transceivers whose directions weren't changed.
  */
 function setTransceiversDirection(targetDirection, options = {}) {
-  const { proxyPeer, config, id, log } = this;
-  log.info(`Peer ${id} setting transceiver direction to ${targetDirection}.`);
+  const { proxyPeer, config, log } = this;
+  log.info(`Setting transceiver direction to ${targetDirection}.`);
 
   if ((0, _sdpSemantics.isUnifiedPlan)(config.rtcConfig.sdpSemantics)) {
     let transceivers = proxyPeer.getTransceivers();
@@ -20430,8 +20652,8 @@ exports.default = getLocalDescription;
  * @method getLocalDescription
  */
 function getLocalDescription() {
-  const { nativePeer, id, log } = this;
-  log.debug(`Peer ${id} getting local description.`);
+  const { nativePeer, log } = this;
+  log.info(`Getting local description.`);
 
   const localDesc = nativePeer.localDescription;
   /*
@@ -20465,8 +20687,8 @@ exports.default = localTracks;
  * @return {Array} List of active Track objects added to the Peer locally.
  */
 function localTracks() {
-  const { proxyPeer, id, trackManager, log } = this;
-  log.info(`Peer ${id} getting local tracks.`);
+  const { proxyPeer, trackManager, log } = this;
+  log.info(`Getting local tracks.`);
 
   // Return the list of Tracks from active senders.
   return proxyPeer.getSenders()
@@ -20502,8 +20724,8 @@ exports.default = getRemoteDescription;
  * @method getRemoteDescription
  */
 function getRemoteDescription() {
-  const { nativePeer, id, log } = this;
-  log.debug(`Peer ${id} getting remote description.`);
+  const { nativePeer, log } = this;
+  log.info(`Getting remote description.`);
 
   const remoteDesc = nativePeer.remoteDescription;
   /*
@@ -20537,8 +20759,8 @@ exports.default = getRemoteTracks;
  * @return {Array} List of active Track objects the Peer has received remotely.
  */
 function getRemoteTracks() {
-  const { proxyPeer, id, trackManager, log } = this;
-  log.info(`Peer ${id} getting remote tracks.`);
+  const { proxyPeer, trackManager, log } = this;
+  log.info(`Getting remote tracks.`);
 
   // Return the list of Tracks from active receivers.
   return proxyPeer.getReceivers()
@@ -20577,8 +20799,8 @@ exports.default = senderTracks;
  * @return {Array} List of Track objects added to the Peer locally.
  */
 function senderTracks() {
-  const { proxyPeer, id, log } = this;
-  log.info(`Peer ${id} getting sender tracks.`);
+  const { proxyPeer, log } = this;
+  log.info(`Getting sender tracks.`);
 
   // Return the list of Tracks from senders.
   return proxyPeer.getSenders()
@@ -20795,7 +21017,11 @@ function initialize() {
       media: mediaManager,
       peerManager: peerManager,
       sessionManager,
-      track: trackManager
+      track: trackManager,
+      // Give access to the Log Manager.
+      // TODO: Don't include it under managers. It's here now because of
+      //    ProxyStack annoyingness.
+      logs: _logs.logManager
     },
     sdp: {
       pipeline: _pipeline2.default,
@@ -21754,6 +21980,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  */
 function Media(nativeStream, isLocal) {
   const log = _logs.logManager.getLogger('Media', nativeStream.id);
+  log.info(`Creating new ${isLocal ? 'local' : 'remote'} Media.`);
 
   // Internal variables.
   const id = nativeStream.id;
@@ -22033,6 +22260,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // SDP Helpers.
 function Session(id, managers, config = {}) {
   const log = _logs.logManager.getLogger('Session', id);
+  log.info(`Creating new Session.`);
+  const sdpSemantics = config.peer && config.peer.rtcConfig && config.peer.rtcConfig.sdpSemantics;
+  log.debug(`Session configured for ${sdpSemantics || 'default'} SDP semantics.`);
 
   // Internal variables.
   const sessionId = id;
@@ -22504,6 +22734,7 @@ function Session(id, managers, config = {}) {
    * @method end
    */
   function end() {
+    log.info(`Ending Session.`);
     const peer = peerManager.get(peerId);
     if (peer) {
       peer.close();
@@ -22634,6 +22865,9 @@ function Session(id, managers, config = {}) {
           performRenegotiation: false
         });
       });
+
+      const { kind } = track.getState();
+      log.info(`Received new track (${kind} : ${track.id})`);
 
       // Indicate that the Session has a new Track.
       emitter.emit('new:track', {
@@ -22766,6 +23000,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // Libraries.
 function Track(mediaTrack, mediaStream) {
   const log = _logs.logManager.getLogger('Track', mediaTrack.id);
+  log.info(`Creating new ${mediaTrack.kind} Track.`);
 
   // Internal variables.
   const id = mediaTrack.id;
@@ -22854,7 +23089,7 @@ function Track(mediaTrack, mediaStream) {
     let element;
     // If a string was provided, use it as a CSS selector to find the element.
     if (typeof container === 'string') {
-      log.debug(`Track ${id} rendering in element using selector: ${container}`);
+      log.info(`Rendering track in element using selector: ${container}`);
 
       element = document.querySelector(container);
       if (!element) {
@@ -22862,7 +23097,7 @@ function Track(mediaTrack, mediaStream) {
         return false;
       }
     } else {
-      log.debug(`Track ${id} rendering in provided HTMLElement.`);
+      log.info(`Rendering track in provided HTMLElement.`);
 
       element = container;
     }
@@ -22871,7 +23106,7 @@ function Track(mediaTrack, mediaStream) {
 
     if (containers.indexOf(element) > -1) {
       // Already rendered in element.
-      log.debug(`Track ${id} already rendered in element.`, element);
+      log.info(`Failed to render track; already rendered in element.`);
       return;
     }
 
@@ -22900,17 +23135,21 @@ function Track(mediaTrack, mediaStream) {
     if (type === 'video') {
       renderer.muted = 'true';
       // Needed for Android.
-      renderer.play().catch(err => log.error(`video tag (#${renderer.id}) - play() - ${err}`));
+      renderer.play().catch(err => {
+        log.debug(`Could not autoplay renderer #${renderer.id}: ${err.message}`);
+      });
     }
 
     // Set speaker if it was provided and it's supported.
     if (speakerId && typeof renderer.setSinkId !== 'undefined') {
       // TODO: Better then/catch handling.
       renderer.setSinkId(speakerId).then(() => {
-        log.debug('Set to use speaker: ', speakerId);
+        log.debug(`Set to use speaker: ${speakerId}.`);
       }).catch(error => {
-        log.debug('Could not set speaker to use. ' + speakerId, error);
+        log.debug(`Could not set speaker to use ${speakerId}: ${error.message}`);
       });
+    } else if (speakerId && typeof renderer.setSinkId === 'undefined') {
+      log.info(`Failed to set speaker; setSinkId not supported in this browser.`);
     }
 
     element.appendChild(renderer);
@@ -22929,7 +23168,7 @@ function Track(mediaTrack, mediaStream) {
     let element;
     // If a string was provided, use it as a CSS selector to find the element.
     if (typeof container === 'string') {
-      log.debug(`Track ${id} removing from element using selector: ${container}`);
+      log.info(`Removing track from element using selector: ${container}`);
 
       element = document.querySelector(container);
       if (!element) {
@@ -22937,7 +23176,7 @@ function Track(mediaTrack, mediaStream) {
         return false;
       }
     } else {
-      log.debug(`Track ${id} removing from provided HTMLElement.`);
+      log.info(`Removing track from provided HTMLElement.`);
 
       element = container;
     }
@@ -22945,7 +23184,7 @@ function Track(mediaTrack, mediaStream) {
     let index = containers.indexOf(element);
     if (index === -1) {
       // Not rendered in element.
-      log.debug(`Track ${id} not rendered in element.`, element);
+      log.info(`Failed to remove track; not rendered in element.`);
       return;
     }
     containers.splice(index, 1);
@@ -22988,6 +23227,7 @@ function Track(mediaTrack, mediaStream) {
    * @method cleanup
    */
   function cleanup() {
+    log.info(`Cleaning up track.`);
     // Iterate over the array backwards since `removeFrom` changes the length
     //    of the array. This ensures that indexes aren't skipped.
     for (let i = containers.length; i > 0; i--) {
@@ -23193,6 +23433,7 @@ function removeTrickleIce(sdp, info, originalSdp) {
  */
 function removeBundling(sdp, info, originalSdp) {
   if (sdp.groups) {
+    log.debug('Removing SDP bundling groups.');
     delete sdp.groups;
   }
 
