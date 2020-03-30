@@ -5,22 +5,26 @@ Kandy.js change log.
 - This project adheres to [Semantic Versioning](http://semver.org/).
 - This change log follows [keepachangelog.com](http://keepachangelog.com/) recommendations.
 
-## 4.14.0 - beta
+## 4.14.0 - 2020-03-27
+
+### Added
+
+- Added a new tutorial topic describing 'Call States' and few minor updates on API documentation. `KAA-2169`
 
 ### Changed
 
 - Changed the error codes and error messages of Consultative Transfer, Direct Transfer, and Join call operation failures to be consistent with the ones received from the Kandy Link backend server. `KAA-2239`
   - These changes are reflected in the `transition` argument of the `call:stateChange` event which is emitted after an operation fails.
+- Updated README to include a link to tutorials with Kandy-UAE configuration. `KAA-2226`
 
 ### Fixed
 
 - Added checking for media willSend and willReceive when a Hold operation is received in case the remote side answered an audio only call with audio and video. `KAA-2209`
 - Fixed an issue where the callee of a call with slow-start negotiations would start the call audit twice. `KAA-2076`
 - Fixed an issue where `call.replaceTrack` API would fail for calls made on proxy mode. `KAA-2147`
-
-### Changed
-
-- Updated README to include a link to tutorials with Kandy-UAE configuration. `KAA-2226`
+- Fixed an issue where an existing local video track could not be replaced by a screen sharing track. `KAA-2144`
+- Fixed an issue where the `conversation.subscribe` listener not being triggered. `KAA-2200`
+- Fixed an issue where incoming call notifications would be dropped when on `push-channel-only` mode if the notification arrived on the websocket channel first. `KAA-2156`
 
 ## 4.13.0 - 2020-02-28
 
@@ -38,16 +42,12 @@ Kandy.js change log.
   - The resync feature requires Kandy Link 4.7.1+.
 - Added push-mode option for receiving incoming calls exclusively through push on Apple's mobile platform. `KAA-2155`
   - See `config.notifications.incomingCallNotificationMode`
-- Added a new tutorial topic describing 'Call States' and few minor updates on API documentation. `KAA-2169`
 
 ### Fixed
 
 - Fixed a Call issue where a slow-start, remote hold operation, when entering a "dual hold" state, was not being processed correctly. `KAA-2183`
 - Fixed problems with Firefox Hold/Unhold under `plan-b` sdpSemantics by making it impossible to start the SDK in `plan-b` under any browser that is not Chrome. `KAA-2174`
 - Fixed the ICE servers documentation for the Link SDK. `KAA-2197`
-- Fixed an issue where the `conversation.subscribe` listener not being triggered. `KAA-2200`
-- Fixed an issue where incoming call notifications would be dropped when on `push-channel-only` mode if the notification arrived on the websocket channel first. `KAA-2156`
-- Fixed an issue where an existing local video track could not be replaced by a screen sharing track. `KAA-2144`
 
 ## 4.12.0 - 2020-01-31
 

@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.14.0-beta.349
+ * Version: 4.14.0-beta.350
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -42821,7 +42821,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.14.0-beta.349';
+  return '4.14.0-beta.350';
 }
 
 /***/ }),
@@ -63984,8 +63984,8 @@ function Track(mediaTrack, mediaStream) {
       streamId: stream.id,
       kind: track.kind,
       label: track.label,
-      muted: track.muted,
-      disabled: !track.enabled,
+      muted: !track.enabled,
+      disabled: track.muted,
       state: track.readyState,
       containers: containers.map(element => element.id)
     };
