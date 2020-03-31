@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.remote.js
- * Version: 4.15.0-beta.352
+ * Version: 4.15.0-beta.353
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -15387,7 +15387,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.15.0-beta.352';
+  return '4.15.0-beta.353';
 }
 
 /***/ }),
@@ -16262,6 +16262,8 @@ var _effects = __webpack_require__("../../node_modules/redux-saga/es/effects.js"
 
 var _reduxSaga = __webpack_require__("../../node_modules/redux-saga/es/index.js");
 
+var _actions = __webpack_require__("../../packages/kandy/src/webrtc/interface/actions/index.js");
+
 /**
  * Sets up event listeners for a Track's events.
  * The events are turned into actions and dispatched
@@ -16270,7 +16272,6 @@ var _reduxSaga = __webpack_require__("../../node_modules/redux-saga/es/index.js"
  * @param  {Object} track A Track object.
  * @param  {Object} webRTC The webRTC stack.
  */
-// Libraries.
 function* watchTrackEvents(track, webRTC) {
   /**
    * Create an event channel between the Track and redux-saga.
@@ -16293,6 +16294,7 @@ function* watchTrackEvents(track, webRTC) {
  * @param  {Any}      [END='END'] The "end of lifetime" symbol.
  * @return {Function} The unsubscribe function.
  */
+// Libraries.
 function setListeners(track, emit, END = 'END') {
   // Track ended
   const trackEnded = trackData => {
@@ -16303,10 +16305,26 @@ function setListeners(track, emit, END = 'END') {
     emit(END);
   };
 
+  // The track source (which affected the track identified by trackId) was muted.
+  // An example of a track source is a physical media device such as:
+  // microphone or camera.
+  const trackSourceMuted = trackData => {
+    emit(_actions.trackActions.trackSourceMuted([trackData.trackId]));
+  };
+
+  // The track source (which affected the track identified by trackId) was unmuted.
+  const trackSourceUnmuted = trackData => {
+    emit(_actions.trackActions.trackSourceUnmuted([trackData.trackId]));
+  };
+
   track.on('ended', trackEnded);
+  track.on('muted', trackSourceMuted);
+  track.on('unmuted', trackSourceUnmuted);
 
   const unsubscribe = () => {
     track.off('ended', trackEnded);
+    track.off('muted', trackSourceMuted);
+    track.off('unmuted', trackSourceUnmuted);
   };
   return unsubscribe;
 }
@@ -16465,6 +16483,9 @@ const MUTE_TRACKS = exports.MUTE_TRACKS = trackPrefix + 'MUTE';
 const MUTE_TRACKS_FINISH = exports.MUTE_TRACKS_FINISH = trackPrefix + 'MUTE_FINISH';
 const UNMUTE_TRACKS = exports.UNMUTE_TRACKS = trackPrefix + 'UNMUTE';
 const UNMUTE_TRACKS_FINISH = exports.UNMUTE_TRACKS_FINISH = trackPrefix + 'UNMUTE_FINISH';
+
+const TRACK_SOURCE_MUTED = exports.TRACK_SOURCE_MUTED = trackPrefix + 'SOURCE_MUTED';
+const TRACK_SOURCE_UNMUTED = exports.TRACK_SOURCE_UNMUTED = trackPrefix + 'SOURCE_UNMUTED';
 
 /**
  * Session action types.
@@ -16776,6 +16797,8 @@ exports.muteTracks = muteTracks;
 exports.muteTracksFinish = muteTracksFinish;
 exports.unmuteTracks = unmuteTracks;
 exports.unmuteTracksFinish = unmuteTracksFinish;
+exports.trackSourceMuted = trackSourceMuted;
+exports.trackSourceUnmuted = trackSourceUnmuted;
 exports.renderTracks = renderTracks;
 exports.renderTracksFinish = renderTracksFinish;
 exports.removeTracks = removeTracks;
@@ -16819,7 +16842,7 @@ function muteTracks(trackIds) {
 }
 
 function muteTracksFinish(trackIds) {
-  return trackHelper(actionTypes.MUTE_TRACKS_FINISH, trackIds);
+  return trackHelper(actionTypes.MUTE_TRACKS_FINISH, { trackIds: trackIds });
 }
 
 function unmuteTracks(trackIds) {
@@ -16827,7 +16850,15 @@ function unmuteTracks(trackIds) {
 }
 
 function unmuteTracksFinish(trackIds) {
-  return trackHelper(actionTypes.UNMUTE_TRACKS_FINISH, trackIds);
+  return trackHelper(actionTypes.UNMUTE_TRACKS_FINISH, { trackIds: trackIds });
+}
+
+function trackSourceMuted(trackIds) {
+  return trackHelper(actionTypes.TRACK_SOURCE_MUTED, { trackIds: trackIds });
+}
+
+function trackSourceUnmuted(trackIds) {
+  return trackHelper(actionTypes.TRACK_SOURCE_UNMUTED, { trackIds: trackIds });
 }
 
 function renderTracks(trackIds, params) {
@@ -23071,8 +23102,8 @@ function Track(mediaTrack, mediaStream) {
       streamId: stream.id,
       kind: track.kind,
       label: track.label,
-      muted: !track.enabled,
-      disabled: track.muted,
+      muted: track.muted,
+      enabled: track.enabled,
       state: track.readyState,
       containers: containers.map(element => element.id)
     };
