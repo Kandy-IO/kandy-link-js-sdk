@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.15.0-beta.358
+ * Version: 4.15.0-beta.359
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -42761,7 +42761,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.15.0-beta.358';
+  return '4.15.0-beta.359';
 }
 
 /***/ }),
@@ -50180,6 +50180,7 @@ function* pushNotificationsRegistration(connection, {
   }
 
   body = (0, _stringify2.default)(body);
+  log.debug(`Sending PUSH register request: ${method} ${url}`);
 
   const response = yield (0, _effects2.default)({ url, method, body }, requestOptions);
 
@@ -50190,36 +50191,38 @@ function* pushNotificationsRegistration(connection, {
   }
 
   if (response.error) {
+    log.info('Failed to register device token for PUSH notifications.');
     if (registrationResponse) {
       // Handle errors from the server.
       let statusCode = registrationResponse.statusCode;
-      log.debug(`Failed to register device token for push notifications. Status: ${statusCode}`);
+      log.debug(`Device registration request for PUSH notifications failed with status code: ${statusCode}`);
 
       return {
         error: true,
         status: statusCode,
-        text: `Failed to register device token. Error: ${statusCode}`
+        text: `Failed to register device token for PUSH notifications. Code: ${statusCode}`
       };
     } else {
       // Handle errors from the request helper.
       let { message } = response.payload.result;
-      log.debug(`Device registration request failed: ${message}.`);
+      log.debug(`Device registration request for PUSH notifications failed with message: ${message}.`);
 
       return {
         error: true,
         status: response.payload.result.code,
-        text: `Failed to register device token. Error: ${response.payload.result.message}`
+        text: `Failed to register device token for PUSH notifications. Error: ${response.payload.result.message}`
       };
     }
   } else if (registrationResponse && registrationResponse.statusCode !== 0) {
+    log.info(`Failed to register device token for PUSH notifications. Code: ${registrationResponse.statuscode}`);
     // TODO: Is this else-if needed?
     return {
       error: true,
       status: registrationResponse.statuscode,
-      text: `Failed to register device token. Error: ${registrationResponse.statusCode}`
+      text: `Failed to register device token for PUSH notifications. Error: ${registrationResponse.statusCode}`
     };
   } else {
-    log.debug('Successfully registered device token for push notifications.', registrationResponse.statusCode);
+    log.info('Successfully registered device token for PUSH notifications.');
     return (0, _extends3.default)({
       error: false
     }, registrationResponse);
@@ -50240,32 +50243,34 @@ function* pushNotificationsDeRegistration(connection, { registration }) {
   const method = 'DELETE';
   const responseType = 'none';
 
+  log.debug(`Sending PUSH unregister request: ${method} ${url}`);
   const response = yield (0, _effects2.default)({ url, method, responseType }, requestOptions);
 
   if (response.error) {
+    log.info('Failed to unregister device token for PUSH notifications.');
     if (response.payload.body) {
       // Handle errors from the server.
       let { statusCode } = response.payload.body;
-      log.debug(`Failed to unregister device token for push. Status: ${statusCode}.`);
+      log.debug(`Failed to unregister device token for PUSH notifications. Status code: ${statusCode}.`);
       // TODO: Proper errors.
       return {
         error: true,
         status: statusCode,
-        text: `Failed to unregister device token. Code: ${statusCode}.`
+        text: `Failed to unregister device token for PUSH notifications. Code: ${statusCode}.`
       };
     } else {
       // Handle errors from the request helper.
       let { message } = response.payload.result;
-      log.debug(`Device token unregistration request failed: ${message}`);
+      log.debug(`Device token unregistration request failed for PUSH notifications: ${message}`);
       // TODO: Proper error.
       return {
         error: true,
         status: response.payload.result.code,
-        text: `Device token deregistration request failed: ${message}`
+        text: `Device token unregistration request failed for PUSH notifications: ${message}`
       };
     }
   } else {
-    log.debug('Successfully un-registered device token for push notifications.');
+    log.info('Successfully unregistered device token for PUSH notifications.');
     // Successful de-register has no response.
     return {
       error: false
@@ -50281,14 +50286,21 @@ function* pushNotificationsDeRegistration(connection, { registration }) {
  */
 function* fetchSDP(connection, partialUrl) {
   const { server, requestOptions } = connection;
+  const method = 'GET';
+  const url = `${server.protocol}://${server.server}:${server.port}${partialUrl}`;
+  log.debug(`Sending request to fecth SDP: ${method} ${url}`);
+
   const response = yield (0, _effects2.default)({
-    url: `${server.protocol}://${server.server}:${server.port}${partialUrl}`,
-    method: 'GET'
+    url,
+    method
   }, requestOptions);
 
   if (!response.error) {
+    log.info('SDP fetched successfully.');
     // TODO: test and see what this format actually is.
     return response.payload.body;
+  } else {
+    log.debug(`Failed to fetch SDP. Error is: ${(0, _stringify2.default)(response.error)}`);
   }
 }
 
@@ -50365,6 +50377,7 @@ function* enableWebsocketChannel(action) {
 
   // TODO: Handle possible error case when connecting websockets.
   //      Otherwise, plain dispatch to update state.
+  log.info(`Enabling WEBSOCKET notification channel ...`);
   yield (0, _effects.put)(actions.enableNotificationChannelFinish(action.meta.channel, {
     params: action.payload
   }));
@@ -50400,12 +50413,12 @@ function* processNotification() {
   const externalNotifications = yield (0, _effects.actionChannel)(actionTypes.PROCESS_NOTIFICATION, _reduxSaga.buffers.expanding(INITIAL_BUFFER_SIZE));
   while (true) {
     const action = yield (0, _effects.take)(externalNotifications);
-    log.info(`Received notification on channel ${action.meta.channel}; handling.`);
+    log.info(`Received notification on channel ${action.meta.channel} for platform: ${action.meta.platform}; Handling...`);
 
     // Only process notifications from enabled channels, ie. "silence" the channel.
     let channel = yield (0, _effects.select)(_selectors2.getNotificationsInfo, action.meta.channel);
     if (!channel.channelEnabled) {
-      log.debug('Notification received on disabled channel. Ignoring it.', action.meta.channel);
+      log.debug(`Notification received on disabled channel: ${action.meta.channel}. Ignoring it ...`);
       continue;
     }
 
@@ -50433,7 +50446,7 @@ function* processNotification() {
           }
         }
         if (!notificationId) {
-          log.error('Received notification without a findable ID.', (0, _keys2.default)(notification));
+          log.error('Received notification without a findable ID: ', (0, _keys2.default)(notification));
         }
         break;
       default:
@@ -50462,6 +50475,8 @@ function* processNotification() {
         addIdToCache(notificationId);
 
         const { platform, channel } = action.meta;
+        log.debug('Added notification ID to the ID cache. Informing listeners ...');
+        // Inform all other plugins by sending a NOTIFICATION_RECEIVED action
         yield (0, _effects.put)(actions.notificationReceived(formattedPayload, platform, channel));
       } else {
         log.info('Notification was a duplicate; ignoring.');
@@ -50488,7 +50503,7 @@ function* normalizeSDP(payload) {
   payload = (0, _extends3.default)({}, payload);
 
   if (payload.notificationMessage.sessionParams.sdpFormat === 'compressed') {
-    log.debug('sdpFormat: compressed. Deflating compressed SDP...');
+    log.debug('Found SDP format: compressed. Deflating compressed SDP...');
     // convert based64 encoded string into bytes
     const sdpCompressedBytes = atob(payload.notificationMessage.sessionParams.sdp);
     // uncompress the bytes
@@ -50496,12 +50511,12 @@ function* normalizeSDP(payload) {
     // convert uncompress bytes back into string
     const sdpString = String.fromCharCode.apply(null, new Uint16Array(sdpUnCompressedBytes));
     payload.notificationMessage.sessionParams.sdp = sdpString;
+    log.debug(`Returning uncompressed SDP as part of payload: ${sdpString}`);
     return payload;
   } else if (payload.notificationMessage.sessionParams.sdpFormat === 'url') {
-    log.debug('sdpFormat: url. Fetching SDP...');
     const connection = yield (0, _effects.select)(_selectors.getConnectionInfo);
     const { pushRegistration } = yield (0, _effects.select)(_selectors2.getNotificationConfig);
-
+    log.debug(`Found SDP format: url. pushRegistration: ${pushRegistration}`);
     // If a push registration endpoint was configured, use that instead of default.
     if (pushRegistration) {
       connection.server = (0, _fp.defaults)(connection.server, pushRegistration);
@@ -50509,7 +50524,7 @@ function* normalizeSDP(payload) {
       connection.port = (0, _fp.defaults)(connection.port, pushRegistration);
       connection.version = (0, _fp.defaults)(connection.version, pushRegistration);
     }
-
+    log.info('Fetching SDP...');
     const response = yield (0, _effects.call)(requests.fetchSDP, connection, payload.notificationMessage.sessionParams.sdp);
     payload.notificationMessage.sessionParams.sdp = response.eventDataResponse.sdp;
     return payload;
@@ -50603,7 +50618,7 @@ function* registerPushDeviceToken(action) {
     connection.version = (0, _fp.defaults)(connection.version, pushRegistration);
   }
 
-  log.debug('Registering device token for push notifications.');
+  log.info('Registering device token for PUSH notifications...');
   const response = yield (0, _effects.call)(requests.pushNotificationsRegistration, connection, (0, _extends3.default)({}, action.payload));
 
   if (response.error) {
@@ -50649,7 +50664,7 @@ function* unregisterPushDeviceToken(action) {
     connection.version = (0, _fp.defaults)(connection.version, pushRegistration);
   }
 
-  log.debug('Un-registering device token for push notifications.');
+  log.info('Un-registering device token for PUSH notifications...');
   const response = yield (0, _effects.call)(requests.pushNotificationsDeRegistration, connection, {
     registration: action.payload.registration
   });
