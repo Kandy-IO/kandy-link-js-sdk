@@ -11,6 +11,10 @@ Kandy.js change log.
 
 - Added the handling of mute/unmute events which are being generated when a media source is muted/unmuted by triggers that are outside of SDK's control. `KAA-1641`
 
+### Fixed
+
+- Fixed Call issue that, when in Proxy mode, would cause delays when responding to a remote operation.
+
 ### Changed
 
 - Improved logs for Calls. `KAA-2219`
