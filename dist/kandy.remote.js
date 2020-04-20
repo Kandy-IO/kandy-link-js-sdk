@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.remote.js
- * Version: 4.15.0-beta.368
+ * Version: 4.15.0-beta.374
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -13791,7 +13791,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.15.0-beta.368';
+  return '4.15.0-beta.374';
 }
 
 /***/ }),
@@ -19446,6 +19446,8 @@ const PEER = exports.PEER = {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.getBrowserDetails = getBrowserDetails;
+exports.getWebRTCSupportCapabilities = getWebRTCSupportCapabilities;
 exports.default = initialize;
 
 var _track = __webpack_require__("../../packages/webrtc/src/models/track.js");
@@ -19498,11 +19500,34 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * @returns The browser details as provided by webrtc-adapter
+ */
 // Models.
+function getBrowserDetails() {
+  return _adapter_no_edge2.default.browserDetails;
+}
+
+/**
+ * @returns An dictionary of features that are supported on this platform.
+ */
+
+
+// SDP helpers.
+
+
+// Managers.
+function getWebRTCSupportCapabilities() {
+  return {
+    mediaDevices: Boolean(navigator.mediaDevices),
+    peerConnection: Boolean(window.RTCPeerConnection)
+  };
+}
+
 function initialize() {
   const log = _logs.logManager.getLogger('WebRTC');
 
-  const browserDetails = _adapter_no_edge2.default.browserDetails;
+  const browserDetails = getBrowserDetails();
   if (browserDetails.version) {
     log.debug(`Browser details: ${browserDetails.browser}, version ${browserDetails.version}.`);
   } else {
@@ -19541,16 +19566,10 @@ function initialize() {
       pipeline: _pipeline2.default,
       handlers: sdpHandlers
     },
-    getBrowserDetails: () => {
-      return browserDetails;
-    }
+    // Export this on the webRTC stack for backwards compatibility.
+    getBrowserDetails
   };
 }
-
-// SDP helpers.
-
-
-// Managers.
 
 /***/ }),
 
