@@ -1337,18 +1337,6 @@ client.on('call:stateChange', function (params) {
 })
 ```
 
-### setDefaultDevices
-
-The `setDefaultDevices` API from previous SDK releases (3.X) has been
-   deprecated in the latest releases (4.X+). The SDK no longer keeps
-   track of "default devices" on behalf of the application.
-
-The devices used for a call can be selected as part of the APIs for
-   starting the call. Microphone and/or camera can be chosen in the
-   [call.make][19] and [call.answer][20] APIs, and speaker can be
-   chosen when the audio track is rendered with the
-   [media.renderTracks][51] API.
-
 ### changeInputDevices
 
 Changes the camera and/or microphone used for a Call's media input.
@@ -1359,7 +1347,7 @@ The latest SDK release (v4.X+) has not yet implemented this API in the
    same behaviour.
 
 The same behaviour as the `changeInputDevices` API can be implemented
-   using the general-purpose [call.replaceTrack][52] API. This API can
+   using the general-purpose [call.replaceTrack][51] API. This API can
    be used to replace an existing media track with a new track of the
    same type, allowing an application to change certain aspects of the
    media, such as input device.
@@ -1399,8 +1387,8 @@ The latest SDK release (v4.X+) has not yet implemented this API in the
 The same behaviour as the `changeSpeaker` API can be implemented by
    re-rendering the Call's audio track.  A speaker can be selected when
    rendering an audio track, so changing a speaker can be simulated
-   by unrendering the track with [media.removeTracks][53], then
-   re-rendering it with a new speaker with [media.renderTracks][51].
+   by unrendering the track with [media.removeTracks][52], then
+   re-rendering it with a new speaker with [media.renderTracks][53].
 
 **Examples**
 
@@ -1422,6 +1410,18 @@ client.media.renderTrack([ audioTrack ], audioContainer, {
    speakerId: 'speakerId'
 })
 ```
+
+### setDefaultDevices
+
+The `setDefaultDevices` API from previous SDK releases (3.X) has been
+   deprecated in the latest releases (4.X+). The SDK no longer keeps
+   track of "default devices" on behalf of the application.
+
+The devices used for a call can be selected as part of the APIs for
+   starting the call. Microphone and/or camera can be chosen in the
+   [call.make][19] and [call.answer][20] APIs, and speaker can be
+   chosen when the audio track is rendered with the
+   [media.renderTracks][53] API.
 
 ### SIP_URI
 
@@ -2647,11 +2647,11 @@ Returns voicemail data from the store.
 
 [50]: #calleventcalltrackreplaced
 
-[51]: #mediarendertracks
+[51]: #callreplacetrack
 
-[52]: #callreplacetrack
+[52]: #mediaremovetracks
 
-[53]: #mediaremovetracks
+[53]: #mediarendertracks
 
 [54]: #conversationconversation
 
