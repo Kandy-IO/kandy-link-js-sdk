@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.remote.js
- * Version: 4.15.0-beta.386
+ * Version: 4.15.0-beta.387
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -13791,7 +13791,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.15.0-beta.386';
+  return '4.15.0-beta.387';
 }
 
 /***/ }),
@@ -15818,6 +15818,14 @@ exports.default = async function mediaManager(webRTC, command) {
   } else if (operation === 'createLocal') {
     try {
       const media = await manager.createLocal(...params);
+      return (0, _index.convertMedia)(media);
+    } catch (err) {
+      console.error('Error: ', err);
+      return err;
+    }
+  } else if (operation === 'createLocalScreen') {
+    try {
+      const media = await manager.createLocalScreen(...params);
       return (0, _index.convertMedia)(media);
     } catch (err) {
       console.error('Error: ', err);

@@ -422,40 +422,6 @@ SIP users and PSTN phones.
 
 Call functions are all part of the 'call' namespace.
 
-### MediaConstraint
-
-The MediaConstraint type defines the format for configuring media options.
-Either the `exact` or `ideal` property should be provided. If both are present, the
-   `exact` value will be used.
-
-When the `exact` value is provided, it will be the only value considered for the option.
-   If it cannot be used, the constraint will be considered an error.
-
-When the `ideal` value is provided, it will be considered as the optimal value for the option.
-   If it cannot be used, the closest acceptable value will be used instead.
-
-Type: [Object][6]
-
-**Properties**
-
--   `exact` **[string][7]?** The required value for the constraint. Other values will not be accepted.
--   `ideal` **[string][7]?** The ideal value for the constraint. Other values will be considered if necessary.
-
-**Examples**
-
-```javascript
-// Specify video resolution when making a call.
-client.call.make(destination, {
-   audio: true,
-   video: true,
-   videoOptions: {
-     // Set height and width constraints to ideally be 1280x720.
-     height: { ideal: 720 },
-     width: { ideal: 1280 }
-   }
-})
-```
-
 ### DeviceInfo
 
 Contains information about a device.
@@ -569,32 +535,39 @@ client.call.make(destination, mediaConstraints,
 )
 ```
 
-### CallObject
+### MediaConstraint
 
-Information about a Call.
+The MediaConstraint type defines the format for configuring media options.
+Either the `exact` or `ideal` property should be provided. If both are present, the
+   `exact` value will be used.
 
-Can be retrieved using the [call.getAll][23] or [call.getById][24] APIs.
+When the `exact` value is provided, it will be the only value considered for the option.
+   If it cannot be used, the constraint will be considered an error.
+
+When the `ideal` value is provided, it will be considered as the optimal value for the option.
+   If it cannot be used, the closest acceptable value will be used instead.
 
 Type: [Object][6]
 
 **Properties**
 
--   `id` **[string][7]** The ID of the call.
--   `from` **user.UserID** A unique identifier (uri) of the person who made the call.
--   `to` **user.UserID** A unique identifier (uri) of the person who receives the call.
--   `direction` **[string][7]** The direction in which the call was created. Can be 'outgoing' or 'incoming'.
--   `state` **[string][7]** The current state of the call. See [call.states][25] for possible states.
--   `localHold` **[boolean][10]** Indicates whether this call is currently being held locally.
--   `remoteHold` **[boolean][10]** Indicates whether this call is currently being held remotely.
--   `localTracks` **[Array][12]&lt;[string][7]>** A list of Track IDs that the call is sending to the remote participant.
--   `remoteTracks` **[Array][12]&lt;[string][7]>** A list of Track IDs that the call is receiving from the remote participant.
--   `remoteParticipant` **[Object][6]** Information about the other call participant.
-    -   `remoteParticipant.displayNumber` **[string][7]?** The User ID of the remote participant in the form "username@domain".
-    -   `remoteParticipant.displayName` **[string][7]?** The display name of the remote participant.
--   `bandwidth` **[call.BandwidthControls][26]** The bandwidth limitations set for the call.
--   `customParameters` **[Array][12]&lt;[call.CustomParameter][27]>** The custom parameters set for the call.
--   `startTime` **[number][11]** The start time of the call in milliseconds since the epoch.
--   `endTime` **[number][11]?** The end time of the call in milliseconds since the epoch.
+-   `exact` **[string][7]?** The required value for the constraint. Other values will not be accepted.
+-   `ideal` **[string][7]?** The ideal value for the constraint. Other values will be considered if necessary.
+
+**Examples**
+
+```javascript
+// Specify video resolution when making a call.
+client.call.make(destination, {
+   audio: true,
+   video: true,
+   videoOptions: {
+     // Set height and width constraints to ideally be 1280x720.
+     height: { ideal: 720 },
+     width: { ideal: 1280 }
+   }
+})
+```
 
 ### CustomParameter
 
@@ -602,17 +575,17 @@ Custom SIP headers can be used to convey additional information to a SIP endpoin
 
 These headers must be configured on the server prior to making a request, otherwise the request will fail when trying to set the headers.
 
-These headers can be specified with the [call.make][28] and [call.answer][29] APIs.
-They can also be set on a call using the [call.setCustomParameters][30], and sent using the [call.sendCustomParameters][31] API.
+These headers can be specified with the [call.make][23] and [call.answer][24] APIs.
+They can also be set on a call using the [call.setCustomParameters][25], and sent using the [call.sendCustomParameters][26] API.
 
 Custom headers may be received anytime throughout the duration a call. A remote endpoint may send custom headers when starting a call,
  answering a call, or during call updates such as hold/unhold and addition/removal of media in the call.
- When these custom headers are received, the SDK will emit a [call:customParameters][32] event
+ When these custom headers are received, the SDK will emit a [call:customParameters][27] event
  which will contain the custom parameters that were received.
 
-A Call's custom parameters are a property of the Call's [CallObject][33],
- which can be retrieved using the [call.getById][24] or
- [call.getAll][23] APIs.
+A Call's custom parameters are a property of the Call's [CallObject][28],
+ which can be retrieved using the [call.getById][29] or
+ [call.getAll][30] APIs.
 
 Type: [Object][6]
 
@@ -637,6 +610,33 @@ client.call.make(destination, mediaConstraints,
 )
 ```
 
+### CallObject
+
+Information about a Call.
+
+Can be retrieved using the [call.getAll][30] or [call.getById][29] APIs.
+
+Type: [Object][6]
+
+**Properties**
+
+-   `id` **[string][7]** The ID of the call.
+-   `from` **user.UserID** A unique identifier (uri) of the person who made the call.
+-   `to` **user.UserID** A unique identifier (uri) of the person who receives the call.
+-   `direction` **[string][7]** The direction in which the call was created. Can be 'outgoing' or 'incoming'.
+-   `state` **[string][7]** The current state of the call. See [call.states][31] for possible states.
+-   `localHold` **[boolean][10]** Indicates whether this call is currently being held locally.
+-   `remoteHold` **[boolean][10]** Indicates whether this call is currently being held remotely.
+-   `localTracks` **[Array][12]&lt;[string][7]>** A list of Track IDs that the call is sending to the remote participant.
+-   `remoteTracks` **[Array][12]&lt;[string][7]>** A list of Track IDs that the call is receiving from the remote participant.
+-   `remoteParticipant` **[Object][6]** Information about the other call participant.
+    -   `remoteParticipant.displayNumber` **[string][7]?** The User ID of the remote participant in the form "username@domain".
+    -   `remoteParticipant.displayName` **[string][7]?** The display name of the remote participant.
+-   `bandwidth` **[call.BandwidthControls][32]** The bandwidth limitations set for the call.
+-   `customParameters` **[Array][12]&lt;[call.CustomParameter][33]>** The custom parameters set for the call.
+-   `startTime` **[number][11]** The start time of the call in milliseconds since the epoch.
+-   `endTime` **[number][11]?** The end time of the call in milliseconds since the epoch.
+
 ### make
 
 Starts an outgoing call to a [SIP_URI][34] or a
@@ -646,7 +646,7 @@ The call will be tracked by a unique ID that is returned by the API. The
    application will use this ID to identify and control the call after it
    has been initiated.
 
-The [call.getById][24] API can be used to retrieve
+The [call.getById][29] API can be used to retrieve
    the current information about the call.
 
 The progress of the operation will be tracked via the
@@ -681,9 +681,9 @@ The SDK requires access to the machine's media devices (eg. microphone)
         -   `media.screenOptions.width` **[call.MediaConstraint][41]?** The width of the screenShare.
         -   `media.screenOptions.frameRate` **[call.MediaConstraint][41]?** The frame rate of the screenShare.
 -   `options` **[Object][6]?** 
-    -   `options.bandwidth` **[call.BandwidthControls][26]?** Options for configuring media's bandwidth.
+    -   `options.bandwidth` **[call.BandwidthControls][32]?** Options for configuring media's bandwidth.
     -   `options.displayName` **[string][7]?** Custom display name to be provided to the destination. Not supported in all environments and may use default display name.
-    -   `options.customParameters` **[Array][12]&lt;[call.CustomParameter][27]>?** Custom SIP header parameters for the SIP backend
+    -   `options.customParameters` **[Array][12]&lt;[call.CustomParameter][33]>?** Custom SIP header parameters for the SIP backend
 
 **Examples**
 
@@ -736,7 +736,7 @@ The progress of the operation will be tracked via the
 The SDK will emit a [call:stateChange][42]
    event locally when the operation completes. This indicates that the
    call has connected with the remote participant. The
-   [call.getById][24] API can be used to retrieve the latest call state
+   [call.getById][29] API can be used to retrieve the latest call state
    after the change. Further events will be emitted to indicate that the
    call has received media from the remote participant. See the
    [call:newTrack][43] event for more
@@ -766,8 +766,8 @@ The SDK requires access to the system's media devices (eg. microphone)
         -   `media.screenOptions.width` **[call.MediaConstraint][41]?** The width of the screenShare.
         -   `media.screenOptions.frameRate` **[call.MediaConstraint][41]?** The frame rate of the screenShare.
 -   `options` **[Object][6]?** 
-    -   `options.bandwidth` **[call.BandwidthControls][26]?** Options for configuring media's bandwidth.
-    -   `options.customParameters` **[Array][12]&lt;[call.CustomParameter][27]>?** Custom SIP header parameters for the SIP backend
+    -   `options.bandwidth` **[call.BandwidthControls][32]?** Options for configuring media's bandwidth.
+    -   `options.customParameters` **[Array][12]&lt;[call.CustomParameter][33]>?** Custom SIP header parameters for the SIP backend
 
 ### ignore
 
@@ -839,11 +839,11 @@ The specified parameters will be saved as part of the call's information through
 All subsequent call operations will include these custom parameters.
 Therefore, invalid parameters, or parameters not previously configured on the server, will cause subsequent call operations to fail.
 
-A Call's custom parameters are a property of the Call's [CallObject][33],
-   which can be retrieved using the [call.getById][24] or
-   [call.getAll][23] APIs.
+A Call's custom parameters are a property of the Call's [CallObject][28],
+   which can be retrieved using the [call.getById][29] or
+   [call.getAll][30] APIs.
 
-The custom parameters set on a call can be sent directly with the [call.sendCustomParameters][31] API.
+The custom parameters set on a call can be sent directly with the [call.sendCustomParameters][26] API.
 
 Custom parameters can be removed from a call's information by setting them as undefined (e.g., `call.setCustomParameters(callId)`).
 Subsequent call operations will no longer send custom parameters.
@@ -851,18 +851,18 @@ Subsequent call operations will no longer send custom parameters.
 **Parameters**
 
 -   `callId` **[string][7]** The ID of the call.
--   `customParameters` **[Array][12]&lt;[call.CustomParameter][27]>** The custom parameters to set.
+-   `customParameters` **[Array][12]&lt;[call.CustomParameter][33]>** The custom parameters to set.
 
 ### sendCustomParameters
 
 Send the custom parameters on an ongoing call to the server. The server may either consume the headers or relay them
 to another endpoint, depending on how the server is configured.
 
-A Call's custom parameters are a property of the Call's [CallObject][33],
-   which can be retrieved using the [call.getById][24] or
-   [call.getAll][23] APIs.
+A Call's custom parameters are a property of the Call's [CallObject][28],
+   which can be retrieved using the [call.getById][29] or
+   [call.getAll][30] APIs.
 
-To change or remove the custom parameters on a call, use the [call.setCustomParameters][30] API.
+To change or remove the custom parameters on a call, use the [call.setCustomParameters][25] API.
 
 **Parameters**
 
@@ -946,7 +946,7 @@ The SDK will emit a [call:newTrack][43] event
         -   `media.screenOptions.width` **[call.MediaConstraint][41]?** The width of the screenShare.
         -   `media.screenOptions.frameRate` **[call.MediaConstraint][41]?** The frame rate of the screenShare.
 -   `options` **[Object][6]?**  (optional, default `{}`)
-    -   `options.bandwidth` **[call.BandwidthControls][26]?** Options for configuring media's bandwidth.
+    -   `options.bandwidth` **[call.BandwidthControls][32]?** Options for configuring media's bandwidth.
 
 ### removeMedia
 
@@ -964,7 +964,7 @@ The SDK will emit a [call:trackEnded][46]
 -   `callId` **[string][7]** The ID of the call to remove media from.
 -   `tracks` **[Array][12]** A list of track IDs to remove.
 -   `options` **[Object][6]?**  (optional, default `{}`)
-    -   `options.bandwidth` **[call.BandwidthControls][26]?** Options for configuring media's bandwidth.
+    -   `options.bandwidth` **[call.BandwidthControls][32]?** Options for configuring media's bandwidth.
 
 ### startVideo
 
@@ -1291,55 +1291,6 @@ client.call.replaceTrack(callId, videoTrack.id, {
 })
 ```
 
-### changeSpeaker
-
-Changes the speaker used for a Call's audio output. Supported on
-   browser's that support HTMLMediaElement.setSinkId().
-
-The latest SDK release (v4.X+) has not yet implemented this API in the
-   same way that it was available in previous releases (v3.X). In place
-   of this API, the SDK has a more general API that can be used for this
-   same behaviour.
-
-The same behaviour as the `changeSpeaker` API can be implemented by
-   re-rendering the Call's audio track.  A speaker can be selected when
-   rendering an audio track, so changing a speaker can be simulated
-   by unrendering the track with [media.removeTracks][51], then
-   re-rendering it with a new speaker with [media.renderTracks][52].
-
-**Examples**
-
-```javascript
-const call = client.call.getById(callId)
-// Get the ID of the Call's audio track.
-const audioTrack = call.localTracks.find(trackId => {
-   const track = client.media.getTrackById(trackId)
-   return track.kind === 'audio'
-})
-
-// Where the audio track was previously rendered.
-const audioContainer = ...
-
-// Unrender the audio track we want to change speaker for.
-client.media.removeTrack([ audioTrack ], audioContainer)
-// Re-render the audio track with a new speaker.
-client.media.renderTrack([ audioTrack ], audioContainer, {
-   speakerId: 'speakerId'
-})
-```
-
-### setDefaultDevices
-
-The `setDefaultDevices` API from previous SDK releases (3.X) has been
-   deprecated in the latest releases (4.X+). The SDK no longer keeps
-   track of "default devices" on behalf of the application.
-
-The devices used for a call can be selected as part of the APIs for
-   starting the call. Microphone and/or camera can be chosen in the
-   [call.make][28] and [call.answer][29] APIs, and speaker can be
-   chosen when the audio track is rendered with the
-   [media.renderTracks][52] API.
-
 ### changeInputDevices
 
 Changes the camera and/or microphone used for a Call's media input.
@@ -1350,7 +1301,7 @@ The latest SDK release (v4.X+) has not yet implemented this API in the
    same behaviour.
 
 The same behaviour as the `changeInputDevices` API can be implemented
-   using the general-purpose [call.replaceTrack][53] API. This API can
+   using the general-purpose [call.replaceTrack][51] API. This API can
    be used to replace an existing media track with a new track of the
    same type, allowing an application to change certain aspects of the
    media, such as input device.
@@ -1377,6 +1328,18 @@ const media = {
 client.call.replaceTrack(callId, videoTrack, media)
 ```
 
+### setDefaultDevices
+
+The `setDefaultDevices` API from previous SDK releases (3.X) has been
+   deprecated in the latest releases (4.X+). The SDK no longer keeps
+   track of "default devices" on behalf of the application.
+
+The devices used for a call can be selected as part of the APIs for
+   starting the call. Microphone and/or camera can be chosen in the
+   [call.make][23] and [call.answer][24] APIs, and speaker can be
+   chosen when the audio track is rendered with the
+   [media.renderTracks][52] API.
+
 ### states
 
 Possible states that a Call can be in.
@@ -1389,9 +1352,9 @@ A Call's state describes the current status of the Call. An application
    whether the Call currently has media flowing between users.
 Unless stated otherwise, the Call's state pertains to both caller & callee.
 
-The Call's state is a property of the [CallObject][33],
-   which can be retrieved using the [call.getById][24] or
-   [call.getAll][23] APIs.
+The Call's state is a property of the [CallObject][28],
+   which can be retrieved using the [call.getById][29] or
+   [call.getAll][30] APIs.
 
 The SDK emits a [call:stateChange][42]
    event when a Call's state changes from one state to another.
@@ -1420,6 +1383,43 @@ client.on('call:stateChange', function (params) {
    if (call.state === client.call.states.CONNECTED) {
      // The call is now active, and can perform midcall operations.
    }
+})
+```
+
+### changeSpeaker
+
+Changes the speaker used for a Call's audio output. Supported on
+   browser's that support HTMLMediaElement.setSinkId().
+
+The latest SDK release (v4.X+) has not yet implemented this API in the
+   same way that it was available in previous releases (v3.X). In place
+   of this API, the SDK has a more general API that can be used for this
+   same behaviour.
+
+The same behaviour as the `changeSpeaker` API can be implemented by
+   re-rendering the Call's audio track.  A speaker can be selected when
+   rendering an audio track, so changing a speaker can be simulated
+   by unrendering the track with [media.removeTracks][53], then
+   re-rendering it with a new speaker with [media.renderTracks][52].
+
+**Examples**
+
+```javascript
+const call = client.call.getById(callId)
+// Get the ID of the Call's audio track.
+const audioTrack = call.localTracks.find(trackId => {
+   const track = client.media.getTrackById(trackId)
+   return track.kind === 'audio'
+})
+
+// Where the audio track was previously rendered.
+const audioContainer = ...
+
+// Unrender the audio track we want to change speaker for.
+client.media.removeTrack([ audioTrack ], audioContainer)
+// Re-render the audio track with a new speaker.
+client.media.renderTrack([ audioTrack ], audioContainer, {
+   speakerId: 'speakerId'
 })
 ```
 
@@ -1652,45 +1652,6 @@ If a conversation with the given user ID already exists in the store, it will be
 
 Returns **[conversation.Conversation][54]** A Conversation object.
 
-### Message
-
-A Message object is a means by which a sender can deliver information to a recipient.
-
-Creating and sending a message:
-
-A message object can be obtained through the [Conversation.createMessage][55] API on an existing conversation.
-
-Messages have Parts which represent pieces of a message, such as a text part, a json object part or a file part.
-Once all the desired parts have been added to the message using the [Message.addPart][56] function,
-the message can then be sent using the [Message.send][57] function.
-
-Once the sender sends a message, this message is saved in sender's state as an object.
-Similarly, once the recipient gets a message, this message is saved in recipient's state.
-
-Retrieving a delivered message:
-
-Once a message is delivered successfully, it can be
-obtained through the [Conversation.getMessages][58] or [Conversation.getMessage][59] API on an existing conversation.
-
-Below are the properties pertaining to the message object, returned by Conversation.getMessage(s) APIs, for either sender or recipient.
-
-Type: [Object][6]
-
-**Properties**
-
--   `timestamp` **[number][11]** A Unix timestamp in seconds marking the time when the message was created by sender.
--   `parts` **[Array][12]&lt;conversation.Part>** An array of Part Objects.
--   `sender` **[string][7]** The primary contact address of the sender.
--   `destination` **[Array][12]&lt;[string][7]>** An array of primary contact addresses associated with various destinations to which the message is meant to be delivered.
--   `messageId` **[string][7]** The unique id of the message. The message object (stored in sender's state) has a different id
-    than the one associated with the message object stored in recipient's state.
--   `type` **[string][7]** The type of message that was sent. See [conversation.chatTypes][60] for valid types.
-    This property applies only to message objects stored in sender's state.
-
-#### send
-
-Sends the message.
-
 ### Conversation
 
 A Conversation object represents a conversation between either two users, or a
@@ -1719,7 +1680,7 @@ Create and return a message object. You must provide a `text` part as demonstrat
 conversation.createMessage({type: 'text', text: 'This is the message'});
 ```
 
-Returns **[conversation.Message][61]** The newly created Message object.
+Returns **[conversation.Message][56]** The newly created Message object.
 
 #### clearMessages
 
@@ -1778,6 +1739,45 @@ Messages can then be retrieved using getMessages.
 **Parameters**
 
 -   `amount` **[number][11]** An amount of messages to fetch. (optional, default `50`)
+
+### Message
+
+A Message object is a means by which a sender can deliver information to a recipient.
+
+Creating and sending a message:
+
+A message object can be obtained through the [Conversation.createMessage][55] API on an existing conversation.
+
+Messages have Parts which represent pieces of a message, such as a text part, a json object part or a file part.
+Once all the desired parts have been added to the message using the [Message.addPart][57] function,
+the message can then be sent using the [Message.send][58] function.
+
+Once the sender sends a message, this message is saved in sender's state as an object.
+Similarly, once the recipient gets a message, this message is saved in recipient's state.
+
+Retrieving a delivered message:
+
+Once a message is delivered successfully, it can be
+obtained through the [Conversation.getMessages][59] or [Conversation.getMessage][60] API on an existing conversation.
+
+Below are the properties pertaining to the message object, returned by Conversation.getMessage(s) APIs, for either sender or recipient.
+
+Type: [Object][6]
+
+**Properties**
+
+-   `timestamp` **[number][11]** A Unix timestamp in seconds marking the time when the message was created by sender.
+-   `parts` **[Array][12]&lt;conversation.Part>** An array of Part Objects.
+-   `sender` **[string][7]** The primary contact address of the sender.
+-   `destination` **[Array][12]&lt;[string][7]>** An array of primary contact addresses associated with various destinations to which the message is meant to be delivered.
+-   `messageId` **[string][7]** The unique id of the message. The message object (stored in sender's state) has a different id
+    than the one associated with the message object stored in recipient's state.
+-   `type` **[string][7]** The type of message that was sent. See [conversation.chatTypes][61] for valid types.
+    This property applies only to message objects stored in sender's state.
+
+#### send
+
+Sends the message.
 
 ## logger
 
@@ -2282,6 +2282,14 @@ appChannel.on('message', data => {
 client.proxy.setChannel(channel)
 ```
 
+#### send
+
+Channel function that the Proxy module will use to send messages to the remote side.
+
+**Parameters**
+
+-   `data` **[Object][6]** Message to be sent over the channel.
+
 #### receive
 
 API that the Proxy module will assign a listener function for accepting received messages.
@@ -2290,14 +2298,6 @@ This function should receive all messages sent from the remote side of the chann
 **Parameters**
 
 -   `data` **[Object][6]** The message received from the Channel.
-
-#### send
-
-Channel function that the Proxy module will use to send messages to the remote side.
-
-**Parameters**
-
--   `data` **[Object][6]** Message to be sent over the channel.
 
 ### setProxyMode
 
@@ -2591,27 +2591,27 @@ Returns voicemail data from the store.
 
 [22]: https://developer.mozilla.org/en-US/docs/Web/API/RTCIceServer/urls
 
-[23]: #callgetall
+[23]: #callmake
 
-[24]: #callgetbyid
+[24]: #callanswer
 
-[25]: #callstates
+[25]: #callsetcustomparameters
 
-[26]: #callbandwidthcontrols
+[26]: #callsendcustomparameters
 
-[27]: #callcustomparameter
+[27]: #calleventcallcustomparameters
 
-[28]: #callmake
+[28]: #callcallobject
 
-[29]: #callanswer
+[29]: #callgetbyid
 
-[30]: #callsetcustomparameters
+[30]: #callgetall
 
-[31]: #callsendcustomparameters
+[31]: #callstates
 
-[32]: #calleventcallcustomparameters
+[32]: #callbandwidthcontrols
 
-[33]: #callcallobject
+[33]: #callcustomparameter
 
 [34]: #callsip_uri
 
@@ -2647,27 +2647,27 @@ Returns voicemail data from the store.
 
 [50]: #calleventcalltrackreplaced
 
-[51]: #mediaremovetracks
+[51]: #callreplacetrack
 
 [52]: #mediarendertracks
 
-[53]: #callreplacetrack
+[53]: #mediaremovetracks
 
 [54]: #conversationconversation
 
 [55]: #conversationconversationcreatemessage
 
-[56]: conversation.Message.addPart
+[56]: #conversationmessage
 
-[57]: #conversationmessagesend
+[57]: conversation.Message.addPart
 
-[58]: #conversationconversationgetmessages
+[58]: #conversationmessagesend
 
-[59]: #conversationconversationgetmessage
+[59]: #conversationconversationgetmessages
 
-[60]: conversation.chatTypes
+[60]: #conversationconversationgetmessage
 
-[61]: #conversationmessage
+[61]: conversation.chatTypes
 
 [62]: #configconfiglogs
 

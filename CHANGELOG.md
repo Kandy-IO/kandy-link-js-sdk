@@ -14,6 +14,7 @@ Kandy.js change log.
 ### Fixed
 
 - Fixed Call issue that, when in Proxy mode, would cause delays when responding to a remote operation.
+- Fixed a Call issue where making a call with screenshare when in Proxy mode would fail.
 
 ### Changed
 
