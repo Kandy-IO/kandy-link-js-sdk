@@ -9,7 +9,7 @@ permalink: /quickstarts/javascript/link/Configurations
 
 The first step for any application is to initialize Kandy.js. When doing this, you can customize certain features by providing a configurations object. Kandy's configuration object is separated by feature, and is provided to the Kandy Factory as seen in the example below.
 
-``` javascript
+```javascript 
 // Initialize an instance of Kandy.js.
 import { create } from kandy
 const kandy = create({
@@ -40,7 +40,7 @@ const kandy = create({
                 url: '$KANDYSTUN2$',
                 credentials: ''
             }
-        ]  
+        ]
     },
     logs: {
         // Log output configs.
@@ -60,8 +60,8 @@ The Logs configs are used to change the severity of logging output from Kandy.js
 
 ```javascript
 logs: {
-    // Set the log level to 'debug' to output more detailed logs. Default is 'warn'.
-    logLevel: 'debug'
+  // Set the log level to 'debug' to output more detailed logs. Default is 'warn'.
+  logLevel: 'debug'
 }
 ```
 
@@ -118,31 +118,35 @@ call: {
             url: '$KANDYSTUN2$',
             credentials: ''
         }
-    ]  
+    ]
 }
 ```
+
 Examples of the Kandy Link Systems include:
 
 NA:
-* RESTURL: spidr-ucc.genband.com port 443
-* WebSocketURL: spidr-ucc.genband.com port 443
-* iceServers:
-    * turn-ucc-1.genband.com port 3478 for STUN and 443 for TURNS
-    * turn-ucc-2.genband.com port 3478 for STUN and 443 for TURNS
+
+- RESTURL: spidr-ucc.genband.com port 443
+- WebSocketURL: spidr-ucc.genband.com port 443
+- iceServers:
+  - turn-ucc-1.genband.com port 3478 for STUN and 443 for TURNS
+  - turn-ucc-2.genband.com port 3478 for STUN and 443 for TURNS
 
 EMEA:
-* RESTURL: spidr-em.genband.com port 443
-* WebSocketURL: spidr-em.genband.com port 443
-* iceServers:
-    * turn-em-1.genband.com port 3478 for STUN and 443 for TURNS
-    * turn-em-2.genband.com port 3478 for STUN and 443 for TURNS
+
+- RESTURL: spidr-em.genband.com port 443
+- WebSocketURL: spidr-em.genband.com port 443
+- iceServers:
+  - turn-em-1.genband.com port 3478 for STUN and 443 for TURNS
+  - turn-em-2.genband.com port 3478 for STUN and 443 for TURNS
 
 APAC:
-* RESTURL: spidr-ap.genband.com port 443
-* WebSocketURL: spidr-ap.genband.com port 443
-* iceServers:
-    * turn-ap-1.genband.com port 3478 for STUN and 443 for TURNS
-    * turn-ap-2.genband.com port 3478 for STUN and 443 for TURNS
+
+- RESTURL: spidr-ap.genband.com port 443
+- WebSocketURL: spidr-ap.genband.com port 443
+- iceServers:
+  - turn-ap-1.genband.com port 3478 for STUN and 443 for TURNS
+  - turn-ap-2.genband.com port 3478 for STUN and 443 for TURNS
 
 ### Connectivity
 
