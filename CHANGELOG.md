@@ -5,6 +5,24 @@ Kandy.js change log.
 - This project adheres to [Semantic Versioning](http://semver.org/).
 - This change log follows [keepachangelog.com](http://keepachangelog.com/) recommendations.
 
+## 4.16.0 - beta
+
+### Added
+
+- Added new call config option 'mediaBrokerOnly'. When set to true the SDK will
+  not try to recreate a calls PeerConnection. This is intended for backends configured
+  to disallow peer to peer connections. `KAA-2259`
+- Added new Call API `call.getAvailableCodecs` which can be used to return a list of available codecs
+  supported by the browser. `KAA-2275`
+- Added a configuration parameter that allows the user to choose the authentication
+  method for the WebSocket.`KAA-2279`
+- Added new Call option for configuring DSCP markings on the media traffic. `KAA-2256`
+- DSCP controls can be configured with the `call.make`, `call.answer`, `call.addMedia`, and `call.startVideo` Call APIs.
+
+### Changed
+
+- Improved the `call.startVideo` API to allow for configuring additional options such as bandwidth.
+
 ## 4.15.0 - 2020-04-30
 
 ### Added
@@ -28,6 +46,7 @@ Kandy.js change log.
 ### Added
 
 - Added a new tutorial topic describing 'Call States' and few minor updates on API documentation. `KAA-2169`
+- Added checking for media willSend and willReceive when a Hold operation is received in case the remote side answered an audio only call with audio and video. `KAA-2209`
 
 ### Changed
 
@@ -37,12 +56,15 @@ Kandy.js change log.
 
 ### Fixed
 
-- Added checking for media willSend and willReceive when a Hold operation is received in case the remote side answered an audio only call with audio and video. `KAA-2209`
 - Fixed an issue where the callee of a call with slow-start negotiations would start the call audit twice. `KAA-2076`
 - Fixed an issue where `call.replaceTrack` API would fail for calls made on proxy mode. `KAA-2147`
 - Fixed an issue where an existing local video track could not be replaced by a screen sharing track. `KAA-2144`
 - Fixed an issue where the `conversation.subscribe` listener not being triggered. `KAA-2200`
 - Fixed an issue where incoming call notifications would be dropped when on `push-channel-only` mode if the notification arrived on the websocket channel first. `KAA-2156`
+
+### Added
+
+- Added support for bearerAccessToken based authentication. See `kandy.setCredentials` API for more info". `KAA-2190`
 
 ## 4.13.0 - 2020-02-28
 
