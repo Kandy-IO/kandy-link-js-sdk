@@ -5,6 +5,24 @@ Kandy.js change log.
 - This project adheres to [Semantic Versioning](http://semver.org/).
 - This change log follows [keepachangelog.com](http://keepachangelog.com/) recommendations.
 
+## 4.15.0 - 2020-04-30
+
+### Added
+
+- Added the handling of mute/unmute events which are being generated when a media source is muted/unmuted by triggers that are outside of SDK's control. `KAA-1641`
+
+### Fixed
+
+- Fixed Call issue that, when in Proxy mode, would cause delays when responding to a remote operation.
+- Fixed a Call issue where making a call with screenshare when in Proxy mode would fail.
+- Fixed a Call issue, where after a complex midcall operation (e.g. transfer, join) completed, the original call was not being ended on the server. `KAA-2273`
+- Removed the need for remote party properties (callNotificationParams) to be present in a sessionProgress notification. `KAA-2271`
+
+### Changed
+
+- Improved logs for Calls. `KAA-2219`
+- Improved behaviour when loading SDK into browser that doesn't support WebRTC. `KAA-2238` `KAA-2258`
+
 ## 4.14.0 - 2020-03-27
 
 ### Added

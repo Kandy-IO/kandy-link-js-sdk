@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.remote.js
- * Version: 4.14.0
+ * Version: 4.15.0
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -3805,492 +3805,6 @@ if (true) {
 
 /***/ }),
 
-/***/ "../../node_modules/events/events.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
-
-var R = typeof Reflect === 'object' ? Reflect : null
-var ReflectApply = R && typeof R.apply === 'function'
-  ? R.apply
-  : function ReflectApply(target, receiver, args) {
-    return Function.prototype.apply.call(target, receiver, args);
-  }
-
-var ReflectOwnKeys
-if (R && typeof R.ownKeys === 'function') {
-  ReflectOwnKeys = R.ownKeys
-} else if (Object.getOwnPropertySymbols) {
-  ReflectOwnKeys = function ReflectOwnKeys(target) {
-    return Object.getOwnPropertyNames(target)
-      .concat(Object.getOwnPropertySymbols(target));
-  };
-} else {
-  ReflectOwnKeys = function ReflectOwnKeys(target) {
-    return Object.getOwnPropertyNames(target);
-  };
-}
-
-function ProcessEmitWarning(warning) {
-  if (console && console.warn) console.warn(warning);
-}
-
-var NumberIsNaN = Number.isNaN || function NumberIsNaN(value) {
-  return value !== value;
-}
-
-function EventEmitter() {
-  EventEmitter.init.call(this);
-}
-module.exports = EventEmitter;
-
-// Backwards-compat with node 0.10.x
-EventEmitter.EventEmitter = EventEmitter;
-
-EventEmitter.prototype._events = undefined;
-EventEmitter.prototype._eventsCount = 0;
-EventEmitter.prototype._maxListeners = undefined;
-
-// By default EventEmitters will print a warning if more than 10 listeners are
-// added to it. This is a useful default which helps finding memory leaks.
-var defaultMaxListeners = 10;
-
-Object.defineProperty(EventEmitter, 'defaultMaxListeners', {
-  enumerable: true,
-  get: function() {
-    return defaultMaxListeners;
-  },
-  set: function(arg) {
-    if (typeof arg !== 'number' || arg < 0 || NumberIsNaN(arg)) {
-      throw new RangeError('The value of "defaultMaxListeners" is out of range. It must be a non-negative number. Received ' + arg + '.');
-    }
-    defaultMaxListeners = arg;
-  }
-});
-
-EventEmitter.init = function() {
-
-  if (this._events === undefined ||
-      this._events === Object.getPrototypeOf(this)._events) {
-    this._events = Object.create(null);
-    this._eventsCount = 0;
-  }
-
-  this._maxListeners = this._maxListeners || undefined;
-};
-
-// Obviously not all Emitters should be limited to 10. This function allows
-// that to be increased. Set to zero for unlimited.
-EventEmitter.prototype.setMaxListeners = function setMaxListeners(n) {
-  if (typeof n !== 'number' || n < 0 || NumberIsNaN(n)) {
-    throw new RangeError('The value of "n" is out of range. It must be a non-negative number. Received ' + n + '.');
-  }
-  this._maxListeners = n;
-  return this;
-};
-
-function $getMaxListeners(that) {
-  if (that._maxListeners === undefined)
-    return EventEmitter.defaultMaxListeners;
-  return that._maxListeners;
-}
-
-EventEmitter.prototype.getMaxListeners = function getMaxListeners() {
-  return $getMaxListeners(this);
-};
-
-EventEmitter.prototype.emit = function emit(type) {
-  var args = [];
-  for (var i = 1; i < arguments.length; i++) args.push(arguments[i]);
-  var doError = (type === 'error');
-
-  var events = this._events;
-  if (events !== undefined)
-    doError = (doError && events.error === undefined);
-  else if (!doError)
-    return false;
-
-  // If there is no 'error' event listener then throw.
-  if (doError) {
-    var er;
-    if (args.length > 0)
-      er = args[0];
-    if (er instanceof Error) {
-      // Note: The comments on the `throw` lines are intentional, they show
-      // up in Node's output if this results in an unhandled exception.
-      throw er; // Unhandled 'error' event
-    }
-    // At least give some kind of context to the user
-    var err = new Error('Unhandled error.' + (er ? ' (' + er.message + ')' : ''));
-    err.context = er;
-    throw err; // Unhandled 'error' event
-  }
-
-  var handler = events[type];
-
-  if (handler === undefined)
-    return false;
-
-  if (typeof handler === 'function') {
-    ReflectApply(handler, this, args);
-  } else {
-    var len = handler.length;
-    var listeners = arrayClone(handler, len);
-    for (var i = 0; i < len; ++i)
-      ReflectApply(listeners[i], this, args);
-  }
-
-  return true;
-};
-
-function _addListener(target, type, listener, prepend) {
-  var m;
-  var events;
-  var existing;
-
-  if (typeof listener !== 'function') {
-    throw new TypeError('The "listener" argument must be of type Function. Received type ' + typeof listener);
-  }
-
-  events = target._events;
-  if (events === undefined) {
-    events = target._events = Object.create(null);
-    target._eventsCount = 0;
-  } else {
-    // To avoid recursion in the case that type === "newListener"! Before
-    // adding it to the listeners, first emit "newListener".
-    if (events.newListener !== undefined) {
-      target.emit('newListener', type,
-                  listener.listener ? listener.listener : listener);
-
-      // Re-assign `events` because a newListener handler could have caused the
-      // this._events to be assigned to a new object
-      events = target._events;
-    }
-    existing = events[type];
-  }
-
-  if (existing === undefined) {
-    // Optimize the case of one listener. Don't need the extra array object.
-    existing = events[type] = listener;
-    ++target._eventsCount;
-  } else {
-    if (typeof existing === 'function') {
-      // Adding the second element, need to change to array.
-      existing = events[type] =
-        prepend ? [listener, existing] : [existing, listener];
-      // If we've already got an array, just append.
-    } else if (prepend) {
-      existing.unshift(listener);
-    } else {
-      existing.push(listener);
-    }
-
-    // Check for listener leak
-    m = $getMaxListeners(target);
-    if (m > 0 && existing.length > m && !existing.warned) {
-      existing.warned = true;
-      // No error code for this since it is a Warning
-      // eslint-disable-next-line no-restricted-syntax
-      var w = new Error('Possible EventEmitter memory leak detected. ' +
-                          existing.length + ' ' + String(type) + ' listeners ' +
-                          'added. Use emitter.setMaxListeners() to ' +
-                          'increase limit');
-      w.name = 'MaxListenersExceededWarning';
-      w.emitter = target;
-      w.type = type;
-      w.count = existing.length;
-      ProcessEmitWarning(w);
-    }
-  }
-
-  return target;
-}
-
-EventEmitter.prototype.addListener = function addListener(type, listener) {
-  return _addListener(this, type, listener, false);
-};
-
-EventEmitter.prototype.on = EventEmitter.prototype.addListener;
-
-EventEmitter.prototype.prependListener =
-    function prependListener(type, listener) {
-      return _addListener(this, type, listener, true);
-    };
-
-function onceWrapper() {
-  var args = [];
-  for (var i = 0; i < arguments.length; i++) args.push(arguments[i]);
-  if (!this.fired) {
-    this.target.removeListener(this.type, this.wrapFn);
-    this.fired = true;
-    ReflectApply(this.listener, this.target, args);
-  }
-}
-
-function _onceWrap(target, type, listener) {
-  var state = { fired: false, wrapFn: undefined, target: target, type: type, listener: listener };
-  var wrapped = onceWrapper.bind(state);
-  wrapped.listener = listener;
-  state.wrapFn = wrapped;
-  return wrapped;
-}
-
-EventEmitter.prototype.once = function once(type, listener) {
-  if (typeof listener !== 'function') {
-    throw new TypeError('The "listener" argument must be of type Function. Received type ' + typeof listener);
-  }
-  this.on(type, _onceWrap(this, type, listener));
-  return this;
-};
-
-EventEmitter.prototype.prependOnceListener =
-    function prependOnceListener(type, listener) {
-      if (typeof listener !== 'function') {
-        throw new TypeError('The "listener" argument must be of type Function. Received type ' + typeof listener);
-      }
-      this.prependListener(type, _onceWrap(this, type, listener));
-      return this;
-    };
-
-// Emits a 'removeListener' event if and only if the listener was removed.
-EventEmitter.prototype.removeListener =
-    function removeListener(type, listener) {
-      var list, events, position, i, originalListener;
-
-      if (typeof listener !== 'function') {
-        throw new TypeError('The "listener" argument must be of type Function. Received type ' + typeof listener);
-      }
-
-      events = this._events;
-      if (events === undefined)
-        return this;
-
-      list = events[type];
-      if (list === undefined)
-        return this;
-
-      if (list === listener || list.listener === listener) {
-        if (--this._eventsCount === 0)
-          this._events = Object.create(null);
-        else {
-          delete events[type];
-          if (events.removeListener)
-            this.emit('removeListener', type, list.listener || listener);
-        }
-      } else if (typeof list !== 'function') {
-        position = -1;
-
-        for (i = list.length - 1; i >= 0; i--) {
-          if (list[i] === listener || list[i].listener === listener) {
-            originalListener = list[i].listener;
-            position = i;
-            break;
-          }
-        }
-
-        if (position < 0)
-          return this;
-
-        if (position === 0)
-          list.shift();
-        else {
-          spliceOne(list, position);
-        }
-
-        if (list.length === 1)
-          events[type] = list[0];
-
-        if (events.removeListener !== undefined)
-          this.emit('removeListener', type, originalListener || listener);
-      }
-
-      return this;
-    };
-
-EventEmitter.prototype.off = EventEmitter.prototype.removeListener;
-
-EventEmitter.prototype.removeAllListeners =
-    function removeAllListeners(type) {
-      var listeners, events, i;
-
-      events = this._events;
-      if (events === undefined)
-        return this;
-
-      // not listening for removeListener, no need to emit
-      if (events.removeListener === undefined) {
-        if (arguments.length === 0) {
-          this._events = Object.create(null);
-          this._eventsCount = 0;
-        } else if (events[type] !== undefined) {
-          if (--this._eventsCount === 0)
-            this._events = Object.create(null);
-          else
-            delete events[type];
-        }
-        return this;
-      }
-
-      // emit removeListener for all listeners on all events
-      if (arguments.length === 0) {
-        var keys = Object.keys(events);
-        var key;
-        for (i = 0; i < keys.length; ++i) {
-          key = keys[i];
-          if (key === 'removeListener') continue;
-          this.removeAllListeners(key);
-        }
-        this.removeAllListeners('removeListener');
-        this._events = Object.create(null);
-        this._eventsCount = 0;
-        return this;
-      }
-
-      listeners = events[type];
-
-      if (typeof listeners === 'function') {
-        this.removeListener(type, listeners);
-      } else if (listeners !== undefined) {
-        // LIFO order
-        for (i = listeners.length - 1; i >= 0; i--) {
-          this.removeListener(type, listeners[i]);
-        }
-      }
-
-      return this;
-    };
-
-function _listeners(target, type, unwrap) {
-  var events = target._events;
-
-  if (events === undefined)
-    return [];
-
-  var evlistener = events[type];
-  if (evlistener === undefined)
-    return [];
-
-  if (typeof evlistener === 'function')
-    return unwrap ? [evlistener.listener || evlistener] : [evlistener];
-
-  return unwrap ?
-    unwrapListeners(evlistener) : arrayClone(evlistener, evlistener.length);
-}
-
-EventEmitter.prototype.listeners = function listeners(type) {
-  return _listeners(this, type, true);
-};
-
-EventEmitter.prototype.rawListeners = function rawListeners(type) {
-  return _listeners(this, type, false);
-};
-
-EventEmitter.listenerCount = function(emitter, type) {
-  if (typeof emitter.listenerCount === 'function') {
-    return emitter.listenerCount(type);
-  } else {
-    return listenerCount.call(emitter, type);
-  }
-};
-
-EventEmitter.prototype.listenerCount = listenerCount;
-function listenerCount(type) {
-  var events = this._events;
-
-  if (events !== undefined) {
-    var evlistener = events[type];
-
-    if (typeof evlistener === 'function') {
-      return 1;
-    } else if (evlistener !== undefined) {
-      return evlistener.length;
-    }
-  }
-
-  return 0;
-}
-
-EventEmitter.prototype.eventNames = function eventNames() {
-  return this._eventsCount > 0 ? ReflectOwnKeys(this._events) : [];
-};
-
-function arrayClone(arr, n) {
-  var copy = new Array(n);
-  for (var i = 0; i < n; ++i)
-    copy[i] = arr[i];
-  return copy;
-}
-
-function spliceOne(list, index) {
-  for (; index + 1 < list.length; index++)
-    list[index] = list[index + 1];
-  list.pop();
-}
-
-function unwrapListeners(arr) {
-  var ret = new Array(arr.length);
-  for (var i = 0; i < ret.length; ++i) {
-    ret[i] = arr[i].listener || arr[i];
-  }
-  return ret;
-}
-
-
-/***/ }),
-
-/***/ "../../node_modules/inherits/inherits_browser.js":
-/***/ (function(module, exports) {
-
-if (typeof Object.create === 'function') {
-  // implementation from standard node.js 'util' module
-  module.exports = function inherits(ctor, superCtor) {
-    ctor.super_ = superCtor
-    ctor.prototype = Object.create(superCtor.prototype, {
-      constructor: {
-        value: ctor,
-        enumerable: false,
-        writable: true,
-        configurable: true
-      }
-    });
-  };
-} else {
-  // old school shim for old browsers
-  module.exports = function inherits(ctor, superCtor) {
-    ctor.super_ = superCtor
-    var TempCtor = function () {}
-    TempCtor.prototype = superCtor.prototype
-    ctor.prototype = new TempCtor()
-    ctor.prototype.constructor = ctor
-  }
-}
-
-
-/***/ }),
-
 /***/ "../../node_modules/lodash/fp.js":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5396,197 +4910,6 @@ var e=Fe(r);e.__index__=0,e.__values__=T,t?u.__wrapped__=e:t=e;var u=e,r=r.__wra
 An}(); true?($n._=rt, !(__WEBPACK_AMD_DEFINE_RESULT__ = (function(){return rt}).call(exports, __webpack_require__, exports, module),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))):undefined}).call(this);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__("../../node_modules/webpack/buildin/global.js"), __webpack_require__("../../node_modules/webpack/buildin/module.js")(module)))
-
-/***/ }),
-
-/***/ "../../node_modules/process/browser.js":
-/***/ (function(module, exports) {
-
-// shim for using process in browser
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function defaultClearTimeout () {
-    throw new Error('clearTimeout has not been defined');
-}
-(function () {
-    try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
-        }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
-    }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
-    }
-} ())
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-
-
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-
-
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-process.prependListener = noop;
-process.prependOnceListener = noop;
-
-process.listeners = function (name) { return [] }
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
 
 /***/ }),
 
@@ -10320,925 +9643,6 @@ function symbolObservablePonyfill(root) {
 
 /***/ }),
 
-/***/ "../../node_modules/timer-machine/lib/timer.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-/**
- * Module dependencies.
- */
-var EventEmitter = __webpack_require__("../../node_modules/events/events.js").EventEmitter
-var inherits     = __webpack_require__("../../node_modules/util/util.js").inherits
-
-/**
- * Expose `Timer`.
- */
-module.exports = Timer
-
-/**
- * Stores named timers.
- */
-var timers = {}
-
-/**
- * Initialize a `Timer` object
- * @param {Boolean} start
- * @api public
- */
-function Timer(start) {
-  EventEmitter.call(this)
-  this._total = 0
-  this._start = null
-  this._startCount = 0
-  if (start) {
-    this.start()
-  }
-}
-
-/**
- * Timer extends EventEmitter.
- */
-inherits(Timer, EventEmitter)
-
-/**
- * Get a named timer, initialize a new one if it does not exist.
- * @param {String} name
- * @return {Timer}
- * @api public
- */
-Timer.get = function (name) {
-  if (!timers[name]) {
-    timers[name] = new Timer()
-  }
-  return timers[name]
-}
-
-/**
- * Destroy an existing named timer.
- * @param {String} name
- * @return {Boolean}
- * @api public
- */
-Timer.destroy = function (name) {
-  if (timers[name]) {
-    return delete timers[name]
-  }
-  return false
-}
-
-/**
- * Get the total milliseconds the timer has run.
- * @return {Number}
- * #api public
- */
-Timer.prototype.time = function () {
-  var total = this._total
-  total += this.timeFromStart()
-  return total
-}
-
-/**
- * Get the total millisseonds the time has run and emit time event.
- * @return {Number}
- */
-Timer.prototype.emitTime = function () {
-  var time = this.time()
-  this.emit('time', time)
-  return time
-}
-
-/**
- * Get the time in milliseconds since the timer was last started.
- * @return {Number}
- * @api public
- */
-Timer.prototype.timeFromStart = function () {
-  return this.isStarted() ? now() - this._start : 0
-}
-
-/**
- * Check to see if the timer object is currently started.
- * @return {Boolean}
- * @api public
- */
-Timer.prototype.isStarted = function () {
-  return !this.isStopped()
-}
-
-/**
- * Check to see if the timer object is currently stopped.
- * @return {Boolean}
- * @api public
- */
-Timer.prototype.isStopped = function () {
-  return this._start === null
-}
-
-/**
- * Start the timer if it was not already started.
- * @return {Boolean}
- * @api public
- */
-Timer.prototype.start = function () {
-  ++this._startCount
-  if (this.isStopped()) {
-    this._start = now()
-    this.emit('start')
-    return true
-  }
-  return false
-}
-
-/**
- * Stop the timer if it was not already stopped.
- * @return {Boolean}
- * @api public
- */
-Timer.prototype.stop = function () {
-  if (this.isStarted()) {
-    this._total += this.timeFromStart()
-    this._start = null
-    this._stopCount = 0
-    this.emit('stop')
-    return true
-  }
-  return false
-}
-
-/**
- * Stop the timer if once called equal to the number of times start was called.
- * @return {Boolean} true if timer was stopped
- * @api public
- */
-Timer.prototype.stopParallel = function () {
-  if (this.isStarted()) {
-    --this._startCount
-    if (this._startCount === 0) {
-      return this.stop()
-    }
-  }
-  return false
-}
-
-/**
- * Start or stop the timer depending on current state.
- * @return {Boolean}
- * @api public
- */
-Timer.prototype.toggle = function () {
-  return this.start() || this.stop()
-}
-
-/**
- * Return a string representation of the timer.
- * @return {String}
- */
-Timer.prototype.toString = function () {
-  return this.time() + 'ms'
-}
-
-/**
- * Return a numeric value of the timer in milliseconds.
- * @return {Number}
- */
-Timer.prototype.valueOf = function () {
-  return this.time()
-}
-
-/**
- * Get the current time in milliseconds.
- * @return {Number}
- * @api private
- */
-function now() {
-  return new Date().getTime();
-}
-
-
-/***/ }),
-
-/***/ "../../node_modules/util/support/isBufferBrowser.js":
-/***/ (function(module, exports) {
-
-module.exports = function isBuffer(arg) {
-  return arg && typeof arg === 'object'
-    && typeof arg.copy === 'function'
-    && typeof arg.fill === 'function'
-    && typeof arg.readUInt8 === 'function';
-}
-
-/***/ }),
-
-/***/ "../../node_modules/util/util.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(process) {// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-var getOwnPropertyDescriptors = Object.getOwnPropertyDescriptors ||
-  function getOwnPropertyDescriptors(obj) {
-    var keys = Object.keys(obj);
-    var descriptors = {};
-    for (var i = 0; i < keys.length; i++) {
-      descriptors[keys[i]] = Object.getOwnPropertyDescriptor(obj, keys[i]);
-    }
-    return descriptors;
-  };
-
-var formatRegExp = /%[sdj%]/g;
-exports.format = function(f) {
-  if (!isString(f)) {
-    var objects = [];
-    for (var i = 0; i < arguments.length; i++) {
-      objects.push(inspect(arguments[i]));
-    }
-    return objects.join(' ');
-  }
-
-  var i = 1;
-  var args = arguments;
-  var len = args.length;
-  var str = String(f).replace(formatRegExp, function(x) {
-    if (x === '%%') return '%';
-    if (i >= len) return x;
-    switch (x) {
-      case '%s': return String(args[i++]);
-      case '%d': return Number(args[i++]);
-      case '%j':
-        try {
-          return JSON.stringify(args[i++]);
-        } catch (_) {
-          return '[Circular]';
-        }
-      default:
-        return x;
-    }
-  });
-  for (var x = args[i]; i < len; x = args[++i]) {
-    if (isNull(x) || !isObject(x)) {
-      str += ' ' + x;
-    } else {
-      str += ' ' + inspect(x);
-    }
-  }
-  return str;
-};
-
-
-// Mark that a method should not be used.
-// Returns a modified function which warns once by default.
-// If --no-deprecation is set, then it is a no-op.
-exports.deprecate = function(fn, msg) {
-  if (typeof process !== 'undefined' && process.noDeprecation === true) {
-    return fn;
-  }
-
-  // Allow for deprecating things in the process of starting up.
-  if (typeof process === 'undefined') {
-    return function() {
-      return exports.deprecate(fn, msg).apply(this, arguments);
-    };
-  }
-
-  var warned = false;
-  function deprecated() {
-    if (!warned) {
-      if (process.throwDeprecation) {
-        throw new Error(msg);
-      } else if (process.traceDeprecation) {
-        console.trace(msg);
-      } else {
-        console.error(msg);
-      }
-      warned = true;
-    }
-    return fn.apply(this, arguments);
-  }
-
-  return deprecated;
-};
-
-
-var debugs = {};
-var debugEnviron;
-exports.debuglog = function(set) {
-  if (isUndefined(debugEnviron))
-    debugEnviron = process.env.NODE_DEBUG || '';
-  set = set.toUpperCase();
-  if (!debugs[set]) {
-    if (new RegExp('\\b' + set + '\\b', 'i').test(debugEnviron)) {
-      var pid = process.pid;
-      debugs[set] = function() {
-        var msg = exports.format.apply(exports, arguments);
-        console.error('%s %d: %s', set, pid, msg);
-      };
-    } else {
-      debugs[set] = function() {};
-    }
-  }
-  return debugs[set];
-};
-
-
-/**
- * Echos the value of a value. Trys to print the value out
- * in the best way possible given the different types.
- *
- * @param {Object} obj The object to print out.
- * @param {Object} opts Optional options object that alters the output.
- */
-/* legacy: obj, showHidden, depth, colors*/
-function inspect(obj, opts) {
-  // default options
-  var ctx = {
-    seen: [],
-    stylize: stylizeNoColor
-  };
-  // legacy...
-  if (arguments.length >= 3) ctx.depth = arguments[2];
-  if (arguments.length >= 4) ctx.colors = arguments[3];
-  if (isBoolean(opts)) {
-    // legacy...
-    ctx.showHidden = opts;
-  } else if (opts) {
-    // got an "options" object
-    exports._extend(ctx, opts);
-  }
-  // set default options
-  if (isUndefined(ctx.showHidden)) ctx.showHidden = false;
-  if (isUndefined(ctx.depth)) ctx.depth = 2;
-  if (isUndefined(ctx.colors)) ctx.colors = false;
-  if (isUndefined(ctx.customInspect)) ctx.customInspect = true;
-  if (ctx.colors) ctx.stylize = stylizeWithColor;
-  return formatValue(ctx, obj, ctx.depth);
-}
-exports.inspect = inspect;
-
-
-// http://en.wikipedia.org/wiki/ANSI_escape_code#graphics
-inspect.colors = {
-  'bold' : [1, 22],
-  'italic' : [3, 23],
-  'underline' : [4, 24],
-  'inverse' : [7, 27],
-  'white' : [37, 39],
-  'grey' : [90, 39],
-  'black' : [30, 39],
-  'blue' : [34, 39],
-  'cyan' : [36, 39],
-  'green' : [32, 39],
-  'magenta' : [35, 39],
-  'red' : [31, 39],
-  'yellow' : [33, 39]
-};
-
-// Don't use 'blue' not visible on cmd.exe
-inspect.styles = {
-  'special': 'cyan',
-  'number': 'yellow',
-  'boolean': 'yellow',
-  'undefined': 'grey',
-  'null': 'bold',
-  'string': 'green',
-  'date': 'magenta',
-  // "name": intentionally not styling
-  'regexp': 'red'
-};
-
-
-function stylizeWithColor(str, styleType) {
-  var style = inspect.styles[styleType];
-
-  if (style) {
-    return '\u001b[' + inspect.colors[style][0] + 'm' + str +
-           '\u001b[' + inspect.colors[style][1] + 'm';
-  } else {
-    return str;
-  }
-}
-
-
-function stylizeNoColor(str, styleType) {
-  return str;
-}
-
-
-function arrayToHash(array) {
-  var hash = {};
-
-  array.forEach(function(val, idx) {
-    hash[val] = true;
-  });
-
-  return hash;
-}
-
-
-function formatValue(ctx, value, recurseTimes) {
-  // Provide a hook for user-specified inspect functions.
-  // Check that value is an object with an inspect function on it
-  if (ctx.customInspect &&
-      value &&
-      isFunction(value.inspect) &&
-      // Filter out the util module, it's inspect function is special
-      value.inspect !== exports.inspect &&
-      // Also filter out any prototype objects using the circular check.
-      !(value.constructor && value.constructor.prototype === value)) {
-    var ret = value.inspect(recurseTimes, ctx);
-    if (!isString(ret)) {
-      ret = formatValue(ctx, ret, recurseTimes);
-    }
-    return ret;
-  }
-
-  // Primitive types cannot have properties
-  var primitive = formatPrimitive(ctx, value);
-  if (primitive) {
-    return primitive;
-  }
-
-  // Look up the keys of the object.
-  var keys = Object.keys(value);
-  var visibleKeys = arrayToHash(keys);
-
-  if (ctx.showHidden) {
-    keys = Object.getOwnPropertyNames(value);
-  }
-
-  // IE doesn't make error fields non-enumerable
-  // http://msdn.microsoft.com/en-us/library/ie/dww52sbt(v=vs.94).aspx
-  if (isError(value)
-      && (keys.indexOf('message') >= 0 || keys.indexOf('description') >= 0)) {
-    return formatError(value);
-  }
-
-  // Some type of object without properties can be shortcutted.
-  if (keys.length === 0) {
-    if (isFunction(value)) {
-      var name = value.name ? ': ' + value.name : '';
-      return ctx.stylize('[Function' + name + ']', 'special');
-    }
-    if (isRegExp(value)) {
-      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
-    }
-    if (isDate(value)) {
-      return ctx.stylize(Date.prototype.toString.call(value), 'date');
-    }
-    if (isError(value)) {
-      return formatError(value);
-    }
-  }
-
-  var base = '', array = false, braces = ['{', '}'];
-
-  // Make Array say that they are Array
-  if (isArray(value)) {
-    array = true;
-    braces = ['[', ']'];
-  }
-
-  // Make functions say that they are functions
-  if (isFunction(value)) {
-    var n = value.name ? ': ' + value.name : '';
-    base = ' [Function' + n + ']';
-  }
-
-  // Make RegExps say that they are RegExps
-  if (isRegExp(value)) {
-    base = ' ' + RegExp.prototype.toString.call(value);
-  }
-
-  // Make dates with properties first say the date
-  if (isDate(value)) {
-    base = ' ' + Date.prototype.toUTCString.call(value);
-  }
-
-  // Make error with message first say the error
-  if (isError(value)) {
-    base = ' ' + formatError(value);
-  }
-
-  if (keys.length === 0 && (!array || value.length == 0)) {
-    return braces[0] + base + braces[1];
-  }
-
-  if (recurseTimes < 0) {
-    if (isRegExp(value)) {
-      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
-    } else {
-      return ctx.stylize('[Object]', 'special');
-    }
-  }
-
-  ctx.seen.push(value);
-
-  var output;
-  if (array) {
-    output = formatArray(ctx, value, recurseTimes, visibleKeys, keys);
-  } else {
-    output = keys.map(function(key) {
-      return formatProperty(ctx, value, recurseTimes, visibleKeys, key, array);
-    });
-  }
-
-  ctx.seen.pop();
-
-  return reduceToSingleString(output, base, braces);
-}
-
-
-function formatPrimitive(ctx, value) {
-  if (isUndefined(value))
-    return ctx.stylize('undefined', 'undefined');
-  if (isString(value)) {
-    var simple = '\'' + JSON.stringify(value).replace(/^"|"$/g, '')
-                                             .replace(/'/g, "\\'")
-                                             .replace(/\\"/g, '"') + '\'';
-    return ctx.stylize(simple, 'string');
-  }
-  if (isNumber(value))
-    return ctx.stylize('' + value, 'number');
-  if (isBoolean(value))
-    return ctx.stylize('' + value, 'boolean');
-  // For some reason typeof null is "object", so special case here.
-  if (isNull(value))
-    return ctx.stylize('null', 'null');
-}
-
-
-function formatError(value) {
-  return '[' + Error.prototype.toString.call(value) + ']';
-}
-
-
-function formatArray(ctx, value, recurseTimes, visibleKeys, keys) {
-  var output = [];
-  for (var i = 0, l = value.length; i < l; ++i) {
-    if (hasOwnProperty(value, String(i))) {
-      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys,
-          String(i), true));
-    } else {
-      output.push('');
-    }
-  }
-  keys.forEach(function(key) {
-    if (!key.match(/^\d+$/)) {
-      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys,
-          key, true));
-    }
-  });
-  return output;
-}
-
-
-function formatProperty(ctx, value, recurseTimes, visibleKeys, key, array) {
-  var name, str, desc;
-  desc = Object.getOwnPropertyDescriptor(value, key) || { value: value[key] };
-  if (desc.get) {
-    if (desc.set) {
-      str = ctx.stylize('[Getter/Setter]', 'special');
-    } else {
-      str = ctx.stylize('[Getter]', 'special');
-    }
-  } else {
-    if (desc.set) {
-      str = ctx.stylize('[Setter]', 'special');
-    }
-  }
-  if (!hasOwnProperty(visibleKeys, key)) {
-    name = '[' + key + ']';
-  }
-  if (!str) {
-    if (ctx.seen.indexOf(desc.value) < 0) {
-      if (isNull(recurseTimes)) {
-        str = formatValue(ctx, desc.value, null);
-      } else {
-        str = formatValue(ctx, desc.value, recurseTimes - 1);
-      }
-      if (str.indexOf('\n') > -1) {
-        if (array) {
-          str = str.split('\n').map(function(line) {
-            return '  ' + line;
-          }).join('\n').substr(2);
-        } else {
-          str = '\n' + str.split('\n').map(function(line) {
-            return '   ' + line;
-          }).join('\n');
-        }
-      }
-    } else {
-      str = ctx.stylize('[Circular]', 'special');
-    }
-  }
-  if (isUndefined(name)) {
-    if (array && key.match(/^\d+$/)) {
-      return str;
-    }
-    name = JSON.stringify('' + key);
-    if (name.match(/^"([a-zA-Z_][a-zA-Z_0-9]*)"$/)) {
-      name = name.substr(1, name.length - 2);
-      name = ctx.stylize(name, 'name');
-    } else {
-      name = name.replace(/'/g, "\\'")
-                 .replace(/\\"/g, '"')
-                 .replace(/(^"|"$)/g, "'");
-      name = ctx.stylize(name, 'string');
-    }
-  }
-
-  return name + ': ' + str;
-}
-
-
-function reduceToSingleString(output, base, braces) {
-  var numLinesEst = 0;
-  var length = output.reduce(function(prev, cur) {
-    numLinesEst++;
-    if (cur.indexOf('\n') >= 0) numLinesEst++;
-    return prev + cur.replace(/\u001b\[\d\d?m/g, '').length + 1;
-  }, 0);
-
-  if (length > 60) {
-    return braces[0] +
-           (base === '' ? '' : base + '\n ') +
-           ' ' +
-           output.join(',\n  ') +
-           ' ' +
-           braces[1];
-  }
-
-  return braces[0] + base + ' ' + output.join(', ') + ' ' + braces[1];
-}
-
-
-// NOTE: These type checking functions intentionally don't use `instanceof`
-// because it is fragile and can be easily faked with `Object.create()`.
-function isArray(ar) {
-  return Array.isArray(ar);
-}
-exports.isArray = isArray;
-
-function isBoolean(arg) {
-  return typeof arg === 'boolean';
-}
-exports.isBoolean = isBoolean;
-
-function isNull(arg) {
-  return arg === null;
-}
-exports.isNull = isNull;
-
-function isNullOrUndefined(arg) {
-  return arg == null;
-}
-exports.isNullOrUndefined = isNullOrUndefined;
-
-function isNumber(arg) {
-  return typeof arg === 'number';
-}
-exports.isNumber = isNumber;
-
-function isString(arg) {
-  return typeof arg === 'string';
-}
-exports.isString = isString;
-
-function isSymbol(arg) {
-  return typeof arg === 'symbol';
-}
-exports.isSymbol = isSymbol;
-
-function isUndefined(arg) {
-  return arg === void 0;
-}
-exports.isUndefined = isUndefined;
-
-function isRegExp(re) {
-  return isObject(re) && objectToString(re) === '[object RegExp]';
-}
-exports.isRegExp = isRegExp;
-
-function isObject(arg) {
-  return typeof arg === 'object' && arg !== null;
-}
-exports.isObject = isObject;
-
-function isDate(d) {
-  return isObject(d) && objectToString(d) === '[object Date]';
-}
-exports.isDate = isDate;
-
-function isError(e) {
-  return isObject(e) &&
-      (objectToString(e) === '[object Error]' || e instanceof Error);
-}
-exports.isError = isError;
-
-function isFunction(arg) {
-  return typeof arg === 'function';
-}
-exports.isFunction = isFunction;
-
-function isPrimitive(arg) {
-  return arg === null ||
-         typeof arg === 'boolean' ||
-         typeof arg === 'number' ||
-         typeof arg === 'string' ||
-         typeof arg === 'symbol' ||  // ES6 symbol
-         typeof arg === 'undefined';
-}
-exports.isPrimitive = isPrimitive;
-
-exports.isBuffer = __webpack_require__("../../node_modules/util/support/isBufferBrowser.js");
-
-function objectToString(o) {
-  return Object.prototype.toString.call(o);
-}
-
-
-function pad(n) {
-  return n < 10 ? '0' + n.toString(10) : n.toString(10);
-}
-
-
-var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep',
-              'Oct', 'Nov', 'Dec'];
-
-// 26 Feb 16:19:34
-function timestamp() {
-  var d = new Date();
-  var time = [pad(d.getHours()),
-              pad(d.getMinutes()),
-              pad(d.getSeconds())].join(':');
-  return [d.getDate(), months[d.getMonth()], time].join(' ');
-}
-
-
-// log is just a thin wrapper to console.log that prepends a timestamp
-exports.log = function() {
-  console.log('%s - %s', timestamp(), exports.format.apply(exports, arguments));
-};
-
-
-/**
- * Inherit the prototype methods from one constructor into another.
- *
- * The Function.prototype.inherits from lang.js rewritten as a standalone
- * function (not on Function.prototype). NOTE: If this file is to be loaded
- * during bootstrapping this function needs to be rewritten using some native
- * functions as prototype setup using normal JavaScript does not work as
- * expected during bootstrapping (see mirror.js in r114903).
- *
- * @param {function} ctor Constructor function which needs to inherit the
- *     prototype.
- * @param {function} superCtor Constructor function to inherit prototype from.
- */
-exports.inherits = __webpack_require__("../../node_modules/inherits/inherits_browser.js");
-
-exports._extend = function(origin, add) {
-  // Don't do anything if add isn't an object
-  if (!add || !isObject(add)) return origin;
-
-  var keys = Object.keys(add);
-  var i = keys.length;
-  while (i--) {
-    origin[keys[i]] = add[keys[i]];
-  }
-  return origin;
-};
-
-function hasOwnProperty(obj, prop) {
-  return Object.prototype.hasOwnProperty.call(obj, prop);
-}
-
-var kCustomPromisifiedSymbol = typeof Symbol !== 'undefined' ? Symbol('util.promisify.custom') : undefined;
-
-exports.promisify = function promisify(original) {
-  if (typeof original !== 'function')
-    throw new TypeError('The "original" argument must be of type Function');
-
-  if (kCustomPromisifiedSymbol && original[kCustomPromisifiedSymbol]) {
-    var fn = original[kCustomPromisifiedSymbol];
-    if (typeof fn !== 'function') {
-      throw new TypeError('The "util.promisify.custom" argument must be of type Function');
-    }
-    Object.defineProperty(fn, kCustomPromisifiedSymbol, {
-      value: fn, enumerable: false, writable: false, configurable: true
-    });
-    return fn;
-  }
-
-  function fn() {
-    var promiseResolve, promiseReject;
-    var promise = new Promise(function (resolve, reject) {
-      promiseResolve = resolve;
-      promiseReject = reject;
-    });
-
-    var args = [];
-    for (var i = 0; i < arguments.length; i++) {
-      args.push(arguments[i]);
-    }
-    args.push(function (err, value) {
-      if (err) {
-        promiseReject(err);
-      } else {
-        promiseResolve(value);
-      }
-    });
-
-    try {
-      original.apply(this, args);
-    } catch (err) {
-      promiseReject(err);
-    }
-
-    return promise;
-  }
-
-  Object.setPrototypeOf(fn, Object.getPrototypeOf(original));
-
-  if (kCustomPromisifiedSymbol) Object.defineProperty(fn, kCustomPromisifiedSymbol, {
-    value: fn, enumerable: false, writable: false, configurable: true
-  });
-  return Object.defineProperties(
-    fn,
-    getOwnPropertyDescriptors(original)
-  );
-}
-
-exports.promisify.custom = kCustomPromisifiedSymbol
-
-function callbackifyOnRejected(reason, cb) {
-  // `!reason` guard inspired by bluebird (Ref: https://goo.gl/t5IS6M).
-  // Because `null` is a special error value in callbacks which means "no error
-  // occurred", we error-wrap so the callback consumer can distinguish between
-  // "the promise rejected with null" or "the promise fulfilled with undefined".
-  if (!reason) {
-    var newReason = new Error('Promise was rejected with a falsy value');
-    newReason.reason = reason;
-    reason = newReason;
-  }
-  return cb(reason);
-}
-
-function callbackify(original) {
-  if (typeof original !== 'function') {
-    throw new TypeError('The "original" argument must be of type Function');
-  }
-
-  // We DO NOT return the promise as it gives the user a false sense that
-  // the promise is actually somehow related to the callback's execution
-  // and that the callback throwing will reject the promise.
-  function callbackified() {
-    var args = [];
-    for (var i = 0; i < arguments.length; i++) {
-      args.push(arguments[i]);
-    }
-
-    var maybeCb = args.pop();
-    if (typeof maybeCb !== 'function') {
-      throw new TypeError('The last argument must be of type Function');
-    }
-    var self = this;
-    var cb = function() {
-      return maybeCb.apply(self, arguments);
-    };
-    // In true node style we process the callback on `nextTick` with all the
-    // implications (stack, `uncaughtException`, `async_hooks`)
-    original.apply(this, args)
-      .then(function(ret) { process.nextTick(cb, null, ret) },
-            function(rej) { process.nextTick(callbackifyOnRejected, rej, cb) });
-  }
-
-  Object.setPrototypeOf(callbackified, Object.getPrototypeOf(original));
-  Object.defineProperties(callbackified,
-                          getOwnPropertyDescriptors(original));
-  return callbackified;
-}
-exports.callbackify = callbackify;
-
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__("../../node_modules/process/browser.js")))
-
-/***/ }),
-
 /***/ "../../node_modules/uuid/dist/esm-browser/bytesToUuid.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -15369,6 +13773,29 @@ module.exports = {
 
 /***/ }),
 
+/***/ "../../packages/kandy/src/common/version.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getVersion = getVersion;
+/**
+ * Returns the version of the currently running SDK.
+ *
+ * It must be used by any plugins (including the factory) as the unique source of truth when it comes to determine the current SDK version.
+ * The actual version value is provided by the build process scripts (aka webpack.config.***.js) which simply do a string substitution
+ * for the @@ tag below with actual version value.
+ */
+function getVersion() {
+  return '4.15.0';
+}
+
+/***/ }),
+
 /***/ "../../packages/kandy/src/events/eventEmitter.js":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -15686,6 +14113,7 @@ var _config2 = _interopRequireDefault(_config);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// Logs generated as a result of invoking the public API will contain this tag
 const API_LOG_TAG = exports.API_LOG_TAG = 'API invoked: ';
 
 /**
@@ -16239,6 +14667,8 @@ var _effects = __webpack_require__("../../node_modules/redux-saga/es/effects.js"
 
 var _reduxSaga = __webpack_require__("../../node_modules/redux-saga/es/index.js");
 
+var _actions = __webpack_require__("../../packages/kandy/src/webrtc/interface/actions/index.js");
+
 /**
  * Sets up event listeners for a Track's events.
  * The events are turned into actions and dispatched
@@ -16247,7 +14677,6 @@ var _reduxSaga = __webpack_require__("../../node_modules/redux-saga/es/index.js"
  * @param  {Object} track A Track object.
  * @param  {Object} webRTC The webRTC stack.
  */
-// Libraries.
 function* watchTrackEvents(track, webRTC) {
   /**
    * Create an event channel between the Track and redux-saga.
@@ -16270,6 +14699,7 @@ function* watchTrackEvents(track, webRTC) {
  * @param  {Any}      [END='END'] The "end of lifetime" symbol.
  * @return {Function} The unsubscribe function.
  */
+// Libraries.
 function setListeners(track, emit, END = 'END') {
   // Track ended
   const trackEnded = trackData => {
@@ -16280,10 +14710,26 @@ function setListeners(track, emit, END = 'END') {
     emit(END);
   };
 
+  // The track source (which affected the track identified by trackId) was muted.
+  // An example of a track source is a physical media device such as:
+  // microphone or camera.
+  const trackSourceMuted = trackData => {
+    emit(_actions.trackActions.trackSourceMuted([trackData.trackId]));
+  };
+
+  // The track source (which affected the track identified by trackId) was unmuted.
+  const trackSourceUnmuted = trackData => {
+    emit(_actions.trackActions.trackSourceUnmuted([trackData.trackId]));
+  };
+
   track.on('ended', trackEnded);
+  track.on('muted', trackSourceMuted);
+  track.on('unmuted', trackSourceUnmuted);
 
   const unsubscribe = () => {
     track.off('ended', trackEnded);
+    track.off('muted', trackSourceMuted);
+    track.off('unmuted', trackSourceUnmuted);
   };
   return unsubscribe;
 }
@@ -16442,6 +14888,9 @@ const MUTE_TRACKS = exports.MUTE_TRACKS = trackPrefix + 'MUTE';
 const MUTE_TRACKS_FINISH = exports.MUTE_TRACKS_FINISH = trackPrefix + 'MUTE_FINISH';
 const UNMUTE_TRACKS = exports.UNMUTE_TRACKS = trackPrefix + 'UNMUTE';
 const UNMUTE_TRACKS_FINISH = exports.UNMUTE_TRACKS_FINISH = trackPrefix + 'UNMUTE_FINISH';
+
+const TRACK_SOURCE_MUTED = exports.TRACK_SOURCE_MUTED = trackPrefix + 'SOURCE_MUTED';
+const TRACK_SOURCE_UNMUTED = exports.TRACK_SOURCE_UNMUTED = trackPrefix + 'SOURCE_UNMUTED';
 
 /**
  * Session action types.
@@ -16753,6 +15202,8 @@ exports.muteTracks = muteTracks;
 exports.muteTracksFinish = muteTracksFinish;
 exports.unmuteTracks = unmuteTracks;
 exports.unmuteTracksFinish = unmuteTracksFinish;
+exports.trackSourceMuted = trackSourceMuted;
+exports.trackSourceUnmuted = trackSourceUnmuted;
 exports.renderTracks = renderTracks;
 exports.renderTracksFinish = renderTracksFinish;
 exports.removeTracks = removeTracks;
@@ -16796,7 +15247,7 @@ function muteTracks(trackIds) {
 }
 
 function muteTracksFinish(trackIds) {
-  return trackHelper(actionTypes.MUTE_TRACKS_FINISH, trackIds);
+  return trackHelper(actionTypes.MUTE_TRACKS_FINISH, { trackIds: trackIds });
 }
 
 function unmuteTracks(trackIds) {
@@ -16804,7 +15255,15 @@ function unmuteTracks(trackIds) {
 }
 
 function unmuteTracksFinish(trackIds) {
-  return trackHelper(actionTypes.UNMUTE_TRACKS_FINISH, trackIds);
+  return trackHelper(actionTypes.UNMUTE_TRACKS_FINISH, { trackIds: trackIds });
+}
+
+function trackSourceMuted(trackIds) {
+  return trackHelper(actionTypes.TRACK_SOURCE_MUTED, { trackIds: trackIds });
+}
+
+function trackSourceUnmuted(trackIds) {
+  return trackHelper(actionTypes.TRACK_SOURCE_UNMUTED, { trackIds: trackIds });
 }
 
 function renderTracks(trackIds, params) {
@@ -16849,7 +15308,11 @@ var _promise2 = _interopRequireDefault(_promise);
 
 exports.default = wrapChannel;
 
+var _logs = __webpack_require__("../../packages/kandy/src/logs/index.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+const log = _logs.logManager.getLogger('CHANNEL');
 
 /**
  * Wraps a channel with only `send` and `receive` functionality into one that
@@ -16861,6 +15324,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @param  {Object} channel
  * @return {Object} The same channel, but with a `reply` method as well.
  */
+// Other plugins.
 function wrapChannel(channel) {
   /**
    * Track sent messages by their ID.
@@ -16875,18 +15339,20 @@ function wrapChannel(channel) {
     if (messageId && sentMessages[messageId]) {
       // If the message has an ID from a sent message, then it is a reply to
       //    that message. Resolve the promise associated with it.
+      log.debug(`Received reply from message ${messageId}.`);
       sentMessages[messageId].resolve(data);
     } else if (messageId && !sentMessages[messageId]) {
       // If the message has an ID that we don't know about, then the application
       //    will need to handle it.
       if (api.receive) {
+        log.debug(`Received new message ${messageId}.`);
         api.receive(messageId, data);
       } else {
-        console.warn('No listener for receiving messages.', data);
+        log.error('No listener set for handling received messages.', data);
       }
     } else {
       // If the message didn't have an ID, then it wasn't from our test channel.
-      console.log('Unknown message.');
+      log.warn('Received message without an ID on the channel; ignoring.', message);
     }
   };
 
@@ -16922,7 +15388,8 @@ function wrapChannel(channel) {
       sentMessages[messageId] = {
         resolve
         // Send the message over the channel.
-      };channel.send(message);
+      };log.debug(`Sending new message ${messageId}.`);
+      channel.send(message);
     }).then(data => {
       // The message received a reply, so remove the reference.
       delete sentMessages[messageId];
@@ -16955,6 +15422,7 @@ function wrapChannel(channel) {
       messageId
     };
 
+    log.debug(`Replying to message ${messageId}.`);
     channel.send(message);
   };
 
@@ -17010,6 +15478,7 @@ exports.default = convertCommand;
 exports.convertTrack = convertTrack;
 exports.convertMedia = convertMedia;
 exports.convertSession = convertSession;
+exports.convertLogger = convertLogger;
 
 var _deviceManager = __webpack_require__("../../packages/kandy/src/webrtcProxy/converters/deviceManager.js");
 
@@ -17027,6 +15496,10 @@ var _trackManager = __webpack_require__("../../packages/kandy/src/webrtcProxy/co
 
 var _trackManager2 = _interopRequireDefault(_trackManager);
 
+var _logManager = __webpack_require__("../../packages/kandy/src/webrtcProxy/converters/logManager.js");
+
+var _logManager2 = _interopRequireDefault(_logManager);
+
 var _media = __webpack_require__("../../packages/kandy/src/webrtcProxy/converters/media.js");
 
 var _media2 = _interopRequireDefault(_media);
@@ -17038,6 +15511,10 @@ var _session2 = _interopRequireDefault(_session);
 var _track = __webpack_require__("../../packages/kandy/src/webrtcProxy/converters/track.js");
 
 var _track2 = _interopRequireDefault(_track);
+
+var _logger = __webpack_require__("../../packages/kandy/src/webrtcProxy/converters/logger.js");
+
+var _logger2 = _interopRequireDefault(_logger);
 
 var _logs = __webpack_require__("../../packages/kandy/src/logs/index.js");
 
@@ -17054,13 +15531,15 @@ const managers = {
   media: _mediaManager2.default,
   sessionManager: _sessionManager2.default,
   track: _trackManager2.default,
-  devices: _deviceManager2.default
+  devices: _deviceManager2.default,
+  logs: _logManager2.default
 
   // Converters for the webRTC models.
 };const models = {
   media: _media2.default,
   session: _session2.default,
-  track: _track2.default
+  track: _track2.default,
+  logger: _logger2.default
 
   /**
    * Forwards a webRTC command to the appropriate "converter".
@@ -17075,11 +15554,25 @@ const managers = {
   if (command.id === 'manager') {
     // Forward the command to the appropriate manager converter.
     log.debug(`Performing ${command.type} manager operation ${command.operation}.`, command.params);
-    return managers[command.type](webRTC, command);
+    const result = managers[command.type](webRTC, command);
+
+    // The result is a Promise. Add a .then for debugging after it completes.
+    result.then(data => {
+      log.debug(`Completed ${command.type} manager operation ${command.operation}.`, data);
+    });
+
+    return result;
   } else {
     // Forward the command to the appropriate model converter.
     log.debug(`Performing ${command.type} model operation ${command.operation}.`, command.params);
-    return models[command.type](webRTC, command);
+    const result = models[command.type](webRTC, command);
+
+    // The result is a Promise. Add a .then for debugging after it completes.
+    result.then(data => {
+      log.debug(`Completed ${command.type} model operation ${command.operation}.`, data);
+    });
+
+    return result;
   }
 }
 
@@ -17133,6 +15626,121 @@ function convertSession(session) {
     });
   }
 }
+
+/**
+ * Converts a Logger object into a serializable object.
+ * @method convertLogger
+ * @param  {Logger} logger A WebRTC logger.
+ * @return {Object}  A serializable object.
+ */
+function convertLogger(logger) {
+  if (logger) {
+    return {
+      type: 'logger',
+      // Use the name as the unique Logger ID (which is what it is).
+      id: logger.name
+    };
+  }
+}
+
+/***/ }),
+
+/***/ "../../packages/kandy/src/webrtcProxy/converters/logManager.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _index = __webpack_require__("../../packages/kandy/src/webrtcProxy/converters/index.js");
+
+/**
+ * Log Manager "converter".
+ * Defines how received Log Manager commands are performed, and how any data is
+ *    returned over the channel (if needed).
+ * @method logManager
+ * @param {Object} webRTC The local webRTC stack.
+ * @param {Object} command A webRTC command.
+ * @return {Promise} Resolves when the operation has completed.
+ */
+exports.default = async function logManager(webRTC, command) {
+  const { operation, params } = command;
+  const manager = webRTC.managers.logs;
+
+  // Handle different APIs differently, depending on what they return.
+  if (operation === 'getLogger') {
+    const logger = manager.getLogger(...params);
+    return (0, _index.convertLogger)(logger);
+  } else if (operation === 'getLoggers') {
+    const loggers = manager.getLoggers(...params);
+    return loggers.map(_index.convertLogger);
+  } else if (operation === 'getHandler') {
+    // We can't send a function over the channel; return nothing.
+    return undefined;
+  } else if (operation === 'setLevel') {
+    // Set the level on the LogManager itself.
+    manager.setLevel(...params);
+
+    // Signature was either setLevel(type, level) or setLevel(level).
+    const level = params[1] || params[0];
+    // Set the level on all already-created Loggers.
+    manager.getLoggers().forEach(logger => logger.setLevel(level));
+  } else {
+    // General case: Don't convert the return.
+    return manager[operation](...params);
+  }
+};
+
+/***/ }),
+
+/***/ "../../packages/kandy/src/webrtcProxy/converters/logger.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _logs = __webpack_require__("../../packages/kandy/src/logs/index.js");
+
+/**
+ * Logger "converter".
+ *
+ * Defines how received Logger commands are performed, and how any data is
+ *    returned over the channel (if needed).
+ * @method logger
+ * @param {Object} webRTC The local webRTC stack.
+ * @param {Object} command A webRTC command.
+ * @return {Promise} Resolves when the Logger operation has completed.
+ */
+exports.default = async function logger(webRTC, command) {
+  const { id, operation, params } = command;
+
+  /**
+   * Special-case: If the operation is for the PROXY or CHANNEL Logger, that is
+   *    actually the Remote SDK's own Logger, not the WebRTC stack's Logger.
+   */
+  if (id === 'PROXY' || id === 'CHANNEL') {
+    // Get the logger from the SDK's log manager.
+    const logger = _logs.logManager.getLogger(id);
+    return logger[operation](...params);
+  }
+
+  // Get the logger from the WebRTC Stack's log manager.
+  const logger = webRTC.managers.logs.getLogger(id);
+  if (operation === 'getHandler') {
+    // We can't send a function over the channel; return nothing.
+    return undefined;
+  } else {
+    // General case: Don't convert the return.
+    return logger[operation](...params);
+  }
+};
 
 /***/ }),
 
@@ -17210,6 +15818,14 @@ exports.default = async function mediaManager(webRTC, command) {
   } else if (operation === 'createLocal') {
     try {
       const media = await manager.createLocal(...params);
+      return (0, _index.convertMedia)(media);
+    } catch (err) {
+      console.error('Error: ', err);
+      return err;
+    }
+  } else if (operation === 'createLocalScreen') {
+    try {
+      const media = await manager.createLocalScreen(...params);
       return (0, _index.convertMedia)(media);
     } catch (err) {
       console.error('Error: ', err);
@@ -17509,14 +16125,25 @@ function clientProxy() {
    * @param {Channel} channel See the `Channel` module for information.
    */
   api.setChannel = channel => {
+    log.debug(`${_logs.API_LOG_TAG}proxy.setChannel`);
+
     base.channel = (0, _channel2.default)(channel);
-
     base.channel.receive = (id, data) => {
-      log.debug(`Received message ${id}.`);
-
       if (!base.isReady && data.initialize) {
         log.info('Initializing local webRTC stack.', data.config);
         base.webRTC = base.webRTC(data.config);
+
+        // Set the initial log levels if they were provided.
+        if (data.logLevels) {
+          const { WEBRTC, PROXY, CHANNEL } = data.logLevels;
+          // Set the log level in the WebRTC stack's Log Manager.
+          base.webRTC.managers.logs.setLevel(WEBRTC);
+          // Also set the log level in the Remote SDK's PROXY logger.
+          log.setLevel(PROXY);
+          // Also also set the log level in the Remote SDK's CHANNEL logger.
+          _logs.logManager.getLogger('CHANNEL').setLevel(CHANNEL);
+        }
+
         base.isReady = true;
 
         // Setup listeners for events from the webRTC stack.
@@ -17525,8 +16152,8 @@ function clientProxy() {
           //    action), send it over the channel.
           if (typeof action === 'object' && action.type) {
             // Make sure that the action is an actual action, though.
-            log.debug(`Sending event over channel: ${action.type}.`);
-            const messageId = (0, _uuid.v4)();
+            log.info(`Sending event over channel: ${action.type}.`);
+            const messageId = (0, _uuid.v4)().substring(0, 8);
             base.channel.send(messageId, { event: action });
           } else {
             log.debug(`Proxy event listeners received unexpected format; ignoring.`, action);
@@ -17541,15 +16168,18 @@ function clientProxy() {
           api.onInit(base.webRTC);
         }
         base.channel.reply(id, { initialized: true, browser });
+        log.info('Finished initializing local webRTC stack.');
       } else if (!base.isReady) {
+        // If we received a (non-initialize) message, but haven't yet initialized
+        //    the local WebRTC stack, reply that this side is not ready yet.
         log.info('Client not ready! Still needs to be initialized.');
         base.channel.reply(id, { initialized: false });
       } else if (isWebrtcCommand(data)) {
-        log.info('Received Webrtc command.');
+        log.info(`Received ${data.type} ${data.operation} operation, performing...`);
         // WebRTC operations may be async. Need to ensure that
         //    they finish before replying to the command.
         (0, _converters2.default)(base.webRTC, data).then(result => {
-          log.debug(`Completed operation, sending reply to ${id}.`, result);
+          log.info(`Finished ${data.type} ${data.operation} operation, replying with result.`);
           base.channel.reply(id, result);
         });
       } else {
@@ -17567,6 +16197,7 @@ function clientProxy() {
    * @return {Channel}
    */
   api.getChannel = () => {
+    log.debug(`${_logs.API_LOG_TAG}proxy.getChannel`);
     return base.channel;
   };
 
@@ -17576,6 +16207,8 @@ function clientProxy() {
    * @param {Any} args Depends on channel used.
    */
   api.send = (...args) => {
+    log.debug(`${_logs.API_LOG_TAG}proxy.send`);
+
     if (base.channel && base.channel.send) {
       base.channel.send(...args);
     } else {
@@ -17753,10 +16386,13 @@ var _events2 = _interopRequireDefault(_events);
 
 var _logs = __webpack_require__("../../packages/kandy/src/logs/index.js");
 
+var _version = __webpack_require__("../../packages/kandy/src/common/version.js");
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// Other plugins.
 const log = _logs.logManager.getLogger('PROXY');
 
 /**
@@ -17777,10 +16413,11 @@ const log = _logs.logManager.getLogger('PROXY');
  * @method remoteClient
  * @return {Object} The remote SDK's API.
  */
-
-
-// Other plugins.
 function remoteClient() {
+  // Log the SDK's version (templated by webpack) on initialization.
+  const version = (0, _version.getVersion)();
+  log.info(`Remote SDK version: ${version}`);
+
   // Setup the Client Proxy.
   const proxy = (0, _clientProxy2.default)();
   // The webRTC stack ...when initialized.
@@ -17836,7 +16473,8 @@ function remoteClient() {
     media: mediaApi,
     on: emitter.on,
     off: emitter.off,
-    getCapabilities: () => []
+    getCapabilities: () => [],
+    getVersion: () => version
   };
 }
 
@@ -17920,6 +16558,8 @@ const log = _logs.logManager.getLogger('PROXY');
 
 // Other plugins.
 function getDevices(webRTC) {
+  log.debug(`${_logs.API_LOG_TAG}media.getDevices`);
+
   const manager = webRTC.managers.devices;
   return manager.get();
 }
@@ -17933,6 +16573,8 @@ function getDevices(webRTC) {
  * @return {Array} List of Media IDs.
  */
 function getMedia(webRTC) {
+  log.debug(`${_logs.API_LOG_TAG}media.getMedia`);
+
   const manager = webRTC.managers.media;
   return manager.getAll();
 }
@@ -17946,6 +16588,8 @@ function getMedia(webRTC) {
  * @return {MediaObject} A media object.
  */
 function getMediaById(webRTC, mediaId) {
+  log.debug(`${_logs.API_LOG_TAG}media.getMediaById: ${mediaId}`);
+
   const manager = webRTC.managers.media;
   return manager.get(mediaId).getState();
 }
@@ -17959,6 +16603,8 @@ function getMediaById(webRTC, mediaId) {
  * @return {TrackObject} A track object.
  */
 function getTrackById(webRTC, trackId) {
+  log.debug(`${_logs.API_LOG_TAG}media.getTrackById: ${trackId}`);
+
   const manager = webRTC.managers.track;
   return manager.get(trackId);
 }
@@ -17979,6 +16625,8 @@ function getTrackById(webRTC, trackId) {
  * })
  */
 function renderTracks(webRTC, trackIds, cssSelector) {
+  log.debug(`${_logs.API_LOG_TAG}media.renderTracks: ${trackIds}, ${cssSelector}`);
+
   const trackManager = webRTC.managers.track;
   const tracks = trackIds.map(trackManager.get);
 
@@ -18005,6 +16653,8 @@ function renderTracks(webRTC, trackIds, cssSelector) {
  * @param  {string} cssSelector A CSS selector string that uniquely identifies an element. Ensure that special characters are properly escaped.
  */
 function removeTracks(webRTC, trackIds, cssSelector) {
+  log.debug(`${_logs.API_LOG_TAG}media.removeTracks: ${trackIds}, ${cssSelector}`);
+
   const trackManager = webRTC.managers.track;
   const tracks = trackIds.map(trackManager.get);
 
@@ -18225,7 +16875,13 @@ function defaultLogHandler(entry) {
   // Compile the meta info of the log for a prefix.
   const { timestamp, level, target } = entry;
   let { method } = entry;
-  const logInfo = `${timestamp} - ${target.type} - ${level}`;
+
+  // Find a short name to reference which Logger this log is from.
+  //    This is mostly to cut down the ID if it's too long for a human to read.
+  const shortId = target.id && target.id.length > 8 ? target.id.substring(0, 6) : target.id;
+  const shortName = shortId ? `${target.type}/${shortId}` : target.type;
+
+  const logInfo = `${timestamp} - ${shortName} - ${level}`;
 
   // Assume that the first message parameter is a string.
   const [log, ...extra] = entry.messages;
@@ -18319,7 +16975,9 @@ function createManager(options = {}) {
      * @param  {string} [id] A unique identifier for the logger.
      * @return {Logger}
      */
-  };function getLogger(type, id) {
+  };function getLogger(type, id = '') {
+    id = String(id);
+
     // Combine the name and ID to create the "full" logger name.
     const loggerName = id ? `${type}-${id}` : type;
 
@@ -19051,10 +17709,10 @@ exports.default = oniceconnectionstatechange;
  * @return {Boolean}  Whether the assignment succeeded or not.
  */
 function oniceconnectionstatechange(listener) {
-  const { nativePeer, id, log } = this;
+  const { nativePeer, log } = this;
 
   nativePeer.oniceconnectionstatechange = function (event) {
-    log.debug(`Peer ${id} received iceconnectionstatechange event: ${nativePeer.iceConnectionState}`);
+    log.debug(`Peer received iceconnectionstatechange event: ${nativePeer.iceConnectionState}`);
     listener(event);
   };
 
@@ -19084,7 +17742,7 @@ var _constants = __webpack_require__("../../packages/webrtc/src/constants.js");
  * @return {Boolean}  Whether the assignment succeeded or not.
  */
 function onicegatheringstatechange(listener) {
-  const { nativePeer, id, iceTimer, log } = this;
+  const { nativePeer, iceTimer, log } = this;
 
   /**
    * Intercept the PeerConnection onicegatheringstatechange event.
@@ -19093,7 +17751,7 @@ function onicegatheringstatechange(listener) {
    */
   nativePeer.onicegatheringstatechange = event => {
     const gatheringState = event.target.iceGatheringState;
-    log.debug(`Peer ${id} iceGatheringState changed to ${gatheringState}.`);
+    log.debug(`Peer iceGatheringState changed to ${gatheringState}.`);
 
     if (gatheringState === _constants.PEER.ICE_GATHERING_STATE.GATHERING) {
       iceTimer.start();
@@ -19176,10 +17834,10 @@ exports.default = onnegotiationneeded;
  * @return {Boolean}  Whether the assignment succeeded or not.
  */
 function onnegotiationneeded(listener) {
-  const { nativePeer, id, log } = this;
+  const { nativePeer, log } = this;
 
   nativePeer.onnegotiationneeded = function (event) {
-    log.debug(`Peer ${id} received negotiationneeded event.`);
+    log.debug(`Peer received negotiationneeded event.`);
     listener(event);
   };
 
@@ -19206,10 +17864,10 @@ exports.default = onsignalingstatechange;
  * @return {Boolean}  Whether the assignment succeeded or not.
  */
 function onsignalingstatechange(listener) {
-  const { nativePeer, id, log } = this;
+  const { nativePeer, log } = this;
 
   nativePeer.onsignalingstatechange = function (event) {
-    log.debug(`Peer ${id} received signalingstatechange event: ${nativePeer.signalingState}`);
+    log.debug(`Peer received signalingstatechange event: ${nativePeer.signalingState}`);
     listener(event);
   };
 
@@ -19236,7 +17894,7 @@ exports.default = ontrack;
  * @return {Boolean}  Whether the assignment succeeded or not.
  */
 function ontrack(listener) {
-  const { nativePeer, id, trackManager, log } = this;
+  const { nativePeer, trackManager, log } = this;
 
   nativePeer.ontrack = event => {
     /**
@@ -19263,7 +17921,7 @@ function ontrack(listener) {
     // Convert the native MediaStreamTrack into a Track object.
     const track = trackManager.add(nativeTrack, targetStream);
 
-    log.debug(`Peer ${id} received ${nativeTrack.kind} Track ${track.id}.`);
+    log.debug(`Peer received ${nativeTrack.kind} Track ${track.id}.`);
     listener(track);
   };
 
@@ -19320,9 +17978,7 @@ var _eventemitter = __webpack_require__("../../node_modules/eventemitter3/index.
 
 var _eventemitter2 = _interopRequireDefault(_eventemitter);
 
-var _timerMachine = __webpack_require__("../../node_modules/timer-machine/lib/timer.js");
-
-var _timerMachine2 = _interopRequireDefault(_timerMachine);
+var _timer = __webpack_require__("../../packages/webrtc/src/Peer/utils/timer.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -19345,12 +18001,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function peer(id, config = {}, trackManager) {
   const log = _logs.logManager.getLogger('Peer', id);
   config = (0, _utils.mergeValues)(_config2.default, config);
+  log.info(`Creating new Peer.`);
 
-  const iceTimer = _timerMachine2.default.get(`ice-${id}`);
+  const iceTimer = (0, _timer.createTimer)();
   const emitter = new _eventemitter2.default();
 
   // Create the native Peer.
-  log.info(`Creating peer connection with ID: ${id}.`, config);
+  log.debug(`Creating native PeerConnection.`, config.rtcConfig);
   const nativePeer = new RTCPeerConnection(config.rtcConfig);
 
   // Add the event emitter methods to the wrapped methods as well.
@@ -19522,13 +18179,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  */
 function addIceCandidate(candidate) {
   const { nativePeer, proxyPeer, id, log } = this;
-  log.info(`Peer ${id} adding ICE candidate.`);
+  log.info(`Adding ICE candidate.`);
 
   return new _promise2.default((resolve, reject) => {
     if (proxyPeer.remoteDescription.type && proxyPeer.remoteDescription.sdp) {
       nativePeer.addIceCandidate(candidate).then(resolve).catch(reject);
     } else {
-      log.debug(`Peer ${id} cannot set remote ICE candidate without a remote description.`);
+      log.info(`Cannot set remote ICE candidate without a remote description.`);
       // TODO: Better error.
       reject(new Error(`Peer ${id} cannot set remote ICE candidate without a remote description.`));
     }
@@ -19554,16 +18211,15 @@ exports.default = addTrack;
  * @return {RTCRtpSender}
  */
 function addTrack(track) {
-  const { nativePeer, id, log } = this;
-
-  log.info(`Peer ${id} adding new track.`);
+  const { nativePeer, log } = this;
+  log.info(`Adding new ${track.track.kind} track.`);
 
   let sender;
   try {
     sender = nativePeer.addTrack(track.track, track.getStream());
   } catch (err) {
     // TODO: Better error handling.
-    log.debug(err.message);
+    log.info(`Failed to add track: ${err.message}`);
   }
   // TODO: What to return here? Probably shouldn't expose the rtpSender itself.
   return sender;
@@ -19587,7 +18243,7 @@ exports.default = close;
  */
 function close() {
   const { nativePeer, id, emitter, log } = this;
-  log.debug(`Peer ${id} closing.`);
+  log.info(`Closing Peer.`);
 
   nativePeer.close();
   emitter.emit('peer:closed', id);
@@ -19631,9 +18287,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @return {Promise} Resolves with the answer.
  */
 function createAnswer(options = {}) {
-  const { nativePeer, id, config, dtlsRole, log } = this;
-
-  log.info(`Peer ${id} creating local answer.`);
+  const { nativePeer, config, dtlsRole, log } = this;
+  log.info(`Creating local answer.`);
 
   // If using unified-plan, remove options.mediaDirections.
   // This is because directions are now set in transceivers.
@@ -19671,6 +18326,8 @@ function createAnswer(options = {}) {
           dtlsRole: dtlsRole
         });
       }
+
+      log.info(`Finished creating local answer.`);
       resolve(answer);
     }).catch(reject);
   });
@@ -19714,9 +18371,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @return {Promise} Resolves with the offer.
  */
 function createOffer(options = {}) {
-  const { nativePeer, id, config, log } = this;
-
-  log.info(`Peer ${id} creating local offer.`);
+  const { nativePeer, config, log } = this;
+  log.info(`Creating local offer.`);
 
   // If using unified-plan, remove options.mediaDirections.
   // This is because directions are now set in transceivers.
@@ -19746,6 +18402,8 @@ function createOffer(options = {}) {
           endpoint: _constants.PEER.ENDPOINT.LOCAL
         });
       }
+
+      log.info(`Finished creating local offer.`);
       resolve(offer);
     }).catch(reject);
   });
@@ -19777,15 +18435,12 @@ var _sdpSemantics = __webpack_require__("../../packages/webrtc/src/sdpUtils/sdpS
  * @returns {Object} Transceiver object that matches kind, has no sender track, and has currentDirection. Otherwise undefined.
  */
 function findReusableTransceiver(kind) {
-  const { proxyPeer, config, id, log } = this;
-  log.info(`Peer ${id} finding reusable transceiver.`);
+  const { proxyPeer, config } = this;
 
   if ((0, _sdpSemantics.isUnifiedPlan)(config.rtcConfig.sdpSemantics)) {
     const transceivers = proxyPeer.getTransceivers();
     return transceivers.find(transceiver => transceiver.sender.track == null && transceiver.receiver && transceiver.receiver.track && transceiver.receiver.track.kind === kind && transceiver.currentDirection // If this has been set, then transceiver has been used before.
     );
-  } else {
-    log.info(`Transceivers are only available in unified-plan.`);
   }
 }
 
@@ -19847,8 +18502,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @return {Promise} Resolves with the RTCStatsReport
  */
 function getStats(trackId) {
-  const { nativePeer, proxyPeer, id, log } = this;
-  log.info(`Peer ${id} getting stats ${trackId ? 'for track.' : '.'}`);
+  const { nativePeer, proxyPeer, log } = this;
+  log.info(`Getting stats ${trackId ? 'for track.' : '.'}`);
   // If no trackId is supplied, get the stats from the RTCPeerConnection. Otherwise, find an RTCSender
   // associated with the trackId and get the stats from it.
 
@@ -19862,7 +18517,7 @@ function getStats(trackId) {
         sender.getStats().then(resolve).catch(reject);
       } else {
         const errMsg = `Cannot find sender with trackId: ${trackId}`;
-        log.debug(errMsg);
+        log.info(errMsg);
         reject(new Error(errMsg));
       }
     });
@@ -19979,15 +18634,15 @@ exports.default = removeTrack;
  * @param  {string} trackId An id for a Track object.
  */
 function removeTrack(trackId) {
-  const { nativePeer, proxyPeer, id, log } = this;
-  log.info(`Peer ${id} removing track ${trackId}.`);
+  const { nativePeer, proxyPeer, log } = this;
+  log.info(`Removing track ${trackId}.`);
 
   const track = proxyPeer.senderTracks.find(track => track.id === trackId);
   if (!track) {
-    log.debug(`Invalid track ID ${trackId}; cannot remove track.`);
+    log.info(`Invalid track ID ${trackId}; no such track found.`);
     return;
   } else if (proxyPeer.signalingState === ' closed') {
-    log.debug(`Peer ${id} is closed; cannot remove track.`);
+    log.info(`Peer is closed; cannot remove track.`);
     return;
   }
 
@@ -20027,8 +18682,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @return {Object} A Promise object which is fulfilled once the track has been replaced
  */
 function replaceTrack(newTrack, options) {
-  const { proxyPeer, id, config, log } = this;
-  log.info(`Peer ${id} replacing track ${options.trackId}.`);
+  const { proxyPeer, config, log } = this;
+  log.info(`Replacing track ${options.trackId} with new ${newTrack.kind} track.`);
 
   return new _promise2.default((resolve, reject) => {
     let sender;
@@ -20042,8 +18697,12 @@ function replaceTrack(newTrack, options) {
     }
 
     if (sender) {
-      sender.replaceTrack(newTrack).then(resolve).catch(reject);
+      sender.replaceTrack(newTrack).then(resolve).catch(error => {
+        log.info(`Failed to replace track; ${error.message}`);
+        reject(error);
+      });
     } else {
+      log.info(`Failed to replace track; could not find track ${options.trackId}.`);
       reject(new Error(`Sender for track ${options.trackId} not found.`));
     }
   });
@@ -20074,11 +18733,11 @@ exports.default = sendDTMF;
  * @return {Boolean} Whether the DTMF tones were inserted
  */
 function sendDTMF({ tone, duration = 100, intertoneGap = 70 }, { callback, trackId }) {
-  const { proxyPeer, id, log } = this;
-  log.info(`Peer ${id} sending DTMF tones.`);
+  const { proxyPeer, log } = this;
+  log.info(`Sending DTMF tones.`, tone);
 
   if (!proxyPeer.getSenders) {
-    log.debug('RTCPeerConnection method getSenders() is required which is not support by this browser.');
+    log.info(`Failed to send tones; getSenders is not supported by this browser.`);
     return false;
   }
   const senders = proxyPeer.getSenders();
@@ -20086,7 +18745,7 @@ function sendDTMF({ tone, duration = 100, intertoneGap = 70 }, { callback, track
   if (trackId) {
     let sender = senders.find(sender => sender.track.id === trackId);
     if (!sender) {
-      log.debug('No sender with that trackId');
+      log.info(`Failed to send tones; could not find track ${trackId}.`);
       return false;
     }
     insertDTMF(sender, tone, duration, intertoneGap, callback, log);
@@ -20099,7 +18758,8 @@ function sendDTMF({ tone, duration = 100, intertoneGap = 70 }, { callback, track
         return true;
       }
     }
-    log.debug('No appropriate senders were found');
+
+    log.info(`Failed to send tones; could not find an appropriate track.`);
     return false;
   }
 }
@@ -20187,7 +18847,8 @@ function setLocalDescription(desc) {
   const { nativePeer, proxyPeer, config, id, emitter, iceTimer, log } = this;
 
   // TODO: SDP pipeline here.
-  log.debug(`Peer ${id} setting local description ${desc.type}:`, desc.sdp);
+  log.info(`Setting local description ${desc.type} in ${proxyPeer.signalingState} state.`);
+  log.debug(`Setting local description ${desc.type}:`, desc.sdp);
 
   /**
    * Scenario: A local answer SDP is being applied to the Peer, but it does
@@ -20199,7 +18860,7 @@ function setLocalDescription(desc) {
   if (!this.dtlsRole && desc.type === 'answer') {
     const dtlsMatch = desc.sdp.match(/a=setup:(\w*?)[\r\n]/);
     if (dtlsMatch) {
-      log.debug(`Peer ${id} selecting DTLS role ${dtlsMatch[1]}.`);
+      log.debug(`Selecting DTLS role ${dtlsMatch[1]}.`);
       this.dtlsRole = dtlsMatch[1];
     }
   }
@@ -20212,18 +18873,18 @@ function setLocalDescription(desc) {
       if (iceTimer.isStarted()) {
         // In a HALF trickle scenario, the Peer will be ready for negotiation
         //    before ICE collection has completed. Log that timing.
-        log.debug(`Peer ${id} took ${iceTimer.timeFromStart()}ms to collect ICE candidates before negotiation.`);
+        log.debug(`Took ${iceTimer.timeFromStart()}ms to collect ICE candidates before negotiation.`);
       }
       resolve();
     });
 
     nativePeer.setLocalDescription(desc).then(() => {
-      log.info(`Peer ${id} set local description.`);
-      log.debug(`Peer ${id} state is now ${proxyPeer.signalingState}.`);
+      log.info(`Finished setting local description.`);
+      log.debug(`State is now ${proxyPeer.signalingState}.`);
 
       if (config.trickleIceMode === _constants.PEER.TRICKLE_ICE.FULL) {
         // Trickling ICE candidates means that we can begin negotiation immediately.
-        log.debug(`Peer ${id} ready for negotiation (full trickleICE).`);
+        log.debug(`Ready for negotiation (full trickleICE).`);
         emitter.emit('onnegotiationready');
       } else {
         // ICE candidates aren't always gathered (only initially and when something
@@ -20237,10 +18898,10 @@ function setLocalDescription(desc) {
         setTimeout(() => {
           if (proxyPeer.iceGatheringState === 'complete') {
             // Gathering is "complete", so we are ready for negotiation.
-            log.debug(`Peer ${id} ready for negotiation; ICE candidate collection not needed.`);
+            log.debug(`Ready for negotiation; ICE candidate collection not needed.`);
             emitter.emit('onnegotiationready');
           } else {
-            log.debug(`Peer ${id} waiting for ICE collection process (${config.trickleIceMode}).`);
+            log.debug(`Waiting for ICE collection process (${config.trickleIceMode}).`);
             // If ICE collection never finishes, we need to time it out at some point.
             //    Start the timeout-out loop after an initial delay.
             setTimeout(() => {
@@ -20250,7 +18911,7 @@ function setLocalDescription(desc) {
         }, 25);
       }
     }).catch(err => {
-      log.info(`Peer ${id} failed to set local description.`);
+      log.info(`Failed to set local description.`);
       log.debug(`Peer ${id}: ${err}`);
       // Parse native error. Make it more understand and/or
       //    provide a better log about what went wrong.
@@ -20289,6 +18950,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function setRemoteDescription(desc) {
   const { nativePeer, proxyPeer, id, log } = this;
 
+  // TODO: SDP pipeline here.
+  log.info(`Setting remote description ${desc.type} in ${proxyPeer.signalingState} state.`);
+  log.debug(`Setting remote description ${desc.type}:`, desc.sdp);
+
   /**
    * Scenario: A remote answer SDP is being applied to the Peer, but it does
    *    not have a selected DTLS role yet. This should occur only when the
@@ -20300,7 +18965,7 @@ function setRemoteDescription(desc) {
     const dtlsMatch = desc.sdp.match(/a=setup:(\w*?)[\r\n]/);
     if (dtlsMatch) {
       const localRole = dtlsMatch[1] === 'active' ? 'passive' : 'active';
-      log.debug(`Peer ${id} selecting DTLS role ${localRole}. Remote Peer selected ${dtlsMatch[1]} DTLS role.`);
+      log.debug(`Selecting DTLS role ${localRole}. Remote Peer selected ${dtlsMatch[1]} DTLS role.`);
       this.dtlsRole = localRole;
     }
   }
@@ -20308,13 +18973,12 @@ function setRemoteDescription(desc) {
   // TODO: Update `config.trickleIceMode` to either NONE or FULL (from HALF)
   //    depending on remote support, since HALF is only needed for initial.
   return new _promise2.default((resolve, reject) => {
-    log.debug(`Peer ${id} setting remote description ${desc.type}:`, desc.sdp);
     nativePeer.setRemoteDescription(desc).then(() => {
-      log.info(`Peer ${id} set remote description.`);
-      log.debug(`Peer ${id} state is now ${proxyPeer.signalingState}.`);
+      log.info(`Finished setting remote description.`);
+      log.debug(`State is now ${proxyPeer.signalingState}.`);
       resolve();
     }).catch(err => {
-      log.info(`Peer ${id} failed to set remote description.`);
+      log.info(`Failed to set remote description.`);
       log.debug(`Peer ${id}: ${err}`);
       // Parse native error. Make it more understand and/or
       //    provide a better log about what went wrong.
@@ -20349,8 +19013,8 @@ var _transceiverUtils = __webpack_require__("../../packages/webrtc/src/sdpUtils/
  * @return {Object} An object containing an `error` flag and  an array `failures` of transceivers whose directions weren't changed.
  */
 function setTransceiversDirection(targetDirection, options = {}) {
-  const { proxyPeer, config, id, log } = this;
-  log.info(`Peer ${id} setting transceiver direction to ${targetDirection}.`);
+  const { proxyPeer, config, log } = this;
+  log.info(`Setting transceiver direction to ${targetDirection}.`);
 
   if ((0, _sdpSemantics.isUnifiedPlan)(config.rtcConfig.sdpSemantics)) {
     let transceivers = proxyPeer.getTransceivers();
@@ -20430,8 +19094,8 @@ exports.default = getLocalDescription;
  * @method getLocalDescription
  */
 function getLocalDescription() {
-  const { nativePeer, id, log } = this;
-  log.debug(`Peer ${id} getting local description.`);
+  const { nativePeer, log } = this;
+  log.info(`Getting local description.`);
 
   const localDesc = nativePeer.localDescription;
   /*
@@ -20465,8 +19129,8 @@ exports.default = localTracks;
  * @return {Array} List of active Track objects added to the Peer locally.
  */
 function localTracks() {
-  const { proxyPeer, id, trackManager, log } = this;
-  log.info(`Peer ${id} getting local tracks.`);
+  const { proxyPeer, trackManager, log } = this;
+  log.info(`Getting local tracks.`);
 
   // Return the list of Tracks from active senders.
   return proxyPeer.getSenders()
@@ -20502,8 +19166,8 @@ exports.default = getRemoteDescription;
  * @method getRemoteDescription
  */
 function getRemoteDescription() {
-  const { nativePeer, id, log } = this;
-  log.debug(`Peer ${id} getting remote description.`);
+  const { nativePeer, log } = this;
+  log.info(`Getting remote description.`);
 
   const remoteDesc = nativePeer.remoteDescription;
   /*
@@ -20537,8 +19201,8 @@ exports.default = getRemoteTracks;
  * @return {Array} List of active Track objects the Peer has received remotely.
  */
 function getRemoteTracks() {
-  const { proxyPeer, id, trackManager, log } = this;
-  log.info(`Peer ${id} getting remote tracks.`);
+  const { proxyPeer, trackManager, log } = this;
+  log.info(`Getting remote tracks.`);
 
   // Return the list of Tracks from active receivers.
   return proxyPeer.getReceivers()
@@ -20577,8 +19241,8 @@ exports.default = senderTracks;
  * @return {Array} List of Track objects added to the Peer locally.
  */
 function senderTracks() {
-  const { proxyPeer, id, log } = this;
-  log.info(`Peer ${id} getting sender tracks.`);
+  const { proxyPeer, log } = this;
+  log.info(`Getting sender tracks.`);
 
   // Return the list of Tracks from senders.
   return proxyPeer.getSenders()
@@ -20655,6 +19319,86 @@ function iceCollectionLoop(proxyBase, elapsedTime) {
 
 /***/ }),
 
+/***/ "../../packages/webrtc/src/Peer/utils/timer.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _create = __webpack_require__("../../node_modules/babel-runtime/core-js/object/create.js");
+
+var _create2 = _interopRequireDefault(_create);
+
+exports.createTimer = createTimer;
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * Prototype for a timer object that can keep time and be stopped and started.
+ */
+const timerPrototype = {
+  /**
+   * Start the timer
+   * @returns {boolean} True if the timer was successfully started, false if it was already started.
+   */
+  start() {
+    if (!this.isStarted()) {
+      this._startTime = now();
+      return true;
+    }
+    return false;
+  },
+
+  /**
+   * Stops the timer
+   * @returns {boolean} True if the timer was successfully stopped, false if it was already stopped.
+   */
+  stop() {
+    if (this.isStarted()) {
+      this._startTime = undefined;
+      return true;
+    }
+
+    return false;
+  },
+
+  /**
+   * @returns {boolean} True if the timer is started, false otherwise.
+   */
+  isStarted() {
+    return Boolean(this._startTime);
+  },
+
+  /**
+   * @returns {number} The time in milliseconds since the timer was started, or 0 if it wasn't started.
+   */
+  timeFromStart() {
+    return this.isStarted() ? now() - this._startTime : 0;
+  }
+};
+
+/**
+ * @returns A timestamp in milliseconds since the unix-epoch
+ */
+function now() {
+  return new Date().getTime();
+}
+
+/**
+ * Create a new timer object. Timers are not started when created and need to be started manualy.
+ *
+ * @returns {Object} The timer object that supports the timer interface.
+ */
+function createTimer() {
+  return (0, _create2.default)(timerPrototype);
+}
+
+/***/ }),
+
 /***/ "../../packages/webrtc/src/constants.js":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -20710,6 +19454,8 @@ const PEER = exports.PEER = {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.getBrowserDetails = getBrowserDetails;
+exports.getWebRTCSupportCapabilities = getWebRTCSupportCapabilities;
 exports.default = initialize;
 
 var _track = __webpack_require__("../../packages/webrtc/src/models/track.js");
@@ -20762,11 +19508,34 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * @returns The browser details as provided by webrtc-adapter
+ */
 // Models.
+function getBrowserDetails() {
+  return _adapter_no_edge2.default.browserDetails;
+}
+
+/**
+ * @returns An dictionary of features that are supported on this platform.
+ */
+
+
+// SDP helpers.
+
+
+// Managers.
+function getWebRTCSupportCapabilities() {
+  return {
+    mediaDevices: Boolean(navigator.mediaDevices),
+    peerConnection: Boolean(window.RTCPeerConnection)
+  };
+}
+
 function initialize() {
   const log = _logs.logManager.getLogger('WebRTC');
 
-  const browserDetails = _adapter_no_edge2.default.browserDetails;
+  const browserDetails = getBrowserDetails();
   if (browserDetails.version) {
     log.debug(`Browser details: ${browserDetails.browser}, version ${browserDetails.version}.`);
   } else {
@@ -20795,22 +19564,20 @@ function initialize() {
       media: mediaManager,
       peerManager: peerManager,
       sessionManager,
-      track: trackManager
+      track: trackManager,
+      // Give access to the Log Manager.
+      // TODO: Don't include it under managers. It's here now because of
+      //    ProxyStack annoyingness.
+      logs: _logs.logManager
     },
     sdp: {
       pipeline: _pipeline2.default,
       handlers: sdpHandlers
     },
-    getBrowserDetails: () => {
-      return browserDetails;
-    }
+    // Export this on the webRTC stack for backwards compatibility.
+    getBrowserDetails
   };
 }
-
-// SDP helpers.
-
-
-// Managers.
 
 /***/ }),
 
@@ -21754,6 +20521,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  */
 function Media(nativeStream, isLocal) {
   const log = _logs.logManager.getLogger('Media', nativeStream.id);
+  log.info(`Creating new ${isLocal ? 'local' : 'remote'} Media.`);
 
   // Internal variables.
   const id = nativeStream.id;
@@ -22033,6 +20801,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // SDP Helpers.
 function Session(id, managers, config = {}) {
   const log = _logs.logManager.getLogger('Session', id);
+  log.info(`Creating new Session.`);
+  const sdpSemantics = config.peer && config.peer.rtcConfig && config.peer.rtcConfig.sdpSemantics;
+  log.debug(`Session configured for ${sdpSemantics || 'default'} SDP semantics.`);
 
   // Internal variables.
   const sessionId = id;
@@ -22504,6 +21275,7 @@ function Session(id, managers, config = {}) {
    * @method end
    */
   function end() {
+    log.info(`Ending Session.`);
     const peer = peerManager.get(peerId);
     if (peer) {
       peer.close();
@@ -22634,6 +21406,9 @@ function Session(id, managers, config = {}) {
           performRenegotiation: false
         });
       });
+
+      const { kind } = track.getState();
+      log.info(`Received new track (${kind} : ${track.id})`);
 
       // Indicate that the Session has a new Track.
       emitter.emit('new:track', {
@@ -22766,6 +21541,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // Libraries.
 function Track(mediaTrack, mediaStream) {
   const log = _logs.logManager.getLogger('Track', mediaTrack.id);
+  log.info(`Creating new ${mediaTrack.kind} Track.`);
 
   // Internal variables.
   const id = mediaTrack.id;
@@ -22836,8 +21612,8 @@ function Track(mediaTrack, mediaStream) {
       streamId: stream.id,
       kind: track.kind,
       label: track.label,
-      muted: !track.enabled,
-      disabled: track.muted,
+      muted: track.muted,
+      enabled: track.enabled,
       state: track.readyState,
       containers: containers.map(element => element.id)
     };
@@ -22854,7 +21630,7 @@ function Track(mediaTrack, mediaStream) {
     let element;
     // If a string was provided, use it as a CSS selector to find the element.
     if (typeof container === 'string') {
-      log.debug(`Track ${id} rendering in element using selector: ${container}`);
+      log.info(`Rendering track in element using selector: ${container}`);
 
       element = document.querySelector(container);
       if (!element) {
@@ -22862,7 +21638,7 @@ function Track(mediaTrack, mediaStream) {
         return false;
       }
     } else {
-      log.debug(`Track ${id} rendering in provided HTMLElement.`);
+      log.info(`Rendering track in provided HTMLElement.`);
 
       element = container;
     }
@@ -22871,7 +21647,7 @@ function Track(mediaTrack, mediaStream) {
 
     if (containers.indexOf(element) > -1) {
       // Already rendered in element.
-      log.debug(`Track ${id} already rendered in element.`, element);
+      log.info(`Failed to render track; already rendered in element.`);
       return;
     }
 
@@ -22900,17 +21676,21 @@ function Track(mediaTrack, mediaStream) {
     if (type === 'video') {
       renderer.muted = 'true';
       // Needed for Android.
-      renderer.play().catch(err => log.error(`video tag (#${renderer.id}) - play() - ${err}`));
+      renderer.play().catch(err => {
+        log.debug(`Could not autoplay renderer #${renderer.id}: ${err.message}`);
+      });
     }
 
     // Set speaker if it was provided and it's supported.
     if (speakerId && typeof renderer.setSinkId !== 'undefined') {
       // TODO: Better then/catch handling.
       renderer.setSinkId(speakerId).then(() => {
-        log.debug('Set to use speaker: ', speakerId);
+        log.debug(`Set to use speaker: ${speakerId}.`);
       }).catch(error => {
-        log.debug('Could not set speaker to use. ' + speakerId, error);
+        log.debug(`Could not set speaker to use ${speakerId}: ${error.message}`);
       });
+    } else if (speakerId && typeof renderer.setSinkId === 'undefined') {
+      log.info(`Failed to set speaker; setSinkId not supported in this browser.`);
     }
 
     element.appendChild(renderer);
@@ -22929,7 +21709,7 @@ function Track(mediaTrack, mediaStream) {
     let element;
     // If a string was provided, use it as a CSS selector to find the element.
     if (typeof container === 'string') {
-      log.debug(`Track ${id} removing from element using selector: ${container}`);
+      log.info(`Removing track from element using selector: ${container}`);
 
       element = document.querySelector(container);
       if (!element) {
@@ -22937,7 +21717,7 @@ function Track(mediaTrack, mediaStream) {
         return false;
       }
     } else {
-      log.debug(`Track ${id} removing from provided HTMLElement.`);
+      log.info(`Removing track from provided HTMLElement.`);
 
       element = container;
     }
@@ -22945,7 +21725,7 @@ function Track(mediaTrack, mediaStream) {
     let index = containers.indexOf(element);
     if (index === -1) {
       // Not rendered in element.
-      log.debug(`Track ${id} not rendered in element.`, element);
+      log.info(`Failed to remove track; not rendered in element.`);
       return;
     }
     containers.splice(index, 1);
@@ -22988,6 +21768,7 @@ function Track(mediaTrack, mediaStream) {
    * @method cleanup
    */
   function cleanup() {
+    log.info(`Cleaning up track.`);
     // Iterate over the array backwards since `removeFrom` changes the length
     //    of the array. This ensures that indexes aren't skipped.
     for (let i = containers.length; i > 0; i--) {
@@ -23193,6 +21974,7 @@ function removeTrickleIce(sdp, info, originalSdp) {
  */
 function removeBundling(sdp, info, originalSdp) {
   if (sdp.groups) {
+    log.debug('Removing SDP bundling groups.');
     delete sdp.groups;
   }
 
