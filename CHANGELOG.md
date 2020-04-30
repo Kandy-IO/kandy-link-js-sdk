@@ -15,6 +15,7 @@ Kandy.js change log.
 
 - Fixed Call issue that, when in Proxy mode, would cause delays when responding to a remote operation.
 - Fixed a Call issue where making a call with screenshare when in Proxy mode would fail.
+- Removed the need for remote party properties (callNotificationParams) to be present in a sessionProgress notification. `KAA-2271`
 
 ### Changed
 

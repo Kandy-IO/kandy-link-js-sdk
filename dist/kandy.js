@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.15.0-beta.391
+ * Version: 4.15.0-beta.392
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -32680,15 +32680,26 @@ function* sessionProgressNotification(deps) {
   function* parseSessionProgress(action) {
     const message = action.payload.notificationMessage;
 
-    // Massage data into a generic format, instead of Link-specific.
-    const params = {
-      sdp: message.sessionParams.sdp,
-      wrtcsSessionId: message.sessionParams.sessionData,
-      remoteName: message.callNotificationParams.remoteName,
-      remoteNumber: message.callNotificationParams.remoteDisplayNumber,
-      customParameters: message.customParameters
-    };
+    let params;
 
+    if (!message.callNotificationParams) {
+      // `sessionProgress` notifications don't have `callNotificationParams`.
+      log.debug(`Notification does not contain property 'callNotificationParams'.`);
+      params = {
+        sdp: message.sessionParams.sdp,
+        wrtcsSessionId: message.sessionParams.sessionData,
+        customParameters: message.customParameters
+      };
+    } else {
+      // Massage data into a generic format, instead of Link-specific.
+      params = {
+        sdp: message.sessionParams.sdp,
+        wrtcsSessionId: message.sessionParams.sessionData,
+        remoteName: message.callNotificationParams.remoteName,
+        remoteNumber: message.callNotificationParams.remoteDisplayNumber,
+        customParameters: message.customParameters
+      };
+    }
     yield (0, _effects.call)(_notifications.receiveEarlyMedia, deps, params);
   }
 
@@ -41176,7 +41187,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.15.0-beta.391';
+  return '4.15.0-beta.392';
 }
 
 /***/ }),
