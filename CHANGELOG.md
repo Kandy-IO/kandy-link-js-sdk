@@ -14,10 +14,11 @@ Kandy.js change log.
   to disallow peer to peer connections. `KAA-2259`
 - Added new Call API `call.getAvailableCodecs` which can be used to return a list of available codecs
   supported by the browser. `KAA-2275`
+- Added support for bearerAccessToken based authentication. See `kandy.setCredentials` API for more info". `KAA-2190`
 - Added a configuration parameter that allows the user to choose the authentication
   method for the WebSocket.`KAA-2279`
 - Added new Call option for configuring DSCP markings on the media traffic. `KAA-2256`
-- DSCP controls can be configured with the `call.make`, `call.answer`, `call.addMedia`, and `call.startVideo` Call APIs.
+  - DSCP controls can be configured with the `call.make`, `call.answer`, `call.addMedia`, and `call.startVideo` Call APIs.
 
 ### Changed
 
@@ -61,10 +62,6 @@ Kandy.js change log.
 - Fixed an issue where an existing local video track could not be replaced by a screen sharing track. `KAA-2144`
 - Fixed an issue where the `conversation.subscribe` listener not being triggered. `KAA-2200`
 - Fixed an issue where incoming call notifications would be dropped when on `push-channel-only` mode if the notification arrived on the websocket channel first. `KAA-2156`
-
-### Added
-
-- Added support for bearerAccessToken based authentication. See `kandy.setCredentials` API for more info". `KAA-2190`
 
 ## 4.13.0 - 2020-02-28
 

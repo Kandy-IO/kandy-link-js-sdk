@@ -1345,18 +1345,6 @@ This API is a wrapper for the static method [RTCRtpSender.getCapabilities()][54]
 
 -   `kind` **[string][7]** The kind of media, i.e., 'audio' or 'video', to get the list of available codecs of.
 
-### setDefaultDevices
-
-The `setDefaultDevices` API from previous SDK releases (3.X) has been
-   deprecated in the latest releases (4.X+). The SDK no longer keeps
-   track of "default devices" on behalf of the application.
-
-The devices used for a call can be selected as part of the APIs for
-   starting the call. Microphone and/or camera can be chosen in the
-   [call.make][21] and [call.answer][22] APIs, and speaker can be
-   chosen when the audio track is rendered with the
-   [media.renderTracks][55] API.
-
 ### changeSpeaker
 
 Changes the speaker used for a Call's audio output. Supported on
@@ -1370,8 +1358,8 @@ The latest SDK release (v4.X+) has not yet implemented this API in the
 The same behaviour as the `changeSpeaker` API can be implemented by
    re-rendering the Call's audio track.  A speaker can be selected when
    rendering an audio track, so changing a speaker can be simulated
-   by unrendering the track with [media.removeTracks][56], then
-   re-rendering it with a new speaker with [media.renderTracks][55].
+   by unrendering the track with [media.removeTracks][55], then
+   re-rendering it with a new speaker with [media.renderTracks][56].
 
 **Examples**
 
@@ -1393,6 +1381,18 @@ client.media.renderTrack([ audioTrack ], audioContainer, {
    speakerId: 'speakerId'
 })
 ```
+
+### setDefaultDevices
+
+The `setDefaultDevices` API from previous SDK releases (3.X) has been
+   deprecated in the latest releases (4.X+). The SDK no longer keeps
+   track of "default devices" on behalf of the application.
+
+The devices used for a call can be selected as part of the APIs for
+   starting the call. Microphone and/or camera can be chosen in the
+   [call.make][21] and [call.answer][22] APIs, and speaker can be
+   chosen when the audio track is rendered with the
+   [media.renderTracks][56] API.
 
 ### states
 
@@ -2854,9 +2854,9 @@ Returns voicemail data from the store.
 
 [54]: https://w3c.github.io/webrtc-pc/#dom-rtcrtpsender-getcapabilities
 
-[55]: #mediarendertracks
+[55]: #mediaremovetracks
 
-[56]: #mediaremovetracks
+[56]: #mediarendertracks
 
 [57]: #callreplacetrack
 
