@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.16.0-beta.396
+ * Version: 4.16.0-beta.397
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -18366,24 +18366,8 @@ function toSpaceCase(string) {
 /***/ "../../node_modules/utf8/utf8.js":
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! https://mths.be/utf8js v2.1.2 by @mathias */
+/*! https://mths.be/utf8js v3.0.0 by @mathias */
 ;(function(root) {
-
-	// Detect free variables `exports`
-	var freeExports =  true && exports;
-
-	// Detect free variable `module`
-	var freeModule =  true && module &&
-		module.exports == freeExports && module;
-
-	// Detect free variable `global`, from Node.js or Browserified code,
-	// and use it as `root`
-	var freeGlobal = typeof global == 'object' && global;
-	if (freeGlobal.global === freeGlobal || freeGlobal.window === freeGlobal) {
-		root = freeGlobal;
-	}
-
-	/*--------------------------------------------------------------------------*/
 
 	var stringFromCharCode = String.fromCharCode;
 
@@ -18579,26 +18563,12 @@ function toSpaceCase(string) {
 
 	/*--------------------------------------------------------------------------*/
 
-	var utf8 = {
-		'version': '2.1.2',
-		'encode': utf8encode,
-		'decode': utf8decode
-	};
+	root.version = '3.0.0';
+	root.encode = utf8encode;
+	root.decode = utf8decode;
 
-	// Some AMD build optimizers, like r.js, check for specific condition patterns
-	// like the following:
-	if (
-		true
-	) {
-		!(__WEBPACK_AMD_DEFINE_RESULT__ = (function() {
-			return utf8;
-		}).call(exports, __webpack_require__, exports, module),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	}	else { var key, hasOwnProperty, object; }
+}( false ? undefined : exports));
 
-}(this));
-
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__("../../node_modules/webpack/buildin/module.js")(module), __webpack_require__("../../node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -40676,7 +40646,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.16.0-beta.396';
+  return '4.16.0-beta.397';
 }
 
 /***/ }),
