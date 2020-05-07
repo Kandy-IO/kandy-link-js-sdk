@@ -2686,6 +2686,20 @@
               },
               "name": "call.mediaBrokerOnly",
               "default": "false"
+            },
+            {
+              "title": "param",
+              "description": "Whether to remove a=group attributes to stop media bundling from incoming and outgoing SDP messages.",
+              "lineNumber": 26,
+              "type": {
+                "type": "OptionalType",
+                "expression": {
+                  "type": "NameExpression",
+                  "name": "boolean"
+                }
+              },
+              "name": "call.removeBundling",
+              "default": "false"
             }
           ],
           "loc": {
@@ -2694,18 +2708,18 @@
               "column": 0
             },
             "end": {
-              "line": 53,
+              "line": 54,
               "column": 3
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 54,
+                "line": 55,
                 "column": 0
               },
               "end": {
-                "line": 80,
+                "line": 83,
                 "column": 1
               }
             },
@@ -3562,6 +3576,68 @@
                         "line": 1,
                         "column": 148,
                         "offset": 147
+                      }
+                    }
+                  },
+                  "type": {
+                    "type": "NameExpression",
+                    "name": "boolean"
+                  },
+                  "default": "false"
+                },
+                {
+                  "title": "param",
+                  "name": "call.removeBundling",
+                  "lineNumber": 26,
+                  "description": {
+                    "type": "root",
+                    "children": [
+                      {
+                        "type": "paragraph",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "Whether to remove a=group attributes to stop media bundling from incoming and outgoing SDP messages.",
+                            "position": {
+                              "start": {
+                                "line": 1,
+                                "column": 1,
+                                "offset": 0
+                              },
+                              "end": {
+                                "line": 1,
+                                "column": 101,
+                                "offset": 100
+                              },
+                              "indent": []
+                            }
+                          }
+                        ],
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 101,
+                            "offset": 100
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 101,
+                        "offset": 100
                       }
                     }
                   },

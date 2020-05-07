@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.remote.js
- * Version: 4.16.0-beta.399
+ * Version: 4.16.0-beta.400
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -13824,7 +13824,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.16.0-beta.399';
+  return '4.16.0-beta.400';
 }
 
 /***/ }),
@@ -17640,6 +17640,7 @@ var _constants = __webpack_require__("../../packages/webrtc/src/constants.js");
  * @typedef {Object} PeerConfig
  * @property {Object} [rtcConfig] Configuration for the native RTCPeerConnection.
  * @property {String} [trickleIceMode=FULL] The initial mode the Peer will use when receiving ICE candidates.
+ * @property {Boolean} [removeBundling=false] Remove the a=group attribute to stop media bundling
  * @property {Function} [halfTrickleThreshold] Function that determines whether the threshold has been met when in HALF trickle mode.
  * @property {Number} [iceCollectionDelay=1000] The time (in ms) between ICE collection checks.
  * @property {Number} [maxIceTimeout=3000] Duration (in ms) that the Peer should wait for ICE candidate collection.
@@ -17651,7 +17652,7 @@ exports.default = {
     sdpSemantics: _constants.PEER.SDP_SEMANTICS.PLAN_B
   },
   trickleIceMode: _constants.PEER.TRICKLE_ICE.FULL,
-  removeBundling: true,
+  removeBundling: false,
   halfTrickleThreshold: isPassedHalfTrickleThreshold,
   iceCollectionDelay: 1000,
   maxIceTimeout: 3000,
@@ -18382,7 +18383,7 @@ function createAnswer(options = {}) {
       sdpHandlers.push(_handlers.preventDtlsRoleChange);
 
       if (config.trickleIceMode === _constants.PEER.TRICKLE_ICE.NONE) {
-        // Modify the answer to claim the Peer doesn't suport trickle ICE.
+        // Modify the answer to claim the Peer doesn't support trickle ICE.
         sdpHandlers.push(_handlers.removeTrickleIce);
       }
       if (config.removeBundling) {
@@ -18459,7 +18460,7 @@ function createOffer(options = {}) {
     nativePeer.createOffer(options).then(offer => {
       const sdpHandlers = [];
       if (config.trickleIceMode === _constants.PEER.TRICKLE_ICE.NONE) {
-        // Modify the offer to claim the Peer doesn't suport trickle ICE.
+        // Modify the offer to claim the Peer doesn't support trickle ICE.
         sdpHandlers.push(_handlers.removeTrickleIce);
       }
       if (config.removeBundling) {
