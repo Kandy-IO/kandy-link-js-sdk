@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.16.0-beta.400
+ * Version: 4.16.0-beta.401
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -25664,7 +25664,7 @@ function* connectFlow() {
  */
 function* connect(action) {
   // Set connection info
-  const { credentials } = action.payload;
+  const { credentials, options } = action.payload;
   yield (0, _effects.put)(actions.setCredentials(credentials));
 
   // Wait for action SET_CREDENTIALS_FINISH
@@ -25691,7 +25691,7 @@ function* connect(action) {
       // Normalize services array
       const services = (0, _services.normalizeServices)(service);
 
-      yield (0, _effects.put)(subscribeActions.subscribe(services));
+      yield (0, _effects.put)(subscribeActions.subscribe(services, options));
 
       // Wait for action SUBSCRIBE_FINISH
       const subscribeFinishOrError = yield (0, _effects.take)(subscribeActionTypes.SUBSCRIBE_FINISHED);
@@ -40651,7 +40651,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.16.0-beta.400';
+  return '4.16.0-beta.401';
 }
 
 /***/ }),
@@ -52935,6 +52935,10 @@ var _extends2 = __webpack_require__("../../node_modules/babel-runtime/helpers/ex
 
 var _extends3 = _interopRequireDefault(_extends2);
 
+var _objectWithoutProperties2 = __webpack_require__("../../node_modules/babel-runtime/helpers/objectWithoutProperties.js");
+
+var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
+
 exports.subscriptionFlow = subscriptionFlow;
 exports.doSubscribe = doSubscribe;
 exports.doUnsubscribe = doUnsubscribe;
@@ -53054,13 +53058,15 @@ function* doSubscribe(action) {
     // Retrieve the connection info.
     const linkConnection = yield (0, _effects.select)(_selectors.getConnectionInfo);
 
-    const { options } = action.payload;
+    let _action$payload = action.payload,
+        { services } = _action$payload,
+        options = (0, _objectWithoutProperties3.default)(_action$payload, ['services']);
     const requestOptions = (0, _utils.mergeValues)(options, linkConnection.requestOptions);
 
     // Retrieve the subscription config.
     const subConfig = yield (0, _effects.select)(_selectors2.getSubscriptionConfig);
 
-    const services = action.payload.services.map(subscription => subscription.service);
+    services = services.map(subscription => subscription.service);
 
     const response = yield (0, _effects.call)(_subscriptions.subscribe, authConfig, subConfig, linkConnection, services, requestOptions);
 
