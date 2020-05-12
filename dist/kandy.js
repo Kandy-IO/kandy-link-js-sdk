@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.16.0-beta.404
+ * Version: 4.16.0-beta.405
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -25643,6 +25643,7 @@ function* connectFlow() {
      *      Therefore there is no real cleanup for us to do in this scenario. We then want to wait for the next CONNECT ( which we do via the next iteration of the while loop).
      **/
     if (finishOrError.type === actionTypes.DISCONNECT) {
+      log.debug('Cancelling task');
       yield (0, _effects.cancel)(task);
     } else if (finishOrError.type === actionTypes.CONNECT_FINISHED && !finishOrError.error) {
       const disconnectAction = yield (0, _effects.take)([actionTypes.DISCONNECT, actionTypes.DISCONNECT_FINISHED]);
@@ -25651,7 +25652,7 @@ function* connectFlow() {
       if (disconnectAction.type === actionTypes.DISCONNECT_FINISHED) {
         continue;
       }
-
+      log.debug('Disconnecting');
       yield (0, _effects.call)(disconnect);
     }
   }
@@ -25671,11 +25672,13 @@ function* connect(action) {
   const setCredentialsFinishOrError = yield (0, _effects.take)(actionTypes.SET_CREDENTIALS_FINISH);
 
   if (setCredentialsFinishOrError.error) {
+    log.info('Failed to apply credentials. Error: ', setCredentialsFinishOrError.payload);
     yield (0, _effects.put)(actions.connectFinished({
       error: setCredentialsFinishOrError.payload
     }));
     return;
   }
+  log.info('Successfully applied credentials.');
 
   // Subscribe for services
   const subConfig = yield (0, _effects.select)(_selectors.getSubscriptionConfig);
@@ -25691,14 +25694,17 @@ function* connect(action) {
       // Normalize services array
       const services = (0, _services.normalizeServices)(service);
 
+      log.info('Subscribing to services: ', services);
       yield (0, _effects.put)(subscribeActions.subscribe(services, options));
 
       // Wait for action SUBSCRIBE_FINISH
       const subscribeFinishOrError = yield (0, _effects.take)(subscribeActionTypes.SUBSCRIBE_FINISHED);
       if (subscribeFinishOrError.error) {
+        log.info('Failed to subscribe to services. Error: ', subscribeFinishOrError.error);
         yield (0, _effects.put)(actions.connectFinished({ error: subscribeFinishOrError.error }));
         return;
       }
+      log.info('Successfully subscribed to services.');
     }
   } else {
     // No services found in config
@@ -25723,14 +25729,17 @@ function* connect(action) {
  * @method disconnect
  */
 function* disconnect() {
+  log.info('Unsubscribing from services.');
   yield (0, _effects.put)(subscribeActions.unsubscribe());
 
   const disconnectFinishAction = yield (0, _effects.take)([subscribeActionTypes.UNSUBSCRIBE_FINISHED]);
   if (disconnectFinishAction.type === subscribeActionTypes.UNSUBSCRIBE_FINISHED && disconnectFinishAction.error) {
+    log.info('Failed to unsubscribe from services. Error: ', disconnectFinishAction.error);
     yield (0, _effects.put)(actions.disconnectFinished({ error: disconnectFinishAction.error }));
   }
 
   // Successfully unsubscribed, now finish disconnecting
+  log.info('Successfully unsubscribed from services. Disconnecting.');
   yield (0, _effects.put)(actions.disconnectFinished());
 }
 
@@ -40651,7 +40660,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.16.0-beta.404';
+  return '4.16.0-beta.405';
 }
 
 /***/ }),
