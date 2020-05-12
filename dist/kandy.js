@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.16.0-beta.403
+ * Version: 4.16.0-beta.404
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -40651,7 +40651,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.16.0-beta.403';
+  return '4.16.0-beta.404';
 }
 
 /***/ }),
@@ -45200,9 +45200,10 @@ function api(context) {
       context.dispatch(_actions.convoActions.fetchConversations(options));
     },
     /**
-     * Get a conversation object matching the user ID provided
+     * Get a conversation object matching the user ID provided in the 'destination' parameter.
      * If successful, the event 'conversations:change' will be emitted.
-     * If a conversation with the given user ID already exists in the store, it will be returned; otherwise, a new conversation will be created.
+     *
+     * This API will retrieve a conversation already existing in the store.
      *
      * @public
      * @memberof conversation
@@ -45213,10 +45214,10 @@ function api(context) {
      * @param {Object} [options] An optional configuration object to query for more specific results.
      * If this object is not passed, the function will query for "im" conversation with that recipient.
      * @param {string} [options.type] The type of conversation to retrieve. Can be one of "im", "sms" or "other".
-     * @returns {conversation.Conversation} A Conversation object.
+     * @returns {conversation.Conversation} A Conversation object matching the passed destination, otherwise undefined is returned.
      */
     /**
-     * Get a conversation object matching the user IDs provided.
+     * Get a conversation object matching the user IDs provided in the 'destination' parameter.
      * If successful, the event 'conversations:change' will be emitted.
      * Multi-user conversations have a destination comprised of multiple user IDs.
      *
@@ -45229,12 +45230,12 @@ function api(context) {
      * @param {Object} [options] An optional configuration object to query for more specific results.
      * If this object is not passed, the function will query for "im" conversations associated with those destinations.
      * @param {string} [options.type] The type of conversation to retrieve. Can be one of "im", "sms" or "other".
-     * @returns {conversation.Conversation} A Conversation object.
+     * @returns {conversation.Conversation} A Conversation object matching the passed destination, otherwise undefined is returned.
      */
     /**
-     * Get a conversation object matching the user ID provided.
+     * Get a conversation object matching the user ID provided in the 'recipient' parameter.
      *
-     * If a conversation with the given user ID already exists in the store, it will be returned; otherwise, a new conversation will be created
+     * This API will retrieve a conversation already existing in the store.
      *
      * @public
      * @memberof conversation
@@ -45245,7 +45246,7 @@ function api(context) {
      * @param {Object} [options] An optional configuration object to query for more specific results.
      * If this object is not passed, the function will query for "im" conversation with that recipient.
      * @param {string} [options.type] The type of conversation to retrieve. Can be one of "im", "sms" or "other".
-     * @returns {Object} A Conversation object.
+     * @returns {Object} A Conversation object matching the passed recipient, otherwise undefined is returned.
      */
     get: function (recipient, options = { type: 'im' }) {
       log.debug(_logs.API_LOG_TAG + 'conversation.get: ', recipient, options);
@@ -45276,7 +45277,7 @@ function api(context) {
           log.info('Conversation found with matching destination, but conversation type does not match the type requested. Please specify the appropriate type, or call client.conversation.create() for a new type of conversation');
         }
       } else {
-        log.info('Requested conversation not in state. Please use the create function if you would like a new conversation object');
+        log.info('Requested conversation not in state. Please use the create function if you would like a new conversation object.');
       }
       return undefined;
     },
@@ -45325,6 +45326,7 @@ function api(context) {
      * @public
      * @memberof conversation
      * @requires internalAndSmsMessaging
+     * @requires onlyInternalMessaging
      * @method getAll
      * @returns {Array<conversation.Conversation>} An array of conversation objects.
      */
