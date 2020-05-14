@@ -1072,15 +1072,15 @@
                     <li class='h5'><span>Types</span></li>
                     
                       <li><a
-                        href='#loggerloghandler'
-                        class='regular pre-open'>
-                        <span style="color:blue">ⓣ</span> LogHandler
-                      </a></li>
-                    
-                      <li><a
                         href='#loggerlogentry'
                         class='regular pre-open'>
                         <span style="color:blue">ⓣ</span> LogEntry
+                      </a></li>
+                    
+                      <li><a
+                        href='#loggerloghandler'
+                        class='regular pre-open'>
+                        <span style="color:blue">ⓣ</span> LogHandler
                       </a></li>
                     
                     </ul>
@@ -14492,104 +14492,6 @@ See <a href="#configconfiglogs">config.logs</a> .</p>
       <div class='py1 quiet mt1 prose-big'>Types</div>
       <div class="clearfix">
   
-    <div class='border-bottom' id='loggerloghandler'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>LogHandler(LogEntry)</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>A LogHandler can be used to customize how the SDK should log information. By
-default, the SDK will log information to the console, but a LogHandler can
-be configured to change this behaviour.</p>
-<p>A LogHandler can be provided to the SDK as part of its configuration (see
-<a href="#configconfiglogs">config.logs</a>). The SDK will then provide this
-function with the logged information.</p>
-
-
-  <div class='pre p1 fill-light mt0'>LogHandler(LogEntry: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>)</div>
-  
-    <p>
-      Type:
-      <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">Function</a>
-    </p>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>LogEntry</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>)</code>
-	    The LogEntry to be logged.
-
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Example</div>
-    
-      
-      <pre class='p1 overflow-auto round fill-light'><span class="hljs-comment">// Define a custom function to handle logs.</span>
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">logHandler</span> (<span class="hljs-params">logEntry</span>) </span>{
-  <span class="hljs-comment">// Compile the meta info of the log for a prefix.</span>
-  <span class="hljs-keyword">const</span> { timestamp, level, target } = logEntry
-  <span class="hljs-keyword">let</span> { method } = logEntry
-  <span class="hljs-keyword">const</span> logInfo = <span class="hljs-string">`<span class="hljs-subst">${timestamp}</span> - <span class="hljs-subst">${target.type}</span> - <span class="hljs-subst">${level}</span>`</span>
-
-  <span class="hljs-comment">// Assume that the first message parameter is a string.</span>
-  <span class="hljs-keyword">const</span> [log, ...extra] = logEntry.messages
-
-  <span class="hljs-comment">// For the timer methods, don't actually use the console methods.</span>
-  <span class="hljs-comment">//    The Logger already did the timing, so simply log out the info.</span>
-  <span class="hljs-keyword">if</span> ([<span class="hljs-string">'time'</span>, <span class="hljs-string">'timeLog'</span>, <span class="hljs-string">'timeEnd'</span>].includes(method)) {
-    method = <span class="hljs-string">'debug'</span>
-  }
-
-  <span class="hljs-built_in">console</span>[method](<span class="hljs-string">`<span class="hljs-subst">${logInfo}</span> - <span class="hljs-subst">${log}</span>`</span>, ...extra)
-}
-
-<span class="hljs-comment">// Provide the LogHandler as part of the SDK configurations.</span>
-<span class="hljs-keyword">const</span> configs = { ... }
-configs.logs.handler = logHandler
-<span class="hljs-keyword">const</span> client = create(configs)</pre>
-    
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
     <div class='border-bottom' id='loggerlogentry'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
@@ -14772,6 +14674,104 @@ method as parameters.
 
   <span class="hljs-built_in">console</span>[method](<span class="hljs-string">`<span class="hljs-subst">${logInfo}</span> - <span class="hljs-subst">${log}</span>`</span>, ...extra)
 }</pre>
+    
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='loggerloghandler'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>LogHandler(LogEntry)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>A LogHandler can be used to customize how the SDK should log information. By
+default, the SDK will log information to the console, but a LogHandler can
+be configured to change this behaviour.</p>
+<p>A LogHandler can be provided to the SDK as part of its configuration (see
+<a href="#configconfiglogs">config.logs</a>). The SDK will then provide this
+function with the logged information.</p>
+
+
+  <div class='pre p1 fill-light mt0'>LogHandler(LogEntry: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>)</div>
+  
+    <p>
+      Type:
+      <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">Function</a>
+    </p>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>LogEntry</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>)</code>
+	    The LogEntry to be logged.
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Example</div>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-comment">// Define a custom function to handle logs.</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">logHandler</span> (<span class="hljs-params">logEntry</span>) </span>{
+  <span class="hljs-comment">// Compile the meta info of the log for a prefix.</span>
+  <span class="hljs-keyword">const</span> { timestamp, level, target } = logEntry
+  <span class="hljs-keyword">let</span> { method } = logEntry
+  <span class="hljs-keyword">const</span> logInfo = <span class="hljs-string">`<span class="hljs-subst">${timestamp}</span> - <span class="hljs-subst">${target.type}</span> - <span class="hljs-subst">${level}</span>`</span>
+
+  <span class="hljs-comment">// Assume that the first message parameter is a string.</span>
+  <span class="hljs-keyword">const</span> [log, ...extra] = logEntry.messages
+
+  <span class="hljs-comment">// For the timer methods, don't actually use the console methods.</span>
+  <span class="hljs-comment">//    The Logger already did the timing, so simply log out the info.</span>
+  <span class="hljs-keyword">if</span> ([<span class="hljs-string">'time'</span>, <span class="hljs-string">'timeLog'</span>, <span class="hljs-string">'timeEnd'</span>].includes(method)) {
+    method = <span class="hljs-string">'debug'</span>
+  }
+
+  <span class="hljs-built_in">console</span>[method](<span class="hljs-string">`<span class="hljs-subst">${logInfo}</span> - <span class="hljs-subst">${log}</span>`</span>, ...extra)
+}
+
+<span class="hljs-comment">// Provide the LogHandler as part of the SDK configurations.</span>
+<span class="hljs-keyword">const</span> configs = { ... }
+configs.logs.handler = logHandler
+<span class="hljs-keyword">const</span> client = create(configs)</pre>
     
   
 

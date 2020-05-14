@@ -60050,324 +60050,6 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "A LogHandler can be used to customize how the SDK should log information. By\n   default, the SDK will log information to the console, but a LogHandler can\n   be configured to change this behaviour.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 3,
-                        "column": 43,
-                        "offset": 197
-                      },
-                      "indent": [
-                        1,
-                        1
-                      ]
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 43,
-                    "offset": 197
-                  },
-                  "indent": [
-                    1,
-                    1
-                  ]
-                }
-              },
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "A LogHandler can be provided to the SDK as part of its configuration (see\n   ",
-                    "position": {
-                      "start": {
-                        "line": 5,
-                        "column": 1,
-                        "offset": 199
-                      },
-                      "end": {
-                        "line": 6,
-                        "column": 4,
-                        "offset": 276
-                      },
-                      "indent": [
-                        1
-                      ]
-                    }
-                  },
-                  {
-                    "type": "link",
-                    "url": "#configconfiglogs",
-                    "title": null,
-                    "jsdoc": true,
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "config.logs"
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 6,
-                        "column": 4,
-                        "offset": 276
-                      },
-                      "end": {
-                        "line": 6,
-                        "column": 41,
-                        "offset": 313
-                      },
-                      "indent": []
-                    }
-                  },
-                  {
-                    "type": "text",
-                    "value": "). The SDK will then provide this\n   function with the logged information.",
-                    "position": {
-                      "start": {
-                        "line": 6,
-                        "column": 41,
-                        "offset": 313
-                      },
-                      "end": {
-                        "line": 7,
-                        "column": 41,
-                        "offset": 387
-                      },
-                      "indent": [
-                        1
-                      ]
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 5,
-                    "column": 1,
-                    "offset": 199
-                  },
-                  "end": {
-                    "line": 7,
-                    "column": 41,
-                    "offset": 387
-                  },
-                  "indent": [
-                    1,
-                    1
-                  ]
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 7,
-                "column": 41,
-                "offset": 387
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "public",
-              "description": null,
-              "lineNumber": 9,
-              "type": null
-            },
-            {
-              "title": "static",
-              "description": null,
-              "lineNumber": 10
-            },
-            {
-              "title": "typedef",
-              "description": null,
-              "lineNumber": 11,
-              "type": {
-                "type": "NameExpression",
-                "name": "Function"
-              },
-              "name": "LogHandler"
-            },
-            {
-              "title": "memberof",
-              "description": "logger",
-              "lineNumber": 12
-            },
-            {
-              "title": "requires",
-              "description": null,
-              "lineNumber": 13,
-              "name": "logs"
-            },
-            {
-              "title": "param",
-              "description": "The LogEntry to be logged.",
-              "lineNumber": 14,
-              "type": {
-                "type": "NameExpression",
-                "name": "Object"
-              },
-              "name": "LogEntry"
-            },
-            {
-              "title": "example",
-              "description": "// Define a custom function to handle logs.\nfunction logHandler (logEntry) {\n  // Compile the meta info of the log for a prefix.\n  const { timestamp, level, target } = logEntry\n  let { method } = logEntry\n  const logInfo = `${timestamp} - ${target.type} - ${level}`\n\n  // Assume that the first message parameter is a string.\n  const [log, ...extra] = logEntry.messages\n\n  // For the timer methods, don't actually use the console methods.\n  //    The Logger already did the timing, so simply log out the info.\n  if (['time', 'timeLog', 'timeEnd'].includes(method)) {\n    method = 'debug'\n  }\n\n  console[method](`${logInfo} - ${log}`, ...extra)\n}\n\n// Provide the LogHandler as part of the SDK configurations.\nconst configs = { ... }\nconfigs.logs.handler = logHandler\nconst client = create(configs)",
-              "lineNumber": 15
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 54,
-              "column": 0
-            },
-            "end": {
-              "line": 93,
-              "column": 3
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 1,
-                "column": 0
-              },
-              "end": {
-                "line": 94,
-                "column": 0
-              }
-            },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/logs/docs.js"
-          },
-          "augments": [],
-          "examples": [
-            {
-              "description": "// Define a custom function to handle logs.\nfunction logHandler (logEntry) {\n  // Compile the meta info of the log for a prefix.\n  const { timestamp, level, target } = logEntry\n  let { method } = logEntry\n  const logInfo = `${timestamp} - ${target.type} - ${level}`\n\n  // Assume that the first message parameter is a string.\n  const [log, ...extra] = logEntry.messages\n\n  // For the timer methods, don't actually use the console methods.\n  //    The Logger already did the timing, so simply log out the info.\n  if (['time', 'timeLog', 'timeEnd'].includes(method)) {\n    method = 'debug'\n  }\n\n  console[method](`${logInfo} - ${log}`, ...extra)\n}\n\n// Provide the LogHandler as part of the SDK configurations.\nconst configs = { ... }\nconfigs.logs.handler = logHandler\nconst client = create(configs)"
-            }
-          ],
-          "params": [
-            {
-              "title": "param",
-              "name": "LogEntry",
-              "lineNumber": 14,
-              "description": {
-                "type": "root",
-                "children": [
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "The LogEntry to be logged.",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 27,
-                            "offset": 26
-                          },
-                          "indent": []
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 27,
-                        "offset": 26
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 27,
-                    "offset": 26
-                  }
-                }
-              },
-              "type": {
-                "type": "NameExpression",
-                "name": "Object"
-              }
-            }
-          ],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
-          "access": "public",
-          "scope": "static",
-          "kind": "typedef",
-          "name": "LogHandler",
-          "type": {
-            "type": "NameExpression",
-            "name": "Function"
-          },
-          "memberof": "logger",
-          "members": {
-            "global": [],
-            "inner": [],
-            "instance": [],
-            "events": [],
-            "static": []
-          },
-          "path": [
-            {
-              "name": "logger",
-              "kind": "namespace"
-            },
-            {
-              "name": "LogHandler",
-              "kind": "typedef",
-              "scope": "static"
-            }
-          ],
-          "namespace": "logger.LogHandler"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
                     "value": "A LogEntry object is the data that the SDK compiles when information is\n   logged. It contains both the logged information and meta-info about when\n   and who logged it.",
                     "position": {
                       "start": {
@@ -61312,6 +60994,324 @@
             }
           ],
           "namespace": "logger.LogEntry"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "A LogHandler can be used to customize how the SDK should log information. By\n   default, the SDK will log information to the console, but a LogHandler can\n   be configured to change this behaviour.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 43,
+                        "offset": 197
+                      },
+                      "indent": [
+                        1,
+                        1
+                      ]
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 43,
+                    "offset": 197
+                  },
+                  "indent": [
+                    1,
+                    1
+                  ]
+                }
+              },
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "A LogHandler can be provided to the SDK as part of its configuration (see\n   ",
+                    "position": {
+                      "start": {
+                        "line": 5,
+                        "column": 1,
+                        "offset": 199
+                      },
+                      "end": {
+                        "line": 6,
+                        "column": 4,
+                        "offset": 276
+                      },
+                      "indent": [
+                        1
+                      ]
+                    }
+                  },
+                  {
+                    "type": "link",
+                    "url": "#configconfiglogs",
+                    "title": null,
+                    "jsdoc": true,
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "config.logs"
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 6,
+                        "column": 4,
+                        "offset": 276
+                      },
+                      "end": {
+                        "line": 6,
+                        "column": 41,
+                        "offset": 313
+                      },
+                      "indent": []
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": "). The SDK will then provide this\n   function with the logged information.",
+                    "position": {
+                      "start": {
+                        "line": 6,
+                        "column": 41,
+                        "offset": 313
+                      },
+                      "end": {
+                        "line": 7,
+                        "column": 41,
+                        "offset": 387
+                      },
+                      "indent": [
+                        1
+                      ]
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 199
+                  },
+                  "end": {
+                    "line": 7,
+                    "column": 41,
+                    "offset": 387
+                  },
+                  "indent": [
+                    1,
+                    1
+                  ]
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 7,
+                "column": 41,
+                "offset": 387
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "public",
+              "description": null,
+              "lineNumber": 9,
+              "type": null
+            },
+            {
+              "title": "static",
+              "description": null,
+              "lineNumber": 10
+            },
+            {
+              "title": "typedef",
+              "description": null,
+              "lineNumber": 11,
+              "type": {
+                "type": "NameExpression",
+                "name": "Function"
+              },
+              "name": "LogHandler"
+            },
+            {
+              "title": "memberof",
+              "description": "logger",
+              "lineNumber": 12
+            },
+            {
+              "title": "requires",
+              "description": null,
+              "lineNumber": 13,
+              "name": "logs"
+            },
+            {
+              "title": "param",
+              "description": "The LogEntry to be logged.",
+              "lineNumber": 14,
+              "type": {
+                "type": "NameExpression",
+                "name": "Object"
+              },
+              "name": "LogEntry"
+            },
+            {
+              "title": "example",
+              "description": "// Define a custom function to handle logs.\nfunction logHandler (logEntry) {\n  // Compile the meta info of the log for a prefix.\n  const { timestamp, level, target } = logEntry\n  let { method } = logEntry\n  const logInfo = `${timestamp} - ${target.type} - ${level}`\n\n  // Assume that the first message parameter is a string.\n  const [log, ...extra] = logEntry.messages\n\n  // For the timer methods, don't actually use the console methods.\n  //    The Logger already did the timing, so simply log out the info.\n  if (['time', 'timeLog', 'timeEnd'].includes(method)) {\n    method = 'debug'\n  }\n\n  console[method](`${logInfo} - ${log}`, ...extra)\n}\n\n// Provide the LogHandler as part of the SDK configurations.\nconst configs = { ... }\nconfigs.logs.handler = logHandler\nconst client = create(configs)",
+              "lineNumber": 15
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 54,
+              "column": 0
+            },
+            "end": {
+              "line": 93,
+              "column": 3
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 0
+              },
+              "end": {
+                "line": 94,
+                "column": 0
+              }
+            },
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/logs/docs.js"
+          },
+          "augments": [],
+          "examples": [
+            {
+              "description": "// Define a custom function to handle logs.\nfunction logHandler (logEntry) {\n  // Compile the meta info of the log for a prefix.\n  const { timestamp, level, target } = logEntry\n  let { method } = logEntry\n  const logInfo = `${timestamp} - ${target.type} - ${level}`\n\n  // Assume that the first message parameter is a string.\n  const [log, ...extra] = logEntry.messages\n\n  // For the timer methods, don't actually use the console methods.\n  //    The Logger already did the timing, so simply log out the info.\n  if (['time', 'timeLog', 'timeEnd'].includes(method)) {\n    method = 'debug'\n  }\n\n  console[method](`${logInfo} - ${log}`, ...extra)\n}\n\n// Provide the LogHandler as part of the SDK configurations.\nconst configs = { ... }\nconfigs.logs.handler = logHandler\nconst client = create(configs)"
+            }
+          ],
+          "params": [
+            {
+              "title": "param",
+              "name": "LogEntry",
+              "lineNumber": 14,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "The LogEntry to be logged.",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 27,
+                            "offset": 26
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 27,
+                        "offset": 26
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 27,
+                    "offset": 26
+                  }
+                }
+              },
+              "type": {
+                "type": "NameExpression",
+                "name": "Object"
+              }
+            }
+          ],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
+          "access": "public",
+          "scope": "static",
+          "kind": "typedef",
+          "name": "LogHandler",
+          "type": {
+            "type": "NameExpression",
+            "name": "Function"
+          },
+          "memberof": "logger",
+          "members": {
+            "global": [],
+            "inner": [],
+            "instance": [],
+            "events": [],
+            "static": []
+          },
+          "path": [
+            {
+              "name": "logger",
+              "kind": "namespace"
+            },
+            {
+              "name": "LogHandler",
+              "kind": "typedef",
+              "scope": "static"
+            }
+          ],
+          "namespace": "logger.LogHandler"
         }
       ]
     },
