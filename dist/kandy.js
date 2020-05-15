@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.16.0-beta.414
+ * Version: 4.16.0-beta.415
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -40677,7 +40677,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.16.0-beta.414';
+  return '4.16.0-beta.415';
 }
 
 /***/ }),
@@ -54659,10 +54659,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _keys = __webpack_require__("../../node_modules/babel-runtime/core-js/object/keys.js");
-
-var _keys2 = _interopRequireDefault(_keys);
-
 var _stringify = __webpack_require__("../../node_modules/babel-runtime/core-js/json/stringify.js");
 
 var _stringify2 = _interopRequireDefault(_stringify);
@@ -54857,17 +54853,18 @@ function usersLink() {
       const action = yield (0, _effects3.take)(actionTypes.SEARCH_DIRECTORY);
 
       let type;
-      // Look for first undefined filter provided
-      const filters = (0, _keys2.default)(action.payload.filters);
-      for (var i = 0; i < filters.length - 1; i++) {
-        if (action.payload.filters[filters[i]]) {
-          type = filters[i];
+      const filters = action.payload.filters;
+      // Look for first defined filter provided
+      for (let filter in filters) {
+        if (filters.hasOwnProperty(filter) && filters[filter]) {
+          type = filter;
           break;
         }
       }
+      log.info(`Using criteria '${type}' with value '${filters[type]}' to search directory.`);
 
       var body = {
-        searchCriteria: action.payload.filters[type],
+        searchCriteria: filters[type],
         searchType: searchTypeInteger(type)
       };
       const connection = yield (0, _effects3.select)(_selectors.getConnectionInfo);
