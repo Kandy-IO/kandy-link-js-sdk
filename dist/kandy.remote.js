@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.remote.js
- * Version: 4.16.0-beta.429
+ * Version: 4.17.0-beta.430
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -13824,7 +13824,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.16.0-beta.429';
+  return '4.17.0-beta.430';
 }
 
 /***/ }),
@@ -14061,6 +14061,7 @@ function defaultActionHandler(entry) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.defaultOptions = undefined;
 
 var _actionHandler = __webpack_require__("../../packages/kandy/src/logs/actions/actionHandler.js");
 
@@ -14092,7 +14093,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *    to the console.
  * @param  {boolean} [logs.enableFcsLogs=true] Enable the detailed call logger
  *    for v3.X. Requires log level debug.
- * @param {Object} [logs.logActions] Options specifically for action logs when
+ * @param {Object|boolean} [logs.logActions] Options specifically for action logs when
  *    logLevel is at DEBUG+ levels. Set this to false to not output action logs.
  * @param {logger.LogHandler} [logs.logActions.handler] The function to receive action
  *    log entries from the SDK. If not provided, a default handler will be used
@@ -14104,10 +14105,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *    inspected on the console.
  * @param {boolean} [logs.logActions.diff=false] Include a diff of what SDK
  *    context was changed by the action.
+ * @param {string}  [logs.logActions.level='debug'] Log level to be set
+ *    on the action logs
  * @param {boolean} [logs.logActions.exposePayloads=false] Allow action payloads
  *    to be exposed in the logs, potentially displaying sensitive information.
  */
-exports.default = {
+const defaultOptions = exports.defaultOptions = {
   logLevel: 'debug',
   handler: undefined,
   enableFcsLogs: true,
@@ -14121,6 +14124,37 @@ exports.default = {
     level: 'debug',
     exposePayloads: false
   }
+  /*
+   * TODO: Figure out a way to work around this.
+   * Can't use validation in logging because validation uses logging to output errors.
+   * Circular dependency, have to refactor.
+   * Code:
+   ```javascript
+  // Parse and/or Validate
+  // import { enums, validation as v8n, parse } from '../common/validation'
+  const defaultValidation = v8n.schema({
+    logLevel: enums(['silent', 'error', 'warn', 'info', 'debug']),
+    handler: v8n.optional(v8n.function()),
+    enableFcsLogs: v8n.boolean(),
+    logActions: v8n.optional(
+      v8n.passesAnyOf(
+        v8n.schema({
+          handler: v8n.optional(v8n.function()),
+          actionOnly: v8n.boolean(),
+          collapsed: v8n.boolean(),
+          diff: v8n.boolean(),
+          exposePayloads: v8n.boolean()
+        }),
+        // OR
+        v8n.boolean()
+      )
+    )
+  })
+  
+  export const parseLogConfig = parse('logger', defaultValidation)
+  ```
+  */
+
 };
 
 /***/ }),
