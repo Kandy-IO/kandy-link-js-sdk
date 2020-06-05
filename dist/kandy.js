@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.17.0-beta.432
+ * Version: 4.17.0-beta.433
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -39038,6 +39038,11 @@ function* setupIncomingCall(deps, sessionOptions) {
     }
   });
 
+  // Trigger a new action specifying that the session has been created
+  yield (0, _effects.put)(_actions.callActions.sessionCreated(callId, {
+    webrtcSessionId: session.id
+  }));
+
   /*
    * Run the remote SDP offer through any SDP handlers provided, then set it
    *    as the Session's remote description.
@@ -39052,11 +39057,6 @@ function* setupIncomingCall(deps, sessionOptions) {
     type: 'offer',
     sdp: offer.sdp
   });
-
-  // Trigger a new action specifying that the session has been created
-  yield (0, _effects.put)(_actions.callActions.sessionCreated(callId, {
-    webrtcSessionId: session.id
-  }));
 
   log.info('Finished setting up remote WebRTC portions of call.');
   return session.id;
@@ -40674,7 +40674,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.17.0-beta.432';
+  return '4.17.0-beta.433';
 }
 
 /***/ }),

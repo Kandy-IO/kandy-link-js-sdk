@@ -12,6 +12,10 @@ Kandy.js change log.
 - Added new parameter validation to all configs used with the `create` function. Incorrect parameters will log a `VALIDATION` message. `KAA-2223`
 - Added ability to add and remove services by updating a subscription using the subscription plugin. `KAA-2266`
 
+### Fixed
+
+- Fixed a Call issue where the callee would not receive a `call:newTrack` event for the remote tracks when answering the call. `KAA-2380`
+
 ## 4.16.0 - 2020-05-29
 
 ### Added
