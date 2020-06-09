@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.17.0-beta.433
+ * Version: 4.17.0-beta.434
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -25508,7 +25508,7 @@ function authLink(options = {}) {
   const capabilities = ['userCredentialsAuth', 'hmacTokenAuth', 'bearerAccessTokenAuth'];
 
   return {
-    sagas: [_sagas.connectFlow, _sagas.setCredentialsEntry],
+    sagas: [_sagas.connectFlow, _sagas.setCredentialsEntry, _sagas.onSubscriptionGone],
     capabilities,
     init,
     api: _interface.api,
@@ -25534,6 +25534,7 @@ exports.connectFlow = connectFlow;
 exports.connect = connect;
 exports.disconnect = disconnect;
 exports.setCredentials = setCredentials;
+exports.onSubscriptionGone = onSubscriptionGone;
 
 var _effects = __webpack_require__("../../node_modules/redux-saga/dist/redux-saga-effects-npm-proxy.esm.js");
 
@@ -25545,19 +25546,23 @@ var _actionTypes = __webpack_require__("../../packages/kandy/src/auth/interface/
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
+var _constants = __webpack_require__("../../packages/kandy/src/auth/constants.js");
+
+var _actionTypes2 = __webpack_require__("../../packages/kandy/src/notifications/interface/actionTypes.js");
+
 var _actions2 = __webpack_require__("../../packages/kandy/src/subscription/interface/actions.js");
 
 var subscribeActions = _interopRequireWildcard(_actions2);
 
-var _actionTypes2 = __webpack_require__("../../packages/kandy/src/subscription/interface/actionTypes.js");
+var _actionTypes3 = __webpack_require__("../../packages/kandy/src/subscription/interface/actionTypes.js");
 
-var subscribeActionTypes = _interopRequireWildcard(_actionTypes2);
+var subscribeActionTypes = _interopRequireWildcard(_actionTypes3);
 
 var _services = __webpack_require__("../../packages/kandy/src/subscription/utils/services.js");
 
 var _selectors = __webpack_require__("../../packages/kandy/src/auth/interface/selectors.js");
 
-var _constants = __webpack_require__("../../packages/kandy/src/constants.js");
+var _constants2 = __webpack_require__("../../packages/kandy/src/constants.js");
 
 var _errors = __webpack_require__("../../packages/kandy/src/errors/index.js");
 
@@ -25584,6 +25589,9 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 
 // State selectors
+
+
+// Other plugins
 // Redux-Saga
 const log = _logs.logManager.getLogger('AUTH');
 
@@ -25599,11 +25607,8 @@ const log = _logs.logManager.getLogger('AUTH');
 // Constants
 
 
-// Other plugins
-
-
 // Auth
-const platform = _constants.platforms.LINK;
+const platform = _constants2.platforms.LINK;
 
 // Taker-saga that watches for "set credential" actions.
 function* setCredentialsEntry() {
@@ -25793,6 +25798,34 @@ function* setCredentials(action) {
     userInfo,
     connection
   }, platform));
+}
+
+/**
+ * Saga that handles a "subscription gone" notification.
+ * Treat the notification as a forced disconnect.
+ * @method onSubscriptionGone
+ */
+function* onSubscriptionGone() {
+  // Redux-saga take() pattern.
+  // Take notifications about the subscription being 'gone'.
+  function takeGoneSubscription(action) {
+    return action.type === _actionTypes2.NOTIFICATION_RECEIVED && action.payload.notificationMessage && action.payload.notificationMessage.eventType === 'gone';
+  }
+
+  while (true) {
+    yield (0, _effects.take)(takeGoneSubscription);
+
+    // Subscription plugin will handle the 'gone' notification as well and make
+    // sure the websocket is disconnected.  Here we only disconnect the user with
+    // reason GONE to trigger the auth:changed event for the client.
+    // This is for backwards compatibility with 3.x connect flow.  If you
+    // are using the new method of connecting, using setCredentials or setToken
+    // and subscribe, then you should be using the 'subscription:change' event
+    // instead of the 'auth:change' event.
+
+    // Dispatch a disconnect finished action to trigger "user disconnected" logic.
+    yield (0, _effects.put)(actions.disconnectFinished({ reason: _constants.DISCONNECT_REASONS.GONE }));
+  }
 }
 
 /***/ }),
@@ -40674,7 +40707,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.17.0-beta.433';
+  return '4.17.0-beta.434';
 }
 
 /***/ }),
@@ -53549,7 +53582,7 @@ function* onSubscriptionGone() {
     }
 
     // Dispatch a disconnect finished action to trigger "user disconnected" logic.
-    yield (0, _effects.put)(actions.unsubscribeFinished({ reason: _constants.DISCONNECT_REASONS.GONE }));
+    yield (0, _effects.put)(actions.unsubscribeFinished({ reason: _constants.DISCONNECT_REASONS.GONE }, platform));
   }
 }
 
