@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.17.0-beta.435
+ * Version: 4.17.0-beta.436
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -25560,7 +25560,9 @@ var subscribeActionTypes = _interopRequireWildcard(_actionTypes3);
 
 var _services = __webpack_require__("../../packages/kandy/src/subscription/utils/services.js");
 
-var _selectors = __webpack_require__("../../packages/kandy/src/auth/interface/selectors.js");
+var _selectors = __webpack_require__("../../packages/kandy/src/subscription/interface/selectors.js");
+
+var _selectors2 = __webpack_require__("../../packages/kandy/src/auth/interface/selectors.js");
 
 var _constants2 = __webpack_require__("../../packages/kandy/src/constants.js");
 
@@ -25591,8 +25593,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 // State selectors
 
 
-// Other plugins
-// Redux-Saga
+// Auth
 const log = _logs.logManager.getLogger('AUTH');
 
 // This is an Link plugin.
@@ -25607,7 +25608,8 @@ const log = _logs.logManager.getLogger('AUTH');
 // Constants
 
 
-// Auth
+// Other plugins
+// Redux-Saga
 const platform = _constants2.platforms.LINK;
 
 // Taker-saga that watches for "set credential" actions.
@@ -25679,12 +25681,12 @@ function* connect(action) {
   log.info('Successfully applied credentials.');
 
   // Retrieve the connection info.  We need this to support old configurations
-  const authConfig = yield (0, _effects.select)(_selectors.getAuthConfig);
+  const authConfig = yield (0, _effects.select)(_selectors2.getAuthConfig);
 
   const service = authConfig.subscription.service;
 
   if (service) {
-    const userInfo = yield (0, _effects.select)(_selectors.getUserInfo);
+    const userInfo = yield (0, _effects.select)(_selectors2.getUserInfo);
     if (userInfo && (userInfo.username || userInfo.accessToken)) {
       // Normalize services array
       const services = (0, _services.normalizeServices)(service);
@@ -25725,7 +25727,12 @@ function* connect(action) {
  */
 function* disconnect() {
   log.info('Unsubscribing from services.');
-  yield (0, _effects.put)(subscribeActions.unsubscribe());
+
+  // The backwards compatible `disconnect` is to unsubscribe from all services.
+  //    So get the list of current services to give to the new subscription flow.
+  const subscription = yield (0, _effects.select)(_selectors.getSubscriptionInfo);
+  const { service, notificationType } = subscription[0];
+  yield (0, _effects.put)(subscribeActions.unsubscribe(service, notificationType));
 
   const disconnectFinishAction = yield (0, _effects.take)([subscribeActionTypes.UNSUBSCRIBE_FINISHED]);
   if (disconnectFinishAction.type === subscribeActionTypes.UNSUBSCRIBE_FINISHED && disconnectFinishAction.error) {
@@ -25741,7 +25748,7 @@ function* disconnect() {
 // Functionality for setting / validating user credentials.
 function* setCredentials(action) {
   // Retrieve the connection info.
-  const config = yield (0, _effects.select)(_selectors.getAuthConfig);
+  const config = yield (0, _effects.select)(_selectors2.getAuthConfig);
 
   // Common request options, to be used for all subsequent requests after connect.
   let requestOptions = {
@@ -40707,7 +40714,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.17.0-beta.435';
+  return '4.17.0-beta.436';
 }
 
 /***/ }),

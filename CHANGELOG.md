@@ -16,6 +16,8 @@ Kandy.js change log.
 
 - Added the 'auth:changed' event trigger on subscription GONE notification for backwards
   compatibility. `KAA-2360`
+- Fixed an Authentication issue where the backwards-compatible `disconnect` API was resubscribing the connection instead of removing it. `KAA-2397`
+  - Please see the Authentication `setCredentials` and Services `subscribe` and `unsubscribe` APIs for the new, recommended method for authenticating a user.
 - Fixed a Call issue where the callee would not receive a `call:newTrack` event for the remote tracks when answering the call. `KAA-2380`
 
 ## 4.16.0 - 2020-05-29
