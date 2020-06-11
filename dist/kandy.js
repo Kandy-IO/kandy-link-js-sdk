@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.17.0-beta.437
+ * Version: 4.17.0-beta.438
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -25697,8 +25697,8 @@ function* connect(action) {
       // Wait for action SUBSCRIBE_FINISH
       const subscribeFinishOrError = yield (0, _effects.take)(subscribeActionTypes.SUBSCRIBE_FINISHED);
       if (subscribeFinishOrError.error) {
-        log.info('Failed to subscribe to services. Error: ', subscribeFinishOrError.error);
-        yield (0, _effects.put)(actions.connectFinished({ error: subscribeFinishOrError.error }));
+        log.info('Failed to subscribe to services. Error: ', subscribeFinishOrError.payload.error);
+        yield (0, _effects.put)(actions.connectFinished({ error: subscribeFinishOrError.payload.error }));
         return;
       }
       log.info('Successfully subscribed to services.');
@@ -40714,7 +40714,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.17.0-beta.437';
+  return '4.17.0-beta.438';
 }
 
 /***/ }),
