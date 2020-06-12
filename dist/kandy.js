@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.17.0-beta.440
+ * Version: 4.17.0-beta.441
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -40730,7 +40730,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.17.0-beta.440';
+  return '4.17.0-beta.441';
 }
 
 /***/ }),
@@ -53589,8 +53589,13 @@ function* updateSubscription(action, addService = true) {
     yield (0, _effects.put)(actions.subscribeFinished({ error }));
     log.debug(`Subscription failed: ${error.message}`);
   } else {
-    // TODO: Use response.serviceInfo to update full/partial subscription.
-    yield (0, _effects.put)(actions.subscribeFinished({ subscriptions: subscription }, platform));
+    // Keep track of service subscription information.
+    const updatedSubscription = (0, _extends3.default)({}, response.subscriptionParams, {
+      servicesInfo: response.servicesInfo,
+      url: response.subscription
+    });
+
+    yield (0, _effects.put)(actions.subscribeFinished({ subscriptions: [updatedSubscription] }, platform));
     log.info(`Subscribed to the following services: ${subscription[0].service}`);
   }
 }
