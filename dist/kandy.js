@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.17.0-beta.438
+ * Version: 4.17.0-beta.440
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -25558,8 +25558,6 @@ var _actionTypes3 = __webpack_require__("../../packages/kandy/src/subscription/i
 
 var subscribeActionTypes = _interopRequireWildcard(_actionTypes3);
 
-var _services = __webpack_require__("../../packages/kandy/src/subscription/utils/services.js");
-
 var _selectors = __webpack_require__("../../packages/kandy/src/subscription/interface/selectors.js");
 
 var _selectors2 = __webpack_require__("../../packages/kandy/src/auth/interface/selectors.js");
@@ -25578,6 +25576,8 @@ var _utf = __webpack_require__("../../node_modules/utf8/utf8.js");
 
 var _utf2 = _interopRequireDefault(_utf);
 
+var _utils = __webpack_require__("../../packages/kandy/src/common/utils.js");
+
 var _logs = __webpack_require__("../../packages/kandy/src/logs/index.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -25587,10 +25587,10 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 // Get the logger
 
 
-// Errors
+// Libraries
 
 
-// State selectors
+// Constants
 
 
 // Auth
@@ -25602,10 +25602,10 @@ const log = _logs.logManager.getLogger('AUTH');
 // Logging
 
 
-// Libraries
+// Errors
 
 
-// Constants
+// State selectors
 
 
 // Other plugins
@@ -25689,7 +25689,7 @@ function* connect(action) {
     const userInfo = yield (0, _effects.select)(_selectors2.getUserInfo);
     if (userInfo && (userInfo.username || userInfo.accessToken)) {
       // Normalize services array
-      const services = (0, _services.normalizeServices)(service);
+      const services = (0, _utils.normalizeServices)(service);
 
       log.info('Subscribing to services: ', services);
       yield (0, _effects.put)(subscribeActions.subscribe(services, options));
@@ -40485,6 +40485,7 @@ exports.mergeValues = mergeValues;
 exports.toQueryString = toQueryString;
 exports.autoRestart = autoRestart;
 exports.forwardAction = forwardAction;
+exports.normalizeServices = normalizeServices;
 
 var _fp = __webpack_require__("../../node_modules/lodash/fp.js");
 
@@ -40568,6 +40569,21 @@ function autoRestart(saga) {
  */
 function* forwardAction(action) {
   yield (0, _effects.put)(action);
+}
+
+/**
+ * Ensures that services are in the same format understood by the server regardless,
+ * of whether the client provides services as strings or objects.
+ * @param {Array} services The list of services requested by the client.
+ * @return {Array} A normalized list of services requested by the client.
+ */
+function normalizeServices(services = []) {
+  return services.map(service => {
+    if ((0, _fp.isPlainObject)(service) && service.hasOwnProperty('service')) {
+      return service;
+    }
+    return { service: service };
+  });
 }
 
 /***/ }),
@@ -40714,7 +40730,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.17.0-beta.438';
+  return '4.17.0-beta.440';
 }
 
 /***/ }),
@@ -51939,16 +51955,20 @@ var actions = _interopRequireWildcard(_actions);
 
 var _selectors = __webpack_require__("../../packages/kandy/src/subscription/interface/selectors.js");
 
-var _services = __webpack_require__("../../packages/kandy/src/subscription/utils/services.js");
-
 var _selectors2 = __webpack_require__("../../packages/kandy/src/auth/interface/selectors.js");
 
 var _constants = __webpack_require__("../../packages/kandy/src/constants.js");
+
+var _utils = __webpack_require__("../../packages/kandy/src/common/utils.js");
 
 var _logs = __webpack_require__("../../packages/kandy/src/logs/index.js");
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
+// Libraries
+
+
+// Auth plugin.
 /**
  * The 'services' namespace allows an application to manage how they wish the SDK to
  *    receive communications from the platform. An application can subscribe to
@@ -52028,7 +52048,7 @@ const log = _logs.logManager.getLogger('SUBSCRIPTION');
 // Logs
 
 
-// Auth plugin.
+// Constants
 function api({ dispatch, getState }) {
   const subscriptionApi = {
     /**
@@ -52107,7 +52127,7 @@ function api({ dispatch, getState }) {
       const userInfo = (0, _selectors2.getUserInfo)(getState());
       if (userInfo && (userInfo.username || userInfo.accessToken)) {
         // Normalize services array
-        services = (0, _services.normalizeServices)(services);
+        services = (0, _utils.normalizeServices)(services);
         dispatch(actions.subscribe(services, options));
       } else {
         // TODO: Directly emit error event
@@ -52138,7 +52158,6 @@ function api({ dispatch, getState }) {
       log.debug(_logs.API_LOG_TAG + 'services.unsubscribe: ', services, type);
       const userInfo = (0, _selectors2.getUserInfo)(getState());
       if (userInfo && (userInfo.accessToken || userInfo.username)) {
-        services = services.map(service => service.toLowerCase());
         dispatch(actions.unsubscribe(services, type));
       } else {
         // TODO: Directly emit error event
@@ -53316,12 +53335,22 @@ function* subscriptionFlow() {
       const subscription = yield (0, _effects.select)(_selectors2.getSubscriptionInfo);
 
       if (subscription && subscription[0]) {
-        // XOR will remove all services provided by the action from our list of subscribed services.
-        const updatedServices = (0, _fp.xorWith)((el, otherEl) => el.toLowerCase() === otherEl.toLowerCase(), subscription[0].service, action.payload.services);
+        // Remove all services from our subscribed services if they are present
+        const updatedServices = subscription[0].service.filter(service => !action.payload.services.includes(service));
 
         if (updatedServices.length === 0) {
           // All services are being unsubscribed
           yield (0, _effects.call)(doUnsubscribe);
+        } else if ((0, _fp.isEmpty)((0, _fp.difference)(subscription[0].service, updatedServices))) {
+          // We don't have a subscription for any of the services requesting unsubscribing
+          // No subscription found
+          const error = new _errors2.default({
+            message: `No subscription found for ${(0, _stringify2.default)(action.payload.services)}, can't unsubscribe.`,
+            code: _errors.authCodes.LINK_UNSUBSCRIBE_FAIL
+          });
+
+          yield (0, _effects.put)(actions.unsubscribeFinished({ error: error }));
+          log.debug(`Unsubscribe failed: ${error.message}`);
         } else {
           // Some services are being unsubscribed, update our subscription
           action.payload.services = updatedServices.map(service => {
@@ -53592,31 +53621,6 @@ function* onSubscriptionGone() {
     yield (0, _effects.put)(actions.unsubscribeFinished({ reason: _constants.DISCONNECT_REASONS.GONE }, platform));
   }
 }
-
-/***/ }),
-
-/***/ "../../packages/kandy/src/subscription/utils/services.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.normalizeServices = normalizeServices;
-
-var _fp = __webpack_require__("../../node_modules/lodash/fp.js");
-
-function normalizeServices(service = []) {
-  return service.map(service => {
-    if ((0, _fp.isPlainObject)(service) && service.hasOwnProperty('service')) {
-      service.service = service.service.toLowerCase();
-      return service;
-    }
-    return { service: service.toLowerCase() };
-  });
-} // Libraries
 
 /***/ }),
 

@@ -20,6 +20,7 @@ Kandy.js change log.
 - Fixed an Authentication issue where the backwards-compatible `auth:error` event did not contain any error information when a subscription failed. `KAA-2399`
   - Please see the Authentication `setCredentials` and Services `subscribe` and `unsubscribe` APIs for the new, recommended method for authenticating a user.
 - Fixed a Call issue where the callee would not receive a `call:newTrack` event for the remote tracks when answering the call. `KAA-2380`
+- Fixed an issue where we were manipulating client provided subscription service strings before sending to Kandy Link in the subscribe/unsubscribe Link requests. `KAA-2393`
 
 ## 4.16.0 - 2020-05-29
 
