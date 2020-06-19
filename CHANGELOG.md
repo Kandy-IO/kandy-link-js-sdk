@@ -24,6 +24,7 @@ Kandy.js change log.
 - Fixed an issue where we were manipulating client provided subscription service strings before sending to Kandy Link in the subscribe/unsubscribe Link requests. `KAA-2393`
 - Fixed issue in subscription plugin where updating service subscriptions was falsely
   reported in the SDK even if they weren't successfully updated on the server.
+- Fixed the custom header (sent by any request to backend & used for analytics) so that its value reflects the actual platform (or service) used by SDK. `KAA-2395`
 
 ## 4.16.0 - 2020-05-29
 
