@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.17.0-beta.449
+ * Version: 4.17.0-beta.450
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -39035,7 +39035,11 @@ function* setupCall(deps, mediaConstraints, sessionOptions) {
 
   // Run the SDP through the Pipeline again before we send it to the remote side.
   //    This is the "pre send local" stage.
-  offer.sdp = yield (0, _effects.call)(_pipeline2.default, callConfigOptions.sdpHandlers, offer.sdp, {
+  // Assign it to a new variable because some browsers enforce the read-only
+  //    properties of a RTCSessionDescription object. The object from
+  //    setLocalDescription is enforced read-only, but the `offer` before that
+  //    is not enforced.
+  const newSdp = yield (0, _effects.call)(_pipeline2.default, callConfigOptions.sdpHandlers, offer.sdp, {
     type: offer.type,
     step: 'send',
     endpoint: 'local',
@@ -39045,7 +39049,7 @@ function* setupCall(deps, mediaConstraints, sessionOptions) {
   log.info('Finished setting up local WebRTC portions of call.');
   return {
     error: false,
-    offerSdp: offer.sdp,
+    offerSdp: newSdp,
     sessionId: session.id,
     mediaIds: medias.map(media => media.media.id)
   };
@@ -39210,7 +39214,11 @@ function* answerWebrtcSession(deps, mediaConstraints, sessionOptions) {
 
   // Run the SDP through the Pipeline again before we send it to the remote side.
   //    This is the "pre send local" stage.
-  answer.sdp = yield (0, _effects.call)(_pipeline2.default, callConfigOptions.sdpHandlers, answer.sdp, {
+  // Assign it to a new variable because some browsers enforce the read-only
+  //    properties of a RTCSessionDescription object. The object from
+  //    setLocalDescription is enforced read-only, but the `offer` before that
+  //    is not enforced.
+  const newSdp = yield (0, _effects.call)(_pipeline2.default, callConfigOptions.sdpHandlers, answer.sdp, {
     type: answer.type,
     step: 'send',
     endpoint: 'local',
@@ -39221,7 +39229,7 @@ function* answerWebrtcSession(deps, mediaConstraints, sessionOptions) {
 
   return {
     error: false,
-    answerSDP: answer.sdp,
+    answerSDP: newSdp,
     mediaIds: medias.map(media => media.media.id)
   };
 }
@@ -39479,7 +39487,11 @@ function* handleOffer(deps, offer, webrtcSessionId, bandwidth) {
 
   // Run the SDP through the Pipeline again before we send it to the remote side.
   //    This is the "pre send local" stage.
-  answer.sdp = yield (0, _effects.call)(_pipeline2.default, callConfigOptions.sdpHandlers, answer.sdp, {
+  // Assign it to a new variable because some browsers enforce the read-only
+  //    properties of a RTCSessionDescription object. The object from
+  //    setLocalDescription is enforced read-only, but the `offer` before that
+  //    is not enforced.
+  const newSdp = yield (0, _effects.call)(_pipeline2.default, callConfigOptions.sdpHandlers, answer.sdp, {
     type: answer.type,
     step: 'send',
     endpoint: 'local',
@@ -39487,7 +39499,7 @@ function* handleOffer(deps, offer, webrtcSessionId, bandwidth) {
   });
 
   return {
-    answerSDP: answer.sdp
+    answerSDP: newSdp
   };
 }
 
@@ -39533,14 +39545,18 @@ function* generateOffer(deps, sessionId, mediaDirections, bandwidth) {
   offer = yield (0, _effects.call)([session, 'setLocalDescription'], offer);
 
   // This is the "pre send local" stage.
-  offer.sdp = yield (0, _effects.call)(_pipeline2.default, callConfigOptions.sdpHandlers, offer.sdp, {
+  // Assign it to a new variable because some browsers enforce the read-only
+  //    properties of a RTCSessionDescription object. The object from
+  //    setLocalDescription is enforced read-only, but the `offer` before that
+  //    is not enforced.
+  const newSdp = yield (0, _effects.call)(_pipeline2.default, callConfigOptions.sdpHandlers, offer.sdp, {
     type: offer.type,
     step: 'send',
     endpoint: 'local',
     bandwidth
   });
 
-  return offer;
+  return { type: offer.type, sdp: newSdp };
 }
 
 /**
@@ -39607,7 +39623,11 @@ function* webRtcAddMedia(deps, mediaConstraints, sessionOptions) {
   offer = yield (0, _effects.call)([session, 'setLocalDescription'], offer);
 
   // This is the "pre send local" stage.
-  offer.sdp = yield (0, _effects.call)(_pipeline2.default, callConfigOptions.sdpHandlers, offer.sdp, {
+  // Assign it to a new variable because some browsers enforce the read-only
+  //    properties of a RTCSessionDescription object. The object from
+  //    setLocalDescription is enforced read-only, but the `offer` before that
+  //    is not enforced.
+  const newSdp = yield (0, _effects.call)(_pipeline2.default, callConfigOptions.sdpHandlers, offer.sdp, {
     type: offer.type,
     step: 'send',
     endpoint: 'local',
@@ -39622,7 +39642,7 @@ function* webRtcAddMedia(deps, mediaConstraints, sessionOptions) {
     mediaStates = [...mediaStates, mediaState];
   }
 
-  return { error: false, medias: mediaStates, sdp: offer.sdp };
+  return { error: false, medias: mediaStates, sdp: newSdp };
 }
 
 /**
@@ -39690,7 +39710,11 @@ function* webRtcRemoveMedia(deps, sessionOptions) {
   offer = yield (0, _effects.call)([session, 'setLocalDescription'], offer);
 
   // This is the "pre send local" stage.
-  offer.sdp = yield (0, _effects.call)(_pipeline2.default, callConfigOptions.sdpHandlers, offer.sdp, {
+  // Assign it to a new variable because some browsers enforce the read-only
+  //    properties of a RTCSessionDescription object. The object from
+  //    setLocalDescription is enforced read-only, but the `offer` before that
+  //    is not enforced.
+  const newSdp = yield (0, _effects.call)(_pipeline2.default, callConfigOptions.sdpHandlers, offer.sdp, {
     type: offer.type,
     step: 'send',
     endpoint: 'local',
@@ -39698,7 +39722,7 @@ function* webRtcRemoveMedia(deps, sessionOptions) {
   });
 
   return {
-    sdp: offer.sdp
+    sdp: newSdp
   };
 }
 
@@ -40818,7 +40842,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.17.0-beta.449';
+  return '4.17.0-beta.450';
 }
 
 /***/ }),
