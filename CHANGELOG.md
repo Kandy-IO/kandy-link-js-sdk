@@ -12,6 +12,7 @@ Kandy.js change log.
 - Added new parameter validation to all configs used with the `create` function. Incorrect parameters will log a `VALIDATION` message. `KAA-2223`
 - Added ability to add and remove services by updating a subscription using the subscription plugin. `KAA-2266`
 - Added documentation about `CodecSelectors` for `sdpHandlers.createCodecRemover`.
+- Added callId parameter passed to SDP pipeline handlers `call.SdpHandlerFunction`. `KAA-2242`
 
 ### Fixed
 

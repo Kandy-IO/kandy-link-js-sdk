@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.17.0-beta.456
+ * Version: 4.17.0-beta.457
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -28569,6 +28569,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @static
  * @typedef {Object} SdpHandlerInfo
  * @memberof call
+ * @property {string} callId The id corresponding to the call for which the handler is being run.
  * @property {RTCSdpType} type The session description's type.
  * @property {string} step The step that will occur after the SDP Handlers are run.
  *    Will be either 'set' (the SDP will be set locally) or 'send' (the SDP will
@@ -37327,6 +37328,7 @@ function* receiveEarlyMedia(deps, params) {
      */
     const callConfigOptions = yield (0, _effects.select)(_selectors.getOptions);
     const sdp = yield (0, _effects.call)(_pipeline2.default, callConfigOptions.sdpHandlers, params.sdp, {
+      callId: currentCall.id,
       type: 'pranswer',
       step: 'set',
       endpoint: 'remote'
@@ -38545,12 +38547,12 @@ const log = _logs.logManager.getLogger('SDP');
  * @param  {Array}      handlers       List of functions that transform the SDP.
  * @param  {string}     sdp            The session description.
  * @param  {Object}     info           Information about the session description.
+ * @param  {string}     info.callId    The id corresponding to the call on which this pipeline is being run.
  * @param  {RTCSdpType} info.type      The session description's type.
  * @param  {string}     info.step      The step that will occur after the Pipeline is run.
  *    Will be either 'set' (the SDP will be set locally) or 'send' (the SDP will be sent
  *    to the remote endpoint).
  * @param  {string}     info.endpoint  Which end of the connection created the SDP.
- * @param  {boolean}    info.isInitiator Whether this session initiated the connection or not.
  * @param  {BandwidthControls} [info.bandwidth] Information about bandwidth controls.
  * @return {string}     The modified session description.
  */
@@ -39027,6 +39029,7 @@ function* setupCall(deps, mediaConstraints, sessionOptions) {
   // Run the SDP through the Pipeline before we set it locally.
   //    This is the "pre set local" stage.
   offer.sdp = yield (0, _effects.call)(_pipeline2.default, callConfigOptions.sdpHandlers, offer.sdp, {
+    callId,
     type: offer.type,
     step: 'set',
     endpoint: 'local',
@@ -39041,6 +39044,7 @@ function* setupCall(deps, mediaConstraints, sessionOptions) {
   //    setLocalDescription is enforced read-only, but the `offer` before that
   //    is not enforced.
   const newSdp = yield (0, _effects.call)(_pipeline2.default, callConfigOptions.sdpHandlers, offer.sdp, {
+    callId,
     type: offer.type,
     step: 'send',
     endpoint: 'local',
@@ -39123,6 +39127,7 @@ function* setupIncomingCall(deps, sessionOptions) {
    */
   let callConfigOptions = yield (0, _effects.select)(_selectors.getOptions);
   offer.sdp = yield (0, _effects.call)(_pipeline2.default, callConfigOptions.sdpHandlers, offer.sdp, {
+    callId,
     type: offer.type,
     step: 'set',
     endpoint: 'remote'
@@ -39156,9 +39161,9 @@ function* setupIncomingCall(deps, sessionOptions) {
  */
 function* answerWebrtcSession(deps, mediaConstraints, sessionOptions) {
   const { webRTC } = deps;
-  const { sessionId, bandwidth, dscpControls } = sessionOptions;
+  const { sessionId, bandwidth, dscpControls, callId } = sessionOptions;
 
-  const log = _logs.logManager.getLogger('CALL', sessionOptions.callId);
+  const log = _logs.logManager.getLogger('CALL', callId);
   log.info('Setting up local WebRTC portions of call.');
 
   // Get the webRTC session that represents this call.
@@ -39206,6 +39211,7 @@ function* answerWebrtcSession(deps, mediaConstraints, sessionOptions) {
   let callConfigOptions = yield (0, _effects.select)(_selectors.getOptions);
   // This is the "pre set local" stage.
   answer.sdp = yield (0, _effects.call)(_pipeline2.default, callConfigOptions.sdpHandlers, answer.sdp, {
+    callId,
     type: answer.type,
     step: 'set',
     endpoint: 'local',
@@ -39220,6 +39226,7 @@ function* answerWebrtcSession(deps, mediaConstraints, sessionOptions) {
   //    setLocalDescription is enforced read-only, but the `offer` before that
   //    is not enforced.
   const newSdp = yield (0, _effects.call)(_pipeline2.default, callConfigOptions.sdpHandlers, answer.sdp, {
+    callId,
     type: answer.type,
     step: 'send',
     endpoint: 'local',
@@ -39449,6 +39456,8 @@ function* handleOffer(deps, offer, webrtcSessionId, bandwidth) {
     return;
   }
 
+  const { id: callId } = yield (0, _effects.select)(_selectors.getCallByWebrtcSessionId, webrtcSessionId);
+
   /*
    * Run the remote SDP offer through any SDP handlers provided, then set it
    *    as the Session's remote description.
@@ -39456,6 +39465,7 @@ function* handleOffer(deps, offer, webrtcSessionId, bandwidth) {
    */
   const callConfigOptions = yield (0, _effects.select)(_selectors.getOptions);
   offer = yield (0, _effects.call)(_pipeline2.default, callConfigOptions.sdpHandlers, offer, {
+    callId,
     type: 'offer',
     step: 'set',
     endpoint: 'remote'
@@ -39479,6 +39489,7 @@ function* handleOffer(deps, offer, webrtcSessionId, bandwidth) {
 
   // This is the "pre set local" stage.
   answer.sdp = yield (0, _effects.call)(_pipeline2.default, callConfigOptions.sdpHandlers, answer.sdp, {
+    callId,
     type: answer.type,
     step: 'set',
     endpoint: 'local',
@@ -39493,6 +39504,7 @@ function* handleOffer(deps, offer, webrtcSessionId, bandwidth) {
   //    setLocalDescription is enforced read-only, but the `offer` before that
   //    is not enforced.
   const newSdp = yield (0, _effects.call)(_pipeline2.default, callConfigOptions.sdpHandlers, answer.sdp, {
+    callId,
     type: answer.type,
     step: 'send',
     endpoint: 'local',
@@ -39526,6 +39538,8 @@ function* generateOffer(deps, sessionId, mediaDirections, bandwidth) {
     return;
   }
 
+  const { id: callId } = yield (0, _effects.select)(_selectors.getCallByWebrtcSessionId, sessionId);
+
   /*
    * Create the local SDP offer, run it through any provided SDP handlers,
    *    then set it as the Session's local description.
@@ -39538,6 +39552,7 @@ function* generateOffer(deps, sessionId, mediaDirections, bandwidth) {
   const callConfigOptions = yield (0, _effects.select)(_selectors.getOptions);
   // This is the "pre set local" stage.
   offer.sdp = yield (0, _effects.call)(_pipeline2.default, callConfigOptions.sdpHandlers, offer.sdp, {
+    callId,
     type: offer.type,
     step: 'set',
     endpoint: 'local',
@@ -39551,6 +39566,7 @@ function* generateOffer(deps, sessionId, mediaDirections, bandwidth) {
   //    setLocalDescription is enforced read-only, but the `offer` before that
   //    is not enforced.
   const newSdp = yield (0, _effects.call)(_pipeline2.default, callConfigOptions.sdpHandlers, offer.sdp, {
+    callId,
     type: offer.type,
     step: 'send',
     endpoint: 'local',
@@ -39584,6 +39600,7 @@ function* webRtcAddMedia(deps, mediaConstraints, sessionOptions) {
     return { error };
   }
   const session = yield (0, _effects.call)([webRTC.sessionManager, 'get'], sessionId);
+  const { id: callId } = yield (0, _effects.select)(_selectors.getCallByWebrtcSessionId, sessionId);
 
   let screenTracks = [];
   let audioTracks = [];
@@ -39616,6 +39633,7 @@ function* webRtcAddMedia(deps, mediaConstraints, sessionOptions) {
   const callConfigOptions = yield (0, _effects.select)(_selectors.getOptions);
   // This is the "pre set local" stage.
   offer.sdp = yield (0, _effects.call)(_pipeline2.default, callConfigOptions.sdpHandlers, offer.sdp, {
+    callId,
     type: offer.type,
     step: 'set',
     endpoint: 'local',
@@ -39629,6 +39647,7 @@ function* webRtcAddMedia(deps, mediaConstraints, sessionOptions) {
   //    setLocalDescription is enforced read-only, but the `offer` before that
   //    is not enforced.
   const newSdp = yield (0, _effects.call)(_pipeline2.default, callConfigOptions.sdpHandlers, offer.sdp, {
+    callId,
     type: offer.type,
     step: 'send',
     endpoint: 'local',
@@ -39683,6 +39702,7 @@ function* webRtcRemoveMedia(deps, sessionOptions) {
   }
 
   const session = yield (0, _effects.call)([webRTC.sessionManager, 'get'], sessionId);
+  const { id: callId } = yield (0, _effects.select)(_selectors.getCallByWebrtcSessionId, sessionId);
 
   // Removes tracks from peer (Will stop tracks from being sent to remote participant).
   // Does NOT end the tracks.
@@ -39703,6 +39723,7 @@ function* webRtcRemoveMedia(deps, sessionOptions) {
   const callConfigOptions = yield (0, _effects.select)(_selectors.getOptions);
   // This is the "pre set local" stage.
   offer.sdp = yield (0, _effects.call)(_pipeline2.default, callConfigOptions.sdpHandlers, offer.sdp, {
+    callId,
     type: offer.type,
     step: 'set',
     endpoint: 'local',
@@ -39716,6 +39737,7 @@ function* webRtcRemoveMedia(deps, sessionOptions) {
   //    setLocalDescription is enforced read-only, but the `offer` before that
   //    is not enforced.
   const newSdp = yield (0, _effects.call)(_pipeline2.default, callConfigOptions.sdpHandlers, offer.sdp, {
+    callId,
     type: offer.type,
     step: 'send',
     endpoint: 'local',
@@ -39977,7 +39999,7 @@ function* receivedAnswer(deps, sessionInfo, targetCall) {
      */
     const newRole = targetCall.isCaller ? 'passive' : 'active';
     log.debug(`Received answer SDP has role of actpass. Changing to ${newRole}.`);
-    sdpHandlers.push((0, _utils.changeDtlsRoleTo)(newRole));
+    sdpHandlers = [...sdpHandlers, (0, _utils.changeDtlsRoleTo)(newRole)];
   }
 
   /*
@@ -39992,6 +40014,7 @@ function* receivedAnswer(deps, sessionInfo, targetCall) {
      * This is the "pre set remote" stage.
      */
     answerSdp = yield (0, _effects.call)(_pipeline2.default, sdpHandlers, answerSdp, {
+      callId: targetCall.id,
       type: 'answer',
       step: 'set',
       endpoint: 'remote'
@@ -40843,7 +40866,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.17.0-beta.456';
+  return '4.17.0-beta.457';
 }
 
 /***/ }),
