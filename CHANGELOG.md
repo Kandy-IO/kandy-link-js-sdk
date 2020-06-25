@@ -34,6 +34,10 @@ Kandy.js change log.
   connection loss. To maintain backwards compatibility, this was reintroduced. We
   will now emit `subscription:change` event on network connection loss as well.
 
+### Changed
+
+- Changed `call.getAvailableCodecs` Call API to return a Promise, so that caller can get the list of codecs as part of invkoing this API, without the need to setup a separate event listener. This does not impact the existing use of API. `KAA-2423`
+
 ## 4.16.0 - 2020-05-29
 
 ### Added
