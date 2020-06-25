@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.remote.js
- * Version: 4.17.0-beta.457
+ * Version: 4.17.0-beta.458
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -13840,7 +13840,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.17.0-beta.457';
+  return '4.17.0-beta.458';
 }
 
 /***/ }),
@@ -21307,6 +21307,35 @@ function Session(id, managers, config = {}) {
     const peer = peerManager.get(peerId);
     const track = trackManager.get(newTrack.id);
     return peer.replaceTrack(track.track, options).then(() => {
+      // Setup handlers for the replaced track, same as adding a new track
+      const media = mediaManager.get(track.getStream().id);
+      if (media) {
+        media.on('track:removed', trackId => {
+          emitter.emit('track:removed', {
+            local: true,
+            trackId: trackId
+          });
+        });
+      }
+
+      track.once('ended', ({ performRenegotiation }) => {
+        // If the PeerConnection is closed, we don't need to worry about
+        //    removing the track (and it would throw an error anyway).
+        if (peer.signalingState !== 'closed') {
+          peer.removeTrack(track.id);
+          emitter.emit('track:ended', {
+            local: true,
+            trackId: track.id,
+            performRenegotiation: performRenegotiation
+          });
+          // Remove track from session dscp settings
+          if (settings.dscpControls.hasOwnProperty(track.id)) {
+            log.debug(`Removing track ${track.id} from session dscp settings`);
+            delete settings.dscpControls[track.id];
+          }
+        }
+      });
+
       emitter.emit('track:replaced', {
         oldTrackId: options.trackId,
         trackId: newTrack.id
