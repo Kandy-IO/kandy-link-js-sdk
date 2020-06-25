@@ -30,6 +30,9 @@ Kandy.js change log.
 - Fixed an issue where replacing a track and then ending it wasn't emitting the proper `call:trackEnded` event. `KAA-2370` `KAA-2387`
 - Normalized error data returned from all REST requests to internal components. Doesn't impact public API. `KAA-2348`
 - Fixed an issue with `sdpHandlers.createCodecRemover` where it wasn't handling multiple codecs selectors with the same name. `KAA-2416`
+- Fixed an issue where we weren't emitting the `auth:change` event on network
+  connection loss. To maintain backwards compatibility, this was reintroduced. We
+  will now emit `subscription:change` event on network connection loss as well.
 
 ## 4.16.0 - 2020-05-29
 

@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.17.0-beta.458
+ * Version: 4.17.0-beta.459
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -25509,7 +25509,7 @@ function authLink(options = {}) {
   const capabilities = ['userCredentialsAuth', 'hmacTokenAuth', 'bearerAccessTokenAuth'];
 
   return {
-    sagas: [_sagas.connectFlow, _sagas.setCredentialsEntry, _sagas.onSubscriptionGone],
+    sagas: [_sagas.connectFlow, _sagas.setCredentialsEntry, _sagas.onSubscriptionGone, _sagas.onConnectionLostEntry],
     capabilities,
     init,
     api: _interface.api,
@@ -25536,6 +25536,8 @@ exports.connect = connect;
 exports.disconnect = disconnect;
 exports.setCredentials = setCredentials;
 exports.onSubscriptionGone = onSubscriptionGone;
+exports.onConnectionLostEntry = onConnectionLostEntry;
+exports.onConnectionLost = onConnectionLost;
 
 var _effects = __webpack_require__("../../node_modules/redux-saga/dist/redux-saga-effects-npm-proxy.esm.js");
 
@@ -25558,6 +25560,10 @@ var subscribeActions = _interopRequireWildcard(_actions2);
 var _actionTypes3 = __webpack_require__("../../packages/kandy/src/subscription/interface/actionTypes.js");
 
 var subscribeActionTypes = _interopRequireWildcard(_actionTypes3);
+
+var _actionTypes4 = __webpack_require__("../../packages/kandy/src/connectivity/interface/actionTypes.js");
+
+var connectivityActionTypes = _interopRequireWildcard(_actionTypes4);
 
 var _selectors = __webpack_require__("../../packages/kandy/src/subscription/interface/selectors.js");
 
@@ -25594,7 +25600,8 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 // Constants
 
 
-// Auth
+// Other plugins
+// Redux-Saga
 const log = _logs.logManager.getLogger('AUTH');
 
 // This is an Link plugin.
@@ -25609,8 +25616,7 @@ const log = _logs.logManager.getLogger('AUTH');
 // State selectors
 
 
-// Other plugins
-// Redux-Saga
+// Auth
 const platform = _constants2.platforms.LINK;
 
 // Taker-saga that watches for "set credential" actions.
@@ -25834,6 +25840,24 @@ function* onSubscriptionGone() {
     // Dispatch a disconnect finished action to trigger "user disconnected" logic.
     yield (0, _effects.put)(actions.disconnectFinished({ reason: _constants.DISCONNECT_REASONS.GONE }));
   }
+}
+
+/**
+ * Triggers onConnectionLost saga when a connectivity.WS_RECONNECT_FAILED actionType occurs.
+ * This is only here to maintain backwards compatibility with the auth connect flow. Moving
+ * forward, this will be handled by the subscription plugin instead.
+ * @method onConnectionLostEntry
+ */
+function* onConnectionLostEntry() {
+  yield (0, _effects.takeEvery)(connectivityActionTypes.WS_RECONNECT_FAILED, onConnectionLost);
+}
+
+/**
+ * Handles lost connections from the connectivity plugin
+ * @method onConnectionLost
+ */
+function* onConnectionLost() {
+  yield (0, _effects.put)(actions.disconnectFinished({ reason: _constants.DISCONNECT_REASONS.LOST_CONNECTION }));
 }
 
 /***/ }),
@@ -40866,7 +40890,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.17.0-beta.458';
+  return '4.17.0-beta.459';
 }
 
 /***/ }),
@@ -52947,7 +52971,7 @@ function createSubscriptionPlugin(options = {}) {
   }
 
   return {
-    sagas: [_sagas.subscriptionFlow, _sagas.extendSubscription, _sagas.onSubscriptionGone],
+    sagas: [_sagas.subscriptionFlow, _sagas.extendSubscription, _sagas.onSubscriptionGone, _sagas.onConnectionLostEntry],
     init,
     capabilities: ['link_subscription'],
     api: _interface.api,
@@ -53358,6 +53382,8 @@ exports.doUnsubscribe = doUnsubscribe;
 exports.extendSubscription = extendSubscription;
 exports.updateSubscription = updateSubscription;
 exports.onSubscriptionGone = onSubscriptionGone;
+exports.onConnectionLostEntry = onConnectionLostEntry;
+exports.onConnectionLost = onConnectionLost;
 
 var _actionTypes = __webpack_require__("../../packages/kandy/src/subscription/interface/actionTypes.js");
 
@@ -53389,7 +53415,11 @@ var _effects2 = __webpack_require__("../../packages/kandy/src/connectivity/inter
 
 var _selectors3 = __webpack_require__("../../packages/kandy/src/connectivity/interface/selectors.js");
 
-var _actionTypes2 = __webpack_require__("../../packages/kandy/src/notifications/interface/actionTypes.js");
+var _actionTypes2 = __webpack_require__("../../packages/kandy/src/connectivity/interface/actionTypes.js");
+
+var connectivityActionTypes = _interopRequireWildcard(_actionTypes2);
+
+var _actionTypes3 = __webpack_require__("../../packages/kandy/src/notifications/interface/actionTypes.js");
 
 var _errors = __webpack_require__("../../packages/kandy/src/errors/index.js");
 
@@ -53402,6 +53432,16 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // This is an Link plugin.
 
 
+// Libraries.
+
+
+// Requests
+// Subscription plugin.
+const platform = _constants2.platforms.LINK;
+
+// Errors
+
+
 // Other plugins.
 
 
@@ -53412,16 +53452,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 
 // State selectors
-const platform = _constants2.platforms.LINK;
-
-// Errors
-
-
-// Libraries.
-
-
-// Requests
-// Subscription plugin.
 
 const log = _logs.logManager.getLogger('SUBSCRIPTION');
 
@@ -53750,7 +53780,7 @@ function* onSubscriptionGone() {
   // Redux-saga take() pattern.
   // Take notifications about the subscription being 'gone'.
   function takeGoneSubscription(action) {
-    return action.type === _actionTypes2.NOTIFICATION_RECEIVED && action.payload.notificationMessage && action.payload.notificationMessage.eventType === 'gone';
+    return action.type === _actionTypes3.NOTIFICATION_RECEIVED && action.payload.notificationMessage && action.payload.notificationMessage.eventType === 'gone';
   }
 
   while (true) {
@@ -53766,6 +53796,24 @@ function* onSubscriptionGone() {
     // Dispatch a disconnect finished action to trigger "user disconnected" logic.
     yield (0, _effects.put)(actions.unsubscribeFinished({ reason: _constants.DISCONNECT_REASONS.GONE }, platform));
   }
+}
+
+/**
+ * Triggers onConnectionLost saga when a connectivity.WS_RECONNECT_FAILED actionType occurs
+ * @method onConnectionLostEntry
+ */
+function* onConnectionLostEntry() {
+  yield (0, _effects.takeEvery)(connectivityActionTypes.WS_RECONNECT_FAILED, onConnectionLost);
+}
+
+/**
+ * Handles lost connections from the connectivity plugin
+ * @method onConnectionLost
+ */
+function* onConnectionLost() {
+  yield (0, _effects.put)(actions.unsubscribeFinished({
+    reason: _constants.DISCONNECT_REASONS.LOST_CONNECTION
+  }));
 }
 
 /***/ }),
