@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.remote.js
- * Version: 4.16.0
+ * Version: 4.17.0
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -13719,6 +13719,7 @@ exports.mergeValues = mergeValues;
 exports.toQueryString = toQueryString;
 exports.autoRestart = autoRestart;
 exports.forwardAction = forwardAction;
+exports.normalizeServices = normalizeServices;
 
 var _fp = __webpack_require__("../../node_modules/lodash/fp.js");
 
@@ -13804,6 +13805,21 @@ function* forwardAction(action) {
   yield (0, _effects.put)(action);
 }
 
+/**
+ * Ensures that services are in the same format understood by the server regardless,
+ * of whether the client provides services as strings or objects.
+ * @param {Array} services The list of services requested by the client.
+ * @return {Array} A normalized list of services requested by the client.
+ */
+function normalizeServices(services = []) {
+  return services.map(service => {
+    if ((0, _fp.isPlainObject)(service) && service.hasOwnProperty('service')) {
+      return service;
+    }
+    return { service: service };
+  });
+}
+
 /***/ }),
 
 /***/ "../../packages/kandy/src/common/version.js":
@@ -13824,7 +13840,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.16.0';
+  return '4.17.0';
 }
 
 /***/ }),
@@ -14061,6 +14077,7 @@ function defaultActionHandler(entry) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.defaultOptions = undefined;
 
 var _actionHandler = __webpack_require__("../../packages/kandy/src/logs/actions/actionHandler.js");
 
@@ -14092,7 +14109,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *    to the console.
  * @param  {boolean} [logs.enableFcsLogs=true] Enable the detailed call logger
  *    for v3.X. Requires log level debug.
- * @param {Object} [logs.logActions] Options specifically for action logs when
+ * @param {Object|boolean} [logs.logActions] Options specifically for action logs when
  *    logLevel is at DEBUG+ levels. Set this to false to not output action logs.
  * @param {logger.LogHandler} [logs.logActions.handler] The function to receive action
  *    log entries from the SDK. If not provided, a default handler will be used
@@ -14104,10 +14121,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *    inspected on the console.
  * @param {boolean} [logs.logActions.diff=false] Include a diff of what SDK
  *    context was changed by the action.
+ * @param {string}  [logs.logActions.level='debug'] Log level to be set
+ *    on the action logs
  * @param {boolean} [logs.logActions.exposePayloads=false] Allow action payloads
  *    to be exposed in the logs, potentially displaying sensitive information.
  */
-exports.default = {
+const defaultOptions = exports.defaultOptions = {
   logLevel: 'debug',
   handler: undefined,
   enableFcsLogs: true,
@@ -14121,6 +14140,37 @@ exports.default = {
     level: 'debug',
     exposePayloads: false
   }
+  /*
+   * TODO: Figure out a way to work around this.
+   * Can't use validation in logging because validation uses logging to output errors.
+   * Circular dependency, have to refactor.
+   * Code:
+   ```javascript
+  // Parse and/or Validate
+  // import { enums, validation as v8n, parse } from '../common/validation'
+  const defaultValidation = v8n.schema({
+    logLevel: enums(['silent', 'error', 'warn', 'info', 'debug']),
+    handler: v8n.optional(v8n.function()),
+    enableFcsLogs: v8n.boolean(),
+    logActions: v8n.optional(
+      v8n.passesAnyOf(
+        v8n.schema({
+          handler: v8n.optional(v8n.function()),
+          actionOnly: v8n.boolean(),
+          collapsed: v8n.boolean(),
+          diff: v8n.boolean(),
+          exposePayloads: v8n.boolean()
+        }),
+        // OR
+        v8n.boolean()
+      )
+    )
+  })
+  
+  export const parseLogConfig = parse('logger', defaultValidation)
+  ```
+  */
+
 };
 
 /***/ }),
@@ -21257,6 +21307,35 @@ function Session(id, managers, config = {}) {
     const peer = peerManager.get(peerId);
     const track = trackManager.get(newTrack.id);
     return peer.replaceTrack(track.track, options).then(() => {
+      // Setup handlers for the replaced track, same as adding a new track
+      const media = mediaManager.get(track.getStream().id);
+      if (media) {
+        media.on('track:removed', trackId => {
+          emitter.emit('track:removed', {
+            local: true,
+            trackId: trackId
+          });
+        });
+      }
+
+      track.once('ended', ({ performRenegotiation }) => {
+        // If the PeerConnection is closed, we don't need to worry about
+        //    removing the track (and it would throw an error anyway).
+        if (peer.signalingState !== 'closed') {
+          peer.removeTrack(track.id);
+          emitter.emit('track:ended', {
+            local: true,
+            trackId: track.id,
+            performRenegotiation: performRenegotiation
+          });
+          // Remove track from session dscp settings
+          if (settings.dscpControls.hasOwnProperty(track.id)) {
+            log.debug(`Removing track ${track.id} from session dscp settings`);
+            delete settings.dscpControls[track.id];
+          }
+        }
+      });
+
       emitter.emit('track:replaced', {
         oldTrackId: options.trackId,
         trackId: newTrack.id
