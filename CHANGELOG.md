@@ -5,12 +5,37 @@ Kandy.js change log.
 - This project adheres to [Semantic Versioning](http://semver.org/).
 - This change log follows [keepachangelog.com](http://keepachangelog.com/) recommendations.
 
+## 4.18.0 - beta
+
+### Important changes
+
+#### media:sourceMuted & media:sourceUnmuted (`KAA-2407`)
+
+The SDK has been updated to use `unified-plan` as the default value for
+'sdpSemantics'. `plan-b` only works in Chrome, and is being removed from Chrome
+very soon. You will need to handle `media:sourceMuted` and `media:sourceUnmuted` events to
+know when to render/unrender remote media.
+
+To see how to use these events, visit our tutorials.
+Choose your configuration ([Kandy-US](https://kandy-io.github.io/kandy-link-js-sdk/tutorials/?config=us#/Configurations), [Kandy-EMEA](https://kandy-io.github.io/kandy-link-js-sdk/tutorials/?config=emea#/Configurations), [Kandy-UAE](https://kandy-io.github.io/kandy-link-js-sdk/tutorials/?config=uae#/Configurations))
+
+### Added
+
+- Added new Call API `call.setSdpHandlers` for setting SDP Handlers after the SDK has been initialized. `KAA-2322`
+
+### Changed
+
+- Removed the Call default values for BandwidthControls when adding media to a call. `KAA-2402`
+  - This affects the `make`, `answer`, `addMedia`, and `startVideo` Call APIs.
+  - If the `options.bandwidth` parameter is not provided, the SDK will now default to the browser's behaviour instead of setting its own bandwidth limits for audio and video (of 5000 each).
+
 ## 4.17.0 - 2020-06-26
 
 ### Added
 
 - Added new parameter validation to all configs used with the `create` function. Incorrect parameters will log a `VALIDATION` message. `KAA-2223`
 - Added ability to add and remove services by updating a subscription using the subscription plugin. `KAA-2266`
+- Added new session level bandwidth limit parameter to the call API. The parameter is `call` and should be passed in the same options object as `audio` and `video` bandwidth controls. `KAA-2108`
 - Added documentation about `CodecSelectors` for `sdpHandlers.createCodecRemover`.
 - Added callId parameter passed to SDP pipeline handlers `call.SdpHandlerFunction`. `KAA-2242`
 
@@ -32,7 +57,10 @@ Kandy.js change log.
 
 ### Changed
 
-- Changed `call.getAvailableCodecs` Call API to return a Promise, so that caller can get the list of codecs as part of invkoing this API, without the need to setup a separate event listener. This does not impact the existing use of API. `KAA-2423`
+- Changed `call.getAvailableCodecs` Call API to return a Promise, so that caller can get the list of codecs as part of invoking this API, without the need to setup a separate event listener. This does not impact the existing use of API. `KAA-2423`
+- Changed the default configuration value for 'sdpSemantics' to be 'unified-plan', instead of 'plan-b'. `KAA-2401`
+  - 'plan-b' is an option supported only by Chrome and it has been deprecated. Further details are [here](https://webrtc.org/getting-started/unified-plan-transition-guide).
+  - This should not be a breaking change since Kandy Link supports the interoperability between 'plan-b' and 'unified-plan', transparently.
 
 ## 4.16.0 - 2020-05-29
 
@@ -244,7 +272,7 @@ Kandy.js change log.
 
 ### Fixed
 
-- Refixed an Authentication issue where connecting with invalid credentials for a pre-provisioned user would return an error event with misleading information. `KAA-1937`
+- Re-fixed an Authentication issue where connecting with invalid credentials for a pre-provisioned user would return an error event with misleading information. `KAA-1937`
 
 ## 4.7.0 - 2019-08-30
 
@@ -291,7 +319,7 @@ Kandy.js change log.
 ### Fixed
 
 - Fixed an issue where the `fetchMessages` function was not available on `Conversations` returned by `kandy.conversation.getAll()`. `KAA-1795`
-- Fixed transfered & joined calls not having updated remote participant data. `KAA-1725`
+- Fixed transferred & joined calls not having updated remote participant data. `KAA-1725`
 - Fixed Messaging from creating new conversations every time a message is received.
 - Fixed Messaging from not adding the `sender` property to sent messages.
 
