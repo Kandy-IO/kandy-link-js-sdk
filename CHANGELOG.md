@@ -23,6 +23,10 @@ Choose your configuration ([Kandy-US](https://kandy-io.github.io/kandy-link-js-s
 
 - Added new Call API `call.setSdpHandlers` for setting SDP Handlers after the SDK has been initialized. `KAA-2322`
 
+### Fixed
+
+- Fixed an issue preventing the playing of video tracks during a call on iOS Safari. `KAA-2382`
+
 ### Changed
 
 - Removed the Call default values for BandwidthControls when adding media to a call. `KAA-2402`
