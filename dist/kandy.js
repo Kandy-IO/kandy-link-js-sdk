@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.18.0-beta.474
+ * Version: 4.18.0-beta.475
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -41301,7 +41301,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.18.0-beta.474';
+  return '4.18.0-beta.475';
 }
 
 /***/ }),
@@ -46180,15 +46180,22 @@ eventsMap[actionTypes.CREATE_CONVERSATION] = function (action) {
 };
 
 eventsMap[actionTypes.SEND_MESSAGE_FINISH] = function (action) {
-  return {
-    type: eventTypes.MESSAGES_CHANGE,
-    args: {
-      destination: action.payload.destination,
-      type: action.payload.type,
-      messageId: action.payload.messageId,
-      sender: action.payload.sender
-    }
-  };
+  if (action.error) {
+    return {
+      type: eventTypes.MESSAGES_ERROR,
+      args: { error: action.payload }
+    };
+  } else {
+    return {
+      type: eventTypes.MESSAGES_CHANGE,
+      args: {
+        destination: action.payload.destination,
+        type: action.payload.type,
+        messageId: action.payload.messageId,
+        sender: action.payload.sender
+      }
+    };
+  }
 };
 
 eventsMap[actionTypes.MESSAGE_RECEIVED] = function (action) {
@@ -47023,17 +47030,31 @@ reducers[actionTypes.MESSAGE_RECEIVED] = {
   }
 };
 
-reducers[actionTypes.SEND_MESSAGE_FINISH] = (state, action) => {
-  return (0, _extends3.default)({}, state, {
-    conversations: state.conversations.map(conversation => {
-      if ((0, _fp.isEqual)(conversation.destination, action.payload.destination) && conversation.type === action.payload.type) {
-        return (0, _extends3.default)({}, conversation, {
-          messages: conversation.messages.map(message => sendMessageFinishHelper(message, action))
-        });
-      }
-      return conversation;
-    })
-  });
+reducers[actionTypes.SEND_MESSAGE_FINISH] = {
+  next(state, action) {
+    return (0, _extends3.default)({}, state, {
+      conversations: state.conversations.map(conversation => {
+        if ((0, _fp.isEqual)(conversation.destination, action.payload.destination) && conversation.type === action.payload.type) {
+          return (0, _extends3.default)({}, conversation, {
+            messages: conversation.messages.map(message => sendMessageFinishHelper(message, action))
+          });
+        }
+        return conversation;
+      })
+    });
+  },
+  throw(state, action) {
+    return (0, _extends3.default)({}, state, {
+      conversations: state.conversations.map(conversation => {
+        if ((0, _fp.isEqual)(conversation.destination, action.payload.destination) && conversation.type === action.payload.type) {
+          return (0, _extends3.default)({}, conversation, {
+            messages: conversation.messages.filter(message => message.timestamp !== action.payload.timestamp && !message.isPending)
+          });
+        }
+        return conversation;
+      })
+    });
+  }
 };
 
 // Remove all messages from the specified conversation.
