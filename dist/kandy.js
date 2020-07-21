@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.18.0-beta.475
+ * Version: 4.18.0-beta.476
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -25857,7 +25857,6 @@ function authLink(options = {}) {
   }
 
   options = (0, _utils.mergeValues)(defaultOptions, options);
-
   parseOptions(options);
 
   if (!options.server.base) {
@@ -41301,7 +41300,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.18.0-beta.475';
+  return '4.18.0-beta.476';
 }
 
 /***/ }),
