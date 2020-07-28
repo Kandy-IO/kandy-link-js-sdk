@@ -7,17 +7,52 @@ Kandy.js change log.
 
 ## 4.18.0 - beta
 
-### Important changes
+### Important update
 
-#### media:sourceMuted & media:sourceUnmuted (`KAA-2407`)
+With this release we're announcing the deprecation of `plan-b` SDP semantics and the intent
+to change the default SDP semantics to the standard compliant `unified-plan` semantics starting with
+the 4.19.0 release next month.
 
-The SDK has been updated to use `unified-plan` as the default value for
-'sdpSemantics'. `plan-b` only works in Chrome, and is being removed from Chrome
-very soon. You will need to handle `media:sourceMuted` and `media:sourceUnmuted` events to
-know when to render/unrender remote media.
+This change has been on the horizon since the WebRTC standard
+commitee chose `unified-plan` as the way forward. Since then, Chrome, has been on a path to
+make this change and eventually remove `plan-b` as a supported option.
+You can read about Chrome's transition plan here:
+[https://webrtc.org/getting-started/unified-plan-transition-guide](https://webrtc.org/getting-started/unified-plan-transition-guide)
 
-To see how to use these events, visit our tutorials.
-Choose your configuration ([Kandy-US](https://kandy-io.github.io/kandy-link-js-sdk/tutorials/?config=us#/Configurations), [Kandy-EMEA](https://kandy-io.github.io/kandy-link-js-sdk/tutorials/?config=emea#/Configurations), [Kandy-UAE](https://kandy-io.github.io/kandy-link-js-sdk/tutorials/?config=uae#/Configurations))
+Browsers other than Chrome or Chrome-based browers are unaffected by this change since they don't support `plan-b` and have supported `unified-plan` for a while.
+
+#### What does this mean for developers?
+
+`unified-plan` support is available today and you can start testing your application today. In
+order to do so you need to change the sdpSemantics option in your configuration when creating the
+SDK like so:
+
+```javascript
+import { create } from '@kandy-io/link-sdk'
+const client = create({
+  call: {
+    sdpSemantics: 'unified-plan'
+    // ...
+  }
+})
+```
+
+Starting with 4.19, the above configuration will be the default.
+
+Additionally, in order to have the same user experience when performing mid-call operations, your
+application will need to make sure to handle 2 events that you may not have needed previously:
+
+- `media:sourceMuted` - Triggered when a track is muted at the source.
+- `media:sourceUnmuted` - Triggered when a track is unmuted at the source.
+
+These events will indicate when tracks (especially video tracks) should be displayed/rendered or not.
+
+To learn in detail how to use these events, please visit our tutorials.
+Choose the configuration that applies to you:
+
+- [Kandy-US](https://kandy-io.github.io/kandy-link-js-sdk/tutorials/?config=us#/Configurations)
+- [Kandy-EMEA](https://kandy-io.github.io/kandy-link-js-sdk/tutorials/?config=emea#/Configurations)
+- [Kandy-UAE](https://kandy-io.github.io/kandy-link-js-sdk/tutorials/?config=uae#/Configurations)
 
 ### Added
 
@@ -63,9 +98,6 @@ Choose your configuration ([Kandy-US](https://kandy-io.github.io/kandy-link-js-s
 ### Changed
 
 - Changed `call.getAvailableCodecs` Call API to return a Promise, so that caller can get the list of codecs as part of invoking this API, without the need to setup a separate event listener. This does not impact the existing use of API. `KAA-2423`
-- Changed the default configuration value for 'sdpSemantics' to be 'unified-plan', instead of 'plan-b'. `KAA-2401`
-  - 'plan-b' is an option supported only by Chrome and it has been deprecated. Further details are [here](https://webrtc.org/getting-started/unified-plan-transition-guide).
-  - This should not be a breaking change since Kandy Link supports the interoperability between 'plan-b' and 'unified-plan', transparently.
 
 ## 4.16.0 - 2020-05-29
 
@@ -396,10 +428,6 @@ Choose your configuration ([Kandy-US](https://kandy-io.github.io/kandy-link-js-s
 
 - Fixed an issue where the states property was not being defined on the call namespace (kandy.call.states). `KAA-1349`
 - Fixed a crash when using the Presence `fetch` API and receiving no data. `KAA-1169`.
-
-### Changed
-
-- Changed the default sdpSemantics to "unified-plan". `KAA-1427`
 
 ## 4.0.0 - 2019-02-01
 

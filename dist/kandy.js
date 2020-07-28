@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.18.0-beta.479
+ * Version: 4.18.0-beta.480
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -30908,7 +30908,7 @@ const log = _logs.logManager.getLogger('CALL');
  * @memberof config
  * @instance
  * @param {Object} call The call configuration object.
- * @param {string} [call.sdpSemantics='unified-plan'] The sdpSemantics to use (`'unified-plan'` or `'plan-b'`).
+ * @param {string} [call.sdpSemantics='plan-b'] The sdpSemantics to use (`'unified-plan'` or `'plan-b'`).
  *    As 'plan-b' has become a deprecated option, it will therefore be removed in the future.
  * @param {Array<call.IceServer>} [call.iceServers] The list of ICE servers to be used for calls.
  * @param {number} [call.iceCollectionDelay=1000] Time, in milliseconds, to delay in between
@@ -30947,7 +30947,7 @@ const log = _logs.logManager.getLogger('CALL');
 // Helpers.
 // Call plugin.
 const defaultOptions = {
-  sdpSemantics: 'unified-plan',
+  sdpSemantics: 'plan-b',
   iceServers: [],
   iceCollectionDelay: 1000,
   maxIceTimeout: 3000,
@@ -41300,7 +41300,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.18.0-beta.479';
+  return '4.18.0-beta.480';
 }
 
 /***/ }),
@@ -57763,11 +57763,24 @@ const TRACKS_MUTED = exports.TRACKS_MUTED = 'media:muted';
 const TRACKS_UNMUTED = exports.TRACKS_UNMUTED = 'media:unmuted';
 
 /**
- * The (media) source, associated with specified tracks, has been muted.
- * This event is generated outside the control of the SDK when the media source,
- * such as a microphone or camera, has been muted in a browser. As a result, all tracks
- * associated with that media source will generate such event.
+ * The specified Track has had its media source muted.
+ *
+ * The Track is still active, but is not receiving media any longer. An audio
+ *    track will be silent and a video track will be a black frame. It is
+ *    possible for the track to start receiving media again (see the
+ *    {@link media.event:media:sourceUnmuted media:sourceUnmuted} event).
+ *
+ * This event is generated outside the control of the SDK. This may happen for a
+ *    local track if the browser or end-user stops allowing the SDK to access
+ *    the media device, for example. This may happen for a remote track during a
+ *    call when the remote endpoint stops sending media during a hold operation,
+ *    for example.
+ *
+ * Handling this event is only required if you are using `unified-plan` as the
+ *    `sdpSemantics` setting in the SDK's configuration. This setting will be
+ *    the default as of SDK v4.19.0.
  * @public
+ * @static
  * @memberof media
  * @event media:sourceMuted
  * @param {Object} params
@@ -57776,11 +57789,20 @@ const TRACKS_UNMUTED = exports.TRACKS_UNMUTED = 'media:unmuted';
 const TRACK_SOURCE_MUTED = exports.TRACK_SOURCE_MUTED = 'media:sourceMuted';
 
 /**
- * The (media) source, associated with specified tracks, has been unmuted.
- * This event is generated outside the control of the SDK when the media source,
- * such as a microphone or camera, has been unmuted in a browser. As a result, all tracks
- * associated with that media source will generate such event.
+ * The specified Track has started receiving media from its source once again.
+ *
+ * The Track returns to the state before it was muted (see the
+ *    {@link media.event:media:sourceMuted media:sourceMuted} event), and will
+ *    be able to display video or play audio once again.
+ *
+ * This event is generated outside the control of the SDK, when the cause of the
+ *    media source being muted had been undone.
+ *
+ * Handling this event is only required if you are using `unified-plan` as the
+ *    `sdpSemantics` setting in the SDK's configuration. This setting will be
+ *    the default as of SDK v4.19.0.
  * @public
+ * @static
  * @memberof media
  * @event media:sourceUnmuted
  * @param {Object} params
