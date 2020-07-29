@@ -21,7 +21,7 @@ You can read about Chrome's transition plan here:
 
 Browsers other than Chrome or Chrome-based browers are unaffected by this change since they don't support `plan-b` and have supported `unified-plan` for a while.
 
-#### What does this mean for developers?
+#### What does this mean for developers
 
 `unified-plan` support is available today and you can start testing your application today. In
 order to do so you need to change the sdpSemantics option in your configuration when creating the
@@ -62,6 +62,7 @@ Choose the configuration that applies to you:
 
 - Fixed an issue preventing the playing of video tracks during a call on iOS Safari. `KAA-2382`
 - Fixed an issue preventing the proper termination of an audio+video outgoing call when camera was already in use. `KAA-2426`
+- Fixed error in tutorials that was pointing to the wrong server. `KAA-2458`
 
 ### Changed
 

@@ -2,8 +2,8 @@ export const configs = [
   {
     name: 'us',
     data: {
-      SUBSCRIPTIONFQDN: 'sr1.genband.com',
-      WEBSOCKETFQDN: 'sr1.genband.com',
+      SUBSCRIPTIONFQDN: 'spidr-ucc.genband.com',
+      WEBSOCKETFQDN: 'spidr-ucc.genband.com',
       KANDYTURN1: 'turns:turn-ucc-1.genband.com:443?transport=tcp',
       KANDYSTUN1: 'stun:turn-ucc-1.genband.com:3478?transport=udp',
       KANDYTURN2: 'turns:turn-ucc-2.genband.com:443?transport=tcp',
