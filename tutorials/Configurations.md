@@ -14,12 +14,14 @@ The first step for any application is to initialize Kandy.js. When doing this, y
 import { create } from kandy
 const kandy = create({
     authentication: {
-        subscription: {
-            server: '$SUBSCRIPTIONFQDN$'
-        },
-        websocket: {
-            server: '$WEBSOCKETFQDN$'
-        }
+      server: {
+        base: '$SUBSCRIPTIONFQDN$'
+      }
+    },
+    subscription: {
+      websocket: {
+        server: '$WEBSOCKETFQDN$',
+      },
     },
     call: {
         serverTurnCredentials: true,
@@ -86,39 +88,29 @@ call: {
 
 ### Authentication
 
-The Authentication configs are used to specify the backend service that Kandy.js should connect to.The value provided is the host for the Kandy Link that the application is targeting.
+The Authentication configs are used to specify the backend service that Kandy.js should connect to. The value provided is the host for the Kandy Link that the application is targeting.
 Also if the Kandy Link is deployed on-prem, it will be up to the user to define the host.
 Note: It is important to always include these configurations.
 
 ```javascript
 authentication: {
-    subscription: {
-        server: '$SUBSCRIPTIONFQDN$'
-    },
-    websocket: {
-        server: '$WEBSOCKETFQDN$'
-    }
-},
-call: {
-    serverTurnCredentials: true,
-    iceServers:[
-        {
-            url: '$KANDYTURN1$',
-            credentials: ''
-        },
-        {
-            url: '$KANDYTURN2$',
-            credentials: ''
-        },
-        {
-            url: '$KANDYSTUN1$',
-            credentials: ''
-        },
-        {
-            url: '$KANDYSTUN2$',
-            credentials: ''
-        }
-    ]
+  server: {
+    base: '$SUBSCRIPTIONFQDN$'
+  }
+}
+```
+
+### Subscription
+
+The Subscription config is used to specify websocket that Kandy.js should connect to. The value provided is the host for the Kandy Link that the application is targeting.
+Also if the Kandy Link is deployed on-prem, it will be up to the user to define the host.
+Note: It is important to always include these configurations.
+
+```javascript
+subscription: {
+  websocket: {
+    server: '$WEBSOCKETFQDN$',
+  },
 }
 ```
 

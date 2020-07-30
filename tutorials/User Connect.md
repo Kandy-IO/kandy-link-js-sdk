@@ -15,12 +15,14 @@ The first step with Kandy.js is always to initialize it. You will need to know t
 import { create } from kandy
 const kandy = create({
     authentication: {
-        subscription: {
-          server: '$SUBSCRIPTIONFQDN$'
-        },
-        websocket: {
-          server: '$WEBSOCKETFQDN$'
-        }
+      server: {
+        base: '$SUBSCRIPTIONFQDN$'
+      }
+    },
+    subscription: {
+      websocket: {
+        server: '$WEBSOCKETFQDN$',
+      },
     },
     call: {
       serverTurnCredentials: true,
@@ -51,45 +53,55 @@ To learn more about initializing Kandy, see our [Configuration Quickstart](Confi
 Since we're going to be making a working demo, we also need some HTML. The HTML for this demo is quite simple.
 
 ```html
-<div id="auth-state">Connected: false</div>
+<div id="auth-state">Subscribed: false</div>
 
 <input type="submit" value="Login" onclick="login();" />
+<input type="submit" value="Subscribe" onclick="subscribe();" />
 <input type="submit" value="Logout" onclick="logout();" />
 
 <div id="messages"></div>
 ```
 
-What we have is a simple div containing the connected state of our app, two buttons, and an element for logging messages to.
+What we have is a simple div containing the subscribed state of our app, two buttons, and an element for logging messages to.
 
-## Step 1: Connecting
+## Step 1: Setting credentials
 
 To connect using Kandy, you will need two things:
 
 1. A username. This is the full username of a user on your domain. (Example: your-user@your-domain.kandy.io)
 1. A password. Don't worry, its safe with us.
 
-With these three things, you can call the connect function on Kandy.
+With these two things, you can set your credentials and subscribe to services on Kandy.
 
 ```javascript
 function login () {
-  kandy.connect({
+  kandy.setCredentials({
     username: username,
     password: password
   })
 }
 ```
 
-## Step 2: Connection Events
+## Step 2: Subscribe for services
 
-The `kandy.connect()` function does not return a value. Instead, Kandy.js uses events to tell you when something has changed. You can find a list of the authentication events [here](../../references/newLink#authentication).
+To subscribe for services on Kandy, you need to have first set your credentials (see previous step). To subscribe for services you will call the `kandy.services.subscribe()` API function. This function takes two parameters, an array of service names and an options parameter. The only supported option is `forceLogOut`. When set to true this will ensure that this user is logged out of Kandy before attempting to connect and subscribe again.
+
+```javascript
+function subscribe () {
+  kandy.services.subscribe(['call', 'Presence', 'IM'], { forceLogOut: true })
+}
+```
+
+## Step 3: Connection Events
+
+The `kandy.setCredentials()` and `kandy.services.subscribe()` functions do not return a value. Instead, Kandy.js uses events to tell you when something has changed. You can find a list of the authentication events [here](../../references/newLink#authentication) and subscription events [here](../docs#services).
 
 To subscribe to these events, you use `kandy.on()`. Here is the example for our demo app:
 
 ```javascript
 kandy.on('auth:change', function () {
-  let isConnected = kandy.getConnection().isConnected
-  document.getElementById('auth-state').innerHTML = 'Connected: ' + isConnected
-  log('Connection state changed.')
+  const user = kandy.getUserInfo()
+  log('Credentials ' + (user.username ? 'set' : 'unset'))
 })
 ```
 
@@ -110,30 +122,52 @@ In the above piece of code we subscribe an anonymous function to the `auth:chang
 
 To learn more about the response from this API checkout the documentation for `getConnection` [here](../../references/newLink#authentication).
 
-## Step 3: Disconnecting
+We'll also want to subscribe for subscription events since we are subscribing for service notifications.
 
-To disconnect, you simply call disconnect.
+```javascript
+kandy.on('subscription:change', function (params) {
+  const services = kandy.services.getSubscriptions()
+  const isSubscribed = services.subscribed.length > 0
+  document.getElementById('auth-state').innerHTML = 'Subscribed: ' + isSubscribed
+  log('Subscription state changed.')
+  log('Subscribed services: ' + services.subscribed)
+})
+
+kandy.on('subscription:resub', function (params) {
+  log('Subscribed services: ' + params.isFailure ? 'Failed to resubscribe to services' : 'Resubscribed to services')
+})
+
+kandy.on('subscription:error', function (params) {
+  log('Subscription error: ' + params.error.message + ' (' + params.error.code + ')')
+})
+```
+
+## Step 4: Disconnecting
+
+To disconnect and unsubscribe from services, you simply call unsubscribe and pass an array
+of services you want to unsubscribe from.
 
 ```javascript
 function logout () {
-  kandy.disconnect()
+  kandy.services.unsubscribe(['call', 'Presence', 'IM'])
 }
 ```
 
-Calling this function will trigger a change in the connection state, which in turn will trigger any listeners to the `auth:change` event. You can therefore use your `auth:change` listener to detect if the disconnect was successful.
+Calling this function will trigger a change in the subscription state, which in turn will trigger any listeners to the `subscription:change` event. You can therefore use your `subscription:change` listener to detect if the unsubscribe was successful.
 
 In situations where the application is going to be used by another user and you want to protect their data privacy, the destroy function will tear down the SDK and render it unusable. Afterwards the SDK can be created again so no data is passed between users who shouldn't have access.
 
 ```javascript
 function logout () {
-  kandy.on('auth:change', params => {
-    const connection = kandy.getConnection()
-    if (connection.isConnected === false && connection.isPending === false) {
-      // If user is not connected and an operation is not pending, then the user disconnected.
+  kandy.on('subscription:change', params => {
+    const services = kandy.services.getSubscriptions()
+    const isSubscribed = services.subscribed.length > 0
+    if (isSubscribed === false) {
+      // If user is not subscribed to services, then the user disconnected.
       kandy.destroy()
     }
   })
-  kandy.disconnect()
+  kandy.services.unsubscribe(['call', 'Presence', 'IM'])
 }
 ```
 
@@ -141,5 +175,5 @@ function logout () {
 
 Want to play around with this example for yourself? Feel free to edit this code on Codepen.
 
-<form action="https://codepen.io/pen/define" method="POST" target="_blank" class="codepen-form"><input type="hidden" name="data" value=' {&quot;js&quot;:&quot;/**\n * Kandy.io Authentication Demo\n */\n\nconst { create } = Kandy\nconst kandy = create({\n  authentication: {\n    subscription: {\n      server: &apos;$SUBSCRIPTIONFQDN$&apos;\n    },\n    websocket: {\n      server: &apos;$WEBSOCKETFQDN$&apos;\n    }\n  },\n  call: {\n    serverTurnCredentials: true,\n    iceServers: [\n      {\n        url: &apos;$KANDYTURN1$&apos;,\n        credentials: &apos;&apos;\n      },\n      {\n        url: &apos;$KANDYTURN2$&apos;,\n        credentials: &apos;&apos;\n      },\n      {\n        url: &apos;$KANDYSTUN1$&apos;,\n        credentials: &apos;&apos;\n      },\n      {\n        url: &apos;$KANDYSTUN2$&apos;,\n        credentials: &apos;&apos;\n      }\n    ]\n  }\n})\n\nvar username = &apos;UsernameHere&apos;\nvar password = &apos;PasswordHere&apos;\n\nfunction login () {\n  kandy.connect({\n    username: username,\n    password: password\n  })\n}\n\nkandy.on(&apos;auth:change&apos;, function () {\n  let isConnected = kandy.getConnection().isConnected\n  document.getElementById(&apos;auth-state&apos;).innerHTML = &apos;Connected: &apos; + isConnected\n  log(&apos;Connection state changed.&apos;)\n})\n\n// Listen for authentication errors.\nkandy.on(&apos;auth:error&apos;, function (params) {\n  log(&apos;Connect error: &apos; + params.error.message + &apos; (&apos; + params.error.code + &apos;)&apos;)\n})\n\nfunction logout () {\n  kandy.disconnect()\n}\n\nfunction logout () {\n  kandy.on(&apos;auth:change&apos;, params => {\n    const connection = kandy.getConnection()\n    if (connection.isConnected === false && connection.isPending === false) {\n      // If user is not connected and an operation is not pending, then the user disconnected.\n      kandy.destroy()\n    }\n  })\n  kandy.disconnect()\n}\n\n// Utility function for appending messages to the message div.\nfunction log (message) {\n  document.getElementById(&apos;messages&apos;).innerHTML += &apos;<div>&apos; + message + &apos;</div>&apos;\n}\n\n&quot;,&quot;html&quot;:&quot;<div id=\&quot;auth-state\&quot;>Connected: false</div>\n\n<input type=\&quot;submit\&quot; value=\&quot;Login\&quot; onclick=\&quot;login();\&quot; />\n<input type=\&quot;submit\&quot; value=\&quot;Logout\&quot; onclick=\&quot;logout();\&quot; />\n\n<div id=\&quot;messages\&quot;></div>\n\n&quot;,&quot;css&quot;:&quot;&quot;,&quot;title&quot;:&quot;Kandy.io Authentication Demo&quot;,&quot;editors&quot;:&quot;101&quot;,&quot;js_external&quot;:&quot;https://cdn.jsdelivr.net/gh/Kandy-IO/kandy-link-js-sdk@483/dist/kandy.js&quot;} '><input type="image" src="./TryItOn-CodePen.png"></form>
+<form action="https://codepen.io/pen/define" method="POST" target="_blank" class="codepen-form"><input type="hidden" name="data" value=' {&quot;js&quot;:&quot;/**\n * Kandy.io Authentication Demo\n */\n\nconst { create } = Kandy\nconst kandy = create({\n  authentication: {\n    server: {\n      base: &apos;$SUBSCRIPTIONFQDN$&apos;\n    }\n  },\n  subscription: {\n    websocket: {\n      server: &apos;$WEBSOCKETFQDN$&apos;\n    }\n  },\n  call: {\n    serverTurnCredentials: true,\n    iceServers: [\n      {\n        url: &apos;$KANDYTURN1$&apos;,\n        credentials: &apos;&apos;\n      },\n      {\n        url: &apos;$KANDYTURN2$&apos;,\n        credentials: &apos;&apos;\n      },\n      {\n        url: &apos;$KANDYSTUN1$&apos;,\n        credentials: &apos;&apos;\n      },\n      {\n        url: &apos;$KANDYSTUN2$&apos;,\n        credentials: &apos;&apos;\n      }\n    ]\n  }\n})\n\nvar username = &apos;UsernameHere&apos;\nvar password = &apos;PasswordHere&apos;\n\nfunction login () {\n  kandy.setCredentials({\n    username: username,\n    password: password\n  })\n}\n\nfunction subscribe () {\n  kandy.services.subscribe([&apos;call&apos;, &apos;Presence&apos;, &apos;IM&apos;], { forceLogOut: true })\n}\n\nkandy.on(&apos;auth:change&apos;, function () {\n  const user = kandy.getUserInfo()\n  log(&apos;Credentials &apos; + (user.username ? &apos;set&apos; : &apos;unset&apos;))\n})\n\n// Listen for authentication errors.\nkandy.on(&apos;auth:error&apos;, function (params) {\n  log(&apos;Connect error: &apos; + params.error.message + &apos; (&apos; + params.error.code + &apos;)&apos;)\n})\n\nkandy.on(&apos;subscription:change&apos;, function (params) {\n  const services = kandy.services.getSubscriptions()\n  const isSubscribed = services.subscribed.length > 0\n  document.getElementById(&apos;auth-state&apos;).innerHTML = &apos;Subscribed: &apos; + isSubscribed\n  log(&apos;Subscription state changed.&apos;)\n  log(&apos;Subscribed services: &apos; + services.subscribed)\n})\n\nkandy.on(&apos;subscription:resub&apos;, function (params) {\n  log(&apos;Subscribed services: &apos; + params.isFailure ? &apos;Failed to resubscribe to services&apos; : &apos;Resubscribed to services&apos;)\n})\n\nkandy.on(&apos;subscription:error&apos;, function (params) {\n  log(&apos;Subscription error: &apos; + params.error.message + &apos; (&apos; + params.error.code + &apos;)&apos;)\n})\n\nfunction logout () {\n  kandy.services.unsubscribe([&apos;call&apos;, &apos;Presence&apos;, &apos;IM&apos;])\n}\n\nfunction logout () {\n  kandy.on(&apos;subscription:change&apos;, params => {\n    const services = kandy.services.getSubscriptions()\n    const isSubscribed = services.subscribed.length > 0\n    if (isSubscribed === false) {\n      // If user is not subscribed to services, then the user disconnected.\n      kandy.destroy()\n    }\n  })\n  kandy.services.unsubscribe([&apos;call&apos;, &apos;Presence&apos;, &apos;IM&apos;])\n}\n\n// Utility function for appending messages to the message div.\nfunction log (message) {\n  document.getElementById(&apos;messages&apos;).innerHTML += &apos;<div>&apos; + message + &apos;</div>&apos;\n}\n\n&quot;,&quot;html&quot;:&quot;<div id=\&quot;auth-state\&quot;>Subscribed: false</div>\n\n<input type=\&quot;submit\&quot; value=\&quot;Login\&quot; onclick=\&quot;login();\&quot; />\n<input type=\&quot;submit\&quot; value=\&quot;Subscribe\&quot; onclick=\&quot;subscribe();\&quot; />\n<input type=\&quot;submit\&quot; value=\&quot;Logout\&quot; onclick=\&quot;logout();\&quot; />\n\n<div id=\&quot;messages\&quot;></div>\n\n&quot;,&quot;css&quot;:&quot;&quot;,&quot;title&quot;:&quot;Kandy.io Authentication Demo&quot;,&quot;editors&quot;:&quot;101&quot;,&quot;js_external&quot;:&quot;https://cdn.jsdelivr.net/gh/Kandy-IO/kandy-link-js-sdk@484/dist/kandy.js&quot;} '><input type="image" src="./TryItOn-CodePen.png"></form>
 
