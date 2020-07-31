@@ -5,12 +5,82 @@ Kandy.js change log.
 - This project adheres to [Semantic Versioning](http://semver.org/).
 - This change log follows [keepachangelog.com](http://keepachangelog.com/) recommendations.
 
+## 4.18.0 - 2020-07-31
+
+### Important update
+
+With this release we're announcing the deprecation of `plan-b` SDP semantics and the intent
+to change the default SDP semantics to the standard compliant `unified-plan` semantics starting with
+the 4.19.0 release next month.
+
+This change has been on the horizon since the WebRTC standard
+committee chose `unified-plan` as the way forward. Since then, Chrome, has been on a path to
+make this change and eventually remove `plan-b` as a supported option.
+You can read about Chrome's transition plan here:
+[https://webrtc.org/getting-started/unified-plan-transition-guide](https://webrtc.org/getting-started/unified-plan-transition-guide)
+
+Browsers other than Chrome or Chrome-based browsers are unaffected by this change since they don't support `plan-b` and have supported `unified-plan` for a while.
+
+#### What does this mean for developers
+
+`unified-plan` support is available today and you can start testing your application today. In
+order to do so you need to change the sdpSemantics option in your configuration when creating the
+SDK like so:
+
+```javascript
+import { create } from '@kandy-io/link-sdk'
+const client = create({
+  call: {
+    sdpSemantics: 'unified-plan'
+    // ...
+  }
+})
+```
+
+Starting with 4.19, the above configuration will be the default.
+
+Additionally, in order to have the same user experience when performing mid-call operations, your
+application will need to make sure to handle 2 events that you may not have needed previously:
+
+- `media:sourceMuted` - Triggered when a track is muted at the source.
+- `media:sourceUnmuted` - Triggered when a track is unmuted at the source.
+
+These events will indicate when tracks (especially video tracks) should be displayed/rendered or not.
+
+To learn in detail how to use these events, please visit our tutorials.
+Choose the configuration that applies to you:
+
+- [Kandy-US](https://kandy-io.github.io/kandy-link-js-sdk/tutorials/?config=us#/Configurations)
+- [Kandy-EMEA](https://kandy-io.github.io/kandy-link-js-sdk/tutorials/?config=emea#/Configurations)
+- [Kandy-UAE](https://kandy-io.github.io/kandy-link-js-sdk/tutorials/?config=uae#/Configurations)
+
+### Added
+
+- Added new Call API `call.setSdpHandlers` for setting SDP Handlers after the SDK has been initialized. `KAA-2322`
+
+### Fixed
+
+- Fixed an issue preventing the playing of video tracks during a call on iOS Safari. `KAA-2382`
+- Fixed an issue preventing the proper termination of an audio+video outgoing call when camera was already in use. `KAA-2426`
+- Fixed error in tutorials that was pointing to the wrong server. `KAA-2458`
+- Fixed issue where uncaught errors in `setLocalDescription` were crashing the saga. These events are now being properly handled. `KAA-2460`
+- Fixed `media:sourceMuted` and `media:sourceUnmuted` events by adding `trackId` data instead of passing it in a single element array. `KAA-2455`
+
+### Changed
+
+- Removed the Call default values for BandwidthControls when adding media to a call. `KAA-2402`
+  - This affects the `make`, `answer`, `addMedia`, and `startVideo` Call APIs.
+  - If the `options.bandwidth` parameter is not provided, the SDK will now default to the browser's behaviour instead of setting its own bandwidth limits for audio and video (of 5000 each).
+- Updated the `webrtc-adapter` package (6.4.4 -> 7.6.3). `KAA-2381`
+- Added a small note to the documentation to inform that screensharing is not supported on iOS Safari. `KAA-2429`
+
 ## 4.17.0 - 2020-06-26
 
 ### Added
 
 - Added new parameter validation to all configs used with the `create` function. Incorrect parameters will log a `VALIDATION` message. `KAA-2223`
 - Added ability to add and remove services by updating a subscription using the subscription plugin. `KAA-2266`
+- Added new session level bandwidth limit parameter to the call API. The parameter is `call` and should be passed in the same options object as `audio` and `video` bandwidth controls. `KAA-2108`
 - Added documentation about `CodecSelectors` for `sdpHandlers.createCodecRemover`.
 - Added callId parameter passed to SDP pipeline handlers `call.SdpHandlerFunction`. `KAA-2242`
 
@@ -32,7 +102,7 @@ Kandy.js change log.
 
 ### Changed
 
-- Changed `call.getAvailableCodecs` Call API to return a Promise, so that caller can get the list of codecs as part of invkoing this API, without the need to setup a separate event listener. This does not impact the existing use of API. `KAA-2423`
+- Changed `call.getAvailableCodecs` Call API to return a Promise, so that caller can get the list of codecs as part of invoking this API, without the need to setup a separate event listener. This does not impact the existing use of API. `KAA-2423`
 
 ## 4.16.0 - 2020-05-29
 
@@ -244,7 +314,7 @@ Kandy.js change log.
 
 ### Fixed
 
-- Refixed an Authentication issue where connecting with invalid credentials for a pre-provisioned user would return an error event with misleading information. `KAA-1937`
+- Re-fixed an Authentication issue where connecting with invalid credentials for a pre-provisioned user would return an error event with misleading information. `KAA-1937`
 
 ## 4.7.0 - 2019-08-30
 
@@ -291,7 +361,7 @@ Kandy.js change log.
 ### Fixed
 
 - Fixed an issue where the `fetchMessages` function was not available on `Conversations` returned by `kandy.conversation.getAll()`. `KAA-1795`
-- Fixed transfered & joined calls not having updated remote participant data. `KAA-1725`
+- Fixed transferred & joined calls not having updated remote participant data. `KAA-1725`
 - Fixed Messaging from creating new conversations every time a message is received.
 - Fixed Messaging from not adding the `sender` property to sent messages.
 
@@ -363,10 +433,6 @@ Kandy.js change log.
 
 - Fixed an issue where the states property was not being defined on the call namespace (kandy.call.states). `KAA-1349`
 - Fixed a crash when using the Presence `fetch` API and receiving no data. `KAA-1169`.
-
-### Changed
-
-- Changed the default sdpSemantics to "unified-plan". `KAA-1427`
 
 ## 4.0.0 - 2019-02-01
 
