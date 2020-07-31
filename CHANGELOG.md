@@ -71,6 +71,7 @@ Choose the configuration that applies to you:
   - This affects the `make`, `answer`, `addMedia`, and `startVideo` Call APIs.
   - If the `options.bandwidth` parameter is not provided, the SDK will now default to the browser's behaviour instead of setting its own bandwidth limits for audio and video (of 5000 each).
 - Updated the `webrtc-adapter` package (6.4.4 -> 7.6.3). `KAA-2381`
+- Added a small note to the documentation to inform that screensharing is not supported on iOS Safari. `KAA-2429`
 
 ## 4.17.0 - 2020-06-26
 

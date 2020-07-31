@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.18.0-beta.486
+ * Version: 4.18.0-beta.487
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -27551,6 +27551,11 @@ function callAPI({ dispatch, getState }) {
      * @param {call.MediaConstraint} [media.videoOptions.height] The height of the video.
      * @param {call.MediaConstraint} [media.videoOptions.width] The width of the video.
      * @param {call.MediaConstraint} [media.videoOptions.frameRate] The frame rate of the video.
+     * @param {boolean} [media.screen=false] Whether the call should have screenshare on start. (Note: Screensharing is not supported on iOS Safari.)
+     * @param {Object} [media.screenOptions] Options for configuring the call's screenShare.
+     * @param {call.MediaConstraint} [media.screenOptions.height] The height of the screenShare.
+     * @param {call.MediaConstraint} [media.screenOptions.width] The width of the screenShare.
+     * @param {call.MediaConstraint} [media.screenOptions.frameRate] The frame rate of the screenShare.
      * @param {Object} [options]
      * @param {call.BandwidthControls} [options.bandwidth] Options for configuring media's bandwidth.
      * @param {call.DSCPControls} [options.dscpControls] Options for configuring DSCP markings on the media traffic
@@ -27603,13 +27608,13 @@ function callAPI({ dispatch, getState }) {
      * @param {Object} [media.audioOptions] Options for configuring the call's audio.
      * @param {call.MediaConstraint} [media.audioOptions.deviceId] ID of the microphone to receive audio from.
      * @param {boolean} [media.video=false] Whether the call should have video on start.
-     * @param {boolean} [media.screen=false] Whether the call should have screenshare on start.
      * @param {Object} [media.videoOptions] Options for configuring the call's video.
-     * @param {Object} [media.screenOptions] Options for configuring the call's screenShare.
      * @param {call.MediaConstraint} [media.videoOptions.deviceId] ID of the camera to receive video from.
      * @param {call.MediaConstraint} [media.videoOptions.height] The height of the video.
      * @param {call.MediaConstraint} [media.videoOptions.width] The width of the video.
      * @param {call.MediaConstraint} [media.videoOptions.frameRate] The frame rate of the video.
+     * @param {boolean} [media.screen=false] Whether the call should have screenshare on start. (Note: Screensharing is not supported on iOS Safari.)
+     * @param {Object} [media.screenOptions] Options for configuring the call's screenShare.
      * @param {call.MediaConstraint} [media.screenOptions.height] The height of the screenShare.
      * @param {call.MediaConstraint} [media.screenOptions.width] The width of the screenShare.
      * @param {call.MediaConstraint} [media.screenOptions.frameRate] The frame rate of the screenShare.
@@ -27719,13 +27724,13 @@ function callAPI({ dispatch, getState }) {
      * @param {Object} [media.audioOptions] Options for configuring the call's audio.
      * @param {call.MediaConstraint} [media.audioOptions.deviceId] ID of the microphone to receive audio from.
      * @param {boolean} [media.video=false] Whether the call should have video on start.
-     * @param {boolean} [media.screen=false] Whether the call should have screenshare on start.
      * @param {Object} [media.videoOptions] Options for configuring the call's video.
-     * @param {Object} [media.screenOptions] Options for configuring the call's screenShare.
      * @param {call.MediaConstraint} [media.videoOptions.deviceId] ID of the camera to receive video from.
      * @param {call.MediaConstraint} [media.videoOptions.height] The height of the video.
      * @param {call.MediaConstraint} [media.videoOptions.width] The width of the video.
      * @param {call.MediaConstraint} [media.videoOptions.frameRate] The frame rate of the video.
+     * @param {boolean} [media.screen=false] Whether the call should have screenshare on start. (Note: Screensharing is not supported on iOS Safari.)
+     * @param {Object} [media.screenOptions] Options for configuring the call's screenShare.
      * @param {call.MediaConstraint} [media.screenOptions.height] The height of the screenShare.
      * @param {call.MediaConstraint} [media.screenOptions.width] The width of the screenShare.
      * @param {call.MediaConstraint} [media.screenOptions.frameRate] The frame rate of the screenShare.
@@ -27767,13 +27772,13 @@ function callAPI({ dispatch, getState }) {
      * @param {Object} [media.audioOptions] Options for configuring the call's audio.
      * @param {call.MediaConstraint} [media.audioOptions.deviceId] ID of the microphone to receive audio from.
      * @param {boolean} [media.video=false] Whether the call should have video on start.
-     * @param {boolean} [media.screen=false] Whether the call should have screenshare on start.
      * @param {Object} [media.videoOptions] Options for configuring the call's video.
-     * @param {Object} [media.screenOptions] Options for configuring the call's screenShare.
      * @param {call.MediaConstraint} [media.videoOptions.deviceId] ID of the camera to receive video from.
      * @param {call.MediaConstraint} [media.videoOptions.height] The height of the video.
      * @param {call.MediaConstraint} [media.videoOptions.width] The width of the video.
      * @param {call.MediaConstraint} [media.videoOptions.frameRate] The frame rate of the video.
+     * @param {boolean} [media.screen=false] Whether the call should have screenshare on start. (Note: Screensharing is not supported on iOS Safari.)
+     * @param {Object} [media.screenOptions] Options for configuring the call's screenShare.
      * @param {call.MediaConstraint} [media.screenOptions.height] The height of the screenShare.
      * @param {call.MediaConstraint} [media.screenOptions.width] The width of the screenShare.
      * @param {call.MediaConstraint} [media.screenOptions.frameRate] The frame rate of the screenShare.
@@ -28015,7 +28020,7 @@ function callAPI({ dispatch, getState }) {
      * @param {Object}  [media={}] The media options to add to the call.
      * @param {boolean} [media.audio=false] Whether to add audio to the call.
      * @param {boolean} [media.video=false] Whether to add video to the call.
-     * @param {boolean} [media.screen=false] Whether to add the screenshare to the call.
+     * @param {boolean} [media.screen=false] Whether to add the screenshare to the call. (Note: Screensharing is not supported on iOS Safari.)
      * @param {Object}  [media.audioOptions] Options for configuring the call's audio.
      * @param {Object}  [media.videoOptions] Options for configuring the call's video.
      * @param {Object}  [media.screenOptions] Options for configuring the call's screenShare.
@@ -41350,7 +41355,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.18.0-beta.486';
+  return '4.18.0-beta.487';
 }
 
 /***/ }),
