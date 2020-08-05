@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.19.0-beta.493
+ * Version: 4.19.0-beta.494
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -41355,7 +41355,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.19.0-beta.493';
+  return '4.19.0-beta.494';
 }
 
 /***/ }),
@@ -59359,8 +59359,20 @@ function api({ dispatch, getState }) {
       return (0, _selectors.getProxyState)(getState()).proxyMode;
     },
 
-    /*
-     * Retrieve Proxy information.
+    /**
+     * Retrieve information about the proxy.
+     * @public
+     * @memberof proxy
+     * @method getInfo
+     * @returns {Object} [proxy] Object containing information about the proxy.
+     * @returns {boolean} [proxy.proxyMode] Current operating mode.
+     * @returns {boolean} [proxy.hasChannel] Proxy has a channel associated with it.
+     * @returns {boolean} [proxy.remoteInitialized] Proxy initialization state.
+     * @returns {Object} [proxy.browser] Details for the browser the proxy is using.
+     * @example
+     * const proxy = client.proxy.getInfo()
+     *
+     * log(`Proxy Browser in use: ${proxy.browser}, mode: ${proxy.proxyMode}, channel: ${proxy.hasChannel}, initialized: ${proxy.remoteInitialized}.`)
      */
     getInfo() {
       log.debug(_logs.API_LOG_TAG + 'proxy.getInfo');
