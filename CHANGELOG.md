@@ -7,6 +7,12 @@ Kandy.js change log.
 
 ## 4.19.0 - beta
 
+## 4.18.1 - 2020-08-12
+
+### Fixed
+
+- Fixed an issue preventing the setting of TURN credentials when user subscribes for services. `KAA-2469`
+
 ## 4.18.0 - 2020-07-31
 
 ### Important update

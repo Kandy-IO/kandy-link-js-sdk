@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.19.0-beta.498
+ * Version: 4.19.0-beta.499
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -32530,7 +32530,7 @@ function* setTurnCredentials() {
   // Check that the action is a succesful subscription that includes
   //    TURN information from the server.
   function hasTurnCredentials(action) {
-    return !action.error && (action.type === _actionTypes6.CONNECT_FINISHED && action.payload.subscription && action.payload.subscription.turnCredentials || action.type === _actionTypes5.SUBSCRIBE_FINISHED && action.payload.subscriptions && action.payload.subscriptions.turnCredentials);
+    return !action.error && (action.type === _actionTypes6.CONNECT_FINISHED && action.payload.subscription && action.payload.subscription.turnCredentials || action.type === _actionTypes5.SUBSCRIBE_FINISHED && action.payload.subscriptions && action.payload.subscriptions.length && action.payload.subscriptions[0].turnCredentials);
   }
 
   yield (0, _effects.takeEvery)(hasTurnCredentials, supportSagas.setTurnCredentials);
@@ -32654,7 +32654,7 @@ function* setTurnCredentials(action) {
   }
 
   // TURN credentials received from the server.
-  const turnCredentials = action.type === _actionTypes.CONNECT_FINISHED ? action.payload.subscription.turnCredentials : action.payload.subscriptions.turnCredentials;
+  const turnCredentials = action.type === _actionTypes.CONNECT_FINISHED ? action.payload.subscription.turnCredentials : action.payload.subscriptions[0].turnCredentials;
 
   const turnInfo = {
     credentials: turnCredentials,
@@ -41355,7 +41355,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.19.0-beta.498';
+  return '4.19.0-beta.499';
 }
 
 /***/ }),
