@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.remote.js
- * Version: 4.19.0-beta.500
+ * Version: 4.19.0-beta.501
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -14194,7 +14194,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.19.0-beta.500';
+  return '4.19.0-beta.501';
 }
 
 /***/ }),
@@ -14448,7 +14448,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * The format of logs can also be customized by providing a
  *    {@link logger.LogHandler LogHandler}. This function will receive a
  *    {@link logger.LogEntry LogEntry} which it can handle as it sees fit. By
- *    default, the SDK will log information to the console.
+ *    default, the SDK will log information to the console. For more
+ *    information, see the {@link logger Logs feature} description.
  *
  * @public
  * @static
