@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.19.0-beta.502
+ * Version: 4.19.0-beta.503
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -41355,7 +41355,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.19.0-beta.502';
+  return '4.19.0-beta.503';
 }
 
 /***/ }),
@@ -50653,9 +50653,24 @@ var _constants = __webpack_require__("../../packages/kandy/src/presence/link/con
 
 var _constants2 = __webpack_require__("../../packages/kandy/src/constants.js");
 
+var _logs = __webpack_require__("../../packages/kandy/src/logs/index.js");
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// Helpers
+// Presence plugin.
+const log = _logs.logManager.getLogger('PRESENCE');
+
+/**
+ * Entry to update user(s) presence.
+ * @method presenceUpdateSaga
+ */
+
+
+// Logs
+
 
 // Constants
 
@@ -50665,27 +50680,48 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function* presenceUpdateSaga() {
   yield (0, _effects.takeEvery)(actionTypes.UPDATE, updatePresence);
 }
-// Helpers
-// Presence plugin.
+
+/**
+ * Entry to get users(s) presence.
+ * @method presenceGetSaga
+ */
 function* presenceGetSaga() {
   yield (0, _effects.takeEvery)(actionTypes.GET, getPresence);
 }
 
+/**
+ * Entry to Subscribe for user(s) presence.
+ * @method presenceSubscribeSaga
+ */
 function* presenceSubscribeSaga() {
   yield (0, _effects.takeEvery)(actionTypes.SUBSCRIBE, subscribePresence);
 }
 
+/**
+ * Entry to Unsubscribe from the user(s) presence.
+ * @method presenceUnsubscribeSaga
+ */
 function* presenceUnsubscribeSaga() {
   yield (0, _effects.takeEvery)(actionTypes.UNSUBSCRIBE, unsubscribePresence);
 }
 
+/**
+ * Entry to presence notification message.
+ * @method presenceReceivedSaga
+ */
 function* presenceReceivedSaga() {
   yield (0, _effects.takeEvery)(action => action.type === _actionTypes2.NOTIFICATION_RECEIVED && action.payload.notificationMessage && action.payload.notificationMessage.eventType === 'presenceWatcher', receivePresence);
 }
 
+/**
+ * Link saga for updating user(s) Presence .
+ * @method updatePresence
+ * @param {Object} payload
+ */
 function* updatePresence({ payload }) {
   // Verify that the status value is a valid
   if ((0, _values2.default)(_constants.STATUS).indexOf(payload.status) === -1) {
+    log.debug('Invalid presence status present.');
     yield (0, _effects.put)(actions.updatePresenceFinish({
       error: new _errors2.default({
         code: _errors.presenceCodes.INVALID_STATUS,
@@ -50697,6 +50733,7 @@ function* updatePresence({ payload }) {
 
   // Verify that the activity value is a valid
   if ((0, _values2.default)(_constants.ACTIVITY).indexOf(payload.activity) === -1) {
+    log.debug('Invalid presence activity present.');
     yield (0, _effects.put)(actions.updatePresenceFinish({
       error: new _errors2.default({
         code: _errors.presenceCodes.INVALID_ACTIVITY,
@@ -50711,12 +50748,17 @@ function* updatePresence({ payload }) {
   requestInfo.version = platform === _constants2.platforms.UC ? 1 : requestInfo.version;
   const res = yield (0, _effects.call)(_requests.updatePresenceRequest, payload, requestInfo);
   if (res instanceof Error) {
+    log.debug(`Failed to update presence. Error is: ${res}`);
     yield (0, _effects.put)(actions.updatePresenceFinish(res));
   } else {
+    log.debug('Successfully updated presence.');
     yield (0, _effects.put)(actions.updatePresenceFinish(payload));
   }
 }
-
+/**
+ * Link saga for gettting the presence updates one time only for the user(s).
+ * @method getPresence
+ */
 function* getPresence({ payload }) {
   const users = Array.isArray(payload) ? payload : [payload];
   const requestInfo = yield (0, _effects.select)(_selectors.getRequestInfo);
@@ -50726,27 +50768,49 @@ function* getPresence({ payload }) {
   yield (0, _effects.put)(actions.getPresenceFinish(res));
 }
 
+/**
+ * Link saga for Handling subscribing to another users(s) presence.
+ * @method subscribePresence
+ */
 function* subscribePresence({ payload }) {
   const users = Array.isArray(payload) ? payload : [payload];
+  log.info(`Subscribing to the user(s) ${users} presence.`);
   const requestInfo = yield (0, _effects.select)(_selectors.getRequestInfo);
   const platform = yield (0, _effects.select)(_selectors.getPlatform);
   requestInfo.version = platform === _constants2.platforms.UC ? 1 : requestInfo.version;
+  // To start watching for presence updates for the subscribed user(s)
   const res = yield (0, _effects.call)(_requests.watchPresenceRequest, users, 'watch', requestInfo);
+  log.info(`Finished subscribing to user(s): ${users} with status code: ${res.presenceWatcherResponse.statusCode}`);
   res.presentityUserId = users;
   yield (0, _effects.put)(actions.subscribePresenceFinish(res));
 }
 
+/**
+ * Link saga for Handling unsubscribing the user(s) presence.
+ * User will not be able to recieve presence updates of the unsubscribed user.
+ * @method unsubscribePresence
+ */
 function* unsubscribePresence({ payload }) {
   const users = Array.isArray(payload) ? payload : [payload];
+  log.info(`UnSubscribing to the user(s) ${users} presence.`);
   const requestInfo = yield (0, _effects.select)(_selectors.getRequestInfo);
   const platform = yield (0, _effects.select)(_selectors.getPlatform);
   requestInfo.version = platform === _constants2.platforms.UC ? 1 : requestInfo.version;
+  // To stop user from getting updates of the unsubscribe user(s) presence.
   const res = yield (0, _effects.call)(_requests.watchPresenceRequest, users, 'stopwatch', requestInfo);
+  log.info(`Finished unSubscribing to user(s): ${users} with status code: ${res.presenceWatcherResponse.statusCode}`);
   yield (0, _effects.put)(actions.unsubscribePresenceFinish(res));
 }
 
+/**
+ * Link receivePresence saga.
+ * Handles the presence info recieved from the notification message.
+ * @method receivePresence
+ * @param {Object} wsAction
+ */
 function* receivePresence(wsAction) {
   const params = wsAction.payload.notificationMessage.presenceWatcherNotificationParams;
+  log.info(`Received notification of the user(s): ${params.name} present presence.`);
   const presence = {
     userId: params.name,
     activity: params.activity,
