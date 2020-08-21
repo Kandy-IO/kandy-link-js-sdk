@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.19.0-beta.507
+ * Version: 4.19.0-beta.508
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -42465,7 +42465,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.19.0-beta.507';
+  return '4.19.0-beta.508';
 }
 
 /***/ }),
@@ -54424,6 +54424,8 @@ exports.getNotificationChannels = getNotificationChannels;
 exports.getSubscribedServices = getSubscribedServices;
 exports.getSubscriptionInfo = getSubscriptionInfo;
 exports.getSubscriptions = getSubscriptions;
+exports.getSubscriptionExpiry = getSubscriptionExpiry;
+exports.getWebsocketConfig = getWebsocketConfig;
 
 var _fp = __webpack_require__("../../packages/kandy/node_modules/lodash/fp.js");
 
@@ -54528,6 +54530,42 @@ function getSubscriptions(state, service, type) {
   let subscriptions = state.subscription.subscriptions;
   subscriptions = subscriptions.filter(subscription => subscription.service === service && subscription.channelType === type);
   return (0, _fp.cloneDeep)(subscriptions);
+}
+
+/**
+ * Retrieve the subscription expiry time from config.
+ * @method getSubscriptionExpiry
+ * @return {number}
+ */
+function getSubscriptionExpiry(state) {
+  const subConfig = state.config.subscription;
+  const authConfig = state.config.authentication;
+
+  // In order to maintain backwards compability with the auth plugin config
+  // we need to first check if this setting is provided in the authentication plugin
+  // config, and if not use the one from subscription plugin.  We need to check
+  // authentication config first because if no value is provided in the subscription
+  // plugin, a default value will be used and we don't want that if one is provided in
+  // the authentication plugin.
+  return (0, _fp.cloneDeep)(authConfig.subscription.expires || subConfig.expires);
+}
+
+/**
+ * Retrieve the subscription expiry time from config.
+ * @method getSubscriptionExpiry
+ * @return {number}
+ */
+function getWebsocketConfig(state) {
+  const subConfig = state.config.subscription;
+  const authConfig = state.config.authentication;
+
+  // In order to maintain backwards compability with the auth plugin config
+  // we need to first check if this setting is provided in the authentication plugin
+  // config, and if not use the one from subscription plugin.  We need to check
+  // authentication config first because if no value is provided in the subscription
+  // plugin, a default value will be used and we don't want that if one is provided in
+  // the authentication plugin.
+  return (0, _fp.cloneDeep)(authConfig.websocket || subConfig.websocket);
 }
 
 /***/ }),
@@ -54762,8 +54800,11 @@ const log = _logs.logManager.getLogger('SUBSCRIPTION');
 /**
  * Subscribe to SPiDR with the provided information.
  * @method subscribe
+ * @param {Object} authConfig Configuration from the auth plugin.
+ * @param {number} expires Length in time to keep subscription.
  * @param  {Object} connection Server information.
- * @param  {Object} username User information.
+ * @param {Array} service List of services to subscribe to.
+ * @param  {Object} extras Additional parameters, currently only 'forceLogOut' is supported.
  * @return {Object} Subscription response.
  */
 
@@ -54772,7 +54813,7 @@ const log = _logs.logManager.getLogger('SUBSCRIPTION');
 
 
 // Libraries.
-function* subscribe(authConfig, subConfig, connection, service, extras = {}) {
+function* subscribe(authConfig, expires, connection, service, extras = {}) {
   const subscribeType = authConfig.isAnonymous ? 'anonymous' : 'user';
   let requestOptions = {};
   requestOptions.method = 'POST';
@@ -54781,7 +54822,7 @@ function* subscribe(authConfig, subConfig, connection, service, extras = {}) {
 
   requestOptions.body = (0, _stringify2.default)({
     subscribeRequest: {
-      expires: subConfig.expires,
+      expires: expires,
       service,
       localization: authConfig.localization || 'English_US',
       useTurn: authConfig.useTurn || true,
@@ -55231,17 +55272,17 @@ function* doSubscribe(action) {
     // Retrieve the connection info.
     const linkConnection = yield (0, _effects.select)(_selectors.getConnectionInfo);
 
+    // Get the configured expiry value for subscriptions
+    const expires = yield (0, _effects.select)(_selectors2.getSubscriptionExpiry);
+
     let _action$payload = action.payload,
         { services } = _action$payload,
         options = (0, _objectWithoutProperties3.default)(_action$payload, ['services']);
     const requestOptions = (0, _utils.mergeValues)(options, linkConnection.requestOptions);
 
-    // Retrieve the subscription config.
-    const subConfig = yield (0, _effects.select)(_selectors2.getSubscriptionConfig);
-
     services = services.map(subscription => subscription.service);
 
-    const response = yield (0, _effects.call)(_subscriptions.subscribe, authConfig, subConfig, linkConnection, services, requestOptions);
+    const response = yield (0, _effects.call)(_subscriptions.subscribe, authConfig, expires, linkConnection, services, requestOptions);
 
     if (response.error) {
       yield (0, _effects.put)(actions.subscribeFinished({ error: response.error }));
@@ -55268,10 +55309,11 @@ function* doSubscribe(action) {
     // Need to create a new object, rather than adding `url` to
     // connectionInfo in order to prevent state mutation.
     // Format the response to pass off to the connectivity plugin.
+    const websocketConfig = yield (0, _effects.select)(_selectors2.getWebsocketConfig);
     const websocketInfo = {
       protocol: 'wss',
-      server: subConfig.websocket.server || authConfig.websocket.server,
-      port: subConfig.websocket.port || authConfig.websocket.port,
+      server: websocketConfig.server,
+      port: websocketConfig.port,
       url: subscription.notificationChannel,
       params: params
 

@@ -7,6 +7,10 @@ Kandy.js change log.
 
 ## 4.19.0 - beta
 
+### Fixed
+
+- Fixed backwards compatibility with authentication and subscription plugins. SDK will now respect old config `authentication.subscription.expires` and `authentication.websocket`. It is still recommended for clients to move to the new config and api for authentication and subscription. `KAA-2477` `KAA-2483`
+
 ## 4.18.1 - 2020-08-12
 
 ### Fixed
