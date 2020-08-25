@@ -7,6 +7,11 @@ Kandy.js change log.
 
 ## 4.19.0 - beta
 
+### Added
+
+- Added a new Logging tutorial. `KAA-2464`
+  - Explains how the SDK's logging system works and how an application can customize its behaviour.
+
 ### Fixed
 
 - Fixed backwards compatibility with authentication and subscription plugins. SDK will now respect old config `authentication.subscription.expires` and `authentication.websocket`. It is still recommended for clients to move to the new config and api for authentication and subscription. `KAA-2477` `KAA-2483`
