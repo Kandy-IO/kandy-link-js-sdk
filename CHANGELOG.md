@@ -5,6 +5,21 @@ Kandy.js change log.
 - This project adheres to [Semantic Versioning](http://semver.org/).
 - This change log follows [keepachangelog.com](http://keepachangelog.com/) recommendations.
 
+## 4.19.0 - 2020-08-28
+
+### SDP Semantics Defaults
+
+We've decided to wait to change the default SDP Semantics to `unified-plan`. We've identified some issues in some solutions that we would like to resolve before making the change. It's still a good idea to prepare and test your application with unified plan turned on in order to be ready when the change takes place.
+
+### Added
+
+- Added a new Logging tutorial. `KAA-2464`
+  - Explains how the SDK's logging system works and how an application can customize its behaviour.
+
+### Fixed
+
+- Fixed backwards compatibility with authentication and subscription plugins. SDK will now respect old config `authentication.subscription.expires` and `authentication.websocket`. It is still recommended for clients to move to the new config and api for authentication and subscription. `KAA-2477` `KAA-2483` `KAA-2489`
+
 ## 4.18.1 - 2020-08-12
 
 ### Fixed
@@ -16,8 +31,7 @@ Kandy.js change log.
 ### Important update
 
 With this release we're announcing the deprecation of `plan-b` SDP semantics and the intent
-to change the default SDP semantics to the standard compliant `unified-plan` semantics starting with
-the 4.19.0 release next month.
+to change the default SDP semantics to the standard compliant `unified-plan` semantics in an upcoming release.
 
 This change has been on the horizon since the WebRTC standard
 committee chose `unified-plan` as the way forward. Since then, Chrome, has been on a path to
@@ -43,7 +57,7 @@ const client = create({
 })
 ```
 
-Starting with 4.19, the above configuration will be the default.
+The above configuration will become the default in an upcoming release.
 
 Additionally, in order to have the same user experience when performing mid-call operations, your
 application will need to make sure to handle 2 events that you may not have needed previously:
