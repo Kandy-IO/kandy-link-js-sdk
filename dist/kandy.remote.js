@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.remote.js
- * Version: 4.19.0-beta.514
+ * Version: 4.20.0-beta.515
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -14198,7 +14198,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.19.0-beta.514';
+  return '4.20.0-beta.515';
 }
 
 /***/ }),
@@ -15319,6 +15319,8 @@ const prefix = '@@KANDY/WEBRTC/';
  * Device action types.
  */
 const DEVICES_CHANGE = exports.DEVICES_CHANGE = prefix + 'DEVICES/CHANGE';
+const INITIALIZE_DEVICES = exports.INITIALIZE_DEVICES = prefix + 'INITIALIZE_DEVICES';
+const INITIALIZE_DEVICES_FINISH = exports.INITIALIZE_DEVICES_FINISH = prefix + 'INITIALIZE_DEVICES_FINISH';
 
 /**
  * Track action types.
@@ -15386,6 +15388,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.devicesChanged = devicesChanged;
+exports.initializeDevice = initializeDevice;
+exports.initializeDeviceFinish = initializeDeviceFinish;
 
 var _actionTypes = __webpack_require__("../../packages/kandy/src/webrtc/interface/actionTypes.js");
 
@@ -15399,6 +15403,27 @@ function devicesChanged(devices) {
     payload: devices
   };
 } // Webrtc plugin.
+function initializeDevice(browserConstraints) {
+  return {
+    type: actionTypes.INITIALIZE_DEVICES,
+    payload: browserConstraints
+  };
+}
+
+/**
+ * The finishing action which follows the INITIALIZE_DEVICES action
+ * @param {Object} $0
+ * @param {Object} [$0.devices] The device object.
+ * @param {Object} [$0.error] An error object. Only present if an error occurred.
+ * @returns {Object} A flux standard action representing the INITIALIZE_DEVICES_FINISH action.
+ */
+function initializeDeviceFinish({ devices, error }) {
+  return {
+    payload: error || devices,
+    error: Boolean(error),
+    type: actionTypes.INITIALIZE_DEVICES_FINISH
+  };
+}
 
 /***/ }),
 
@@ -15894,6 +15919,8 @@ Object.defineProperty(exports, "__esModule", {
 /**
  * Device Manager "converter".
  * Receives a webRTC command intended for the Device Manager, performs the webRTC
+ *\
+ \
  *    operation and returns/resolves a proxy response.
  * @method deviceManager
  * @param {Object} webRTC The local webRTC stack.
@@ -15903,9 +15930,18 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = async function deviceManager(webRTC, command) {
   const { operation, params } = command;
   const manager = webRTC.managers.devices;
-
-  // General case: Don't convert the return.
-  return manager[operation](...params);
+  if (operation === 'setupDeviceInitialization') {
+    try {
+      const devices = await manager.setupDeviceInitialization(...params);
+      return devices;
+    } catch (err) {
+      console.error('Error: ', err);
+      return { name: err.name, message: err.message, error: true };
+    }
+  } else {
+    // General case: Don't convert the return.
+    return manager[operation](...params);
+  }
 };
 
 /***/ }),
@@ -20196,6 +20232,25 @@ function DeviceManager() {
   }
 
   /**
+   * Ask for permission and gets the list of available device(s) available from the end-user's devices.
+   * @method setupDeviceInitialization
+   * @param browserContraints
+   * @return {Object}
+   */
+
+  function setupDeviceInitialization(browserContraints) {
+    return new _promise2.default((resolve, reject) => {
+      navigator.mediaDevices.getUserMedia(browserContraints).then(mediaStream => {
+        mediaStream.getTracks().forEach(track => {
+          track.stop();
+        });
+        const devices = checkDevices();
+        resolve(devices);
+      }).catch(reject);
+    });
+  }
+
+  /**
    * Retrieves the stored device lists.
    * @method get
    * @return {Object}
@@ -20225,6 +20280,7 @@ function DeviceManager() {
    */
   return {
     checkDevices,
+    setupDeviceInitialization,
     get,
     on,
     once,
