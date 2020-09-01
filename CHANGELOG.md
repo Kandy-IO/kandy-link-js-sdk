@@ -11,6 +11,11 @@ Kandy.js change log.
 
 - Added a new media API `media.initializeDevices`to get the list of available media devices with permission from the users-end device. `KAA-2445`
 
+### Fixed
+
+- Fixed issue where we weren't creating joined calls with the same media constraints
+  and bandwidth as the original call. `KAA-2304`
+
 ## 4.19.0 - 2020-08-28
 
 ### SDP Semantics Defaults
