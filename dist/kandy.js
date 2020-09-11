@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.20.0-beta.525
+ * Version: 4.20.0-beta.526
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -25171,6 +25171,17 @@ const AUTH_ERROR = exports.AUTH_ERROR = 'auth:error';
  */
 const AUTH_RESUB = exports.AUTH_RESUB = 'auth:resub';
 
+/**
+ * The information needed for connecting has been set.
+ * This event would only occur when the credentials for 3.x SDk as been set.
+ *
+ * @public
+ * @memberof api
+ * @requires connect
+ * @event auth:credentialsSet
+ */
+const AUTH_CREDENTIALS_SET = exports.AUTH_CREDENTIALS_SET = 'auth:credentialsSet';
+
 /***/ }),
 
 /***/ "../../packages/kandy/src/auth/interface/events.js":
@@ -25191,6 +25202,8 @@ var _actionTypes = __webpack_require__("../../packages/kandy/src/auth/interface/
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
+var _version = __webpack_require__("../../packages/kandy/src/common/version.js");
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function authChangedEvent(action) {
@@ -25199,6 +25212,9 @@ function authChangedEvent(action) {
     args: action.error ? { error: action.payload } : {}
   };
 }
+
+// Helpers
+
 
 const eventsMap = {};
 
@@ -25232,6 +25248,17 @@ eventsMap[actionTypes.RESUBSCRIPTION_FINISHED] = function (action) {
     resubEvent.args.error = action.payload;
   }
   return resubEvent;
+};
+
+eventsMap[actionTypes.SET_CONNECTION_INFO] = function (action) {
+  const version = (0, _version.getVersion)();
+  const matchedVersion = version.startsWith('3');
+
+  if (matchedVersion) {
+    return {
+      type: eventTypes.AUTH_CREDENTIALS_SET
+    };
+  }
 };
 
 exports.default = eventsMap;
@@ -41368,7 +41395,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.20.0-beta.525';
+  return '4.20.0-beta.526';
 }
 
 /***/ }),
