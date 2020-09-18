@@ -20,6 +20,10 @@ Kandy.js change log.
 - Fixed issue where we weren't creating joined calls with the same media constraints
   and bandwidth as the original call. `KAA-2304`
 
+### Changed
+
+- Updated tutorial codepens to be more robust around authentication and subscription operations. `KAA-2491`
+
 ## 4.19.0 - 2020-08-28
 
 ### SDP Semantics Defaults
