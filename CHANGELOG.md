@@ -20,6 +20,8 @@ Kandy.js change log.
 - Fixed issue where we weren't creating joined calls with the same media constraints
   and bandwidth as the original call. `KAA-2304`
 
+- Fixed documentation for `renderTracks` function to correctly use `track.trackId` instead of the incorrect `track.id`. `KAA-2502`
+
 ### Changed
 
 - Updated tutorial codepens to be more robust around authentication and subscription operations. `KAA-2491`
