@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.remote.js
- * Version: 4.20.0-beta.538
+ * Version: 4.20.0-beta.539
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -14198,7 +14198,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.20.0-beta.538';
+  return '4.20.0-beta.539';
 }
 
 /***/ }),
@@ -17464,15 +17464,6 @@ const defaultType = (0, _symbol2.default)('Default');
  * @return {LogManager}
  */
 function createManager(options = {}) {
-  /*
-   * This log is pointless, but is here to workaround a weird issue in Chrome.
-   * The Chrome console will lag when it is loading the sourcemap for a file.
-   *    Logging from the SDK will force Chrome to load its sourcemap (if its
-   *    not already loaded). So this ensures that /something/ is logged from the
-   *    SDK file as early as possible, to help avoid this lag being visible to
-   *    a developer.
-   */
-  console.debug('Creating LogManager.');
   const loggers = {};
 
   /**
