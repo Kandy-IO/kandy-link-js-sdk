@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.remote.js
- * Version: 4.20.0-beta.546
+ * Version: 4.21.0-beta.547
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -14198,7 +14198,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.20.0-beta.546';
+  return '4.21.0-beta.547';
 }
 
 /***/ }),
@@ -14386,6 +14386,43 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = defaultActionHandler;
+/* Helper function for styling logs based on the log type.
+ * This function will inspect the log entry and format the log
+ * accordingly.
+ */
+function styleLog(entry) {
+  const { timestamp, level } = entry;
+  const logInfo = `${timestamp} - ACTION - ${level}`;
+
+  let [logType, payload] = entry.messages;
+
+  let prefix;
+  let style = '';
+  if (logType.includes('state')) {
+    // If the log is for prev state / next state, display that in the prefix.
+    prefix = `${logInfo} - ${logType.toUpperCase()}`;
+  } else if (logType.includes('ADDED') || logType.includes('DELETED') || logType.includes('ARRAY')) {
+    // If the log has added or removed keys from state, log the operation, keys affected and new values.
+    prefix = `${entry.messages[0]}: ${entry.messages[2]}`;
+    style = entry.messages[1];
+    payload = entry.messages[3];
+  } else if (logType.includes('CHANGED')) {
+    // If the log has changed keys in state, log the operation, keys, old and new values.
+    prefix = `${entry.messages[0]}: ${entry.messages[2]}`;
+    style = entry.messages[1];
+    payload = `${entry.messages[3]} ${entry.messages[4]} ${entry.messages[5]}`;
+  } else if (logType.includes('no diff')) {
+    // If action results in no change in state, just log no diff.
+    prefix = `${logInfo} - NO DIFF`;
+    payload = '';
+  } else {
+    // Else the log is the action itself, so use the action type.
+    prefix = `${logInfo} - ${payload.type} - ${logType}`;
+  }
+
+  return { prefix, style, payload };
+}
+
 /**
  * Default function for the SDK to use for logging actions.
  * Action entries come in 4 different types:
@@ -14407,21 +14444,8 @@ function defaultActionHandler(entry) {
     return;
   }
 
-  const { timestamp, level } = entry;
-  const logInfo = `${timestamp} - ACTION - ${level}`;
-
-  const [logType, payload] = entry.messages;
-
-  let prefix;
-  if (logType.includes('state')) {
-    // If the log is for prev state / next state, display that in the prefix.
-    prefix = `${logInfo} - ${logType.toUpperCase()}`;
-  } else {
-    // Else the log is the action itself, so use the action type.
-    prefix = `${logInfo} - ${payload.type}`;
-  }
-
-  console[entry.method](prefix, payload);
+  const { prefix, style, payload } = styleLog(entry);
+  console[entry.method](prefix, style, payload);
 }
 
 /***/ }),
@@ -14435,7 +14459,7 @@ function defaultActionHandler(entry) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.defaultOptions = undefined;
+exports.partialDefaultLogActions = exports.defaultOptions = undefined;
 
 var _actionHandler = __webpack_require__("../../packages/kandy/src/logs/actions/actionHandler.js");
 
@@ -14468,12 +14492,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *    to the console.
  * @param  {boolean} [logs.enableFcsLogs=true] Enable the detailed call logger
  *    for v3.X. Requires log level debug.
- * @param {Object|boolean} [logs.logActions] Options specifically for action logs when
+ * @param {Object|boolean} [logs.logActions=false] Options specifically for action logs when
  *    logLevel is at DEBUG+ levels. Set this to false to not output action logs.
  * @param {logger.LogHandler} [logs.logActions.handler] The function to receive action
  *    log entries from the SDK. If not provided, a default handler will be used
  *    that logs actions to the console.
- * @param {boolean} [logs.logActions.actionOnly=true] Only output information
+ * @param {boolean} [logs.logActions.actionOnly=false] Only output information
  *    about the action itself. Omits the SDK context for when it occurred.
  * @param {boolean} [logs.logActions.collapsed=false] Whether logs should be
  *    minimized when initially output. The full log is still output and can be
@@ -14482,23 +14506,23 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *    context was changed by the action.
  * @param {string}  [logs.logActions.level='debug'] Log level to be set
  *    on the action logs
- * @param {boolean} [logs.logActions.exposePayloads=false] Allow action payloads
+ * @param {boolean} [logs.logActions.exposePayloads=true] Allow action payloads
  *    to be exposed in the logs, potentially displaying sensitive information.
  */
 const defaultOptions = exports.defaultOptions = {
   logLevel: 'debug',
   handler: undefined,
   enableFcsLogs: true,
+  logActions: false
+};
 
-  // Action-specific configs.
-  logActions: {
-    handler: _actionHandler2.default,
-    actionOnly: true,
-    collapsed: false,
-    diff: false,
-    level: 'debug',
-    exposePayloads: false
-  }
+const partialDefaultLogActions = exports.partialDefaultLogActions = {
+  handler: _actionHandler2.default,
+  actionOnly: false,
+  collapsed: false,
+  diff: false,
+  level: 'debug',
+  exposePayloads: true
   /*
    * TODO: Figure out a way to work around this.
    * Can't use validation in logging because validation uses logging to output errors.
