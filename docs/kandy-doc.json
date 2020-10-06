@@ -8065,6 +8065,673 @@
                 "children": [
                   {
                     "type": "text",
+                    "value": "Connect with user credentials to any backend services that the SDK instance deals with.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 88,
+                        "offset": 87
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 88,
+                    "offset": 87
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 88,
+                "offset": 87
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "public",
+              "description": null,
+              "lineNumber": 3,
+              "type": null
+            },
+            {
+              "title": "memberof",
+              "description": "api",
+              "lineNumber": 4
+            },
+            {
+              "title": "requires",
+              "description": null,
+              "lineNumber": 5,
+              "name": "userCredentialsAuth"
+            },
+            {
+              "title": "method",
+              "description": null,
+              "lineNumber": 6,
+              "name": "connect"
+            },
+            {
+              "title": "param",
+              "description": "The credentials object.",
+              "lineNumber": 7,
+              "type": {
+                "type": "NameExpression",
+                "name": "Object"
+              },
+              "name": "credentials"
+            },
+            {
+              "title": "param",
+              "description": "The username including the application's domain.",
+              "lineNumber": 8,
+              "type": {
+                "type": "NameExpression",
+                "name": "string"
+              },
+              "name": "credentials.username"
+            },
+            {
+              "title": "param",
+              "description": "The user's password.",
+              "lineNumber": 9,
+              "type": {
+                "type": "NameExpression",
+                "name": "string"
+              },
+              "name": "credentials.password"
+            },
+            {
+              "title": "param",
+              "description": "The user's authorization name.",
+              "lineNumber": 10,
+              "type": {
+                "type": "OptionalType",
+                "expression": {
+                  "type": "NameExpression",
+                  "name": "string"
+                }
+              },
+              "name": "credentials.authname"
+            },
+            {
+              "title": "param",
+              "description": "The options object for non-credential options.",
+              "lineNumber": 11,
+              "type": {
+                "type": "OptionalType",
+                "expression": {
+                  "type": "NameExpression",
+                  "name": "Object"
+                }
+              },
+              "name": "options"
+            },
+            {
+              "title": "param",
+              "description": "Force the oldest connection to log out if too many simultaneous connections. Link only.",
+              "lineNumber": 12,
+              "type": {
+                "type": "OptionalType",
+                "expression": {
+                  "type": "NameExpression",
+                  "name": "boolean"
+                }
+              },
+              "name": "options.forceLogOut"
+            },
+            {
+              "title": "param",
+              "description": "Unique ID for the client. This is used by the platform to identify an instance of the application used by the specific device.",
+              "lineNumber": 13,
+              "type": {
+                "type": "OptionalType",
+                "expression": {
+                  "type": "NameExpression",
+                  "name": "string"
+                }
+              },
+              "name": "options.clientCorrelator"
+            },
+            {
+              "title": "example",
+              "description": "client.connect({\n  username: 'alfred@example.com',\n  password: '********'\n  authname: '********'\n}, {\n  forceLogOut: true\n});",
+              "lineNumber": 14
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 19,
+              "column": 4
+            },
+            "end": {
+              "line": 41,
+              "column": 7
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 156,
+                "column": 4
+              },
+              "end": {
+                "line": 161,
+                "column": 5
+              }
+            },
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/auth/interface/api.js"
+          },
+          "augments": [],
+          "examples": [
+            {
+              "description": "client.connect({\n  username: 'alfred@example.com',\n  password: '********'\n  authname: '********'\n}, {\n  forceLogOut: true\n});"
+            }
+          ],
+          "params": [
+            {
+              "title": "param",
+              "name": "credentials",
+              "lineNumber": 7,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "The credentials object.",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 24,
+                            "offset": 23
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 24,
+                        "offset": 23
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 24,
+                    "offset": 23
+                  }
+                }
+              },
+              "type": {
+                "type": "NameExpression",
+                "name": "Object"
+              },
+              "properties": [
+                {
+                  "title": "param",
+                  "name": "credentials.username",
+                  "lineNumber": 8,
+                  "description": {
+                    "type": "root",
+                    "children": [
+                      {
+                        "type": "paragraph",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "The username including the application's domain.",
+                            "position": {
+                              "start": {
+                                "line": 1,
+                                "column": 1,
+                                "offset": 0
+                              },
+                              "end": {
+                                "line": 1,
+                                "column": 49,
+                                "offset": 48
+                              },
+                              "indent": []
+                            }
+                          }
+                        ],
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 49,
+                            "offset": 48
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 49,
+                        "offset": 48
+                      }
+                    }
+                  },
+                  "type": {
+                    "type": "NameExpression",
+                    "name": "string"
+                  }
+                },
+                {
+                  "title": "param",
+                  "name": "credentials.password",
+                  "lineNumber": 9,
+                  "description": {
+                    "type": "root",
+                    "children": [
+                      {
+                        "type": "paragraph",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "The user's password.",
+                            "position": {
+                              "start": {
+                                "line": 1,
+                                "column": 1,
+                                "offset": 0
+                              },
+                              "end": {
+                                "line": 1,
+                                "column": 21,
+                                "offset": 20
+                              },
+                              "indent": []
+                            }
+                          }
+                        ],
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 21,
+                            "offset": 20
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 21,
+                        "offset": 20
+                      }
+                    }
+                  },
+                  "type": {
+                    "type": "NameExpression",
+                    "name": "string"
+                  }
+                },
+                {
+                  "title": "param",
+                  "name": "credentials.authname",
+                  "lineNumber": 10,
+                  "description": {
+                    "type": "root",
+                    "children": [
+                      {
+                        "type": "paragraph",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "The user's authorization name.",
+                            "position": {
+                              "start": {
+                                "line": 1,
+                                "column": 1,
+                                "offset": 0
+                              },
+                              "end": {
+                                "line": 1,
+                                "column": 31,
+                                "offset": 30
+                              },
+                              "indent": []
+                            }
+                          }
+                        ],
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 31,
+                            "offset": 30
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 31,
+                        "offset": 30
+                      }
+                    }
+                  },
+                  "type": {
+                    "type": "OptionalType",
+                    "expression": {
+                      "type": "NameExpression",
+                      "name": "string"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "title": "param",
+              "name": "options",
+              "lineNumber": 11,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "The options object for non-credential options.",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 47,
+                            "offset": 46
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 47,
+                        "offset": 46
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 47,
+                    "offset": 46
+                  }
+                }
+              },
+              "type": {
+                "type": "OptionalType",
+                "expression": {
+                  "type": "NameExpression",
+                  "name": "Object"
+                }
+              },
+              "properties": [
+                {
+                  "title": "param",
+                  "name": "options.forceLogOut",
+                  "lineNumber": 12,
+                  "description": {
+                    "type": "root",
+                    "children": [
+                      {
+                        "type": "paragraph",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "Force the oldest connection to log out if too many simultaneous connections. Link only.",
+                            "position": {
+                              "start": {
+                                "line": 1,
+                                "column": 1,
+                                "offset": 0
+                              },
+                              "end": {
+                                "line": 1,
+                                "column": 88,
+                                "offset": 87
+                              },
+                              "indent": []
+                            }
+                          }
+                        ],
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 88,
+                            "offset": 87
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 88,
+                        "offset": 87
+                      }
+                    }
+                  },
+                  "type": {
+                    "type": "OptionalType",
+                    "expression": {
+                      "type": "NameExpression",
+                      "name": "boolean"
+                    }
+                  }
+                },
+                {
+                  "title": "param",
+                  "name": "options.clientCorrelator",
+                  "lineNumber": 13,
+                  "description": {
+                    "type": "root",
+                    "children": [
+                      {
+                        "type": "paragraph",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "Unique ID for the client. This is used by the platform to identify an instance of the application used by the specific device.",
+                            "position": {
+                              "start": {
+                                "line": 1,
+                                "column": 1,
+                                "offset": 0
+                              },
+                              "end": {
+                                "line": 1,
+                                "column": 127,
+                                "offset": 126
+                              },
+                              "indent": []
+                            }
+                          }
+                        ],
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 127,
+                            "offset": 126
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 127,
+                        "offset": 126
+                      }
+                    }
+                  },
+                  "type": {
+                    "type": "OptionalType",
+                    "expression": {
+                      "type": "NameExpression",
+                      "name": "string"
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
+          "access": "public",
+          "memberof": "api",
+          "kind": "function",
+          "name": "connect",
+          "members": {
+            "global": [],
+            "inner": [],
+            "instance": [],
+            "events": [],
+            "static": []
+          },
+          "path": [
+            {
+              "name": "api",
+              "kind": "module"
+            },
+            {
+              "name": "connect",
+              "kind": "function"
+            }
+          ],
+          "namespace": "apiconnect"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
                     "value": "Connect by providing a username and HMAC token. This connects to any backend services that the SDK instance deals with.\nAn HMAC token is used to verify a user via the user's authorization within an organization.\nHMAC tokens are generated by using the HmacSHA1 algorithm and a key on a data object\ncontaining an ",
                     "position": {
                       "start": {
@@ -8730,673 +9397,6 @@
                   "title": "param",
                   "name": "options.clientCorrelator",
                   "lineNumber": 17,
-                  "description": {
-                    "type": "root",
-                    "children": [
-                      {
-                        "type": "paragraph",
-                        "children": [
-                          {
-                            "type": "text",
-                            "value": "Unique ID for the client. This is used by the platform to identify an instance of the application used by the specific device.",
-                            "position": {
-                              "start": {
-                                "line": 1,
-                                "column": 1,
-                                "offset": 0
-                              },
-                              "end": {
-                                "line": 1,
-                                "column": 127,
-                                "offset": 126
-                              },
-                              "indent": []
-                            }
-                          }
-                        ],
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 127,
-                            "offset": 126
-                          },
-                          "indent": []
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 127,
-                        "offset": 126
-                      }
-                    }
-                  },
-                  "type": {
-                    "type": "OptionalType",
-                    "expression": {
-                      "type": "NameExpression",
-                      "name": "string"
-                    }
-                  }
-                }
-              ]
-            }
-          ],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
-          "access": "public",
-          "memberof": "api",
-          "kind": "function",
-          "name": "connect",
-          "members": {
-            "global": [],
-            "inner": [],
-            "instance": [],
-            "events": [],
-            "static": []
-          },
-          "path": [
-            {
-              "name": "api",
-              "kind": "module"
-            },
-            {
-              "name": "connect",
-              "kind": "function"
-            }
-          ],
-          "namespace": "apiconnect"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Connect with user credentials to any backend services that the SDK instance deals with.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 88,
-                        "offset": 87
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 88,
-                    "offset": 87
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 88,
-                "offset": 87
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "public",
-              "description": null,
-              "lineNumber": 3,
-              "type": null
-            },
-            {
-              "title": "memberof",
-              "description": "api",
-              "lineNumber": 4
-            },
-            {
-              "title": "requires",
-              "description": null,
-              "lineNumber": 5,
-              "name": "userCredentialsAuth"
-            },
-            {
-              "title": "method",
-              "description": null,
-              "lineNumber": 6,
-              "name": "connect"
-            },
-            {
-              "title": "param",
-              "description": "The credentials object.",
-              "lineNumber": 7,
-              "type": {
-                "type": "NameExpression",
-                "name": "Object"
-              },
-              "name": "credentials"
-            },
-            {
-              "title": "param",
-              "description": "The username including the application's domain.",
-              "lineNumber": 8,
-              "type": {
-                "type": "NameExpression",
-                "name": "string"
-              },
-              "name": "credentials.username"
-            },
-            {
-              "title": "param",
-              "description": "The user's password.",
-              "lineNumber": 9,
-              "type": {
-                "type": "NameExpression",
-                "name": "string"
-              },
-              "name": "credentials.password"
-            },
-            {
-              "title": "param",
-              "description": "The user's authorization name.",
-              "lineNumber": 10,
-              "type": {
-                "type": "OptionalType",
-                "expression": {
-                  "type": "NameExpression",
-                  "name": "string"
-                }
-              },
-              "name": "credentials.authname"
-            },
-            {
-              "title": "param",
-              "description": "The options object for non-credential options.",
-              "lineNumber": 11,
-              "type": {
-                "type": "OptionalType",
-                "expression": {
-                  "type": "NameExpression",
-                  "name": "Object"
-                }
-              },
-              "name": "options"
-            },
-            {
-              "title": "param",
-              "description": "Force the oldest connection to log out if too many simultaneous connections. Link only.",
-              "lineNumber": 12,
-              "type": {
-                "type": "OptionalType",
-                "expression": {
-                  "type": "NameExpression",
-                  "name": "boolean"
-                }
-              },
-              "name": "options.forceLogOut"
-            },
-            {
-              "title": "param",
-              "description": "Unique ID for the client. This is used by the platform to identify an instance of the application used by the specific device.",
-              "lineNumber": 13,
-              "type": {
-                "type": "OptionalType",
-                "expression": {
-                  "type": "NameExpression",
-                  "name": "string"
-                }
-              },
-              "name": "options.clientCorrelator"
-            },
-            {
-              "title": "example",
-              "description": "client.connect({\n  username: 'alfred@example.com',\n  password: '********'\n  authname: '********'\n}, {\n  forceLogOut: true\n});",
-              "lineNumber": 14
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 19,
-              "column": 4
-            },
-            "end": {
-              "line": 41,
-              "column": 7
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 156,
-                "column": 4
-              },
-              "end": {
-                "line": 161,
-                "column": 5
-              }
-            },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/auth/interface/api.js"
-          },
-          "augments": [],
-          "examples": [
-            {
-              "description": "client.connect({\n  username: 'alfred@example.com',\n  password: '********'\n  authname: '********'\n}, {\n  forceLogOut: true\n});"
-            }
-          ],
-          "params": [
-            {
-              "title": "param",
-              "name": "credentials",
-              "lineNumber": 7,
-              "description": {
-                "type": "root",
-                "children": [
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "The credentials object.",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 24,
-                            "offset": 23
-                          },
-                          "indent": []
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 24,
-                        "offset": 23
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 24,
-                    "offset": 23
-                  }
-                }
-              },
-              "type": {
-                "type": "NameExpression",
-                "name": "Object"
-              },
-              "properties": [
-                {
-                  "title": "param",
-                  "name": "credentials.username",
-                  "lineNumber": 8,
-                  "description": {
-                    "type": "root",
-                    "children": [
-                      {
-                        "type": "paragraph",
-                        "children": [
-                          {
-                            "type": "text",
-                            "value": "The username including the application's domain.",
-                            "position": {
-                              "start": {
-                                "line": 1,
-                                "column": 1,
-                                "offset": 0
-                              },
-                              "end": {
-                                "line": 1,
-                                "column": 49,
-                                "offset": 48
-                              },
-                              "indent": []
-                            }
-                          }
-                        ],
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 49,
-                            "offset": 48
-                          },
-                          "indent": []
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 49,
-                        "offset": 48
-                      }
-                    }
-                  },
-                  "type": {
-                    "type": "NameExpression",
-                    "name": "string"
-                  }
-                },
-                {
-                  "title": "param",
-                  "name": "credentials.password",
-                  "lineNumber": 9,
-                  "description": {
-                    "type": "root",
-                    "children": [
-                      {
-                        "type": "paragraph",
-                        "children": [
-                          {
-                            "type": "text",
-                            "value": "The user's password.",
-                            "position": {
-                              "start": {
-                                "line": 1,
-                                "column": 1,
-                                "offset": 0
-                              },
-                              "end": {
-                                "line": 1,
-                                "column": 21,
-                                "offset": 20
-                              },
-                              "indent": []
-                            }
-                          }
-                        ],
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 21,
-                            "offset": 20
-                          },
-                          "indent": []
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 21,
-                        "offset": 20
-                      }
-                    }
-                  },
-                  "type": {
-                    "type": "NameExpression",
-                    "name": "string"
-                  }
-                },
-                {
-                  "title": "param",
-                  "name": "credentials.authname",
-                  "lineNumber": 10,
-                  "description": {
-                    "type": "root",
-                    "children": [
-                      {
-                        "type": "paragraph",
-                        "children": [
-                          {
-                            "type": "text",
-                            "value": "The user's authorization name.",
-                            "position": {
-                              "start": {
-                                "line": 1,
-                                "column": 1,
-                                "offset": 0
-                              },
-                              "end": {
-                                "line": 1,
-                                "column": 31,
-                                "offset": 30
-                              },
-                              "indent": []
-                            }
-                          }
-                        ],
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 31,
-                            "offset": 30
-                          },
-                          "indent": []
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 31,
-                        "offset": 30
-                      }
-                    }
-                  },
-                  "type": {
-                    "type": "OptionalType",
-                    "expression": {
-                      "type": "NameExpression",
-                      "name": "string"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "title": "param",
-              "name": "options",
-              "lineNumber": 11,
-              "description": {
-                "type": "root",
-                "children": [
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "The options object for non-credential options.",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 47,
-                            "offset": 46
-                          },
-                          "indent": []
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 47,
-                        "offset": 46
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 47,
-                    "offset": 46
-                  }
-                }
-              },
-              "type": {
-                "type": "OptionalType",
-                "expression": {
-                  "type": "NameExpression",
-                  "name": "Object"
-                }
-              },
-              "properties": [
-                {
-                  "title": "param",
-                  "name": "options.forceLogOut",
-                  "lineNumber": 12,
-                  "description": {
-                    "type": "root",
-                    "children": [
-                      {
-                        "type": "paragraph",
-                        "children": [
-                          {
-                            "type": "text",
-                            "value": "Force the oldest connection to log out if too many simultaneous connections. Link only.",
-                            "position": {
-                              "start": {
-                                "line": 1,
-                                "column": 1,
-                                "offset": 0
-                              },
-                              "end": {
-                                "line": 1,
-                                "column": 88,
-                                "offset": 87
-                              },
-                              "indent": []
-                            }
-                          }
-                        ],
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 88,
-                            "offset": 87
-                          },
-                          "indent": []
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 88,
-                        "offset": 87
-                      }
-                    }
-                  },
-                  "type": {
-                    "type": "OptionalType",
-                    "expression": {
-                      "type": "NameExpression",
-                      "name": "boolean"
-                    }
-                  }
-                },
-                {
-                  "title": "param",
-                  "name": "options.clientCorrelator",
-                  "lineNumber": 13,
                   "description": {
                     "type": "root",
                     "children": [
@@ -18373,386 +18373,6 @@
       ],
       "static": [
         {
-          "description": "",
-          "tags": [
-            {
-              "title": "public",
-              "description": null,
-              "lineNumber": 1,
-              "type": null
-            },
-            {
-              "title": "static",
-              "description": null,
-              "lineNumber": 2
-            },
-            {
-              "title": "typedef",
-              "description": null,
-              "lineNumber": 3,
-              "type": {
-                "type": "NameExpression",
-                "name": "Object"
-              },
-              "name": "SdpHandlerInfo"
-            },
-            {
-              "title": "memberof",
-              "description": "call",
-              "lineNumber": 4
-            },
-            {
-              "title": "property",
-              "description": "The id corresponding to the call for which the handler is being run.",
-              "lineNumber": 5,
-              "type": {
-                "type": "NameExpression",
-                "name": "string"
-              },
-              "name": "callId"
-            },
-            {
-              "title": "property",
-              "description": "The session description's type.",
-              "lineNumber": 6,
-              "type": {
-                "type": "NameExpression",
-                "name": "RTCSdpType"
-              },
-              "name": "type"
-            },
-            {
-              "title": "property",
-              "description": "The step that will occur after the SDP Handlers are run.\n   Will be either 'set' (the SDP will be set locally) or 'send' (the SDP will\n   be sent to the remote endpoint).",
-              "lineNumber": 7,
-              "type": {
-                "type": "NameExpression",
-                "name": "string"
-              },
-              "name": "step"
-            },
-            {
-              "title": "property",
-              "description": "Which end of the connection created the SDP.",
-              "lineNumber": 10,
-              "type": {
-                "type": "NameExpression",
-                "name": "string"
-              },
-              "name": "endpoint"
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 164,
-              "column": 0
-            },
-            "end": {
-              "line": 175,
-              "column": 3
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 298,
-                "column": 0
-              },
-              "end": {
-                "line": 302,
-                "column": 1
-              }
-            },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/api/index.js"
-          },
-          "augments": [],
-          "examples": [],
-          "params": [],
-          "properties": [
-            {
-              "title": "property",
-              "name": "callId",
-              "lineNumber": 5,
-              "description": {
-                "type": "root",
-                "children": [
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "The id corresponding to the call for which the handler is being run.",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 69,
-                            "offset": 68
-                          },
-                          "indent": []
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 69,
-                        "offset": 68
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 69,
-                    "offset": 68
-                  }
-                }
-              },
-              "type": {
-                "type": "NameExpression",
-                "name": "string"
-              }
-            },
-            {
-              "title": "property",
-              "name": "type",
-              "lineNumber": 6,
-              "description": {
-                "type": "root",
-                "children": [
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "The session description's type.",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 32,
-                            "offset": 31
-                          },
-                          "indent": []
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 32,
-                        "offset": 31
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 32,
-                    "offset": 31
-                  }
-                }
-              },
-              "type": {
-                "type": "NameExpression",
-                "name": "RTCSdpType"
-              }
-            },
-            {
-              "title": "property",
-              "name": "step",
-              "lineNumber": 7,
-              "description": {
-                "type": "root",
-                "children": [
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "The step that will occur after the SDP Handlers are run.\n   Will be either 'set' (the SDP will be set locally) or 'send' (the SDP will\n   be sent to the remote endpoint).",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 3,
-                            "column": 36,
-                            "offset": 170
-                          },
-                          "indent": [
-                            1,
-                            1
-                          ]
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 3,
-                        "column": 36,
-                        "offset": 170
-                      },
-                      "indent": [
-                        1,
-                        1
-                      ]
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 36,
-                    "offset": 170
-                  }
-                }
-              },
-              "type": {
-                "type": "NameExpression",
-                "name": "string"
-              }
-            },
-            {
-              "title": "property",
-              "name": "endpoint",
-              "lineNumber": 10,
-              "description": {
-                "type": "root",
-                "children": [
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "Which end of the connection created the SDP.",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 45,
-                            "offset": 44
-                          },
-                          "indent": []
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 45,
-                        "offset": 44
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 45,
-                    "offset": 44
-                  }
-                }
-              },
-              "type": {
-                "type": "NameExpression",
-                "name": "string"
-              }
-            }
-          ],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
-          "access": "public",
-          "scope": "static",
-          "kind": "typedef",
-          "name": "SdpHandlerInfo",
-          "type": {
-            "type": "NameExpression",
-            "name": "Object"
-          },
-          "memberof": "call",
-          "members": {
-            "global": [],
-            "inner": [],
-            "instance": [],
-            "events": [],
-            "static": []
-          },
-          "path": [
-            {
-              "name": "call"
-            },
-            {
-              "name": "SdpHandlerInfo",
-              "kind": "typedef",
-              "scope": "static"
-            }
-          ],
-          "namespace": "call.SdpHandlerInfo"
-        },
-        {
           "description": {
             "type": "root",
             "children": [
@@ -23178,132 +22798,82 @@
           "namespace": "call.MediaObject"
         },
         {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "The form of an SDP handler function and the expected arguments that it receives.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 81,
-                        "offset": 80
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 81,
-                    "offset": 80
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 81,
-                "offset": 80
-              }
-            }
-          },
+          "description": "",
           "tags": [
             {
               "title": "public",
               "description": null,
-              "lineNumber": 2,
+              "lineNumber": 1,
               "type": null
             },
             {
               "title": "static",
               "description": null,
-              "lineNumber": 3
+              "lineNumber": 2
             },
             {
               "title": "typedef",
               "description": null,
-              "lineNumber": 4,
+              "lineNumber": 3,
               "type": {
                 "type": "NameExpression",
-                "name": "Function"
+                "name": "Object"
               },
-              "name": "SdpHandlerFunction"
+              "name": "SdpHandlerInfo"
             },
             {
               "title": "memberof",
               "description": "call",
-              "lineNumber": 5
+              "lineNumber": 4
             },
             {
-              "title": "param",
-              "description": "The SDP so far (could have been modified by previous handlers).",
+              "title": "property",
+              "description": "The id corresponding to the call for which the handler is being run.",
+              "lineNumber": 5,
+              "type": {
+                "type": "NameExpression",
+                "name": "string"
+              },
+              "name": "callId"
+            },
+            {
+              "title": "property",
+              "description": "The session description's type.",
               "lineNumber": 6,
               "type": {
                 "type": "NameExpression",
-                "name": "Object"
+                "name": "RTCSdpType"
               },
-              "name": "newSdp"
+              "name": "type"
             },
             {
-              "title": "param",
-              "description": "Additional information that might be useful when making SDP modifications.",
+              "title": "property",
+              "description": "The step that will occur after the SDP Handlers are run.\n   Will be either 'set' (the SDP will be set locally) or 'send' (the SDP will\n   be sent to the remote endpoint).",
               "lineNumber": 7,
               "type": {
                 "type": "NameExpression",
-                "name": "call.SdpHandlerInfo"
+                "name": "string"
               },
-              "name": "info"
+              "name": "step"
             },
             {
-              "title": "param",
-              "description": "The SDP in its initial state.",
-              "lineNumber": 8,
+              "title": "property",
+              "description": "Which end of the connection created the SDP.",
+              "lineNumber": 10,
               "type": {
                 "type": "NameExpression",
-                "name": "Object"
+                "name": "string"
               },
-              "name": "originalSdp"
-            },
-            {
-              "title": "returns",
-              "description": "The resulting modified SDP based on the changes made by this function.",
-              "lineNumber": 9,
-              "type": {
-                "type": "NameExpression",
-                "name": "Object"
-              }
+              "name": "endpoint"
             }
           ],
           "loc": {
             "start": {
-              "line": 177,
+              "line": 164,
               "column": 0
             },
             "end": {
-              "line": 187,
+              "line": 175,
               "column": 3
             }
           },
@@ -23322,10 +22892,72 @@
           },
           "augments": [],
           "examples": [],
-          "params": [
+          "params": [],
+          "properties": [
             {
-              "title": "param",
-              "name": "newSdp",
+              "title": "property",
+              "name": "callId",
+              "lineNumber": 5,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "The id corresponding to the call for which the handler is being run.",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 69,
+                            "offset": 68
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 69,
+                        "offset": 68
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 69,
+                    "offset": 68
+                  }
+                }
+              },
+              "type": {
+                "type": "NameExpression",
+                "name": "string"
+              }
+            },
+            {
+              "title": "property",
+              "name": "type",
               "lineNumber": 6,
               "description": {
                 "type": "root",
@@ -23335,7 +22967,7 @@
                     "children": [
                       {
                         "type": "text",
-                        "value": "The SDP so far (could have been modified by previous handlers).",
+                        "value": "The session description's type.",
                         "position": {
                           "start": {
                             "line": 1,
@@ -23344,8 +22976,8 @@
                           },
                           "end": {
                             "line": 1,
-                            "column": 64,
-                            "offset": 63
+                            "column": 32,
+                            "offset": 31
                           },
                           "indent": []
                         }
@@ -23359,8 +22991,8 @@
                       },
                       "end": {
                         "line": 1,
-                        "column": 64,
-                        "offset": 63
+                        "column": 32,
+                        "offset": 31
                       },
                       "indent": []
                     }
@@ -23374,19 +23006,19 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 64,
-                    "offset": 63
+                    "column": 32,
+                    "offset": 31
                   }
                 }
               },
               "type": {
                 "type": "NameExpression",
-                "name": "Object"
+                "name": "RTCSdpType"
               }
             },
             {
-              "title": "param",
-              "name": "info",
+              "title": "property",
+              "name": "step",
               "lineNumber": 7,
               "description": {
                 "type": "root",
@@ -23396,7 +23028,7 @@
                     "children": [
                       {
                         "type": "text",
-                        "value": "Additional information that might be useful when making SDP modifications.",
+                        "value": "The step that will occur after the SDP Handlers are run.\n   Will be either 'set' (the SDP will be set locally) or 'send' (the SDP will\n   be sent to the remote endpoint).",
                         "position": {
                           "start": {
                             "line": 1,
@@ -23404,11 +23036,14 @@
                             "offset": 0
                           },
                           "end": {
-                            "line": 1,
-                            "column": 75,
-                            "offset": 74
+                            "line": 3,
+                            "column": 36,
+                            "offset": 170
                           },
-                          "indent": []
+                          "indent": [
+                            1,
+                            1
+                          ]
                         }
                       }
                     ],
@@ -23419,11 +23054,14 @@
                         "offset": 0
                       },
                       "end": {
-                        "line": 1,
-                        "column": 75,
-                        "offset": 74
+                        "line": 3,
+                        "column": 36,
+                        "offset": 170
                       },
-                      "indent": []
+                      "indent": [
+                        1,
+                        1
+                      ]
                     }
                   }
                 ],
@@ -23434,21 +23072,21 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 1,
-                    "column": 75,
-                    "offset": 74
+                    "line": 3,
+                    "column": 36,
+                    "offset": 170
                   }
                 }
               },
               "type": {
                 "type": "NameExpression",
-                "name": "call.SdpHandlerInfo"
+                "name": "string"
               }
             },
             {
-              "title": "param",
-              "name": "originalSdp",
-              "lineNumber": 8,
+              "title": "property",
+              "name": "endpoint",
+              "lineNumber": 10,
               "description": {
                 "type": "root",
                 "children": [
@@ -23457,7 +23095,7 @@
                     "children": [
                       {
                         "type": "text",
-                        "value": "The SDP in its initial state.",
+                        "value": "Which end of the connection created the SDP.",
                         "position": {
                           "start": {
                             "line": 1,
@@ -23466,8 +23104,8 @@
                           },
                           "end": {
                             "line": 1,
-                            "column": 30,
-                            "offset": 29
+                            "column": 45,
+                            "offset": 44
                           },
                           "indent": []
                         }
@@ -23481,8 +23119,8 @@
                       },
                       "end": {
                         "line": 1,
-                        "column": 30,
-                        "offset": 29
+                        "column": 45,
+                        "offset": 44
                       },
                       "indent": []
                     }
@@ -23496,89 +23134,28 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 30,
-                    "offset": 29
+                    "column": 45,
+                    "offset": 44
                   }
                 }
               },
               "type": {
                 "type": "NameExpression",
-                "name": "Object"
+                "name": "string"
               }
             }
           ],
-          "properties": [],
-          "returns": [
-            {
-              "description": {
-                "type": "root",
-                "children": [
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "The resulting modified SDP based on the changes made by this function.",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 71,
-                            "offset": 70
-                          },
-                          "indent": []
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 71,
-                        "offset": 70
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 71,
-                    "offset": 70
-                  }
-                }
-              },
-              "title": "returns",
-              "type": {
-                "type": "NameExpression",
-                "name": "Object"
-              }
-            }
-          ],
+          "returns": [],
           "sees": [],
           "throws": [],
           "todos": [],
           "access": "public",
           "scope": "static",
           "kind": "typedef",
-          "name": "SdpHandlerFunction",
+          "name": "SdpHandlerInfo",
           "type": {
             "type": "NameExpression",
-            "name": "Function"
+            "name": "Object"
           },
           "memberof": "call",
           "members": {
@@ -23593,12 +23170,12 @@
               "name": "call"
             },
             {
-              "name": "SdpHandlerFunction",
+              "name": "SdpHandlerInfo",
               "kind": "typedef",
               "scope": "static"
             }
           ],
-          "namespace": "call.SdpHandlerFunction"
+          "namespace": "call.SdpHandlerInfo"
         },
         {
           "description": "",
@@ -25395,6 +24972,429 @@
             }
           ],
           "namespace": "call.MediaConstraint"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "The form of an SDP handler function and the expected arguments that it receives.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 81,
+                        "offset": 80
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 81,
+                    "offset": 80
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 81,
+                "offset": 80
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "public",
+              "description": null,
+              "lineNumber": 2,
+              "type": null
+            },
+            {
+              "title": "static",
+              "description": null,
+              "lineNumber": 3
+            },
+            {
+              "title": "typedef",
+              "description": null,
+              "lineNumber": 4,
+              "type": {
+                "type": "NameExpression",
+                "name": "Function"
+              },
+              "name": "SdpHandlerFunction"
+            },
+            {
+              "title": "memberof",
+              "description": "call",
+              "lineNumber": 5
+            },
+            {
+              "title": "param",
+              "description": "The SDP so far (could have been modified by previous handlers).",
+              "lineNumber": 6,
+              "type": {
+                "type": "NameExpression",
+                "name": "Object"
+              },
+              "name": "newSdp"
+            },
+            {
+              "title": "param",
+              "description": "Additional information that might be useful when making SDP modifications.",
+              "lineNumber": 7,
+              "type": {
+                "type": "NameExpression",
+                "name": "call.SdpHandlerInfo"
+              },
+              "name": "info"
+            },
+            {
+              "title": "param",
+              "description": "The SDP in its initial state.",
+              "lineNumber": 8,
+              "type": {
+                "type": "NameExpression",
+                "name": "Object"
+              },
+              "name": "originalSdp"
+            },
+            {
+              "title": "returns",
+              "description": "The resulting modified SDP based on the changes made by this function.",
+              "lineNumber": 9,
+              "type": {
+                "type": "NameExpression",
+                "name": "Object"
+              }
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 177,
+              "column": 0
+            },
+            "end": {
+              "line": 187,
+              "column": 3
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 298,
+                "column": 0
+              },
+              "end": {
+                "line": 302,
+                "column": 1
+              }
+            },
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/api/index.js"
+          },
+          "augments": [],
+          "examples": [],
+          "params": [
+            {
+              "title": "param",
+              "name": "newSdp",
+              "lineNumber": 6,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "The SDP so far (could have been modified by previous handlers).",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 64,
+                            "offset": 63
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 64,
+                        "offset": 63
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 64,
+                    "offset": 63
+                  }
+                }
+              },
+              "type": {
+                "type": "NameExpression",
+                "name": "Object"
+              }
+            },
+            {
+              "title": "param",
+              "name": "info",
+              "lineNumber": 7,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Additional information that might be useful when making SDP modifications.",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 75,
+                            "offset": 74
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 75,
+                        "offset": 74
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 75,
+                    "offset": 74
+                  }
+                }
+              },
+              "type": {
+                "type": "NameExpression",
+                "name": "call.SdpHandlerInfo"
+              }
+            },
+            {
+              "title": "param",
+              "name": "originalSdp",
+              "lineNumber": 8,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "The SDP in its initial state.",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 30,
+                            "offset": 29
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 30,
+                        "offset": 29
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 30,
+                    "offset": 29
+                  }
+                }
+              },
+              "type": {
+                "type": "NameExpression",
+                "name": "Object"
+              }
+            }
+          ],
+          "properties": [],
+          "returns": [
+            {
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "The resulting modified SDP based on the changes made by this function.",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 71,
+                            "offset": 70
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 71,
+                        "offset": 70
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 71,
+                    "offset": 70
+                  }
+                }
+              },
+              "title": "returns",
+              "type": {
+                "type": "NameExpression",
+                "name": "Object"
+              }
+            }
+          ],
+          "sees": [],
+          "throws": [],
+          "todos": [],
+          "access": "public",
+          "scope": "static",
+          "kind": "typedef",
+          "name": "SdpHandlerFunction",
+          "type": {
+            "type": "NameExpression",
+            "name": "Function"
+          },
+          "memberof": "call",
+          "members": {
+            "global": [],
+            "inner": [],
+            "instance": [],
+            "events": [],
+            "static": []
+          },
+          "path": [
+            {
+              "name": "call"
+            },
+            {
+              "name": "SdpHandlerFunction",
+              "kind": "typedef",
+              "scope": "static"
+            }
+          ],
+          "namespace": "call.SdpHandlerFunction"
         },
         {
           "description": {
@@ -37491,484 +37491,6 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "Adds local screenshare to an ongoing Call, to start sending to the remote\n   participant.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 2,
-                        "column": 16,
-                        "offset": 89
-                      },
-                      "indent": [
-                        1
-                      ]
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 16,
-                    "offset": 89
-                  },
-                  "indent": [
-                    1
-                  ]
-                }
-              },
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "The latest SDK release (v4.X+) has not yet implemented this API in the\n   same way that it was available in previous releases (v3.X). In place\n   of this API, the SDK has a more general API that can be used for this\n   same behaviour.",
-                    "position": {
-                      "start": {
-                        "line": 4,
-                        "column": 1,
-                        "offset": 91
-                      },
-                      "end": {
-                        "line": 7,
-                        "column": 19,
-                        "offset": 325
-                      },
-                      "indent": [
-                        1,
-                        1,
-                        1
-                      ]
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 4,
-                    "column": 1,
-                    "offset": 91
-                  },
-                  "end": {
-                    "line": 7,
-                    "column": 19,
-                    "offset": 325
-                  },
-                  "indent": [
-                    1,
-                    1,
-                    1
-                  ]
-                }
-              },
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "The ",
-                    "position": {
-                      "start": {
-                        "line": 9,
-                        "column": 1,
-                        "offset": 327
-                      },
-                      "end": {
-                        "line": 9,
-                        "column": 5,
-                        "offset": 331
-                      },
-                      "indent": []
-                    }
-                  },
-                  {
-                    "type": "link",
-                    "url": "#calladdmedia",
-                    "title": null,
-                    "jsdoc": true,
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "call.addMedia"
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 9,
-                        "column": 5,
-                        "offset": 331
-                      },
-                      "end": {
-                        "line": 9,
-                        "column": 26,
-                        "offset": 352
-                      },
-                      "indent": []
-                    }
-                  },
-                  {
-                    "type": "text",
-                    "value": " API can be used to perform the same behaviour\n   as ",
-                    "position": {
-                      "start": {
-                        "line": 9,
-                        "column": 26,
-                        "offset": 352
-                      },
-                      "end": {
-                        "line": 10,
-                        "column": 7,
-                        "offset": 405
-                      },
-                      "indent": [
-                        1
-                      ]
-                    }
-                  },
-                  {
-                    "type": "inlineCode",
-                    "value": "startScreenshare",
-                    "position": {
-                      "start": {
-                        "line": 10,
-                        "column": 7,
-                        "offset": 405
-                      },
-                      "end": {
-                        "line": 10,
-                        "column": 25,
-                        "offset": 423
-                      },
-                      "indent": []
-                    }
-                  },
-                  {
-                    "type": "text",
-                    "value": ". ",
-                    "position": {
-                      "start": {
-                        "line": 10,
-                        "column": 25,
-                        "offset": 423
-                      },
-                      "end": {
-                        "line": 10,
-                        "column": 27,
-                        "offset": 425
-                      },
-                      "indent": []
-                    }
-                  },
-                  {
-                    "type": "link",
-                    "url": "#calladdmedia",
-                    "title": null,
-                    "jsdoc": true,
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "call.addMedia"
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 10,
-                        "column": 27,
-                        "offset": 425
-                      },
-                      "end": {
-                        "line": 10,
-                        "column": 48,
-                        "offset": 446
-                      },
-                      "indent": []
-                    }
-                  },
-                  {
-                    "type": "text",
-                    "value": " is a general-purpose API\n   for adding media to a call, which covers the same functionality as\n   ",
-                    "position": {
-                      "start": {
-                        "line": 10,
-                        "column": 48,
-                        "offset": 446
-                      },
-                      "end": {
-                        "line": 12,
-                        "column": 4,
-                        "offset": 545
-                      },
-                      "indent": [
-                        1,
-                        1
-                      ]
-                    }
-                  },
-                  {
-                    "type": "inlineCode",
-                    "value": "startScreenshare",
-                    "position": {
-                      "start": {
-                        "line": 12,
-                        "column": 4,
-                        "offset": 545
-                      },
-                      "end": {
-                        "line": 12,
-                        "column": 22,
-                        "offset": 563
-                      },
-                      "indent": []
-                    }
-                  },
-                  {
-                    "type": "text",
-                    "value": ". Selecting only screen options when using\n   ",
-                    "position": {
-                      "start": {
-                        "line": 12,
-                        "column": 22,
-                        "offset": 563
-                      },
-                      "end": {
-                        "line": 13,
-                        "column": 4,
-                        "offset": 609
-                      },
-                      "indent": [
-                        1
-                      ]
-                    }
-                  },
-                  {
-                    "type": "link",
-                    "url": "#calladdmedia",
-                    "title": null,
-                    "jsdoc": true,
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "call.addMedia"
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 13,
-                        "column": 4,
-                        "offset": 609
-                      },
-                      "end": {
-                        "line": 13,
-                        "column": 25,
-                        "offset": 630
-                      },
-                      "indent": []
-                    }
-                  },
-                  {
-                    "type": "text",
-                    "value": " will perform the same behaviour as using\n   ",
-                    "position": {
-                      "start": {
-                        "line": 13,
-                        "column": 25,
-                        "offset": 630
-                      },
-                      "end": {
-                        "line": 14,
-                        "column": 4,
-                        "offset": 675
-                      },
-                      "indent": [
-                        1
-                      ]
-                    }
-                  },
-                  {
-                    "type": "inlineCode",
-                    "value": "startScreenshare",
-                    "position": {
-                      "start": {
-                        "line": 14,
-                        "column": 4,
-                        "offset": 675
-                      },
-                      "end": {
-                        "line": 14,
-                        "column": 22,
-                        "offset": 693
-                      },
-                      "indent": []
-                    }
-                  },
-                  {
-                    "type": "text",
-                    "value": ".",
-                    "position": {
-                      "start": {
-                        "line": 14,
-                        "column": 22,
-                        "offset": 693
-                      },
-                      "end": {
-                        "line": 14,
-                        "column": 23,
-                        "offset": 694
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 9,
-                    "column": 1,
-                    "offset": 327
-                  },
-                  "end": {
-                    "line": 14,
-                    "column": 23,
-                    "offset": 694
-                  },
-                  "indent": [
-                    1,
-                    1,
-                    1,
-                    1,
-                    1
-                  ]
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 14,
-                "column": 23,
-                "offset": 694
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "public",
-              "description": null,
-              "lineNumber": 16,
-              "type": null
-            },
-            {
-              "title": "static",
-              "description": null,
-              "lineNumber": 17
-            },
-            {
-              "title": "method",
-              "description": null,
-              "lineNumber": 18,
-              "name": "startScreenshare"
-            },
-            {
-              "title": "memberof",
-              "description": "call",
-              "lineNumber": 19
-            },
-            {
-              "title": "requires",
-              "description": null,
-              "lineNumber": 20,
-              "name": "call"
-            },
-            {
-              "title": "requires",
-              "description": null,
-              "lineNumber": 21,
-              "name": "callMe"
-            },
-            {
-              "title": "example",
-              "description": "// Select media options for adding only screenshare.\nconst media = {\n   audio: false,\n   video: false,\n   screen: true,\n   screenOptions: { ... }\n}\n\n// Add the selected media to the call.\nclient.call.addMedia(callId, media)",
-              "lineNumber": 22
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 659,
-              "column": 4
-            },
-            "end": {
-              "line": 692,
-              "column": 7
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 764,
-                "column": 4
-              },
-              "end": {
-                "line": 767,
-                "column": 5
-              }
-            },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/api/call.js"
-          },
-          "augments": [],
-          "examples": [
-            {
-              "description": "// Select media options for adding only screenshare.\nconst media = {\n   audio: false,\n   video: false,\n   screen: true,\n   screenOptions: { ... }\n}\n\n// Add the selected media to the call.\nclient.call.addMedia(callId, media)"
-            }
-          ],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
-          "access": "public",
-          "scope": "static",
-          "kind": "function",
-          "name": "startScreenshare",
-          "memberof": "call",
-          "members": {
-            "global": [],
-            "inner": [],
-            "instance": [],
-            "events": [],
-            "static": []
-          },
-          "path": [
-            {
-              "name": "call"
-            },
-            {
-              "name": "startScreenshare",
-              "kind": "function",
-              "scope": "static"
-            }
-          ],
-          "namespace": "call.startScreenshare"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
                     "value": "Removes local screenshare from an ongoing Call, stopping it from being\n   sent to the remote participant.",
                     "position": {
                       "start": {
@@ -39173,6 +38695,484 @@
             }
           ],
           "namespace": "call.sendDTMF"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Adds local screenshare to an ongoing Call, to start sending to the remote\n   participant.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 16,
+                        "offset": 89
+                      },
+                      "indent": [
+                        1
+                      ]
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 16,
+                    "offset": 89
+                  },
+                  "indent": [
+                    1
+                  ]
+                }
+              },
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "The latest SDK release (v4.X+) has not yet implemented this API in the\n   same way that it was available in previous releases (v3.X). In place\n   of this API, the SDK has a more general API that can be used for this\n   same behaviour.",
+                    "position": {
+                      "start": {
+                        "line": 4,
+                        "column": 1,
+                        "offset": 91
+                      },
+                      "end": {
+                        "line": 7,
+                        "column": 19,
+                        "offset": 325
+                      },
+                      "indent": [
+                        1,
+                        1,
+                        1
+                      ]
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 91
+                  },
+                  "end": {
+                    "line": 7,
+                    "column": 19,
+                    "offset": 325
+                  },
+                  "indent": [
+                    1,
+                    1,
+                    1
+                  ]
+                }
+              },
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "The ",
+                    "position": {
+                      "start": {
+                        "line": 9,
+                        "column": 1,
+                        "offset": 327
+                      },
+                      "end": {
+                        "line": 9,
+                        "column": 5,
+                        "offset": 331
+                      },
+                      "indent": []
+                    }
+                  },
+                  {
+                    "type": "link",
+                    "url": "#calladdmedia",
+                    "title": null,
+                    "jsdoc": true,
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "call.addMedia"
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 9,
+                        "column": 5,
+                        "offset": 331
+                      },
+                      "end": {
+                        "line": 9,
+                        "column": 26,
+                        "offset": 352
+                      },
+                      "indent": []
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": " API can be used to perform the same behaviour\n   as ",
+                    "position": {
+                      "start": {
+                        "line": 9,
+                        "column": 26,
+                        "offset": 352
+                      },
+                      "end": {
+                        "line": 10,
+                        "column": 7,
+                        "offset": 405
+                      },
+                      "indent": [
+                        1
+                      ]
+                    }
+                  },
+                  {
+                    "type": "inlineCode",
+                    "value": "startScreenshare",
+                    "position": {
+                      "start": {
+                        "line": 10,
+                        "column": 7,
+                        "offset": 405
+                      },
+                      "end": {
+                        "line": 10,
+                        "column": 25,
+                        "offset": 423
+                      },
+                      "indent": []
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": ". ",
+                    "position": {
+                      "start": {
+                        "line": 10,
+                        "column": 25,
+                        "offset": 423
+                      },
+                      "end": {
+                        "line": 10,
+                        "column": 27,
+                        "offset": 425
+                      },
+                      "indent": []
+                    }
+                  },
+                  {
+                    "type": "link",
+                    "url": "#calladdmedia",
+                    "title": null,
+                    "jsdoc": true,
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "call.addMedia"
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 10,
+                        "column": 27,
+                        "offset": 425
+                      },
+                      "end": {
+                        "line": 10,
+                        "column": 48,
+                        "offset": 446
+                      },
+                      "indent": []
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": " is a general-purpose API\n   for adding media to a call, which covers the same functionality as\n   ",
+                    "position": {
+                      "start": {
+                        "line": 10,
+                        "column": 48,
+                        "offset": 446
+                      },
+                      "end": {
+                        "line": 12,
+                        "column": 4,
+                        "offset": 545
+                      },
+                      "indent": [
+                        1,
+                        1
+                      ]
+                    }
+                  },
+                  {
+                    "type": "inlineCode",
+                    "value": "startScreenshare",
+                    "position": {
+                      "start": {
+                        "line": 12,
+                        "column": 4,
+                        "offset": 545
+                      },
+                      "end": {
+                        "line": 12,
+                        "column": 22,
+                        "offset": 563
+                      },
+                      "indent": []
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": ". Selecting only screen options when using\n   ",
+                    "position": {
+                      "start": {
+                        "line": 12,
+                        "column": 22,
+                        "offset": 563
+                      },
+                      "end": {
+                        "line": 13,
+                        "column": 4,
+                        "offset": 609
+                      },
+                      "indent": [
+                        1
+                      ]
+                    }
+                  },
+                  {
+                    "type": "link",
+                    "url": "#calladdmedia",
+                    "title": null,
+                    "jsdoc": true,
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "call.addMedia"
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 13,
+                        "column": 4,
+                        "offset": 609
+                      },
+                      "end": {
+                        "line": 13,
+                        "column": 25,
+                        "offset": 630
+                      },
+                      "indent": []
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": " will perform the same behaviour as using\n   ",
+                    "position": {
+                      "start": {
+                        "line": 13,
+                        "column": 25,
+                        "offset": 630
+                      },
+                      "end": {
+                        "line": 14,
+                        "column": 4,
+                        "offset": 675
+                      },
+                      "indent": [
+                        1
+                      ]
+                    }
+                  },
+                  {
+                    "type": "inlineCode",
+                    "value": "startScreenshare",
+                    "position": {
+                      "start": {
+                        "line": 14,
+                        "column": 4,
+                        "offset": 675
+                      },
+                      "end": {
+                        "line": 14,
+                        "column": 22,
+                        "offset": 693
+                      },
+                      "indent": []
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": ".",
+                    "position": {
+                      "start": {
+                        "line": 14,
+                        "column": 22,
+                        "offset": 693
+                      },
+                      "end": {
+                        "line": 14,
+                        "column": 23,
+                        "offset": 694
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 9,
+                    "column": 1,
+                    "offset": 327
+                  },
+                  "end": {
+                    "line": 14,
+                    "column": 23,
+                    "offset": 694
+                  },
+                  "indent": [
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                  ]
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 14,
+                "column": 23,
+                "offset": 694
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "public",
+              "description": null,
+              "lineNumber": 16,
+              "type": null
+            },
+            {
+              "title": "static",
+              "description": null,
+              "lineNumber": 17
+            },
+            {
+              "title": "method",
+              "description": null,
+              "lineNumber": 18,
+              "name": "startScreenshare"
+            },
+            {
+              "title": "memberof",
+              "description": "call",
+              "lineNumber": 19
+            },
+            {
+              "title": "requires",
+              "description": null,
+              "lineNumber": 20,
+              "name": "call"
+            },
+            {
+              "title": "requires",
+              "description": null,
+              "lineNumber": 21,
+              "name": "callMe"
+            },
+            {
+              "title": "example",
+              "description": "// Select media options for adding only screenshare.\nconst media = {\n   audio: false,\n   video: false,\n   screen: true,\n   screenOptions: { ... }\n}\n\n// Add the selected media to the call.\nclient.call.addMedia(callId, media)",
+              "lineNumber": 22
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 659,
+              "column": 4
+            },
+            "end": {
+              "line": 692,
+              "column": 7
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 764,
+                "column": 4
+              },
+              "end": {
+                "line": 767,
+                "column": 5
+              }
+            },
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/api/call.js"
+          },
+          "augments": [],
+          "examples": [
+            {
+              "description": "// Select media options for adding only screenshare.\nconst media = {\n   audio: false,\n   video: false,\n   screen: true,\n   screenOptions: { ... }\n}\n\n// Add the selected media to the call.\nclient.call.addMedia(callId, media)"
+            }
+          ],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
+          "access": "public",
+          "scope": "static",
+          "kind": "function",
+          "name": "startScreenshare",
+          "memberof": "call",
+          "members": {
+            "global": [],
+            "inner": [],
+            "instance": [],
+            "events": [],
+            "static": []
+          },
+          "path": [
+            {
+              "name": "call"
+            },
+            {
+              "name": "startScreenshare",
+              "kind": "function",
+              "scope": "static"
+            }
+          ],
+          "namespace": "call.startScreenshare"
         },
         {
           "description": {
@@ -43748,6 +43748,324 @@
                 "children": [
                   {
                     "type": "text",
+                    "value": "Changes the camera and/or microphone used for a Call's media input.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 68,
+                        "offset": 67
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 68,
+                    "offset": 67
+                  },
+                  "indent": []
+                }
+              },
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "The latest SDK release (v4.X+) has not yet implemented this API in the\n   same way that it was available in previous releases (v3.X). In place\n   of this API, the SDK has a more general API that can be used for this\n   same behaviour.",
+                    "position": {
+                      "start": {
+                        "line": 3,
+                        "column": 1,
+                        "offset": 69
+                      },
+                      "end": {
+                        "line": 6,
+                        "column": 19,
+                        "offset": 303
+                      },
+                      "indent": [
+                        1,
+                        1,
+                        1
+                      ]
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 69
+                  },
+                  "end": {
+                    "line": 6,
+                    "column": 19,
+                    "offset": 303
+                  },
+                  "indent": [
+                    1,
+                    1,
+                    1
+                  ]
+                }
+              },
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "The same behaviour as the ",
+                    "position": {
+                      "start": {
+                        "line": 8,
+                        "column": 1,
+                        "offset": 305
+                      },
+                      "end": {
+                        "line": 8,
+                        "column": 27,
+                        "offset": 331
+                      },
+                      "indent": []
+                    }
+                  },
+                  {
+                    "type": "inlineCode",
+                    "value": "changeInputDevices",
+                    "position": {
+                      "start": {
+                        "line": 8,
+                        "column": 27,
+                        "offset": 331
+                      },
+                      "end": {
+                        "line": 8,
+                        "column": 47,
+                        "offset": 351
+                      },
+                      "indent": []
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": " API can be implemented\n   using the general-purpose ",
+                    "position": {
+                      "start": {
+                        "line": 8,
+                        "column": 47,
+                        "offset": 351
+                      },
+                      "end": {
+                        "line": 9,
+                        "column": 30,
+                        "offset": 404
+                      },
+                      "indent": [
+                        1
+                      ]
+                    }
+                  },
+                  {
+                    "type": "link",
+                    "url": "#callreplacetrack",
+                    "title": null,
+                    "jsdoc": true,
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "call.replaceTrack"
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 9,
+                        "column": 30,
+                        "offset": 404
+                      },
+                      "end": {
+                        "line": 9,
+                        "column": 55,
+                        "offset": 429
+                      },
+                      "indent": []
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": " API. This API can\n   be used to replace an existing media track with a new track of the\n   same type, allowing an application to change certain aspects of the\n   media, such as input device.",
+                    "position": {
+                      "start": {
+                        "line": 9,
+                        "column": 55,
+                        "offset": 429
+                      },
+                      "end": {
+                        "line": 12,
+                        "column": 32,
+                        "offset": 620
+                      },
+                      "indent": [
+                        1,
+                        1,
+                        1
+                      ]
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 8,
+                    "column": 1,
+                    "offset": 305
+                  },
+                  "end": {
+                    "line": 12,
+                    "column": 32,
+                    "offset": 620
+                  },
+                  "indent": [
+                    1,
+                    1,
+                    1,
+                    1
+                  ]
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 12,
+                "column": 32,
+                "offset": 620
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "public",
+              "description": null,
+              "lineNumber": 13,
+              "type": null
+            },
+            {
+              "title": "static",
+              "description": null,
+              "lineNumber": 14
+            },
+            {
+              "title": "method",
+              "description": null,
+              "lineNumber": 15,
+              "name": "changeInputDevices"
+            },
+            {
+              "title": "memberof",
+              "description": "call",
+              "lineNumber": 16
+            },
+            {
+              "title": "requires",
+              "description": null,
+              "lineNumber": 17,
+              "name": "call"
+            },
+            {
+              "title": "requires",
+              "description": null,
+              "lineNumber": 18,
+              "name": "callMe"
+            },
+            {
+              "title": "example",
+              "description": "const call = client.call.getById(callId)\n// Get the ID of the Call's video track.\nconst videoTrack = call.localTracks.find(trackId => {\n   const track = client.media.getTrackById(trackId)\n   return track.kind === 'video'\n})\n\n// Select the new video options.\nconst media = {\n   video: true,\n   videoOptions: {\n       deviceId: 'cameraId'\n   }\n}\n\n// Change the call's camera by replacing the video track.\nclient.call.replaceTrack(callId, videoTrack, media)",
+              "lineNumber": 19
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 1227,
+              "column": 4
+            },
+            "end": {
+              "line": 1264,
+              "column": 7
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 1207,
+                "column": 4
+              },
+              "end": {
+                "line": 1207,
+                "column": 23
+              }
+            },
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/api/call.js"
+          },
+          "augments": [],
+          "examples": [
+            {
+              "description": "const call = client.call.getById(callId)\n// Get the ID of the Call's video track.\nconst videoTrack = call.localTracks.find(trackId => {\n   const track = client.media.getTrackById(trackId)\n   return track.kind === 'video'\n})\n\n// Select the new video options.\nconst media = {\n   video: true,\n   videoOptions: {\n       deviceId: 'cameraId'\n   }\n}\n\n// Change the call's camera by replacing the video track.\nclient.call.replaceTrack(callId, videoTrack, media)"
+            }
+          ],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
+          "access": "public",
+          "scope": "static",
+          "kind": "function",
+          "name": "changeInputDevices",
+          "memberof": "call",
+          "members": {
+            "global": [],
+            "inner": [],
+            "instance": [],
+            "events": [],
+            "static": []
+          },
+          "path": [
+            {
+              "name": "call"
+            },
+            {
+              "name": "changeInputDevices",
+              "kind": "function",
+              "scope": "static"
+            }
+          ],
+          "namespace": "call.changeInputDevices"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
                     "value": "Possible states that a Call can be in.",
                     "position": {
                       "start": {
@@ -44777,7 +45095,7 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "Changes the camera and/or microphone used for a Call's media input.",
+                    "value": "The ",
                     "position": {
                       "start": {
                         "line": 1,
@@ -44786,10 +45104,47 @@
                       },
                       "end": {
                         "line": 1,
-                        "column": 68,
-                        "offset": 67
+                        "column": 5,
+                        "offset": 4
                       },
                       "indent": []
+                    }
+                  },
+                  {
+                    "type": "inlineCode",
+                    "value": "setDefaultDevices",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 5,
+                        "offset": 4
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 24,
+                        "offset": 23
+                      },
+                      "indent": []
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": " API from previous SDK releases (3.X) has been\n   deprecated in the latest releases (4.X+). The SDK no longer keeps\n   track of \"default devices\" on behalf of the application.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 24,
+                        "offset": 23
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 60,
+                        "offset": 198
+                      },
+                      "indent": [
+                        1,
+                        1
+                      ]
                     }
                   }
                 ],
@@ -44800,51 +45155,11 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 1,
-                    "column": 68,
-                    "offset": 67
-                  },
-                  "indent": []
-                }
-              },
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "The latest SDK release (v4.X+) has not yet implemented this API in the\n   same way that it was available in previous releases (v3.X). In place\n   of this API, the SDK has a more general API that can be used for this\n   same behaviour.",
-                    "position": {
-                      "start": {
-                        "line": 3,
-                        "column": 1,
-                        "offset": 69
-                      },
-                      "end": {
-                        "line": 6,
-                        "column": 19,
-                        "offset": 303
-                      },
-                      "indent": [
-                        1,
-                        1,
-                        1
-                      ]
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
                     "line": 3,
-                    "column": 1,
-                    "offset": 69
-                  },
-                  "end": {
-                    "line": 6,
-                    "column": 19,
-                    "offset": 303
+                    "column": 60,
+                    "offset": 198
                   },
                   "indent": [
-                    1,
                     1,
                     1
                   ]
@@ -44855,114 +45170,164 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "The same behaviour as the ",
+                    "value": "The devices used for a call can be selected as part of the APIs for\n   starting the call. Microphone and/or camera can be chosen in the\n   ",
                     "position": {
                       "start": {
-                        "line": 8,
+                        "line": 5,
                         "column": 1,
-                        "offset": 305
+                        "offset": 200
                       },
                       "end": {
-                        "line": 8,
-                        "column": 27,
-                        "offset": 331
-                      },
-                      "indent": []
-                    }
-                  },
-                  {
-                    "type": "inlineCode",
-                    "value": "changeInputDevices",
-                    "position": {
-                      "start": {
-                        "line": 8,
-                        "column": 27,
-                        "offset": 331
-                      },
-                      "end": {
-                        "line": 8,
-                        "column": 47,
-                        "offset": 351
-                      },
-                      "indent": []
-                    }
-                  },
-                  {
-                    "type": "text",
-                    "value": " API can be implemented\n   using the general-purpose ",
-                    "position": {
-                      "start": {
-                        "line": 8,
-                        "column": 47,
-                        "offset": 351
-                      },
-                      "end": {
-                        "line": 9,
-                        "column": 30,
-                        "offset": 404
+                        "line": 7,
+                        "column": 4,
+                        "offset": 339
                       },
                       "indent": [
+                        1,
                         1
                       ]
                     }
                   },
                   {
                     "type": "link",
-                    "url": "#callreplacetrack",
+                    "url": "#callmake",
                     "title": null,
                     "jsdoc": true,
                     "children": [
                       {
                         "type": "text",
-                        "value": "call.replaceTrack"
+                        "value": "call.make"
                       }
                     ],
                     "position": {
                       "start": {
-                        "line": 9,
-                        "column": 30,
-                        "offset": 404
+                        "line": 7,
+                        "column": 4,
+                        "offset": 339
                       },
                       "end": {
-                        "line": 9,
-                        "column": 55,
-                        "offset": 429
+                        "line": 7,
+                        "column": 21,
+                        "offset": 356
                       },
                       "indent": []
                     }
                   },
                   {
                     "type": "text",
-                    "value": " API. This API can\n   be used to replace an existing media track with a new track of the\n   same type, allowing an application to change certain aspects of the\n   media, such as input device.",
+                    "value": " and ",
                     "position": {
                       "start": {
-                        "line": 9,
-                        "column": 55,
-                        "offset": 429
+                        "line": 7,
+                        "column": 21,
+                        "offset": 356
                       },
                       "end": {
-                        "line": 12,
-                        "column": 32,
-                        "offset": 620
+                        "line": 7,
+                        "column": 26,
+                        "offset": 361
+                      },
+                      "indent": []
+                    }
+                  },
+                  {
+                    "type": "link",
+                    "url": "#callanswer",
+                    "title": null,
+                    "jsdoc": true,
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "call.answer"
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 7,
+                        "column": 26,
+                        "offset": 361
+                      },
+                      "end": {
+                        "line": 7,
+                        "column": 45,
+                        "offset": 380
+                      },
+                      "indent": []
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": " APIs, and speaker can be\n   chosen when the audio track is rendered with the\n   ",
+                    "position": {
+                      "start": {
+                        "line": 7,
+                        "column": 45,
+                        "offset": 380
+                      },
+                      "end": {
+                        "line": 9,
+                        "column": 4,
+                        "offset": 461
                       },
                       "indent": [
                         1,
-                        1,
                         1
                       ]
+                    }
+                  },
+                  {
+                    "type": "link",
+                    "url": "#mediarendertracks",
+                    "title": null,
+                    "jsdoc": true,
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "media.renderTracks"
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 9,
+                        "column": 4,
+                        "offset": 461
+                      },
+                      "end": {
+                        "line": 9,
+                        "column": 30,
+                        "offset": 487
+                      },
+                      "indent": []
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": " API.",
+                    "position": {
+                      "start": {
+                        "line": 9,
+                        "column": 30,
+                        "offset": 487
+                      },
+                      "end": {
+                        "line": 9,
+                        "column": 35,
+                        "offset": 492
+                      },
+                      "indent": []
                     }
                   }
                 ],
                 "position": {
                   "start": {
-                    "line": 8,
+                    "line": 5,
                     "column": 1,
-                    "offset": 305
+                    "offset": 200
                   },
                   "end": {
-                    "line": 12,
-                    "column": 32,
-                    "offset": 620
+                    "line": 9,
+                    "column": 35,
+                    "offset": 492
                   },
                   "indent": [
                     1,
@@ -44980,9 +45345,9 @@
                 "offset": 0
               },
               "end": {
-                "line": 12,
-                "column": 32,
-                "offset": 620
+                "line": 9,
+                "column": 35,
+                "offset": 492
               }
             }
           },
@@ -44990,50 +45355,45 @@
             {
               "title": "public",
               "description": null,
-              "lineNumber": 13,
+              "lineNumber": 10,
               "type": null
             },
             {
               "title": "static",
               "description": null,
-              "lineNumber": 14
+              "lineNumber": 11
             },
             {
               "title": "method",
               "description": null,
-              "lineNumber": 15,
-              "name": "changeInputDevices"
+              "lineNumber": 12,
+              "name": "setDefaultDevices"
             },
             {
               "title": "memberof",
               "description": "call",
-              "lineNumber": 16
+              "lineNumber": 13
             },
             {
               "title": "requires",
               "description": null,
-              "lineNumber": 17,
+              "lineNumber": 14,
               "name": "call"
             },
             {
               "title": "requires",
               "description": null,
-              "lineNumber": 18,
+              "lineNumber": 15,
               "name": "callMe"
-            },
-            {
-              "title": "example",
-              "description": "const call = client.call.getById(callId)\n// Get the ID of the Call's video track.\nconst videoTrack = call.localTracks.find(trackId => {\n   const track = client.media.getTrackById(trackId)\n   return track.kind === 'video'\n})\n\n// Select the new video options.\nconst media = {\n   video: true,\n   videoOptions: {\n       deviceId: 'cameraId'\n   }\n}\n\n// Change the call's camera by replacing the video track.\nclient.call.replaceTrack(callId, videoTrack, media)",
-              "lineNumber": 19
             }
           ],
           "loc": {
             "start": {
-              "line": 1227,
+              "line": 1209,
               "column": 4
             },
             "end": {
-              "line": 1264,
+              "line": 1225,
               "column": 7
             }
           },
@@ -45051,11 +45411,7 @@
             "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/api/call.js"
           },
           "augments": [],
-          "examples": [
-            {
-              "description": "const call = client.call.getById(callId)\n// Get the ID of the Call's video track.\nconst videoTrack = call.localTracks.find(trackId => {\n   const track = client.media.getTrackById(trackId)\n   return track.kind === 'video'\n})\n\n// Select the new video options.\nconst media = {\n   video: true,\n   videoOptions: {\n       deviceId: 'cameraId'\n   }\n}\n\n// Change the call's camera by replacing the video track.\nclient.call.replaceTrack(callId, videoTrack, media)"
-            }
-          ],
+          "examples": [],
           "params": [],
           "properties": [],
           "returns": [],
@@ -45065,7 +45421,7 @@
           "access": "public",
           "scope": "static",
           "kind": "function",
-          "name": "changeInputDevices",
+          "name": "setDefaultDevices",
           "memberof": "call",
           "members": {
             "global": [],
@@ -45079,12 +45435,12 @@
               "name": "call"
             },
             {
-              "name": "changeInputDevices",
+              "name": "setDefaultDevices",
               "kind": "function",
               "scope": "static"
             }
           ],
-          "namespace": "call.changeInputDevices"
+          "namespace": "call.setDefaultDevices"
         },
         {
           "description": {
@@ -45459,7 +45815,7 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "The ",
+                    "value": "The SIP URI ie: sip:joe@domain.com",
                     "position": {
                       "start": {
                         "line": 1,
@@ -45468,47 +45824,10 @@
                       },
                       "end": {
                         "line": 1,
-                        "column": 5,
-                        "offset": 4
+                        "column": 35,
+                        "offset": 34
                       },
                       "indent": []
-                    }
-                  },
-                  {
-                    "type": "inlineCode",
-                    "value": "setDefaultDevices",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 5,
-                        "offset": 4
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 24,
-                        "offset": 23
-                      },
-                      "indent": []
-                    }
-                  },
-                  {
-                    "type": "text",
-                    "value": " API from previous SDK releases (3.X) has been\n   deprecated in the latest releases (4.X+). The SDK no longer keeps\n   track of \"default devices\" on behalf of the application.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 24,
-                        "offset": 23
-                      },
-                      "end": {
-                        "line": 3,
-                        "column": 60,
-                        "offset": 198
-                      },
-                      "indent": [
-                        1,
-                        1
-                      ]
                     }
                   }
                 ],
@@ -45519,186 +45838,11 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 3,
-                    "column": 60,
-                    "offset": 198
-                  },
-                  "indent": [
-                    1,
-                    1
-                  ]
-                }
-              },
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "The devices used for a call can be selected as part of the APIs for\n   starting the call. Microphone and/or camera can be chosen in the\n   ",
-                    "position": {
-                      "start": {
-                        "line": 5,
-                        "column": 1,
-                        "offset": 200
-                      },
-                      "end": {
-                        "line": 7,
-                        "column": 4,
-                        "offset": 339
-                      },
-                      "indent": [
-                        1,
-                        1
-                      ]
-                    }
-                  },
-                  {
-                    "type": "link",
-                    "url": "#callmake",
-                    "title": null,
-                    "jsdoc": true,
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "call.make"
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 7,
-                        "column": 4,
-                        "offset": 339
-                      },
-                      "end": {
-                        "line": 7,
-                        "column": 21,
-                        "offset": 356
-                      },
-                      "indent": []
-                    }
-                  },
-                  {
-                    "type": "text",
-                    "value": " and ",
-                    "position": {
-                      "start": {
-                        "line": 7,
-                        "column": 21,
-                        "offset": 356
-                      },
-                      "end": {
-                        "line": 7,
-                        "column": 26,
-                        "offset": 361
-                      },
-                      "indent": []
-                    }
-                  },
-                  {
-                    "type": "link",
-                    "url": "#callanswer",
-                    "title": null,
-                    "jsdoc": true,
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "call.answer"
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 7,
-                        "column": 26,
-                        "offset": 361
-                      },
-                      "end": {
-                        "line": 7,
-                        "column": 45,
-                        "offset": 380
-                      },
-                      "indent": []
-                    }
-                  },
-                  {
-                    "type": "text",
-                    "value": " APIs, and speaker can be\n   chosen when the audio track is rendered with the\n   ",
-                    "position": {
-                      "start": {
-                        "line": 7,
-                        "column": 45,
-                        "offset": 380
-                      },
-                      "end": {
-                        "line": 9,
-                        "column": 4,
-                        "offset": 461
-                      },
-                      "indent": [
-                        1,
-                        1
-                      ]
-                    }
-                  },
-                  {
-                    "type": "link",
-                    "url": "#mediarendertracks",
-                    "title": null,
-                    "jsdoc": true,
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "media.renderTracks"
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 9,
-                        "column": 4,
-                        "offset": 461
-                      },
-                      "end": {
-                        "line": 9,
-                        "column": 30,
-                        "offset": 487
-                      },
-                      "indent": []
-                    }
-                  },
-                  {
-                    "type": "text",
-                    "value": " API.",
-                    "position": {
-                      "start": {
-                        "line": 9,
-                        "column": 30,
-                        "offset": 487
-                      },
-                      "end": {
-                        "line": 9,
-                        "column": 35,
-                        "offset": 492
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 5,
-                    "column": 1,
-                    "offset": 200
-                  },
-                  "end": {
-                    "line": 9,
+                    "line": 1,
                     "column": 35,
-                    "offset": 492
+                    "offset": 34
                   },
-                  "indent": [
-                    1,
-                    1,
-                    1,
-                    1
-                  ]
+                  "indent": []
                 }
               }
             ],
@@ -45709,9 +45853,9 @@
                 "offset": 0
               },
               "end": {
-                "line": 9,
+                "line": 1,
                 "column": 35,
-                "offset": 492
+                "offset": 34
               }
             }
           },
@@ -45719,60 +45863,58 @@
             {
               "title": "public",
               "description": null,
-              "lineNumber": 10,
+              "lineNumber": 3,
               "type": null
             },
             {
               "title": "static",
               "description": null,
-              "lineNumber": 11
+              "lineNumber": 4
             },
             {
-              "title": "method",
+              "title": "typedef",
               "description": null,
-              "lineNumber": 12,
-              "name": "setDefaultDevices"
+              "lineNumber": 5,
+              "type": {
+                "type": "NameExpression",
+                "name": "string"
+              },
+              "name": "SIP_URI"
             },
             {
               "title": "memberof",
               "description": "call",
-              "lineNumber": 13
+              "lineNumber": 6
             },
             {
               "title": "requires",
               "description": null,
-              "lineNumber": 14,
-              "name": "call"
-            },
-            {
-              "title": "requires",
-              "description": null,
-              "lineNumber": 15,
-              "name": "callMe"
+              "lineNumber": 7,
+              "name": "link_user_id"
             }
           ],
           "loc": {
             "start": {
-              "line": 1209,
-              "column": 4
+              "line": 29,
+              "column": 0
             },
             "end": {
-              "line": 1225,
-              "column": 7
+              "line": 37,
+              "column": 3
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 1207,
-                "column": 4
+                "line": 1,
+                "column": 0
               },
               "end": {
-                "line": 1207,
-                "column": 23
+                "line": 58,
+                "column": 0
               }
             },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/api/call.js"
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/docs/docs.js"
           },
           "augments": [],
           "examples": [],
@@ -45784,8 +45926,12 @@
           "todos": [],
           "access": "public",
           "scope": "static",
-          "kind": "function",
-          "name": "setDefaultDevices",
+          "kind": "typedef",
+          "name": "SIP_URI",
+          "type": {
+            "type": "NameExpression",
+            "name": "string"
+          },
           "memberof": "call",
           "members": {
             "global": [],
@@ -45799,12 +45945,12 @@
               "name": "call"
             },
             {
-              "name": "setDefaultDevices",
-              "kind": "function",
+              "name": "SIP_URI",
+              "kind": "typedef",
               "scope": "static"
             }
           ],
-          "namespace": "call.setDefaultDevices"
+          "namespace": "call.SIP_URI"
         },
         {
           "description": {
@@ -45951,152 +46097,6 @@
             }
           ],
           "namespace": "call.TEL_URI"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "The SIP URI ie: sip:joe@domain.com",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 35,
-                        "offset": 34
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 35,
-                    "offset": 34
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 35,
-                "offset": 34
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "public",
-              "description": null,
-              "lineNumber": 3,
-              "type": null
-            },
-            {
-              "title": "static",
-              "description": null,
-              "lineNumber": 4
-            },
-            {
-              "title": "typedef",
-              "description": null,
-              "lineNumber": 5,
-              "type": {
-                "type": "NameExpression",
-                "name": "string"
-              },
-              "name": "SIP_URI"
-            },
-            {
-              "title": "memberof",
-              "description": "call",
-              "lineNumber": 6
-            },
-            {
-              "title": "requires",
-              "description": null,
-              "lineNumber": 7,
-              "name": "link_user_id"
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 29,
-              "column": 0
-            },
-            "end": {
-              "line": 37,
-              "column": 3
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 1,
-                "column": 0
-              },
-              "end": {
-                "line": 58,
-                "column": 0
-              }
-            },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/docs/docs.js"
-          },
-          "augments": [],
-          "examples": [],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
-          "access": "public",
-          "scope": "static",
-          "kind": "typedef",
-          "name": "SIP_URI",
-          "type": {
-            "type": "NameExpression",
-            "name": "string"
-          },
-          "memberof": "call",
-          "members": {
-            "global": [],
-            "inner": [],
-            "instance": [],
-            "events": [],
-            "static": []
-          },
-          "path": [
-            {
-              "name": "call"
-            },
-            {
-              "name": "SIP_URI",
-              "kind": "typedef",
-              "scope": "static"
-            }
-          ],
-          "namespace": "call.SIP_URI"
         }
       ]
     },
@@ -61435,6 +61435,324 @@
                 "children": [
                   {
                     "type": "text",
+                    "value": "A LogHandler can be used to customize how the SDK should log information. By\n   default, the SDK will log information to the console, but a LogHandler can\n   be configured to change this behaviour.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 43,
+                        "offset": 197
+                      },
+                      "indent": [
+                        1,
+                        1
+                      ]
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 43,
+                    "offset": 197
+                  },
+                  "indent": [
+                    1,
+                    1
+                  ]
+                }
+              },
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "A LogHandler can be provided to the SDK as part of its configuration (see\n   ",
+                    "position": {
+                      "start": {
+                        "line": 5,
+                        "column": 1,
+                        "offset": 199
+                      },
+                      "end": {
+                        "line": 6,
+                        "column": 4,
+                        "offset": 276
+                      },
+                      "indent": [
+                        1
+                      ]
+                    }
+                  },
+                  {
+                    "type": "link",
+                    "url": "#configconfiglogs",
+                    "title": null,
+                    "jsdoc": true,
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "config.logs"
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 6,
+                        "column": 4,
+                        "offset": 276
+                      },
+                      "end": {
+                        "line": 6,
+                        "column": 41,
+                        "offset": 313
+                      },
+                      "indent": []
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": "). The SDK will then provide this\n   function with the logged information.",
+                    "position": {
+                      "start": {
+                        "line": 6,
+                        "column": 41,
+                        "offset": 313
+                      },
+                      "end": {
+                        "line": 7,
+                        "column": 41,
+                        "offset": 387
+                      },
+                      "indent": [
+                        1
+                      ]
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 199
+                  },
+                  "end": {
+                    "line": 7,
+                    "column": 41,
+                    "offset": 387
+                  },
+                  "indent": [
+                    1,
+                    1
+                  ]
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 7,
+                "column": 41,
+                "offset": 387
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "public",
+              "description": null,
+              "lineNumber": 9,
+              "type": null
+            },
+            {
+              "title": "static",
+              "description": null,
+              "lineNumber": 10
+            },
+            {
+              "title": "typedef",
+              "description": null,
+              "lineNumber": 11,
+              "type": {
+                "type": "NameExpression",
+                "name": "Function"
+              },
+              "name": "LogHandler"
+            },
+            {
+              "title": "memberof",
+              "description": "logger",
+              "lineNumber": 12
+            },
+            {
+              "title": "requires",
+              "description": null,
+              "lineNumber": 13,
+              "name": "logs"
+            },
+            {
+              "title": "param",
+              "description": "The LogEntry to be logged.",
+              "lineNumber": 14,
+              "type": {
+                "type": "NameExpression",
+                "name": "Object"
+              },
+              "name": "LogEntry"
+            },
+            {
+              "title": "example",
+              "description": "// Define a custom function to handle logs.\nfunction logHandler (logEntry) {\n  // Compile the meta info of the log for a prefix.\n  const { timestamp, level, target } = logEntry\n  let { method } = logEntry\n  const logInfo = `${timestamp} - ${target.type} - ${level}`\n\n  // Assume that the first message parameter is a string.\n  const [log, ...extra] = logEntry.messages\n\n  // For the timer methods, don't actually use the console methods.\n  //    The Logger already did the timing, so simply log out the info.\n  if (['time', 'timeLog', 'timeEnd'].includes(method)) {\n    method = 'debug'\n  }\n\n  console[method](`${logInfo} - ${log}`, ...extra)\n}\n\n// Provide the LogHandler as part of the SDK configurations.\nconst configs = { ... }\nconfigs.logs.handler = logHandler\nconst client = create(configs)",
+              "lineNumber": 15
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 54,
+              "column": 0
+            },
+            "end": {
+              "line": 93,
+              "column": 3
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 0
+              },
+              "end": {
+                "line": 94,
+                "column": 0
+              }
+            },
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/logs/docs.js"
+          },
+          "augments": [],
+          "examples": [
+            {
+              "description": "// Define a custom function to handle logs.\nfunction logHandler (logEntry) {\n  // Compile the meta info of the log for a prefix.\n  const { timestamp, level, target } = logEntry\n  let { method } = logEntry\n  const logInfo = `${timestamp} - ${target.type} - ${level}`\n\n  // Assume that the first message parameter is a string.\n  const [log, ...extra] = logEntry.messages\n\n  // For the timer methods, don't actually use the console methods.\n  //    The Logger already did the timing, so simply log out the info.\n  if (['time', 'timeLog', 'timeEnd'].includes(method)) {\n    method = 'debug'\n  }\n\n  console[method](`${logInfo} - ${log}`, ...extra)\n}\n\n// Provide the LogHandler as part of the SDK configurations.\nconst configs = { ... }\nconfigs.logs.handler = logHandler\nconst client = create(configs)"
+            }
+          ],
+          "params": [
+            {
+              "title": "param",
+              "name": "LogEntry",
+              "lineNumber": 14,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "The LogEntry to be logged.",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 27,
+                            "offset": 26
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 27,
+                        "offset": 26
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 27,
+                    "offset": 26
+                  }
+                }
+              },
+              "type": {
+                "type": "NameExpression",
+                "name": "Object"
+              }
+            }
+          ],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
+          "access": "public",
+          "scope": "static",
+          "kind": "typedef",
+          "name": "LogHandler",
+          "type": {
+            "type": "NameExpression",
+            "name": "Function"
+          },
+          "memberof": "logger",
+          "members": {
+            "global": [],
+            "inner": [],
+            "instance": [],
+            "events": [],
+            "static": []
+          },
+          "path": [
+            {
+              "name": "logger",
+              "kind": "namespace"
+            },
+            {
+              "name": "LogHandler",
+              "kind": "typedef",
+              "scope": "static"
+            }
+          ],
+          "namespace": "logger.LogHandler"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
                     "value": "A LogEntry object is the data that the SDK compiles when information is\n   logged. It contains both the logged information and meta-info about when\n   and who logged it.",
                     "position": {
                       "start": {
@@ -62379,324 +62697,6 @@
             }
           ],
           "namespace": "logger.LogEntry"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "A LogHandler can be used to customize how the SDK should log information. By\n   default, the SDK will log information to the console, but a LogHandler can\n   be configured to change this behaviour.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 3,
-                        "column": 43,
-                        "offset": 197
-                      },
-                      "indent": [
-                        1,
-                        1
-                      ]
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 3,
-                    "column": 43,
-                    "offset": 197
-                  },
-                  "indent": [
-                    1,
-                    1
-                  ]
-                }
-              },
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "A LogHandler can be provided to the SDK as part of its configuration (see\n   ",
-                    "position": {
-                      "start": {
-                        "line": 5,
-                        "column": 1,
-                        "offset": 199
-                      },
-                      "end": {
-                        "line": 6,
-                        "column": 4,
-                        "offset": 276
-                      },
-                      "indent": [
-                        1
-                      ]
-                    }
-                  },
-                  {
-                    "type": "link",
-                    "url": "#configconfiglogs",
-                    "title": null,
-                    "jsdoc": true,
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "config.logs"
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 6,
-                        "column": 4,
-                        "offset": 276
-                      },
-                      "end": {
-                        "line": 6,
-                        "column": 41,
-                        "offset": 313
-                      },
-                      "indent": []
-                    }
-                  },
-                  {
-                    "type": "text",
-                    "value": "). The SDK will then provide this\n   function with the logged information.",
-                    "position": {
-                      "start": {
-                        "line": 6,
-                        "column": 41,
-                        "offset": 313
-                      },
-                      "end": {
-                        "line": 7,
-                        "column": 41,
-                        "offset": 387
-                      },
-                      "indent": [
-                        1
-                      ]
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 5,
-                    "column": 1,
-                    "offset": 199
-                  },
-                  "end": {
-                    "line": 7,
-                    "column": 41,
-                    "offset": 387
-                  },
-                  "indent": [
-                    1,
-                    1
-                  ]
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 7,
-                "column": 41,
-                "offset": 387
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "public",
-              "description": null,
-              "lineNumber": 9,
-              "type": null
-            },
-            {
-              "title": "static",
-              "description": null,
-              "lineNumber": 10
-            },
-            {
-              "title": "typedef",
-              "description": null,
-              "lineNumber": 11,
-              "type": {
-                "type": "NameExpression",
-                "name": "Function"
-              },
-              "name": "LogHandler"
-            },
-            {
-              "title": "memberof",
-              "description": "logger",
-              "lineNumber": 12
-            },
-            {
-              "title": "requires",
-              "description": null,
-              "lineNumber": 13,
-              "name": "logs"
-            },
-            {
-              "title": "param",
-              "description": "The LogEntry to be logged.",
-              "lineNumber": 14,
-              "type": {
-                "type": "NameExpression",
-                "name": "Object"
-              },
-              "name": "LogEntry"
-            },
-            {
-              "title": "example",
-              "description": "// Define a custom function to handle logs.\nfunction logHandler (logEntry) {\n  // Compile the meta info of the log for a prefix.\n  const { timestamp, level, target } = logEntry\n  let { method } = logEntry\n  const logInfo = `${timestamp} - ${target.type} - ${level}`\n\n  // Assume that the first message parameter is a string.\n  const [log, ...extra] = logEntry.messages\n\n  // For the timer methods, don't actually use the console methods.\n  //    The Logger already did the timing, so simply log out the info.\n  if (['time', 'timeLog', 'timeEnd'].includes(method)) {\n    method = 'debug'\n  }\n\n  console[method](`${logInfo} - ${log}`, ...extra)\n}\n\n// Provide the LogHandler as part of the SDK configurations.\nconst configs = { ... }\nconfigs.logs.handler = logHandler\nconst client = create(configs)",
-              "lineNumber": 15
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 54,
-              "column": 0
-            },
-            "end": {
-              "line": 93,
-              "column": 3
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 1,
-                "column": 0
-              },
-              "end": {
-                "line": 94,
-                "column": 0
-              }
-            },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/logs/docs.js"
-          },
-          "augments": [],
-          "examples": [
-            {
-              "description": "// Define a custom function to handle logs.\nfunction logHandler (logEntry) {\n  // Compile the meta info of the log for a prefix.\n  const { timestamp, level, target } = logEntry\n  let { method } = logEntry\n  const logInfo = `${timestamp} - ${target.type} - ${level}`\n\n  // Assume that the first message parameter is a string.\n  const [log, ...extra] = logEntry.messages\n\n  // For the timer methods, don't actually use the console methods.\n  //    The Logger already did the timing, so simply log out the info.\n  if (['time', 'timeLog', 'timeEnd'].includes(method)) {\n    method = 'debug'\n  }\n\n  console[method](`${logInfo} - ${log}`, ...extra)\n}\n\n// Provide the LogHandler as part of the SDK configurations.\nconst configs = { ... }\nconfigs.logs.handler = logHandler\nconst client = create(configs)"
-            }
-          ],
-          "params": [
-            {
-              "title": "param",
-              "name": "LogEntry",
-              "lineNumber": 14,
-              "description": {
-                "type": "root",
-                "children": [
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "The LogEntry to be logged.",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 27,
-                            "offset": 26
-                          },
-                          "indent": []
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 27,
-                        "offset": 26
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 27,
-                    "offset": 26
-                  }
-                }
-              },
-              "type": {
-                "type": "NameExpression",
-                "name": "Object"
-              }
-            }
-          ],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
-          "access": "public",
-          "scope": "static",
-          "kind": "typedef",
-          "name": "LogHandler",
-          "type": {
-            "type": "NameExpression",
-            "name": "Function"
-          },
-          "memberof": "logger",
-          "members": {
-            "global": [],
-            "inner": [],
-            "instance": [],
-            "events": [],
-            "static": []
-          },
-          "path": [
-            {
-              "name": "logger",
-              "kind": "namespace"
-            },
-            {
-              "name": "LogHandler",
-              "kind": "typedef",
-              "scope": "static"
-            }
-          ],
-          "namespace": "logger.LogHandler"
         }
       ]
     },
