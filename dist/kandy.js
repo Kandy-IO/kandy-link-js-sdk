@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.21.0-beta.549
+ * Version: 4.21.0-beta.550
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -24703,6 +24703,7 @@ function api({ dispatch, getState }) {
      * Connect with user credentials to any backend services that the SDK instance deals with.
      *
      * @public
+     * @deprecated Since version 4.19.0. Please see {@link apisetCredentials setCredentials} and {@link services.subscribe subscribe} for new method of connecting.
      * @memberof api
      * @requires userCredentialsAuth
      * @method connect
@@ -24726,6 +24727,7 @@ function api({ dispatch, getState }) {
      * Connect with user credentials to any backend services that the SDK instance deals with.
      *
      * @public
+     * @deprecated Since version 4.19.0. Please see {@link apisetCredentials setCredentials} and {@link services.subscribe subscribe} for new method of connecting.
      * @memberof api
      * @requires userCredentialsDAKAuth
      * @method connect
@@ -24747,6 +24749,7 @@ function api({ dispatch, getState }) {
      * You can optionally provide a refresh token and the SDK will automatically get new access tokens.
      *
      * @public
+     * @deprecated Since version 4.19.0. Please see {@link apisetCredentials setCredentials} and {@link services.subscribe subscribe} for new method of connecting.
      * @memberof api
      * @requires accessTokenAuth
      * @method connect
@@ -24774,6 +24777,7 @@ function api({ dispatch, getState }) {
      * - organizationId - The ID of the organization the user is a part of.
      *
      * @public
+     * @deprecated Since version 4.19.0. Please see {@link apisetCredentials setCredentials} and {@link services.subscribe subscribe} for new method of connecting.
      * @memberof api
      * @requires hmacTokenAuth
      * @method connect
@@ -24802,6 +24806,7 @@ function api({ dispatch, getState }) {
      * Connect by providing a refresh token, to any backend services that the SDK instance deals with.
      *
      * @public
+     * @deprecated Since version 4.19.0. Please see {@link apisetCredentials setCredentials} and {@link services.subscribe subscribe} for new method of connecting.
      * @memberof api
      * @requires accessTokenAuth
      * @method connect
@@ -24822,6 +24827,7 @@ function api({ dispatch, getState }) {
      * Connect by providing an OAuth token, to any backend services that the SDK instance deals with.
      *
      * @public
+     * @deprecated Since version 4.19.0. Please see {@link apisetCredentials setCredentials} and {@link services.subscribe subscribe} for new method of connecting.
      * @memberof api
      * @requires oauthToken
      * @method connect
@@ -24847,6 +24853,7 @@ function api({ dispatch, getState }) {
      * Disconnects from the backend. This will close the websocket and you will stop receiving events.
      *
      * @public
+     * @deprecated Since version 4.19.0. Please see {@link services.unsubscribe unsubscribe} for new method of disconnecting.
      * @requires userCredentialsAuth
      * @requires userCredentialsDAKAuth
      * @requires accessTokenAuth
@@ -25849,7 +25856,18 @@ const log = _logs.logManager.getLogger('AUTH');
  * @param {Object} authentication.server
  * @param {string} authentication.server.base Hostname of the server to be used for requests.
  * @param {string} [authentication.server.protocol='https'] Protocol to be used for requests.
- * @param {Number} [authentication.server.port=443] Port to be used for requests.
+ * @param {number} [authentication.server.port=443] Port to be used for requests.
+ * @param {Object} Deprecated: See {@link config#config.subscription Subscription config} authentication.subscription
+ * @param {string} Deprecated: See {@link config#config.subscription Subscription config} authentication.subscription.server Hostname of the server to be used for subscription requests.
+ * @param {string} Deprecated: See {@link config#config.subscription Subscription config} [authentication.subscription.protocol=https] Protocol to be used for subscription requests.
+ * @param {number} Deprecated: See {@link config#config.subscription Subscription config} [authentication.subscription.port=443] Port to be used for subscription requests.
+ * @param {string} Deprecated: See {@link config#config.subscription Subscription config} [authentication.subscription.version=1] Version of the REST API to be used.
+ * @param {number} Deprecated: See {@link config#config.subscription Subscription config} [authentication.subscription.expires=3600] Time duration, in seconds, until a subscription should expire.
+ * @param {Array} Deprecated: See {@link services.subscribe subscribe}[authentication.subscription.service] Services to subscribe to for notifications.
+ * @param {Object} Deprecated: See {@link config#config.subscription Subscription config} authentication.websocket
+ * @param {string} Deprecated: See {@link config#config.subscription Subscription config} authentication.websocket.server Hostname of the server to be used for websocket notifications.
+ * @param {string} Deprecated: See {@link config#config.subscription Subscription config} [authentication.websocket.protocol=wss] Protocol to be used for websocket notifications.
+ * @param {number} Deprecated: See {@link config#config.subscription Subscription config} [authentication.websocket.port=443] Port to be used for websocket notifications.
  */
 
 // Parse and/or Validate
@@ -41410,7 +41428,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.21.0-beta.549';
+  return '4.21.0-beta.550';
 }
 
 /***/ }),
