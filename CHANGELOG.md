@@ -30,6 +30,7 @@ Kandy.js change log.
   and bandwidth as the original call. `KAA-2304`
 - Fixed documentation for `renderTracks` function to correctly use `track.trackId` instead of the incorrect `track.id`. `KAA-2502`
 - Fixed broken links in Call History and User Link docs. `KAA-2497`
+- Fixed a Call 4.X/3.X interop issue where a remote hold operation would be misinterpreted in some scenarios. `KAA-2463`
 - Fixed a Media issue for `Unified-Plan` calls where a remote track would incorrectly be marked as muted when created. `KAA-2519`
 
 ### Changed
