@@ -21,3 +21,7 @@
   description: # Voice and Video Calls
   link: /quickstarts/javascript/newLink/Voice%20and%20Video%20Calls
 
+- name: FAQ
+  description: # FAQ
+  link: /quickstarts/javascript/newLink/FAQ
+
