@@ -7,6 +7,10 @@ Kandy.js change log.
 
 ## 4.21.0 - beta
 
+### Added
+
+- Added a documentation section in the tutorials referencing the newly introduced default configurations. See [Configuration libraries as part of Kandy.js Supporting Libraries](https://github.com/Kandy-IO/kandy-js-support/). `KAA-2542`
+
 ### Changed
 
 - Action logs are now disabled by default. The client can provide either a boolean or an object with action log configuration details. If `logActions` is set to `true`, the default settings for action logs will be used. See [Config documentation](https://kandy-io.github.io/kandy-link-js-sdk/docs/#config). `KAA-2504`

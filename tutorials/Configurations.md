@@ -7,12 +7,17 @@ permalink: /quickstarts/javascript/link/Configurations
 
 # Kandy Configurations
 
-The first step for any application is to initialize Kandy.js. When doing this, you can customize certain features by providing a configurations object. Kandy's configuration object is separated by feature, and is provided to the Kandy Factory as seen in the example below.
+The first step for any application is to initialize Kandy.js. When doing this, you can customize certain features by providing a configurations object.
+
+Kandy's configuration object is separated by feature, and is provided to the Kandy Factory as seen in the example below, as a sample.
+To use an alternative configuration (e.g. a default one), or to further modify any of its properties, see the 'Example Configurations' section, below.
 
 ```javascript 
 // Initialize an instance of Kandy.js.
 import { create } from kandy
-const kandy = create({
+
+// Sample configuration object.
+const configuration = {
     authentication: {
       server: {
         base: '$SUBSCRIPTIONFQDN$'
@@ -27,20 +32,16 @@ const kandy = create({
         serverTurnCredentials: true,
         iceServers:[
             {
-                url: '$KANDYTURN1$',
-                credentials: ''
+                url: '$KANDYTURN1$'
             },
             {
-                url: '$KANDYTURN2$',
-                credentials: ''
+                url: '$KANDYTURN2$'
             },
             {
-                url: '$KANDYSTUN1$',
-                credentials: ''
+                url: '$KANDYSTUN1$'
             },
             {
-                url: '$KANDYSTUN2$',
-                credentials: ''
+                url: '$KANDYSTUN2$'
             }
         ]
     },
@@ -49,12 +50,72 @@ const kandy = create({
     },
     // Other feature configs.
     ...
-});
+}
+
+// Invoke the factory create to instantiate Kandy.js by providing the configuration object.
+const kandy = create(configuration)
 ```
 
 In most cases, the default values will suffice for an application, but specifying your own configurations allows you to customize certain behaviours. The exception is the authentication configurations, which are always required. This quickstart will showcase a few samples of why you may want to use certain configurations. For a full list of the possible configurations, see the documentation for `configuration` API.
 
 ## Example Configurations
+
+### Default configurations
+
+To get you started more quickly, we provide some default configurations which can be used as a starting point and make configuration easier. See [Kandy.js Support Libraries](https://github.com/Kandy-IO/kandy-js-support).
+
+Note that each default configuration is based on a targeted geographical area.
+See [this config]($DEFAULTCONFIGURL$) which applies for this particular tutorial.
+
+To use a default configuration, the first step is install the configuration library as a project dependency.
+
+via npm:
+
+```bash
+npm install '$DEFAULTCONFIGNAME$'
+```
+
+via yarn:
+
+```bash
+yarn add '$DEFAULTCONFIGNAME$'
+```
+
+And then use it:
+
+```javascript
+import { config } from '$DEFAULTCONFIGNAME$'
+import { create } from '@kandy-io/link-sdk'
+
+const client = create(config)
+
+// Use the SDK.
+```
+
+Furthermore, this default configuration object can also be used as a base for further
+customization, by modifying its content.
+
+```javascript
+import { config as defaultConfig } from '$DEFAULTCONFIGNAME$'
+import { create } from '@kandy-io/link-sdk'
+
+const config = {
+  ...defaultConfig,
+  // Now override some of the default configs properties, such as the 'logs'.
+  logs: {
+    logLevel: 'debug'
+  }
+}
+
+const client = create(config)
+
+// Use the SDK.
+```
+
+The following sections describe various properties within the configuration object in more detail.
+
+Each section refers to a specific Kandy.js feature that in general maps to that configuration property.
+For example, modifying the value of `config.logs` property in your configuration object, will affect how the Kandy.js 'Logs' feature will behave at runtime.
 
 ### Logs
 
