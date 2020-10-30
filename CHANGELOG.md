@@ -5,6 +5,23 @@ Kandy.js change log.
 - This project adheres to [Semantic Versioning](http://semver.org/).
 - This change log follows [keepachangelog.com](http://keepachangelog.com/) recommendations.
 
+## 4.21.0 - 2020-10-30
+
+### Added
+
+- Added a documentation section in the tutorials referencing the newly introduced default configurations. See [Configuration libraries as part of Kandy.js Supporting Libraries](https://github.com/Kandy-IO/kandy-js-support/). `KAA-2542`
+- Added a new FAQ section within our tutorials. `KAA-2551`
+
+### Fixed
+
+- Fixed a Call 4.X/3.X interop issue where a remote hold operation would be misinterpreted in some scenarios. `KAA-2463`
+
+### Changed
+
+- Action logs are now disabled by default. The client can provide either a boolean or an object with action log configuration details. If `logActions` is set to `true`, the default settings for action logs will be used. See [Config documentation](https://kandy-io.github.io/kandy-link-js-sdk/docs/#config). `KAA-2504`
+- Deprecated old connect/disconnect api and config options. `KAA-2493`
+- Updated the 'User Connect' tutorial to be clearer on how to implement the new Auth `setCredentials` and `subscribe` APIs. `KAA-2539`
+
 ## 4.20.0 - 2020-10-02
 
 ### Added

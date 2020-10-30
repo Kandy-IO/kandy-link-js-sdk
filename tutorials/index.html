@@ -42,6 +42,11 @@
             link: 'Voice and Video Calls'
           },
         
+          {
+            title: 'FAQ',
+            link: 'FAQ'
+          },
+        
         ]
       }]
 
@@ -117,6 +122,27 @@
             extend(api) {
               const kandy = useDefault ? '$KANDY$' : configs[configIdx].data.KANDY
               api.processMarkdown(md => md.replace(/\$KANDY\$/gm, kandy))
+            }
+          },
+          {
+            name: 'Convert DEFAULTCONFIGNAME',
+            extend(api) {
+              const defaultConfigName = useDefault ? '$DEFAULTCONFIGNAME$' : configs[configIdx].data.DEFAULTCONFIGNAME
+              api.processMarkdown(md => md.replace(/\$DEFAULTCONFIGNAME\$/gm, defaultConfigName))
+            }
+          },
+          {
+            name: 'Convert DEFAULTCONFIGURL',
+            extend(api) {
+              const defaultConfigURL = useDefault ? '$DEFAULTCONFIGURL$' : configs[configIdx].data.DEFAULTCONFIGURL
+              api.processMarkdown(md => md.replace(/\$DEFAULTCONFIGURL\$/gm, defaultConfigURL))
+            }
+          },
+          {
+            name: 'Convert DEFAULTCONFIGACCESS',
+            extend(api) {
+              const defaultConfigAccess = useDefault ? '$DEFAULTCONFIGACCESS$' : configs[configIdx].data.DEFAULTCONFIGACCESS
+              api.processMarkdown(md => md.replace(/\$DEFAULTCONFIGACCESS\$/gm, defaultConfigAccess))
             }
           },
           {
