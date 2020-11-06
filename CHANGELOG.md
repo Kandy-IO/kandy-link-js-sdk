@@ -7,6 +7,10 @@ Kandy.js change log.
 
 ## 4.22.0 - beta
 
+## Changed
+
+- Changed `call.getStats` Call API to return a Promise, so that caller can get the report of the call as part of invoking this API. `KAA-2558`
+
 ## Fixed
 
 - Fixed an issue where we weren't retrieving the availables services from `Kandy.services.getSubscriptions()`. `KAA-2549`
