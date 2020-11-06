@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.22.0-beta.569
+ * Version: 4.22.0-beta.570
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -41553,7 +41553,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.22.0-beta.569';
+  return '4.22.0-beta.570';
 }
 
 /***/ }),
@@ -53981,7 +53981,7 @@ function createSubscriptionPlugin(options = {}) {
   }
 
   return {
-    sagas: [_sagas.subscriptionFlow, _sagas.extendSubscription, _sagas.onSubscriptionGone, _sagas.onConnectionLostEntry],
+    sagas: [_sagas.registerServices, _sagas.subscriptionFlow, _sagas.extendSubscription, _sagas.onSubscriptionGone, _sagas.onConnectionLostEntry],
     init,
     capabilities: ['link_subscription'],
     api: _interface.api,
@@ -54382,6 +54382,7 @@ var _stringify = __webpack_require__("../../node_modules/babel-runtime/core-js/j
 
 var _stringify2 = _interopRequireDefault(_stringify);
 
+exports.registerServices = registerServices;
 exports.subscriptionFlow = subscriptionFlow;
 exports.doSubscribe = doSubscribe;
 exports.doUnsubscribe = doUnsubscribe;
@@ -54458,6 +54459,14 @@ const platform = _constants2.platforms.LINK;
 // Subscription plugin.
 
 const log = _logs.logManager.getLogger('SUBSCRIPTION');
+
+/**
+ * Register the all service for subscriptions.
+ * @method registerServices
+ */
+function* registerServices() {
+  yield (0, _effects.put)(actions.registerService(['call', 'Presence', 'IM']));
+}
 
 /**
  * Entry point for ALL subscription change actions.

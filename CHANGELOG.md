@@ -7,6 +7,10 @@ Kandy.js change log.
 
 ## 4.22.0 - beta
 
+## Fixed
+
+- Fixed an issue where we weren't retrieving the availables services from `Kandy.services.getSubscriptions()`. `KAA-2549`
+
 ## 4.21.0 - 2020-10-30
 
 ### Added
