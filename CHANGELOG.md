@@ -14,6 +14,7 @@ Kandy.js change log.
 ## Fixed
 
 - Fixed an issue where we weren't retrieving the availables services from `Kandy.services.getSubscriptions()`. `KAA-2549`
+- Fixed a Call issue where DSCP markings were not being applied on the media traffic while in proxy mode. `KAA-2568`
 
 ## 4.21.0 - 2020-10-30
 
