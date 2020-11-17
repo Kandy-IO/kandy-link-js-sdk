@@ -515,6 +515,12 @@ When the `exact` value is provided, it will be the only value considered for the
 When the `ideal` value is provided, it will be considered as the optimal value for the option.
    If it cannot be used, the closest acceptable value will be used instead.
 
+A string value can be provided directly instead of using the MediaConstraint format.
+   Using a string directly is not recommended, since behaviour may differ depending
+   on browser and media property. For most properties, a direct string value will be
+   handled as `ideal` behaviour, but some properties may follow the `exact` behaviour
+   (eg. `deviceId`).
+
 Type: [Object][7]
 
 **Properties**
@@ -2964,7 +2970,9 @@ Voicemail functions are all part of this namespace.
 ### fetch
 
 Attempts to retrieve voicemail information from the server.
-A `voicemail:new` event is emitted upon completion.
+
+A [voicemail:change][110] event is
+   emitted upon completion.
 
 ### get
 
@@ -3187,3 +3195,5 @@ Returns voicemail data from the store.
 [108]: #usereventdirectorychange
 
 [109]: #usergetall
+
+[110]: #voicemaileventvoicemailchange

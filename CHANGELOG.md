@@ -7,7 +7,13 @@ Kandy.js change log.
 
 ## 4.22.0 - beta
 
-## Changed
+### Fixed
+
+- Minor documentation fixes.
+  - Update the Call `MediaConstraint` format description to include the "direct value" approach. `KAA-2565`
+  - Fix the Voicemail `fetch` API description to mention the correct event emitted. `KAA-2569`
+
+### Changed
 
 - Changed `call.getStats` Call API to return a Promise, so that caller can get the report of the call as part of invoking this API. `KAA-2558`
 

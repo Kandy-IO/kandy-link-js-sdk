@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.22.0-beta.578
+ * Version: 4.22.0-beta.579
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -29096,6 +29096,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * When the `ideal` value is provided, it will be considered as the optimal value for the option.
  *    If it cannot be used, the closest acceptable value will be used instead.
  *
+ * A string value can be provided directly instead of using the MediaConstraint format.
+ *    Using a string directly is not recommended, since behaviour may differ depending
+ *    on browser and media property. For most properties, a direct string value will be
+ *    handled as `ideal` behaviour, but some properties may follow the `exact` behaviour
+ *    (eg. `deviceId`).
+ *
  * @public
  * @static
  * @typedef {Object} MediaConstraint
@@ -41579,7 +41585,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.22.0-beta.578';
+  return '4.22.0-beta.579';
 }
 
 /***/ }),
@@ -47995,7 +48001,9 @@ function api({ dispatch, getState }) {
   const mwiApi = {
     /**
      * Attempts to retrieve voicemail information from the server.
-     * A `voicemail:new` event is emitted upon completion.
+     *
+     * A {@link voicemail.event:voicemail:change voicemail:change} event is
+     *    emitted upon completion.
      *
      * @public
      * @requires voicemail
@@ -48041,6 +48049,7 @@ Object.defineProperty(exports, "__esModule", {
  *
  * @requires voicemail
  * @public
+ * @static
  * @memberof voicemail
  * @event voicemail:change
  * @param {Object} params An object containing voicemail info.
