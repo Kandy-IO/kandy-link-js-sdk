@@ -10,6 +10,7 @@ Kandy.js change log.
 ### Fixed
 
 - Minor documentation fixes.
+- Fixed issue where proxy doesn't explicitely serialize data being passed through it. Solves an issue with Electron 9+.
 - Update the Call `MediaConstraint` format description to include the "direct value" approach. `KAA-2565`
 - Fix the Voicemail `fetch` API description to mention the correct event emitted. `KAA-2569`
 - Fixed an issue where we weren't retrieving the availables services from `Kandy.services.getSubscriptions()`. `KAA-2549`

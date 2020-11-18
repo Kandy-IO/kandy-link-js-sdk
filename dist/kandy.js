@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.22.0-beta.580
+ * Version: 4.22.0-beta.581
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -41585,7 +41585,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.22.0-beta.580';
+  return '4.22.0-beta.581';
 }
 
 /***/ }),
@@ -59656,7 +59656,12 @@ var _promise = __webpack_require__("../../node_modules/babel-runtime/core-js/pro
 
 var _promise2 = _interopRequireDefault(_promise);
 
-exports.default = wrapChannel;
+var _stringify = __webpack_require__("../../node_modules/babel-runtime/core-js/json/stringify.js");
+
+var _stringify2 = _interopRequireDefault(_stringify);
+
+exports.jsonChannel = jsonChannel;
+exports.replyChannel = replyChannel;
 
 var _logs = __webpack_require__("../../packages/kandy/src/logs/index.js");
 
@@ -59665,17 +59670,47 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 const log = _logs.logManager.getLogger('CHANNEL');
 
 /**
- * Wraps a channel with only `send` and `receive` functionality into one that
+ * Converts a channel's send and receive to serialize messages in JSON before sending and after receiving.
+ *
+ * @param {Object} innerChannel The channel to convert
+ */
+// Other plugins.
+function jsonChannel(innerChannel) {
+  const jsonChannel = {
+    receive: undefined,
+    send(message) {
+      try {
+        innerChannel.send((0, _stringify2.default)(message));
+      } catch (err) {
+        log.error('Failed to send JSON message over channel: ', err);
+      }
+    }
+  };
+
+  innerChannel.receive = function receiveJSONMessage(message) {
+    try {
+      if (jsonChannel.receive) {
+        jsonChannel.receive(JSON.parse(message));
+      }
+    } catch (err) {
+      log.error('Failed to receive JSON message on channel: ', err);
+    }
+  };
+
+  return jsonChannel;
+}
+
+/**
+ * Converts a channel with only `send` and `receive` functionality into one that
  *    also has `reply` functionality.
  * This is required by the Proxy Plugin to convert asynchronous code into
  *    synchronous code. The Proxy needs to return a value synchronously when
  *    sending data over the channel.
- * @method wrapChannel
+ * @method replyChannel
  * @param  {Object} channel
  * @return {Object} The same channel, but with a `reply` method as well.
  */
-// Other plugins.
-function wrapChannel(channel) {
+function replyChannel(channel) {
   /**
    * Track sent messages by their ID.
    * @type {Object}
@@ -60704,8 +60739,6 @@ var _manager2 = _interopRequireDefault(_manager);
 
 var _channel = __webpack_require__("../../packages/kandy/src/webrtcProxy/channel.js");
 
-var _channel2 = _interopRequireDefault(_channel);
-
 var _logs = __webpack_require__("../../packages/kandy/src/logs/index.js");
 
 var _uuid = __webpack_require__("../../packages/kandy/node_modules/uuid/dist/esm-browser/index.js");
@@ -60798,7 +60831,7 @@ function initializeProxy(webRTC) {
       return false;
     }
 
-    const wrappedChannel = (0, _channel2.default)(channel);
+    const wrappedChannel = (0, _channel.replyChannel)((0, _channel.jsonChannel)(channel));
     base.channel = wrappedChannel;
     base.clientReady = false;
 
