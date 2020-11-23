@@ -7,6 +7,10 @@ Kandy.js change log.
 
 ## 4.22.0 - beta
 
+### Added
+
+- Added SDK metadata to `call:statsReceived` event's payload. `KAA-2557`
+
 ### Fixed
 
 - Minor documentation fixes.
@@ -19,7 +23,6 @@ Kandy.js change log.
 
 ### Changed
 
-- Changed `call.getStats` Call API to return a Promise, so that caller can get the report of the call as part of invoking this API. `KAA-2558`
 - Changed `call.getStats` Call API to return a Promise, so that caller can get the report of the call as part of invoking this API. `KAA-2558`
 
 ## 4.21.0 - 2020-10-30
