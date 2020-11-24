@@ -20,6 +20,7 @@ Kandy.js change log.
 - Fixed an issue where we weren't retrieving the availables services from `Kandy.services.getSubscriptions()`. `KAA-2549`
 - Fixed a Call issue where DSCP markings were not being applied on the media traffic while in proxy mode. `KAA-2568`
 - Fixed issue where call is not successfully put on hold if only one side is sharing video. `KAA-2555`
+- Added some robustness around processing notifications when we can't find an associated call. Instead of throwing an exception, now we log a warning and continue. `KAA-2290`
 
 ### Changed
 
