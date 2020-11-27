@@ -5,7 +5,7 @@ Kandy.js change log.
 - This project adheres to [Semantic Versioning](http://semver.org/).
 - This change log follows [keepachangelog.com](http://keepachangelog.com/) recommendations.
 
-## 4.22.0 - beta
+## 4.22.0 - 2020-11-27
 
 ### Added
 
@@ -21,6 +21,7 @@ Kandy.js change log.
 - Fixed a Call issue where DSCP markings were not being applied on the media traffic while in proxy mode. `KAA-2568`
 - Fixed issue where call is not successfully put on hold if only one side is sharing video. `KAA-2555`
 - Added some robustness around processing notifications when we can't find an associated call. Instead of throwing an exception, now we log a warning and continue. `KAA-2290`
+- Fixed issue where the user subscription was being removed if internet connectivity was lost for too long. `KAA-2538`
 
 ### Changed
 
