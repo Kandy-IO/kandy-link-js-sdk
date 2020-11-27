@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.remote.js
- * Version: 4.21.0
+ * Version: 4.22.0
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -3103,6 +3103,13 @@ module.exports = { "default": __webpack_require__("../../node_modules/core-js/li
 
 /***/ }),
 
+/***/ "../../node_modules/babel-runtime/core-js/json/stringify.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__("../../node_modules/core-js/library/fn/json/stringify.js"), __esModule: true };
+
+/***/ }),
+
 /***/ "../../node_modules/babel-runtime/core-js/map.js":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3224,6 +3231,18 @@ exports.default = function (obj, keys) {
 __webpack_require__("../../node_modules/core-js/library/modules/es6.string.iterator.js");
 __webpack_require__("../../node_modules/core-js/library/modules/es6.array.from.js");
 module.exports = __webpack_require__("../../node_modules/core-js/library/modules/_core.js").Array.from;
+
+
+/***/ }),
+
+/***/ "../../node_modules/core-js/library/fn/json/stringify.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var core = __webpack_require__("../../node_modules/core-js/library/modules/_core.js");
+var $JSON = core.JSON || (core.JSON = { stringify: JSON.stringify });
+module.exports = function stringify(it) { // eslint-disable-line no-unused-vars
+  return $JSON.stringify.apply($JSON, arguments);
+};
 
 
 /***/ }),
@@ -14336,7 +14355,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.21.0';
+  return '4.22.0';
 }
 
 /***/ }),
@@ -15951,7 +15970,12 @@ var _promise = __webpack_require__("../../node_modules/babel-runtime/core-js/pro
 
 var _promise2 = _interopRequireDefault(_promise);
 
-exports.default = wrapChannel;
+var _stringify = __webpack_require__("../../node_modules/babel-runtime/core-js/json/stringify.js");
+
+var _stringify2 = _interopRequireDefault(_stringify);
+
+exports.jsonChannel = jsonChannel;
+exports.replyChannel = replyChannel;
 
 var _logs = __webpack_require__("../../packages/kandy/src/logs/index.js");
 
@@ -15960,17 +15984,47 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 const log = _logs.logManager.getLogger('CHANNEL');
 
 /**
- * Wraps a channel with only `send` and `receive` functionality into one that
+ * Converts a channel's send and receive to serialize messages in JSON before sending and after receiving.
+ *
+ * @param {Object} innerChannel The channel to convert
+ */
+// Other plugins.
+function jsonChannel(innerChannel) {
+  const jsonChannel = {
+    receive: undefined,
+    send(message) {
+      try {
+        innerChannel.send((0, _stringify2.default)(message));
+      } catch (err) {
+        log.error('Failed to send JSON message over channel: ', err);
+      }
+    }
+  };
+
+  innerChannel.receive = function receiveJSONMessage(message) {
+    try {
+      if (jsonChannel.receive) {
+        jsonChannel.receive(JSON.parse(message));
+      }
+    } catch (err) {
+      log.error('Failed to receive JSON message on channel: ', err);
+    }
+  };
+
+  return jsonChannel;
+}
+
+/**
+ * Converts a channel with only `send` and `receive` functionality into one that
  *    also has `reply` functionality.
  * This is required by the Proxy Plugin to convert asynchronous code into
  *    synchronous code. The Proxy needs to return a value synchronously when
  *    sending data over the channel.
- * @method wrapChannel
+ * @method replyChannel
  * @param  {Object} channel
  * @return {Object} The same channel, but with a `reply` method as well.
  */
-// Other plugins.
-function wrapChannel(channel) {
+function replyChannel(channel) {
   /**
    * Track sent messages by their ID.
    * @type {Object}
@@ -16539,7 +16593,8 @@ exports.default = async function session(webRTC, command) {
   if (operation === 'addTracks') {
     const trackIds = params[0].map(track => track.id);
     const tracks = webRTC.managers.track.getTracks(trackIds);
-    return session.addTracks(tracks);
+    const dscpTrackMapping = params.length === 2 ? params[1] : {};
+    return session.addTracks(tracks, dscpTrackMapping);
   }
 
   if (operation === 'getStats') {
@@ -16730,8 +16785,6 @@ var _webrtcEvents2 = _interopRequireDefault(_webrtcEvents);
 
 var _channel = __webpack_require__("../../packages/kandy/src/webrtcProxy/channel.js");
 
-var _channel2 = _interopRequireDefault(_channel);
-
 var _logs = __webpack_require__("../../packages/kandy/src/logs/index.js");
 
 var _uuid = __webpack_require__("../../packages/kandy/node_modules/uuid/dist/esm-browser/index.js");
@@ -16817,7 +16870,7 @@ function clientProxy() {
   api.setChannel = channel => {
     log.debug(`${_logs.API_LOG_TAG}proxy.setChannel`);
 
-    base.channel = (0, _channel2.default)(channel);
+    base.channel = (0, _channel.replyChannel)((0, _channel.jsonChannel)(channel));
     base.channel.receive = (id, data) => {
       if (!base.isReady && data.initialize) {
         log.info('Initializing local webRTC stack.', data.config);
@@ -20318,6 +20371,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = setTransceiversDirection;
 
+var _fp = __webpack_require__("../../node_modules/lodash/fp.js");
+
 var _sdpSemantics = __webpack_require__("../../packages/webrtc/src/sdpUtils/sdpSemantics.js");
 
 var _transceiverUtils = __webpack_require__("../../packages/webrtc/src/sdpUtils/transceiverUtils.js");
@@ -20338,7 +20393,9 @@ function setTransceiversDirection(targetDirection, options = {}) {
     let transceivers = proxyPeer.getTransceivers();
 
     if (options.trackIds) {
-      transceivers = transceivers.filter(transceiver => options.trackIds.includes(transceiver.sender.track.id));
+      transceivers = transceivers.filter(transceiver => {
+        return options.trackIds.includes((0, _fp.get)(['sender', 'track', 'id'], transceiver)) || options.trackIds.includes((0, _fp.get)(['receiver', 'track', 'id'], transceiver));
+      });
     }
 
     const failures = [];
@@ -20383,6 +20440,10 @@ var _remoteDescription = __webpack_require__("../../packages/webrtc/src/Peer/pro
 
 var _remoteDescription2 = _interopRequireDefault(_remoteDescription);
 
+var _remoteTracksActive = __webpack_require__("../../packages/webrtc/src/Peer/properties/remoteTracksActive.js");
+
+var _remoteTracksActive2 = _interopRequireDefault(_remoteTracksActive);
+
 var _remoteTracks = __webpack_require__("../../packages/webrtc/src/Peer/properties/remoteTracks.js");
 
 var _remoteTracks2 = _interopRequireDefault(_remoteTracks);
@@ -20393,7 +20454,7 @@ var _senderTracks2 = _interopRequireDefault(_senderTracks);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = { localDescription: _localDescription2.default, localTracks: _localTracks2.default, remoteDescription: _remoteDescription2.default, remoteTracks: _remoteTracks2.default, senderTracks: _senderTracks2.default };
+exports.default = { localDescription: _localDescription2.default, localTracks: _localTracks2.default, remoteDescription: _remoteDescription2.default, remoteTracks: _remoteTracksActive2.default, remoteTracksAll: _remoteTracks2.default, senderTracks: _senderTracks2.default };
 
 /***/ }),
 
@@ -20505,6 +20566,42 @@ function getRemoteDescription() {
 /***/ }),
 
 /***/ "../../packages/webrtc/src/Peer/properties/remoteTracks.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = getRemoteTracks;
+/**
+ * @method getRemoteTracks
+ * @return {Array} List of active Track objects the Peer has received remotely.
+ */
+function getRemoteTracks() {
+  const { proxyPeer, trackManager, log } = this;
+  log.info('Getting remote tracks.');
+
+  // Return the list of Tracks from active receivers.
+  return proxyPeer.getReceivers()
+  /**
+   * Remove any Receivers that do not have an associated track.
+   * We only want to retrieve Receivers that do have tracks, because those are
+   *    the remote tracks that have been added to the Peer.
+   * Receivers without tracks are part of a Transceiver where the Sender has
+   *    a local track, but no remote track has been added to it. We don't
+   *    care about this for the "get remote tracks" operation.
+   */
+  .filter(receiver => Boolean(receiver.track)).map(receiver => trackManager.get(receiver.track.id)).filter(track => {
+    // Make sure the trackManager has the track
+    return track && track.getState().state === 'live';
+  });
+}
+
+/***/ }),
+
+/***/ "../../packages/webrtc/src/Peer/properties/remoteTracksActive.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22379,16 +22476,22 @@ function Session(id, managers, config = {}) {
           const videoTransceiverTargetDir = options.mediaDirections.video;
 
           if (audioTransceiverTargetDir) {
+            const localTrackIds = peer.localTracks.filter(track => track.track.kind === 'audio').map(track => track.id);
+            const remoteTrackIds = peer.remoteTracksAll.filter(track => track.track.kind === 'audio').map(track => track.id);
+
             const result = peer.setTransceiversDirection(audioTransceiverTargetDir, {
-              trackIds: peer.localTracks.filter(track => track.track.kind === 'audio').map(track => track.id)
+              trackIds: [...localTrackIds, ...remoteTrackIds]
             });
             if (result.error) {
               log.info(`Failed to process the following transceivers: ${result.failures}`);
             }
           }
           if (videoTransceiverTargetDir) {
+            const localTrackIds = peer.localTracks.filter(track => track.track.kind === 'video').map(track => track.id);
+            const remoteTrackIds = peer.remoteTracksAll.filter(track => track.track.kind === 'video').map(track => track.id);
+
             const result = peer.setTransceiversDirection(videoTransceiverTargetDir, {
-              trackIds: peer.localTracks.filter(track => track.track.kind === 'video').map(track => track.id)
+              trackIds: [...localTrackIds, ...remoteTrackIds]
             });
             if (result.error) {
               log.info(`Failed to process the following transceivers: ${result.failures}`);
@@ -22430,6 +22533,7 @@ function Session(id, managers, config = {}) {
         if (description.type === 'answer') {
           recordNewDtlsRole();
         }
+
         // Set any parameters on the peer's senders if applicable
         setParameters();
 

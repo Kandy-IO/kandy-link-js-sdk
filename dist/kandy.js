@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.21.0
+ * Version: 4.22.0
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -147,6 +147,133 @@ function _objectWithoutPropertiesLoose(source, excluded) {
 
   return target;
 }
+
+/***/ }),
+
+/***/ "../../node_modules/@kandy-io/sdp-handlers/src/codecRemover.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createCodecRemover", function() { return createCodecRemover; });
+/**
+ * Creates and returns an SDP Handler function that will remove the desired codecs
+ *  from the SDP when passed to the pipeline.
+ *
+ * @method createCodecRemover
+ * @param  {Array<string|Object} codecs An array of strings or objects representing the desired codecs to be removed.
+ * @example
+ * // `codecs` paramters can be an array of strings (i.e., ['VP8', 'VP9']) or as objects with the following signature:
+ * const codecsToBeRemoved = [{
+ *   name: 'codecname',
+ *   fmtpParams: 'specific ftmp parameter target'
+ * }]
+ * const codecRemover = createCodecRemover(codecsToBeRemoved)
+ * @return {Function} returns an SDP handler function
+ */
+function createCodecRemover (codecs = []) {
+  // We allow the user to pass in a codecs of objects or strings, so here we format the strings into objects for uniformity.
+  codecs = codecs.map(item => (typeof item === 'string' ? { name: item } : item))
+
+  return function (newSdp, info, originalSdp) {
+    // This is an array of strings representing codec names we want to remove.
+    const codecStringsToRemove = codecs.map(codec => codec.name)
+
+    newSdp.media.forEach(media => {
+      // This is an array of just the codes (codec payloads) that we FOR SURE want to remove.
+      const finalRemoveList = []
+      // This is an array of RTP objects who have codecs that are the same as strings passed in via codecs.
+      let filteredRtp = []
+
+      // If the current rtp.codec is in the codecStringsToRemove list, add the rtp to filteredRtp
+      filteredRtp = media.rtp.filter(rtp => codecStringsToRemove.includes(rtp.codec))
+
+      filteredRtp.forEach(rtp => {
+        // We grab the relevantCodec codecs object from the passed in codecs, based on the name string.
+        const relevantCodecs = codecs.filter(codec => codec.name === rtp.codec)
+
+        // We check the relevantCodec. If it is not present, then we have no codecs info for this specific rtp.
+        relevantCodecs.forEach(relevantCodec => {
+          // If fmtpParams doesnt exist or is of length 0 then we assume we can remove all instances of this codec
+          if (!relevantCodec.fmtpParams || (relevantCodec.fmtpParams && relevantCodec.fmtpParams.length === 0)) {
+            // We want to delete this codec no matter what, since no fmtp params were included.
+            finalRemoveList.push(rtp.payload)
+          } else {
+            // There are fmtp values for this codec. Therefore we have to check each media.fmtp object to see if it is the right one.
+            // Then when we find the right fmtp object, we check its config to see if it has the parameters specified in the input.
+            media.fmtp.forEach(fmtp => {
+              // We check each iteration to see if we found the right fmtp object.
+              if (fmtp.payload === rtp.payload) {
+                // If we found the right fmtp object, we have to make sure each config param is in the fmtp.config.
+                if (relevantCodec.fmtpParams.every(c => fmtp.config.includes(c))) {
+                  finalRemoveList.push(rtp.payload)
+                }
+              }
+            })
+          }
+        })
+      })
+
+      // At this point we should have an array (finalRemoveList) that contains all ORIGINAL codec payloads that we need to remove.
+      // We now need to check fmtp for all rtx payloads ASSOCIATED with the original codec payload.
+      media.fmtp.forEach(fmtp => {
+        // Check if the config contains apt=, which indicates this fmtp is associated with another.
+        if (fmtp.config.includes('apt=')) {
+          // If so, lets grab the whole string WITHOUT the apt= part, and convet it into an integer. This should be a payload number.
+          var payload = parseInt(fmtp.config.replace('apt=', ''))
+
+          // Check if the finalRemoveList contains the payload that this fmtp is associated with.
+          if (finalRemoveList.includes(payload)) {
+            // If so, then we need to add this fmtp.payload to the finalRemoveList
+            finalRemoveList.push(fmtp.payload)
+          }
+        }
+      })
+
+      // We assume past this point that the finalRemoveList is all powerful.
+      // For each codec in the media.payloads string, if it is in our finalRemoveList list, we remove it.
+      let isNumber = false
+      if (typeof media.payloads === 'number') {
+        media.payloads = media.payloads.toString()
+        isNumber = true
+      }
+      if (media.payloads) {
+        media.payloads = media.payloads
+          .split(' ')
+          .filter(payload => !finalRemoveList.includes(parseInt(payload)))
+          .join(' ')
+      }
+      if (media.payloads && isNumber) {
+        media.payloads = parseInt(media.payloads)
+      }
+
+      // For each codec object, if the payload is in our filteredCodes list, we remove the object.
+      media.rtp = media.rtp.filter(rtp => !finalRemoveList.includes(rtp.payload))
+      media.fmtp = media.fmtp.filter(fmtp => !finalRemoveList.includes(fmtp.payload))
+
+      if (media.rtcpFb) {
+        media.rtcpFb = media.rtcpFb.filter(rtcpFb => !finalRemoveList.includes(rtcpFb.payload))
+      }
+    })
+
+    return newSdp
+  }
+}
+
+
+/***/ }),
+
+/***/ "../../node_modules/@kandy-io/sdp-handlers/src/index.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _codecRemover_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../node_modules/@kandy-io/sdp-handlers/src/codecRemover.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createCodecRemover", function() { return _codecRemover_js__WEBPACK_IMPORTED_MODULE_0__["createCodecRemover"]; });
+
+// SDP Handlers
+
+
 
 /***/ }),
 
@@ -23025,157 +23152,6 @@ if (typeof module === 'object') {
 
 /***/ }),
 
-/***/ "../../packages/fcs/src/js/sdp/codecRemover.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = createCodecRemover;
-
-var _fp = __webpack_require__("../../node_modules/lodash/fp.js");
-
-/**
- * returns a function with params object
- * @param  {Array} An array of strings or objects representing the desired codecs to be removed,
- * can be passed in as a string or as objects with the following signature:
- *  [{
- *      name: 'codecname',
- *      fmtpParams: 'specific ftmp parameter target'
- *  }]
- * @return {Function}        [description]
- *
- * INSTRUCTIONS FOR EXPOSING FUNCTION TO UC VERSION OF THE SDK:
- * the following code will need to be added to the appropriate index files (ie: kandy.uc.js)
- * this will expose the createCodecRemover function in the browser
-    import createCodecRemover from '../../fcs/src/js/sdp/codecRemover';
-    kandy.sdpHandlers = {
-        createCodecRemover
-    };
-    module.exports = kandy;
-
- * INSTRUCTIONS USING RUNNING FUNCTION ONCE EXPOSED
- * From the browser Devtools run the following:
- * const codecRemover = createKandy.sdpHandlers.createCodecRemover(['VP8', 'VP9'])
- * const newSdp = codecRemover(<SDP Object>); // the incoming SDP object
- * console.log(newSdp)
- */
-function createCodecRemover(codecs) {
-    if (!codecs) {
-        codecs = [];
-    }
-    // We allow the user to pass in a codecs of objects or strings, so here we format the strings into objects for uniformity.
-    codecs = codecs.map(item => typeof item === 'string' ? { name: item } : item);
-
-    return function (...params) {
-        // Adding support for new callstack sdp handlers
-        // Old callstack sdp pipeline passes an object to each sdp
-        // handler that contains the currentSdp
-        // New callstack passes 3 arguments to each sdp handler
-        // newSdp, info, originalSdp
-        let oldCallstack = true;
-        let currentSdp;
-        if (params[0].currentSdp) {
-            currentSdp = params[0].currentSdp;
-        } else if (params.length === 3) {
-            oldCallstack = false;
-            currentSdp = params[0];
-        }
-
-        let newSdp = (0, _fp.cloneDeep)(currentSdp);
-
-        // This is an array of strings representing codec names we want to remove.
-        let codecStringsToRemove = codecs.map(codec => codec.name);
-
-        newSdp.media.forEach(media => {
-            // This is an array of just the codes (codec payloads) that we FOR SURE want to remove.
-            let finalRemoveList = [];
-            // This is an array of RTP objects who have codecs that are the same as strings passed in via codecs.
-            let filteredRtp = [];
-
-            // If the current rtp.codec is in the codecStringsToRemove list, add the rtp to filteredRtp
-            filteredRtp = media.rtp.filter(rtp => codecStringsToRemove.includes(rtp.codec));
-
-            filteredRtp.forEach(rtp => {
-                // We grab the relevantCodec codecs object from the passed in codecs, based on the name string.
-                const relevantCodecs = codecs.filter(codec => codec.name === rtp.codec);
-
-                // We check the relevantCodec. If it is not present, then we have no codecs info for this specific rtp.
-                relevantCodecs.forEach(relevantCodec => {
-                    // If fmtpParams doesnt exist or is of length 0 then we assume we can remove all instances of this codec
-                    if (!relevantCodec.fmtpParams || relevantCodec.fmtpParams && relevantCodec.fmtpParams.length === 0) {
-                        // We want to delete this codec no matter what, since no fmtp params were included.
-                        finalRemoveList.push(rtp.payload);
-                    } else {
-                        // There are fmtp values for this codec. Therefore we have to check each media.fmtp object to see if it is the right one.
-                        // Then when we find the right fmtp object, we check its config to see if it has the parameters specified in the input.
-                        media.fmtp.forEach(fmtp => {
-                            // We check each iteration to see if we found the right fmtp object.
-                            if (fmtp.payload === rtp.payload) {
-                                // If we found the right fmtp object, we have to make sure each config param is in the fmtp.config.
-                                if (relevantCodec.fmtpParams.every(c => fmtp.config.includes(c))) {
-                                    finalRemoveList.push(rtp.payload);
-                                }
-                            }
-                        });
-                    }
-                });
-            });
-
-            // At this point we should have an array (finalRemoveList) that contains all ORIGINAL codec payloads that we need to remove.
-            // We now need to check fmtp for all rtx payloads ASSOCIATED with the original codec payload.
-            media.fmtp.forEach(fmtp => {
-                // Check if the config contains apt=, which indicates this fmtp is associated with another.
-                if (fmtp.config.includes('apt=')) {
-                    // If so, lets grab the whole string WITHOUT the apt= part, and convet it into an integer. This should be a payload number.
-                    var payload = parseInt(fmtp.config.replace('apt=', ''));
-
-                    // Check if the finalRemoveList contains the payload that this fmtp is associated with.
-                    if (finalRemoveList.includes(payload)) {
-                        // If so, then we need to add this fmtp.payload to the finalRemoveList
-                        finalRemoveList.push(fmtp.payload);
-                    }
-                }
-            });
-
-            // We assume past this point that the finalRemoveList is all powerful.
-            // For each codec in the media.payloads string, if it is in our finalRemoveList list, we remove it.
-            let isNumber = false;
-            if (typeof media.payloads === 'number') {
-                media.payloads = media.payloads.toString();
-                isNumber = true;
-            }
-            if (media.payloads) {
-                media.payloads = media.payloads.split(' ').filter(payload => !finalRemoveList.includes(parseInt(payload))).join(' ');
-            }
-            if (media.payloads && isNumber) {
-                media.payloads = parseInt(media.payloads);
-            }
-
-            // For each codec object, if the payload is in our filteredCodes list, we remove the object.
-            if (media.rtp) {
-                media.rtp = media.rtp.filter(rtp => !finalRemoveList.includes(rtp.payload));
-            }
-
-            if (media.fmtp) {
-                media.fmtp = media.fmtp.filter(fmtp => !finalRemoveList.includes(fmtp.payload));
-            }
-            if (media.rtcpFb) {
-                media.rtcpFb = media.rtcpFb.filter(rtcpFb => !finalRemoveList.includes(rtcpFb.payload));
-            }
-        });
-
-        // If old callstack, then return the results of the next sdp handler
-        // If new callstack, then just return the modified sdp
-        return oldCallstack ? params[0].next(newSdp) : newSdp;
-    };
-}
-
-/***/ }),
-
 /***/ "../../packages/kandy/node_modules/query-string/index.js":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24463,7 +24439,7 @@ function connect(credentials, options) {
 /**
  * Create a set connection info action that takes a connection and user info object
  *
- * @method connectFinished
+ * @method setConnectionInfo
  * @param {Object} $0
  * @param {Object} $0.userInfo An object representing the user information.
  * @param {Object} $0.connection A connection object. Information about how to connect to the backend services.
@@ -24652,7 +24628,7 @@ function resubscribeFinished({ error, attemptNum }, platform) {
  * Creates a refreshTokens action with the given credentials as a payload.
  *
  * @method refreshTokens
- * @param {Object} credentials A crendetials object containing tokens.
+ * @param {Object} credentials A credentials object containing tokens.
  * @return {Object} A flux standard action.
  */
 function refreshTokens(credentials) {
@@ -24743,7 +24719,7 @@ function setTokens({ accessToken, idToken }) {
 /**
  * Creates a setCredentials action that takes a credentials object.
  *
- * @method connect
+ * @method setCredentials
  * @param {Object} $0
  * @param {string} $0.username The username.
  * @param {string} $0.password The user's password.
@@ -24767,7 +24743,7 @@ function setCredentials({ username, password, authname, hmacToken, bearerAccessT
  * Create a setCredentials finished action that takes a userInfo object on success and possibly
  * an error object.
  *
- * @method connectFinished
+ * @method setCredentialsFinished
  * @param {Object} $0
  * @param {Object} $0.userInfo An object representing the user information.
  * @param {Object} $0.connection A connection object. Information about how to connect to the backend services.
@@ -25479,12 +25455,17 @@ var actionTypes = _interopRequireWildcard(_actionTypes);
 
 var _reduxActions = __webpack_require__("../../node_modules/redux-actions/es/index.js");
 
+var _constants = __webpack_require__("../../packages/kandy/src/auth/constants.js");
+
+var _version = __webpack_require__("../../packages/kandy/src/common/version.js");
+
 var _fp = __webpack_require__("../../node_modules/lodash/fp.js");
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// Helpers
 const reducers = {};
 
 reducers[actionTypes.CONNECT] = {
@@ -25546,7 +25527,7 @@ reducers[actionTypes.CONNECTION_OCCURRED] = {
       subscription: (0, _extends3.default)({}, state.subscription, {
         [action.meta.platform]: action.payload.subscription
       }),
-      // Store platform connection information to be procided to other plugins.
+      // Store platform connection information to be provided to other plugins.
       connection: (0, _extends3.default)({}, state.connection, {
         [action.meta.platform]: action.payload.connection
       })
@@ -25565,11 +25546,19 @@ reducers[actionTypes.DISCONNECT] = {
 
 reducers[actionTypes.DISCONNECT_FINISHED] = {
   next(state, action) {
-    return {
+    const returnObj = {
       isConnected: false,
       isPending: false,
       error: undefined
-    };
+
+      // KAA-2538, we need to keep the userInfo even after disconnecting
+      //   but only for the 4.X new auth method
+    };const isLostConnection = action.payload.reason === _constants.DISCONNECT_REASONS.LOST_CONNECTION;
+    const isVersion4X = (0, _version.getVersion)().startsWith('4');
+    if (isLostConnection && isVersion4X) {
+      returnObj.userInfo = state.userInfo;
+    }
+    return returnObj;
   },
   throw(state, action) {
     return (0, _extends3.default)({}, state, {
@@ -25634,7 +25623,7 @@ reducers[actionTypes.SET_CREDENTIALS_FINISH] = {
     return (0, _extends3.default)({}, state, {
       error: undefined,
       platform: action.meta.platform,
-      // Store platform connection information to be procided to other plugins.
+      // Store platform connection information to be provided to other plugins.
       connection: (0, _extends3.default)({}, state.connection, {
         [action.meta.platform]: action.payload.connection
       }),
@@ -27488,8 +27477,18 @@ function sendDTMFFinish(id, params) {
   return callActionHelper(actionTypes.SEND_DTMF_FINISH, id, params);
 }
 
-function getStats(id, params) {
-  return callActionHelper(actionTypes.GET_STATS, id, params);
+function getStats(id, params, deferred) {
+  const action = {
+    type: actionTypes.GET_STATS,
+    payload: (0, _extends3.default)({}, params, {
+      id
+    }),
+    meta: {
+      deferred
+    }
+  };
+
+  return action;
 }
 
 function getStatsFinish(id, params) {
@@ -28460,6 +28459,7 @@ function callAPI({ dispatch, getState }) {
      * A Track ID can optionally be provided to get a report for a specific
      *    Track of the Call.
      *
+     * This API will return a promise which, when resolved, it will contain the report of the particlar call.
      * The progress of the operation will be tracked via the
      *    {@link call.event:call:operation call:operation} event.
      *
@@ -28477,9 +28477,10 @@ function callAPI({ dispatch, getState }) {
      */
     getStats(callId, trackId) {
       log.debug(_logs.API_LOG_TAG + 'call.getStats: ', callId, trackId);
-      dispatch(_actions.callActions.getStats(callId, { trackId }));
+      const deferredResult = (0, _pDefer2.default)();
+      dispatch(_actions.callActions.getStats(callId, { trackId }, deferredResult));
+      return deferredResult.promise;
     },
-
     /**
      * Forwards an incoming call to another user.
      *
@@ -29107,6 +29108,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *
  * When the `ideal` value is provided, it will be considered as the optimal value for the option.
  *    If it cannot be used, the closest acceptable value will be used instead.
+ *
+ * A string value can be provided directly instead of using the MediaConstraint format.
+ *    Using a string directly is not recommended, since behaviour may differ depending
+ *    on browser and media property. For most properties, a direct string value will be
+ *    handled as `ideal` behaviour, but some properties may follow the `exact` behaviour
+ *    (eg. `deviceId`).
  *
  * @public
  * @static
@@ -31230,7 +31237,8 @@ function callsLink(options = {}) {
 
     // Dependencies to be provided to every call saga.
     const deps = {
-      webRTC: webRTC.managers
+      webRTC: webRTC.managers,
+      browserDetails: webRTC.getBrowserDetails
 
       // Wrap the call sagas in a function that provides them with the webRTC stack.
     };const wrappedSagas = (0, _fp.values)(sagas).map(saga => {
@@ -32046,7 +32054,7 @@ function* updateSessionResponse(callInfo) {
 function* linkCallRequest(requestInfo, options) {
   options.url = generateCallUrl(requestInfo, options);
 
-  const response = yield (0, _effects2.default)(options, requestInfo.requestOptions);
+  const response = yield (0, _effects2.default)(options);
 
   if (response.error) {
     return {
@@ -32460,6 +32468,12 @@ function* callStatusNotification(deps) {
     const message = action.payload.notificationMessage;
     const { eventType } = message;
     const { sessionData: wrtcsSessionId, reasonText, statusCode } = message.sessionParams;
+
+    const targetCall = yield (0, _effects.select)(_selectors.getCallByWrtcsSessionId, wrtcsSessionId);
+    if (!targetCall) {
+      log.info('A remote operation is being requested on a call that no longer exists.');
+    }
+
     const remoteInfo = yield (0, _effects.call)(_utils.getRemoteParticipant, message);
 
     const params = (0, _extends3.default)({
@@ -32565,6 +32579,14 @@ function* receiveRemoteOffer(deps) {
    */
   function* parseOfferNotification(action) {
     const message = action.payload.notificationMessage;
+    const { sessionData: wrtcsSessionId } = message.sessionParams;
+
+    const targetCall = yield (0, _effects.select)(_selectors.getCallByWrtcsSessionId, wrtcsSessionId);
+    if (!targetCall) {
+      log.info('A remote operation is being requested on a call that no longer exists.');
+      return;
+    }
+
     const remoteInfo = yield (0, _effects.call)(_utils.getRemoteParticipant, message);
 
     // Pull-out the parameters into a standard format for the Callstack.
@@ -32603,6 +32625,14 @@ function* receiveRemoteAnswer(deps) {
    */
   function* parseAnswerNotification(action) {
     const message = action.payload.notificationMessage;
+    const { sessionData: wrtcsSessionId } = message.sessionParams;
+
+    const targetCall = yield (0, _effects.select)(_selectors.getCallByWrtcsSessionId, wrtcsSessionId);
+    if (!targetCall) {
+      log.info('A remote operation is being requested on a call that no longer exists.');
+      return;
+    }
+
     const remoteInfo = yield (0, _effects.call)(_utils.getRemoteParticipant, message);
 
     // Pull-out the parameters into a standard format for the Callstack.
@@ -32912,6 +32942,12 @@ const log = _logs.logManager.getLogger('CALL');
 function* getRemoteParticipant(notification) {
   const wrtcsSessionId = notification.sessionParams.sessionData;
   const targetCall = yield (0, _effects.select)(_selectors.getCallByWrtcsSessionId, wrtcsSessionId);
+
+  // If the call isn't found, just log a warning and return an empty object.
+  if (!targetCall) {
+    log.info('A remote operation is being requested on a call that no longer exists.');
+    return {};
+  }
 
   let remoteInfo = {};
   if (!notification.callNotificationParams) {
@@ -34275,7 +34311,7 @@ function* retrieveCallLogs(action) {
     url,
     queryParams,
     method: 'GET'
-  }, requestInfo.requestOptions);
+  });
 
   if (response.error) {
     let error;
@@ -34387,7 +34423,7 @@ function* removeCallLogs(action) {
     url,
     method: 'DELETE',
     responseType: 'none'
-  }, requestInfo.requestOptions);
+  });
 
   if (response.error) {
     let error;
@@ -34951,6 +34987,7 @@ function* makeCall(deps, action) {
       state: _constants.CALL_STATES.ENDED,
       error: error
     }));
+
     return;
   }
 
@@ -35369,6 +35406,10 @@ var _extends2 = __webpack_require__("../../node_modules/babel-runtime/helpers/ex
 
 var _extends3 = _interopRequireDefault(_extends2);
 
+var _map = __webpack_require__("../../node_modules/babel-runtime/core-js/map.js");
+
+var _map2 = _interopRequireDefault(_map);
+
 exports.endCall = endCall;
 exports.offerInactiveMedia = offerInactiveMedia;
 exports.offerFullMedia = offerFullMedia;
@@ -35403,6 +35444,8 @@ var _errors2 = _interopRequireDefault(_errors);
 
 var _selectors2 = __webpack_require__("../../packages/kandy/src/webrtc/interface/selectors.js");
 
+var _selectors3 = __webpack_require__("../../packages/kandy/src/auth/interface/selectors.js");
+
 var _utils = __webpack_require__("../../packages/kandy/src/call/cpaas/utils/index.js");
 
 var _constants = __webpack_require__("../../packages/kandy/src/call/constants.js");
@@ -35411,12 +35454,16 @@ var _effects = __webpack_require__("../../node_modules/redux-saga/dist/redux-sag
 
 var _fp = __webpack_require__("../../node_modules/lodash/fp.js");
 
+var _version = __webpack_require__("../../packages/kandy/src/common/version.js");
+
+var _constants2 = __webpack_require__("../../packages/kandy/src/constants.js");
+
+var _sdkId = __webpack_require__("../../packages/kandy/src/common/sdkId.js");
+
+var _sdkId2 = _interopRequireDefault(_sdkId);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// Libraries.
-
-
-// Helpers.
 /**
  * "Midcall sagas" handle performing local mid-call operations.
  *
@@ -35442,6 +35489,15 @@ const log = _logs.logManager.getLogger('CALL');
  * @param {Function} deps.requests.endSession "End session" signalling function.
  * @param {Object}   action An action of type `END_CALL`.
  */
+
+
+// Utils
+
+
+// Libraries.
+
+
+// Helpers.
 
 
 // Other plugins.
@@ -35737,7 +35793,7 @@ function* sendCustomParameters(deps, action) {
  * @param {Object} action      A "get Stats" action.
  */
 function* getStats(deps, action) {
-  const { webRTC } = deps;
+  const { webRTC, browserDetails } = deps;
 
   const log = _logs.logManager.getLogger('CALL', action.payload.id);
   log.info('Getting call statistics.');
@@ -35747,6 +35803,12 @@ function* getStats(deps, action) {
 
   if (stateError) {
     log.debug(`Invalid call state: ${stateError.message}`);
+
+    yield (0, _effects.call)([action.meta.deferred, 'reject'], {
+      error: stateError,
+      trackId: action.payload.trackId
+    });
+
     yield (0, _effects.put)(_actions.callActions.getStatsFinish(action.payload.id, {
       error: stateError,
       trackId: action.payload.trackId
@@ -35762,21 +35824,81 @@ function* getStats(deps, action) {
 
   const trackId = action.payload.trackId;
   // Retrieve the RTCStatsReport from the session.
-  let result;
+  let rtcStatsReport;
   try {
-    result = yield (0, _effects.call)([session, 'getStats'], trackId);
+    rtcStatsReport = yield (0, _effects.call)([session, 'getStats'], trackId);
   } catch (error) {
     log.info('Failed to get call statistics.');
+    const basicError = new _errors2.default({
+      code: _errors.callCodes.GENERIC_ERROR,
+      message: error.message
+    });
+
+    yield (0, _effects.call)([action.meta.deferred, 'reject'], {
+      error: basicError
+    });
     yield (0, _effects.put)(_actions.callActions.getStatsFinish(action.payload.id, {
-      error: new _errors2.default({
-        code: _errors.callCodes.GENERIC_ERROR,
-        message: error.message
-      }),
+      error: basicError,
       trackId
     }));
   }
-  if (result) {
+  if (rtcStatsReport) {
     log.info('Finished getting call statistics.');
+
+    // Extract values for our own custom Statistics
+    const type = 'kandy_sdk_info';
+    const id = 'kandy-sdk-info_' + _sdkId2.default;
+    const version = (0, _version.getVersion)();
+    const platform = yield (0, _effects.select)(_selectors3.getPlatform);
+
+    let sdk;
+    if (platform === _constants2.platforms.CPAAS) {
+      sdk = '@kandy-io/cpaas-sdk';
+    } else if (platform === _constants2.platforms.UC) {
+      sdk = '@kandy-io/uc-sdk';
+    } else if (platform === _constants2.platforms.LINK) {
+      // callMe service also uses Link platform for call requests as well.
+      if (targetCall.isAnonymous) {
+        sdk = '@kandy-io/callme-sdk';
+      } else {
+        sdk = '@kandy-io/link-sdk';
+      }
+    }
+
+    // Note that getting browser details is only intended for local browser.
+    // For proxy mode this would return undefined. (see getBrowserDetails() on proxyStack)
+    const details = browserDetails();
+
+    // Define our custom Stats object
+    const sdkMetaData = {
+      id,
+      type,
+      sdk,
+      version,
+      callId: action.payload.id
+    };
+
+    if (details) {
+      sdkMetaData.platform = details.browser + '/' + details.version;
+    }
+
+    // Set the timestamp value of our custom report to be same value as
+    // the timestamp associated with any stat coming from original webRTC report.
+    const iter = rtcStatsReport.keys();
+    const rtcStatValue = rtcStatsReport.get(iter.next().value);
+    if (rtcStatValue) {
+      sdkMetaData.timestamp = rtcStatValue.timestamp;
+    }
+    // Add our custom stats to the ones reported by Web RTC.
+    // Since rtcStatsReport seems to be read-only Map, create a new Map
+    // which includes both our stat & the ones from webrtc.
+    const result = new _map2.default();
+    result.set(id, sdkMetaData);
+    rtcStatsReport.forEach(stat => {
+      result.set(stat.id, stat);
+    });
+    yield (0, _effects.call)([action.meta.deferred, 'resolve'], result);
+
     yield (0, _effects.put)(_actions.callActions.getStatsFinish(action.payload.id, { result, trackId }));
   }
 }
@@ -41268,7 +41390,7 @@ function* clickToCallSaga() {
     const conn = yield (0, _effects.select)(_selectors.getConnectionInfo);
     const platform = yield (0, _effects.select)(_selectors.getPlatform);
 
-    const { server, username, requestOptions } = conn;
+    const { server, username } = conn;
 
     const version = platform === _constants.platforms.UC ? 1 : server.version;
 
@@ -41289,7 +41411,7 @@ function* clickToCallSaga() {
 
     const requestTime = new Date().getTime();
     // wait until we get a response from /clicktocall service
-    const response = yield (0, _effects3.default)(options, requestOptions);
+    const response = yield (0, _effects3.default)(options);
 
     // determine what type of response was received.
     if (response.error) {
@@ -41312,6 +41434,25 @@ function* clickToCallSaga() {
     }
   }
 }
+
+/***/ }),
+
+/***/ "../../packages/kandy/src/common/sdkId.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _uuid = __webpack_require__("../../packages/kandy/node_modules/uuid/dist/esm-browser/index.js");
+
+// Generate a unique SDK GUID for the running SDK instance.
+const sdkId = (0, _uuid.v4)();
+
+exports.default = sdkId;
 
 /***/ }),
 
@@ -41577,7 +41718,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.21.0';
+  return '4.22.0';
 }
 
 /***/ }),
@@ -41660,11 +41801,7 @@ var actionTypes = _interopRequireWildcard(_actionTypes);
 
 var _utils = __webpack_require__("../../packages/kandy/src/callstack/utils/index.js");
 
-var _codecRemover = __webpack_require__("../../packages/fcs/src/js/sdp/codecRemover.js");
-
-var _codecRemover2 = _interopRequireDefault(_codecRemover);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _sdpHandlers = __webpack_require__("../../node_modules/@kandy-io/sdp-handlers/src/index.js");
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -41716,7 +41853,7 @@ function setSdpHandlers(sdpHandlers, options) {
    * 4. Modify sdp and add bandwidth limits on it if bandwidth controls are provided.
    */
   if (options.removeH264Codecs) {
-    sdpHandlers.push((0, _codecRemover2.default)(['H264']));
+    sdpHandlers.push((0, _sdpHandlers.createCodecRemover)(['H264']));
   }
   sdpHandlers.push(_utils.sanitizeSdesFromSdp);
   sdpHandlers.push(_utils.modifySdpBandwidth);
@@ -47777,7 +47914,7 @@ function* sendMessage() {
     const destination = action.payload.destination[0];
     const parts = action.payload.message.parts;
     const timestamp = action.payload.message.timestamp;
-    const { server, username, requestOptions } = yield (0, _effects.select)(_selectors2.getConnectionInfo);
+    const { server, username } = yield (0, _effects.select)(_selectors2.getConnectionInfo);
 
     const response = yield (0, _effects3.default)({
       url: `${server.protocol}://${server.server}:${server.port}/rest/version/${server.version}/user/${username}/instantmessage`,
@@ -47790,7 +47927,7 @@ function* sendMessage() {
           type: 'A2'
         }
       })
-    }, requestOptions);
+    });
 
     if (response.error) {
       let error;
@@ -47997,7 +48134,9 @@ function api({ dispatch, getState }) {
   const mwiApi = {
     /**
      * Attempts to retrieve voicemail information from the server.
-     * A `voicemail:new` event is emitted upon completion.
+     *
+     * A {@link voicemail.event:voicemail:change voicemail:change} event is
+     *    emitted upon completion.
      *
      * @public
      * @requires voicemail
@@ -48043,6 +48182,7 @@ Object.defineProperty(exports, "__esModule", {
  *
  * @requires voicemail
  * @public
+ * @static
  * @memberof voicemail
  * @event voicemail:change
  * @param {Object} params An object containing voicemail info.
@@ -48365,7 +48505,7 @@ function* fetchMwi() {
     const response = yield (0, _effects3.default)({
       url: `${options.server.protocol}://${options.server.server}:${options.server.port}/rest/version/${version}/user/${options.username}/voicemail`,
       method: 'GET'
-    }, connInfo.requestOptions);
+    });
 
     if (response.error) {
       let error;
@@ -49310,7 +49450,7 @@ function* pushNotificationsRegistration(connection, {
   realm,
   isProduction
 }) {
-  const { server, requestOptions } = connection;
+  const { server } = connection;
   pushProvider = pushProvider.toLowerCase();
   const url = `${server.protocol}://${server.server}:${server.port}/` + `rest/version/${server.version}/` + `user/${connection.username}/` + 'push/' + pushProvider + '/devices/';
   const method = 'POST';
@@ -49332,7 +49472,7 @@ function* pushNotificationsRegistration(connection, {
   body = (0, _stringify2.default)(body);
   log.debug(`Sending PUSH register request: ${method} ${url}`);
 
-  const response = yield (0, _effects2.default)({ url, method, body }, requestOptions);
+  const response = yield (0, _effects2.default)({ url, method, body });
 
   let registrationResponse;
   const responseName = pushProvider + 'DeviceRegistrationResponse';
@@ -49388,13 +49528,13 @@ function* pushNotificationsRegistration(connection, {
  * @return {Object} response
  */
 function* pushNotificationsDeRegistration(connection, { registration }) {
-  const { server, requestOptions } = connection;
+  const { server } = connection;
   const url = `${server.protocol}://${server.server}:${server.port}${registration}`;
   const method = 'DELETE';
   const responseType = 'none';
 
   log.debug(`Sending PUSH unregister request: ${method} ${url}`);
-  const response = yield (0, _effects2.default)({ url, method, responseType }, requestOptions);
+  const response = yield (0, _effects2.default)({ url, method, responseType });
 
   if (response.error) {
     log.info('Failed to unregister device token for PUSH notifications.');
@@ -49435,7 +49575,7 @@ function* pushNotificationsDeRegistration(connection, { registration }) {
  * @return {Object} response A response payload
  */
 function* fetchSDP(connection, partialUrl) {
-  const { server, requestOptions } = connection;
+  const { server } = connection;
   const method = 'GET';
   const url = `${server.protocol}://${server.server}:${server.port}${partialUrl}`;
   log.debug(`Sending request to fecth SDP: ${method} ${url}`);
@@ -49443,7 +49583,7 @@ function* fetchSDP(connection, partialUrl) {
   const response = yield (0, _effects2.default)({
     url,
     method
-  }, requestOptions);
+  });
 
   if (!response.error) {
     log.info('SDP fetched successfully.');
@@ -50830,7 +50970,7 @@ function* updatePresenceRequest({ status, activity, note }, requestInfo) {
 
   const method = 'POST';
 
-  const response = yield (0, _effects2.default)({ url, body, method }, requestInfo.requestOptions);
+  const response = yield (0, _effects2.default)({ url, body, method });
 
   if (response.error) {
     if (response.payload.body) {
@@ -50878,7 +51018,7 @@ function* watchPresenceRequest(users, action, requestInfo) {
 
   const method = 'POST';
 
-  const response = yield (0, _effects2.default)({ url, method, body }, requestInfo.requestOptions);
+  const response = yield (0, _effects2.default)({ url, method, body });
 
   if (response.error) {
     if (response.payload.body) {
@@ -51203,19 +51343,22 @@ function request(options, commonOptions) {
 
 
 // Libraries.
-function* requestSaga(options, commonOptions) {
-  // Get the common request options that should be used for all requests.
-  let common = yield (0, _effects.call)(_utils.getCommonOptions, options.url);
+function* requestSaga(options, manualOptions) {
+  /*
+   * Some requests can have special-cases where they don't want to use the
+   *    "common" options. Allow them to pass in "manual" options that should be
+   *    used instead.
+   * For example, the CPaaS "upload file" request cannot use the "common"
+   *    Content-Type header.
+   */
+  if (manualOptions) {
+    options = (0, _utils2.mergeValues)(options, manualOptions);
+  } else {
+    // Get the common request options that should be used for all requests.
+    const commonOptions = yield (0, _effects.call)(_utils.getCommonOptions, options.url);
 
-  // Merge the retrieved common options with the provided commonOptions.
-  //    This is needed until all REST requests have been cleaned-up to not
-  //    provide their own set of common options.
-  // TODO: Remove this after _all_ of KAA-225 is done.
-  common = (0, _utils2.mergeValues)(commonOptions, common);
-
-  // Merge any common options into the request options. Priority is for the
-  //    common options, to prevent them from being overwritten.
-  options = (0, _utils2.mergeValues)(options, common);
+    options = (0, _utils2.mergeValues)(options, commonOptions);
+  }
 
   // Dispatch the request action for the sagas to process.
   const requestAction = yield (0, _effects.put)(actions.request(options));
@@ -52490,7 +52633,7 @@ function* sipEventSubscribe() {
     const { expires } = yield (0, _effects3.select)(_selectors3.getSubscriptionInfo);
 
     const platform = yield (0, _effects3.select)(_selectors2.getPlatform);
-    let { server, username, token, accessToken, requestOptions: commonOptions } = yield (0, _effects3.select)(_selectors2.getConnectionInfo);
+    let { server, username, token, accessToken } = yield (0, _effects3.select)(_selectors2.getConnectionInfo);
 
     // TODO: UC should store it's token the same way as Link.
     if (platform === _constants.platforms.UC && !token) {
@@ -52515,7 +52658,7 @@ function* sipEventSubscribe() {
     }
     requestOptions.body = (0, _stringify2.default)(requestOptions.body);
 
-    const response = yield (0, _effects2.default)(requestOptions, commonOptions);
+    const response = yield (0, _effects2.default)(requestOptions);
 
     if (response.error) {
       let error;
@@ -52621,7 +52764,7 @@ function* sipEventUpdate() {
     }
 
     const platform = yield (0, _effects3.select)(_selectors2.getPlatform);
-    let { server, username, token, accessToken, requestOptions: commonOptions } = yield (0, _effects3.select)(_selectors2.getConnectionInfo);
+    let { server, username, token, accessToken } = yield (0, _effects3.select)(_selectors2.getConnectionInfo);
 
     // TODO: UC should store it's token the same way as Link.
     if (platform === _constants.platforms.UC && !token) {
@@ -52650,7 +52793,7 @@ function* sipEventUpdate() {
       })
     });
 
-    const response = yield (0, _effects2.default)(requestOptions, commonOptions);
+    const response = yield (0, _effects2.default)(requestOptions);
 
     if (response.error) {
       let error;
@@ -52709,7 +52852,7 @@ function* sipEventUnsubscribe() {
     }
 
     const platform = yield (0, _effects3.select)(_selectors2.getPlatform);
-    let { server, username, token, accessToken, requestOptions: commonOptions } = yield (0, _effects3.select)(_selectors2.getConnectionInfo);
+    let { server, username, token, accessToken } = yield (0, _effects3.select)(_selectors2.getConnectionInfo);
 
     // TODO: UC should store it's token the same way as Link.
     if (platform === _constants.platforms.UC && !token) {
@@ -52722,7 +52865,7 @@ function* sipEventUnsubscribe() {
 
     requestOptions.url = `${server.protocol}://${server.server}:${server.port}/` + `rest/version/${server.version}/` + `user/${username}/` + `eventSubscription/${eventInfo.sessionData}`;
 
-    const response = yield (0, _effects2.default)(requestOptions, commonOptions);
+    const response = yield (0, _effects2.default)(requestOptions);
 
     if (response.error) {
       let error;
@@ -54006,7 +54149,7 @@ function createSubscriptionPlugin(options = {}) {
   }
 
   return {
-    sagas: [_sagas.subscriptionFlow, _sagas.extendSubscription, _sagas.onSubscriptionGone, _sagas.onConnectionLostEntry],
+    sagas: [_sagas.registerServices, _sagas.subscriptionFlow, _sagas.extendSubscription, _sagas.onSubscriptionGone, _sagas.onConnectionLostEntry],
     init,
     capabilities: ['link_subscription'],
     api: _interface.api,
@@ -54407,6 +54550,7 @@ var _stringify = __webpack_require__("../../node_modules/babel-runtime/core-js/j
 
 var _stringify2 = _interopRequireDefault(_stringify);
 
+exports.registerServices = registerServices;
 exports.subscriptionFlow = subscriptionFlow;
 exports.doSubscribe = doSubscribe;
 exports.doUnsubscribe = doUnsubscribe;
@@ -54483,6 +54627,14 @@ const platform = _constants2.platforms.LINK;
 // Subscription plugin.
 
 const log = _logs.logManager.getLogger('SUBSCRIPTION');
+
+/**
+ * Register the all service for subscriptions.
+ * @method registerServices
+ */
+function* registerServices() {
+  yield (0, _effects.put)(actions.registerService(['call', 'Presence', 'IM']));
+}
 
 /**
  * Entry point for ALL subscription change actions.
@@ -56494,7 +56646,7 @@ function* contactRequest(method, conn, extraURL, body) {
     options.body = body;
   }
 
-  const response = yield (0, _effects2.default)((0, _extends3.default)({ url }, options), conn.requestOptions);
+  const response = yield (0, _effects2.default)((0, _extends3.default)({ url }, options));
 
   if (response.error) {
     if (response.payload.body) {
@@ -56572,7 +56724,7 @@ function* getDirectory(conn, params = {}) {
   }
   const method = 'GET';
 
-  const response = yield (0, _effects2.default)({ url, queryParams, method }, conn.requestOptions);
+  const response = yield (0, _effects2.default)({ url, queryParams, method });
 
   if (response.error) {
     if (response.payload.body) {
@@ -56617,7 +56769,7 @@ function* fetchSelfInfo(connection) {
     method: 'GET'
   };
 
-  const response = yield (0, _effects2.default)((0, _extends3.default)({ url }, params), connection.requestOptions);
+  const response = yield (0, _effects2.default)((0, _extends3.default)({ url }, params));
 
   if (response.error) {
     if (response.payload.body) {
@@ -56667,7 +56819,7 @@ function* fetchUserLocale(connection) {
     method: 'GET'
   };
 
-  const response = yield (0, _effects2.default)((0, _extends3.default)({ url }, params), connection.requestOptions);
+  const response = yield (0, _effects2.default)((0, _extends3.default)({ url }, params));
   if (response.error) {
     if (response.payload.body) {
       // Handle errors from the server.
@@ -59637,7 +59789,12 @@ var _promise = __webpack_require__("../../node_modules/babel-runtime/core-js/pro
 
 var _promise2 = _interopRequireDefault(_promise);
 
-exports.default = wrapChannel;
+var _stringify = __webpack_require__("../../node_modules/babel-runtime/core-js/json/stringify.js");
+
+var _stringify2 = _interopRequireDefault(_stringify);
+
+exports.jsonChannel = jsonChannel;
+exports.replyChannel = replyChannel;
 
 var _logs = __webpack_require__("../../packages/kandy/src/logs/index.js");
 
@@ -59646,17 +59803,47 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 const log = _logs.logManager.getLogger('CHANNEL');
 
 /**
- * Wraps a channel with only `send` and `receive` functionality into one that
+ * Converts a channel's send and receive to serialize messages in JSON before sending and after receiving.
+ *
+ * @param {Object} innerChannel The channel to convert
+ */
+// Other plugins.
+function jsonChannel(innerChannel) {
+  const jsonChannel = {
+    receive: undefined,
+    send(message) {
+      try {
+        innerChannel.send((0, _stringify2.default)(message));
+      } catch (err) {
+        log.error('Failed to send JSON message over channel: ', err);
+      }
+    }
+  };
+
+  innerChannel.receive = function receiveJSONMessage(message) {
+    try {
+      if (jsonChannel.receive) {
+        jsonChannel.receive(JSON.parse(message));
+      }
+    } catch (err) {
+      log.error('Failed to receive JSON message on channel: ', err);
+    }
+  };
+
+  return jsonChannel;
+}
+
+/**
+ * Converts a channel with only `send` and `receive` functionality into one that
  *    also has `reply` functionality.
  * This is required by the Proxy Plugin to convert asynchronous code into
  *    synchronous code. The Proxy needs to return a value synchronously when
  *    sending data over the channel.
- * @method wrapChannel
+ * @method replyChannel
  * @param  {Object} channel
  * @return {Object} The same channel, but with a `reply` method as well.
  */
-// Other plugins.
-function wrapChannel(channel) {
+function replyChannel(channel) {
   /**
    * Track sent messages by their ID.
    * @type {Object}
@@ -60685,8 +60872,6 @@ var _manager2 = _interopRequireDefault(_manager);
 
 var _channel = __webpack_require__("../../packages/kandy/src/webrtcProxy/channel.js");
 
-var _channel2 = _interopRequireDefault(_channel);
-
 var _logs = __webpack_require__("../../packages/kandy/src/logs/index.js");
 
 var _uuid = __webpack_require__("../../packages/kandy/node_modules/uuid/dist/esm-browser/index.js");
@@ -60779,7 +60964,7 @@ function initializeProxy(webRTC) {
       return false;
     }
 
-    const wrappedChannel = (0, _channel2.default)(channel);
+    const wrappedChannel = (0, _channel.replyChannel)((0, _channel.jsonChannel)(channel));
     base.channel = wrappedChannel;
     base.clientReady = false;
 
@@ -64052,6 +64237,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = setTransceiversDirection;
 
+var _fp = __webpack_require__("../../node_modules/lodash/fp.js");
+
 var _sdpSemantics = __webpack_require__("../../packages/webrtc/src/sdpUtils/sdpSemantics.js");
 
 var _transceiverUtils = __webpack_require__("../../packages/webrtc/src/sdpUtils/transceiverUtils.js");
@@ -64072,7 +64259,9 @@ function setTransceiversDirection(targetDirection, options = {}) {
     let transceivers = proxyPeer.getTransceivers();
 
     if (options.trackIds) {
-      transceivers = transceivers.filter(transceiver => options.trackIds.includes(transceiver.sender.track.id));
+      transceivers = transceivers.filter(transceiver => {
+        return options.trackIds.includes((0, _fp.get)(['sender', 'track', 'id'], transceiver)) || options.trackIds.includes((0, _fp.get)(['receiver', 'track', 'id'], transceiver));
+      });
     }
 
     const failures = [];
@@ -64117,6 +64306,10 @@ var _remoteDescription = __webpack_require__("../../packages/webrtc/src/Peer/pro
 
 var _remoteDescription2 = _interopRequireDefault(_remoteDescription);
 
+var _remoteTracksActive = __webpack_require__("../../packages/webrtc/src/Peer/properties/remoteTracksActive.js");
+
+var _remoteTracksActive2 = _interopRequireDefault(_remoteTracksActive);
+
 var _remoteTracks = __webpack_require__("../../packages/webrtc/src/Peer/properties/remoteTracks.js");
 
 var _remoteTracks2 = _interopRequireDefault(_remoteTracks);
@@ -64127,7 +64320,7 @@ var _senderTracks2 = _interopRequireDefault(_senderTracks);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = { localDescription: _localDescription2.default, localTracks: _localTracks2.default, remoteDescription: _remoteDescription2.default, remoteTracks: _remoteTracks2.default, senderTracks: _senderTracks2.default };
+exports.default = { localDescription: _localDescription2.default, localTracks: _localTracks2.default, remoteDescription: _remoteDescription2.default, remoteTracks: _remoteTracksActive2.default, remoteTracksAll: _remoteTracks2.default, senderTracks: _senderTracks2.default };
 
 /***/ }),
 
@@ -64239,6 +64432,42 @@ function getRemoteDescription() {
 /***/ }),
 
 /***/ "../../packages/webrtc/src/Peer/properties/remoteTracks.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = getRemoteTracks;
+/**
+ * @method getRemoteTracks
+ * @return {Array} List of active Track objects the Peer has received remotely.
+ */
+function getRemoteTracks() {
+  const { proxyPeer, trackManager, log } = this;
+  log.info('Getting remote tracks.');
+
+  // Return the list of Tracks from active receivers.
+  return proxyPeer.getReceivers()
+  /**
+   * Remove any Receivers that do not have an associated track.
+   * We only want to retrieve Receivers that do have tracks, because those are
+   *    the remote tracks that have been added to the Peer.
+   * Receivers without tracks are part of a Transceiver where the Sender has
+   *    a local track, but no remote track has been added to it. We don't
+   *    care about this for the "get remote tracks" operation.
+   */
+  .filter(receiver => Boolean(receiver.track)).map(receiver => trackManager.get(receiver.track.id)).filter(track => {
+    // Make sure the trackManager has the track
+    return track && track.getState().state === 'live';
+  });
+}
+
+/***/ }),
+
+/***/ "../../packages/webrtc/src/Peer/properties/remoteTracksActive.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -66113,16 +66342,22 @@ function Session(id, managers, config = {}) {
           const videoTransceiverTargetDir = options.mediaDirections.video;
 
           if (audioTransceiverTargetDir) {
+            const localTrackIds = peer.localTracks.filter(track => track.track.kind === 'audio').map(track => track.id);
+            const remoteTrackIds = peer.remoteTracksAll.filter(track => track.track.kind === 'audio').map(track => track.id);
+
             const result = peer.setTransceiversDirection(audioTransceiverTargetDir, {
-              trackIds: peer.localTracks.filter(track => track.track.kind === 'audio').map(track => track.id)
+              trackIds: [...localTrackIds, ...remoteTrackIds]
             });
             if (result.error) {
               log.info(`Failed to process the following transceivers: ${result.failures}`);
             }
           }
           if (videoTransceiverTargetDir) {
+            const localTrackIds = peer.localTracks.filter(track => track.track.kind === 'video').map(track => track.id);
+            const remoteTrackIds = peer.remoteTracksAll.filter(track => track.track.kind === 'video').map(track => track.id);
+
             const result = peer.setTransceiversDirection(videoTransceiverTargetDir, {
-              trackIds: peer.localTracks.filter(track => track.track.kind === 'video').map(track => track.id)
+              trackIds: [...localTrackIds, ...remoteTrackIds]
             });
             if (result.error) {
               log.info(`Failed to process the following transceivers: ${result.failures}`);
@@ -66164,6 +66399,7 @@ function Session(id, managers, config = {}) {
         if (description.type === 'answer') {
           recordNewDtlsRole();
         }
+
         // Set any parameters on the peer's senders if applicable
         setParameters();
 
@@ -67792,9 +68028,7 @@ var _link18 = _interopRequireDefault(_link17);
 
 __webpack_require__("../../packages/kandy/src/docs/docs.js");
 
-var _codecRemover = __webpack_require__("../../packages/fcs/src/js/sdp/codecRemover.js");
-
-var _codecRemover2 = _interopRequireDefault(_codecRemover);
+var _sdpHandlers = __webpack_require__("../../node_modules/@kandy-io/sdp-handlers/src/index.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -67810,7 +68044,7 @@ function root(options = {}, plugins = []) {
 root.create = root;
 
 root.sdpHandlers = {
-  createCodecRemover: _codecRemover2.default
+  createCodecRemover: _sdpHandlers.createCodecRemover
 
   // Export this way as a work-around, so it can be used as `<export>();`.
   // See: https://github.com/webpack/webpack/issues/706
