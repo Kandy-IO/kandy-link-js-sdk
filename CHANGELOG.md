@@ -5,7 +5,7 @@ Kandy.js change log.
 - This project adheres to [Semantic Versioning](http://semver.org/).
 - This change log follows [keepachangelog.com](http://keepachangelog.com/) recommendations.
 
-## 4.23.0 - beta
+## 4.23.0 - 2020-12-21
 
 ### Added
 
@@ -28,10 +28,10 @@ Kandy.js change log.
 ### Fixed
 
 - Minor documentation fixes.
-- Fixed issue where proxy doesn't explicitely serialize data being passed through it. Solves an issue with Electron 9+.
+- Fixed issue where proxy doesn't explicitly serialize data being passed through it. Solves an issue with Electron 9+.
 - Update the Call `MediaConstraint` format description to include the "direct value" approach. `KAA-2565`
 - Fix the Voicemail `fetch` API description to mention the correct event emitted. `KAA-2569`
-- Fixed an issue where we weren't retrieving the availables services from `Kandy.services.getSubscriptions()`. `KAA-2549`
+- Fixed an issue where we weren't retrieving the available services from `Kandy.services.getSubscriptions()`. `KAA-2549`
 - Fixed a Call issue where DSCP markings were not being applied on the media traffic while in proxy mode. `KAA-2568`
 - Fixed issue where call is not successfully put on hold if only one side is sharing video. `KAA-2555`
 - Added some robustness around processing notifications when we can't find an associated call. Instead of throwing an exception, now we log a warning and continue. `KAA-2290`

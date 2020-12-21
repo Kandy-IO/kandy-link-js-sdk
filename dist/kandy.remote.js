@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.remote.js
- * Version: 4.23.0-beta.599
+ * Version: 4.23.0-beta.600
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -14355,7 +14355,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.23.0-beta.599';
+  return '4.23.0-beta.600';
 }
 
 /***/ }),
