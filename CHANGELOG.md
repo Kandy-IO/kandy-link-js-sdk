@@ -5,19 +5,33 @@ Kandy.js change log.
 - This project adheres to [Semantic Versioning](http://semver.org/).
 - This change log follows [keepachangelog.com](http://keepachangelog.com/) recommendations.
 
+## 4.23.0 - 2020-12-21
+
+### Added
+
+- Added a request authorization event: `request:error` `KAA-1076`
+  - This event is specific for authorization issues when communicating with the server and notifies an application that the user's credentials should be updated/fixed. This event is emitted _in addition_ to any regular error event for an operation that may be emitted.
+
+### Fixed
+
+- Fixed a Call issue where a crash would occur when a remote SDP offer does not have a media-level direction attribute. `KAA-2585`
+- Fixed an issue where log handlers set in the config were not being applied to WebRTC related logs.`KAA-2528`
+
 ## 4.22.0 - 2020-11-27
 
 ### Added
 
 - Added SDK metadata to `call:statsReceived` event's payload. `KAA-2557`
+- Added a new Call Statistics tutorial. `KAA-2559`
+  - Explains how to retrieve statistics for calls and what the statistics can be used for.
 
 ### Fixed
 
 - Minor documentation fixes.
-- Fixed issue where proxy doesn't explicitely serialize data being passed through it. Solves an issue with Electron 9+.
+- Fixed issue where proxy doesn't explicitly serialize data being passed through it. Solves an issue with Electron 9+.
 - Update the Call `MediaConstraint` format description to include the "direct value" approach. `KAA-2565`
 - Fix the Voicemail `fetch` API description to mention the correct event emitted. `KAA-2569`
-- Fixed an issue where we weren't retrieving the availables services from `Kandy.services.getSubscriptions()`. `KAA-2549`
+- Fixed an issue where we weren't retrieving the available services from `Kandy.services.getSubscriptions()`. `KAA-2549`
 - Fixed a Call issue where DSCP markings were not being applied on the media traffic while in proxy mode. `KAA-2568`
 - Fixed issue where call is not successfully put on hold if only one side is sharing video. `KAA-2555`
 - Added some robustness around processing notifications when we can't find an associated call. Instead of throwing an exception, now we log a warning and continue. `KAA-2290`
