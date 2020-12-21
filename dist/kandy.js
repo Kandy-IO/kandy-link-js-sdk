@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.23.0-beta.597
+ * Version: 4.23.0-beta.599
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -41734,7 +41734,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.23.0-beta.597';
+  return '4.23.0-beta.599';
 }
 
 /***/ }),
@@ -60447,6 +60447,7 @@ function proxyPlugin() {
     api: _interface2.default.api,
     reducer: _interface2.default.reducer,
     init,
+    capabilities: ['mediaProxy'],
     shared: {
       // Share the Proxy stack with the factory. The intention is that this
       //    will replace the webRTC stack the Webrtc plugin previously shared.
