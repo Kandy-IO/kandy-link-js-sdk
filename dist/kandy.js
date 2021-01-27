@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.24.0-beta.606
+ * Version: 4.24.0-beta.607
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -32956,12 +32956,17 @@ function* getRemoteParticipant(notification) {
     // `sessionComplete` notifications don't have `callNotificationParams`.
     log.debug("Notification does not contain property 'callNotificationParams'.");
   } else {
+    // A "conference" call is a joined call. Joined calls are _always_ incoming
+    //    calls, even if the original call was outgoing.
+    const isConference = notification.callNotificationParams.callerDisplayNumber && notification.callNotificationParams.callerDisplayNumber.startsWith('conference@');
+
+    const isIncoming = targetCall.direction === 'incoming' || isConference;
     /**
      * SPiDR notifications seem to have different "remote participant" properties
      *    in different scenarios. Determine which scenario the call is in to know
      *    how to parse the notification.
      */
-    if (targetCall.direction === 'incoming') {
+    if (isIncoming) {
       remoteInfo = {
         remoteName: notification.callNotificationParams.callerName,
         remoteNumber: notification.callNotificationParams.callerDisplayNumber
@@ -36572,7 +36577,7 @@ function* join(deps, action) {
 
   // Determine combined remote participant address
   const currentCallRemoteAddress = currentCall.direction === _constants.CALL_DIRECTION.OUTGOING ? currentCall.to : currentCall.from;
-  const otherCallRemoteAddress = otherCall.direction === _constants.CALL_DIRECTION.OUTGOING ? otherCall.to : currentCall.from;
+  const otherCallRemoteAddress = otherCall.direction === _constants.CALL_DIRECTION.OUTGOING ? otherCall.to : otherCall.from;
   const participantAddress = `${currentCallRemoteAddress},${otherCallRemoteAddress}`;
 
   log.info('Finished local portion of join. Waiting on remote response.');
@@ -41734,7 +41739,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.24.0-beta.606';
+  return '4.24.0-beta.607';
 }
 
 /***/ }),
