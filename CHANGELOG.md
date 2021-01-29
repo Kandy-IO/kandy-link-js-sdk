@@ -5,6 +5,24 @@ Kandy.js change log.
 - This project adheres to [Semantic Versioning](http://semver.org/).
 - This change log follows [keepachangelog.com](http://keepachangelog.com/) recommendations.
 
+## 4.24.0 - 2021-01-29
+
+### Added
+
+- Added explicit warning around the connectivity plugin when using `server` for the `responsibleParty` and a `pingInterval`. `KJS-58`
+  - `pingInterval` is ignored when the server is responsible for pings. This has been made more explicit now.
+
+### Changed
+
+- Updated Logging tutorial to download logs in NDJSON format. `KJS-25`
+- Updated error messages when an action is performed on an invalid call state.
+
+### Fixed
+
+- Fixed issue where Kandy.js would ignore a new track if it had the same id as another track on another peer. `KAA-2599`
+- Fixed a Call issue where the "to" address of a joined call would be incorrect in some scenarios for the user who performed the join. `KAA-2597`
+- Fixed a Call issue where the `remoteParticipant` information of a joined call would not be updated for the users who did not perform the join. `KAA-2598`
+
 ## 4.23.0 - 2020-12-21
 
 ### Added
