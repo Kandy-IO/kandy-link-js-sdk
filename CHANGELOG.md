@@ -18,6 +18,7 @@ Kandy.js change log.
 ### Fixed
 
 - Fixed Authentication issue where REST requests would fail if user credentials were not re-set after connectivity was lost. `KJS-55`
+- Fixed a Call issue where there was no audio after an unhold operation. `KAA-2605`
 
 ## 4.24.0 - 2021-01-29
 
