@@ -5,7 +5,7 @@ Kandy.js change log.
 - This project adheres to [Semantic Versioning](http://semver.org/).
 - This change log follows [keepachangelog.com](http://keepachangelog.com/) recommendations.
 
-## 4.25.0 - beta
+## 4.25.0 - 2021-02-26
 
 ### Added
 
@@ -18,7 +18,6 @@ Kandy.js change log.
 ### Fixed
 
 - Fixed Authentication issue where REST requests would fail if user credentials were not re-set after connectivity was lost. `KJS-55`
-- Fixed a Call issue where there was no audio after an unhold operation. `KAA-2605`
 
 ## 4.24.2 - 2021-02-22
 
