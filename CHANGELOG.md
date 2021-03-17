@@ -7,6 +7,11 @@ Kandy.js change log.
 
 ## 4.26.0 - beta
 
+### Added
+
+- Added SIP Event capability to receive unsolicited events. `KAA-2600`
+- Added improved documentation for the SIP Events feature. `KAA-2590`
+
 ## 4.25.0 - 2021-02-26
 
 ### Added

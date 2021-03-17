@@ -20343,8 +20343,21 @@ session expires.</p>
   </div>
   
 
-  <p>The 'sip' namespace allows a user to subscribe to, and receive notifications for, sip events.</p>
-<p>SipEvents functions are all part of this namespace.</p>
+  <p>The SIP Events feature allows an application to communicate with a SIP network integrated
+with their Kandy Link instance. The SIP network may generate custom events intended
+for an application, which can be handled with the SDK's <code>sip</code> namespace.</p>
+<p>Usage of SIP Events is dependent on your Kandy Link instance. The types of SIP Events can
+be different based on configurations and components, often being part of a custom
+solution. As such, the SIP Events feature is presented in a generic manner to be
+flexible for any possible events.</p>
+<p>An example of a common SIP event is "SIP presence". When a user is connected to a SIP phone,
+the network may generate "phone presence" events when the user starts and ends a call
+(eg. 'On Call', 'Available'). Applications can subscribe to receive these events for
+specific users.</p>
+<p>A SIP event may either be solicited or unsolicited. Solicited events, such as the "presence"
+example above, requires the application to subscribe for the event. See the
+<a href="#sipsubscribe">sip.subscribe API</a> for more information about solicited events.
+Unsolicited events have no prerequisites for being received.</p>
 
 
   <div class='pre p1 fill-light mt0'>sip</div>
@@ -20386,10 +20399,22 @@ session expires.</p>
 
   
 
-  <p>Subscribe for a sip event.</p>
+  <p>Creates a subscription for a SIP event.</p>
+<p>A subscription is required to receive SIP notifications for solicited events. Before
+creating a SIP subscription, the service for the event type must have been
+provisioned as part of the user subscription using the <a href="#servicessubscribe">services.subscribe</a>
+API.</p>
+<p>Only one SIP subscription per event type can exist at a time. A subscription can
+watch for events from multiple users at once. Users can be added to or removed
+from a subscription using the <a href="#sipupdate">sip.update</a> API at any time.</p>
+<p>The SDK will emit a <a href="#sipeventsipsubscriptionchange">sip:subscriptionChange</a>
+event when the operations completes. The <a href="#sipgetdetails">sip.getDetails</a> API can be used
+to retrieve the current information about a subscription.</p>
+<p>The SDK will emit a <a href="#sipeventsipeventschange">sip:eventsChange</a> event when
+a SIP event is received.</p>
 
 
-  <div class='pre p1 fill-light mt0'>subscribe(eventType: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, subscribeUserList: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>, clientCorrelator: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, customParameters: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>?)</div>
+  <div class='pre p1 fill-light mt0'>subscribe(eventType: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, subscribeUserList: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>>, clientCorrelator: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, customParameters: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#callcustomparameter">call.CustomParameter</a>>?)</div>
   
   
 
@@ -20407,7 +20432,7 @@ session expires.</p>
         <div class='space-bottom0'>
           <div>
             <span class='code bold'>eventType</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-	    The sip event type to subscribe for.
+	    The name of the SIP event.
 
           </div>
           
@@ -20415,8 +20440,8 @@ session expires.</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>subscribeUserList</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>)</code>
-	    The list of users to subcribe to.
+            <span class='code bold'>subscribeUserList</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>>)</code>
+	    The list of users to receive events about.
 
           </div>
           
@@ -20425,15 +20450,16 @@ session expires.</p>
         <div class='space-bottom0'>
           <div>
             <span class='code bold'>clientCorrelator</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-	    
+	    Unique identifier for a client device.
+
           </div>
           
         </div>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>customParameters</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>?)</code>
-	    List of custom options provided as part of the subscription.
+            <span class='code bold'>customParameters</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#callcustomparameter">call.CustomParameter</a>>?)</code>
+	    Custom SIP header parameters for the SIP backend.
 
           </div>
           
@@ -20448,6 +20474,25 @@ session expires.</p>
 
   
 
+  
+    <div class='py1 quiet mt1 prose-big'>Example</div>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-comment">// Provision the service for the specific SIP event during user subscription.</span>
+<span class="hljs-comment">//   This is required before a SIP subscription for the event can be created.</span>
+<span class="hljs-keyword">const</span> services = [<span class="hljs-string">'call'</span>, <span class="hljs-string">'event:presence'</span>, ...]
+client.services.subscribe(services)
+
+<span class="hljs-comment">// Subscribe to receive SIP presence events from two users.</span>
+client.sip.subscribe(<span class="hljs-string">'event:presence'</span>, [<span class="hljs-string">'userOne@example.com'</span>, <span class="hljs-string">'userTwo@example.com'</span>], <span class="hljs-string">'clientId123'</span>)
+
+<span class="hljs-comment">// Subscribe for SIP events with a custom parameter.</span>
+<span class="hljs-keyword">const</span> customParameters = [{
+   <span class="hljs-attr">name</span>: <span class="hljs-string">'X-nt-GUID'</span>,
+   <span class="hljs-attr">value</span>: <span class="hljs-string">'GUID123abc'</span>
+}]
+client.sip.subscribe(<span class="hljs-string">'event:presence'</span>, subscribeUserList, <span class="hljs-string">'clientId123'</span>, customParameters)</pre>
+    
   
 
   
@@ -20472,10 +20517,15 @@ session expires.</p>
 
   
 
-  <p>Update a subscription for a sip event.</p>
+  <p>Updates an existing SIP event subscription.</p>
+<p>Allows for adding or removing users from the subscription, and for changing the
+custom parameters of the subscription.</p>
+<p>The SDK will emit a <a href="#sipeventsipsubscriptionchange">sip:subscriptionChange</a>
+event when the operations completes. The <a href="#sipgetdetails">sip.getDetails</a> API can be used
+to retrieve the current information about a subscription.</p>
 
 
-  <div class='pre p1 fill-light mt0'>update(eventType: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, userLists: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>, customParameters: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>?)</div>
+  <div class='pre p1 fill-light mt0'>update(eventType: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, userLists: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>, customParameters: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#callcustomparameter">call.CustomParameter</a>>?)</div>
   
   
 
@@ -20493,7 +20543,7 @@ session expires.</p>
         <div class='space-bottom0'>
           <div>
             <span class='code bold'>eventType</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-	    The sip event subscription to update.
+	    The name of the SIP event.
 
           </div>
           
@@ -20519,18 +20569,18 @@ session expires.</p>
             <tbody class='mt1'>
               
                 <tr>
-  <td class='break-word'><span class='code bold'>userLists.subscribeUserList</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></code>
+  <td class='break-word'><span class='code bold'>userLists.subscribeUserList</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></code>
   </td>
-  <td class='break-word'><span>The list of users to subcribe to.
+  <td class='break-word'><span>List of users to add to the subscription.
 </span></td>
 </tr>
 
 
               
                 <tr>
-  <td class='break-word'><span class='code bold'>userLists.unsubscribeUserList</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></code>
+  <td class='break-word'><span class='code bold'>userLists.unsubscribeUserList</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></code>
   </td>
-  <td class='break-word'><span>The list of users to unsubscribe from. If all users are unsubscribed from, the event subscription is removed completly.
+  <td class='break-word'><span>List of users to remove from the subscription. If all users are removed, the event subscription will be deleted.
 </span></td>
 </tr>
 
@@ -20543,8 +20593,8 @@ session expires.</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>customParameters</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>?)</code>
-	    List of custom options provided as part of the subscription.
+            <span class='code bold'>customParameters</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#callcustomparameter">call.CustomParameter</a>>?)</code>
+	    Custom SIP header parameters for the SIP backend.
 
           </div>
           
@@ -20559,6 +20609,23 @@ session expires.</p>
 
   
 
+  
+    <div class='py1 quiet mt1 prose-big'>Example</div>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-comment">// Add a user to an existing subscription.</span>
+<span class="hljs-keyword">const</span> userLists = {
+   <span class="hljs-attr">subscribedUserList</span>: [<span class="hljs-string">'userThree@example.com'</span>]
+}
+client.sip.update(<span class="hljs-string">'event:presence'</span>, userLists)
+
+<span class="hljs-comment">// Simultaneously add and remove users from the subscription.</span>
+<span class="hljs-keyword">const</span> userLists = {
+   <span class="hljs-attr">subscribedUserList</span>: [<span class="hljs-string">'userThree@example.com'</span>],
+   <span class="hljs-attr">unsubscribeUserList</span>: [<span class="hljs-string">'userOne@example.com'</span>]
+}
+client.sip.update(<span class="hljs-string">'event:presence'</span>, userLists)</pre>
+    
   
 
   
@@ -20583,7 +20650,11 @@ session expires.</p>
 
   
 
-  <p>Unsubscribe from a sip event.</p>
+  <p>Deletes an existing SIP event subscription.</p>
+<p>The SDK will emit a <a href="#sipeventsipsubscriptionchange">sip:subscriptionChange</a>
+event when the operations completes.</p>
+<p>Subscription details will no longer be available using the <a href="#sipgetdetails">sip.getDetails</a>
+API after it has been unsubscribed from.</p>
 
 
   <div class='pre p1 fill-light mt0'>unsubscribe(eventType: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
@@ -20604,7 +20675,7 @@ session expires.</p>
         <div class='space-bottom0'>
           <div>
             <span class='code bold'>eventType</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-	    The sip event to unsubscribe from.
+	    The name of the SIP event.
 
           </div>
           
@@ -20619,6 +20690,13 @@ session expires.</p>
 
   
 
+  
+    <div class='py1 quiet mt1 prose-big'>Example</div>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-comment">// Delete a SIP subscription.</span>
+client.sip.unsubscribe(<span class="hljs-string">'event:presence'</span>)</pre>
+    
   
 
   
@@ -20643,7 +20721,9 @@ session expires.</p>
 
   
 
-  <p>Retrieve information about a specified sip event.</p>
+  <p>Retrieve information about a SIP event subscription.</p>
+<p>The SDK will track which users are included as part of the subscription and
+previous notifications received. Each subscription will include a unique ID.</p>
 
 
   <div class='pre p1 fill-light mt0'>getDetails(eventType: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></div>
@@ -20664,7 +20744,8 @@ session expires.</p>
         <div class='space-bottom0'>
           <div>
             <span class='code bold'>eventType</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?)</code>
-	    Type of sip event to retrieve.
+	    The name of a SIP event. If not provided, will retrieve
+information for all SIP subscriptions.
 
           </div>
           
@@ -20680,7 +20761,10 @@ session expires.</p>
     
       <div>
         <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></code>:
-          Returns all information related to the chosen eventType that is contained in the store. If no eventType is specified, it will return information for all eventTypes.
+          SIP subscription information. If 
+<code>eventType</code>
+ was not provided, will
+return an object namespaced by event types.
 
         
       </div>
@@ -20689,6 +20773,17 @@ session expires.</p>
 
   
 
+  
+    <div class='py1 quiet mt1 prose-big'>Example</div>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-comment">// Retrieve information about a single SIP subscription.</span>
+<span class="hljs-keyword">const</span> { subscribedUsers, notifications } = client.sip.getDetails(<span class="hljs-string">'event:presence'</span>)
+
+<span class="hljs-comment">// Retrieve information about all current SIP subscriptions.</span>
+<span class="hljs-keyword">const</span> subscriptions = client.sip.getDetails()
+<span class="hljs-keyword">const</span> { subscribedUsers, notifications } = subscriptions[<span class="hljs-string">'event:presence'</span>]</pre>
+    
   
 
   
@@ -20724,7 +20819,16 @@ session expires.</p>
 
   
 
-  <p>A change in SIP event subscriptions has occurred.</p>
+  <p>A change has occurred to a SIP subscription.</p>
+<p>This event can be emitted when a new SIP subscription is created (<a href="#sipsubscribe">sip.subscribe</a>
+API), an existing subscription is updated (<a href="#sipupdate">sip.update</a> API), or has been
+deleted (<a href="#sipunsubscribe">sip.unsubscribe</a> API). The <code>change</code> parameter on the event indicates
+which scenario caused the event.</p>
+<p>When users are added or removed from a subscription through a new subscription or an update,
+the <code>subscribedUsers</code> and <code>unsubscribedUsers</code> parameters will indicate the users added
+and removed, respectively.</p>
+<p>The <a href="#sipgetdetails">sip.getDetails</a> API can be used to retrieve the current information about
+a subscription.</p>
 
 
   <div class='pre p1 fill-light mt0'>sip:subscriptionChange</div>
@@ -20764,34 +20868,36 @@ session expires.</p>
                 <tr>
   <td class='break-word'><span class='code bold'>params.eventType</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
   </td>
-  <td class='break-word'><span>The type of sip event.
+  <td class='break-word'><span>The name of the SIP event.
 </span></td>
 </tr>
 
 
               
                 <tr>
-  <td class='break-word'><span class='code bold'>params.change</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></code>
+  <td class='break-word'><span class='code bold'>params.change</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
   </td>
-  <td class='break-word'><span>The change operation that occurred.
+  <td class='break-word'><span>The change operation that triggered the event.
 </span></td>
 </tr>
 
 
               
                 <tr>
-  <td class='break-word'><span class='code bold'>params.subscribedUsers</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></code>
+  <td class='break-word'><span class='code bold'>params.subscribedUsers</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>>?</code>
   </td>
-  <td class='break-word'><span>Users that were subscribed to.
+  <td class='break-word'><span>List of users added to the subscription
+as part of the change.
 </span></td>
 </tr>
 
 
               
                 <tr>
-  <td class='break-word'><span class='code bold'>params.unsubscribedUsers</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></code>
+  <td class='break-word'><span class='code bold'>params.unsubscribedUsers</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>>?</code>
   </td>
-  <td class='break-word'><span>Users that were unsubscribed from.
+  <td class='break-word'><span>List of users removed from the
+subscription as part of the change.
 </span></td>
 </tr>
 
@@ -20835,7 +20941,7 @@ session expires.</p>
 
   
 
-  <p>An error occurred while performing a SIP event action.</p>
+  <p>An error has occurred during a SIP event operation.</p>
 
 
   <div class='pre p1 fill-light mt0'>sip:error</div>
@@ -20896,6 +21002,17 @@ session expires.</p>
   
 
   
+    <div class='py1 quiet mt1 prose-big'>Example</div>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-comment">// Listen for the event being emitted.</span>
+client.on(<span class="hljs-string">'sip:error'</span>, (params) =&gt; {
+   <span class="hljs-comment">// Handle the error based on the information.</span>
+   <span class="hljs-keyword">const</span> { code, message } = params.error
+   ...
+})</pre>
+    
+  
 
   
 
@@ -20920,6 +21037,9 @@ session expires.</p>
   
 
   <p>A SIP event notification has been received.</p>
+<p>The <code>event</code> parameter is the full notification received from the network. The format
+of the notification is dependant on its event type. The SDK does not do any
+pre-processing of this data.</p>
 
 
   <div class='pre p1 fill-light mt0'>sip:eventsChange</div>
@@ -20960,7 +21080,7 @@ session expires.</p>
                 <tr>
   <td class='break-word'><span class='code bold'>params.eventType</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
   </td>
-  <td class='break-word'><span>The type of sip event.
+  <td class='break-word'><span>The name of the SIP event.
 </span></td>
 </tr>
 
@@ -20969,7 +21089,7 @@ session expires.</p>
                 <tr>
   <td class='break-word'><span class='code bold'>params.eventId</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
   </td>
-  <td class='break-word'><span>The ID of the event.
+  <td class='break-word'><span>A unique ID for the event notification.
 </span></td>
 </tr>
 
@@ -20998,6 +21118,22 @@ session expires.</p>
 
   
 
+  
+    <div class='py1 quiet mt1 prose-big'>Example</div>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-comment">// Listen for the event being emitted.</span>
+client.on(<span class="hljs-string">'sip:eventsChange'</span>, (params) =&gt; {
+   <span class="hljs-comment">// Gather the SIP info specific to the event.</span>
+   <span class="hljs-keyword">const</span> sipInfo = params.event.genericNotificationParams
+
+   <span class="hljs-comment">// Handle the data based on the event type.</span>
+   <span class="hljs-keyword">if</span> (params.eventType === <span class="hljs-string">'event:presence'</span>) {
+       <span class="hljs-keyword">const</span> { data, <span class="hljs-keyword">from</span> } = sipInfo
+       ...
+   }
+})</pre>
+    
   
 
   
