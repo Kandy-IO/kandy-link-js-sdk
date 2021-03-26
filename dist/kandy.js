@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.25.0
+ * Version: 4.26.0
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -41660,7 +41660,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.25.0';
+  return '4.26.0';
 }
 
 /***/ }),
@@ -52506,28 +52506,77 @@ const log = _logs.logManager.getLogger('SIPEVENTS');
  * @param  {Function} $0.getState Redux getState.
  * @return {Object} Sip Events' plugin API.
  */
+/* eslint-disable no-warning-comments */
 /**
- * The 'sip' namespace allows a user to subscribe to, and receive notifications for, sip events.
+ *  The SIP Events feature allows an application to communicate with a SIP network integrated
+ *      with their Kandy Link instance. The SIP network may generate custom events intended
+ *      for an application, which can be handled with the SDK's `sip` namespace.
  *
- * SipEvents functions are all part of this namespace.
+ * Usage of SIP Events is dependent on your Kandy Link instance. The types of SIP Events can
+ *    be different based on configurations and components, often being part of a custom
+ *    solution. As such, the SIP Events feature is presented in a generic manner to be
+ *    flexible for any possible events.
+ *
+ * An example of a common SIP event is "SIP presence". When a user is connected to a SIP phone,
+ *    the network may generate "phone presence" events when the user starts and ends a call
+ *    (eg. 'On Call', 'Available'). Applications can subscribe to receive these events for
+ *    specific users.
+ *
+ * A SIP event may either be solicited or unsolicited. Solicited events, such as the "presence"
+ *    example above, requires the application to subscribe for the event. See the
+ *    {@link sip.subscribe sip.subscribe API} for more information about solicited events.
+ *    Unsolicited events have no prerequisites for being received.
  *
  * @public
  * @requires sipEvents
  * @namespace sip
  */
+/* eslint-enable no-warning-comments */
 
 function api({ dispatch, getState }) {
   var api = {
     /**
-     * Subscribe for a sip event.
+     * Creates a subscription for a SIP event.
+     *
+     * A subscription is required to receive SIP notifications for solicited events. Before
+     *    creating a SIP subscription, the service for the event type must have been
+     *    provisioned as part of the user subscription using the {@link services.subscribe}
+     *    API.
+     *
+     * Only one SIP subscription per event type can exist at a time. A subscription can
+     *    watch for events from multiple users at once. Users can be added to or removed
+     *    from a subscription using the {@link sip.update sip.update} API at any time.
+     *
+     * The SDK will emit a {@link sip.event:sip:subscriptionChange sip:subscriptionChange}
+     *    event when the operations completes. The {@link sip.getDetails} API can be used
+     *    to retrieve the current information about a subscription.
+     *
+     * The SDK will emit a {@link sip.event:sip:eventsChange sip:eventsChange} event when
+     *    a SIP event is received.
      * @public
+     * @static
      * @method subscribe
      * @requires sipEvents
      * @memberof sip
-     * @param  {string} eventType The sip event type to subscribe for.
-     * @param  {Array}  subscribeUserList The list of users to subcribe to.
-     * @param  {string} clientCorrelator
-     * @param  {Array} [customParameters] List of custom options provided as part of the subscription.
+     * @param  {string} eventType The name of the SIP event.
+     * @param  {Array<string>} subscribeUserList The list of users to receive events about.
+     * @param  {string} clientCorrelator Unique identifier for a client device.
+     * @param  {Array<call.CustomParameter>} [customParameters] Custom SIP header parameters for the SIP backend.
+     * @example
+     * // Provision the service for the specific SIP event during user subscription.
+     * //   This is required before a SIP subscription for the event can be created.
+     * const services = ['call', 'event:presence', ...]
+     * client.services.subscribe(services)
+     *
+     * // Subscribe to receive SIP presence events from two users.
+     * client.sip.subscribe('event:presence', ['userOne@example.com', 'userTwo@example.com'], 'clientId123')
+     *
+     * // Subscribe for SIP events with a custom parameter.
+     * const customParameters = [{
+     *    name: 'X-nt-GUID',
+     *    value: 'GUID123abc'
+     * }]
+     * client.sip.subscribe('event:presence', subscribeUserList, 'clientId123', customParameters)
      */
     subscribe(eventType, subscribeUserList, clientCorrelator, customParameters = []) {
       log.debug(_logs.API_LOG_TAG + 'sip.subscribe: ', eventType, subscribeUserList, clientCorrelator, customParameters);
@@ -52535,16 +52584,37 @@ function api({ dispatch, getState }) {
     },
 
     /**
-     * Update a subscription for a sip event.
+     * Updates an existing SIP event subscription.
+     *
+     * Allows for adding or removing users from the subscription, and for changing the
+     *    custom parameters of the subscription.
+     *
+     * The SDK will emit a {@link sip.event:sip:subscriptionChange sip:subscriptionChange}
+     *    event when the operations completes. The {@link sip.getDetails} API can be used
+     *    to retrieve the current information about a subscription.
      * @public
+     * @static
      * @method update
      * @requires sipEvents
      * @memberof sip
-     * @param  {string} eventType The sip event subscription to update.
+     * @param  {string} eventType The name of the SIP event.
      * @param  {Object} userLists
-     * @param  {Array}  userLists.subscribeUserList The list of users to subcribe to.
-     * @param  {Array}  userLists.unsubscribeUserList The list of users to unsubscribe from. If all users are unsubscribed from, the event subscription is removed completly.
-     * @param  {Array} [customParameters] List of custom options provided as part of the subscription.
+     * @param  {Array<string>}  userLists.subscribeUserList List of users to add to the subscription.
+     * @param  {Array<string>}  userLists.unsubscribeUserList List of users to remove from the subscription. If all users are removed, the event subscription will be deleted.
+     * @param  {Array<call.CustomParameter>} [customParameters] Custom SIP header parameters for the SIP backend.
+     * @example
+     * // Add a user to an existing subscription.
+     * const userLists = {
+     *    subscribedUserList: ['userThree@example.com']
+     * }
+     * client.sip.update('event:presence', userLists)
+     *
+     * // Simultaneously add and remove users from the subscription.
+     * const userLists = {
+     *    subscribedUserList: ['userThree@example.com'],
+     *    unsubscribeUserList: ['userOne@example.com']
+     * }
+     * client.sip.update('event:presence', userLists)
      */
     update(eventType, userLists, customParameters = []) {
       log.debug(_logs.API_LOG_TAG + 'sip.update: ', eventType, userLists, customParameters);
@@ -52552,12 +52622,22 @@ function api({ dispatch, getState }) {
     },
 
     /**
-     * Unsubscribe from a sip event.
+     * Deletes an existing SIP event subscription.
+     *
+     * The SDK will emit a {@link sip.event:sip:subscriptionChange sip:subscriptionChange}
+     *    event when the operations completes.
+     *
+     * Subscription details will no longer be available using the {@link sip.getDetails}
+     *    API after it has been unsubscribed from.
      * @public
+     * @static
      * @method unsubscribe
      * @requires sipEvents
      * @memberof sip
-     * @param  {string} eventType The sip event to unsubscribe from.
+     * @param  {string} eventType The name of the SIP event.
+     * @example
+     * // Delete a SIP subscription.
+     * client.sip.unsubscribe('event:presence')
      */
     unsubscribe(eventType) {
       log.debug(_logs.API_LOG_TAG + 'sip.unsubscribe: ', eventType);
@@ -52565,13 +52645,26 @@ function api({ dispatch, getState }) {
     },
 
     /**
-     * Retrieve information about a specified sip event.
+     * Retrieve information about a SIP event subscription.
+     *
+     * The SDK will track which users are included as part of the subscription and
+     *    previous notifications received. Each subscription will include a unique ID.
      * @public
+     * @static
      * @method getDetails
      * @requires sipEvents
      * @memberof sip
-     * @param  {string} [eventType] Type of sip event to retrieve.
-     * @return {Object} Returns all information related to the chosen eventType that is contained in the store. If no eventType is specified, it will return information for all eventTypes.
+     * @param  {string} [eventType] The name of a SIP event. If not provided, will retrieve
+     *    information for all SIP subscriptions.
+     * @return {Object} SIP subscription information. If `eventType` was not provided, will
+     *    return an object namespaced by event types.
+     * @example
+     * // Retrieve information about a single SIP subscription.
+     * const { subscribedUsers, notifications } = client.sip.getDetails('event:presence')
+     *
+     * // Retrieve information about all current SIP subscriptions.
+     * const subscriptions = client.sip.getDetails()
+     * const { subscribedUsers, notifications } = subscriptions['event:presence']
      */
     getDetails(eventType) {
       log.debug(_logs.API_LOG_TAG + 'sip.getDetails: ', eventType);
@@ -52595,40 +52688,79 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 /**
- * A change in SIP event subscriptions has occurred.
+ * A change has occurred to a SIP subscription.
+ *
+ * This event can be emitted when a new SIP subscription is created ({@link sip.subscribe}
+ *    API), an existing subscription is updated ({@link sip.update} API), or has been
+ *    deleted ({@link sip.unsubscribe} API). The `change` parameter on the event indicates
+ *    which scenario caused the event.
+ *
+ * When users are added or removed from a subscription through a new subscription or an update,
+ *    the `subscribedUsers` and `unsubscribedUsers` parameters will indicate the users added
+ *    and removed, respectively.
+ *
+ * The {@link sip.getDetails} API can be used to retrieve the current information about
+ *    a subscription.
+ *
  * @public
  * @requires sipEvents
  * @memberof sip
  * @event sip:subscriptionChange
  * @param {Object} params
- * @param {string} params.eventType The type of sip event.
- * @param {Object} params.change The change operation that occurred.
- * @param {Array} params.subscribedUsers Users that were subscribed to.
- * @param {Array} params.unsubscribedUsers Users that were unsubscribed from.
+ * @param {string} params.eventType The name of the SIP event.
+ * @param {string} params.change The change operation that triggered the event.
+ * @param {Array<string>} [params.subscribedUsers] List of users added to the subscription
+ *    as part of the change.
+ * @param {Array<string>} [params.unsubscribedUsers] List of users removed from the
+ *    subscription as part of the change.
  */
 const EVENT_SUBSCRIPTION_CHANGED = exports.EVENT_SUBSCRIPTION_CHANGED = 'sip:subscriptionChange';
 
 /**
- * An error occurred while performing a SIP event action.
+ * An error has occurred during a SIP event operation.
+ *
  * @public
  * @requires sipEvents
  * @memberof sip
  * @event sip:error
  * @param {Object} params
  * @param {api.BasicError} params.error The Basic error object.
+ * @example
+ * // Listen for the event being emitted.
+ * client.on('sip:error', (params) => {
+ *    // Handle the error based on the information.
+ *    const { code, message } = params.error
+ *    ...
+ * })
  */
 const EVENT_ERROR = exports.EVENT_ERROR = 'sip:error';
 
 /**
  * A SIP event notification has been received.
+ *
+ * The `event` parameter is the full notification received from the network. The format
+ *    of the notification is dependant on its event type. The SDK does not do any
+ *    pre-processing of this data.
  * @public
  * @requires sipEvents
  * @memberof sip
  * @event sip:eventsChange
  * @param {Object} params Information about the notification.
- * @param {string} params.eventType The type of sip event.
- * @param {string} params.eventId The ID of the event.
+ * @param {string} params.eventType The name of the SIP event.
+ * @param {string} params.eventId A unique ID for the event notification.
  * @param {Object} params.event The full event object.
+ * @example
+ * // Listen for the event being emitted.
+ * client.on('sip:eventsChange', (params) => {
+ *    // Gather the SIP info specific to the event.
+ *    const sipInfo = params.event.genericNotificationParams
+ *
+ *    // Handle the data based on the event type.
+ *    if (params.eventType === 'event:presence') {
+ *        const { data, from } = sipInfo
+ *        ...
+ *    }
+ * })
  */
 const EVENT_RECEIVED = exports.EVENT_RECEIVED = 'sip:eventsChange';
 
@@ -52954,11 +53086,11 @@ function* sipEventSubscribe() {
     const sipEvents = subscribedServices.filter(service => service.startsWith('event:'));
 
     if (!(0, _fp.includes)(action.payload.eventType, sipEvents)) {
-      log.info(`Cannot subcribe to sip ${action.payload.eventType}; service not provisioned.`);
+      log.info(`Cannot subscribe to sip ${action.payload.eventType}; service not provisioned during user subscription.`);
       yield (0, _effects3.put)(actions.sipEventSubscribeFinish({
         error: new _errors2.default({
           code: _errors.sipEventCodes.NOT_PROVISIONED,
-          message: 'Cannot subscribe to sip event; service was not provisioned during connection.'
+          message: 'Cannot subscribe to sip event; service was not provisioned during user subscription.'
         })
       }));
       continue;
@@ -53256,22 +53388,35 @@ function* receiveEventNotify() {
 
     const notification = action.payload.notificationMessage;
 
-    // Determine if this notification is for a sip event the user subscribed/connected for.
+    /*
+     * Determine which scenario we received this notification in:
+     *  - Provisioned and subscribed: Application subscribed for the event during user subscription,
+     *      and created a SIP subscription for it.
+     *  - Provisioned, not subscribed: Application subscribed for the event during user subscription,
+     *      but the SDK does not have a SIP subscription for it.
+     *  - Unsolicited: Application has no user or SIP subscription for the event.
+     *
+     * We want to emit the notification in all scenarios, so this check is mainly for logging purposes.
+     */
     if ((0, _fp.includes)(notification.eventType, sipEvents)) {
       const eventInfo = yield (0, _effects3.select)(_selectors.getSipEventInfo, notification.eventType);
 
-      // Determine if there is a subscription for this sip event in state.
+      // Determine if there is a SIP subscription for this sip event in state.
       if (eventInfo) {
-        log.info(`Received sip event notification of type ${notification.eventType}.`);
-        yield (0, _effects3.put)(actions.sipEventReceived(notification));
+        // User subscribed to sip event, with a SIP subscription found in state.
+        log.info(`Received solicited SIP event notification of type ${notification.eventType}.`, notification);
       } else {
-        // Subscribed to sip event, but received a notification for it?
-        log.debug('Received sip event notification for untracked event.', notification);
+        // User subscribed to sip event, but no SIP subscription found.
+        //    This is assumed to be an edge-case where the SDK lost the SIP subscription info.
+        log.info(`Received solicited SIP event notification for untracked event of type ${notification.eventType}.`, notification);
       }
     } else {
-      // Not subscribed to sip event, but received a notification for it?
-      log.debug('Received sip event notification without subscription.', action.payload.eventType);
+      // User not subscribed to sip event.
+      log.info(`Received unsolicited SIP event notification of type ${notification.eventType}.`, notification);
     }
+
+    // Always emit the notification to the application.
+    yield (0, _effects3.put)(actions.sipEventReceived(notification));
   }
 }
 
@@ -61777,11 +61922,15 @@ const logLevels = exports.logLevels = {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.logLevels = undefined;
+exports.logFormatter = exports.logLevels = undefined;
 
 var _logManager = __webpack_require__("../../packages/logger/src/logManager.js");
 
 var _logManager2 = _interopRequireDefault(_logManager);
+
+var _logFormatter = __webpack_require__("../../packages/logger/src/logFormatter.js");
+
+var _logFormatter2 = _interopRequireDefault(_logFormatter);
 
 var _constants = __webpack_require__("../../packages/logger/src/constants.js");
 
@@ -61798,6 +61947,44 @@ exports.default = _logManager2.default;
 
 const logLevels = exports.logLevels = _constants.logLevels;
 
+// Default log formatter used by the defaultLogHandler
+const logFormatter = exports.logFormatter = _logFormatter2.default;
+
+/***/ }),
+
+/***/ "../../packages/logger/src/logFormatter.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = defaultLogFormatter;
+/**
+ * Default function for the SDK to use for log formatting.
+ *    Uses entry information to form a prefix.
+ * @method defaultLogFormatter
+ * @param  {LogEntry} entry
+ */
+function defaultLogFormatter(entry) {
+  // Compile the meta info of the log for a prefix.
+  const { timestamp, level, target } = entry;
+
+  // Find a short name to reference which Logger this log is from.
+  //    This is mostly to cut down the ID if it's too long for a human to read.
+  const shortId = target.id && target.id.length > 8 ? target.id.substring(0, 6) : target.id;
+  const shortName = shortId ? `${target.type}/${shortId}` : target.type;
+
+  const logInfo = `${timestamp} - ${shortName} - ${level}`;
+
+  // Assume that the first message parameter is a string.
+  const log = entry.messages[0];
+
+  return `${logInfo} - ${log}`;
+}
+
 /***/ }),
 
 /***/ "../../packages/logger/src/logHandler.js":
@@ -61810,6 +61997,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = defaultLogHandler;
+
+var _logFormatter = __webpack_require__("../../packages/logger/src/logFormatter.js");
+
+var _logFormatter2 = _interopRequireDefault(_logFormatter);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 /**
  * Default function for the SDK to use for logging.
  *    Uses entry information to form a prefix, then logs to console.
@@ -61817,19 +62011,7 @@ exports.default = defaultLogHandler;
  * @param  {LogEntry} entry
  */
 function defaultLogHandler(entry) {
-  // Compile the meta info of the log for a prefix.
-  const { timestamp, level, target } = entry;
   let { method } = entry;
-
-  // Find a short name to reference which Logger this log is from.
-  //    This is mostly to cut down the ID if it's too long for a human to read.
-  const shortId = target.id && target.id.length > 8 ? target.id.substring(0, 6) : target.id;
-  const shortName = shortId ? `${target.type}/${shortId}` : target.type;
-
-  const logInfo = `${timestamp} - ${shortName} - ${level}`;
-
-  // Assume that the first message parameter is a string.
-  const [log, ...extra] = entry.messages;
 
   // For the time-related methods, don't actually use the console methods.
   //    The Logger already did the timing, so simply log out the info.
@@ -61837,7 +62019,9 @@ function defaultLogHandler(entry) {
     method = 'debug';
   }
 
-  console[method](`${logInfo} - ${log}`, ...extra);
+  const formattedString = (0, _logFormatter2.default)(entry);
+  const tail = entry.messages.slice(1);
+  console[method](formattedString, ...tail);
 }
 
 /***/ }),

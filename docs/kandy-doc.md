@@ -2845,50 +2845,153 @@ Returns **[Object][7]** Lists of subscribed and available services.
 
 ## sip
 
-The 'sip' namespace allows a user to subscribe to, and receive notifications for, sip events.
+The SIP Events feature allows an application to communicate with a SIP network integrated
+     with their Kandy Link instance. The SIP network may generate custom events intended
+     for an application, which can be handled with the SDK's `sip` namespace.
 
-SipEvents functions are all part of this namespace.
+Usage of SIP Events is dependent on your Kandy Link instance. The types of SIP Events can
+   be different based on configurations and components, often being part of a custom
+   solution. As such, the SIP Events feature is presented in a generic manner to be
+   flexible for any possible events.
+
+An example of a common SIP event is "SIP presence". When a user is connected to a SIP phone,
+   the network may generate "phone presence" events when the user starts and ends a call
+   (eg. 'On Call', 'Available'). Applications can subscribe to receive these events for
+   specific users.
+
+A SIP event may either be solicited or unsolicited. Solicited events, such as the "presence"
+   example above, requires the application to subscribe for the event. See the
+   [sip.subscribe API][103] for more information about solicited events.
+   Unsolicited events have no prerequisites for being received.
 
 ### subscribe
 
-Subscribe for a sip event.
+Creates a subscription for a SIP event.
+
+A subscription is required to receive SIP notifications for solicited events. Before
+   creating a SIP subscription, the service for the event type must have been
+   provisioned as part of the user subscription using the [services.subscribe][15]
+   API.
+
+Only one SIP subscription per event type can exist at a time. A subscription can
+   watch for events from multiple users at once. Users can be added to or removed
+   from a subscription using the [sip.update][104] API at any time.
+
+The SDK will emit a [sip:subscriptionChange][105]
+   event when the operations completes. The [sip.getDetails][106] API can be used
+   to retrieve the current information about a subscription.
+
+The SDK will emit a [sip:eventsChange][107] event when
+   a SIP event is received.
 
 **Parameters**
 
--   `eventType` **[string][8]** The sip event type to subscribe for.
--   `subscribeUserList` **[Array][14]** The list of users to subcribe to.
--   `clientCorrelator` **[string][8]** 
--   `customParameters` **[Array][14]?** List of custom options provided as part of the subscription.
+-   `eventType` **[string][8]** The name of the SIP event.
+-   `subscribeUserList` **[Array][14]&lt;[string][8]>** The list of users to receive events about.
+-   `clientCorrelator` **[string][8]** Unique identifier for a client device.
+-   `customParameters` **[Array][14]&lt;[call.CustomParameter][29]>?** Custom SIP header parameters for the SIP backend.
+
+**Examples**
+
+```javascript
+// Provision the service for the specific SIP event during user subscription.
+//   This is required before a SIP subscription for the event can be created.
+const services = ['call', 'event:presence', ...]
+client.services.subscribe(services)
+
+// Subscribe to receive SIP presence events from two users.
+client.sip.subscribe('event:presence', ['userOne@example.com', 'userTwo@example.com'], 'clientId123')
+
+// Subscribe for SIP events with a custom parameter.
+const customParameters = [{
+   name: 'X-nt-GUID',
+   value: 'GUID123abc'
+}]
+client.sip.subscribe('event:presence', subscribeUserList, 'clientId123', customParameters)
+```
 
 ### update
 
-Update a subscription for a sip event.
+Updates an existing SIP event subscription.
+
+Allows for adding or removing users from the subscription, and for changing the
+   custom parameters of the subscription.
+
+The SDK will emit a [sip:subscriptionChange][105]
+   event when the operations completes. The [sip.getDetails][106] API can be used
+   to retrieve the current information about a subscription.
 
 **Parameters**
 
--   `eventType` **[string][8]** The sip event subscription to update.
+-   `eventType` **[string][8]** The name of the SIP event.
 -   `userLists` **[Object][7]** 
-    -   `userLists.subscribeUserList` **[Array][14]** The list of users to subcribe to.
-    -   `userLists.unsubscribeUserList` **[Array][14]** The list of users to unsubscribe from. If all users are unsubscribed from, the event subscription is removed completly.
--   `customParameters` **[Array][14]?** List of custom options provided as part of the subscription.
+    -   `userLists.subscribeUserList` **[Array][14]&lt;[string][8]>** List of users to add to the subscription.
+    -   `userLists.unsubscribeUserList` **[Array][14]&lt;[string][8]>** List of users to remove from the subscription. If all users are removed, the event subscription will be deleted.
+-   `customParameters` **[Array][14]&lt;[call.CustomParameter][29]>?** Custom SIP header parameters for the SIP backend.
+
+**Examples**
+
+```javascript
+// Add a user to an existing subscription.
+const userLists = {
+   subscribedUserList: ['userThree@example.com']
+}
+client.sip.update('event:presence', userLists)
+
+// Simultaneously add and remove users from the subscription.
+const userLists = {
+   subscribedUserList: ['userThree@example.com'],
+   unsubscribeUserList: ['userOne@example.com']
+}
+client.sip.update('event:presence', userLists)
+```
 
 ### unsubscribe
 
-Unsubscribe from a sip event.
+Deletes an existing SIP event subscription.
+
+The SDK will emit a [sip:subscriptionChange][105]
+   event when the operations completes.
+
+Subscription details will no longer be available using the [sip.getDetails][106]
+   API after it has been unsubscribed from.
 
 **Parameters**
 
--   `eventType` **[string][8]** The sip event to unsubscribe from.
+-   `eventType` **[string][8]** The name of the SIP event.
+
+**Examples**
+
+```javascript
+// Delete a SIP subscription.
+client.sip.unsubscribe('event:presence')
+```
 
 ### getDetails
 
-Retrieve information about a specified sip event.
+Retrieve information about a SIP event subscription.
+
+The SDK will track which users are included as part of the subscription and
+   previous notifications received. Each subscription will include a unique ID.
 
 **Parameters**
 
--   `eventType` **[string][8]?** Type of sip event to retrieve.
+-   `eventType` **[string][8]?** The name of a SIP event. If not provided, will retrieve
+       information for all SIP subscriptions.
 
-Returns **[Object][7]** Returns all information related to the chosen eventType that is contained in the store. If no eventType is specified, it will return information for all eventTypes.
+**Examples**
+
+```javascript
+// Retrieve information about a single SIP subscription.
+const { subscribedUsers, notifications } = client.sip.getDetails('event:presence')
+
+// Retrieve information about all current SIP subscriptions.
+const subscriptions = client.sip.getDetails()
+const { subscribedUsers, notifications } = subscriptions['event:presence']
+```
+
+Returns **[Object][7]** SIP subscription information. If `eventType` was not provided, will
+   return an object namespaced by event types.
 
 ## user
 
@@ -2913,12 +3016,12 @@ Type: [Object][7]
 
 Fetches information about a User.
 
-The SDK will emit a [users:change][103]
+The SDK will emit a [users:change][108]
    event after the operation completes. The User's information will then
    be available.
 
 Information about an available User can be retrieved using the
-   [user.get][104] API.
+   [user.get][109] API.
 
 **Parameters**
 
@@ -2927,36 +3030,36 @@ Information about an available User can be retrieved using the
 ### fetchSelfInfo
 
 Fetches information about the current User from directory.
-Compared to [user.fetch][105] API, this API retrieves additional user related information.
+Compared to [user.fetch][110] API, this API retrieves additional user related information.
 
-The SDK will emit a [users:change][103]
+The SDK will emit a [users:change][108]
    event after the operation completes. The User's information will then
    be available.
 
 Information about an available User can be retrieved using the
-   [user.get][104] API.
+   [user.get][109] API.
 
 ### get
 
 Retrieves information about a User, if available.
 
-See the [user.fetch][105] and [user.search][106] APIs for details about
+See the [user.fetch][110] and [user.search][111] APIs for details about
    making Users' information available.
 
 **Parameters**
 
 -   `userId` **[user.UserID][26]** The User ID of the user.
 
-Returns **[user.User][107]** The User object for the specified user.
+Returns **[user.User][112]** The User object for the specified user.
 
 ### getAll
 
 Retrieves information about all available Users.
 
-See the [user.fetch][105] and [user.search][106] APIs for details about
+See the [user.fetch][110] and [user.search][111] APIs for details about
    making Users' information available.
 
-Returns **[Array][14]&lt;[user.User][107]>** An array of all the User objects.
+Returns **[Array][14]&lt;[user.User][112]>** An array of all the User objects.
 
 ### search
 
@@ -2965,10 +3068,10 @@ Searches the domain's directory for Users.
 Directory searching only supports one filter. If multiple filters are provided, only one of the filters will be used for the search.
 A search with no filters provided will return all users.
 
-The SDK will emit a [directory:change][108]
+The SDK will emit a [directory:change][113]
    event after the operation completes. The search results will be
    provided as part of the event, and will also be available using the
-   [user.get][104] and [user.getAll][109] APIs.
+   [user.get][109] and [user.getAll][114] APIs.
 
 **Parameters**
 
@@ -2997,7 +3100,7 @@ Voicemail functions are all part of this namespace.
 
 Attempts to retrieve voicemail information from the server.
 
-A [voicemail:change][110] event is
+A [voicemail:change][115] event is
    emitted upon completion.
 
 ### get
@@ -3208,18 +3311,28 @@ Returns voicemail data from the store.
 
 [102]: #servicesservicedescriptor
 
-[103]: #usereventuserschange
+[103]: #sipsubscribe
 
-[104]: #userget
+[104]: #sipupdate
 
-[105]: #userfetch
+[105]: #sipeventsipsubscriptionchange
 
-[106]: #usersearch
+[106]: #sipgetdetails
 
-[107]: #useruser
+[107]: #sipeventsipeventschange
 
-[108]: #usereventdirectorychange
+[108]: #usereventuserschange
 
-[109]: #usergetall
+[109]: #userget
 
-[110]: #voicemaileventvoicemailchange
+[110]: #userfetch
+
+[111]: #usersearch
+
+[112]: #useruser
+
+[113]: #usereventdirectorychange
+
+[114]: #usergetall
+
+[115]: #voicemaileventvoicemailchange
