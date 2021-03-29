@@ -7,6 +7,10 @@ Kandy.js change log.
 
 ## 4.26.0 - 2021-03-26
 
+### Fixed
+
+- Added missing 'Call API:' logs to call, fcsBridge and groups plugin api interface. `KJS-124`
+
 ### Added
 
 - Added SIP Event capability to receive unsolicited events. `KAA-2600`
