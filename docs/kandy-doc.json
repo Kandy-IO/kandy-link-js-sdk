@@ -7932,7 +7932,7 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "Destroys the SDK, and removes its state, rendering the SDK unusable.\nUseful when a user logs out and their call data needs to be destroyed.\nThe SDK must be recreated to be usable again.",
+                    "value": "Destroys the SDK, and removes its state, rendering the SDK unusable.\nUseful when a user logs out and their call data needs to be destroyed.\nThe SDK must be recreated to be usable again.\nThe destroy command is async, and will happen on the next tick\n  so as not to interfere with any ongoing events.",
                     "position": {
                       "start": {
                         "line": 1,
@@ -7940,11 +7940,13 @@
                         "offset": 0
                       },
                       "end": {
-                        "line": 3,
-                        "column": 46,
-                        "offset": 185
+                        "line": 5,
+                        "column": 50,
+                        "offset": 298
                       },
                       "indent": [
+                        1,
+                        1,
                         1,
                         1
                       ]
@@ -7958,11 +7960,13 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 3,
-                    "column": 46,
-                    "offset": 185
+                    "line": 5,
+                    "column": 50,
+                    "offset": 298
                   },
                   "indent": [
+                    1,
+                    1,
                     1,
                     1
                   ]
@@ -7976,9 +7980,9 @@
                 "offset": 0
               },
               "end": {
-                "line": 3,
-                "column": 46,
-                "offset": 185
+                "line": 5,
+                "column": 50,
+                "offset": 298
               }
             }
           },
@@ -7986,24 +7990,24 @@
             {
               "title": "public",
               "description": null,
-              "lineNumber": 5,
+              "lineNumber": 7,
               "type": null
             },
             {
               "title": "memberof",
               "description": "api",
-              "lineNumber": 6
+              "lineNumber": 8
             },
             {
               "title": "method",
               "description": null,
-              "lineNumber": 7,
+              "lineNumber": 9,
               "name": "destroy"
             },
             {
               "title": "example",
               "description": "// Instantiate the SDK.\nimport { create } from 'kandy'\nconst config = {\n    authentication: { ... },\n    logs: { ... },\n    ...\n}\nlet client = create(config);\nclient.on( ... )\n// Use the SDK\n...\n// Destroy the SDK, then recreate on the next step\nclient.destroy()\nclient = create(config)\nclient.on( ... )",
-              "lineNumber": 8
+              "lineNumber": 10
             }
           ],
           "loc": {
@@ -8012,18 +8016,18 @@
               "column": 4
             },
             "end": {
-              "line": 302,
+              "line": 304,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 303,
+                "line": 305,
                 "column": 4
               },
               "end": {
-                "line": 321,
+                "line": 331,
                 "column": 5
               }
             },
