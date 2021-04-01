@@ -7,6 +7,12 @@ Kandy.js change log.
 
 ## 4.27.0 - beta
 
+### Added
+
+- Added Call identification to received SIP Event notifications. `KJS-111`
+
+## 4.26.0 - 2021-03-26
+
 ### Fixed
 
 - Changed how [`destroy`](https://kandy-io.github.io/kandy-link-js-sdk/docs/#apidestroy) is used to prevent errors when destroying inside an event. `KJS-123`

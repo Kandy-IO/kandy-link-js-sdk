@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.26.0-beta.642
+ * Version: 4.26.0-beta.643
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -41670,7 +41670,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.26.0-beta.642';
+  return '4.26.0-beta.643';
 }
 
 /***/ }),
@@ -52484,12 +52484,16 @@ function sipEventUnsubscribeFinish({ response, error }) {
  * Represents that a sip event notification has been received.
  * @method sipEventReceived
  * @param  {Object} sipEvent
+ * @param {string} callId
  * @returns {Object} A flux standard action.
  */
-function sipEventReceived(sipEvent) {
+function sipEventReceived(sipEvent, callId) {
   return {
     type: actionTypes.SIP_EVENT_RECEIVED,
-    payload: sipEvent
+    payload: {
+      event: sipEvent,
+      callId
+    }
   };
 }
 
@@ -52769,6 +52773,8 @@ const EVENT_ERROR = exports.EVENT_ERROR = 'sip:error';
  * @param {string} params.eventType The name of the SIP event.
  * @param {string} params.eventId A unique ID for the event notification.
  * @param {Object} params.event The full event object.
+ * @param {Object} params.links
+ * @param {string} params.links.callId The ID of the call this SIP event links to.
  * @example
  * // Listen for the event being emitted.
  * client.on('sip:eventsChange', (params) => {
@@ -52854,9 +52860,12 @@ events[actionTypes.SIP_EVENT_RECEIVED] = function (action) {
   return {
     type: eventTypes.EVENT_RECEIVED,
     args: {
-      eventType: action.payload.eventType,
-      eventId: action.payload.eventId,
-      event: action.payload
+      eventType: action.payload.event.eventType,
+      eventId: action.payload.event.eventId,
+      links: {
+        callId: action.payload.callId
+      },
+      event: action.payload.event
     }
   };
 };
@@ -53051,7 +53060,9 @@ var _selectors = __webpack_require__("../../packages/kandy/src/sipEvents/interfa
 
 var _selectors2 = __webpack_require__("../../packages/kandy/src/auth/interface/selectors.js");
 
-var _selectors3 = __webpack_require__("../../packages/kandy/src/subscription/interface/selectors.js");
+var _selectors3 = __webpack_require__("../../packages/kandy/src/call/interfaceNew/selectors.js");
+
+var _selectors4 = __webpack_require__("../../packages/kandy/src/subscription/interface/selectors.js");
 
 var _actionTypes2 = __webpack_require__("../../packages/kandy/src/notifications/interface/actionTypes.js");
 
@@ -53079,7 +53090,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 
 // Libraries.
-// Sip Events plugin.
+
+
+// Other plugins.
 const log = _logs.logManager.getLogger('SIPEVENTS');
 
 /**
@@ -53092,9 +53105,7 @@ const log = _logs.logManager.getLogger('SIPEVENTS');
 
 
 // Logs
-
-
-// Other plugins.
+// Sip Events plugin.
 function* sipEventSubscribe() {
   while (true) {
     const action = yield (0, _effects3.take)(actionTypes.SIP_EVENT_SUBSCRIBE);
@@ -53102,7 +53113,7 @@ function* sipEventSubscribe() {
     log.debug(`Subscribing for sip ${action.payload.eventType}.`, action.payload.clientCorrelator);
 
     // Determine if the user is subscribed to the specified sip event.
-    const subscribedServices = yield (0, _effects3.select)(_selectors3.getSubscribedServices);
+    const subscribedServices = yield (0, _effects3.select)(_selectors4.getSubscribedServices);
     const sipEvents = subscribedServices.filter(service => service.startsWith('event:'));
 
     if (!(0, _fp.includes)(action.payload.eventType, sipEvents)) {
@@ -53117,7 +53128,7 @@ function* sipEventSubscribe() {
     }
 
     // Use the same subscription duration as the user subscription.
-    const { expires } = yield (0, _effects3.select)(_selectors3.getSubscriptionInfo);
+    const { expires } = yield (0, _effects3.select)(_selectors4.getSubscriptionInfo);
 
     const platform = yield (0, _effects3.select)(_selectors2.getPlatform);
     let { server, username, token, accessToken } = yield (0, _effects3.select)(_selectors2.getConnectionInfo);
@@ -53403,10 +53414,28 @@ function* receiveEventNotify() {
     const action = yield (0, _effects3.take)(receiveEventNotifyPattern);
 
     // Determine which sip events the user is subscribed/connected for.
-    const subscribedServices = yield (0, _effects3.select)(_selectors3.getSubscribedServices);
+    const subscribedServices = yield (0, _effects3.select)(_selectors4.getSubscribedServices);
+
     const sipEvents = subscribedServices.filter(service => service.startsWith('event:'));
 
     const notification = action.payload.notificationMessage;
+    const genericNotification = notification.genericNotificationParams;
+    let callId = '';
+    /*
+     * Check if the notification's sessiondataType (if it exists) is of type call.
+     * If it is, then the sessionData field of the notification is a KandyLink Call ID.
+     * We can then map that KL Call ID to an SDK Call ID (if it exists) and attach that to the
+     * sip event we emit to the application.
+     */
+    if (genericNotification.sessiondataType && genericNotification.sessiondataType === 'call') {
+      // Look at our existing calls to find the SDK Call ID (if any) that corresponds to the sessiondata
+      const targetcall = yield (0, _effects3.select)(_selectors3.getCallByWrtcsSessionId, genericNotification.sessionData);
+      if (!targetcall) {
+        log.warn('Call associated with received SIP notification cannot be found.');
+      } else {
+        callId = targetcall.id;
+      }
+    }
 
     /*
      * Determine which scenario we received this notification in:
@@ -53436,7 +53465,7 @@ function* receiveEventNotify() {
     }
 
     // Always emit the notification to the application.
-    yield (0, _effects3.put)(actions.sipEventReceived(notification));
+    yield (0, _effects3.put)(actions.sipEventReceived(notification, callId));
   }
 }
 

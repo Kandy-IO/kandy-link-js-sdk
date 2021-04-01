@@ -89604,9 +89604,29 @@
               "name": "params.event"
             },
             {
+              "title": "param",
+              "description": null,
+              "lineNumber": 14,
+              "type": {
+                "type": "NameExpression",
+                "name": "Object"
+              },
+              "name": "params.links"
+            },
+            {
+              "title": "param",
+              "description": "The ID of the call this SIP event links to.",
+              "lineNumber": 15,
+              "type": {
+                "type": "NameExpression",
+                "name": "string"
+              },
+              "name": "params.links.callId"
+            },
+            {
               "title": "example",
               "description": "// Listen for the event being emitted.\nclient.on('sip:eventsChange', (params) => {\n   // Gather the SIP info specific to the event.\n   const sipInfo = params.event.genericNotificationParams\n\n   // Handle the data based on the event type.\n   if (params.eventType === 'event:presence') {\n       const { data, from } = sipInfo\n       ...\n   }\n})",
-              "lineNumber": 14
+              "lineNumber": 16
             }
           ],
           "loc": {
@@ -89615,18 +89635,18 @@
               "column": 0
             },
             "end": {
-              "line": 75,
+              "line": 77,
               "column": 3
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 76,
+                "line": 78,
                 "column": 0
               },
               "end": {
-                "line": 76,
+                "line": 78,
                 "column": 48
               }
             },
@@ -89882,6 +89902,78 @@
                     "type": "NameExpression",
                     "name": "Object"
                   }
+                },
+                {
+                  "title": "param",
+                  "name": "params.links",
+                  "lineNumber": 14,
+                  "type": {
+                    "type": "NameExpression",
+                    "name": "Object"
+                  },
+                  "properties": [
+                    {
+                      "title": "param",
+                      "name": "params.links.callId",
+                      "lineNumber": 15,
+                      "description": {
+                        "type": "root",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "The ID of the call this SIP event links to.",
+                                "position": {
+                                  "start": {
+                                    "line": 1,
+                                    "column": 1,
+                                    "offset": 0
+                                  },
+                                  "end": {
+                                    "line": 1,
+                                    "column": 44,
+                                    "offset": 43
+                                  },
+                                  "indent": []
+                                }
+                              }
+                            ],
+                            "position": {
+                              "start": {
+                                "line": 1,
+                                "column": 1,
+                                "offset": 0
+                              },
+                              "end": {
+                                "line": 1,
+                                "column": 44,
+                                "offset": 43
+                              },
+                              "indent": []
+                            }
+                          }
+                        ],
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 44,
+                            "offset": 43
+                          }
+                        }
+                      },
+                      "type": {
+                        "type": "NameExpression",
+                        "name": "string"
+                      }
+                    }
+                  ]
                 }
               ]
             }
