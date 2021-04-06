@@ -10,8 +10,10 @@ Kandy.js change log.
 ### Added
 
 - Added Call identification to received SIP Event notifications. `KJS-111`
-
-## 4.26.0 - 2021-03-26
+- Improved the logging of [SDP handler functions](https://kandy-io.github.io/kandy-link-js-sdk/docs/#callsdphandlerfunction). `KJS-99`
+  - In [`DEBUG` mode](https://kandy-io.github.io/kandy-link-js-sdk/docs/#loggerlevels) and lower, each SDP handler function applied to the SDP and the changes that may have resulted.
+  - The final SDP is logged with all of the changes that have been applied.
+  - The entire report is logged to the console in [YAML format](https://yaml.org/).
 
 ### Fixed
 
