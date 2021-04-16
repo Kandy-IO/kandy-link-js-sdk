@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.27.0-beta.648
+ * Version: 4.27.0-beta.649
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -43734,7 +43734,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.27.0-beta.648';
+  return '4.27.0-beta.649';
 }
 
 /***/ }),
@@ -62928,6 +62928,9 @@ function api({ dispatch, getState }) {
 
     /**
      * Sends an initialization message over the channel with webRTC configurations.
+     *
+     * The version of the SDK and the Remote SDK must be the same, otherwise
+     *    initialization will fail.
      * @public
      * @memberof proxy
      * @method initializeRemote
@@ -63480,12 +63483,12 @@ var _channel = __webpack_require__("../../packages/kandy/src/webrtcProxy/channel
 
 var _logs = __webpack_require__("../../packages/kandy/src/logs/index.js");
 
+var _version = __webpack_require__("../../packages/kandy/src/common/version.js");
+
 var _uuid = __webpack_require__("../../node_modules/uuid/dist/esm-browser/index.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// Other plugins.
-// Proxy plugin.
 const log = _logs.logManager.getLogger('PROXY');
 
 /**
@@ -63498,6 +63501,10 @@ const log = _logs.logManager.getLogger('PROXY');
 
 
 // Libraries.
+
+
+// Other plugins.
+// Proxy plugin.
 function initializeProxy(webRTC) {
   // The base of the proxy stack.
   const base = {
@@ -63611,21 +63618,32 @@ function initializeProxy(webRTC) {
    * @param {string} logLevels.PROXY  Log level for the Remote Proxy operations.
    */
   const initialize = (config, logLevels) => {
+    // Version of the local SDK.
+    const version = (0, _version.getVersion)();
+
     return new _promise2.default(resolve => {
       if (!base.clientReady && base.channel) {
         const callback = data => {
           log.debug('Received initialize response.', data);
-          if (data.initialized) {
+          if (data.initialized && data.remoteVersion === version) {
             // The Client is now ready.
             base.clientReady = true;
             resolve({ browser: data.browser });
+          } else if (data.remoteVersion !== version) {
+            log.error('SDK and Remote SDK have different versions.');
+            resolve({ error: new Error('Remote end has different version.') });
           } else {
             resolve({ error: new Error('Remote end not initialized.') });
           }
         };
 
         const messageId = (0, _uuid.v4)();
-        base.channel.send(messageId, { initialize: true, config, logLevels }, callback);
+        base.channel.send(messageId, {
+          initialize: true,
+          version,
+          config,
+          logLevels
+        }, callback);
       } else {
         log.debug('Cannot initialize remote: either Client is already ready or no channel to use.');
         resolve({ error: new Error('Either Client is already ready or no channel to use.') });

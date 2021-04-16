@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.remote.js
- * Version: 4.27.0-beta.648
+ * Version: 4.27.0-beta.649
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -14018,7 +14018,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.27.0-beta.648';
+  return '4.27.0-beta.649';
 }
 
 /***/ }),
@@ -16450,6 +16450,8 @@ var _channel = __webpack_require__("../../packages/kandy/src/webrtcProxy/channel
 
 var _logs = __webpack_require__("../../packages/kandy/src/logs/index.js");
 
+var _version = __webpack_require__("../../packages/kandy/src/common/version.js");
+
 var _uuid = __webpack_require__("../../node_modules/uuid/dist/esm-browser/index.js");
 
 var _kandyWebrtc = __webpack_require__("../../packages/webrtc/src/interface/index.js");
@@ -16459,7 +16461,9 @@ var _kandyWebrtc2 = _interopRequireDefault(_kandyWebrtc);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Libraries.
-// Proxy Plugin.
+
+
+// Other plugins.
 const log = _logs.logManager.getLogger('PROXY');
 
 /**
@@ -16505,9 +16509,7 @@ const log = _logs.logManager.getLogger('PROXY');
  * @method clientProxy
  * @return {Object} The Client Proxy.
  */
-
-
-// Other plugins.
+// Proxy Plugin.
 function clientProxy() {
   const base = {
     // Whether the Client Proxy is ready for use.
@@ -16535,7 +16537,15 @@ function clientProxy() {
 
     base.channel = (0, _channel.replyChannel)((0, _channel.jsonChannel)(channel));
     base.channel.receive = (id, data) => {
-      if (!base.isReady && data.initialize) {
+      log.info(`SDK version received from remote end: ${data.version}.`);
+      const remoteVersion = (0, _version.getVersion)();
+
+      if (data.version !== remoteVersion) {
+        // Make sure the two SDKs have the same version.
+        log.error('SDK versions do not match; initialization failed.');
+        const response = { initialized: false, remoteVersion };
+        base.channel.reply(id, response);
+      } else if (!base.isReady && data.initialize) {
         log.info('Initializing local webRTC stack.', data.config);
         base.webRTC = base.webRTC(data.config);
 
@@ -16573,7 +16583,7 @@ function clientProxy() {
         if (api.onInit) {
           api.onInit(base.webRTC);
         }
-        base.channel.reply(id, { initialized: true, browser });
+        base.channel.reply(id, { initialized: true, browser, remoteVersion });
         log.info('Finished initializing local webRTC stack.');
       } else if (!base.isReady) {
         // If we received a (non-initialize) message, but haven't yet initialized
@@ -16591,7 +16601,7 @@ function clientProxy() {
       } else {
         log.error('Unknown data format; ignoring.', data);
         // TODO: Reply with a (better?) error.
-        const response = { error: 'Unknown format.', data };
+        const response = { error: 'Unknown format.', data, remoteVersion };
         base.channel.reply(id, response);
       }
     };

@@ -2612,6 +2612,9 @@ Sets the channel to be used while proxy mode is enabled.
 
 Sends an initialization message over the channel with webRTC configurations.
 
+The version of the SDK and the Remote SDK must be the same, otherwise
+   initialization will fail.
+
 **Parameters**
 
 -   `config` **[Object][7]** 

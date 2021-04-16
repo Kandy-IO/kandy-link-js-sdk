@@ -14,6 +14,8 @@ Kandy.js change log.
   - In [`DEBUG` mode](https://kandy-io.github.io/kandy-link-js-sdk/docs/#loggerlevels) and lower, each SDP handler function applied to the SDP and the changes that may have resulted.
   - The final SDP is logged with all of the changes that have been applied.
   - The entire report is logged to the console in [YAML format](https://yaml.org/).
+- Added a Proxy feature to verify that the versions of the two SDKs are the same. `KAA-2622`
+  - Remote initialization will fail if they are not.
 
 ### Fixed
 

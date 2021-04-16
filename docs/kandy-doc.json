@@ -83028,6 +83028,45 @@
                   },
                   "indent": []
                 }
+              },
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "The version of the SDK and the Remote SDK must be the same, otherwise\n   initialization will fail.",
+                    "position": {
+                      "start": {
+                        "line": 3,
+                        "column": 1,
+                        "offset": 78
+                      },
+                      "end": {
+                        "line": 4,
+                        "column": 29,
+                        "offset": 176
+                      },
+                      "indent": [
+                        1
+                      ]
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 78
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 29,
+                    "offset": 176
+                  },
+                  "indent": [
+                    1
+                  ]
+                }
               }
             ],
             "position": {
@@ -83037,9 +83076,9 @@
                 "offset": 0
               },
               "end": {
-                "line": 1,
-                "column": 77,
-                "offset": 76
+                "line": 4,
+                "column": 29,
+                "offset": 176
               }
             }
           },
@@ -83047,24 +83086,24 @@
             {
               "title": "public",
               "description": null,
-              "lineNumber": 2,
+              "lineNumber": 5,
               "type": null
             },
             {
               "title": "memberof",
               "description": "proxy",
-              "lineNumber": 3
+              "lineNumber": 6
             },
             {
               "title": "method",
               "description": null,
-              "lineNumber": 4,
+              "lineNumber": 7,
               "name": "initializeRemote"
             },
             {
               "title": "param",
               "description": null,
-              "lineNumber": 5,
+              "lineNumber": 8,
               "type": {
                 "type": "NameExpression",
                 "name": "Object"
@@ -83078,18 +83117,18 @@
               "column": 4
             },
             "end": {
-              "line": 158,
+              "line": 161,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 159,
+                "line": 162,
                 "column": 4
               },
               "end": {
-                "line": 162,
+                "line": 165,
                 "column": 5
               }
             },
@@ -83101,7 +83140,7 @@
             {
               "title": "param",
               "name": "config",
-              "lineNumber": 5,
+              "lineNumber": 8,
               "type": {
                 "type": "NameExpression",
                 "name": "Object"
