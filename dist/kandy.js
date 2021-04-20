@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.27.0-beta.649
+ * Version: 4.27.0-beta.650
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -43734,7 +43734,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.27.0-beta.649';
+  return '4.27.0-beta.650';
 }
 
 /***/ }),
@@ -44200,13 +44200,6 @@ function* websocketLifecycle(wsConnectAction) {
   // Try to open the websocket.
   const websocket = yield (0, _effects.call)(connectWebsocket, wsInfo, platform);
 
-  // Append information to the websocket, so that its accessible elsewhere.
-  // TODO: Remove this and replace with proper redux state storage.
-  websocket.kandy = yield (0, _effects.select)(_selectors.getConnectivityConfig);
-
-  websocket.kandy.wsInfo = wsInfo;
-  websocket.kandy.platform = platform;
-
   // If the websocket didn't open, dispatch the error and stop here.
   if (websocket.error) {
     if (isReconnect) {
@@ -44217,6 +44210,13 @@ function* websocketLifecycle(wsConnectAction) {
       return;
     }
   }
+
+  // Append information to the websocket, so that its accessible elsewhere.
+  // TODO: Remove this and replace with proper redux state storage.
+  websocket.kandy = yield (0, _effects.select)(_selectors.getConnectivityConfig);
+
+  websocket.kandy.wsInfo = wsInfo;
+  websocket.kandy.platform = platform;
 
   // set last contact in both cases to be now
   websocket.kandy.lastContact = Date.now();
@@ -44257,33 +44257,38 @@ function* websocketLifecycle(wsConnectAction) {
     yield (0, _effects.put)(actions.wsDisconnectFinished(undefined, platform));
     log.info('Successfully closed websocket connection.');
   } else {
-    // If this is a Link websocket, we need to ensure the URL is using the
-    //     "latest" access token from state.
-    if (wsConnectAction.meta.platform === _constants.platforms.UC) {
-      log.info('Updating access token ...');
-      const { notificationChannel } = yield (0, _effects.select)(_selectors3.getSubscriptionInfo);
-      const { accessToken, oauthToken } = yield (0, _effects.select)(_selectors2.getConnectionInfo);
-      wsInfo.url = notificationChannel;
-      if (oauthToken && !accessToken) {
+    if (websocket.kandy.autoReconnect) {
+      // If this is a Link websocket, we need to ensure the URL is using the
+      //     "latest" access token from state.
+      if (wsConnectAction.meta.platform === _constants.platforms.UC) {
+        log.info('Updating access token ...');
+        const { notificationChannel } = yield (0, _effects.select)(_selectors3.getSubscriptionInfo);
+        const { accessToken, oauthToken } = yield (0, _effects.select)(_selectors2.getConnectionInfo);
+        wsInfo.url = notificationChannel;
+        if (oauthToken && !accessToken) {
+          wsInfo.params = {
+            access_token: oauthToken
+          };
+        } else {
+          wsInfo.params = {
+            token: accessToken
+          };
+        }
+      } else if (wsConnectAction.meta.platform === _constants.platforms.LINK) {
+        const { bearerAccessToken } = yield (0, _effects.select)(_selectors2.getConnectionInfo);
         wsInfo.params = {
-          access_token: oauthToken
-        };
-      } else {
-        wsInfo.params = {
-          token: accessToken
+          token: bearerAccessToken
         };
       }
-    } else if (wsConnectAction.meta.platform === _constants.platforms.LINK) {
-      const { bearerAccessToken } = yield (0, _effects.select)(_selectors2.getConnectionInfo);
-      wsInfo.params = {
-        token: bearerAccessToken
-      };
-    }
 
-    // If we've lost connection, re-dispatch the initial action, so that we can
-    //      start the lifecycle over.
-    log.debug('Attempting to reconnect to websocket ...');
-    yield (0, _effects.put)(actions.wsAttemptConnect(wsInfo, wsConnectAction.meta.platform, true));
+      // If we've lost connection, re-dispatch the initial action, so that we can
+      //      start the lifecycle over.
+      log.debug('Attempting to reconnect to websocket ...');
+      yield (0, _effects.put)(actions.wsAttemptConnect(wsInfo, wsConnectAction.meta.platform, true));
+    } else {
+      log.debug('Not attempting to reconnect to websocket autoReconnect is false.');
+      yield (0, _effects.put)(actions.wsReconnectFailed(undefined, platform));
+    }
   }
 }
 
@@ -44347,8 +44352,8 @@ function* serverPingFlow(ws) {
         log.error(`Got error when attempting to reply: ${error.message}`);
         if (autoReconnect) {
           log.info('Trying to auto reconnect ...');
-          yield (0, _effects.put)(actions.lostConnection(undefined, platform));
         }
+        yield (0, _effects.put)(actions.lostConnection(undefined, platform));
         break;
       }
     } else {
@@ -44358,8 +44363,8 @@ function* serverPingFlow(ws) {
         // try to reconnect or exit
         if (autoReconnect) {
           log.debug(`${platform} is attempting to auto reconnect ...`);
-          yield (0, _effects.put)(actions.lostConnection(undefined, platform));
         }
+        yield (0, _effects.put)(actions.lostConnection(undefined, platform));
         break;
       } else {
         log.debug(`${platform} websocket last contact: ${lastContact}. Reconnect after ${maxIdleDuration}.`);
@@ -44410,8 +44415,8 @@ function* clientPingFlow(ws) {
         log.error('Exception in clientPing flow: ' + error.message);
         if (autoReconnect) {
           log.debug(`${platform} is attempting to auto reconnect ...`);
-          yield (0, _effects.put)(actions.lostConnection(undefined, platform));
         }
+        yield (0, _effects.put)(actions.lostConnection(undefined, platform));
         break;
       }
     } else {
@@ -44462,9 +44467,7 @@ function* clientPingFlow(ws) {
           log.warn('Closing websocket due to inactivity. (have not received pong from server)', platform);
 
           // its been too long since the last pong, attempt to reconnect or exit
-          if (autoReconnect) {
-            yield (0, _effects.put)(actions.lostConnection(undefined, platform));
-          }
+          yield (0, _effects.put)(actions.lostConnection(undefined, platform));
 
           break;
         } else {
