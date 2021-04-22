@@ -5,6 +5,12 @@ Kandy.js change log.
 - This project adheres to [Semantic Versioning](http://semver.org/).
 - This change log follows [keepachangelog.com](http://keepachangelog.com/) recommendations.
 
+## 4.26.1 - 2021-04-22
+
+### Fixed
+
+- Fixed a Connectivity issue where websocket reconnect attempts would not follow the `webSocketOAuthMode` configuration.
+
 ## 4.26.0 - 2021-03-26
 
 ### Added
