@@ -21,6 +21,7 @@ Kandy.js change log.
 
 - Changed how [`destroy`](https://kandy-io.github.io/kandy-link-js-sdk/docs/#apidestroy) is used to prevent errors when destroying inside an event. `KJS-123`
 - Fix issue where the app isn't notified and subscription isn't removed when the websocket connection is lost and `autoReconnect` is set to false in configuration. `KJS-60`
+- Fixed an issue where minimizing the SDK caused an error. `KJS-141`
 
 ## 4.26.1 - 2021-04-22
 
