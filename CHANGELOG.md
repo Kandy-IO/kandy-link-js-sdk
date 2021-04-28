@@ -16,6 +16,7 @@ Kandy.js change log.
   - The entire report is logged to the console in [YAML format](https://yaml.org/).
 - Added a Proxy feature to verify that the versions of the two SDKs are the same. `KAA-2622`
   - Remote initialization will fail if they are not.
+- Added the `request:error` event trigger on authorization credential issues. `KJS-142`
 
 ### Fixed
 
