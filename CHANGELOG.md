@@ -24,6 +24,7 @@ Kandy.js change log.
 - Fix issue where the app isn't notified and subscription isn't removed when the websocket connection is lost and `autoReconnect` is set to false in configuration. `KJS-60`
 - Fixed an issue where minimizing the SDK caused an error. `KJS-141`
 - Added handling websocket error and close scenarios instead of waiting for the heartbeat to fail to either retry connection or just notify the app and clean up subscription. `KJS-61`
+- Fixed hmacToken authentication issue where other REST request will not work after subscription. `KJS-143`
 
 ## 4.26.1 - 2021-04-22
 

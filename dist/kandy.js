@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.27.0-beta.657
+ * Version: 4.27.0-beta.658
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -2128,7 +2128,7 @@ function getRequestInfo(state, platform) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var anObject = __webpack_require__(23);
-var IE8_DOM_DEFINE = __webpack_require__(106);
+var IE8_DOM_DEFINE = __webpack_require__(107);
 var toPrimitive = __webpack_require__(74);
 var dP = Object.defineProperty;
 
@@ -2441,7 +2441,7 @@ function createAction(type, payloadCreator, metaCreator) {
   return array[array.length - 1];
 });
 // EXTERNAL MODULE: /var/jenkins_home/workspace/Kandy.js_beta/node_modules/to-camel-case/index.js
-var to_camel_case = __webpack_require__(289);
+var to_camel_case = __webpack_require__(290);
 var to_camel_case_default = /*#__PURE__*/__webpack_require__.n(to_camel_case);
 
 // CONCATENATED MODULE: /var/jenkins_home/workspace/Kandy.js_beta/node_modules/redux-actions/es/utils/camelCase.js
@@ -5254,7 +5254,7 @@ module.exports = function (bitmap, value) {
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.14 / 15.2.3.14 Object.keys(O)
-var $keys = __webpack_require__(107);
+var $keys = __webpack_require__(108);
 var enumBugKeys = __webpack_require__(80);
 
 module.exports = Object.keys || function keys(O) {
@@ -6115,11 +6115,11 @@ module.exports = {};
 /***/ (function(module, exports, __webpack_require__) {
 
 var ctx = __webpack_require__(29);
-var call = __webpack_require__(117);
-var isArrayIter = __webpack_require__(118);
+var call = __webpack_require__(118);
+var isArrayIter = __webpack_require__(119);
 var anObject = __webpack_require__(23);
 var toLength = __webpack_require__(58);
-var getIterFn = __webpack_require__(119);
+var getIterFn = __webpack_require__(120);
 var BREAK = {};
 var RETURN = {};
 var exports = module.exports = function (iterable, entries, fn, that, ITERATOR) {
@@ -6226,7 +6226,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.update = update;
 exports.setSdpHandlers = setSdpHandlers;
 
-var _actionTypes = __webpack_require__(293);
+var _actionTypes = __webpack_require__(294);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -6312,7 +6312,7 @@ exports.requestSaga = requestSaga;
 
 var _actionTypes = __webpack_require__(155);
 
-var _actions = __webpack_require__(298);
+var _actions = __webpack_require__(299);
 
 var actions = _interopRequireWildcard(_actions);
 
@@ -6416,7 +6416,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.27.0-beta.657';
+  return '4.27.0-beta.658';
 }
 
 /***/ }),
@@ -6499,7 +6499,7 @@ var createDict = function () {
   var gt = '>';
   var iframeDocument;
   iframe.style.display = 'none';
-  __webpack_require__(111).appendChild(iframe);
+  __webpack_require__(112).appendChild(iframe);
   iframe.src = 'javascript:'; // eslint-disable-line no-script-url
   // createDict = iframe.contentWindow.Object;
   // html.removeChild(iframe);
@@ -6618,7 +6618,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _freeze = __webpack_require__(130);
+var _freeze = __webpack_require__(131);
 
 var _freeze2 = _interopRequireDefault(_freeze);
 
@@ -7343,7 +7343,7 @@ var _logManager = __webpack_require__(180);
 
 var _logManager2 = _interopRequireDefault(_logManager);
 
-var _logFormatter = __webpack_require__(114);
+var _logFormatter = __webpack_require__(115);
 
 var _logFormatter2 = _interopRequireDefault(_logFormatter);
 
@@ -7438,7 +7438,7 @@ function checkHandler(handler) {
 
 var LIBRARY = __webpack_require__(48);
 var $export = __webpack_require__(8);
-var redefine = __webpack_require__(109);
+var redefine = __webpack_require__(110);
 var hide = __webpack_require__(30);
 var Iterators = __webpack_require__(51);
 var $iterCreate = __webpack_require__(197);
@@ -8783,6 +8783,27 @@ const CHANNEL_CLOSED = exports.CHANNEL_CLOSED = prefix + 'CHANNEL_CLOSED';
 "use strict";
 
 
+exports.__esModule = true;
+
+exports.default = function (obj, keys) {
+  var target = {};
+
+  for (var i in obj) {
+    if (keys.indexOf(i) >= 0) continue;
+    if (!Object.prototype.hasOwnProperty.call(obj, i)) continue;
+    target[i] = obj[i];
+  }
+
+  return target;
+};
+
+/***/ }),
+/* 105 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -8810,9 +8831,11 @@ const SET_CREDENTIALS_FINISH = exports.SET_CREDENTIALS_FINISH = prefix + 'SET_CR
 
 const AUTHORIZATION_ERROR = exports.AUTHORIZATION_ERROR = prefix + 'AUTHORIZATION_ERROR';
 
+const UPDATE_HMAC_TOKEN = exports.UPDATE_HMAC_TOKEN = prefix + 'UPDATE_HMAC_TOKEN';
+
 /***/ }),
-/* 105 */,
-/* 106 */
+/* 106 */,
+/* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = !__webpack_require__(15) && !__webpack_require__(33)(function () {
@@ -8821,7 +8844,7 @@ module.exports = !__webpack_require__(15) && !__webpack_require__(33)(function (
 
 
 /***/ }),
-/* 107 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var has = __webpack_require__(31);
@@ -8844,7 +8867,7 @@ module.exports = function (object, names) {
 
 
 /***/ }),
-/* 108 */
+/* 109 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -8872,14 +8895,14 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 109 */
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(30);
 
 
 /***/ }),
-/* 110 */
+/* 111 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.2.2 IsArray(argument)
@@ -8890,7 +8913,7 @@ module.exports = Array.isArray || function isArray(arg) {
 
 
 /***/ }),
-/* 111 */
+/* 112 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var document = __webpack_require__(9).document;
@@ -8898,11 +8921,11 @@ module.exports = document && document.documentElement;
 
 
 /***/ }),
-/* 112 */
+/* 113 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)
-var $keys = __webpack_require__(107);
+var $keys = __webpack_require__(108);
 var hiddenKeys = __webpack_require__(80).concat('length', 'prototype');
 
 exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
@@ -8911,7 +8934,7 @@ exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
 
 
 /***/ }),
-/* 113 */
+/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var pIE = __webpack_require__(49);
@@ -8919,7 +8942,7 @@ var createDesc = __webpack_require__(38);
 var toIObject = __webpack_require__(34);
 var toPrimitive = __webpack_require__(74);
 var has = __webpack_require__(31);
-var IE8_DOM_DEFINE = __webpack_require__(106);
+var IE8_DOM_DEFINE = __webpack_require__(107);
 var gOPD = Object.getOwnPropertyDescriptor;
 
 exports.f = __webpack_require__(15) ? gOPD : function getOwnPropertyDescriptor(O, P) {
@@ -8933,7 +8956,7 @@ exports.f = __webpack_require__(15) ? gOPD : function getOwnPropertyDescriptor(O
 
 
 /***/ }),
-/* 114 */
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8967,7 +8990,7 @@ function defaultLogFormatter(entry) {
 }
 
 /***/ }),
-/* 115 */
+/* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8985,7 +9008,7 @@ const SET_HANDLER = exports.SET_HANDLER = prefix + 'SET_HANDLER';
 const HANDLERS_CHANGE = exports.HANDLERS_CHANGE = prefix + 'HANDLERS_CHANGE';
 
 /***/ }),
-/* 116 */
+/* 117 */
 /***/ (function(module, exports) {
 
 module.exports = function (done, value) {
@@ -8994,7 +9017,7 @@ module.exports = function (done, value) {
 
 
 /***/ }),
-/* 117 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // call something on iterator step with safe closing on error
@@ -9012,7 +9035,7 @@ module.exports = function (iterator, fn, value, entries) {
 
 
 /***/ }),
-/* 118 */
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // check on default Array iterator
@@ -9026,7 +9049,7 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 119 */
+/* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var classof = __webpack_require__(90);
@@ -9040,7 +9063,7 @@ module.exports = __webpack_require__(7).getIteratorMethod = function (it) {
 
 
 /***/ }),
-/* 120 */
+/* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9061,7 +9084,7 @@ module.exports = function (KEY) {
 
 
 /***/ }),
-/* 121 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var ITERATOR = __webpack_require__(10)('iterator');
@@ -9089,7 +9112,7 @@ module.exports = function (exec, skipClosing) {
 
 
 /***/ }),
-/* 122 */
+/* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.3.20 SpeciesConstructor(O, defaultConstructor)
@@ -9104,12 +9127,12 @@ module.exports = function (O, D) {
 
 
 /***/ }),
-/* 123 */
+/* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var ctx = __webpack_require__(29);
 var invoke = __webpack_require__(212);
-var html = __webpack_require__(111);
+var html = __webpack_require__(112);
 var cel = __webpack_require__(73);
 var global = __webpack_require__(9);
 var process = global.process;
@@ -9194,7 +9217,7 @@ module.exports = {
 
 
 /***/ }),
-/* 124 */
+/* 125 */
 /***/ (function(module, exports) {
 
 module.exports = function (exec) {
@@ -9207,7 +9230,7 @@ module.exports = function (exec) {
 
 
 /***/ }),
-/* 125 */
+/* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var anObject = __webpack_require__(23);
@@ -9225,7 +9248,7 @@ module.exports = function (C, x) {
 
 
 /***/ }),
-/* 126 */
+/* 127 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9237,15 +9260,15 @@ Object.defineProperty(exports, "__esModule", {
 exports.getWebRTCSupportCapabilities = getWebRTCSupportCapabilities;
 exports.default = initialize;
 
-var _track = __webpack_require__(127);
+var _track = __webpack_require__(128);
 
 var _track2 = _interopRequireDefault(_track);
 
-var _media = __webpack_require__(128);
+var _media = __webpack_require__(129);
 
 var _media2 = _interopRequireDefault(_media);
 
-var _Peer = __webpack_require__(129);
+var _Peer = __webpack_require__(130);
 
 var _Peer2 = _interopRequireDefault(_Peer);
 
@@ -9357,7 +9380,7 @@ function initialize() {
 }
 
 /***/ }),
-/* 127 */
+/* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9729,7 +9752,7 @@ function Track(mediaTrack, mediaStream) {
 }
 
 /***/ }),
-/* 128 */
+/* 129 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9995,7 +10018,7 @@ function Media(nativeStream, isLocal) {
 // Libraries.
 
 /***/ }),
-/* 129 */
+/* 130 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10217,13 +10240,13 @@ function peer(id, config = {}, trackManager) {
 }
 
 /***/ }),
-/* 130 */
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = { "default": __webpack_require__(248), __esModule: true };
 
 /***/ }),
-/* 131 */
+/* 132 */
 /***/ (function(module, exports) {
 
 var grammar = module.exports = {
@@ -10721,27 +10744,6 @@ Object.keys(grammar).forEach(function (key) {
   });
 });
 
-
-/***/ }),
-/* 132 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-exports.__esModule = true;
-
-exports.default = function (obj, keys) {
-  var target = {};
-
-  for (var i in obj) {
-    if (keys.indexOf(i) >= 0) continue;
-    if (!Object.prototype.hasOwnProperty.call(obj, i)) continue;
-    target[i] = obj[i];
-  }
-
-  return target;
-};
 
 /***/ }),
 /* 133 */
@@ -11628,8 +11630,8 @@ var ctx = __webpack_require__(29);
 var anInstance = __webpack_require__(89);
 var forOf = __webpack_require__(52);
 var $iterDefine = __webpack_require__(86);
-var step = __webpack_require__(116);
-var setSpecies = __webpack_require__(120);
+var step = __webpack_require__(117);
+var setSpecies = __webpack_require__(121);
 var DESCRIPTORS = __webpack_require__(15);
 var fastKey = __webpack_require__(61).fastKey;
 var validate = __webpack_require__(102);
@@ -12524,7 +12526,7 @@ var _stringify = __webpack_require__(32);
 
 var _stringify2 = _interopRequireDefault(_stringify);
 
-var _freeze = __webpack_require__(130);
+var _freeze = __webpack_require__(131);
 
 var _freeze2 = _interopRequireDefault(_freeze);
 
@@ -13063,7 +13065,7 @@ u&&(q.prototype[t]=function(){var t=this.__wrapped__,o=e?[1]:arguments,f=t insta
 var t=hl[n],r=/^(?:push|sort|unshift)$/.test(n)?"tap":"thru",e=/^(?:pop|shift)$/.test(n);q.prototype[n]=function(){var n=arguments;if(e&&!this.__chain__){var u=this.value();return t.apply(yh(u)?u:[],n)}return this[r](function(r){return t.apply(yh(r)?r:[],n)})}}),ee(Bt.prototype,function(n,t){var r=q[t];if(r){var e=r.name+"";yl.call(is,e)||(is[e]=[]),is[e].push({name:t,func:r})}}),is[Ju(Y,hn).name]=[{name:"wrapper",func:Y}],Bt.prototype.clone=Gt,Bt.prototype.reverse=Ht,Bt.prototype.value=Jt,q.prototype.at=Js,
 q.prototype.chain=Xo,q.prototype.commit=nf,q.prototype.next=tf,q.prototype.plant=ef,q.prototype.reverse=uf,q.prototype.toJSON=q.prototype.valueOf=q.prototype.value=of,q.prototype.first=q.prototype.head,Ll&&(q.prototype[Ll]=rf),q},ge=ve(); true?(Xr._=ge,!(__WEBPACK_AMD_DEFINE_RESULT__ = (function(){return ge}).call(exports, __webpack_require__, exports, module),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))):undefined}).call(this);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(82), __webpack_require__(108)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(82), __webpack_require__(109)(module)))
 
 /***/ }),
 /* 170 */
@@ -14909,7 +14911,7 @@ var global = __webpack_require__(9);
 var has = __webpack_require__(31);
 var DESCRIPTORS = __webpack_require__(15);
 var $export = __webpack_require__(8);
-var redefine = __webpack_require__(109);
+var redefine = __webpack_require__(110);
 var META = __webpack_require__(61).KEY;
 var $fails = __webpack_require__(33);
 var shared = __webpack_require__(79);
@@ -14919,7 +14921,7 @@ var wks = __webpack_require__(10);
 var wksExt = __webpack_require__(100);
 var wksDefine = __webpack_require__(84);
 var enumKeys = __webpack_require__(185);
-var isArray = __webpack_require__(110);
+var isArray = __webpack_require__(111);
 var anObject = __webpack_require__(23);
 var isObject = __webpack_require__(13);
 var toObject = __webpack_require__(36);
@@ -14928,7 +14930,7 @@ var toPrimitive = __webpack_require__(74);
 var createDesc = __webpack_require__(38);
 var _create = __webpack_require__(62);
 var gOPNExt = __webpack_require__(186);
-var $GOPD = __webpack_require__(113);
+var $GOPD = __webpack_require__(114);
 var $GOPS = __webpack_require__(81);
 var $DP = __webpack_require__(19);
 var $keys = __webpack_require__(39);
@@ -15054,7 +15056,7 @@ if (!USE_NATIVE) {
 
   $GOPD.f = $getOwnPropertyDescriptor;
   $DP.f = $defineProperty;
-  __webpack_require__(112).f = gOPNExt.f = $getOwnPropertyNames;
+  __webpack_require__(113).f = gOPNExt.f = $getOwnPropertyNames;
   __webpack_require__(49).f = $propertyIsEnumerable;
   $GOPS.f = $getOwnPropertySymbols;
 
@@ -15178,7 +15180,7 @@ module.exports = function (it) {
 
 // fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
 var toIObject = __webpack_require__(34);
-var gOPN = __webpack_require__(112).f;
+var gOPN = __webpack_require__(113).f;
 var toString = {}.toString;
 
 var windowNames = typeof window == 'object' && window && Object.getOwnPropertyNames
@@ -15522,7 +15524,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = defaultLogHandler;
 
-var _logFormatter = __webpack_require__(114);
+var _logFormatter = __webpack_require__(115);
 
 var _logFormatter2 = _interopRequireDefault(_logFormatter);
 
@@ -15647,7 +15649,7 @@ exports.levelsChanged = levelsChanged;
 exports.setHandler = setHandler;
 exports.handlersChanged = handlersChanged;
 
-var _actionTypes = __webpack_require__(115);
+var _actionTypes = __webpack_require__(116);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -15802,7 +15804,7 @@ module.exports = function (Constructor, NAME, next) {
 "use strict";
 
 var addToUnscopables = __webpack_require__(199);
-var step = __webpack_require__(116);
+var step = __webpack_require__(117);
 var Iterators = __webpack_require__(51);
 var toIObject = __webpack_require__(34);
 
@@ -15910,7 +15912,7 @@ module.exports = function (original, length) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var isObject = __webpack_require__(13);
-var isArray = __webpack_require__(110);
+var isArray = __webpack_require__(111);
 var SPECIES = __webpack_require__(10)('species');
 
 module.exports = function (original) {
@@ -15958,13 +15960,13 @@ module.exports = __webpack_require__(7).Array.from;
 var ctx = __webpack_require__(29);
 var $export = __webpack_require__(8);
 var toObject = __webpack_require__(36);
-var call = __webpack_require__(117);
-var isArrayIter = __webpack_require__(118);
+var call = __webpack_require__(118);
+var isArrayIter = __webpack_require__(119);
 var toLength = __webpack_require__(58);
 var createProperty = __webpack_require__(206);
-var getIterFn = __webpack_require__(119);
+var getIterFn = __webpack_require__(120);
 
-$export($export.S + $export.F * !__webpack_require__(121)(function (iter) { Array.from(iter); }), 'Array', {
+$export($export.S + $export.F * !__webpack_require__(122)(function (iter) { Array.from(iter); }), 'Array', {
   // 22.1.2.1 Array.from(arrayLike, mapfn = undefined, thisArg = undefined)
   from: function from(arrayLike /* , mapfn = undefined, thisArg = undefined */) {
     var O = toObject(arrayLike);
@@ -16204,13 +16206,13 @@ var isObject = __webpack_require__(13);
 var aFunction = __webpack_require__(46);
 var anInstance = __webpack_require__(89);
 var forOf = __webpack_require__(52);
-var speciesConstructor = __webpack_require__(122);
-var task = __webpack_require__(123).set;
+var speciesConstructor = __webpack_require__(123);
+var task = __webpack_require__(124).set;
 var microtask = __webpack_require__(213)();
 var newPromiseCapabilityModule = __webpack_require__(91);
-var perform = __webpack_require__(124);
+var perform = __webpack_require__(125);
 var userAgent = __webpack_require__(214);
-var promiseResolve = __webpack_require__(125);
+var promiseResolve = __webpack_require__(126);
 var PROMISE = 'Promise';
 var TypeError = global.TypeError;
 var process = global.process;
@@ -16417,7 +16419,7 @@ if (!USE_NATIVE) {
 
 $export($export.G + $export.W + $export.F * !USE_NATIVE, { Promise: $Promise });
 __webpack_require__(50)($Promise, PROMISE);
-__webpack_require__(120)(PROMISE);
+__webpack_require__(121)(PROMISE);
 Wrapper = __webpack_require__(7)[PROMISE];
 
 // statics
@@ -16436,7 +16438,7 @@ $export($export.S + $export.F * (LIBRARY || !USE_NATIVE), PROMISE, {
     return promiseResolve(LIBRARY && this === Wrapper ? $Promise : this, x);
   }
 });
-$export($export.S + $export.F * !(USE_NATIVE && __webpack_require__(121)(function (iter) {
+$export($export.S + $export.F * !(USE_NATIVE && __webpack_require__(122)(function (iter) {
   $Promise.all(iter)['catch'](empty);
 })), PROMISE, {
   // 25.4.4.1 Promise.all(iterable)
@@ -16509,7 +16511,7 @@ module.exports = function (fn, args, that) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var global = __webpack_require__(9);
-var macrotask = __webpack_require__(123).set;
+var macrotask = __webpack_require__(124).set;
 var Observer = global.MutationObserver || global.WebKitMutationObserver;
 var process = global.process;
 var Promise = global.Promise;
@@ -16599,8 +16601,8 @@ module.exports = navigator && navigator.userAgent || '';
 var $export = __webpack_require__(8);
 var core = __webpack_require__(7);
 var global = __webpack_require__(9);
-var speciesConstructor = __webpack_require__(122);
-var promiseResolve = __webpack_require__(125);
+var speciesConstructor = __webpack_require__(123);
+var promiseResolve = __webpack_require__(126);
 
 $export($export.P + $export.R, 'Promise', { 'finally': function (onFinally) {
   var C = speciesConstructor(this, core.Promise || global.Promise);
@@ -16625,7 +16627,7 @@ $export($export.P + $export.R, 'Promise', { 'finally': function (onFinally) {
 // https://github.com/tc39/proposal-promise-try
 var $export = __webpack_require__(8);
 var newPromiseCapability = __webpack_require__(91);
-var perform = __webpack_require__(124);
+var perform = __webpack_require__(125);
 
 $export($export.S, 'Promise', { 'try': function (callbackfn) {
   var promiseCapability = newPromiseCapability.f(this);
@@ -21147,7 +21149,7 @@ module.exports = __webpack_require__(7).Reflect.set;
 
 // 26.1.13 Reflect.set(target, propertyKey, V [, receiver])
 var dP = __webpack_require__(19);
-var gOPD = __webpack_require__(113);
+var gOPD = __webpack_require__(114);
 var getPrototypeOf = __webpack_require__(101);
 var has = __webpack_require__(31);
 var $export = __webpack_require__(8);
@@ -21821,7 +21823,7 @@ var parseReg = function (obj, location, content) {
   }
 };
 
-var grammar = __webpack_require__(131);
+var grammar = __webpack_require__(132);
 var validLine = RegExp.prototype.test.bind(/^([a-z])=(.*)/);
 
 exports.parse = function (sdp) {
@@ -21915,7 +21917,7 @@ exports.parseSimulcastStreamList = function (str) {
 /* 251 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var grammar = __webpack_require__(131);
+var grammar = __webpack_require__(132);
 
 // customized util.format - discards excess arguments and can void middle ones
 var formatRegExp = /%[sdv%]/g;
@@ -23166,7 +23168,7 @@ exports.default = MediaManager;
 
 var _logs = __webpack_require__(14);
 
-var _media = __webpack_require__(128);
+var _media = __webpack_require__(129);
 
 var _media2 = _interopRequireDefault(_media);
 
@@ -23502,7 +23504,7 @@ exports.default = PeerManager;
 
 var _logs = __webpack_require__(14);
 
-var _Peer = __webpack_require__(129);
+var _Peer = __webpack_require__(130);
 
 var _Peer2 = _interopRequireDefault(_Peer);
 
@@ -24777,7 +24779,7 @@ var _map2 = _interopRequireDefault(_map);
 
 exports.default = TrackManager;
 
-var _track = __webpack_require__(127);
+var _track = __webpack_require__(128);
 
 var _track2 = _interopRequireDefault(_track);
 
@@ -25354,7 +25356,7 @@ exports.getCheckConnectivity = getCheckConnectivity;
 
 var _fp = __webpack_require__(3);
 
-var _name = __webpack_require__(299);
+var _name = __webpack_require__(300);
 
 var _name2 = _interopRequireDefault(_name);
 
@@ -25399,6 +25401,413 @@ function getCheckConnectivity(state) {
 
 /***/ }),
 /* 283 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.connect = connect;
+exports.setConnectionInfo = setConnectionInfo;
+exports.connectionOccurred = connectionOccurred;
+exports.connectFinished = connectFinished;
+exports.getUserDetails = getUserDetails;
+exports.userDetailsReceived = userDetailsReceived;
+exports.disconnect = disconnect;
+exports.disconnectFinished = disconnectFinished;
+exports.resubscribeFinished = resubscribeFinished;
+exports.refreshTokens = refreshTokens;
+exports.refreshTokensFinished = refreshTokensFinished;
+exports.updateSubscription = updateSubscription;
+exports.updateSubscriptionFinished = updateSubscriptionFinished;
+exports.setTokens = setTokens;
+exports.setCredentials = setCredentials;
+exports.setCredentialsFinished = setCredentialsFinished;
+exports.updateHmacToken = updateHmacToken;
+
+var _actionTypes = __webpack_require__(105);
+
+var actionTypes = _interopRequireWildcard(_actionTypes);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+/**
+ * Creates a connect action that takes a credentials object.
+ *
+ * @method connect
+ * @param {Object} credentials The credentials to pass to the connect action.
+ * @param {Object} [options] Any parameters that aren't credentials.
+ * @return {Object} A flux standard action.
+ */
+function connect(credentials, options) {
+  return {
+    type: actionTypes.CONNECT,
+    payload: { credentials, options },
+    meta: {
+      isSensitive: true
+    }
+  };
+}
+
+/**
+ * Create a set connection info action that takes a connection and user info object
+ *
+ * @method setConnectionInfo
+ * @param {Object} $0
+ * @param {Object} $0.userInfo An object representing the user information.
+ * @param {Object} $0.connection A connection object. Information about how to connect to the backend services.
+ * @return {Object} A flux standard action.
+ */
+function setConnectionInfo({ userInfo, connection }, platform) {
+  return {
+    type: actionTypes.SET_CONNECTION_INFO,
+    payload: { userInfo, connection },
+    meta: {
+      platform,
+      isSensitive: true
+    }
+  };
+}
+
+/**
+ * Connection occurred action.
+ * Signifies that a connection has been made to a service, but that the connection
+ *      workflow has not finished yet. Intended for use in scenarios where the
+ *      workflow connects to multiple services, to represent the "intermediate"
+ *      connections.
+ *
+ * @method connectionOccurred
+ * @param  {Object} $0
+ * @param  {Object} $0.subscription
+ * @param  {Object} $0.connection
+ * @param  {Object} [$0.error] An error message. Only present if an error occurred.
+ * @param  {string} platform The backend platform used for the connection.
+ * @return {Object} A flux standard action.
+ */
+function connectionOccurred({ subscription, connection, error }, platform) {
+  // TODO: Is this action used anywhere?
+  var action = {
+    type: actionTypes.CONNECTION_OCCURRED,
+    meta: { platform }
+  };
+
+  if (error) {
+    action.error = true;
+    action.payload = error;
+  } else {
+    action.payload = { subscription, connection };
+  }
+
+  return action;
+}
+
+/**
+ * Create a connect finished action that takes a userInfo object on success and possibly
+ * an error object.
+ *
+ * @method connectFinished
+ * @param {Object} $0
+ * @param {Object} $0.subscription A subscription object. Contains what services to subscribe to.
+ * @param {Object} $0.userInfo An object representing the user information.
+ * @param {Object} $0.connection A connection object. Information about how to connect to the backend services.
+ * @param {string} [$0.error] An error message. Only present if an error occurred.
+ * @param {string} platform The backend platform we are currently on.
+ * @param {boolean} isSSO Boolean for whether the current connection scenario is SSO or not.
+ * @return {Object} A flux standard action.
+ */
+function connectFinished({ subscription, userInfo, connection, error }, platform, isSSO = false) {
+  var action = {
+    type: actionTypes.CONNECT_FINISHED,
+    meta: {
+      platform,
+      isSSO,
+      isSensitive: true
+    }
+  };
+
+  if (error) {
+    action.error = true;
+    action.payload = error;
+  } else {
+    action.payload = { subscription, userInfo, connection };
+  }
+
+  return action;
+}
+
+/**
+ * Creates a getUserDetails action
+ *
+ * @method getUserDetails
+ * @return {Object} A flux standard action.
+ */
+function getUserDetails() {
+  return { type: actionTypes.GET_USER_DETAILS };
+}
+
+/**
+ * Create a user details received action
+ *
+ * @method userDetailsReceived
+ * @param  {Object} userDetailsResponse An object representing the REST response of a user details request.
+ * @return {Object} A flux standard action.
+ */
+function userDetailsReceived(userDetailsResponse) {
+  var action = {
+    type: actionTypes.USER_DETAILS_RECEIVED,
+    payload: {
+      firstName: userDetailsResponse.firstName || userDetailsResponse.user_first_name,
+      user_first_name: userDetailsResponse.user_first_name || userDetailsResponse.firstName,
+      lastName: userDetailsResponse.lastName || userDetailsResponse.user_last_name,
+      user_last_name: userDetailsResponse.user_last_name || userDetailsResponse.lastName,
+      photoURL: userDetailsResponse.photoURL,
+      emailAddress: userDetailsResponse.emailAddress || userDetailsResponse.user_email,
+      user_email: userDetailsResponse.user_email || userDetailsResponse.emailAddress,
+      username: userDetailsResponse.username
+    }
+  };
+
+  return action;
+}
+
+/**
+ * Creates a disconnect action.
+ *
+ * @method disconnect
+ * @return {Object} A flux standard action.
+ */
+function disconnect() {
+  return { type: actionTypes.DISCONNECT };
+}
+
+/**
+ * Create a disconnectFinished action that possibly takes an error object on failure.
+ *
+ * @method disconnectFinished
+ * @param {Object} params
+ * @param {string} [params.error] An error message. Only present if an error occurred.
+ * @param {string} [params.reason] Why the disconnectFinished action is being dispatched.
+ * @return {Object} A flux standard action.
+ */
+function disconnectFinished({ error, reason } = {}) {
+  const action = {
+    type: actionTypes.DISCONNECT_FINISHED,
+    payload: {}
+  };
+
+  if (error) {
+    action.error = true;
+    action.payload = error;
+  }
+
+  if (reason) {
+    action.payload.reason = reason;
+  }
+
+  return action;
+}
+
+/**
+ * Action creator representing the finish of a resubscription request.
+ * Payload mirrors a connect finished action.
+ *
+ * @method resubscribeFinished
+ * @param {Object} $0
+ * @param {string} [$0.error] An error message. Only present if an error occurred.
+ * @param {string} [$0.attemptNum] The attempt number of this resubscription.
+ * @param {string} platform The backend platform we are currently on.
+ * @return {Object} A flux standard action.
+ */
+function resubscribeFinished({ error, attemptNum }, platform) {
+  var action = {
+    type: actionTypes.RESUBSCRIPTION_FINISHED,
+    meta: { platform }
+  };
+
+  if (error) {
+    action.error = true;
+    action.payload = error;
+    action.payload.attemptNum = attemptNum;
+  } else {
+    action.payload = {
+      attemptNum
+    };
+  }
+
+  return action;
+}
+
+/**
+ * Creates a refreshTokens action with the given credentials as a payload.
+ *
+ * @method refreshTokens
+ * @param {Object} credentials A credentials object containing tokens.
+ * @return {Object} A flux standard action.
+ */
+function refreshTokens(credentials) {
+  var action = {
+    type: actionTypes.REFRESH_TOKENS,
+    payload: { credentials }
+  };
+  return action;
+}
+
+/**
+ * Creates a refreshTokensFinished action with connection and platform information.
+ * Optionally includes an error.
+ *
+ * @method refreshTokensFinished
+ * @param {Object} $0
+ * @param {Object} [$0.error] An optional error object.
+ * @param {Object} $0.connection Connection information.
+ * @param {string} platform The backend platform we are currently on.
+ * @return {Object} A flux standard action.
+ */
+function refreshTokensFinished({ error, connection }, platform) {
+  var action = {
+    type: actionTypes.REFRESH_TOKENS_FINISHED,
+    payload: { connection },
+    meta: { platform }
+  };
+  if (error) {
+    action.error = true;
+    action.payload = error;
+  }
+
+  return action;
+}
+
+/**
+ * Represents a request to update a current subscription.
+ * @method updateSubscription
+ * @param  {Object} subscription Information used to update subscription.
+ * @return {Object} A flux standard action.
+ */
+function updateSubscription(subscription) {
+  return {
+    type: actionTypes.UPDATE_SUBSCRIPTION,
+    payload: subscription
+  };
+}
+
+/**
+ * Represents that the current subscription has been updated.
+ * @method updateSubscriptionFinished
+ * @param  {Object} $0
+ * @param  {Object} $0.subscription New subscription state to be updated.
+ * @param  {Object} [$0.error] Error object, in the case of an error.
+ * @param  {string} platform The backend platform used for the subscription.
+ * @return {Object} A flux standard action.
+ */
+function updateSubscriptionFinished({ subscription, error }, platform) {
+  var action = {
+    type: actionTypes.UPDATE_SUBSCRIPTION_FINISH,
+    meta: { platform }
+  };
+
+  if (error) {
+    action.error = true;
+    action.payload = error;
+  } else {
+    action.payload = subscription;
+  }
+  return action;
+}
+
+/**
+ * Sets the token information in the state.
+ * @method setTokens
+ * @param {Object} params Dictionary object of parameters.
+ * @param {string} accessToken An access token retrieved using the authentication APIs of the platform.
+ * @param {string} idToken An identity token retrieved using the authentication APIs of the platform.
+ * @return {Object} A flux standard action.
+ */
+function setTokens({ accessToken, idToken }) {
+  return {
+    type: actionTypes.SET_TOKEN,
+    payload: { accessToken, idToken }
+  };
+}
+
+/**
+ * Creates a setCredentials action that takes a credentials object.
+ *
+ * @method setCredentials
+ * @param {Object} $0
+ * @param {string} $0.username The username.
+ * @param {string} $0.password The user's password.
+ * @param {string} $0.authname The user's authorization name.
+ * @param {string} $0.hmacToken An HMAC token for the user with the provided user ID.
+ * @param {string} $0.bearerAccessToken An access token retrieved using the authentication APIs of the platform.
+ * @param {string} $0.idToken An identity token retrieved using the authentication APIs of the platform.
+ * @return {Object} A flux standard action.
+ */
+function setCredentials({ username, password, authname, hmacToken, bearerAccessToken, idToken }) {
+  return {
+    type: actionTypes.SET_CREDENTIALS,
+    payload: { username, password, authname, hmacToken, bearerAccessToken, idToken },
+    meta: {
+      isSensitive: true
+    }
+  };
+}
+
+/**
+ * Create a setCredentials finished action that takes a userInfo object on success and possibly
+ * an error object.
+ *
+ * @method setCredentialsFinished
+ * @param {Object} $0
+ * @param {Object} $0.userInfo An object representing the user information.
+ * @param {Object} $0.connection A connection object. Information about how to connect to the backend services.
+ * @param {string} [$0.error] An error message. Only present if an error occurred.
+ * @param {string} platform The backend platform we are currently on.
+ * @return {Object} A flux standard action.
+ */
+function setCredentialsFinished({ userInfo, connection, error }, platform) {
+  var action = {
+    type: actionTypes.SET_CREDENTIALS_FINISH,
+    meta: {
+      platform,
+      isSensitive: true
+    }
+  };
+
+  if (error) {
+    action.error = true;
+    action.payload = error;
+  } else {
+    action.payload = { userInfo, connection };
+  }
+
+  return action;
+}
+
+/**
+ * Creates an updateToken action with connection and platform information.
+ *
+ * @method updateToken
+ * @param {string} token A session id retrieved after a sucsessful subscription on the platform.
+ * @param {string} platform The backend platform we are currently on.
+ * @return {Object} A flux standard action.
+ */
+function updateHmacToken(token, platform) {
+  var action = {
+    type: actionTypes.UPDATE_HMAC_TOKEN,
+    payload: token,
+    meta: {
+      platform,
+      isSensitive: true
+    }
+  };
+
+  return action;
+}
+
+/***/ }),
+/* 284 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25776,7 +26185,7 @@ function* answerWebrtcSession(deps, mediaConstraints, sessionOptions) {
 }
 
 /***/ }),
-/* 284 */
+/* 285 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25887,7 +26296,7 @@ function setCache(data) {
 }
 
 /***/ }),
-/* 285 */
+/* 286 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26123,7 +26532,7 @@ function enableNotificationChannelFinish(channel, { params, error } = {}) {
 }
 
 /***/ }),
-/* 286 */
+/* 287 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26158,7 +26567,7 @@ const messageActions = exports.messageActions = messageActionsImport;
 const convoActions = exports.convoActions = convoActionsImport;
 
 /***/ }),
-/* 287 */
+/* 288 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26242,7 +26651,7 @@ function findMember(state, destination, id) {
 }
 
 /***/ }),
-/* 288 */
+/* 289 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26281,7 +26690,7 @@ module.exports = {
 
 
 /***/ }),
-/* 289 */
+/* 290 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -26308,11 +26717,11 @@ function toCamelCase(string) {
 
 
 /***/ }),
-/* 290 */
+/* 291 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isArray = __webpack_require__(291);
-var isFunction = __webpack_require__(292);
+var isArray = __webpack_require__(292);
+var isFunction = __webpack_require__(293);
 var isObject = __webpack_require__(173);
 var isStamp = __webpack_require__(334);
 var isComposable = __webpack_require__(335);
@@ -26504,14 +26913,14 @@ module.exports = function compose() {
 
 
 /***/ }),
-/* 291 */
+/* 292 */
 /***/ (function(module, exports) {
 
 module.exports = Array.isArray;
 
 
 /***/ }),
-/* 292 */
+/* 293 */
 /***/ (function(module, exports) {
 
 module.exports = function isFunction(arg) {
@@ -26520,7 +26929,7 @@ module.exports = function isFunction(arg) {
 
 
 /***/ }),
-/* 293 */
+/* 294 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26536,7 +26945,7 @@ const CONFIG_UPDATE = exports.CONFIG_UPDATE = PREFIX + 'CONFIG_UPDATE';
 const SET_SDP_HANDLERS = exports.SET_SDP_HANDLERS = PREFIX + 'SET_SDP_HANDLERS';
 
 /***/ }),
-/* 294 */
+/* 295 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26655,7 +27064,7 @@ const TRACK_SOURCE_MUTED = exports.TRACK_SOURCE_MUTED = 'media:sourceMuted';
 const TRACK_SOURCE_UNMUTED = exports.TRACK_SOURCE_UNMUTED = 'media:sourceUnmuted';
 
 /***/ }),
-/* 295 */
+/* 296 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26722,7 +27131,7 @@ function initializeRemoteFinish({ error, browser }) {
 }
 
 /***/ }),
-/* 296 */
+/* 297 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26752,7 +27161,7 @@ function getProxyState(state) {
 } // Libraries.
 
 /***/ }),
-/* 297 */
+/* 298 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26782,7 +27191,7 @@ const SUBSCRIPTION_STATE = exports.SUBSCRIPTION_STATE = {
 };
 
 /***/ }),
-/* 298 */
+/* 299 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26852,7 +27261,7 @@ function authorizationError(error) {
 }
 
 /***/ }),
-/* 299 */
+/* 300 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26863,391 +27272,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 const name = 'connectivity';
 exports.default = name;
-
-/***/ }),
-/* 300 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.connect = connect;
-exports.setConnectionInfo = setConnectionInfo;
-exports.connectionOccurred = connectionOccurred;
-exports.connectFinished = connectFinished;
-exports.getUserDetails = getUserDetails;
-exports.userDetailsReceived = userDetailsReceived;
-exports.disconnect = disconnect;
-exports.disconnectFinished = disconnectFinished;
-exports.resubscribeFinished = resubscribeFinished;
-exports.refreshTokens = refreshTokens;
-exports.refreshTokensFinished = refreshTokensFinished;
-exports.updateSubscription = updateSubscription;
-exports.updateSubscriptionFinished = updateSubscriptionFinished;
-exports.setTokens = setTokens;
-exports.setCredentials = setCredentials;
-exports.setCredentialsFinished = setCredentialsFinished;
-
-var _actionTypes = __webpack_require__(104);
-
-var actionTypes = _interopRequireWildcard(_actionTypes);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-/**
- * Creates a connect action that takes a credentials object.
- *
- * @method connect
- * @param {Object} credentials The credentials to pass to the connect action.
- * @param {Object} [options] Any parameters that aren't credentials.
- * @return {Object} A flux standard action.
- */
-function connect(credentials, options) {
-  return {
-    type: actionTypes.CONNECT,
-    payload: { credentials, options },
-    meta: {
-      isSensitive: true
-    }
-  };
-}
-
-/**
- * Create a set connection info action that takes a connection and user info object
- *
- * @method setConnectionInfo
- * @param {Object} $0
- * @param {Object} $0.userInfo An object representing the user information.
- * @param {Object} $0.connection A connection object. Information about how to connect to the backend services.
- * @return {Object} A flux standard action.
- */
-function setConnectionInfo({ userInfo, connection }, platform) {
-  return {
-    type: actionTypes.SET_CONNECTION_INFO,
-    payload: { userInfo, connection },
-    meta: {
-      platform,
-      isSensitive: true
-    }
-  };
-}
-
-/**
- * Connection occurred action.
- * Signifies that a connection has been made to a service, but that the connection
- *      workflow has not finished yet. Intended for use in scenarios where the
- *      workflow connects to multiple services, to represent the "intermediate"
- *      connections.
- *
- * @method connectionOccurred
- * @param  {Object} $0
- * @param  {Object} $0.subscription
- * @param  {Object} $0.connection
- * @param  {Object} [$0.error] An error message. Only present if an error occurred.
- * @param  {string} platform The backend platform used for the connection.
- * @return {Object} A flux standard action.
- */
-function connectionOccurred({ subscription, connection, error }, platform) {
-  // TODO: Is this action used anywhere?
-  var action = {
-    type: actionTypes.CONNECTION_OCCURRED,
-    meta: { platform }
-  };
-
-  if (error) {
-    action.error = true;
-    action.payload = error;
-  } else {
-    action.payload = { subscription, connection };
-  }
-
-  return action;
-}
-
-/**
- * Create a connect finished action that takes a userInfo object on success and possibly
- * an error object.
- *
- * @method connectFinished
- * @param {Object} $0
- * @param {Object} $0.subscription A subscription object. Contains what services to subscribe to.
- * @param {Object} $0.userInfo An object representing the user information.
- * @param {Object} $0.connection A connection object. Information about how to connect to the backend services.
- * @param {string} [$0.error] An error message. Only present if an error occurred.
- * @param {string} platform The backend platform we are currently on.
- * @param {boolean} isSSO Boolean for whether the current connection scenario is SSO or not.
- * @return {Object} A flux standard action.
- */
-function connectFinished({ subscription, userInfo, connection, error }, platform, isSSO = false) {
-  var action = {
-    type: actionTypes.CONNECT_FINISHED,
-    meta: {
-      platform,
-      isSSO,
-      isSensitive: true
-    }
-  };
-
-  if (error) {
-    action.error = true;
-    action.payload = error;
-  } else {
-    action.payload = { subscription, userInfo, connection };
-  }
-
-  return action;
-}
-
-/**
- * Creates a getUserDetails action
- *
- * @method getUserDetails
- * @return {Object} A flux standard action.
- */
-function getUserDetails() {
-  return { type: actionTypes.GET_USER_DETAILS };
-}
-
-/**
- * Create a user details received action
- *
- * @method userDetailsReceived
- * @param  {Object} userDetailsResponse An object representing the REST response of a user details request.
- * @return {Object} A flux standard action.
- */
-function userDetailsReceived(userDetailsResponse) {
-  var action = {
-    type: actionTypes.USER_DETAILS_RECEIVED,
-    payload: {
-      firstName: userDetailsResponse.firstName || userDetailsResponse.user_first_name,
-      user_first_name: userDetailsResponse.user_first_name || userDetailsResponse.firstName,
-      lastName: userDetailsResponse.lastName || userDetailsResponse.user_last_name,
-      user_last_name: userDetailsResponse.user_last_name || userDetailsResponse.lastName,
-      photoURL: userDetailsResponse.photoURL,
-      emailAddress: userDetailsResponse.emailAddress || userDetailsResponse.user_email,
-      user_email: userDetailsResponse.user_email || userDetailsResponse.emailAddress,
-      username: userDetailsResponse.username
-    }
-  };
-
-  return action;
-}
-
-/**
- * Creates a disconnect action.
- *
- * @method disconnect
- * @return {Object} A flux standard action.
- */
-function disconnect() {
-  return { type: actionTypes.DISCONNECT };
-}
-
-/**
- * Create a disconnectFinished action that possibly takes an error object on failure.
- *
- * @method disconnectFinished
- * @param {Object} params
- * @param {string} [params.error] An error message. Only present if an error occurred.
- * @param {string} [params.reason] Why the disconnectFinished action is being dispatched.
- * @return {Object} A flux standard action.
- */
-function disconnectFinished({ error, reason } = {}) {
-  const action = {
-    type: actionTypes.DISCONNECT_FINISHED,
-    payload: {}
-  };
-
-  if (error) {
-    action.error = true;
-    action.payload = error;
-  }
-
-  if (reason) {
-    action.payload.reason = reason;
-  }
-
-  return action;
-}
-
-/**
- * Action creator representing the finish of a resubscription request.
- * Payload mirrors a connect finished action.
- *
- * @method resubscribeFinished
- * @param {Object} $0
- * @param {string} [$0.error] An error message. Only present if an error occurred.
- * @param {string} [$0.attemptNum] The attempt number of this resubscription.
- * @param {string} platform The backend platform we are currently on.
- * @return {Object} A flux standard action.
- */
-function resubscribeFinished({ error, attemptNum }, platform) {
-  var action = {
-    type: actionTypes.RESUBSCRIPTION_FINISHED,
-    meta: { platform }
-  };
-
-  if (error) {
-    action.error = true;
-    action.payload = error;
-    action.payload.attemptNum = attemptNum;
-  } else {
-    action.payload = {
-      attemptNum
-    };
-  }
-
-  return action;
-}
-
-/**
- * Creates a refreshTokens action with the given credentials as a payload.
- *
- * @method refreshTokens
- * @param {Object} credentials A credentials object containing tokens.
- * @return {Object} A flux standard action.
- */
-function refreshTokens(credentials) {
-  var action = {
-    type: actionTypes.REFRESH_TOKENS,
-    payload: { credentials }
-  };
-  return action;
-}
-
-/**
- * Creates a refreshTokensFinished action with connection and platform information.
- * Optionally includes an error.
- *
- * @method refreshTokensFinished
- * @param {Object} $0
- * @param {Object} [$0.error] An optional error object.
- * @param {Object} $0.connection Connection information.
- * @param {string} platform The backend platform we are currently on.
- * @return {Object} A flux standard action.
- */
-function refreshTokensFinished({ error, connection }, platform) {
-  var action = {
-    type: actionTypes.REFRESH_TOKENS_FINISHED,
-    payload: { connection },
-    meta: { platform }
-  };
-  if (error) {
-    action.error = true;
-    action.payload = error;
-  }
-
-  return action;
-}
-
-/**
- * Represents a request to update a current subscription.
- * @method updateSubscription
- * @param  {Object} subscription Information used to update subscription.
- * @return {Object} A flux standard action.
- */
-function updateSubscription(subscription) {
-  return {
-    type: actionTypes.UPDATE_SUBSCRIPTION,
-    payload: subscription
-  };
-}
-
-/**
- * Represents that the current subscription has been updated.
- * @method updateSubscriptionFinished
- * @param  {Object} $0
- * @param  {Object} $0.subscription New subscription state to be updated.
- * @param  {Object} [$0.error] Error object, in the case of an error.
- * @param  {string} platform The backend platform used for the subscription.
- * @return {Object} A flux standard action.
- */
-function updateSubscriptionFinished({ subscription, error }, platform) {
-  var action = {
-    type: actionTypes.UPDATE_SUBSCRIPTION_FINISH,
-    meta: { platform }
-  };
-
-  if (error) {
-    action.error = true;
-    action.payload = error;
-  } else {
-    action.payload = subscription;
-  }
-  return action;
-}
-
-/**
- * Sets the token information in the state.
- * @method setTokens
- * @param {Object} params Dictionary object of parameters.
- * @param {string} accessToken An access token retrieved using the authentication APIs of the platform.
- * @param {string} idToken An identity token retrieved using the authentication APIs of the platform.
- * @return {Object} A flux standard action.
- */
-function setTokens({ accessToken, idToken }) {
-  return {
-    type: actionTypes.SET_TOKEN,
-    payload: { accessToken, idToken }
-  };
-}
-
-/**
- * Creates a setCredentials action that takes a credentials object.
- *
- * @method setCredentials
- * @param {Object} $0
- * @param {string} $0.username The username.
- * @param {string} $0.password The user's password.
- * @param {string} $0.authname The user's authorization name.
- * @param {string} $0.hmacToken An HMAC token for the user with the provided user ID.
- * @param {string} $0.bearerAccessToken An access token retrieved using the authentication APIs of the platform.
- * @param {string} $0.idToken An identity token retrieved using the authentication APIs of the platform.
- * @return {Object} A flux standard action.
- */
-function setCredentials({ username, password, authname, hmacToken, bearerAccessToken, idToken }) {
-  return {
-    type: actionTypes.SET_CREDENTIALS,
-    payload: { username, password, authname, hmacToken, bearerAccessToken, idToken },
-    meta: {
-      isSensitive: true
-    }
-  };
-}
-
-/**
- * Create a setCredentials finished action that takes a userInfo object on success and possibly
- * an error object.
- *
- * @method setCredentialsFinished
- * @param {Object} $0
- * @param {Object} $0.userInfo An object representing the user information.
- * @param {Object} $0.connection A connection object. Information about how to connect to the backend services.
- * @param {string} [$0.error] An error message. Only present if an error occurred.
- * @param {string} platform The backend platform we are currently on.
- * @return {Object} A flux standard action.
- */
-function setCredentialsFinished({ userInfo, connection, error }, platform) {
-  var action = {
-    type: actionTypes.SET_CREDENTIALS_FINISH,
-    meta: {
-      platform,
-      isSensitive: true
-    }
-  };
-
-  if (error) {
-    action.error = true;
-    action.payload = error;
-  } else {
-    action.payload = { userInfo, connection };
-  }
-
-  return action;
-}
 
 /***/ }),
 /* 301 */
@@ -31536,7 +31560,7 @@ var _fp = __webpack_require__(3);
 
 var _effects = __webpack_require__(4);
 
-var _compose = __webpack_require__(290);
+var _compose = __webpack_require__(291);
 
 var _compose2 = _interopRequireDefault(_compose);
 
@@ -31899,7 +31923,7 @@ exports.devToolsEnhancer = (
 /* 334 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isFunction = __webpack_require__(292);
+var isFunction = __webpack_require__(293);
 
 module.exports = function isStamp(arg) {
   return isFunction(arg) && isFunction(arg.compose);
@@ -31929,7 +31953,7 @@ module.exports = Object.assign;
 
 var isPlainObject = __webpack_require__(338);
 var isObject = __webpack_require__(173);
-var isArray = __webpack_require__(291);
+var isArray = __webpack_require__(292);
 
 /**
  * The 'src' argument plays the command role.
@@ -33073,7 +33097,7 @@ var _extends2 = __webpack_require__(6);
 
 var _extends3 = _interopRequireDefault(_extends2);
 
-var _actionTypes = __webpack_require__(115);
+var _actionTypes = __webpack_require__(116);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -33231,7 +33255,7 @@ exports.setLogHandler = setLogHandler;
 exports.getLevelMap = getLevelMap;
 exports.getHandlerMap = getHandlerMap;
 
-var _actionTypes = __webpack_require__(115);
+var _actionTypes = __webpack_require__(116);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -34280,7 +34304,7 @@ var _extends2 = __webpack_require__(6);
 
 var _extends3 = _interopRequireDefault(_extends2);
 
-var _actionTypes = __webpack_require__(293);
+var _actionTypes = __webpack_require__(294);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -34686,7 +34710,7 @@ var _logs = __webpack_require__(2);
 
 var _utils = __webpack_require__(16);
 
-var _kandyWebrtc = __webpack_require__(126);
+var _kandyWebrtc = __webpack_require__(127);
 
 var _kandyWebrtc2 = _interopRequireDefault(_kandyWebrtc);
 
@@ -35609,7 +35633,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _eventTypes = __webpack_require__(294);
+var _eventTypes = __webpack_require__(295);
 
 var eventTypes = _interopRequireWildcard(_eventTypes);
 
@@ -35654,7 +35678,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _eventTypes = __webpack_require__(294);
+var _eventTypes = __webpack_require__(295);
 
 var eventTypes = _interopRequireWildcard(_eventTypes);
 
@@ -35805,7 +35829,7 @@ var _actionTypes = __webpack_require__(12);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _actionTypes2 = __webpack_require__(115);
+var _actionTypes2 = __webpack_require__(116);
 
 var _selectors = __webpack_require__(195);
 
@@ -36128,7 +36152,7 @@ var _utils = __webpack_require__(16);
 
 var _logs = __webpack_require__(2);
 
-var _kandyWebrtc = __webpack_require__(126);
+var _kandyWebrtc = __webpack_require__(127);
 
 var _kandyWebrtc2 = _interopRequireDefault(_kandyWebrtc);
 
@@ -36249,11 +36273,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = api;
 
-var _actions = __webpack_require__(295);
+var _actions = __webpack_require__(296);
 
 var actions = _interopRequireWildcard(_actions);
 
-var _selectors = __webpack_require__(296);
+var _selectors = __webpack_require__(297);
 
 var _logs = __webpack_require__(2);
 
@@ -37047,7 +37071,7 @@ var _proxyStack = __webpack_require__(397);
 
 var sagas = _interopRequireWildcard(_proxyStack);
 
-var _actionTypes2 = __webpack_require__(115);
+var _actionTypes2 = __webpack_require__(116);
 
 var _effects = __webpack_require__(4);
 
@@ -37093,11 +37117,11 @@ exports.handleMessages = handleMessages;
 exports.initializeRemote = initializeRemote;
 exports.updateProxyLevel = updateProxyLevel;
 
-var _actions = __webpack_require__(295);
+var _actions = __webpack_require__(296);
 
 var actions = _interopRequireWildcard(_actions);
 
-var _selectors = __webpack_require__(296);
+var _selectors = __webpack_require__(297);
 
 var _selectors2 = __webpack_require__(25);
 
@@ -38318,7 +38342,7 @@ var _extends2 = __webpack_require__(6);
 
 var _extends3 = _interopRequireDefault(_extends2);
 
-var _objectWithoutProperties2 = __webpack_require__(132);
+var _objectWithoutProperties2 = __webpack_require__(104);
 
 var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
@@ -38344,7 +38368,7 @@ var _actions = __webpack_require__(281);
 
 var actions = _interopRequireWildcard(_actions);
 
-var _constants = __webpack_require__(297);
+var _constants = __webpack_require__(298);
 
 var _selectors = __webpack_require__(18);
 
@@ -38370,6 +38394,8 @@ var connectivityActionTypes = _interopRequireWildcard(_actionTypes2);
 
 var _actionTypes3 = __webpack_require__(44);
 
+var _actions2 = __webpack_require__(283);
+
 var _errors = __webpack_require__(20);
 
 var _errors2 = _interopRequireDefault(_errors);
@@ -38381,18 +38407,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // This is an Link plugin.
 
 
-// Helpers.
-
-
-// Constants
-
-
-// State selectors
-const platform = _constants2.platforms.LINK;
-
-// Errors
-
-
 // Other plugins.
 
 
@@ -38401,6 +38415,18 @@ const platform = _constants2.platforms.LINK;
 
 // Requests
 // Subscription plugin.
+const platform = _constants2.platforms.LINK;
+
+// Errors
+
+
+// Helpers.
+
+
+// Constants
+
+
+// State selectors
 
 const log = _logs.logManager.getLogger('SUBSCRIPTION');
 
@@ -38538,6 +38564,23 @@ function* doSubscribe(action) {
       yield (0, _effects.put)(actions.subscribeFinished({ error: response.error }));
       log.debug(`Subscription failed: ${response.error}`);
       return;
+    }
+
+    const hmacToken = linkConnection.requestOptions.headers['x-token'];
+
+    // If used HMAC token for authentication
+    if (hmacToken) {
+      // Subsequent requests must not have the x-token header and must have the x-session header.
+      // Need to delete the x-token header for subsequent requests to work.
+      if (response.subscriptionParams) {
+        yield (0, _effects.put)((0, _actions2.updateHmacToken)(response.subscriptionParams.sessionId, platform));
+      } else {
+        const error = new _errors2.default({
+          message: 'Failed user subscription.',
+          code: _errors.authCodes.LINK_SUBSCRIBE_FAIL
+        });
+        yield (0, _effects.put)(actions.subscribeFinished({ error }));
+      }
     }
 
     // Keep track of service subscription information.
@@ -39087,7 +39130,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.parseSpidrServices = parseSpidrServices;
 
-var _constants = __webpack_require__(297);
+var _constants = __webpack_require__(298);
 
 /**
  * Uses the requested and received SPiDR [subscription] services to determine
@@ -39485,7 +39528,7 @@ var _eventTypes = __webpack_require__(416);
 
 var eventTypes = _interopRequireWildcard(_eventTypes);
 
-var _actionTypes = __webpack_require__(104);
+var _actionTypes = __webpack_require__(105);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -39654,11 +39697,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _objectWithoutProperties2 = __webpack_require__(104);
+
+var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
+
 var _extends2 = __webpack_require__(6);
 
 var _extends3 = _interopRequireDefault(_extends2);
 
-var _actionTypes = __webpack_require__(104);
+var _actionTypes = __webpack_require__(105);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -39839,6 +39886,31 @@ reducers[actionTypes.SET_CREDENTIALS_FINISH] = {
   }
 };
 
+/*
+ * Remove the x-token from the request header after subscription is successfull.
+ */
+reducers[actionTypes.UPDATE_HMAC_TOKEN] = {
+  next(state, action) {
+    const _state$connection$act = state.connection[action.meta.platform].requestOptions.headers,
+          { 'x-token': _removed } = _state$connection$act,
+          removeXtoken = (0, _objectWithoutProperties3.default)(_state$connection$act, ['x-token']);
+
+    const headers = (0, _extends3.default)({}, removeXtoken, {
+      'x-session': action.payload
+    });
+
+    return (0, _extends3.default)({}, state, {
+      connection: (0, _extends3.default)({}, state.connection, {
+        [action.meta.platform]: (0, _extends3.default)({}, state.connection[action.meta.platform], {
+          requestOptions: (0, _extends3.default)({}, state.connection[action.meta.platform].requestOptions, {
+            headers
+          })
+        })
+      })
+    });
+  }
+};
+
 /**
  * Auth Interface reducer
  * @method reducer
@@ -39891,7 +39963,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = api;
 
-var _actions = __webpack_require__(300);
+var _actions = __webpack_require__(283);
 
 var actions = _interopRequireWildcard(_actions);
 
@@ -40484,11 +40556,11 @@ exports.onConnectionLost = onConnectionLost;
 
 var _effects = __webpack_require__(4);
 
-var _actions = __webpack_require__(300);
+var _actions = __webpack_require__(283);
 
 var actions = _interopRequireWildcard(_actions);
 
-var _actionTypes = __webpack_require__(104);
+var _actionTypes = __webpack_require__(105);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -40981,7 +41053,7 @@ function* onConnectionLost() {
 
 }(this));
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(108)(module), __webpack_require__(82)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(109)(module), __webpack_require__(82)))
 
 /***/ }),
 /* 426 */
@@ -41227,7 +41299,7 @@ var _fp = __webpack_require__(3);
 
 var _effects = __webpack_require__(4);
 
-var _kandyWebrtc = __webpack_require__(126);
+var _kandyWebrtc = __webpack_require__(127);
 
 var _validation = __webpack_require__(71);
 
@@ -43196,7 +43268,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _objectWithoutProperties2 = __webpack_require__(132);
+var _objectWithoutProperties2 = __webpack_require__(104);
 
 var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
@@ -44103,7 +44175,7 @@ var _actionTypes4 = __webpack_require__(44);
 
 var _actionTypes5 = __webpack_require__(103);
 
-var _actionTypes6 = __webpack_require__(104);
+var _actionTypes6 = __webpack_require__(105);
 
 var _logs = __webpack_require__(2);
 
@@ -44729,7 +44801,7 @@ var _selectors = __webpack_require__(25);
 
 var _logs = __webpack_require__(2);
 
-var _actionTypes = __webpack_require__(104);
+var _actionTypes = __webpack_require__(105);
 
 var _effects = __webpack_require__(4);
 
@@ -45833,7 +45905,7 @@ var _constants = __webpack_require__(37);
 
 var _bandwidth = __webpack_require__(304);
 
-var _establish = __webpack_require__(283);
+var _establish = __webpack_require__(284);
 
 var _midcall = __webpack_require__(134);
 
@@ -47011,7 +47083,7 @@ Object.defineProperty(module, 'exports', {
 	get: assembleStyles
 });
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(108)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(109)(module)))
 
 /***/ }),
 /* 445 */
@@ -47625,7 +47697,7 @@ exports.consultativeTransfer = consultativeTransfer;
 exports.join = join;
 exports.replaceTrack = replaceTrack;
 
-var _establish = __webpack_require__(283);
+var _establish = __webpack_require__(284);
 
 var _midcall = __webpack_require__(134);
 
@@ -48906,7 +48978,7 @@ var _pipeline2 = _interopRequireDefault(_pipeline);
 
 var _logs = __webpack_require__(2);
 
-var _establish = __webpack_require__(283);
+var _establish = __webpack_require__(284);
 
 var _midcall = __webpack_require__(134);
 
@@ -52817,7 +52889,7 @@ var _stringify2 = _interopRequireDefault(_stringify);
 
 exports.default = api;
 
-var _actions = __webpack_require__(284);
+var _actions = __webpack_require__(285);
 
 var actions = _interopRequireWildcard(_actions);
 
@@ -53186,7 +53258,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.retrieveCallLogs = retrieveCallLogs;
 exports.removeCallLogs = removeCallLogs;
 
-var _actions = __webpack_require__(284);
+var _actions = __webpack_require__(285);
 
 var actions = _interopRequireWildcard(_actions);
 
@@ -53420,7 +53492,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.oldStoreCallLogs = oldStoreCallLogs;
 exports.storeCallLogs = storeCallLogs;
 
-var _actions = __webpack_require__(284);
+var _actions = __webpack_require__(285);
 
 var _selectors = __webpack_require__(18);
 
@@ -54512,7 +54584,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.reducer = exports.api = exports.name = undefined;
 
-var _name = __webpack_require__(299);
+var _name = __webpack_require__(300);
 
 var _name2 = _interopRequireDefault(_name);
 
@@ -55297,7 +55369,7 @@ var _effects = __webpack_require__(4);
 
 var _utils = __webpack_require__(16);
 
-var _actions2 = __webpack_require__(285);
+var _actions2 = __webpack_require__(286);
 
 var _logs = __webpack_require__(2);
 
@@ -55690,9 +55762,9 @@ var _actionTypes = __webpack_require__(135);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _actions = __webpack_require__(286);
+var _actions = __webpack_require__(287);
 
-var _selectors = __webpack_require__(287);
+var _selectors = __webpack_require__(288);
 
 var _selectors2 = __webpack_require__(18);
 
@@ -56310,9 +56382,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = api;
 
-var _actions = __webpack_require__(286);
+var _actions = __webpack_require__(287);
 
-var _selectors = __webpack_require__(287);
+var _selectors = __webpack_require__(288);
 
 var _logs = __webpack_require__(2);
 
@@ -56807,13 +56879,13 @@ var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
 var _fp = __webpack_require__(3);
 
-var _actions = __webpack_require__(286);
+var _actions = __webpack_require__(287);
 
-var _selectors = __webpack_require__(287);
+var _selectors = __webpack_require__(288);
 
 var _selectors2 = __webpack_require__(18);
 
-var _compose = __webpack_require__(290);
+var _compose = __webpack_require__(291);
 
 var _compose2 = _interopRequireDefault(_compose);
 
@@ -58020,7 +58092,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = api;
 
-var _actions = __webpack_require__(285);
+var _actions = __webpack_require__(286);
 
 var actions = _interopRequireWildcard(_actions);
 
@@ -58483,7 +58555,7 @@ var _constants = __webpack_require__(17);
 
 var _logs = __webpack_require__(2);
 
-var _actions = __webpack_require__(285);
+var _actions = __webpack_require__(286);
 
 var actions = _interopRequireWildcard(_actions);
 
@@ -58688,7 +58760,7 @@ module.exports = pako;
 var zlib_deflate = __webpack_require__(528);
 var utils        = __webpack_require__(72);
 var strings      = __webpack_require__(317);
-var msg          = __webpack_require__(288);
+var msg          = __webpack_require__(289);
 var ZStream      = __webpack_require__(318);
 
 var toString = Object.prototype.toString;
@@ -59114,7 +59186,7 @@ var utils   = __webpack_require__(72);
 var trees   = __webpack_require__(529);
 var adler32 = __webpack_require__(315);
 var crc32   = __webpack_require__(316);
-var msg     = __webpack_require__(288);
+var msg     = __webpack_require__(289);
 
 /* Public constants ==========================================================*/
 /* ===========================================================================*/
@@ -62206,7 +62278,7 @@ var zlib_inflate = __webpack_require__(531);
 var utils        = __webpack_require__(72);
 var strings      = __webpack_require__(317);
 var c            = __webpack_require__(319);
-var msg          = __webpack_require__(288);
+var msg          = __webpack_require__(289);
 var ZStream      = __webpack_require__(318);
 var GZheader     = __webpack_require__(534);
 
@@ -68530,7 +68602,7 @@ var _actionTypes = __webpack_require__(155);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _actions = __webpack_require__(298);
+var _actions = __webpack_require__(299);
 
 var actions = _interopRequireWildcard(_actions);
 
@@ -68650,11 +68722,11 @@ var _extends2 = __webpack_require__(6);
 
 var _extends3 = _interopRequireDefault(_extends2);
 
-var _objectWithoutProperties2 = __webpack_require__(132);
+var _objectWithoutProperties2 = __webpack_require__(104);
 
 var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-var _freeze = __webpack_require__(130);
+var _freeze = __webpack_require__(131);
 
 var _freeze2 = _interopRequireDefault(_freeze);
 
