@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset='utf-8' />
-  <title>kandy-link-js-sdk 4.26.1 | Documentation</title>
+  <title>kandy-link-js-sdk 4.27.0 | Documentation</title>
   <meta name='viewport' content='width=device-width,initial-scale=1'>
   <link href='assets/bass.css' type='text/css' rel='stylesheet' />
   <link href='assets/style.css' type='text/css' rel='stylesheet' />
@@ -14,7 +14,7 @@
       <div id='split-left' class='overflow-auto fs0 height-viewport-100'>
         <div class='py1 px2'>
           <h3 class='mb0 no-anchor'>kandy-link-js-sdk</h3>
-          <div class='mb1'><code>4.26.1</code></div>
+          <div class='mb1'><code>4.27.0</code></div>
           <input
             placeholder='Filter'
             id='filter-input'
@@ -2971,7 +2971,9 @@ as well as several nested namespaces that pertain to various features (e.g. call
 
   <p>Destroys the SDK, and removes its state, rendering the SDK unusable.
 Useful when a user logs out and their call data needs to be destroyed.
-The SDK must be recreated to be usable again.</p>
+The SDK must be recreated to be usable again.
+The destroy command is async, and will happen on the next tick
+so as not to interfere with any ongoing events.</p>
 
 
   <div class='pre p1 fill-light mt0'>destroy()</div>
@@ -19035,6 +19037,8 @@ log(<span class="hljs-string">`Proxy Browser in use: <span class="hljs-subst">${
   
 
   <p>Sends an initialization message over the channel with webRTC configurations.</p>
+<p>The version of the SDK and the Remote SDK must be the same, otherwise
+initialization will fail.</p>
 
 
   <div class='pre p1 fill-light mt0'>initializeRemote(config: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>)</div>
@@ -21101,6 +21105,25 @@ pre-processing of this data.</p>
   <td class='break-word'><span>The full event object.
 </span></td>
 </tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>params.links</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></code>
+  </td>
+  <td class='break-word'><span></span></td>
+</tr>
+
+  
+    <tr>
+  <td class='break-word'><span class='code bold'>params.links.callId</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?</code>
+  </td>
+  <td class='break-word'><span>The ID of the call this SIP event links to.
+</span></td>
+</tr>
+
+
+  
 
 
               

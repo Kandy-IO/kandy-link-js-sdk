@@ -7932,7 +7932,7 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "Destroys the SDK, and removes its state, rendering the SDK unusable.\nUseful when a user logs out and their call data needs to be destroyed.\nThe SDK must be recreated to be usable again.",
+                    "value": "Destroys the SDK, and removes its state, rendering the SDK unusable.\nUseful when a user logs out and their call data needs to be destroyed.\nThe SDK must be recreated to be usable again.\nThe destroy command is async, and will happen on the next tick\n  so as not to interfere with any ongoing events.",
                     "position": {
                       "start": {
                         "line": 1,
@@ -7940,11 +7940,13 @@
                         "offset": 0
                       },
                       "end": {
-                        "line": 3,
-                        "column": 46,
-                        "offset": 185
+                        "line": 5,
+                        "column": 50,
+                        "offset": 298
                       },
                       "indent": [
+                        1,
+                        1,
                         1,
                         1
                       ]
@@ -7958,11 +7960,13 @@
                     "offset": 0
                   },
                   "end": {
-                    "line": 3,
-                    "column": 46,
-                    "offset": 185
+                    "line": 5,
+                    "column": 50,
+                    "offset": 298
                   },
                   "indent": [
+                    1,
+                    1,
                     1,
                     1
                   ]
@@ -7976,9 +7980,9 @@
                 "offset": 0
               },
               "end": {
-                "line": 3,
-                "column": 46,
-                "offset": 185
+                "line": 5,
+                "column": 50,
+                "offset": 298
               }
             }
           },
@@ -7986,24 +7990,24 @@
             {
               "title": "public",
               "description": null,
-              "lineNumber": 5,
+              "lineNumber": 7,
               "type": null
             },
             {
               "title": "memberof",
               "description": "api",
-              "lineNumber": 6
+              "lineNumber": 8
             },
             {
               "title": "method",
               "description": null,
-              "lineNumber": 7,
+              "lineNumber": 9,
               "name": "destroy"
             },
             {
               "title": "example",
               "description": "// Instantiate the SDK.\nimport { create } from 'kandy'\nconst config = {\n    authentication: { ... },\n    logs: { ... },\n    ...\n}\nlet client = create(config);\nclient.on( ... )\n// Use the SDK\n...\n// Destroy the SDK, then recreate on the next step\nclient.destroy()\nclient = create(config)\nclient.on( ... )",
-              "lineNumber": 8
+              "lineNumber": 10
             }
           ],
           "loc": {
@@ -8012,18 +8016,18 @@
               "column": 4
             },
             "end": {
-              "line": 302,
+              "line": 304,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 303,
+                "line": 305,
                 "column": 4
               },
               "end": {
-                "line": 321,
+                "line": 331,
                 "column": 5
               }
             },
@@ -43148,7 +43152,7 @@
                 "column": 4
               },
               "end": {
-                "line": 876,
+                "line": 878,
                 "column": 5
               }
             },
@@ -43688,22 +43692,22 @@
           ],
           "loc": {
             "start": {
-              "line": 878,
+              "line": 880,
               "column": 4
             },
             "end": {
-              "line": 905,
+              "line": 907,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 935,
+                "line": 937,
                 "column": 4
               },
               "end": {
-                "line": 937,
+                "line": 941,
                 "column": 5
               }
             },
@@ -44196,22 +44200,22 @@
           ],
           "loc": {
             "start": {
-              "line": 939,
+              "line": 943,
               "column": 4
             },
             "end": {
-              "line": 964,
+              "line": 968,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 992,
+                "line": 996,
                 "column": 4
               },
               "end": {
-                "line": 1001,
+                "line": 1007,
                 "column": 5
               }
             },
@@ -44704,22 +44708,22 @@
           ],
           "loc": {
             "start": {
-              "line": 1003,
+              "line": 1009,
               "column": 4
             },
             "end": {
-              "line": 1029,
+              "line": 1035,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 1058,
+                "line": 1064,
                 "column": 4
               },
               "end": {
-                "line": 1062,
+                "line": 1070,
                 "column": 5
               }
             },
@@ -45338,22 +45342,22 @@
           ],
           "loc": {
             "start": {
-              "line": 1064,
+              "line": 1072,
               "column": 4
             },
             "end": {
-              "line": 1128,
+              "line": 1136,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 1129,
+                "line": 1137,
                 "column": 4
               },
               "end": {
-                "line": 1136,
+                "line": 1146,
                 "column": 5
               }
             },
@@ -46421,22 +46425,22 @@
           ],
           "loc": {
             "start": {
-              "line": 1138,
+              "line": 1148,
               "column": 4
             },
             "end": {
-              "line": 1154,
+              "line": 1164,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 1155,
+                "line": 1165,
                 "column": 4
               },
               "end": {
-                "line": 1165,
+                "line": 1175,
                 "column": 5
               }
             },
@@ -46764,22 +46768,22 @@
           ],
           "loc": {
             "start": {
-              "line": 1167,
+              "line": 1177,
               "column": 4
             },
             "end": {
-              "line": 1183,
+              "line": 1193,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 1184,
+                "line": 1194,
                 "column": 4
               },
               "end": {
-                "line": 1192,
+                "line": 1202,
                 "column": 5
               }
             },
@@ -47365,22 +47369,22 @@
           ],
           "loc": {
             "start": {
-              "line": 1194,
+              "line": 1204,
               "column": 4
             },
             "end": {
-              "line": 1238,
+              "line": 1248,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 1239,
+                "line": 1249,
                 "column": 4
               },
               "end": {
-                "line": 1239,
+                "line": 1249,
                 "column": 23
               }
             },
@@ -48220,22 +48224,22 @@
           ],
           "loc": {
             "start": {
-              "line": 1241,
+              "line": 1251,
               "column": 4
             },
             "end": {
-              "line": 1257,
+              "line": 1267,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 1239,
+                "line": 1249,
                 "column": 4
               },
               "end": {
-                "line": 1239,
+                "line": 1249,
                 "column": 23
               }
             },
@@ -48534,22 +48538,22 @@
           ],
           "loc": {
             "start": {
-              "line": 1259,
+              "line": 1269,
               "column": 4
             },
             "end": {
-              "line": 1296,
+              "line": 1306,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 1239,
+                "line": 1249,
                 "column": 4
               },
               "end": {
-                "line": 1239,
+                "line": 1249,
                 "column": 23
               }
             },
@@ -48898,22 +48902,22 @@
           ],
           "loc": {
             "start": {
-              "line": 1298,
+              "line": 1308,
               "column": 4
             },
             "end": {
-              "line": 1335,
+              "line": 1345,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 1239,
+                "line": 1249,
                 "column": 4
               },
               "end": {
-                "line": 1239,
+                "line": 1249,
                 "column": 23
               }
             },
@@ -83024,6 +83028,45 @@
                   },
                   "indent": []
                 }
+              },
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "The version of the SDK and the Remote SDK must be the same, otherwise\n   initialization will fail.",
+                    "position": {
+                      "start": {
+                        "line": 3,
+                        "column": 1,
+                        "offset": 78
+                      },
+                      "end": {
+                        "line": 4,
+                        "column": 29,
+                        "offset": 176
+                      },
+                      "indent": [
+                        1
+                      ]
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 78
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 29,
+                    "offset": 176
+                  },
+                  "indent": [
+                    1
+                  ]
+                }
               }
             ],
             "position": {
@@ -83033,9 +83076,9 @@
                 "offset": 0
               },
               "end": {
-                "line": 1,
-                "column": 77,
-                "offset": 76
+                "line": 4,
+                "column": 29,
+                "offset": 176
               }
             }
           },
@@ -83043,24 +83086,24 @@
             {
               "title": "public",
               "description": null,
-              "lineNumber": 2,
+              "lineNumber": 5,
               "type": null
             },
             {
               "title": "memberof",
               "description": "proxy",
-              "lineNumber": 3
+              "lineNumber": 6
             },
             {
               "title": "method",
               "description": null,
-              "lineNumber": 4,
+              "lineNumber": 7,
               "name": "initializeRemote"
             },
             {
               "title": "param",
               "description": null,
-              "lineNumber": 5,
+              "lineNumber": 8,
               "type": {
                 "type": "NameExpression",
                 "name": "Object"
@@ -83074,18 +83117,18 @@
               "column": 4
             },
             "end": {
-              "line": 158,
+              "line": 161,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 159,
+                "line": 162,
                 "column": 4
               },
               "end": {
-                "line": 162,
+                "line": 165,
                 "column": 5
               }
             },
@@ -83097,7 +83140,7 @@
             {
               "title": "param",
               "name": "config",
-              "lineNumber": 5,
+              "lineNumber": 8,
               "type": {
                 "type": "NameExpression",
                 "name": "Object"
@@ -89600,9 +89643,32 @@
               "name": "params.event"
             },
             {
+              "title": "param",
+              "description": null,
+              "lineNumber": 14,
+              "type": {
+                "type": "NameExpression",
+                "name": "Object"
+              },
+              "name": "params.links"
+            },
+            {
+              "title": "param",
+              "description": "The ID of the call this SIP event links to.",
+              "lineNumber": 15,
+              "type": {
+                "type": "OptionalType",
+                "expression": {
+                  "type": "NameExpression",
+                  "name": "string"
+                }
+              },
+              "name": "params.links.callId"
+            },
+            {
               "title": "example",
               "description": "// Listen for the event being emitted.\nclient.on('sip:eventsChange', (params) => {\n   // Gather the SIP info specific to the event.\n   const sipInfo = params.event.genericNotificationParams\n\n   // Handle the data based on the event type.\n   if (params.eventType === 'event:presence') {\n       const { data, from } = sipInfo\n       ...\n   }\n})",
-              "lineNumber": 14
+              "lineNumber": 16
             }
           ],
           "loc": {
@@ -89611,18 +89677,18 @@
               "column": 0
             },
             "end": {
-              "line": 75,
+              "line": 77,
               "column": 3
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 76,
+                "line": 78,
                 "column": 0
               },
               "end": {
-                "line": 76,
+                "line": 78,
                 "column": 48
               }
             },
@@ -89878,6 +89944,81 @@
                     "type": "NameExpression",
                     "name": "Object"
                   }
+                },
+                {
+                  "title": "param",
+                  "name": "params.links",
+                  "lineNumber": 14,
+                  "type": {
+                    "type": "NameExpression",
+                    "name": "Object"
+                  },
+                  "properties": [
+                    {
+                      "title": "param",
+                      "name": "params.links.callId",
+                      "lineNumber": 15,
+                      "description": {
+                        "type": "root",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "The ID of the call this SIP event links to.",
+                                "position": {
+                                  "start": {
+                                    "line": 1,
+                                    "column": 1,
+                                    "offset": 0
+                                  },
+                                  "end": {
+                                    "line": 1,
+                                    "column": 44,
+                                    "offset": 43
+                                  },
+                                  "indent": []
+                                }
+                              }
+                            ],
+                            "position": {
+                              "start": {
+                                "line": 1,
+                                "column": 1,
+                                "offset": 0
+                              },
+                              "end": {
+                                "line": 1,
+                                "column": 44,
+                                "offset": 43
+                              },
+                              "indent": []
+                            }
+                          }
+                        ],
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 44,
+                            "offset": 43
+                          }
+                        }
+                      },
+                      "type": {
+                        "type": "OptionalType",
+                        "expression": {
+                          "type": "NameExpression",
+                          "name": "string"
+                        }
+                      }
+                    }
+                  ]
                 }
               ]
             }

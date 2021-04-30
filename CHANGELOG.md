@@ -5,6 +5,28 @@ Kandy.js change log.
 - This project adheres to [Semantic Versioning](http://semver.org/).
 - This change log follows [keepachangelog.com](http://keepachangelog.com/) recommendations.
 
+## 4.27.0 - 2021-04-30
+
+### Added
+
+- Added Call identification to received SIP Event notifications. `KJS-111`
+- Improved the logging of [SDP handler functions](https://kandy-io.github.io/kandy-link-js-sdk/docs/#callsdphandlerfunction). `KJS-99`
+  - In [`DEBUG` mode](https://kandy-io.github.io/kandy-link-js-sdk/docs/#loggerlevels) and lower, each SDP handler function applied to the SDP and the changes that may have resulted.
+  - The final SDP is logged with all of the changes that have been applied.
+  - The entire report is logged to the console in [YAML format](https://yaml.org/).
+- Added a Proxy feature to verify that the versions of the two SDKs are the same. `KAA-2622`
+  - Remote initialization will fail if they are not.
+- Added the `request:error` event trigger on authorization credential issues. `KJS-142`
+
+### Fixed
+
+- Changed how [`destroy`](https://kandy-io.github.io/kandy-link-js-sdk/docs/#apidestroy) is used to prevent errors when destroying inside an event. `KJS-123`
+- Fix issue where the app isn't notified and subscription isn't removed when the websocket connection is lost and `autoReconnect` is set to false in configuration. `KJS-60`
+- Fixed an issue where minimizing the SDK caused an error. `KJS-141`
+- Added handling websocket error and close scenarios instead of waiting for the heartbeat to fail to either retry connection or just notify the app and clean up subscription. `KJS-61`
+- Fixed hmacToken authentication issue where other REST request will not work after subscription. `KJS-143`
+- Added missing 'Call API:' logs to call plugin api interface. `KJS-124`
+
 ## 4.26.1 - 2021-04-22
 
 ### Fixed

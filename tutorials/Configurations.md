@@ -53,7 +53,7 @@ const configuration = {
 }
 
 // Invoke the factory create to instantiate Kandy.js by providing the configuration object.
-const kandy = create(configuration)
+const client = create(configuration)
 ```
 
 In most cases, the default values will suffice for an application, but specifying your own configurations allows you to customize certain behaviours. The exception is the authentication configurations, which are always required. This quickstart will showcase a few samples of why you may want to use certain configurations. For a full list of the possible configurations, see the documentation for `configuration` API.
