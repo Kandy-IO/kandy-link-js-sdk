@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.remote.js
- * Version: 4.28.0-beta.667
+ * Version: 4.28.0-beta.668
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -4817,7 +4817,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.28.0-beta.667';
+  return '4.28.0-beta.668';
 }
 
 /***/ }),
@@ -22061,19 +22061,22 @@ function clientProxy() {
    */
   api.setChannel = channel => {
     log.debug(`${_logs.API_LOG_TAG}proxy.setChannel`);
+    const remoteVersion = (0, _version.getVersion)();
 
     base.channel = (0, _channel.replyChannel)((0, _channel.jsonChannel)(channel));
     base.channel.receive = (id, data) => {
-      log.info(`SDK version received from remote end: ${data.version}.`);
-      const remoteVersion = (0, _version.getVersion)();
-
-      if (data.version !== remoteVersion) {
-        // Make sure the two SDKs have the same version.
-        log.error('SDK versions do not match; initialization failed.');
-        const response = { initialized: false, remoteVersion };
-        base.channel.reply(id, response);
-      } else if (!base.isReady && data.initialize) {
+      if (!base.isReady && data.initialize) {
         log.info('Initializing local webRTC stack.', data.config);
+        log.info(`SDK version received from remote end: ${data.version}.`);
+
+        if (data.version !== remoteVersion) {
+          // Make sure the two SDKs have the same version.
+          log.error('SDK versions do not match; initialization failed.');
+          const response = { initialized: false, remoteVersion };
+          base.channel.reply(id, response);
+          return;
+        }
+
         base.webRTC = base.webRTC(data.config);
 
         // Set the initial log levels if they were provided.
