@@ -16,6 +16,10 @@ Kandy.js change log.
 
 - Fixed a Call issue on Chrome where remote video tracks would not be ended when the remote participant removed them from the Call in certain scenarios. `KAA-2628`
   - This issue still exists on non-Chromium based browsers for the time being.
+- Fixed a few documentation issues to clarify some information.
+  - Clarified the information retrieved from the `call.getStats` API. `KAA-2281`
+  - Clarified a usage example for the Call History `getCache` and `setCache` APIs. `KAA-2578`
+  - Clarified that only locally set CustomParameters are stored on a Call. Please see the `call.CustomParameter` object. `KAA-2603`
 - Fixed a Proxy issue where SDK version verification occurred for every message rather than only during initialization.
 
 ## 4.27.0 - 2021-04-30
