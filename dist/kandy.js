@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.28.0-beta.669
+ * Version: 4.28.0-beta.670
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -6416,7 +6416,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.28.0-beta.669';
+  return '4.28.0-beta.670';
 }
 
 /***/ }),
@@ -43474,7 +43474,6 @@ callReducers[actionTypes.SESSION_PROGRESS] = {
  */
 callReducers[actionTypes.PENDING_OPERATION] = noop;
 callReducers[actionTypes.SEND_RINGING_FEEDBACK] = noop;
-callReducers[actionTypes.ANSWER_CALL] = noop;
 callReducers[actionTypes.CALL_HOLD] = noop;
 callReducers[actionTypes.CALL_UNHOLD] = noop;
 callReducers[actionTypes.SEND_CUSTOM_PARAMETERS] = noop;
@@ -43484,8 +43483,6 @@ callReducers[actionTypes.REMOVE_MEDIA] = noop;
 callReducers[actionTypes.ADD_BASIC_MEDIA] = noop;
 callReducers[actionTypes.REMOVE_BASIC_MEDIA] = noop;
 callReducers[actionTypes.RENEGOTIATE] = noop;
-callReducers[actionTypes.FORWARD_CALL] = noop;
-callReducers[actionTypes.REJECT_CALL] = noop;
 callReducers[actionTypes.SEND_DTMF] = noop;
 callReducers[actionTypes.SEND_DTMF_FINISH] = noop;
 callReducers[actionTypes.IGNORE_CALL] = noop;
@@ -43497,6 +43494,23 @@ callReducers[actionTypes.REMOTE_START_MOH_FINISH] = noop;
 callReducers[actionTypes.REMOTE_STOP_MOH_FINISH] = noop;
 callReducers[actionTypes.GET_STATS] = noop;
 callReducers[actionTypes.GET_STATS_FINISH] = noop;
+
+/*
+ * When answering, rejecting, or forwarding a call, update state to say that we
+ *    are handling it.
+ * This is needed for Link because KandyLink will send a "call cancel" notification
+ *    to _ALL_ of the user's subscriptions. The intention is to stop the call from
+ *    ringing on other subscribed devices, and for the handling device to ignore
+ *    the notification. This flag is used to know when to ignore the call cancel.
+ */
+const setHandling = (state, action) => {
+  return (0, _extends3.default)({}, state, {
+    isHandling: true
+  });
+};
+callReducers[actionTypes.ANSWER_CALL] = setHandling;
+callReducers[actionTypes.REJECT_CALL] = setHandling;
+callReducers[actionTypes.FORWARD_CALL] = setHandling;
 
 callReducers[actionTypes.CALL_CANCELLED] = {
   next(state, action) {
@@ -43528,11 +43542,16 @@ callReducers[actionTypes.REJECT_CALL_FINISH] = {
     // TODO: Better call times.
     const now = Date.now();
 
-    return (0, _extends3.default)({}, state, {
+    const newState = (0, _extends3.default)({}, state, {
       startTime: now,
       endTime: now,
       state: _constants.CALL_STATES.ENDED
-    });
+
+      // After the reject operation finishes, remove the flag that indicates we
+      //    were handling the call.
+    });delete newState.isHandling;
+
+    return newState;
   }
 };
 
@@ -43593,16 +43612,37 @@ callReducers[actionTypes.ANSWER_CALL_FINISH] = {
       newState.startTime = action.payload.startTime;
     }
 
+    // If answering the Call puts us in Connected state (ie. not slow-start),
+    //    then we can remove this flag since we know not to cancel a connected call.
+    if (newState.state === _constants.CALL_STATES.CONNECTED) {
+      delete newState.isHandling;
+    }
+
     return newState;
   },
   throw(state, action) {
-    return (0, _extends3.default)({}, state, action.payload);
+    const newState = (0, _extends3.default)({}, state, action.payload);
+
+    // If we failed to answer the call, then we're not actually handling the
+    //    call, so remove the flag.
+    delete newState.isHandling;
+
+    return newState;
   }
 };
 
 callReducers[actionTypes.CALL_ACCEPTED] = {
   next(state, action) {
-    return (0, _extends3.default)({}, state, action.payload);
+    const newState = (0, _extends3.default)({}, state, action.payload);
+
+    // If we were answering, but it's the remote accept that puts us in the
+    //    Connected state (ie. slow-start), then we can remove this flag since
+    //    we know not to cancel a connected call.
+    if (newState.isHandling && newState.state === _constants.CALL_STATES.CONNECTED) {
+      delete newState.isHandling;
+    }
+
+    return newState;
   },
   throw(state, action) {
     const newState = action.payload.state || state.state;
@@ -43686,9 +43726,14 @@ callReducers[actionTypes.CALL_REMOTE_UNHOLD_FINISH] = {
 
 callReducers[actionTypes.FORWARD_CALL_FINISH] = {
   next(state, action) {
-    return (0, _extends3.default)({}, state, {
+    const newState = (0, _extends3.default)({}, state, {
       state: _constants.CALL_STATES.ENDED
-    });
+
+      // After the forward operation finishes, remove the flag that indicates we
+      //    were handling the call.
+    });delete newState.isHandling;
+
+    return newState;
   }
 };
 
@@ -44517,8 +44562,11 @@ function* callCancelNotification(deps) {
    * @param  {Object} action
    */
   function* handleCallCancel(action) {
+    // Get the current call
+    const { sessionData } = action.payload.notificationMessage.sessionParams;
+    const currentCall = yield (0, _effects.select)(_selectors.getCallByWrtcsSessionId, sessionData);
+
     /*
-     * Workaround: Delay a short time before processing the notification.
      * The backend sends a "callCancel" notification immediately after answering
      *    (and rejecting, forwarding) a call. The backend's intention for this
      *    is to notify other user subscriptions (eg. same user on another
@@ -44527,26 +44575,25 @@ function* callCancelNotification(deps) {
      *    subscriptions, even the one that handled the call.
      *
      * We need to ignore this notification for the subscription that handled the
-     *    call, but process it for any other subscriptions. We do this by
-     *    delaying the notification to ensure the "answer call" process is
-     *    finished. This delay ensures that the Call is in the correct state
-     *    after the user responded to the call, so we can tell whether the
-     *    notification needs to be ignored or not.
-     *
-     * This workaround has the side-effect that callCancel notifications we do
-     *    want to process are delayed.
-     *
-     * Slower networks may need a longer delay...
+     *    call, but process it for any other subscriptions. We do this in two
+     *    ways:
+     *      1) If the Call state indicates we are obviously the device that
+     *        answered it (eg. the Call is connected), ignore it.
+     *      2) If a flag is set on the Call that indicates we are in-progress
+     *        to handle it, ignore it.
+     *    This handles receiving the callCancel before and after the in-progress
+     *        operation has finished for both regular and slow-start calls.
      */
-    yield (0, _effects.delay)(3000);
-
-    // Get the current call
-    const { sessionData } = action.payload.notificationMessage.sessionParams;
-    const currentCall = yield (0, _effects.select)(_selectors.getCallByWrtcsSessionId, sessionData);
 
     if (currentCall && currentCall.state !== _constants.CALL_STATES.RINGING && currentCall.state !== _constants.CALL_STATES.EARLY_MEDIA && currentCall.state !== _constants.CALL_STATES.INITIATED) {
       // Don't process the notification if the call isn't "ringing".
       log.debug(`Received call cancel notification when state is ${currentCall.state}. Ignoring.`);
+      return;
+    }
+
+    if (currentCall.isHandling) {
+      // Don't process the notification if we are currently handling the call.
+      log.debug('Received call cancel notification while handling is in-progress. Ignoring.');
       return;
     }
 

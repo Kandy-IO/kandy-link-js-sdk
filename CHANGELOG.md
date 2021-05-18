@@ -16,6 +16,8 @@ Kandy.js change log.
 
 - Fixed a Call issue on Chrome where remote video tracks would not be ended when the remote participant removed them from the Call in certain scenarios. `KAA-2628`
   - This issue still exists on non-Chromium based browsers for the time being.
+- Fixed a Call issue where a Call would sometimes be Cancelled after answering in slow-start scenarios. `KAA-2632`
+- Fixed a Call issue where a Call would be slow to enter Cancelled state after it was handled on a separate device. `KAA-2632`
 - Fixed a few documentation issues to clarify some information.
   - Clarified the information retrieved from the `call.getStats` API. `KAA-2281`
   - Clarified a usage example for the Call History `getCache` and `setCache` APIs. `KAA-2578`
