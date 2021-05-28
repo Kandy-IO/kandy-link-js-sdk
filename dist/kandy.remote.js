@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.remote.js
- * Version: 4.28.0-beta.674
+ * Version: 4.28.0-beta.675
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -4817,7 +4817,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.28.0-beta.674';
+  return '4.28.0-beta.675';
 }
 
 /***/ }),
@@ -22212,7 +22212,7 @@ exports.default = async function deviceManager(webRTC, command) {
       const devices = await manager.setupDeviceInitialization(...params);
       return devices;
     } catch (err) {
-      console.error('Error: ', err);
+      console.debug('Failed to initialize devices: ', err);
       return { name: err.name, message: err.message, error: true };
     }
   } else {
@@ -22256,16 +22256,20 @@ exports.default = async function mediaManager(webRTC, command) {
       const media = await manager.createLocal(...params);
       return (0, _index.convertMedia)(media);
     } catch (err) {
-      console.error('Error: ', err);
-      return err;
+      console.debug('Failed to create local media: ', err);
+      // Convert the Error into a format that can be stringified for the channel.
+      //    This will need to be reconstructed on the other side.
+      return { error: { name: err.name, message: err.message } };
     }
   } else if (operation === 'createLocalScreen') {
     try {
       const media = await manager.createLocalScreen(...params);
       return (0, _index.convertMedia)(media);
     } catch (err) {
-      console.error('Error: ', err);
-      return err;
+      console.debug('Failed to create local screen: ', err);
+      // Convert the Error into a format that can be stringified for the channel.
+      //    This will need to be reconstructed on the other side.
+      return { error: { name: err.name, message: err.message } };
     }
   } else {
     // General case: Don't convert the return.
