@@ -5,6 +5,26 @@ Kandy.js change log.
 - This project adheres to [Semantic Versioning](http://semver.org/).
 - This change log follows [keepachangelog.com](http://keepachangelog.com/) recommendations.
 
+## 4.28.0 - 2021-05-28
+
+### Added
+
+- Added a Call configuration check to ensure the SDK is not configured to use SDP Semantic 'Plan-B' with a Chrome version that no longer supports it.
+  - Please be aware that SDP Semantic 'Plan-B' is being deprecated. It is only supported on Chrome and only prior to version M93.
+
+### Fixed
+
+- Fixed a Call issue on Chrome where remote video tracks would not be ended when the remote participant removed them from the Call in certain scenarios. `KAA-2628`
+  - This issue still exists on non-Chromium based browsers for the time being.
+- Fixed a Call issue where a Call would sometimes be Cancelled after answering in slow-start scenarios. `KAA-2632`
+- Fixed a Call issue where a Call would be slow to enter Cancelled state after it was handled on a separate device. `KAA-2632`
+- Fixed a few documentation issues to clarify some information.
+  - Clarified the information retrieved from the `call.getStats` API. `KAA-2281`
+  - Clarified a usage example for the Call History `getCache` and `setCache` APIs. `KAA-2578`
+  - Clarified that only locally set CustomParameters are stored on a Call. Please see the `call.CustomParameter` object. `KAA-2603`
+- Fixed a Proxy issue where SDK version verification occurred for every message rather than only during initialization.
+- Fixed a Proxy issue where errors when creating local media were not handled the same way as non-Proxy mode. `KAA-2638`
+
 ## 4.27.0 - 2021-04-30
 
 ### Added
