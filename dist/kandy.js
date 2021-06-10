@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.29.0-beta.686
+ * Version: 4.29.0-beta.687
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -6431,7 +6431,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.29.0-beta.686';
+  return '4.29.0-beta.687';
 }
 
 /***/ }),
@@ -41047,7 +41047,7 @@ function* onConnectionLost() {
 /* 425 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! http://mths.be/base64 v0.1.0 by @mathias | MIT license */
+/* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! https://mths.be/base64 v1.0.0 by @mathias | MIT license */
 ;(function(root) {
 
 	// Detect free variables `exports`.
@@ -41140,7 +41140,6 @@ function* onConnectionLost() {
 		var a;
 		var b;
 		var c;
-		var d;
 		var buffer;
 		// Make sure any padding is handled outside of the loop.
 		var length = input.length - padding;
@@ -41186,7 +41185,7 @@ function* onConnectionLost() {
 	var base64 = {
 		'encode': encode,
 		'decode': decode,
-		'version': '0.1.0'
+		'version': '1.0.0'
 	};
 
 	// Some AMD build optimizers, like r.js, check for specific condition patterns
