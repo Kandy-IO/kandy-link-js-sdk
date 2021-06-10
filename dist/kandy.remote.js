@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.remote.js
- * Version: 4.29.0-beta.687
+ * Version: 4.29.0-beta.688
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -96,7 +96,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 569);
+/******/ 	return __webpack_require__(__webpack_require__.s = 567);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -4819,7 +4819,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.29.0-beta.687';
+  return '4.29.0-beta.688';
 }
 
 /***/ }),
@@ -6551,43 +6551,43 @@ exports.convertMedia = convertMedia;
 exports.convertSession = convertSession;
 exports.convertLogger = convertLogger;
 
-var _deviceManager = __webpack_require__(571);
+var _deviceManager = __webpack_require__(569);
 
 var _deviceManager2 = _interopRequireDefault(_deviceManager);
 
-var _mediaManager = __webpack_require__(572);
+var _mediaManager = __webpack_require__(570);
 
 var _mediaManager2 = _interopRequireDefault(_mediaManager);
 
-var _sessionManager = __webpack_require__(573);
+var _sessionManager = __webpack_require__(571);
 
 var _sessionManager2 = _interopRequireDefault(_sessionManager);
 
-var _trackManager = __webpack_require__(574);
+var _trackManager = __webpack_require__(572);
 
 var _trackManager2 = _interopRequireDefault(_trackManager);
 
-var _logManager = __webpack_require__(575);
+var _logManager = __webpack_require__(573);
 
 var _logManager2 = _interopRequireDefault(_logManager);
 
-var _webrtcManager = __webpack_require__(576);
+var _webrtcManager = __webpack_require__(574);
 
 var _webrtcManager2 = _interopRequireDefault(_webrtcManager);
 
-var _media = __webpack_require__(577);
+var _media = __webpack_require__(575);
 
 var _media2 = _interopRequireDefault(_media);
 
-var _session = __webpack_require__(578);
+var _session = __webpack_require__(576);
 
 var _session2 = _interopRequireDefault(_session);
 
-var _track = __webpack_require__(579);
+var _track = __webpack_require__(577);
 
 var _track2 = _interopRequireDefault(_track);
 
-var _logger = __webpack_require__(580);
+var _logger = __webpack_require__(578);
 
 var _logger2 = _interopRequireDefault(_logger);
 
@@ -21849,9 +21849,7 @@ function replyChannel(channel) {
 /* 564 */,
 /* 565 */,
 /* 566 */,
-/* 567 */,
-/* 568 */,
-/* 569 */
+/* 567 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21861,15 +21859,15 @@ var _objectWithoutProperties2 = __webpack_require__(104);
 
 var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-var _clientProxy = __webpack_require__(570);
+var _clientProxy = __webpack_require__(568);
 
 var _clientProxy2 = _interopRequireDefault(_clientProxy);
 
-var _media = __webpack_require__(582);
+var _media = __webpack_require__(580);
 
 var mediaApis = _interopRequireWildcard(_media);
 
-var _events = __webpack_require__(583);
+var _events = __webpack_require__(581);
 
 var _events2 = _interopRequireDefault(_events);
 
@@ -21975,7 +21973,7 @@ remoteClient.create = remoteClient;
 module.exports = remoteClient;
 
 /***/ }),
-/* 570 */
+/* 568 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21990,7 +21988,7 @@ var _converters = __webpack_require__(106);
 
 var _converters2 = _interopRequireDefault(_converters);
 
-var _webrtcEvents = __webpack_require__(581);
+var _webrtcEvents = __webpack_require__(579);
 
 var _webrtcEvents2 = _interopRequireDefault(_webrtcEvents);
 
@@ -22204,7 +22202,7 @@ function isWebrtcCommand(data) {
 }
 
 /***/ }),
-/* 571 */
+/* 569 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22243,7 +22241,7 @@ exports.default = async function deviceManager(webRTC, command) {
 };
 
 /***/ }),
-/* 572 */
+/* 570 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22299,7 +22297,7 @@ exports.default = async function mediaManager(webRTC, command) {
 };
 
 /***/ }),
-/* 573 */
+/* 571 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22343,7 +22341,7 @@ exports.default = async function sessionManager(webRTC, command) {
 };
 
 /***/ }),
-/* 574 */
+/* 572 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22384,7 +22382,7 @@ exports.default = async function trackManager(webRTC, command) {
 };
 
 /***/ }),
-/* 575 */
+/* 573 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22434,7 +22432,7 @@ exports.default = async function logManager(webRTC, command) {
 };
 
 /***/ }),
-/* 576 */
+/* 574 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22462,7 +22460,7 @@ exports.default = async function webrtcManager(webRTC, command) {
 };
 
 /***/ }),
-/* 577 */
+/* 575 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22503,7 +22501,7 @@ exports.default = async function media(webRTC, command) {
 };
 
 /***/ }),
-/* 578 */
+/* 576 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22556,7 +22554,7 @@ exports.default = async function session(webRTC, command) {
 };
 
 /***/ }),
-/* 579 */
+/* 577 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22595,7 +22593,7 @@ exports.default = async function track(webRTC, command) {
 };
 
 /***/ }),
-/* 580 */
+/* 578 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22642,7 +22640,7 @@ exports.default = async function logger(webRTC, command) {
 };
 
 /***/ }),
-/* 581 */
+/* 579 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22730,7 +22728,7 @@ function setupListeners(webRTC, emit) {
 }
 
 /***/ }),
-/* 582 */
+/* 580 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22915,7 +22913,7 @@ function removeTracks(webRTC, trackIds, cssSelector) {
 }
 
 /***/ }),
-/* 583 */
+/* 581 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
