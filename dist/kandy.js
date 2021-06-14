@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.29.0-beta.692
+ * Version: 4.29.0-beta.693
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -6431,7 +6431,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.29.0-beta.692';
+  return '4.29.0-beta.693';
 }
 
 /***/ }),
@@ -10128,6 +10128,7 @@ function peer(id, config = {}, trackManager) {
      * @property {Object}            iceTimer Timer tool (specifically for ICE collection).
      * @property {EventEmitter}      emitter
      * @property {Array<RTCIceCandidate>} iceCandidates Gathered candidates.
+     * @property {timeoutID} [iceLoop] Reference to the on-going ICE collection loop.
      */
   });const base = {
     nativePeer,
@@ -10139,7 +10140,8 @@ function peer(id, config = {}, trackManager) {
     log,
     iceTimer,
     emitter,
-    iceCandidates: []
+    iceCandidates: [],
+    iceLoop: undefined
 
     /**
      * Create the Proxy object that will be used as the PeerConnection.
@@ -21706,8 +21708,13 @@ exports.default = close;
  * @method close
  */
 function close() {
-  const { nativePeer, id, emitter, log } = this;
+  const { nativePeer, id, emitter, iceLoop, log } = this;
   log.info('Closing Peer.');
+
+  if (iceLoop) {
+    // Clear the ICE collection loop timeout if it exists.
+    clearTimeout(iceLoop);
+  }
 
   nativePeer.close();
   emitter.emit('peer:closed', id);
@@ -22543,7 +22550,7 @@ function setLocalDescription(desc) {
             log.debug(`Waiting for ICE collection process (${config.trickleIceMode}).`);
             // If ICE collection never finishes, we need to time it out at some point.
             //    Start the timeout-out loop after an initial delay.
-            setTimeout(() => {
+            this.iceLoop = setTimeout(() => {
               (0, _iceCollectionLoop2.default)(this, config.iceCollectionDelay);
             }, config.iceCollectionDelay);
           }
@@ -22614,7 +22621,8 @@ function iceCollectionLoop(proxyBase, elapsedTime) {
     emitter.emit('onnegotiationready');
   } else {
     log.debug(`ICE candidates not sufficient for negotiation, delaying another ${config.iceCollectionDelay}ms.`);
-    setTimeout(function () {
+    // Add the timeout to the base so it can be cleared from elsewhere if needed.
+    proxyBase.iceLoop = setTimeout(function () {
       iceCollectionLoop(proxyBase, elapsedTime + config.iceCollectionDelay);
     }, config.iceCollectionDelay);
   }
