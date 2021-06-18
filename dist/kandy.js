@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.29.0-beta.698
+ * Version: 4.29.0-beta.699
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -1836,6 +1836,28 @@ function normalizeServices(services = []) {
 /* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
+var anObject = __webpack_require__(23);
+var IE8_DOM_DEFINE = __webpack_require__(107);
+var toPrimitive = __webpack_require__(74);
+var dP = Object.defineProperty;
+
+exports.f = __webpack_require__(15) ? Object.defineProperty : function defineProperty(O, P, Attributes) {
+  anObject(O);
+  P = toPrimitive(P, true);
+  anObject(Attributes);
+  if (IE8_DOM_DEFINE) try {
+    return dP(O, P, Attributes);
+  } catch (e) { /* empty */ }
+  if ('get' in Attributes || 'set' in Attributes) throw TypeError('Accessors not supported!');
+  if ('value' in Attributes) O[P] = Attributes.value;
+  return O;
+};
+
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
 
 
@@ -1864,7 +1886,7 @@ const connCheckMethods = exports.connCheckMethods = {
 };
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1889,7 +1911,7 @@ var _fp = __webpack_require__(3);
 
 var _constants = __webpack_require__(154);
 
-var _constants2 = __webpack_require__(17);
+var _constants2 = __webpack_require__(18);
 
 /**
  * Plugin selector function to expose state globally
@@ -2124,28 +2146,6 @@ function getRequestInfo(state, platform) {
 
   return requestInfo;
 }
-
-/***/ }),
-/* 19 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var anObject = __webpack_require__(23);
-var IE8_DOM_DEFINE = __webpack_require__(107);
-var toPrimitive = __webpack_require__(74);
-var dP = Object.defineProperty;
-
-exports.f = __webpack_require__(15) ? Object.defineProperty : function defineProperty(O, P, Attributes) {
-  anObject(O);
-  P = toPrimitive(P, true);
-  anObject(Attributes);
-  if (IE8_DOM_DEFINE) try {
-    return dP(O, P, Attributes);
-  } catch (e) { /* empty */ }
-  if ('get' in Attributes || 'set' in Attributes) throw TypeError('Accessors not supported!');
-  if ('value' in Attributes) O[P] = Attributes.value;
-  return O;
-};
-
 
 /***/ }),
 /* 20 */
@@ -4973,7 +4973,7 @@ module.exports = function (fn, that, length) {
 /* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var dP = __webpack_require__(19);
+var dP = __webpack_require__(17);
 var createDesc = __webpack_require__(38);
 module.exports = __webpack_require__(15) ? function (object, key, value) {
   return dP.f(object, key, createDesc(1, value));
@@ -6109,7 +6109,7 @@ exports.f = {}.propertyIsEnumerable;
 /* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var def = __webpack_require__(19).f;
+var def = __webpack_require__(17).f;
 var has = __webpack_require__(31);
 var TAG = __webpack_require__(10)('toStringTag');
 
@@ -6431,7 +6431,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.29.0-beta.698';
+  return '4.29.0-beta.699';
 }
 
 /***/ }),
@@ -6441,7 +6441,7 @@ function getVersion() {
 var META = __webpack_require__(59)('meta');
 var isObject = __webpack_require__(13);
 var has = __webpack_require__(31);
-var setDesc = __webpack_require__(19).f;
+var setDesc = __webpack_require__(17).f;
 var id = 0;
 var isExtensible = Object.isExtensible || function () {
   return true;
@@ -7386,7 +7386,7 @@ var global = __webpack_require__(9);
 var core = __webpack_require__(7);
 var LIBRARY = __webpack_require__(48);
 var wksExt = __webpack_require__(100);
-var defineProperty = __webpack_require__(19).f;
+var defineProperty = __webpack_require__(17).f;
 module.exports = function (name) {
   var $Symbol = core.Symbol || (core.Symbol = LIBRARY ? {} : global.Symbol || {});
   if (name.charAt(0) != '_' && !(name in $Symbol)) defineProperty($Symbol, name, { value: wksExt.f(name) });
@@ -7812,7 +7812,7 @@ exports.getWebsocketConfig = getWebsocketConfig;
 
 var _fp = __webpack_require__(3);
 
-var _selectors = __webpack_require__(18);
+var _selectors = __webpack_require__(19);
 
 var _utils = __webpack_require__(16);
 
@@ -9083,7 +9083,7 @@ module.exports = __webpack_require__(7).getIteratorMethod = function (it) {
 
 var global = __webpack_require__(9);
 var core = __webpack_require__(7);
-var dP = __webpack_require__(19);
+var dP = __webpack_require__(17);
 var DESCRIPTORS = __webpack_require__(15);
 var SPECIES = __webpack_require__(10)('species');
 
@@ -11510,7 +11510,7 @@ module.exports = { "default": __webpack_require__(183), __esModule: true };
 /* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var dP = __webpack_require__(19);
+var dP = __webpack_require__(17);
 var anObject = __webpack_require__(23);
 var getKeys = __webpack_require__(39);
 
@@ -11638,7 +11638,7 @@ const partialDefaultLogActions = exports.partialDefaultLogActions = {
 
 "use strict";
 
-var dP = __webpack_require__(19).f;
+var dP = __webpack_require__(17).f;
 var create = __webpack_require__(62);
 var redefineAll = __webpack_require__(88);
 var ctx = __webpack_require__(29);
@@ -11799,7 +11799,7 @@ var forOf = __webpack_require__(52);
 var anInstance = __webpack_require__(89);
 var isObject = __webpack_require__(13);
 var setToStringTag = __webpack_require__(50);
-var dP = __webpack_require__(19).f;
+var dP = __webpack_require__(17).f;
 var each = __webpack_require__(200)(0);
 var DESCRIPTORS = __webpack_require__(15);
 
@@ -12492,7 +12492,7 @@ var _actionTypes = __webpack_require__(66);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _constants = __webpack_require__(17);
+var _constants = __webpack_require__(18);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -14959,7 +14959,7 @@ var _create = __webpack_require__(62);
 var gOPNExt = __webpack_require__(186);
 var $GOPD = __webpack_require__(114);
 var $GOPS = __webpack_require__(81);
-var $DP = __webpack_require__(19);
+var $DP = __webpack_require__(17);
 var $keys = __webpack_require__(39);
 var gOPD = $GOPD.f;
 var dP = $DP.f;
@@ -16028,7 +16028,7 @@ $export($export.S + $export.F * !__webpack_require__(122)(function (iter) { Arra
 
 "use strict";
 
-var $defineProperty = __webpack_require__(19);
+var $defineProperty = __webpack_require__(17);
 var createDesc = __webpack_require__(38);
 
 module.exports = function (object, index, value) {
@@ -21180,7 +21180,7 @@ module.exports = __webpack_require__(7).Reflect.set;
 /***/ (function(module, exports, __webpack_require__) {
 
 // 26.1.13 Reflect.set(target, propertyKey, V [, receiver])
-var dP = __webpack_require__(19);
+var dP = __webpack_require__(17);
 var gOPD = __webpack_require__(114);
 var getPrototypeOf = __webpack_require__(101);
 var has = __webpack_require__(31);
@@ -26384,7 +26384,7 @@ var _actionTypes = __webpack_require__(44);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _constants = __webpack_require__(17);
+var _constants = __webpack_require__(18);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -37884,7 +37884,7 @@ var _actionTypes = __webpack_require__(103);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _constants = __webpack_require__(17);
+var _constants = __webpack_require__(18);
 
 var _constants2 = __webpack_require__(154);
 
@@ -38100,9 +38100,9 @@ var actions = _interopRequireWildcard(_actions);
 
 var _selectors = __webpack_require__(94);
 
-var _selectors2 = __webpack_require__(18);
+var _selectors2 = __webpack_require__(19);
 
-var _constants = __webpack_require__(17);
+var _constants = __webpack_require__(18);
 
 var _utils = __webpack_require__(16);
 
@@ -38512,11 +38512,11 @@ var actions = _interopRequireWildcard(_actions);
 
 var _constants = __webpack_require__(298);
 
-var _selectors = __webpack_require__(18);
+var _selectors = __webpack_require__(19);
 
 var _selectors2 = __webpack_require__(94);
 
-var _constants2 = __webpack_require__(17);
+var _constants2 = __webpack_require__(18);
 
 var _subscriptions = __webpack_require__(409);
 
@@ -38789,10 +38789,11 @@ function* doUnsubscribe() {
   const connection = yield (0, _effects.select)(_selectors.getConnectionInfo);
 
   // If the above info is not present, we probably got a disconnect mid-connection attempt.
-  let response = {};
   if (subscription && connection) {
     // If the info is in the store we can go ahead and unsubscribe.
-    response = yield (0, _effects.call)(_subscriptions.unsubscribe, connection, subscription.url);
+    // We don't care about the return value, because we are going to clean-up
+    //    the subscription in state either way.
+    yield (0, _effects.call)(_subscriptions.unsubscribe, connection, subscription.url);
   }
 
   const wsState = yield (0, _effects.select)(_selectors3.getConnectionState, platform);
@@ -38801,15 +38802,8 @@ function* doUnsubscribe() {
     yield (0, _effects2.disconnectWebsocket)(undefined, platform);
   }
 
-  // Dispatch disconnect finished action appropriate for the response.
-  if (response.error) {
-    yield (0, _effects.put)(actions.unsubscribeFinished({ error: response.error }));
-    log.debug(`Unsubscribe failed: ${response.error}`);
-  } else {
-    // We enter this block if we unsubscribed succesfully OR we never even called unsub. Either way we are unsubscribed.
-    yield (0, _effects.put)(actions.unsubscribeFinished({}, platform));
-    log.info('Succesfully unsubscribed from all services.');
-  }
+  yield (0, _effects.put)(actions.unsubscribeFinished({}, platform));
+  log.info('Successfully unsubscribed from all services.');
 }
 
 /**
@@ -38981,8 +38975,6 @@ exports.subscribe = subscribe;
 exports.unsubscribe = unsubscribe;
 exports.resubscribe = resubscribe;
 
-var _selectors = __webpack_require__(18);
-
 var _services = __webpack_require__(410);
 
 var _effects = __webpack_require__(57);
@@ -38999,11 +38991,9 @@ var _effects3 = __webpack_require__(4);
 
 var _utils = __webpack_require__(16);
 
-var _constants = __webpack_require__(17);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// Other plugins.
+// Libraries.
 // Authentication plugin.
 const log = _logs.logManager.getLogger('SUBSCRIPTION');
 
@@ -39019,10 +39009,7 @@ const log = _logs.logManager.getLogger('SUBSCRIPTION');
  */
 
 
-// Constants
-
-
-// Libraries.
+// Other plugins.
 function* subscribe(authConfig, expires, connection, service, extras = {}) {
   const subscribeType = authConfig.isAnonymous ? 'anonymous' : 'user';
   let requestOptions = {};
@@ -39109,7 +39096,6 @@ function* subscribe(authConfig, expires, connection, service, extras = {}) {
  * @param  {string}    connection.server Server information for generating the URL.
  * @param  {string}    connection.requestOptions Common request options to be added.
  * @param  {string}    subscriptionURL URL of the user's subscription instance.
- * @return {Object}    Unsubscription response.
  */
 function* unsubscribe(connection, subscriptionURL) {
   const requestOptions = {};
@@ -39120,57 +39106,25 @@ function* unsubscribe(connection, subscriptionURL) {
   // Send the unsubscribe request.
   const response = yield (0, _effects2.default)(requestOptions);
 
+  /*
+   * No matter what the response was, we still want to handle the user as
+   *    unsubscribed afterwards. If the request fails, there isn't a point to
+   *    keep the user subscribed since they want to unsubscribe anyway.
+   * For debug purposes, log what the response was but handle it as a success.
+   */
   if (response.error) {
     if (response.payload.body) {
       // Handle errors from the server.
       const { statusCode } = response.payload.body.subscribeResponse;
-      log.debug(`Failed to unsubscribe user with status code ${statusCode}.`);
-
-      return {
-        // TODO: Better error; more info.
-        error: new _errors2.default({
-          message: `Failed to unsubscribe user. Code: ${statusCode}.`,
-          code: _errors.authCodes.LINK_UNSUBSCRIBE_FAIL
-        })
-      };
+      log.debug(`Encountered error unsubscribing user with status code ${statusCode}.`);
     } else {
       // Handle errors from the request helper.
       const { message } = response.payload.result;
-      log.debug('Failed user unsubscription.', message);
-
-      return {
-        // TODO: Better error; more info.
-        error: new _errors2.default({
-          message: `Unsubscribe request failed: ${message}.`,
-          // TODO: Shared error codes.
-          code: _errors.authCodes.LINK_UNSUBSCRIBE_FAIL
-        })
-      };
+      log.debug('Encountered error unsubscribing user.', message);
     }
   } else {
     // Request was successful.
-    const unsubResponse = response.payload.body.subscribeResponse;
-    const platform = yield (0, _effects3.select)(_selectors.getPlatform);
-
-    if (platform === _constants.platforms.LINK && unsubResponse.statusCode === 0) {
-      // Link success response.
-      return (0, _extends3.default)({
-        error: false
-      }, unsubResponse);
-    } else if (platform === _constants.platforms.UC && unsubResponse.statusCode === 0) {
-      // Link success response.
-      return (0, _extends3.default)({
-        error: false
-      }, unsubResponse);
-    } else {
-      // Unknown statusCode, consider as failure.
-      return {
-        error: new _errors2.default({
-          message: `Unknown error; statusCode: ${unsubResponse.statusCode}.`,
-          code: _errors.authCodes.LINK_UNSUBSCRIBE_FAIL
-        })
-      };
-    }
+    log.debug('User unsubscribed successfully.');
   }
 }
 
@@ -39337,11 +39291,11 @@ exports.getCpaasAgentHeaderValue = getCpaasAgentHeaderValue;
 
 var _selectors = __webpack_require__(412);
 
-var _selectors2 = __webpack_require__(18);
+var _selectors2 = __webpack_require__(19);
 
 var _version = __webpack_require__(60);
 
-var _constants = __webpack_require__(17);
+var _constants = __webpack_require__(18);
 
 var _effects = __webpack_require__(4);
 
@@ -39554,7 +39508,7 @@ var _logs = __webpack_require__(2);
 
 var _validation = __webpack_require__(71);
 
-var _selectors = __webpack_require__(18);
+var _selectors = __webpack_require__(19);
 
 var _sagas = __webpack_require__(422);
 
@@ -40127,7 +40081,7 @@ var _actions = __webpack_require__(283);
 
 var actions = _interopRequireWildcard(_actions);
 
-var _selectors = __webpack_require__(18);
+var _selectors = __webpack_require__(19);
 
 var _constants = __webpack_require__(154);
 
@@ -40637,9 +40591,9 @@ var connectivityActionTypes = _interopRequireWildcard(_actionTypes4);
 
 var _selectors = __webpack_require__(94);
 
-var _selectors2 = __webpack_require__(18);
+var _selectors2 = __webpack_require__(19);
 
-var _constants2 = __webpack_require__(17);
+var _constants2 = __webpack_require__(18);
 
 var _utils = __webpack_require__(16);
 
@@ -40814,11 +40768,7 @@ function* disconnect() {
   const { service, notificationType } = subscription[0];
   yield (0, _effects.put)(subscribeActions.unsubscribe(service, notificationType));
 
-  const disconnectFinishAction = yield (0, _effects.take)([subscribeActionTypes.UNSUBSCRIBE_FINISHED]);
-  if (disconnectFinishAction.type === subscribeActionTypes.UNSUBSCRIBE_FINISHED && disconnectFinishAction.error) {
-    log.info('Failed to unsubscribe from services. Error: ', disconnectFinishAction.error);
-    yield (0, _effects.put)(actions.disconnectFinished({ error: disconnectFinishAction.error }));
-  }
+  yield (0, _effects.take)([subscribeActionTypes.UNSUBSCRIBE_FINISHED]);
 
   // Successfully unsubscribed, now finish disconnecting
   log.info('Successfully unsubscribed from services. Disconnecting.');
@@ -41916,7 +41866,7 @@ var _selectors = __webpack_require__(25);
 
 var _normalization = __webpack_require__(302);
 
-var _selectors2 = __webpack_require__(18);
+var _selectors2 = __webpack_require__(19);
 
 var _actions2 = __webpack_require__(56);
 
@@ -45133,7 +45083,7 @@ var _normalization = __webpack_require__(302);
 
 var _selectors = __webpack_require__(25);
 
-var _selectors2 = __webpack_require__(18);
+var _selectors2 = __webpack_require__(19);
 
 var _logs = __webpack_require__(2);
 
@@ -45145,7 +45095,7 @@ var _errors = __webpack_require__(20);
 
 var _errors2 = _interopRequireDefault(_errors);
 
-var _constants = __webpack_require__(17);
+var _constants = __webpack_require__(18);
 
 var _utils = __webpack_require__(437);
 
@@ -46044,7 +45994,7 @@ exports.getRemoteParticipant = getRemoteParticipant;
 
 var _selectors = __webpack_require__(25);
 
-var _selectors2 = __webpack_require__(18);
+var _selectors2 = __webpack_require__(19);
 
 var _logs = __webpack_require__(2);
 
@@ -47957,7 +47907,7 @@ var _errors2 = _interopRequireDefault(_errors);
 
 var _selectors2 = __webpack_require__(147);
 
-var _selectors3 = __webpack_require__(18);
+var _selectors3 = __webpack_require__(19);
 
 var _utils = __webpack_require__(308);
 
@@ -47969,7 +47919,7 @@ var _fp = __webpack_require__(3);
 
 var _version = __webpack_require__(60);
 
-var _constants2 = __webpack_require__(17);
+var _constants2 = __webpack_require__(18);
 
 var _sdkId = __webpack_require__(453);
 
@@ -53604,7 +53554,7 @@ var _actions = __webpack_require__(285);
 
 var actions = _interopRequireWildcard(_actions);
 
-var _selectors = __webpack_require__(18);
+var _selectors = __webpack_require__(19);
 
 var _logs = __webpack_require__(2);
 
@@ -53620,7 +53570,7 @@ var _fp = __webpack_require__(3);
 
 var _effects3 = __webpack_require__(4);
 
-var _constants = __webpack_require__(17);
+var _constants = __webpack_require__(18);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -53836,7 +53786,7 @@ exports.storeCallLogs = storeCallLogs;
 
 var _actions = __webpack_require__(285);
 
-var _selectors = __webpack_require__(18);
+var _selectors = __webpack_require__(19);
 
 var _actionTypes = __webpack_require__(68);
 
@@ -54576,7 +54526,7 @@ var _actions = __webpack_require__(310);
 
 var actions = _interopRequireWildcard(_actions);
 
-var _selectors = __webpack_require__(18);
+var _selectors = __webpack_require__(19);
 
 var _effects = __webpack_require__(4);
 
@@ -54590,7 +54540,7 @@ var _errors = __webpack_require__(20);
 
 var _errors2 = _interopRequireDefault(_errors);
 
-var _constants = __webpack_require__(17);
+var _constants = __webpack_require__(18);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -54780,7 +54730,7 @@ var _base = __webpack_require__(487);
 
 var _base2 = _interopRequireDefault(_base);
 
-var _constants = __webpack_require__(17);
+var _constants = __webpack_require__(18);
 
 var _fp = __webpack_require__(3);
 
@@ -54872,7 +54822,7 @@ var _actions2 = __webpack_require__(27);
 
 var _effects = __webpack_require__(4);
 
-var _constants = __webpack_require__(17);
+var _constants = __webpack_require__(18);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -54956,7 +54906,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = api;
 
-var _constants = __webpack_require__(17);
+var _constants = __webpack_require__(18);
 
 var _actions = __webpack_require__(156);
 
@@ -55263,7 +55213,7 @@ var _actions = __webpack_require__(156);
 
 var actions = _interopRequireWildcard(_actions);
 
-var _selectors2 = __webpack_require__(18);
+var _selectors2 = __webpack_require__(19);
 
 var _selectors3 = __webpack_require__(94);
 
@@ -55271,7 +55221,7 @@ var _logs = __webpack_require__(2);
 
 var _effects = __webpack_require__(4);
 
-var _constants = __webpack_require__(17);
+var _constants = __webpack_require__(18);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -56104,7 +56054,7 @@ var _actions = __webpack_require__(287);
 
 var _selectors = __webpack_require__(288);
 
-var _selectors2 = __webpack_require__(18);
+var _selectors2 = __webpack_require__(19);
 
 var _actionTypes2 = __webpack_require__(44);
 
@@ -56658,7 +56608,7 @@ exports.link = exports.types = exports.platform = exports.type = exports.or = ex
 
 var _fp = __webpack_require__(3);
 
-var _constants = __webpack_require__(17);
+var _constants = __webpack_require__(18);
 
 exports.matches = _fp.matches;
 // Constants
@@ -57221,7 +57171,7 @@ var _actions = __webpack_require__(287);
 
 var _selectors = __webpack_require__(288);
 
-var _selectors2 = __webpack_require__(18);
+var _selectors2 = __webpack_require__(19);
 
 var _compose = __webpack_require__(291);
 
@@ -58072,7 +58022,7 @@ exports.fetchMwi = fetchMwi;
 
 var _effects = __webpack_require__(4);
 
-var _selectors = __webpack_require__(18);
+var _selectors = __webpack_require__(19);
 
 var _actionTypes = __webpack_require__(44);
 
@@ -58092,7 +58042,7 @@ var _errors = __webpack_require__(20);
 
 var _errors2 = _interopRequireDefault(_errors);
 
-var _constants = __webpack_require__(17);
+var _constants = __webpack_require__(18);
 
 var _logs = __webpack_require__(2);
 
@@ -58434,7 +58384,7 @@ var _actions = __webpack_require__(286);
 
 var actions = _interopRequireWildcard(_actions);
 
-var _constants = __webpack_require__(17);
+var _constants = __webpack_require__(18);
 
 var _logs = __webpack_require__(2);
 
@@ -58739,7 +58689,7 @@ var _fp = __webpack_require__(3);
 
 var _effects = __webpack_require__(4);
 
-var _selectors = __webpack_require__(18);
+var _selectors = __webpack_require__(19);
 
 var _logs = __webpack_require__(2);
 
@@ -58887,9 +58837,9 @@ var _reduxSaga = __webpack_require__(26);
 
 var _effects = __webpack_require__(4);
 
-var _selectors = __webpack_require__(18);
+var _selectors = __webpack_require__(19);
 
-var _constants = __webpack_require__(17);
+var _constants = __webpack_require__(18);
 
 var _logs = __webpack_require__(2);
 
@@ -65914,7 +65864,7 @@ var actions = _interopRequireWildcard(_actions);
 
 var _requests = __webpack_require__(539);
 
-var _selectors = __webpack_require__(18);
+var _selectors = __webpack_require__(19);
 
 var _actionTypes2 = __webpack_require__(44);
 
@@ -65926,7 +65876,7 @@ var _errors2 = _interopRequireDefault(_errors);
 
 var _constants = __webpack_require__(321);
 
-var _constants2 = __webpack_require__(17);
+var _constants2 = __webpack_require__(18);
 
 var _logs = __webpack_require__(2);
 
@@ -66809,7 +66759,7 @@ var actions = _interopRequireWildcard(_actions);
 
 var _selectors = __webpack_require__(322);
 
-var _selectors2 = __webpack_require__(18);
+var _selectors2 = __webpack_require__(19);
 
 var _selectors3 = __webpack_require__(25);
 
@@ -66831,7 +66781,7 @@ var _logs = __webpack_require__(2);
 
 var _fp = __webpack_require__(3);
 
-var _constants = __webpack_require__(17);
+var _constants = __webpack_require__(18);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -67428,7 +67378,7 @@ var _contacts = __webpack_require__(325);
 
 var contactActions = _interopRequireWildcard(_contacts);
 
-var _selectors = __webpack_require__(18);
+var _selectors = __webpack_require__(19);
 
 var _interface = __webpack_require__(550);
 
@@ -67452,7 +67402,7 @@ var _logs = __webpack_require__(2);
 
 var _effects3 = __webpack_require__(4);
 
-var _constants = __webpack_require__(17);
+var _constants = __webpack_require__(18);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
