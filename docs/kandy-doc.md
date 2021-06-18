@@ -113,7 +113,7 @@ Configuration options for the call feature.
 
 -   `call` **[Object][7]** The call configuration object.
     -   `call.sdpSemantics` **[string][8]** The sdpSemantics to use (`'unified-plan'` or `'plan-b'`).
-           As 'plan-b' has become a deprecated option, it will therefore be removed in the future. (optional, default `'plan-b'`)
+           As 'plan-b' has become a deprecated option, it will therefore be removed in the future. (optional, default `'unified-plan'`)
     -   `call.iceServers` **[Array][14]&lt;[call.IceServer][16]>?** The list of ICE servers to be used for calls.
     -   `call.iceCollectionDelay` **[number][12]** Time, in milliseconds, to delay in between
            ICE candidate checks. If ICE collection does not complete normally, the SDK will check
