@@ -5,7 +5,17 @@ Kandy.js change log.
 - This project adheres to [Semantic Versioning](http://semver.org/).
 - This change log follows [keepachangelog.com](http://keepachangelog.com/) recommendations.
 
-## 4.29.0 - beta
+## 4.30.0 - beta
+
+### Added
+
+- Added new Call tutorial for Device Handling. `KJS-144`
+
+### Changed
+
+- Changed the domain names used in configuration for all turn/stun servers to the newly public ones (for Kandy tutorials).
+
+## 4.29.0 - 2021-06-25
 
 ### SDP Semantics Defaults
 
@@ -28,6 +38,7 @@ With this release we're announcing the default SDP semantics are changing to the
 - Switched from using String.prototype.replaceAll to String.prototype.replace and using regex to do the correct string replacement. Some browsers don't yet
   support replaceAll. `KJS-164`
 - Fixed a Call issue where a remote hold operation would not be processed correctly in some scenarios. `KAA-2639`
+- Fixed Subscription behaviour where a resubscription failure would not be handled as "subscription gone" when it no longer exists. `KJS-171`
 
 ## 4.28.0 - 2021-05-28
 

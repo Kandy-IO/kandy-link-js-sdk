@@ -185,27 +185,27 @@ Examples of the Kandy Link Systems include:
 
 NA:
 
-- RESTURL: spidr-ucc.genband.com port 443
-- WebSocketURL: spidr-ucc.genband.com port 443
+- RESTURL: webrtc-na.kandy.io port 443
+- WebSocketURL: webrtc-na.kandy.io port 443
 - iceServers:
-  - turn-ucc-1.genband.com port 3478 for STUN and 443 for TURNS
-  - turn-ucc-2.genband.com port 3478 for STUN and 443 for TURNS
+  - turn-na-1.kandy.io port 3478 for STUN and 443 for TURNS
+  - turn-na-2.kandy.io port 3478 for STUN and 443 for TURNS
 
 EMEA:
 
-- RESTURL: spidr-em.genband.com port 443
-- WebSocketURL: spidr-em.genband.com port 443
+- RESTURL: webrtc-em.kandy.io port 443
+- WebSocketURL: webrtc-em.kandy.io port 443
 - iceServers:
-  - turn-em-1.genband.com port 3478 for STUN and 443 for TURNS
-  - turn-em-2.genband.com port 3478 for STUN and 443 for TURNS
+  - turn-em-1.kandy.io port 3478 for STUN and 443 for TURNS
+  - turn-em-2.kandy.io port 3478 for STUN and 443 for TURNS
 
 APAC:
 
-- RESTURL: spidr-ap.genband.com port 443
-- WebSocketURL: spidr-ap.genband.com port 443
+- RESTURL: webrtc-ap.kandy.io port 443
+- WebSocketURL: webrtc-ap.kandy.io port 443
 - iceServers:
-  - turn-ap-1.genband.com port 3478 for STUN and 443 for TURNS
-  - turn-ap-2.genband.com port 3478 for STUN and 443 for TURNS
+  - turn-ap-1.kandy.io port 3478 for STUN and 443 for TURNS
+  - turn-ap-2.kandy.io port 3478 for STUN and 443 for TURNS
 
 ### Connectivity
 

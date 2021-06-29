@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.29.0-beta.708
+ * Version: 4.30.0-beta.709
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -6431,7 +6431,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.29.0-beta.708';
+  return '4.30.0-beta.709';
 }
 
 /***/ }),
@@ -38915,12 +38915,19 @@ function* updateSubscription(action, addService = true) {
 function* onSubscriptionGone() {
   // Redux-saga take() pattern.
   // Take notifications about the subscription being 'gone'.
-  function takeGoneSubscription(action) {
+  function takeGoneNotification(action) {
     return action.type === _actionTypes3.NOTIFICATION_RECEIVED && action.payload.notificationMessage && action.payload.notificationMessage.eventType === 'gone';
   }
 
+  // Take "resubscription failed" actions caused by the subscription not existing.
+  function takeResubGoneSubscription(action) {
+    return action.type === actionTypes.RESUBSCRIPTION_FINISHED && action.error &&
+    // Magic number: 39 is KL's statusCode for "resource does not exist".
+    action.payload.code === 39;
+  }
+
   while (true) {
-    yield (0, _effects.take)(takeGoneSubscription);
+    yield (0, _effects.take)([takeGoneNotification, takeResubGoneSubscription]);
 
     // Dispatch an action to disconnect the websocket (and let the connectivity
     //      plugin know we expect it to be disconnected).
@@ -39167,12 +39174,28 @@ function* resubscribe(connection, [subscription]) {
       const { statusCode } = response.payload.body.subscribeResponse;
       log.debug(`Failed to update user subscription with status code ${statusCode}.`);
 
+      let message, errorCode;
+      if (response.payload.result.code === 404 && statusCode === 39) {
+        /*
+         * Special case: Status code 39 means the subscription does not exist (ie.
+         *    the request 404'd). We want to treat this error differently because
+         *    it is a "subscription gone" scenario and we need to clear the
+         *    SDK's subscription info.
+         */
+        message = `Subscription no longer exists. Code ${statusCode}.`;
+        // TODO: We shouldn't be assigning arbitrary codes to BasicError (ie. only
+        //    use the codes pre-defined) because the application also gets access
+        //    to this, but we don't have a good way to pass specific error info
+        //    around for side-effects (ie. subscription gone).
+        errorCode = statusCode;
+      } else {
+        message = `Failed to update user subscription with status code ${statusCode}.`;
+        errorCode = _errors.authCodes.LINK_UPDATE_SUBSCRIPTION_FAIL;
+      }
+
       return {
         // TODO: Better error; more info.
-        error: new _errors2.default({
-          message: `Failed to update user subscription. Code: ${statusCode}.`,
-          code: _errors.authCodes.LINK_UPDATE_SUBSCRIPTION_FAIL
-        })
+        error: new _errors2.default({ message, code: errorCode })
       };
     } else {
       // Handle errors from the request helper.
