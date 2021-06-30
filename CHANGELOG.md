@@ -15,6 +15,10 @@ Kandy.js change log.
 
 - Changed the domain names used in configuration for all turn/stun servers to the newly public ones (for Kandy tutorials).
 
+### Fixed
+
+- Fixed the missing callId supplied to the pipeline that runs all SDP Handlers. This happens when callee is answering an incoming slow-start call. `KJS-172`
+
 ## 4.29.0 - 2021-06-25
 
 ### SDP Semantics Defaults
