@@ -2901,12 +2901,13 @@ The SDK currently only supports the `websocket` channel as a subscription
 -   `options` **[Object][7]?** The options object for non-credential options.
     -   `options.forceLogOut` **[boolean][11]?** Force the oldest connection to log out if too many simultaneous connections. Link only.
     -   `options.type` **[string][8]** The method of how to receive service updates. (optional, default `'websocket'`)
+    -   `options.clientCorrelator` **[string][8]?** Unique ID for the client. This is used by the platform to identify an instance of the application used by the specific device.
 
 **Examples**
 
 ```javascript
 // Subscribe for chat and SMS services.
-client.services.subscribe(['call', 'IM'], {forceLogOut: true})
+client.services.subscribe(['call', 'IM'], {forceLogOut: true, clientCorrelator: 'abc123'})
 ```
 
 ### unsubscribe

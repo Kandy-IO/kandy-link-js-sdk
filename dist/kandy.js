@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.30.0-beta.712
+ * Version: 4.30.0-beta.713
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -6431,7 +6431,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.30.0-beta.712';
+  return '4.30.0-beta.713';
 }
 
 /***/ }),
@@ -38250,9 +38250,10 @@ function api({ dispatch, getState }) {
      * @param {Object} [options] The options object for non-credential options.
      * @param {boolean} [options.forceLogOut] Force the oldest connection to log out if too many simultaneous connections. Link only.
      * @param {string} [options.type='websocket'] The method of how to receive service updates.
+     * @param {string} [options.clientCorrelator] Unique ID for the client. This is used by the platform to identify an instance of the application used by the specific device.
      * @example
      * // Subscribe for chat and SMS services.
-     * client.services.subscribe(['call', 'IM'], {forceLogOut: true})
+     * client.services.subscribe(['call', 'IM'], {forceLogOut: true, clientCorrelator: 'abc123'})
      */
     subscribe(services, options = {}) {
       // For backwards compatibility, we need to check if the 2nd parameter
@@ -39011,7 +39012,7 @@ const log = _logs.logManager.getLogger('SUBSCRIPTION');
  * @param {number} expires Length in time to keep subscription.
  * @param  {Object} connection Server information.
  * @param {Array} service List of services to subscribe to.
- * @param  {Object} extras Additional parameters, currently only 'forceLogOut' is supported.
+ * @param  {Object} extras Additional parameters, currently only 'forceLogOut' and 'clientCorrelator' are supported.
  * @return {Object} Subscription response.
  */
 
@@ -39032,7 +39033,8 @@ function* subscribe(authConfig, expires, connection, service, extras = {}) {
       useTurn: authConfig.useTurn || true,
       notificationType: authConfig.notificationType || 'WebSocket',
       supported: ['RingingFeedback'],
-      forceLogOut: (extras.forceLogOut || false).toString()
+      forceLogOut: (extras.forceLogOut || false).toString(),
+      clientCorrelator: extras.clientCorrelator
     }
   });
 
@@ -39151,8 +39153,11 @@ function* resubscribe(connection, [subscription]) {
   const requestOptions = {};
   requestOptions.method = 'PUT';
 
-  requestOptions.url = `${connection.server.protocol}://${connection.server.server}:${connection.server.port}` + subscription.url;
-
+  if (subscription.clientCorrelator) {
+    requestOptions.url = `${connection.server.protocol}://${connection.server.server}:${connection.server.port}` + `/rest/version/${connection.server.version}` + `/user/${connection.username}/subscription/clientCorrelator/${subscription.clientCorrelator}`;
+  } else {
+    requestOptions.url = `${connection.server.protocol}://${connection.server.server}:${connection.server.port}` + subscription.url;
+  }
   // TODO: Don't hardcode the defaults here. Should be shared with
   //      the subscribe request as well.
   requestOptions.body = (0, _stringify2.default)({

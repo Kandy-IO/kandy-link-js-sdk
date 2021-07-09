@@ -20244,6 +20244,15 @@ type.</p>
 
 
               
+                <tr>
+  <td class='break-word'><span class='code bold'>options.clientCorrelator</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?</code>
+  </td>
+  <td class='break-word'><span>Unique ID for the client. This is used by the platform to identify an instance of the application used by the specific device.
+</span></td>
+</tr>
+
+
+              
             </tbody>
           </table>
           
@@ -20263,7 +20272,7 @@ type.</p>
     
       
       <pre class='p1 overflow-auto round fill-light'><span class="hljs-comment">// Subscribe for chat and SMS services.</span>
-client.services.subscribe([<span class="hljs-string">'call'</span>, <span class="hljs-string">'IM'</span>], {<span class="hljs-attr">forceLogOut</span>: <span class="hljs-literal">true</span>})</pre>
+client.services.subscribe([<span class="hljs-string">'call'</span>, <span class="hljs-string">'IM'</span>], {<span class="hljs-attr">forceLogOut</span>: <span class="hljs-literal">true</span>, <span class="hljs-attr">clientCorrelator</span>: <span class="hljs-string">'abc123'</span>})</pre>
     
   
 

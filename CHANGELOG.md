@@ -10,6 +10,7 @@ Kandy.js change log.
 ### Added
 
 - Added new Call tutorial for Device Handling. `KJS-144`
+- Added support for `clientCorrelator` property which is used when subscribing/resubscribing to services (call, IM, Presence, etc). These subscriptions are triggered by `Kandy.services.subscribe` API. `KJS-178`
 
 ### Changed
 
