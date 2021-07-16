@@ -19,6 +19,7 @@ Kandy.js change log.
 ### Fixed
 
 - Fixed the missing callId supplied to the pipeline that runs all SDP Handlers. This happens when callee is answering an incoming slow-start call. `KJS-172`
+- Improved YAML SDP log output by not repeating the final SDP if there has been no changes from the `logHandlers`.
 
 ## 4.29.0 - 2021-06-25
 
