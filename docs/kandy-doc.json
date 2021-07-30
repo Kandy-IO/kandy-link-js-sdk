@@ -89182,9 +89182,22 @@
               "default": "'websocket'"
             },
             {
+              "title": "param",
+              "description": "Unique ID for the client. This is used by the platform to identify an instance of the application used by the specific device.",
+              "lineNumber": 20,
+              "type": {
+                "type": "OptionalType",
+                "expression": {
+                  "type": "NameExpression",
+                  "name": "string"
+                }
+              },
+              "name": "options.clientCorrelator"
+            },
+            {
               "title": "example",
-              "description": "// Subscribe for chat and SMS services.\nclient.services.subscribe(['call', 'IM'], {forceLogOut: true})",
-              "lineNumber": 20
+              "description": "// Subscribe for chat and SMS services.\nclient.services.subscribe(['call', 'IM'], {forceLogOut: true, clientCorrelator: 'abc123'})",
+              "lineNumber": 21
             }
           ],
           "loc": {
@@ -89193,18 +89206,18 @@
               "column": 4
             },
             "end": {
-              "line": 148,
+              "line": 149,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 149,
+                "line": 150,
                 "column": 4
               },
               "end": {
-                "line": 175,
+                "line": 176,
                 "column": 5
               }
             },
@@ -89213,7 +89226,7 @@
           "augments": [],
           "examples": [
             {
-              "description": "// Subscribe for chat and SMS services.\nclient.services.subscribe(['call', 'IM'], {forceLogOut: true})"
+              "description": "// Subscribe for chat and SMS services.\nclient.services.subscribe(['call', 'IM'], {forceLogOut: true, clientCorrelator: 'abc123'})"
             }
           ],
           "params": [
@@ -89485,6 +89498,70 @@
                     "name": "string"
                   },
                   "default": "'websocket'"
+                },
+                {
+                  "title": "param",
+                  "name": "options.clientCorrelator",
+                  "lineNumber": 20,
+                  "description": {
+                    "type": "root",
+                    "children": [
+                      {
+                        "type": "paragraph",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "Unique ID for the client. This is used by the platform to identify an instance of the application used by the specific device.",
+                            "position": {
+                              "start": {
+                                "line": 1,
+                                "column": 1,
+                                "offset": 0
+                              },
+                              "end": {
+                                "line": 1,
+                                "column": 127,
+                                "offset": 126
+                              },
+                              "indent": []
+                            }
+                          }
+                        ],
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 127,
+                            "offset": 126
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 127,
+                        "offset": 126
+                      }
+                    }
+                  },
+                  "type": {
+                    "type": "OptionalType",
+                    "expression": {
+                      "type": "NameExpression",
+                      "name": "string"
+                    }
+                  }
                 }
               ]
             }
@@ -89754,22 +89831,22 @@
           ],
           "loc": {
             "start": {
-              "line": 177,
+              "line": 178,
               "column": 4
             },
             "end": {
-              "line": 196,
+              "line": 197,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 197,
+                "line": 198,
                 "column": 4
               },
               "end": {
-                "line": 205,
+                "line": 206,
                 "column": 5
               }
             },
@@ -90234,22 +90311,22 @@
           ],
           "loc": {
             "start": {
-              "line": 219,
+              "line": 220,
               "column": 4
             },
             "end": {
-              "line": 246,
+              "line": 247,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 247,
+                "line": 248,
                 "column": 4
               },
               "end": {
-                "line": 254,
+                "line": 255,
                 "column": 5
               }
             },

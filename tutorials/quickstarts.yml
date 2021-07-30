@@ -25,6 +25,10 @@
   description: # Handling Media Tracks
   link: /quickstarts/javascript/newLink/Handling%20Media%20Tracks
 
+- name: Device Handling
+  description: # Device Handling
+  link: /quickstarts/javascript/newLink/Device%20Handling
+
 - name: Call Statistics
   description: # Call Statistics
   link: /quickstarts/javascript/newLink/Call%20Statistics
