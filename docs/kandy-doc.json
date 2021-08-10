@@ -20287,14 +20287,20 @@
               "lineNumber": 6
             },
             {
+              "title": "requires",
+              "description": null,
+              "lineNumber": 7,
+              "name": "link_call"
+            },
+            {
               "title": "event",
               "description": "call:customParameters",
-              "lineNumber": 7
+              "lineNumber": 8
             },
             {
               "title": "param",
               "description": null,
-              "lineNumber": 8,
+              "lineNumber": 9,
               "type": {
                 "type": "NameExpression",
                 "name": "Object"
@@ -20304,7 +20310,7 @@
             {
               "title": "param",
               "description": "The ID of the Call in which custom parameters were received.",
-              "lineNumber": 9,
+              "lineNumber": 10,
               "type": {
                 "type": "NameExpression",
                 "name": "string"
@@ -20314,7 +20320,7 @@
             {
               "title": "param",
               "description": "The custom parameters received.",
-              "lineNumber": 10,
+              "lineNumber": 11,
               "type": {
                 "type": "TypeApplication",
                 "expression": {
@@ -20337,18 +20343,18 @@
               "column": 0
             },
             "end": {
-              "line": 237,
+              "line": 238,
               "column": 3
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 238,
+                "line": 239,
                 "column": 0
               },
               "end": {
-                "line": 238,
+                "line": 239,
                 "column": 56
               }
             },
@@ -20360,7 +20366,7 @@
             {
               "title": "param",
               "name": "params",
-              "lineNumber": 8,
+              "lineNumber": 9,
               "type": {
                 "type": "NameExpression",
                 "name": "Object"
@@ -20369,7 +20375,7 @@
                 {
                   "title": "param",
                   "name": "params.callId",
-                  "lineNumber": 9,
+                  "lineNumber": 10,
                   "description": {
                     "type": "root",
                     "children": [
@@ -20430,7 +20436,7 @@
                 {
                   "title": "param",
                   "name": "params.customParameters",
-                  "lineNumber": 10,
+                  "lineNumber": 11,
                   "description": {
                     "type": "root",
                     "children": [
@@ -20720,22 +20726,22 @@
           ],
           "loc": {
             "start": {
-              "line": 240,
+              "line": 241,
               "column": 0
             },
             "end": {
-              "line": 251,
+              "line": 252,
               "column": 3
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 252,
+                "line": 253,
                 "column": 0
               },
               "end": {
-                "line": 252,
+                "line": 253,
                 "column": 54
               }
             },
@@ -21226,22 +21232,22 @@
           ],
           "loc": {
             "start": {
-              "line": 254,
+              "line": 255,
               "column": 0
             },
             "end": {
-              "line": 270,
+              "line": 271,
               "column": 3
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 271,
+                "line": 272,
                 "column": 0
               },
               "end": {
-                "line": 271,
+                "line": 272,
                 "column": 67
               }
             },
