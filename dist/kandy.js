@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.31.0-beta.729
+ * Version: 4.31.0-beta.730
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -1654,7 +1654,7 @@ const SET_BROWSER_DETAILS = exports.SET_BROWSER_DETAILS = prefix + 'SET_BROWSER_
 /***/ (function(module, exports, __webpack_require__) {
 
 var store = __webpack_require__(79)('wks');
-var uid = __webpack_require__(60);
+var uid = __webpack_require__(59);
 var Symbol = __webpack_require__(9).Symbol;
 var USE_SYMBOL = typeof Symbol == 'function';
 
@@ -6133,7 +6133,7 @@ var ctx = __webpack_require__(29);
 var call = __webpack_require__(117);
 var isArrayIter = __webpack_require__(118);
 var anObject = __webpack_require__(23);
-var toLength = __webpack_require__(59);
+var toLength = __webpack_require__(58);
 var getIterFn = __webpack_require__(119);
 var BREAK = {};
 var RETURN = {};
@@ -6393,34 +6393,6 @@ function* requestSaga(options, manualOptions) {
 /* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.turnActions = exports.callActions = undefined;
-
-var _call = __webpack_require__(301);
-
-var callActionsImport = _interopRequireWildcard(_call);
-
-var _turn = __webpack_require__(423);
-
-var turnActionsImport = _interopRequireWildcard(_turn);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-// Apparently the following doesn't work:
-//      export * as newName from './place';
-// So import everything from each file, then re-export.
-const callActions = exports.callActions = callActionsImport;
-const turnActions = exports.turnActions = turnActionsImport;
-
-/***/ }),
-/* 59 */
-/***/ (function(module, exports, __webpack_require__) {
-
 // 7.1.15 ToLength
 var toInteger = __webpack_require__(77);
 var min = Math.min;
@@ -6430,7 +6402,7 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 60 */
+/* 59 */
 /***/ (function(module, exports) {
 
 var id = 0;
@@ -6441,7 +6413,7 @@ module.exports = function (key) {
 
 
 /***/ }),
-/* 61 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6459,14 +6431,14 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.31.0-beta.729';
+  return '4.31.0-beta.730';
 }
 
 /***/ }),
-/* 62 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var META = __webpack_require__(60)('meta');
+var META = __webpack_require__(59)('meta');
 var isObject = __webpack_require__(13);
 var has = __webpack_require__(31);
 var setDesc = __webpack_require__(18).f;
@@ -6522,7 +6494,7 @@ var meta = module.exports = {
 
 
 /***/ }),
-/* 63 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
@@ -6569,7 +6541,7 @@ module.exports = Object.create || function create(O, Properties) {
 
 
 /***/ }),
-/* 64 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6593,7 +6565,7 @@ __webpack_require__(86)(String, 'String', function (iterated) {
 
 
 /***/ }),
-/* 65 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6651,7 +6623,7 @@ function getBrowserDetails() {
 }
 
 /***/ }),
-/* 66 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6667,7 +6639,7 @@ var _freeze2 = _interopRequireDefault(_freeze);
 
 exports.runPipeline = runPipeline;
 
-var _sdpTransform = __webpack_require__(67);
+var _sdpTransform = __webpack_require__(66);
 
 var _sdpTransform2 = _interopRequireDefault(_sdpTransform);
 
@@ -6770,7 +6742,7 @@ function createPipeline() {
 exports.default = createPipeline();
 
 /***/ }),
-/* 67 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parser = __webpack_require__(251);
@@ -6787,7 +6759,7 @@ exports.parseSimulcastStreamList = parser.parseSimulcastStreamList;
 
 
 /***/ }),
-/* 68 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6816,6 +6788,34 @@ const RECEIVE_SERVER_PONG = exports.RECEIVE_SERVER_PONG = prefix + 'RECEIVE_SERV
 
 const CHANGE_CONNECTIVITY_CHECKING = exports.CHANGE_CONNECTIVITY_CHECKING = prefix + 'CHANGE_CONNECTIVITY_CHECKING';
 const CHANGE_PING_INTERVAL = exports.CHANGE_PING_INTERVAL = prefix + 'CHANGE_PING_INTERVAL';
+
+/***/ }),
+/* 68 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.turnActions = exports.callActions = undefined;
+
+var _call = __webpack_require__(301);
+
+var callActionsImport = _interopRequireWildcard(_call);
+
+var _turn = __webpack_require__(423);
+
+var turnActionsImport = _interopRequireWildcard(_turn);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+// Apparently the following doesn't work:
+//      export * as newName from './place';
+// So import everything from each file, then re-export.
+const callActions = exports.callActions = callActionsImport;
+const turnActions = exports.turnActions = turnActionsImport;
 
 /***/ }),
 /* 69 */
@@ -6918,8 +6918,8 @@ const JOIN_FINISH = exports.JOIN_FINISH = callPrefix + 'JOIN_FINISH';
 const REPLACE_TRACK = exports.REPLACE_TRACK = callPrefix + 'REPLACE_TRACK';
 const REPLACE_TRACK_FINISH = exports.REPLACE_TRACK_FINISH = callPrefix + 'REPLACE_TRACK_FINISH';
 
-const ICE_RESTART = exports.ICE_RESTART = callPrefix + 'ICE_RESTART';
-const ICE_RESTART_FINISH = exports.ICE_RESTART_FINISH = callPrefix + 'ICE_RESTART_FINISH';
+const MEDIA_RESTART = exports.MEDIA_RESTART = callPrefix + 'MEDIA_RESTART';
+const MEDIA_RESTART_FINISH = exports.MEDIA_RESTART_FINISH = callPrefix + 'MEDIA_RESTART_FINISH';
 
 /**
  * Miscellaneous call actions
@@ -7181,7 +7181,7 @@ module.exports = function (it) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var shared = __webpack_require__(79)('keys');
-var uid = __webpack_require__(60);
+var uid = __webpack_require__(59);
 module.exports = function (key) {
   return shared[key] || (shared[key] = uid(key));
 };
@@ -9202,7 +9202,7 @@ var _webrtcManager2 = _interopRequireDefault(_webrtcManager);
 
 var _logs = __webpack_require__(15);
 
-var _pipeline = __webpack_require__(66);
+var _pipeline = __webpack_require__(65);
 
 var _pipeline2 = _interopRequireDefault(_pipeline);
 
@@ -9210,7 +9210,7 @@ var _handlers = __webpack_require__(92);
 
 var sdpHandlers = _interopRequireWildcard(_handlers);
 
-var _utils = __webpack_require__(65);
+var _utils = __webpack_require__(64);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -9301,7 +9301,7 @@ var _eventemitter = __webpack_require__(25);
 
 var _eventemitter2 = _interopRequireDefault(_eventemitter);
 
-var _utils = __webpack_require__(65);
+var _utils = __webpack_require__(64);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -9958,7 +9958,7 @@ var _properties = __webpack_require__(265);
 
 var _properties2 = _interopRequireDefault(_properties);
 
-var _utils = __webpack_require__(65);
+var _utils = __webpack_require__(64);
 
 var _config = __webpack_require__(272);
 
@@ -10753,7 +10753,7 @@ const OPERATIONS = exports.OPERATIONS = {
   DIRECT_TRANSFER: 'DIRECT_TRANSFER',
   JOIN: 'JOIN',
   REPLACE_TRACK: 'REPLACE_TRACK',
-  ICE_RESTART: 'ICE_RESTART',
+  MEDIA_RESTART: 'MEDIA_RESTART',
   // Remote-only.
   START_MOH: 'START_MOH',
   STOP_MOH: 'STOP_MOH',
@@ -11591,7 +11591,7 @@ const partialDefaultLogActions = exports.partialDefaultLogActions = {
 "use strict";
 
 var dP = __webpack_require__(18).f;
-var create = __webpack_require__(63);
+var create = __webpack_require__(62);
 var redefineAll = __webpack_require__(88);
 var ctx = __webpack_require__(29);
 var anInstance = __webpack_require__(89);
@@ -11600,7 +11600,7 @@ var $iterDefine = __webpack_require__(86);
 var step = __webpack_require__(116);
 var setSpecies = __webpack_require__(120);
 var DESCRIPTORS = __webpack_require__(16);
-var fastKey = __webpack_require__(62).fastKey;
+var fastKey = __webpack_require__(61).fastKey;
 var validate = __webpack_require__(102);
 var SIZE = DESCRIPTORS ? '_s' : 'size';
 
@@ -11743,7 +11743,7 @@ module.exports = {
 
 var global = __webpack_require__(9);
 var $export = __webpack_require__(8);
-var meta = __webpack_require__(62);
+var meta = __webpack_require__(61);
 var fails = __webpack_require__(33);
 var hide = __webpack_require__(30);
 var redefineAll = __webpack_require__(88);
@@ -12440,7 +12440,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.changePingInterval = exports.changeConnectivityChecking = exports.receiveServerPong = exports.receiveServerPing = exports.lostConnection = exports.wsError = exports.wsClosed = exports.wsReconnectFailed = exports.wsDisconnectFinished = exports.wsConnectFinished = exports.wsDisconnect = exports.wsAttemptConnect = undefined;
 
-var _actionTypes = __webpack_require__(68);
+var _actionTypes = __webpack_require__(67);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -12511,7 +12511,7 @@ var _logs = __webpack_require__(2);
 
 var _kandyLogger = __webpack_require__(83);
 
-var _sdpTransform = __webpack_require__(67);
+var _sdpTransform = __webpack_require__(66);
 
 var _sdpTransform2 = _interopRequireDefault(_sdpTransform);
 
@@ -12843,7 +12843,7 @@ module.exports = !$assign || __webpack_require__(33)(function () {
 // false -> Array#indexOf
 // true  -> Array#includes
 var toIObject = __webpack_require__(34);
-var toLength = __webpack_require__(59);
+var toLength = __webpack_require__(58);
 var toAbsoluteIndex = __webpack_require__(167);
 module.exports = function (IS_INCLUDES) {
   return function ($this, el, fromIndex) {
@@ -14991,11 +14991,11 @@ var has = __webpack_require__(31);
 var DESCRIPTORS = __webpack_require__(16);
 var $export = __webpack_require__(8);
 var redefine = __webpack_require__(109);
-var META = __webpack_require__(62).KEY;
+var META = __webpack_require__(61).KEY;
 var $fails = __webpack_require__(33);
 var shared = __webpack_require__(79);
 var setToStringTag = __webpack_require__(50);
-var uid = __webpack_require__(60);
+var uid = __webpack_require__(59);
 var wks = __webpack_require__(11);
 var wksExt = __webpack_require__(100);
 var wksDefine = __webpack_require__(84);
@@ -15007,7 +15007,7 @@ var toObject = __webpack_require__(36);
 var toIObject = __webpack_require__(34);
 var toPrimitive = __webpack_require__(74);
 var createDesc = __webpack_require__(38);
-var _create = __webpack_require__(63);
+var _create = __webpack_require__(62);
 var gOPNExt = __webpack_require__(187);
 var $GOPD = __webpack_require__(113);
 var $GOPS = __webpack_require__(81);
@@ -15862,7 +15862,7 @@ module.exports = function (TO_STRING) {
 
 "use strict";
 
-var create = __webpack_require__(63);
+var create = __webpack_require__(62);
 var descriptor = __webpack_require__(38);
 var setToStringTag = __webpack_require__(50);
 var IteratorPrototype = {};
@@ -15938,7 +15938,7 @@ module.exports = function () { /* empty */ };
 var ctx = __webpack_require__(29);
 var IObject = __webpack_require__(75);
 var toObject = __webpack_require__(36);
-var toLength = __webpack_require__(59);
+var toLength = __webpack_require__(58);
 var asc = __webpack_require__(202);
 module.exports = function (TYPE, $create) {
   var IS_MAP = TYPE == 1;
@@ -16025,7 +16025,7 @@ module.exports = function (iter, ITERATOR) {
 /* 205 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(64);
+__webpack_require__(63);
 __webpack_require__(206);
 module.exports = __webpack_require__(7).Array.from;
 
@@ -16041,7 +16041,7 @@ var $export = __webpack_require__(8);
 var toObject = __webpack_require__(36);
 var call = __webpack_require__(117);
 var isArrayIter = __webpack_require__(118);
-var toLength = __webpack_require__(59);
+var toLength = __webpack_require__(58);
 var createProperty = __webpack_require__(207);
 var getIterFn = __webpack_require__(119);
 
@@ -16106,7 +16106,7 @@ module.exports = function create(P, D) {
 
 var $export = __webpack_require__(8);
 // 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
-$export($export.S, 'Object', { create: __webpack_require__(63) });
+$export($export.S, 'Object', { create: __webpack_require__(62) });
 
 
 /***/ }),
@@ -16262,7 +16262,7 @@ function generateEndParams(currentCallState, isLocal, params) {
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(71);
-__webpack_require__(64);
+__webpack_require__(63);
 __webpack_require__(87);
 __webpack_require__(212);
 __webpack_require__(216);
@@ -21152,7 +21152,7 @@ if (typeof module === 'object') {
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(71);
-__webpack_require__(64);
+__webpack_require__(63);
 __webpack_require__(87);
 __webpack_require__(230);
 __webpack_require__(231);
@@ -21793,7 +21793,7 @@ var _constants = __webpack_require__(21);
 
 var _sdpSemantics = __webpack_require__(41);
 
-var _pipeline = __webpack_require__(66);
+var _pipeline = __webpack_require__(65);
 
 var _handlers = __webpack_require__(92);
 
@@ -21869,7 +21869,7 @@ module.exports = __webpack_require__(7).Object.freeze;
 
 // 19.1.2.5 Object.freeze(O)
 var isObject = __webpack_require__(13);
-var meta = __webpack_require__(62).onFreeze;
+var meta = __webpack_require__(61).onFreeze;
 
 __webpack_require__(99)('freeze', function ($freeze) {
   return function freeze(it) {
@@ -22149,7 +22149,7 @@ var _constants = __webpack_require__(21);
 
 var _sdpSemantics = __webpack_require__(41);
 
-var _pipeline = __webpack_require__(66);
+var _pipeline = __webpack_require__(65);
 
 var _handlers = __webpack_require__(92);
 
@@ -22531,7 +22531,7 @@ var _iceCollectionLoop = __webpack_require__(261);
 
 var _iceCollectionLoop2 = _interopRequireDefault(_iceCollectionLoop);
 
-var _sdpTransform = __webpack_require__(67);
+var _sdpTransform = __webpack_require__(66);
 
 var _sdpTransform2 = _interopRequireDefault(_sdpTransform);
 
@@ -23876,7 +23876,7 @@ var _logs = __webpack_require__(15);
 
 var _constants = __webpack_require__(21);
 
-var _pipeline = __webpack_require__(66);
+var _pipeline = __webpack_require__(65);
 
 var _pipeline2 = _interopRequireDefault(_pipeline);
 
@@ -23884,7 +23884,7 @@ var _sdpSemantics = __webpack_require__(41);
 
 var _extractors = __webpack_require__(152);
 
-var _utils = __webpack_require__(65);
+var _utils = __webpack_require__(64);
 
 var _eventemitter = __webpack_require__(25);
 
@@ -25950,7 +25950,7 @@ exports.setupCall = setupCall;
 exports.setupIncomingCall = setupIncomingCall;
 exports.answerWebrtcSession = answerWebrtcSession;
 
-var _actions = __webpack_require__(58);
+var _actions = __webpack_require__(68);
 
 var _selectors = __webpack_require__(26);
 
@@ -27367,7 +27367,7 @@ exports.waitForReconnect = waitForReconnect;
 
 var _actions = __webpack_require__(156);
 
-var _actionTypes = __webpack_require__(68);
+var _actionTypes = __webpack_require__(67);
 
 var _selectors = __webpack_require__(132);
 
@@ -27550,8 +27550,8 @@ exports.remoteRemoveMediaFinish = remoteRemoveMediaFinish;
 exports.remoteStartMohFinish = remoteStartMohFinish;
 exports.remoteStopMohFinish = remoteStopMohFinish;
 exports.remoteSlowStart = remoteSlowStart;
-exports.restartIce = restartIce;
-exports.restartIceFinish = restartIceFinish;
+exports.restartMedia = restartMedia;
+exports.restartMediaFinish = restartMediaFinish;
 exports.updateCall = updateCall;
 
 var _actionTypes = __webpack_require__(69);
@@ -27897,12 +27897,12 @@ function remoteSlowStart(id, params) {
   return callActionHelper(actionTypes.REMOTE_SLOW_START, id, params);
 }
 
-function restartIce(id, params) {
-  return callActionHelper(actionTypes.ICE_RESTART, id, params);
+function restartMedia(id, params) {
+  return callActionHelper(actionTypes.MEDIA_RESTART, id, params);
 }
 
-function restartIceFinish(id, params) {
-  return callActionHelper(actionTypes.ICE_RESTART_FINISH, id, params);
+function restartMediaFinish(id, params) {
+  return callActionHelper(actionTypes.MEDIA_RESTART_FINISH, id, params);
 }
 
 // Generic action.
@@ -29334,7 +29334,7 @@ exports.compareSummary = compareSummary;
 
 var _logs = __webpack_require__(2);
 
-var _sdpTransform = __webpack_require__(67);
+var _sdpTransform = __webpack_require__(66);
 
 var _sdpTransform2 = _interopRequireDefault(_sdpTransform);
 
@@ -31459,7 +31459,7 @@ var _compose2 = _interopRequireDefault(_compose);
 
 var _utils = __webpack_require__(14);
 
-var _version = __webpack_require__(61);
+var _version = __webpack_require__(60);
 
 var _logs = __webpack_require__(2);
 
@@ -33323,7 +33323,7 @@ module.exports = { "default": __webpack_require__(343), __esModule: true };
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(71);
-__webpack_require__(64);
+__webpack_require__(63);
 __webpack_require__(87);
 __webpack_require__(344);
 __webpack_require__(345);
@@ -33918,7 +33918,7 @@ module.exports = { "default": __webpack_require__(356), __esModule: true };
 /* 356 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(64);
+__webpack_require__(63);
 __webpack_require__(87);
 module.exports = __webpack_require__(100).f('iterator');
 
@@ -36439,7 +36439,7 @@ var _channel = __webpack_require__(281);
 
 var _logs = __webpack_require__(2);
 
-var _version = __webpack_require__(61);
+var _version = __webpack_require__(60);
 
 var _uuid = __webpack_require__(42);
 
@@ -38290,7 +38290,7 @@ var _effects2 = __webpack_require__(299);
 
 var _selectors3 = __webpack_require__(132);
 
-var _actionTypes2 = __webpack_require__(68);
+var _actionTypes2 = __webpack_require__(67);
 
 var connectivityActionTypes = _interopRequireWildcard(_actionTypes2);
 
@@ -39081,7 +39081,7 @@ var _selectors = __webpack_require__(407);
 
 var _selectors2 = __webpack_require__(17);
 
-var _version = __webpack_require__(61);
+var _version = __webpack_require__(60);
 
 var _constants = __webpack_require__(19);
 
@@ -39368,7 +39368,7 @@ var _actionTypes = __webpack_require__(104);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _version = __webpack_require__(61);
+var _version = __webpack_require__(60);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -40311,7 +40311,7 @@ var _actionTypes3 = __webpack_require__(93);
 
 var subscribeActionTypes = _interopRequireWildcard(_actionTypes3);
 
-var _actionTypes4 = __webpack_require__(68);
+var _actionTypes4 = __webpack_require__(67);
 
 var connectivityActionTypes = _interopRequireWildcard(_actionTypes4);
 
@@ -41592,7 +41592,7 @@ var _extends3 = _interopRequireDefault(_extends2);
 
 exports.default = callAPI;
 
-var _actions = __webpack_require__(58);
+var _actions = __webpack_require__(68);
 
 var _selectors = __webpack_require__(26);
 
@@ -42880,6 +42880,11 @@ function callAPI({ dispatch, getState }) {
      *  state can be used alongside the {@link call.states Call state} to determine if media issues
      *  are occurring while the participants are expecting to be connected.
      *
+     * An important state to check for is the `FAILED` state. This state signifies that there is no
+     *    media connection between the call participants and an action must be taken to resolve the
+     *    problem. Using the {@link call.restartMedia} API will attempt to reconnect the media. See
+     *    the {@link call.restartMedia} API description for more information.
+     *
      * These states are direct reflections of the possible
      *  [RTCPeerConnection.iceConnectionState](https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/iceConnectionState) values.
      *
@@ -42906,7 +42911,7 @@ function callAPI({ dispatch, getState }) {
      *  the Call endpoints will receive each other's media.
      * @property {string} DISCONNECTED Media has become disconnected and the Call endpoints have stopped receiving each other's media.
      *  The Call will automatically attempt to reconnect, transitioning back to `completed` if successful or to `failed` if not.
-     * @property {string} FAILED The connection has failed and cannot be recovered automatically. A full media connection refresh is required to restablish a connection.
+     * @property {string} FAILED The connection has failed and cannot be recovered automatically. A full media connection refresh is required to restablish a connection. See the {@link call.restartMedia} API.
      * @property {string} CLOSED The connection has been shut down and is no longer in use.
      * @example
      * // Use the media connection states to check the status of the media connection of the Call.
@@ -42934,16 +42939,69 @@ function callAPI({ dispatch, getState }) {
      *       ...
      *       break
      *     case mediaConnectionStates.FAILED:
+     *      // Media has failed. The call requires a media refresh to restablish.
+     *      // This state will occur after the `DISCONNECTED` state is encountered.
+     *      ...
+     *       break
      *     case mediaConnectionStates.CLOSED:
-     *       // Media ended: The Call's media is not connected. The Call has either ended (CLOSED)
-     *       //    or requires a media refresh to reestablish (FAILED).
-     *       // These states will occur after Call establishment.
+     *       // Media ended due to the Call being ended.
+     *       // This state will occur after Call establishment.
      *       ...
      *       break
      *   }
      * }
      */
-    mediaConnectionStates: _constants.CALL_MEDIA_CONNECTION_STATES
+    mediaConnectionStates: _constants.CALL_MEDIA_CONNECTION_STATES,
+
+    /**
+     * Attempt to re-establish a media connection for a call.
+     *
+     * This API will perform a "refresh" operation on the call with the intention
+     *    of resolving media issues that may have been encountered. This API is only
+     *    necessary after the Call's {@link call.mediaConnectionStates mediaConnectionState}
+     *    has entered the `failed` state, but may be used in other scenarios.
+     *
+     * After the operation completes successfully, the Call will be re-establishing
+     *    its media connection. By this time, or shortly after, the Call's
+     *    {@link call.mediaConnectionStates mediaConnectionState} should have
+     *    transitioned to `checking` (via a
+     *    {@link call.event:call:mediaConnectionChange call:mediaConnectionChange}
+     *    event) to signify the re-establishment. It will then transition to either
+     *    `connected` or `failed` state, similar to during the initial Call establishment.
+     *
+     * If this operation fails, then the Call will not attempt the re-establishment
+     *    and will remain in the `failed` {@link call.mediaConnectionStates mediaConnectionState}.
+     *
+     * Behaviour during the operation may differ slightly based on the browser.
+     *    Notably, Firefox will always transition to the `checking`
+     *    {@link call.mediaConnectionStates mediaConnectionState} no matter what
+     *    the previous state was. Whereas Chrome will skip the `checking` state,
+     *    transitioning directly to either `connected` or `failed`. This has the
+     *    implication for Chrome that if the state does not change (for example,
+     *    the Call is in the `failed` state before the media restart operation,
+     *    and media re-establishment fails), then there will be no
+     *    {@link call.event:call:mediaConnectionChange call:mediaConnectionChange}
+     *    event emitted. For this reason, Chrome-based applications may need a
+     *    short delay after receiving the {@link call.event:call:mediaRestart call:mediaRestart}
+     *    event before checking the Call's updated
+     *    {@link call.mediaConnectionStates mediaConnectionState} to ensure the
+     *    application is acting on the "latest" state.
+     *
+     * The SDK will emit a {@link call.event:call:mediaRestart call:mediaRestart}
+     *    event when the operation completes.
+     *
+     * The progress of the operation will be tracked via the
+     *    {@link call.event:call:operation call:operation} event.
+     * @public
+     * @static
+     * @memberof call
+     * @method restartMedia
+     * @param {string} callId The ID of the call to act on.
+     */
+    restartMedia(callId) {
+      log.debug(`${_logs.API_LOG_TAG}call.restartMedia, callId: ${callId}`);
+      dispatch(_actions.callActions.restartMedia(callId));
+    }
 
     /**
      * The `setDefaultDevices` API from previous SDK releases (3.X) has been
@@ -43709,7 +43767,7 @@ callReducers[webrtcActionTypes.SESSION_ICE_CONNECTION_STATE_CHANGE] = {
 const callReducer = (0, _reduxActions.handleActions)(callReducers, {});
 
 // Actions routed to call-tier reducers.
-const specificCallActions = (0, _reduxActions.combineActions)(actionTypes.PENDING_OPERATION, actionTypes.PENDING_MAKE_CALL, actionTypes.MAKE_CALL_FINISH, actionTypes.ANSWER_CALL, actionTypes.ANSWER_CALL_FINISH, actionTypes.REJECT_CALL, actionTypes.REJECT_CALL_FINISH, actionTypes.CALL_ACCEPTED, actionTypes.SEND_RINGING_FEEDBACK, actionTypes.SEND_RINGING_FEEDBACK_FINISH, actionTypes.CALL_RINGING, actionTypes.SESSION_PROGRESS, actionTypes.CALL_CANCELLED, actionTypes.IGNORE_CALL, actionTypes.IGNORE_CALL_FINISH, actionTypes.END_CALL, actionTypes.END_CALL_FINISH, actionTypes.CALL_HOLD, actionTypes.CALL_HOLD_FINISH, actionTypes.CALL_UNHOLD, actionTypes.CALL_UNHOLD_FINISH, actionTypes.SET_CUSTOM_PARAMETERS, actionTypes.SEND_CUSTOM_PARAMETERS, actionTypes.SEND_CUSTOM_PARAMETERS_FINISH, actionTypes.CALL_REMOTE_HOLD_FINISH, actionTypes.CALL_REMOTE_UNHOLD_FINISH, actionTypes.ADD_MEDIA, actionTypes.ADD_BASIC_MEDIA, actionTypes.ADD_MEDIA_FINISH, actionTypes.REMOVE_MEDIA, actionTypes.REMOVE_BASIC_MEDIA, actionTypes.REMOVE_MEDIA_FINISH, actionTypes.RENEGOTIATE, actionTypes.RENEGOTIATE_FINISH, actionTypes.UPDATE_CALL, actionTypes.FORWARD_CALL, actionTypes.FORWARD_CALL_FINISH, actionTypes.DIRECT_TRANSFER, actionTypes.DIRECT_TRANSFER_FINISH, actionTypes.SEND_DTMF, actionTypes.SEND_DTMF_FINISH, actionTypes.JOIN, actionTypes.REPLACE_TRACK, actionTypes.REPLACE_TRACK_FINISH, actionTypes.ICE_RESTART, actionTypes.ICE_RESTART_FINISH, actionTypes.REMOTE_SLOW_START, actionTypes.REMOTE_START_MOH_FINISH, actionTypes.REMOTE_STOP_MOH_FINISH, actionTypes.GET_STATS, actionTypes.GET_STATS_FINISH, actionTypes.SESSION_CREATED);
+const specificCallActions = (0, _reduxActions.combineActions)(actionTypes.PENDING_OPERATION, actionTypes.PENDING_MAKE_CALL, actionTypes.MAKE_CALL_FINISH, actionTypes.ANSWER_CALL, actionTypes.ANSWER_CALL_FINISH, actionTypes.REJECT_CALL, actionTypes.REJECT_CALL_FINISH, actionTypes.CALL_ACCEPTED, actionTypes.SEND_RINGING_FEEDBACK, actionTypes.SEND_RINGING_FEEDBACK_FINISH, actionTypes.CALL_RINGING, actionTypes.SESSION_PROGRESS, actionTypes.CALL_CANCELLED, actionTypes.IGNORE_CALL, actionTypes.IGNORE_CALL_FINISH, actionTypes.END_CALL, actionTypes.END_CALL_FINISH, actionTypes.CALL_HOLD, actionTypes.CALL_HOLD_FINISH, actionTypes.CALL_UNHOLD, actionTypes.CALL_UNHOLD_FINISH, actionTypes.SET_CUSTOM_PARAMETERS, actionTypes.SEND_CUSTOM_PARAMETERS, actionTypes.SEND_CUSTOM_PARAMETERS_FINISH, actionTypes.CALL_REMOTE_HOLD_FINISH, actionTypes.CALL_REMOTE_UNHOLD_FINISH, actionTypes.ADD_MEDIA, actionTypes.ADD_BASIC_MEDIA, actionTypes.ADD_MEDIA_FINISH, actionTypes.REMOVE_MEDIA, actionTypes.REMOVE_BASIC_MEDIA, actionTypes.REMOVE_MEDIA_FINISH, actionTypes.RENEGOTIATE, actionTypes.RENEGOTIATE_FINISH, actionTypes.UPDATE_CALL, actionTypes.FORWARD_CALL, actionTypes.FORWARD_CALL_FINISH, actionTypes.DIRECT_TRANSFER, actionTypes.DIRECT_TRANSFER_FINISH, actionTypes.SEND_DTMF, actionTypes.SEND_DTMF_FINISH, actionTypes.JOIN, actionTypes.REPLACE_TRACK, actionTypes.REPLACE_TRACK_FINISH, actionTypes.MEDIA_RESTART, actionTypes.MEDIA_RESTART_FINISH, actionTypes.REMOTE_SLOW_START, actionTypes.REMOTE_START_MOH_FINISH, actionTypes.REMOTE_STOP_MOH_FINISH, actionTypes.GET_STATS, actionTypes.GET_STATS_FINISH, actionTypes.SESSION_CREATED);
 
 const specificWebrtcSessionActions = (0, _reduxActions.combineActions)(webrtcActionTypes.SESSION_ICE_CONNECTION_STATE_CHANGE);
 
@@ -44051,10 +44109,7 @@ exports.joinEntry = joinEntry;
 exports.replaceTrackEntry = replaceTrackEntry;
 exports.getAvailableCodecsEntry = getAvailableCodecsEntry;
 exports.restartIce = restartIce;
-exports.iceConnectionFailed = iceConnectionFailed;
 exports.watchForMediaDisconnect = watchForMediaDisconnect;
-
-var _actions = __webpack_require__(58);
 
 var _actionTypes = __webpack_require__(69);
 
@@ -44064,7 +44119,7 @@ var _actionTypes2 = __webpack_require__(10);
 
 var webrtcActionTypes = _interopRequireWildcard(_actionTypes2);
 
-var _actionTypes3 = __webpack_require__(68);
+var _actionTypes3 = __webpack_require__(67);
 
 var connectivityActionTypes = _interopRequireWildcard(_actionTypes3);
 
@@ -44111,12 +44166,6 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Other plugins
-/**
- * Call saga index.
- * Defines which actions trigger which sagas.
- */
-
-// Call plugin.
 const log = _logs.logManager.getLogger('CALL');
 
 /**
@@ -44135,6 +44184,12 @@ const log = _logs.logManager.getLogger('CALL');
 
 
 // Callstack plugin.
+/**
+ * Call saga index.
+ * Defines which actions trigger which sagas.
+ */
+
+// Call plugin.
 function* createCall(deps) {
   yield (0, _effects.takeEvery)(actionTypes.MAKE_CALL, _establish.makeCall, (0, _extends3.default)({}, deps, { requests }));
 }
@@ -44714,34 +44769,7 @@ function* getAvailableCodecsEntry(deps) {
  * @param {Object} deps.webRTC      The WebRTC stack.
  */
 function* restartIce(deps) {
-  yield (0, _effects.takeEvery)(actionTypes.ICE_RESTART, midcallSagas.iceRestart, (0, _extends3.default)({}, deps, { requests }));
-}
-
-/**
- * Handles ICE connectin failure
- * @method iceConnectionFailed
- * @param {Object} deps             Dependencies to be injected.
- * @param {Object} deps.webRTC      The WebRTC stack.
- */
-function* iceConnectionFailed(deps) {
-  // Only restart ICE candidate collection if we get a failed ice connection state
-  function failedICEConnectionState(action) {
-    return action.type === webrtcActionTypes.SESSION_ICE_CONNECTION_STATE_CHANGE && action.payload.iceConnectionState === _constants.CALL_MEDIA_CONNECTION_STATES.FAILED;
-  }
-
-  /**
-   * Initiate an ICE restart operation
-   * @method initiateIceRestart
-   * @param {Object} action
-   */
-  function* initiateIceRestart(action) {
-    const { id: sessionId } = action.payload;
-    const { id: callId } = yield (0, _effects.select)(_selectors.getCallByWebrtcSessionId, sessionId);
-
-    yield (0, _effects.put)(_actions.callActions.restartIce(callId));
-  }
-
-  yield (0, _effects.takeEvery)(failedICEConnectionState, initiateIceRestart);
+  yield (0, _effects.takeEvery)(actionTypes.MEDIA_RESTART, midcallSagas.iceRestart, (0, _extends3.default)({}, deps, { requests }));
 }
 
 /**
@@ -44780,7 +44808,7 @@ var _extends3 = _interopRequireDefault(_extends2);
 
 exports.setTurnCredentials = setTurnCredentials;
 
-var _actions = __webpack_require__(58);
+var _actions = __webpack_require__(68);
 
 var _selectors = __webpack_require__(26);
 
@@ -45882,7 +45910,7 @@ exports.rejectCall = rejectCall;
 exports.ignoreCall = ignoreCall;
 exports.forwardCall = forwardCall;
 
-var _actions = __webpack_require__(58);
+var _actions = __webpack_require__(68);
 
 var _selectors = __webpack_require__(26);
 
@@ -47694,7 +47722,7 @@ var rollbackOps = _interopRequireWildcard(_rollback);
 
 var _bandwidth = __webpack_require__(304);
 
-var _actions = __webpack_require__(58);
+var _actions = __webpack_require__(68);
 
 var _selectors = __webpack_require__(26);
 
@@ -47720,7 +47748,7 @@ var _effects2 = __webpack_require__(4);
 
 var _fp = __webpack_require__(3);
 
-var _version = __webpack_require__(61);
+var _version = __webpack_require__(60);
 
 var _constants2 = __webpack_require__(19);
 
@@ -49063,7 +49091,7 @@ function* iceRestart(deps, action) {
   const offer = yield (0, _effects2.call)(_midcall.generateOffer, deps, webrtcSessionId, mediaDirections, bandwidth);
   if (!offer) {
     log.debug('Failed to generate offer.');
-    yield (0, _effects2.put)(_actions.callActions.restartIceFinish(callId, {
+    yield (0, _effects2.put)(_actions.callActions.restartMediaFinish(callId, {
       local: true,
       error: new _errors2.default({
         code: _errors.callCodes.INVALID_OFFER,
@@ -49085,7 +49113,7 @@ function* iceRestart(deps, action) {
 
   if (response.error) {
     log.info('Failed to renegotiate call.');
-    yield (0, _effects2.put)(_actions.callActions.restartIceFinish(callId, {
+    yield (0, _effects2.put)(_actions.callActions.restartMediaFinish(callId, {
       local: true,
       error: response.error
     }));
@@ -49242,7 +49270,7 @@ exports.callStatusUpdateFailed = callStatusUpdateFailed;
 exports.callCancelled = callCancelled;
 exports.receiveEarlyMedia = receiveEarlyMedia;
 
-var _actions = __webpack_require__(58);
+var _actions = __webpack_require__(68);
 
 var _selectors = __webpack_require__(26);
 
@@ -50032,7 +50060,7 @@ var _operations = __webpack_require__(451);
 
 var _operations2 = _interopRequireDefault(_operations);
 
-var _actions = __webpack_require__(58);
+var _actions = __webpack_require__(68);
 
 var _selectors = __webpack_require__(26);
 
@@ -50497,8 +50525,8 @@ function* handleUpdateResponse(deps, targetCall, params) {
         case _constants2.OPERATIONS.RENEGOTIATE:
           finishAction = _actions.callActions.renegotiateFinish;
           break;
-        case _constants2.OPERATIONS.ICE_RESTART:
-          finishAction = _actions.callActions.restartIceFinish;
+        case _constants2.OPERATIONS.MEDIA_RESTART:
+          finishAction = _actions.callActions.restartMediaFinish;
       }
       if (finishAction) {
         log.info(`Finished processing remote response to local ${localOp.operation}. Changing state based on operation.`);
@@ -51393,7 +51421,7 @@ exports.setMediaInactive = setMediaInactive;
 exports.hasMediaFlowing = hasMediaFlowing;
 exports.hasMusicOnHold = hasMusicOnHold;
 
-var _sdpTransform = __webpack_require__(67);
+var _sdpTransform = __webpack_require__(66);
 
 var _sdpTransform2 = _interopRequireDefault(_sdpTransform);
 
@@ -51739,7 +51767,7 @@ exports.hasTelephoneEvent = hasTelephoneEvent;
 exports.convertTone = convertTone;
 exports.splitTones = splitTones;
 
-var _actions = __webpack_require__(58);
+var _actions = __webpack_require__(68);
 
 var _selectors = __webpack_require__(26);
 
@@ -51753,7 +51781,7 @@ var _errors2 = _interopRequireDefault(_errors);
 
 var _effects = __webpack_require__(4);
 
-var _sdpTransform = __webpack_require__(67);
+var _sdpTransform = __webpack_require__(66);
 
 var _sdpTransform2 = _interopRequireDefault(_sdpTransform);
 
@@ -52170,7 +52198,7 @@ exports.getSessions = getSessions;
 exports.updateCallState = updateCallState;
 exports.normalizeIceFailure = normalizeIceFailure;
 
-var _actions = __webpack_require__(58);
+var _actions = __webpack_require__(68);
 
 var _actionTypes = __webpack_require__(69);
 
@@ -52704,7 +52732,7 @@ function callOperationHandler(action, params) {
 const callEvents = exports.callEvents = {};
 
 // START actions
-const startActionTypesAndOperations = [{ type: actionTypes.SEND_RINGING_FEEDBACK, operation: _constants.OPERATIONS.SEND_RINGING_FEEDBACK }, { type: actionTypes.ANSWER_CALL, operation: _constants.OPERATIONS.ANSWER }, { type: actionTypes.REJECT_CALL, operation: _constants.OPERATIONS.REJECT }, { type: actionTypes.IGNORE_CALL, operation: _constants.OPERATIONS.IGNORE }, { type: actionTypes.END_CALL, operation: _constants.OPERATIONS.END }, { type: actionTypes.FORWARD_CALL, operation: _constants.OPERATIONS.FORWARD_CALL }, { type: actionTypes.CALL_HOLD, operation: _constants.OPERATIONS.HOLD }, { type: actionTypes.CALL_UNHOLD, operation: _constants.OPERATIONS.UNHOLD }, { type: actionTypes.SEND_CUSTOM_PARAMETERS, operation: _constants.OPERATIONS.SEND_CUSTOM_PARAMETERS }, { type: actionTypes.ADD_MEDIA, operation: _constants.OPERATIONS.ADD_MEDIA }, { type: actionTypes.ADD_BASIC_MEDIA, operation: _constants.OPERATIONS.ADD_BASIC_MEDIA }, { type: actionTypes.REMOVE_MEDIA, operation: _constants.OPERATIONS.REMOVE_MEDIA }, { type: actionTypes.REMOVE_BASIC_MEDIA, operation: _constants.OPERATIONS.REMOVE_BASIC_MEDIA }, { type: actionTypes.RENEGOTIATE, operation: _constants.OPERATIONS.RENEGOTIATE }, { type: actionTypes.SEND_DTMF, operation: _constants.OPERATIONS.SEND_DTMF }, { type: actionTypes.GET_STATS, operation: _constants.OPERATIONS.GET_STATS }, { type: actionTypes.CONSULTATIVE_TRANSFER, operation: _constants.OPERATIONS.CONSULTATIVE_TRANSFER }, { type: actionTypes.DIRECT_TRANSFER, operation: _constants.OPERATIONS.DIRECT_TRANSFER }, { type: actionTypes.JOIN, operation: _constants.OPERATIONS.JOIN }, { type: actionTypes.REPLACE_TRACK, operation: _constants.OPERATIONS.REPLACE_TRACK }];
+const startActionTypesAndOperations = [{ type: actionTypes.SEND_RINGING_FEEDBACK, operation: _constants.OPERATIONS.SEND_RINGING_FEEDBACK }, { type: actionTypes.ANSWER_CALL, operation: _constants.OPERATIONS.ANSWER }, { type: actionTypes.REJECT_CALL, operation: _constants.OPERATIONS.REJECT }, { type: actionTypes.IGNORE_CALL, operation: _constants.OPERATIONS.IGNORE }, { type: actionTypes.END_CALL, operation: _constants.OPERATIONS.END }, { type: actionTypes.FORWARD_CALL, operation: _constants.OPERATIONS.FORWARD_CALL }, { type: actionTypes.CALL_HOLD, operation: _constants.OPERATIONS.HOLD }, { type: actionTypes.CALL_UNHOLD, operation: _constants.OPERATIONS.UNHOLD }, { type: actionTypes.SEND_CUSTOM_PARAMETERS, operation: _constants.OPERATIONS.SEND_CUSTOM_PARAMETERS }, { type: actionTypes.ADD_MEDIA, operation: _constants.OPERATIONS.ADD_MEDIA }, { type: actionTypes.ADD_BASIC_MEDIA, operation: _constants.OPERATIONS.ADD_BASIC_MEDIA }, { type: actionTypes.REMOVE_MEDIA, operation: _constants.OPERATIONS.REMOVE_MEDIA }, { type: actionTypes.REMOVE_BASIC_MEDIA, operation: _constants.OPERATIONS.REMOVE_BASIC_MEDIA }, { type: actionTypes.RENEGOTIATE, operation: _constants.OPERATIONS.RENEGOTIATE }, { type: actionTypes.MEDIA_RESTART, operation: _constants.OPERATIONS.MEDIA_RESTART }, { type: actionTypes.SEND_DTMF, operation: _constants.OPERATIONS.SEND_DTMF }, { type: actionTypes.GET_STATS, operation: _constants.OPERATIONS.GET_STATS }, { type: actionTypes.CONSULTATIVE_TRANSFER, operation: _constants.OPERATIONS.CONSULTATIVE_TRANSFER }, { type: actionTypes.DIRECT_TRANSFER, operation: _constants.OPERATIONS.DIRECT_TRANSFER }, { type: actionTypes.JOIN, operation: _constants.OPERATIONS.JOIN }, { type: actionTypes.REPLACE_TRACK, operation: _constants.OPERATIONS.REPLACE_TRACK }];
 startActionTypesAndOperations.forEach(startActionTypeAndOperation => {
   callEvents[startActionTypeAndOperation.type] = (action, params) => {
     return callOperationHandler(action, (0, _extends3.default)({}, params, {
@@ -52980,6 +53008,16 @@ callEvents[actionTypes.MAKE_ANONYMOUS_CALL_FINISH] = (action, context) => {
   return callEventHandler(eventTypes.CALL_STARTED, action, {
     error: action.payload.error
   });
+};
+
+callEvents[actionTypes.MEDIA_RESTART_FINISH] = (action, params) => {
+  return [callOperationHandler(action, (0, _extends3.default)({}, params, {
+    operation: _constants.OPERATIONS.MEDIA_RESTART,
+    transition: _constants.OP_TRANSITIONS.FINISH,
+    isLocal: true
+  })), callEventHandler(eventTypes.MEDIA_RESTART, action, {
+    error: action.payload.error
+  })];
 };
 
 exports.default = (0, _extends3.default)({}, callEvents);
@@ -53271,6 +53309,40 @@ const AVAILABLE_CODECS = exports.AVAILABLE_CODECS = 'call:availableCodecs';
  * @param {string} params.previous.state The previous state of the media connection.
  */
 const MEDIA_CONNECTION_CHANGE = exports.MEDIA_CONNECTION_CHANGE = 'call:mediaConnectionChange';
+
+/**
+ * A media restart operation for a Call has been attempted.
+ *
+ * This event is emitted as a result of the {@link call.restartMedia} API being called.
+ *    See the description for {@link call.restartMedia} for information about its
+ *    usage.
+ *
+ * The {@link call.event:call:mediaConnectionChange call:mediaConnectionChange} event
+ *    will also be emitted alongside this event when the media restart operation is
+ *    successful.
+ * @public
+ * @static
+ * @memberof call
+ * @event call:mediaRestart
+ * @param {Object} params
+ * @param {string} params.callId The ID of the Call that was acted on.
+ * @param {api.BasicError} [params.error] An error object, if the operation was not successful.
+ * @example
+ * client.on('call:mediaRestart', function (params) {
+ *    if (params.error) {
+ *      // The operation failed. May want to determine whether to re-attempt the
+ *      //    operation (if the failure was simply a connectivity issue) or to
+ *      //    consider the call's media irrecoverable.
+ *      ...
+ *    } else {
+ *      // The call should be re-establishing media, with the call's
+ *      //    `mediaConnectionState` being updated.
+ *      const mediaState = client.call.getById(params.callId).mediaConnectionState
+ *      ...
+ *    }
+ * })
+ */
+const MEDIA_RESTART = exports.MEDIA_RESTART = 'call:mediaRestart';
 
 /***/ }),
 /* 461 */
@@ -55173,7 +55245,7 @@ var _extends2 = __webpack_require__(6);
 
 var _extends3 = _interopRequireDefault(_extends2);
 
-var _actionTypes = __webpack_require__(68);
+var _actionTypes = __webpack_require__(67);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -55325,7 +55397,7 @@ var _eventTypes = __webpack_require__(487);
 
 var eventTypes = _interopRequireWildcard(_eventTypes);
 
-var _actionTypes = __webpack_require__(68);
+var _actionTypes = __webpack_require__(67);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -55409,7 +55481,7 @@ var _websocket = __webpack_require__(489);
 
 var _selectors = __webpack_require__(132);
 
-var _actionTypes = __webpack_require__(68);
+var _actionTypes = __webpack_require__(67);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -58509,7 +58581,7 @@ var _actionTypes = __webpack_require__(44);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _actionTypes2 = __webpack_require__(68);
+var _actionTypes2 = __webpack_require__(67);
 
 var _reduxActions = __webpack_require__(22);
 
@@ -69531,7 +69603,7 @@ var authorizations = _interopRequireWildcard(_authorization);
 
 var _logs = __webpack_require__(2);
 
-var _version = __webpack_require__(61);
+var _version = __webpack_require__(60);
 
 var _effects = __webpack_require__(4);
 
