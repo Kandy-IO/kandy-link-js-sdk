@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.31.0-beta.736
+ * Version: 4.32.0-beta.737
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -6431,7 +6431,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.31.0-beta.736';
+  return '4.32.0-beta.737';
 }
 
 /***/ }),
@@ -21351,6 +21351,7 @@ function onicecandidate(listener) {
     // Keep track of all candidates gathered by this collection process.
     if (event.candidate !== null) {
       iceCandidates.push(event.candidate);
+      emitter.emit('onicecandidate');
     }
 
     if (config.trickleIceMode === _constants.PEER.TRICKLE_ICE.FULL) {
@@ -21387,7 +21388,6 @@ function onicecandidate(listener) {
       }
     }
   };
-
   return true;
 }
 
@@ -22581,17 +22581,38 @@ function setLocalDescription(desc) {
     });
   }
 
+  let negotiationReady = false;
+
   return new _promise2.default((resolve, reject) => {
     // We always want to wait for the PeerConnection to be ready for
     //    negotiation before resolving setLocalDescription.
     // Each trickle ICE option (FULL/HALF/NONE) emits "negotiation ready" event once.
     emitter.once('onnegotiationready', () => {
+      negotiationReady = true;
+      if (this.iceLoop) {
+        // Cleanup of the handler, so that if there is a pending invocation of iceCollectionLoop
+        // it will be cancelled by this code right away.
+        clearTimeout(this.iceLoop);
+      }
+
       if (iceTimer.isStarted()) {
         // In a HALF trickle scenario, the Peer will be ready for negotiation
         //    before ICE collection has completed. Log that timing.
         log.debug(`Took ${iceTimer.timeFromStart()}ms to collect ICE candidates before negotiation.`);
       }
       resolve();
+    });
+
+    // This listener function is called before we even start the
+    // ice collection loop, so this.iceLoop is not even set at that time.
+    emitter.on('onicecandidate', () => {
+      // Call iceCollectionLoop function every time we got a new ICE candidate,
+      // because this way, there is a good chance we'll gather good enough candidates faster, than
+      // waiting to trigger it as a result of a timeout dictated by the value of: config.iceCollectionDelay
+      if (!negotiationReady) {
+        log.debug('Got a new ice candidate. Triggering iceCollectionLoop to see if we have good enough candidates...');
+        (0, _iceCollectionLoop2.default)(this, offeredMedia, true);
+      }
     });
 
     nativePeer.setLocalDescription(desc).then(() => {
@@ -22663,8 +22684,10 @@ exports.default = iceCollectionLoop;
  * @method iceCollectionLoop
  * @param {Object} proxyBase The "base" of the Proxy Peer object.
  * @param {Array} offeredMedia The array of media that this Peer offers to the remote.
+ * @param {Boolean} oneTimeCheck Flag to specify if the invocation of this function will result in a further recursive call or not.
+ *    If is true, then this function will not retrigger itself.
  */
-function iceCollectionLoop(proxyBase, offeredMedia) {
+function iceCollectionLoop(proxyBase, offeredMedia, oneTimeCheck) {
   const { proxyPeer, iceTimer, iceCandidates, emitter, config, log } = proxyBase;
 
   // If gathering completed during the delay, we don't need to loop anymore.
@@ -22685,7 +22708,8 @@ function iceCollectionLoop(proxyBase, offeredMedia) {
     iceServerUrls: config.rtcConfig.iceServers.map(iceServer => iceServer.url),
     elapsedTime: elapsedTime,
     maxIceTimeout: config.maxIceTimeout,
-    offeredMedia: offeredMedia
+    offeredMedia: offeredMedia,
+    iceCollectionDelay: config.iceCollectionDelay
   });
 
   const hasReachedTimeout = elapsedTime >= config.maxIceTimeout;
@@ -22699,11 +22723,13 @@ function iceCollectionLoop(proxyBase, offeredMedia) {
     iceCandidates.length = 0;
     emitter.emit('onnegotiationready');
   } else {
-    log.debug(`ICE candidates not sufficient for negotiation, delaying another ${config.iceCollectionDelay}ms.`);
-    // Add the timeout to the base so it can be cleared from elsewhere if needed.
-    proxyBase.iceLoop = setTimeout(function () {
-      iceCollectionLoop(proxyBase, offeredMedia);
-    }, config.iceCollectionDelay);
+    if (!oneTimeCheck) {
+      log.debug(`ICE candidates not sufficient for negotiation, delaying another ${config.iceCollectionDelay}ms.`);
+      // Add the timeout to the base so it can be cleared from elsewhere if needed.
+      proxyBase.iceLoop = setTimeout(function () {
+        iceCollectionLoop(proxyBase, offeredMedia);
+      }, config.iceCollectionDelay);
+    }
   }
 }
 
@@ -23176,7 +23202,9 @@ function isPassedHalfTrickleThreshold({ sdp, iceCandidate, time }) {
 
 /**
  * Default function to determine if the ice candidates is enough to negotiate.
+ *
  * We assume that: at least one relay candidate is good enough to try negotiation.
+ *
  * @method iceCollectionCheck
  * @param {Array<RTCIceCandidate>} iceCandidates List of collected ICE candidates.
  * @param {Object} extraInfo Additional information that can help in the decision making.
@@ -23184,9 +23212,12 @@ function isPassedHalfTrickleThreshold({ sdp, iceCandidate, time }) {
  * @param {Array} extraInfo.iceServerUrls The Urls for the provided ICE servers, as a list.
  *        (ICE server information is supplied in the configuration passed to SDK)
  *        The urls are of the form: ('stun'|'turn'):<ICE_server_domain_address>:<ICE_server_port_number>?transport:('udp'|'tcp')
- * @param {Number} extraInfo.elapsedTime The time, in milliseconds, that ICE collection has taken so far.
- * @param {Number} extraInfo.maxIceTimeout The time, in milliseconds, that ICE collection will be allowed to take.
+ * @param {number} extraInfo.elapsedTime The time, in milliseconds, that ICE collection has taken so far.
+ * @param {number} extraInfo.maxIceTimeout The time, in milliseconds, that ICE collection will be allowed to take.
  * @param {Array} extraInfo.offeredMedia List of media offered by the local Peer.
+ * @param {number} extraInfo.iceCollectionDelay Time, in milliseconds, to delay in between
+ *    ICE candidate checks. If ICE collection does not complete normally, the SDK will check
+ *    collected candidates at this interval to determine if the operation can continue.
  * @return {Boolean} Whether the ice Candidates is enough for negotiation.
  */
 function iceCollectionCheck(iceCandidates, extraInfo) {
@@ -41080,6 +41111,7 @@ const log = _logs.logManager.getLogger('CALL');
  *    must initiate the feedback being sent. See the `call.sendRingingFeedback` API for more info.
  * @param {number} [call.callAuditTimer=25000] Time interval, in milliseconds between call audits.
  * @param {number} [call.mediaConnectionRetryDelay=3000] Delay, in milliseconds for the passive side of a call to wait before trying a media reconnection.
+ * @param {boolean} [call.normalizeDestination=true] Specifies whether or not SIP address normalization will be applied.
  */
 
 /**
@@ -41088,7 +41120,6 @@ const log = _logs.logManager.getLogger('CALL');
  * @memberof config
  * @instance
  * @param {string} [trickleIceMode='NONE'] The Trickle ICE method to use for calls. Currently, no mode is supported.
- * @param {boolean} [normalizeDestination=true] Specifies whether or not SIP address normalization will be applied.
  */
 
 
