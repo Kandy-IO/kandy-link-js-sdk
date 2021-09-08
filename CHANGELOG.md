@@ -15,6 +15,7 @@ Kandy.js change log.
 ### Fixed
 
 - Update notifications plugin state when a websocket connection is removed to indicate the websocket channel is no longer enabled. `KJS-209`
+- Fixed a Proxy issue where unexpected data formats received from the Channel would cause a Call operation to fail. `KJS-283`
 
 ### Changed
 
