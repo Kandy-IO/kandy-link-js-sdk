@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.32.0-beta.740
+ * Version: 4.32.0-beta.741
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -6431,7 +6431,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.32.0-beta.740';
+  return '4.32.0-beta.741';
 }
 
 /***/ }),
@@ -36779,7 +36779,7 @@ exports.default = function (base, actualManager) {
                       //    null (because of JSON stringify/parse), so undo
                       //    that if the data is explicitly null value.
                       return undefined;
-                    } else if (data.error && data.error.name) {
+                    } else if (data && data.error && data.error.name) {
                       // If the response is a named error, then something was
                       //    reject or thrown on the remote side. Reconstruct it
                       //    then re-reject it to be handled by the Callstack.
