@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.32.0-beta.744
+ * Version: 4.32.0-beta.745
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -6431,7 +6431,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.32.0-beta.744';
+  return '4.32.0-beta.745';
 }
 
 /***/ }),
@@ -38390,7 +38390,6 @@ function* subscriptionFlow() {
       const subscription = yield (0, _effects.select)(_selectors2.getSubscriptionInfo);
       let task;
 
-      console.log(`subscription ${(0, _stringify2.default)(subscription)}`);
       if (!subscription || !subscription[0]) {
         // No existing subscription, make a new subscription request
         // Fork off and try to connect/subscribe
