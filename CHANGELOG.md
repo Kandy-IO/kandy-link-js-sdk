@@ -17,10 +17,6 @@ Kandy.js change log.
 - Update notifications plugin state when a websocket connection is removed to indicate the websocket channel is no longer enabled. `KJS-209`
 - Fixed a Proxy issue where unexpected data formats received from the Channel would cause a Call operation to fail. `KJS-283`
 
-### Changed
-
-- Changed the logic for triggering the ICE collection loop, by also triggering this loop when a new ICE candidate is discovered on local PeerConnection. This will speed up the Peer negotiation process. `KJS-122`
-
 ## 4.31.0 - 2021-08-30
 
 ### Added
