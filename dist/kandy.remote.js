@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.remote.js
- * Version: 4.32.0-beta.758
+ * Version: 4.33.0-beta.759
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -4819,7 +4819,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.32.0-beta.758';
+  return '4.33.0-beta.759';
 }
 
 /***/ }),
@@ -7285,6 +7285,7 @@ function Track(mediaTrack, mediaStream) {
   const id = mediaTrack.id;
   const track = mediaTrack;
   let stream = mediaStream;
+  let isLocalTrack;
   const containers = [];
   let constraints = {};
   const emitter = new _eventemitter2.default();
@@ -7316,7 +7317,9 @@ function Track(mediaTrack, mediaStream) {
   track.onmute = event => {
     log.debug('Event emitted: ', event);
     emitter.emit('muted', {
-      trackId: track.id
+      trackId: track.id,
+      mediaId: stream.id,
+      isLocal: isLocalTrack
     });
   };
 
@@ -7328,9 +7331,19 @@ function Track(mediaTrack, mediaStream) {
   track.onunmute = event => {
     log.debug('Event emitted: ', event);
     emitter.emit('unmuted', {
-      trackId: track.id
+      trackId: track.id,
+      mediaId: stream.id,
+      isLocal: isLocalTrack
     });
   };
+
+  function setIsLocal(isLocal) {
+    isLocalTrack = isLocal;
+  }
+
+  function isLocal() {
+    return isLocalTrack;
+  }
 
   function setStream(newStream) {
     stream = newStream;
@@ -7349,6 +7362,7 @@ function Track(mediaTrack, mediaStream) {
       id,
       streamId: stream.id,
       kind: track.kind,
+      isLocal: isLocalTrack,
       label: track.label,
       muted: track.muted,
       enabled: track.enabled,
@@ -7615,7 +7629,9 @@ function Track(mediaTrack, mediaStream) {
     // TODO: Find a better solution.
     track,
     setStream,
-    getStream
+    getStream,
+    setIsLocal,
+    isLocal
   };
 }
 
@@ -9210,12 +9226,12 @@ function setListeners(track, emit, END = 'END') {
   // An example of a track source is a physical media device such as:
   // microphone or camera.
   const trackSourceMuted = trackData => {
-    emit(_actions.trackActions.trackSourceMuted([trackData.trackId]));
+    emit(_actions.trackActions.trackSourceMuted([trackData.trackId], { mediaId: trackData.mediaId, isLocal: trackData.isLocal }));
   };
 
   // The track source (which affected the track identified by trackId) was unmuted.
   const trackSourceUnmuted = trackData => {
-    emit(_actions.trackActions.trackSourceUnmuted([trackData.trackId]));
+    emit(_actions.trackActions.trackSourceUnmuted([trackData.trackId], { mediaId: trackData.mediaId, isLocal: trackData.isLocal }));
   };
 
   track.on('ended', trackEnded);
@@ -13423,12 +13439,12 @@ function unmuteTracksFinish(trackIds) {
   return trackHelper(actionTypes.UNMUTE_TRACKS_FINISH, { trackIds: trackIds });
 }
 
-function trackSourceMuted(trackIds) {
-  return trackHelper(actionTypes.TRACK_SOURCE_MUTED, { trackIds: trackIds });
+function trackSourceMuted(trackIds, params) {
+  return trackHelper(actionTypes.TRACK_SOURCE_MUTED, (0, _extends3.default)({ trackIds: trackIds }, params));
 }
 
-function trackSourceUnmuted(trackIds) {
-  return trackHelper(actionTypes.TRACK_SOURCE_UNMUTED, { trackIds: trackIds });
+function trackSourceUnmuted(trackIds, params) {
+  return trackHelper(actionTypes.TRACK_SOURCE_UNMUTED, (0, _extends3.default)({ trackIds: trackIds }, params));
 }
 
 function renderTracks(trackIds, params) {
@@ -18014,7 +18030,8 @@ function ontrack(listener) {
     }
 
     // Convert the native MediaStreamTrack into a Track object.
-    const track = trackManager.add(nativeTrack, targetStream);
+    // Specify that this is not a local one (i.e. it's a remote track)
+    const track = trackManager.add(nativeTrack, targetStream, false);
 
     listener(track);
   };
@@ -19852,8 +19869,10 @@ function MediaManager(managers) {
     log.debug(`Creating Media with ID: ${media.id}.`);
 
     // Only add tracks to a Media objects using the `addTrack` method.
+    // Specify that this is a local track we're adding
     mediaStream.getTracks().forEach(nativeTrack => {
-      const wrappedTrack = trackManager.add(nativeTrack, mediaStream);
+      const wrappedTrack = trackManager.add(nativeTrack, mediaStream, true);
+
       media.addTrack(wrappedTrack);
     });
 
@@ -21461,9 +21480,10 @@ function TrackManager() {
    * @method add
    * @param  {MediaStreamTrack} track A native track object.
    * @param  {MediaStream} stream
+   * @param  {boolean} isLocalTrack Specifies if the track parameter is a local one or a remote one.
    * @return {Track} The added/wrapped Track object.
    */
-  function add(track, stream) {
+  function add(track, stream, isLocalTrack) {
     const targetTrack = tracks.get(track.id);
 
     // Chrome issue: track.stream is outdated and needs to be updated to newStream.
@@ -21480,6 +21500,10 @@ function TrackManager() {
     } else {
       // Wrap the track as a Track object.
       const wrappedTrack = new _track2.default(track, stream);
+
+      // Mark it as local (or remote) before we save it in the state
+      wrappedTrack.setIsLocal(isLocalTrack);
+
       tracks.set(track.id, wrappedTrack);
 
       // Remove the track from the manager when it ends.
