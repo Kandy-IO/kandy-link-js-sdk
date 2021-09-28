@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.33.0-beta.763
+ * Version: 4.33.0-beta.764
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -1466,7 +1466,7 @@ createSymbol('LOCATION');
 
 exports.__esModule = true;
 
-var _assign = __webpack_require__(99);
+var _assign = __webpack_require__(98);
 
 var _assign2 = _interopRequireDefault(_assign);
 
@@ -1836,13 +1836,65 @@ module.exports = !__webpack_require__(33)(function () {
 /* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
+var anObject = __webpack_require__(23);
+var IE8_DOM_DEFINE = __webpack_require__(107);
+var toPrimitive = __webpack_require__(75);
+var dP = Object.defineProperty;
+
+exports.f = __webpack_require__(16) ? Object.defineProperty : function defineProperty(O, P, Attributes) {
+  anObject(O);
+  P = toPrimitive(P, true);
+  anObject(Attributes);
+  if (IE8_DOM_DEFINE) try {
+    return dP(O, P, Attributes);
+  } catch (e) { /* empty */ }
+  if ('get' in Attributes || 'set' in Attributes) throw TypeError('Accessors not supported!');
+  if ('value' in Attributes) O[P] = Attributes.value;
+  return O;
+};
+
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
 
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getExposedState = getExposedState;
+const platforms = exports.platforms = {
+  LINK: 'link',
+  UC: 'uc',
+  CPAAS: 'cpaas'
+};
+
+const notificationTypes = exports.notificationTypes = {
+  WEBSOCKET: 'websocket',
+  PUSH: 'push'
+};
+
+const connCheckResponsibility = exports.connCheckResponsibility = {
+  CLIENT: 'client',
+  SERVER: 'server'
+};
+
+const connCheckMethods = exports.connCheckMethods = {
+  KEEP_ALIVE: 'keepAlive',
+  PING_PONG: 'pingPong'
+};
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.getAuthConfig = getAuthConfig;
 exports.getSubscriptionInfo = getSubscriptionInfo;
 exports.getConnectionInfo = getConnectionInfo;
@@ -1858,17 +1910,7 @@ var _fp = __webpack_require__(3);
 
 var _constants = __webpack_require__(155);
 
-var _constants2 = __webpack_require__(19);
-
-/**
- * Plugin selector function to expose state globally
- * @param  {Object} pluginState The localized (plugin) state
- * @return {Object}             The exposed state
- */
-function getExposedState(pluginState) {
-  // TODO: Filter out unwanted auth stuff from public state.
-  return (0, _fp.cloneDeep)(pluginState);
-}
+var _constants2 = __webpack_require__(18);
 
 /*
  * Redux-saga selector functions.
@@ -2093,59 +2135,6 @@ function getRequestInfo(state, platform) {
 
   return requestInfo;
 }
-
-/***/ }),
-/* 18 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var anObject = __webpack_require__(23);
-var IE8_DOM_DEFINE = __webpack_require__(107);
-var toPrimitive = __webpack_require__(75);
-var dP = Object.defineProperty;
-
-exports.f = __webpack_require__(16) ? Object.defineProperty : function defineProperty(O, P, Attributes) {
-  anObject(O);
-  P = toPrimitive(P, true);
-  anObject(Attributes);
-  if (IE8_DOM_DEFINE) try {
-    return dP(O, P, Attributes);
-  } catch (e) { /* empty */ }
-  if ('get' in Attributes || 'set' in Attributes) throw TypeError('Accessors not supported!');
-  if ('value' in Attributes) O[P] = Attributes.value;
-  return O;
-};
-
-
-/***/ }),
-/* 19 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-const platforms = exports.platforms = {
-  LINK: 'link',
-  UC: 'uc',
-  CPAAS: 'cpaas'
-};
-
-const notificationTypes = exports.notificationTypes = {
-  WEBSOCKET: 'websocket',
-  PUSH: 'push'
-};
-
-const connCheckResponsibility = exports.connCheckResponsibility = {
-  CLIENT: 'client',
-  SERVER: 'server'
-};
-
-const connCheckMethods = exports.connCheckMethods = {
-  KEEP_ALIVE: 'keepAlive',
-  PING_PONG: 'pingPong'
-};
 
 /***/ }),
 /* 20 */
@@ -3384,7 +3373,7 @@ var redux_saga_is_esm = __webpack_require__(1);
 var io_6de156f3 = __webpack_require__(0);
 
 // EXTERNAL MODULE: /var/jenkins_home/workspace/Kandy.js_beta/node_modules/redux/es/redux.js
-var redux = __webpack_require__(97);
+var redux = __webpack_require__(96);
 
 // CONCATENATED MODULE: /var/jenkins_home/workspace/Kandy.js_beta/node_modules/@redux-saga/deferred/dist/redux-saga-deferred.esm.js
 function deferred() {
@@ -4973,7 +4962,7 @@ module.exports = function (fn, that, length) {
 /* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var dP = __webpack_require__(18);
+var dP = __webpack_require__(17);
 var createDesc = __webpack_require__(38);
 module.exports = __webpack_require__(16) ? function (object, key, value) {
   return dP.f(object, key, createDesc(1, value));
@@ -6109,7 +6098,7 @@ exports.f = {}.propertyIsEnumerable;
 /* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var def = __webpack_require__(18).f;
+var def = __webpack_require__(17).f;
 var has = __webpack_require__(31);
 var TAG = __webpack_require__(11)('toStringTag');
 
@@ -6431,7 +6420,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.33.0-beta.763';
+  return '4.33.0-beta.764';
 }
 
 /***/ }),
@@ -6441,7 +6430,7 @@ function getVersion() {
 var META = __webpack_require__(59)('meta');
 var isObject = __webpack_require__(13);
 var has = __webpack_require__(31);
-var setDesc = __webpack_require__(18).f;
+var setDesc = __webpack_require__(17).f;
 var id = 0;
 var isExtensible = Object.isExtensible || function () {
   return true;
@@ -7405,8 +7394,8 @@ const logFormatter = exports.logFormatter = _logFormatter2.default;
 var global = __webpack_require__(9);
 var core = __webpack_require__(7);
 var LIBRARY = __webpack_require__(48);
-var wksExt = __webpack_require__(101);
-var defineProperty = __webpack_require__(18).f;
+var wksExt = __webpack_require__(100);
+var defineProperty = __webpack_require__(17).f;
 module.exports = function (name) {
   var $Symbol = core.Symbol || (core.Symbol = LIBRARY ? {} : global.Symbol || {});
   if (name.charAt(0) != '_' && !(name in $Symbol)) defineProperty($Symbol, name, { value: wksExt.f(name) });
@@ -7476,7 +7465,7 @@ var hide = __webpack_require__(30);
 var Iterators = __webpack_require__(51);
 var $iterCreate = __webpack_require__(199);
 var setToStringTag = __webpack_require__(50);
-var getPrototypeOf = __webpack_require__(102);
+var getPrototypeOf = __webpack_require__(101);
 var ITERATOR = __webpack_require__(11)('iterator');
 var BUGGY = !([].keys && 'next' in [].keys()); // Safari has buggy iterators w/o `next`
 var FF_ITERATOR = '@@iterator';
@@ -7832,181 +7821,6 @@ const CHANNEL_CLOSED = exports.CHANNEL_CLOSED = prefix + 'CHANNEL_CLOSED';
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getExposedState = getExposedState;
-exports.getSubscriptionConfig = getSubscriptionConfig;
-exports.getRegisteredServices = getRegisteredServices;
-exports.getNotificationChannels = getNotificationChannels;
-exports.getSubscribedServices = getSubscribedServices;
-exports.getSubscriptionInfo = getSubscriptionInfo;
-exports.getSubscriptions = getSubscriptions;
-exports.getSubscriptionExpiry = getSubscriptionExpiry;
-exports.getWebsocketConfig = getWebsocketConfig;
-
-var _fp = __webpack_require__(3);
-
-var _selectors = __webpack_require__(17);
-
-var _utils = __webpack_require__(14);
-
-/**
- * Plugin selector function to expose state globally
- * @param  {Object} pluginState The localized (plugin) state
- * @return {Object}             The exposed state
- */
-
-
-// Auth selectors for backwards compatability.
-function getExposedState(pluginState) {
-  return (0, _fp.cloneDeep)(pluginState);
-}
-
-/**
- * Retrieves the config options provided by the subscription plugin.
- * NOTE: This is only used by CPaaS currently and won't work with
- * the old auth/subscription config on link.  It will work with the new
- * auth/subscription config on link.
- * @method getSubscriptionConfig
- * @return {Object}
- */
-
-
-// Utilities.
-function getSubscriptionConfig(state) {
-  return (0, _fp.cloneDeep)(state.config.subscription);
-}
-
-/**
- * Retrieves the list of services that plugins have registered for.
- * @method getRegisteredServices
- * @return {Array}
- */
-function getRegisteredServices(state) {
-  return (0, _fp.cloneDeep)(state.subscription.registeredServices);
-}
-
-/**
- * Retrieves the open notifications channels' info and their active subscriptions.
- * @method getNotificationChannels
- * @return {Object}
- */
-// TODO: Rename this selector. It gets more than notification channels.
-function getNotificationChannels(state) {
-  return (0, _fp.cloneDeep)({
-    notificationChannels: state.subscription.notificationChannels,
-    subscriptions: state.subscription.subscriptions
-  });
-}
-
-/**
- * Retrieve the list of services with current subscriptions.
- * @method getSubscribedServices
- * @param {string} type the type of subscription we want to get specifically
- * @return {Array}
- */
-function getSubscribedServices(state, type) {
-  const info = getSubscriptionInfo(state);
-  // For backwards compability, make sure that this is an array. It isn't when
-  //    the old Auth plugin is being used (eg. Link v3.X).
-  let subscriptions = Array.isArray(info) ? info : [info];
-
-  // If a type was specified, filter out subscriptions of other types.
-  if (type) {
-    subscriptions = subscriptions.filter(subscription => subscription.channelType === type);
-  }
-
-  // Massage the subscriptions to be a list of service names.
-
-  // For Link, subscription.service is an array of strings (all services).
-  // For CPaaS, subscription.service is a string (single service).
-  // Process the subscriptions in a way that will provide an array of strings in
-  //    both cases.
-  return subscriptions.reduce((acc, currentSub) => {
-    return acc.concat(currentSub.service);
-  }, []);
-}
-
-/**
- * Retrieves the subscription information.
- * @method getSubscriptionInfo
- * @return {Object}
- */
-function getSubscriptionInfo(state) {
-  if (state.subscription) {
-    return (0, _fp.cloneDeep)(state.subscription.subscriptions);
-  } else {
-    // For backwards compatability, also check if the authentication substate
-    //    has subscription info. It will have the info when the oldAuth plugin
-    //    is being used (eg. Link v3.X).
-    // Warning: This returns an object, unlike the above which returns an array.
-    return (0, _fp.cloneDeep)((0, _selectors.getSubscriptionInfo)(state));
-  }
-}
-
-/**
- * Retrieve the list of subscriptions matching a given channel type and service name.
- * @method getSubscriptions
- * @param {string} service the name of the service we want to get specifically (e.g. smsinbound)
- * @param {string} type the type of communication channel we want to get specifically (e.g. websocket)
- * @return {Array}
- */
-function getSubscriptions(state, service, type) {
-  let subscriptions = state.subscription.subscriptions;
-  subscriptions = subscriptions.filter(subscription => subscription.service === service && subscription.channelType === type);
-  return (0, _fp.cloneDeep)(subscriptions);
-}
-
-/**
- * Retrieve the subscription expiry time from config.
- * @method getSubscriptionExpiry
- * @return {number}
- */
-function getSubscriptionExpiry(state) {
-  const subConfig = state.config.subscription;
-  const authConfig = state.config.authentication;
-
-  // In order to maintain backwards compability with the auth plugin config
-  // we need to first check if this setting is provided in the authentication plugin
-  // config, and if not use the one from subscription plugin.  We need to check
-  // authentication config first because if no value is provided in the subscription
-  // plugin, a default value will be used and we don't want that if one is provided in
-  // the authentication plugin.
-  const expires = authConfig.subscription && authConfig.subscription.expires ? authConfig.subscription.expires : subConfig.expires;
-
-  return expires;
-}
-
-/**
- * Retrieve the websocket info from config. We merge the websocket config
- * from auth plugin with the one from subscription plugin giving precidence to
- * the websocket config in auth plugin since we need to maintain backwards compability
- * with the old format config.
- * @method getSubscriptionExpiry
- * @return {number}
- */
-function getWebsocketConfig(state) {
-  const subConfig = state.config.subscription;
-  const authConfig = state.config.authentication;
-
-  // In order to support legacy configurations, we need to do the following:
-  // Take the values (including defaults) from subscription config.  Merge into
-  // that any client provided values from the authentication config.  All keys existing
-  // in authentication config will overwrite those from subscription config.  However,
-  // since defaults are not set for websocket in the authentication plugin, only client
-  // provided values for websocket will be used from authentication config and defualts
-  // will come from the subscription plugin.
-  return (0, _utils.mergeValues)(subConfig.websocket, authConfig.websocket);
-}
-
-/***/ }),
-/* 96 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
 const prefix = '@@KANDY/';
 
 /**
@@ -8044,7 +7858,7 @@ const SEARCH_DIRECTORY = exports.SEARCH_DIRECTORY = prefix + 'SEARCH_DIRECTORY';
 const SEARCH_DIRECTORY_FINISH = exports.SEARCH_DIRECTORY_FINISH = prefix + 'SEARCH_DIRECTORY_FINISH';
 
 /***/ }),
-/* 97 */
+/* 96 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8055,7 +7869,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "combineReducers", function() { return combineReducers; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "compose", function() { return compose; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createStore", function() { return createStore; });
-/* harmony import */ var symbol_observable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(98);
+/* harmony import */ var symbol_observable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(97);
 
 
 /**
@@ -8708,7 +8522,7 @@ if (false) {}
 
 
 /***/ }),
-/* 98 */
+/* 97 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8734,13 +8548,13 @@ var result = Object(_ponyfill_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"]
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(83), __webpack_require__(169)(module)))
 
 /***/ }),
-/* 99 */
+/* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = { "default": __webpack_require__(164), __esModule: true };
 
 /***/ }),
-/* 100 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // most Object methods by ES6 should accept primitives
@@ -8756,14 +8570,14 @@ module.exports = function (KEY, exec) {
 
 
 /***/ }),
-/* 101 */
+/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports.f = __webpack_require__(11);
 
 
 /***/ }),
-/* 102 */
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
@@ -8782,7 +8596,7 @@ module.exports = Object.getPrototypeOf || function (O) {
 
 
 /***/ }),
-/* 103 */
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isObject = __webpack_require__(13);
@@ -8791,6 +8605,171 @@ module.exports = function (it, TYPE) {
   return it;
 };
 
+
+/***/ }),
+/* 103 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getSubscriptionConfig = getSubscriptionConfig;
+exports.getRegisteredServices = getRegisteredServices;
+exports.getNotificationChannels = getNotificationChannels;
+exports.getSubscribedServices = getSubscribedServices;
+exports.getSubscriptionInfo = getSubscriptionInfo;
+exports.getSubscriptions = getSubscriptions;
+exports.getSubscriptionExpiry = getSubscriptionExpiry;
+exports.getWebsocketConfig = getWebsocketConfig;
+
+var _fp = __webpack_require__(3);
+
+var _selectors = __webpack_require__(19);
+
+var _utils = __webpack_require__(14);
+
+/**
+ * Retrieves the config options provided by the subscription plugin.
+ * NOTE: This is only used by CPaaS currently and won't work with
+ * the old auth/subscription config on link.  It will work with the new
+ * auth/subscription config on link.
+ * @method getSubscriptionConfig
+ * @return {Object}
+ */
+
+
+// Auth selectors for backwards compatability.
+function getSubscriptionConfig(state) {
+  return (0, _fp.cloneDeep)(state.config.subscription);
+}
+
+/**
+ * Retrieves the list of services that plugins have registered for.
+ * @method getRegisteredServices
+ * @return {Array}
+ */
+
+
+// Utilities.
+function getRegisteredServices(state) {
+  return (0, _fp.cloneDeep)(state.subscription.registeredServices);
+}
+
+/**
+ * Retrieves the open notifications channels' info and their active subscriptions.
+ * @method getNotificationChannels
+ * @return {Object}
+ */
+// TODO: Rename this selector. It gets more than notification channels.
+function getNotificationChannels(state) {
+  return (0, _fp.cloneDeep)({
+    notificationChannels: state.subscription.notificationChannels,
+    subscriptions: state.subscription.subscriptions
+  });
+}
+
+/**
+ * Retrieve the list of services with current subscriptions.
+ * @method getSubscribedServices
+ * @param {string} type the type of subscription we want to get specifically
+ * @return {Array}
+ */
+function getSubscribedServices(state, type) {
+  const info = getSubscriptionInfo(state);
+  // For backwards compability, make sure that this is an array. It isn't when
+  //    the old Auth plugin is being used (eg. Link v3.X).
+  let subscriptions = Array.isArray(info) ? info : [info];
+
+  // If a type was specified, filter out subscriptions of other types.
+  if (type) {
+    subscriptions = subscriptions.filter(subscription => subscription.channelType === type);
+  }
+
+  // Massage the subscriptions to be a list of service names.
+
+  // For Link, subscription.service is an array of strings (all services).
+  // For CPaaS, subscription.service is a string (single service).
+  // Process the subscriptions in a way that will provide an array of strings in
+  //    both cases.
+  return subscriptions.reduce((acc, currentSub) => {
+    return acc.concat(currentSub.service);
+  }, []);
+}
+
+/**
+ * Retrieves the subscription information.
+ * @method getSubscriptionInfo
+ * @return {Object}
+ */
+function getSubscriptionInfo(state) {
+  if (state.subscription) {
+    return (0, _fp.cloneDeep)(state.subscription.subscriptions);
+  } else {
+    // For backwards compatability, also check if the authentication substate
+    //    has subscription info. It will have the info when the oldAuth plugin
+    //    is being used (eg. Link v3.X).
+    // Warning: This returns an object, unlike the above which returns an array.
+    return (0, _fp.cloneDeep)((0, _selectors.getSubscriptionInfo)(state));
+  }
+}
+
+/**
+ * Retrieve the list of subscriptions matching a given channel type and service name.
+ * @method getSubscriptions
+ * @param {string} service the name of the service we want to get specifically (e.g. smsinbound)
+ * @param {string} type the type of communication channel we want to get specifically (e.g. websocket)
+ * @return {Array}
+ */
+function getSubscriptions(state, service, type) {
+  let subscriptions = state.subscription.subscriptions;
+  subscriptions = subscriptions.filter(subscription => subscription.service === service && subscription.channelType === type);
+  return (0, _fp.cloneDeep)(subscriptions);
+}
+
+/**
+ * Retrieve the subscription expiry time from config.
+ * @method getSubscriptionExpiry
+ * @return {number}
+ */
+function getSubscriptionExpiry(state) {
+  const subConfig = state.config.subscription;
+  const authConfig = state.config.authentication;
+
+  // In order to maintain backwards compability with the auth plugin config
+  // we need to first check if this setting is provided in the authentication plugin
+  // config, and if not use the one from subscription plugin.  We need to check
+  // authentication config first because if no value is provided in the subscription
+  // plugin, a default value will be used and we don't want that if one is provided in
+  // the authentication plugin.
+  const expires = authConfig.subscription && authConfig.subscription.expires ? authConfig.subscription.expires : subConfig.expires;
+
+  return expires;
+}
+
+/**
+ * Retrieve the websocket info from config. We merge the websocket config
+ * from auth plugin with the one from subscription plugin giving precidence to
+ * the websocket config in auth plugin since we need to maintain backwards compability
+ * with the old format config.
+ * @method getSubscriptionExpiry
+ * @return {number}
+ */
+function getWebsocketConfig(state) {
+  const subConfig = state.config.subscription;
+  const authConfig = state.config.authentication;
+
+  // In order to support legacy configurations, we need to do the following:
+  // Take the values (including defaults) from subscription config.  Merge into
+  // that any client provided values from the authentication config.  All keys existing
+  // in authentication config will overwrite those from subscription config.  However,
+  // since defaults are not set for websocket in the authentication plugin, only client
+  // provided values for websocket will be used from authentication config and defualts
+  // will come from the subscription plugin.
+  return (0, _utils.mergeValues)(subConfig.websocket, authConfig.websocket);
+}
 
 /***/ }),
 /* 104 */
@@ -9086,7 +9065,7 @@ module.exports = __webpack_require__(7).getIteratorMethod = function (it) {
 
 var global = __webpack_require__(9);
 var core = __webpack_require__(7);
-var dP = __webpack_require__(18);
+var dP = __webpack_require__(17);
 var DESCRIPTORS = __webpack_require__(16);
 var SPECIES = __webpack_require__(11)('species');
 
@@ -11590,7 +11569,7 @@ module.exports = { "default": __webpack_require__(185), __esModule: true };
 /* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var dP = __webpack_require__(18);
+var dP = __webpack_require__(17);
 var anObject = __webpack_require__(23);
 var getKeys = __webpack_require__(39);
 
@@ -11718,7 +11697,7 @@ const partialDefaultLogActions = exports.partialDefaultLogActions = {
 
 "use strict";
 
-var dP = __webpack_require__(18).f;
+var dP = __webpack_require__(17).f;
 var create = __webpack_require__(62);
 var redefineAll = __webpack_require__(89);
 var ctx = __webpack_require__(29);
@@ -11729,7 +11708,7 @@ var step = __webpack_require__(117);
 var setSpecies = __webpack_require__(121);
 var DESCRIPTORS = __webpack_require__(16);
 var fastKey = __webpack_require__(61).fastKey;
-var validate = __webpack_require__(103);
+var validate = __webpack_require__(102);
 var SIZE = DESCRIPTORS ? '_s' : 'size';
 
 var getEntry = function (that, key) {
@@ -11879,7 +11858,7 @@ var forOf = __webpack_require__(52);
 var anInstance = __webpack_require__(90);
 var isObject = __webpack_require__(13);
 var setToStringTag = __webpack_require__(50);
-var dP = __webpack_require__(18).f;
+var dP = __webpack_require__(17).f;
 var each = __webpack_require__(202)(0);
 var DESCRIPTORS = __webpack_require__(16);
 
@@ -12572,7 +12551,7 @@ var _actionTypes = __webpack_require__(67);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(18);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -14160,7 +14139,7 @@ module.exports = __webpack_require__(7).Object.keys;
 var toObject = __webpack_require__(36);
 var $keys = __webpack_require__(39);
 
-__webpack_require__(100)('keys', function () {
+__webpack_require__(99)('keys', function () {
   return function keys(it) {
     return $keys(toObject(it));
   };
@@ -15125,7 +15104,7 @@ var shared = __webpack_require__(80);
 var setToStringTag = __webpack_require__(50);
 var uid = __webpack_require__(59);
 var wks = __webpack_require__(11);
-var wksExt = __webpack_require__(101);
+var wksExt = __webpack_require__(100);
 var wksDefine = __webpack_require__(85);
 var enumKeys = __webpack_require__(187);
 var isArray = __webpack_require__(111);
@@ -15139,7 +15118,7 @@ var _create = __webpack_require__(62);
 var gOPNExt = __webpack_require__(188);
 var $GOPD = __webpack_require__(114);
 var $GOPS = __webpack_require__(82);
-var $DP = __webpack_require__(18);
+var $DP = __webpack_require__(17);
 var $keys = __webpack_require__(39);
 var gOPD = $GOPD.f;
 var dP = $DP.f;
@@ -16208,7 +16187,7 @@ $export($export.S + $export.F * !__webpack_require__(122)(function (iter) { Arra
 
 "use strict";
 
-var $defineProperty = __webpack_require__(18);
+var $defineProperty = __webpack_require__(17);
 var createDesc = __webpack_require__(38);
 
 module.exports = function (object, index, value) {
@@ -16875,7 +16854,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _assign = __webpack_require__(99);
+var _assign = __webpack_require__(98);
 
 var _assign2 = _interopRequireDefault(_assign);
 
@@ -21296,7 +21275,7 @@ module.exports = __webpack_require__(7).Map;
 "use strict";
 
 var strong = __webpack_require__(142);
-var validate = __webpack_require__(103);
+var validate = __webpack_require__(102);
 var MAP = 'Map';
 
 // 23.1 Map Objects
@@ -21360,9 +21339,9 @@ module.exports = __webpack_require__(7).Reflect.set;
 /***/ (function(module, exports, __webpack_require__) {
 
 // 26.1.13 Reflect.set(target, propertyKey, V [, receiver])
-var dP = __webpack_require__(18);
+var dP = __webpack_require__(17);
 var gOPD = __webpack_require__(114);
-var getPrototypeOf = __webpack_require__(102);
+var getPrototypeOf = __webpack_require__(101);
 var has = __webpack_require__(31);
 var $export = __webpack_require__(8);
 var createDesc = __webpack_require__(38);
@@ -22000,7 +21979,7 @@ module.exports = __webpack_require__(7).Object.freeze;
 var isObject = __webpack_require__(13);
 var meta = __webpack_require__(61).onFreeze;
 
-__webpack_require__(100)('freeze', function ($freeze) {
+__webpack_require__(99)('freeze', function ($freeze) {
   return function freeze(it) {
     return $freeze && isObject(it) ? $freeze(meta(it)) : it;
   };
@@ -26597,7 +26576,7 @@ var _actionTypes = __webpack_require__(44);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(18);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -27552,7 +27531,7 @@ var _actionTypes = __webpack_require__(67);
 
 var _selectors = __webpack_require__(133);
 
-var _selectors2 = __webpack_require__(17);
+var _selectors2 = __webpack_require__(19);
 
 var _actionTypes2 = __webpack_require__(94);
 
@@ -31226,7 +31205,7 @@ exports.fetchUserFinish = fetchUserFinish;
 exports.searchDirectory = searchDirectory;
 exports.searchDirectoryFinish = searchDirectoryFinish;
 
-var _actionTypes = __webpack_require__(96);
+var _actionTypes = __webpack_require__(95);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -31341,7 +31320,7 @@ exports.removeContactFinish = removeContactFinish;
 exports.updateContact = updateContact;
 exports.updateContactFinish = updateContactFinish;
 
-var _actionTypes = __webpack_require__(96);
+var _actionTypes = __webpack_require__(95);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -32069,7 +32048,7 @@ var _extends3 = _interopRequireDefault(_extends2);
 
 exports.factory = factory;
 
-var _redux = __webpack_require__(97);
+var _redux = __webpack_require__(96);
 
 var _reduxDevtoolsExtension = __webpack_require__(335);
 
@@ -32138,7 +32117,6 @@ function factory(plugins, options = {}) {
 
   var sagas = [];
   var store;
-  var selectors = {};
   var middlewares = [];
   var reducers = {};
   var initSagas = [];
@@ -32199,9 +32177,6 @@ function factory(plugins, options = {}) {
     }
     if (plugin.reducer) {
       reducers[plugin.name] = plugin.reducer;
-    }
-    if (plugin.selector) {
-      selectors[plugin.name] = (0, _fp.memoize)(plugin.selector);
     }
     if (plugin.middleware) {
       if (plugin.name === 'logs') {
@@ -32304,29 +32279,10 @@ function factory(plugins, options = {}) {
   }
 
   // setup the API
-  var selectState = function (state) {
-    var exposedState = {};
-
-    // Determine what state should be exposed to an application.
-    plugins.forEach(function (plugin) {
-      const name = plugin.name;
-      // If the plugin designates a selector to filter public state, use it.
-      if (selectors[name]) {
-        exposedState[name] = selectors[name](state[name]);
-      } else if (state[name]) {
-        // Otherwise, just expose the state directly, but
-        //      only expose state if there actually is state.
-        exposedState[name] = state[name];
-      }
-    });
-    return exposedState;
-  };
-  selectState = (0, _fp.memoize)(selectState);
-
   const publicAPI = (0, _extends3.default)({}, context.api, {
     state: {
       get: function () {
-        return selectState(store.getState());
+        return store.getState();
       },
       subscribe: function (...args) {
         return store.subscribe(...args);
@@ -32420,7 +32376,7 @@ function factory(plugins, options = {}) {
 "use strict";
 
 
-var compose = __webpack_require__(97).compose;
+var compose = __webpack_require__(96).compose;
 
 exports.__esModule = true;
 exports.composeWithDevTools =
@@ -33969,7 +33925,7 @@ module.exports = __webpack_require__(7).Set;
 "use strict";
 
 var strong = __webpack_require__(142);
-var validate = __webpack_require__(103);
+var validate = __webpack_require__(102);
 var SET = 'Set';
 
 // 23.2 Set Objects
@@ -34229,7 +34185,7 @@ var _symbol = __webpack_require__(139);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
-var _assign = __webpack_require__(99);
+var _assign = __webpack_require__(98);
 
 var _assign2 = _interopRequireDefault(_assign);
 
@@ -34550,7 +34506,7 @@ module.exports = { "default": __webpack_require__(363), __esModule: true };
 
 __webpack_require__(63);
 __webpack_require__(88);
-module.exports = __webpack_require__(101).f('iterator');
+module.exports = __webpack_require__(100).f('iterator');
 
 
 /***/ }),
@@ -38143,8 +38099,6 @@ var _utils = __webpack_require__(14);
 
 var _validation = __webpack_require__(72);
 
-var _selectors = __webpack_require__(95);
-
 var _sagas = __webpack_require__(410);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -38164,15 +38118,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  */
 
 
-/**
- * selector for exposed authentication state
- */
+// Parse and/or Validate
 
 
-// Utilities.
+// State setters.
 
 
-// Redux-Saga
+// Events
+// The interface to follow.
 const defaultOptions = {
   expires: 3600, // seconds
   websocket: {
@@ -38183,14 +38136,10 @@ const defaultOptions = {
   // config validation
 };
 
-// Parse and/or Validate
+// Utilities.
 
 
-// State setters.
-
-
-// Events
-// The interface to follow.
+// Redux-Saga
 const v8nValidation = _validation.validation.schema({
   expires: _validation.validation.positive(),
   websocket: _validation.validation.schema({
@@ -38223,7 +38172,6 @@ function createSubscriptionPlugin(options = {}) {
     init,
     capabilities: ['link_subscription'],
     api: _interface.api,
-    selector: _selectors.getExposedState,
     reducer: _interface.reducer,
     name: _interface.name
   };
@@ -38278,7 +38226,7 @@ var _actionTypes = __webpack_require__(94);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(18);
 
 var _constants2 = __webpack_require__(155);
 
@@ -38492,11 +38440,11 @@ var _actions = __webpack_require__(283);
 
 var actions = _interopRequireWildcard(_actions);
 
-var _selectors = __webpack_require__(95);
+var _selectors = __webpack_require__(103);
 
-var _selectors2 = __webpack_require__(17);
+var _selectors2 = __webpack_require__(19);
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(18);
 
 var _utils = __webpack_require__(14);
 
@@ -38908,11 +38856,11 @@ var actions = _interopRequireWildcard(_actions);
 
 var _constants = __webpack_require__(299);
 
-var _selectors = __webpack_require__(17);
+var _selectors = __webpack_require__(19);
 
-var _selectors2 = __webpack_require__(95);
+var _selectors2 = __webpack_require__(103);
 
-var _constants2 = __webpack_require__(19);
+var _constants2 = __webpack_require__(18);
 
 var _subscriptions = __webpack_require__(411);
 
@@ -39714,11 +39662,11 @@ exports.getCpaasAgentHeaderValue = getCpaasAgentHeaderValue;
 
 var _selectors = __webpack_require__(414);
 
-var _selectors2 = __webpack_require__(17);
+var _selectors2 = __webpack_require__(19);
 
 var _version = __webpack_require__(60);
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(18);
 
 var _effects = __webpack_require__(4);
 
@@ -39865,8 +39813,6 @@ var _logs = __webpack_require__(2);
 
 var _validation = __webpack_require__(72);
 
-var _selectors = __webpack_require__(17);
-
 var _sagas = __webpack_require__(423);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -39874,13 +39820,15 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // Get the logger
 
 
-/**
- * selector for exposed authentication state
- */
+// Parse and/or Validate
 
 
-// State setters.
-// Redux-Saga
+// Utilities.
+
+
+// The interface to follow.
+
+// Events
 const log = _logs.logManager.getLogger('AUTH');
 
 /**
@@ -39907,15 +39855,8 @@ const log = _logs.logManager.getLogger('AUTH');
  * @param {number} Deprecated: See {@link config#config.subscription Subscription config} [authentication.websocket.port=443] Port to be used for websocket notifications.
  */
 
-// Parse and/or Validate
-
-
-// Utilities.
-
-
-// The interface to follow.
-
-// Events
+// State setters.
+// Redux-Saga
 const defaultOptions = {
   server: {
     protocol: 'https',
@@ -39978,7 +39919,6 @@ function authLink(options = {}) {
     capabilities,
     init,
     api: _interface.api,
-    selector: _selectors.getExposedState,
     reducer: _interface.reducer,
     name: _interface.name
   };
@@ -40442,7 +40382,7 @@ var _actions = __webpack_require__(284);
 
 var actions = _interopRequireWildcard(_actions);
 
-var _selectors = __webpack_require__(17);
+var _selectors = __webpack_require__(19);
 
 var _constants = __webpack_require__(155);
 
@@ -40950,11 +40890,11 @@ var _actionTypes4 = __webpack_require__(67);
 
 var connectivityActionTypes = _interopRequireWildcard(_actionTypes4);
 
-var _selectors = __webpack_require__(95);
+var _selectors = __webpack_require__(103);
 
-var _selectors2 = __webpack_require__(17);
+var _selectors2 = __webpack_require__(19);
 
-var _constants2 = __webpack_require__(19);
+var _constants2 = __webpack_require__(18);
 
 var _utils = __webpack_require__(14);
 
@@ -42276,7 +42216,7 @@ var _selectors = __webpack_require__(26);
 
 var _normalization = __webpack_require__(304);
 
-var _selectors2 = __webpack_require__(17);
+var _selectors2 = __webpack_require__(19);
 
 var _actions2 = __webpack_require__(56);
 
@@ -45623,7 +45563,7 @@ var _normalization = __webpack_require__(304);
 
 var _selectors = __webpack_require__(26);
 
-var _selectors2 = __webpack_require__(17);
+var _selectors2 = __webpack_require__(19);
 
 var _logs = __webpack_require__(2);
 
@@ -45635,7 +45575,7 @@ var _errors = __webpack_require__(20);
 
 var _errors2 = _interopRequireDefault(_errors);
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(18);
 
 var _utils = __webpack_require__(438);
 
@@ -46484,7 +46424,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getWebsocketId = getWebsocketId;
 
-var _selectors = __webpack_require__(95);
+var _selectors = __webpack_require__(103);
 
 var _errors = __webpack_require__(20);
 
@@ -46542,7 +46482,7 @@ exports.getRemoteParticipant = getRemoteParticipant;
 
 var _selectors = __webpack_require__(26);
 
-var _selectors2 = __webpack_require__(17);
+var _selectors2 = __webpack_require__(19);
 
 var _logs = __webpack_require__(2);
 
@@ -48466,7 +48406,7 @@ var _errors2 = _interopRequireDefault(_errors);
 
 var _selectors2 = __webpack_require__(148);
 
-var _selectors3 = __webpack_require__(17);
+var _selectors3 = __webpack_require__(19);
 
 var _selectors4 = __webpack_require__(133);
 
@@ -48482,7 +48422,7 @@ var _fp = __webpack_require__(3);
 
 var _version = __webpack_require__(60);
 
-var _constants2 = __webpack_require__(19);
+var _constants2 = __webpack_require__(18);
 
 var _sdkId = __webpack_require__(455);
 
@@ -54739,7 +54679,7 @@ var _actions = __webpack_require__(286);
 
 var actions = _interopRequireWildcard(_actions);
 
-var _selectors = __webpack_require__(17);
+var _selectors = __webpack_require__(19);
 
 var _logs = __webpack_require__(2);
 
@@ -54755,7 +54695,7 @@ var _fp = __webpack_require__(3);
 
 var _effects3 = __webpack_require__(4);
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(18);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -54971,7 +54911,7 @@ exports.storeCallLogs = storeCallLogs;
 
 var _actions = __webpack_require__(286);
 
-var _selectors = __webpack_require__(17);
+var _selectors = __webpack_require__(19);
 
 var _actionTypes = __webpack_require__(69);
 
@@ -55711,7 +55651,7 @@ var _actions = __webpack_require__(312);
 
 var actions = _interopRequireWildcard(_actions);
 
-var _selectors = __webpack_require__(17);
+var _selectors = __webpack_require__(19);
 
 var _effects = __webpack_require__(4);
 
@@ -55725,7 +55665,7 @@ var _errors = __webpack_require__(20);
 
 var _errors2 = _interopRequireDefault(_errors);
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(18);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -55915,7 +55855,7 @@ var _base = __webpack_require__(489);
 
 var _base2 = _interopRequireDefault(_base);
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(18);
 
 var _fp = __webpack_require__(3);
 
@@ -56007,7 +55947,7 @@ var _actions2 = __webpack_require__(28);
 
 var _effects = __webpack_require__(4);
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(18);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -56091,7 +56031,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = api;
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(18);
 
 var _actions = __webpack_require__(157);
 
@@ -56432,15 +56372,15 @@ var _actions = __webpack_require__(157);
 
 var actions = _interopRequireWildcard(_actions);
 
-var _selectors2 = __webpack_require__(17);
+var _selectors2 = __webpack_require__(19);
 
-var _selectors3 = __webpack_require__(95);
+var _selectors3 = __webpack_require__(103);
 
 var _logs = __webpack_require__(2);
 
 var _effects = __webpack_require__(4);
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(18);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -57303,7 +57243,7 @@ var _actions = __webpack_require__(288);
 
 var _selectors = __webpack_require__(289);
 
-var _selectors2 = __webpack_require__(17);
+var _selectors2 = __webpack_require__(19);
 
 var _actionTypes2 = __webpack_require__(44);
 
@@ -57857,7 +57797,7 @@ exports.link = exports.types = exports.platform = exports.type = exports.or = ex
 
 var _fp = __webpack_require__(3);
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(18);
 
 exports.matches = _fp.matches;
 // Constants
@@ -58420,7 +58360,7 @@ var _actions = __webpack_require__(288);
 
 var _selectors = __webpack_require__(289);
 
-var _selectors2 = __webpack_require__(17);
+var _selectors2 = __webpack_require__(19);
 
 var _compose = __webpack_require__(292);
 
@@ -58932,9 +58872,9 @@ module.exports = __webpack_require__(7).Object.getPrototypeOf;
 
 // 19.1.2.9 Object.getPrototypeOf(O)
 var toObject = __webpack_require__(36);
-var $getPrototypeOf = __webpack_require__(102);
+var $getPrototypeOf = __webpack_require__(101);
 
-__webpack_require__(100)('getPrototypeOf', function () {
+__webpack_require__(99)('getPrototypeOf', function () {
   return function getPrototypeOf(it) {
     return $getPrototypeOf(toObject(it));
   };
@@ -59271,7 +59211,7 @@ exports.fetchMwi = fetchMwi;
 
 var _effects = __webpack_require__(4);
 
-var _selectors = __webpack_require__(17);
+var _selectors = __webpack_require__(19);
 
 var _actionTypes = __webpack_require__(44);
 
@@ -59291,7 +59231,7 @@ var _errors = __webpack_require__(20);
 
 var _errors2 = _interopRequireDefault(_errors);
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(18);
 
 var _logs = __webpack_require__(2);
 
@@ -59648,7 +59588,7 @@ var _actions = __webpack_require__(287);
 
 var actions = _interopRequireWildcard(_actions);
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(18);
 
 var _logs = __webpack_require__(2);
 
@@ -59953,7 +59893,7 @@ var _fp = __webpack_require__(3);
 
 var _effects = __webpack_require__(4);
 
-var _selectors = __webpack_require__(17);
+var _selectors = __webpack_require__(19);
 
 var _logs = __webpack_require__(2);
 
@@ -60101,9 +60041,9 @@ var _reduxSaga = __webpack_require__(27);
 
 var _effects = __webpack_require__(4);
 
-var _selectors = __webpack_require__(17);
+var _selectors = __webpack_require__(19);
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(18);
 
 var _logs = __webpack_require__(2);
 
@@ -67121,7 +67061,7 @@ var actions = _interopRequireWildcard(_actions);
 
 var _requests = __webpack_require__(541);
 
-var _selectors = __webpack_require__(17);
+var _selectors = __webpack_require__(19);
 
 var _actionTypes2 = __webpack_require__(44);
 
@@ -67133,7 +67073,7 @@ var _errors2 = _interopRequireDefault(_errors);
 
 var _constants = __webpack_require__(323);
 
-var _constants2 = __webpack_require__(19);
+var _constants2 = __webpack_require__(18);
 
 var _logs = __webpack_require__(2);
 
@@ -68016,11 +67956,11 @@ var actions = _interopRequireWildcard(_actions);
 
 var _selectors = __webpack_require__(324);
 
-var _selectors2 = __webpack_require__(17);
+var _selectors2 = __webpack_require__(19);
 
 var _selectors3 = __webpack_require__(26);
 
-var _selectors4 = __webpack_require__(95);
+var _selectors4 = __webpack_require__(103);
 
 var _actionTypes2 = __webpack_require__(44);
 
@@ -68038,7 +67978,7 @@ var _logs = __webpack_require__(2);
 
 var _fp = __webpack_require__(3);
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(18);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -68623,7 +68563,7 @@ exports.getDirectory = getDirectory;
 exports.fetchSelfInfo = fetchSelfInfo;
 exports.fetchUserLocale = fetchUserLocale;
 
-var _actionTypes = __webpack_require__(96);
+var _actionTypes = __webpack_require__(95);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -68635,7 +68575,7 @@ var _contacts = __webpack_require__(327);
 
 var contactActions = _interopRequireWildcard(_contacts);
 
-var _selectors = __webpack_require__(17);
+var _selectors = __webpack_require__(19);
 
 var _interface = __webpack_require__(552);
 
@@ -68659,7 +68599,7 @@ var _logs = __webpack_require__(2);
 
 var _effects3 = __webpack_require__(4);
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(18);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -69711,7 +69651,7 @@ var _extends2 = __webpack_require__(6);
 
 var _extends3 = _interopRequireDefault(_extends2);
 
-var _actionTypes = __webpack_require__(96);
+var _actionTypes = __webpack_require__(95);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -69838,7 +69778,7 @@ var _extends2 = __webpack_require__(6);
 
 var _extends3 = _interopRequireDefault(_extends2);
 
-var _actionTypes = __webpack_require__(96);
+var _actionTypes = __webpack_require__(95);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -69914,7 +69854,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _actionTypes = __webpack_require__(96);
+var _actionTypes = __webpack_require__(95);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -69972,7 +69912,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _actionTypes = __webpack_require__(96);
+var _actionTypes = __webpack_require__(95);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
