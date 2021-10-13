@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.33.0-beta.771
+ * Version: 4.33.0-beta.772
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -6420,7 +6420,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.33.0-beta.771';
+  return '4.33.0-beta.772';
 }
 
 /***/ }),
@@ -54549,7 +54549,7 @@ reducers[actionTypes.DELETE_CALL_HISTORY_FINISH] = {
     if (action.payload === 'all') {
       return [];
     } else {
-      return state.map(function (log) {
+      return state.filter(function (log) {
         return log.recordId !== action.payload;
       });
     }

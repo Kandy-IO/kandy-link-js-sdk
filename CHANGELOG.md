@@ -15,6 +15,7 @@ Kandy.js change log.
 
 ### Fixed
 
+- Fixed a CallHistory issue where removing a single record would remove other records as well.
 - Fixed a Call issue where the ringing feedback configuration would be changed after a user resubscription. `KJS-343`
 
 ## 4.32.0 - 2021-09-24
