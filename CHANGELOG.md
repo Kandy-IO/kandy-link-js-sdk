@@ -13,6 +13,10 @@ Kandy.js change log.
 - Added two properties: `isLocal` & media `id` on the `media:sourceMuted` & `media:sourceUnmuted` events. These events are sent to application level. `KJS-78`
 - Added call state diagrams for both outgoing & incoming call and updated state transitions based on the supported `ringingFeedbackMode`. `KJS-104`
 
+### Fixed
+
+- Fixed a Call issue where the ringing feedback configuration would be changed after a user resubscription. `KJS-343`
+
 ## 4.32.0 - 2021-09-24
 
 ### Added
