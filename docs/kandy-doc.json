@@ -2141,7 +2141,7 @@
             },
             {
               "title": "param",
-              "description": "Whether early media should be supported for calls.",
+              "description": "Whether early media should be supported for calls. Not supported on Firefox.",
               "lineNumber": 27,
               "type": {
                 "type": "OptionalType",
@@ -2546,7 +2546,7 @@
                         "children": [
                           {
                             "type": "text",
-                            "value": "Whether early media should be supported for calls."
+                            "value": "Whether early media should be supported for calls. Not supported on Firefox."
                           }
                         ]
                       }

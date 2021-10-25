@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.33.0-beta.776
+ * Version: 4.33.0-beta.777
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -6420,7 +6420,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.33.0-beta.776';
+  return '4.33.0-beta.777';
 }
 
 /***/ }),
@@ -41669,7 +41669,7 @@ const log = _logs.logManager.getLogger('CALL');
  * @param {boolean} [call.serverTurnCredentials=true] Whether server-provided TURN credentials should be used.
  * @param {Array<call.SdpHandlerFunction>} [call.sdpHandlers] List of SDP handler functions to modify SDP. Advanced usage.
  * @param {boolean} [call.removeH264Codecs=true] Whether to remove "H264" codec lines from incoming and outgoing SDP messages.
- * @param {boolean} [call.earlyMedia=false] Whether early media should be supported for calls.
+ * @param {boolean} [call.earlyMedia=false] Whether early media should be supported for calls. Not supported on Firefox.
  * @param {boolean} [call.resyncOnConnect=false] Whether the SDK should re-sync all call states after connecting (requires Kandy Link 4.7.1+).
  * @param {boolean} [call.mediaBrokerOnly=false] Whether all Calls will be anchored on the MediaBroker instead of being peer-to-peer. Set to true if the backend is configured for broker only mode.
  * @param {boolean} [call.removeBundling=false] Whether to remove a=group attributes to stop media bundling from incoming and outgoing SDP messages.
@@ -41773,6 +41773,15 @@ function callsLink(options = {}) {
     if (isPlanB && noPlanBSupport) {
       log.warn('Only Chrome prior to M93 supports `plan-b` sdpSemantics. Switching to `unified-plan`.');
       options.sdpSemantics = 'unified-plan';
+    }
+
+    /*
+     * Firefox does not support pranswer, so it can't receive early media.
+     * Ref: https://bugzilla.mozilla.org/show_bug.cgi?id=1004510
+     */
+    if (browserDetails.browser === 'firefox' && options.earlyMedia === true) {
+      log.warn('Firefox does not support pranswer for Early Media. Disabling early media configuration.');
+      options.earlyMedia = false;
     }
 
     yield (0, _effects.put)((0, _actions2.update)(options, _interfaceNew2.default.name));
