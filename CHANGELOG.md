@@ -5,12 +5,29 @@ Kandy.js change log.
 - This project adheres to [Semantic Versioning](http://semver.org/).
 - This change log follows [keepachangelog.com](http://keepachangelog.com/) recommendations.
 
+## 4.33.0 - 2021-10-29
+
+### Added
+
+- Added improved handling for local network errors occurring during add media and remove media operations for calls. `KJS-184`
+- Added two properties: `isLocal` & media `id` on the `media:sourceMuted` & `media:sourceUnmuted` events. These events are sent to application level. `KJS-78`
+- Added call state diagrams for both outgoing & incoming call and updated state transitions based on the supported `ringingFeedbackMode`. `KJS-104`
+- A new `connectivity.resetConnection` API to allow for a reset of websocket connection. This can be invoked by the application when it detects unstable network conditions. `KJS-373`
+- Added new `fetch` API. `kandy.fetch` allows the client to send any Kandy REST request through the SDK. `KJS-374`
+
+### Fixed
+
+- Fixed a CallHistory issue where removing a single record would remove other records as well.
+- Fixed a Call issue where the ringing feedback configuration would be changed after a user resubscription. `KJS-343`
+- Fixed a Call issue where EarlyMedia could be enabled on Firefox even though it cannot support it. `KJS-366`
+  - A warning will be logged on SDK initialization and the configuration will be disabled.
+
 ## 4.32.0 - 2021-09-24
 
 ### Added
 
 - Added public documentation for `config.call.normalizeDestination`. `KJS-103`
-- Added an extra property `iceCollectionDelay` as part of `extraInfo` parameter that is pased to `iceCollectionCheck` function. This will further improve the application's side in making a decision whether it has collected good enough ICE candidates. `KJS-253`
+- Added an extra property `iceCollectionDelay` as part of `extraInfo` parameter that is passed to `iceCollectionCheck` function. This will further improve the application's side in making a decision whether it has collected good enough ICE candidates. `KJS-253`
 
 ### Fixed
 
