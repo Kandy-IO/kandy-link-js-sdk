@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.34.0-beta.784
+ * Version: 4.34.0-beta.785
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -2001,7 +2001,7 @@ function getRequestInfo(state, platform) {
   let { server } = getAuthConfig(state);
   const { userInfo } = (0, _fp.cloneDeep)(state.authentication);
 
-  // For backwards compatability, we need to fall back to
+  // For backwards compatibility, we need to fall back to
   // subscription for the server connection details
   if (!server) {
     server = {
@@ -5180,7 +5180,7 @@ const CALL_STATES = exports.CALL_STATES = {
   JOIN_FAILURE: 'Join Failed'
 
   /**
-   * Status codes that match success messsages.
+   * Status codes that match success messages.
    * @name STATUS_CODES
    * @type {Object}
    * @property {number} DIRECT_TRANSFER_SUCCESS Status code for successful direct transfer.
@@ -6358,7 +6358,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
  * @param {Object} [options.queryParams] The parameters to be added to the query string
  * @param {string} [options.responseType] The data type assumed to be received in the response body
  * @param {Blob|BufferSource|FormData|UrlSearchParams|string} [options.body] Any body that you want to add to your request.
- * @return A blocking redux-saga effect that will instruct the middleware to wait for the request to be fullfilled or until it fails.
+ * @return A blocking redux-saga effect that will instruct the middleware to wait for the request to be fulfilled or until it fails.
  */
 // Requests plugin.
 function request(options, commonOptions) {
@@ -6437,7 +6437,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.34.0-beta.784';
+  return '4.34.0-beta.785';
 }
 
 /***/ }),
@@ -6692,7 +6692,7 @@ function runPipeline(handlers, sdp, info) {
 
 /**
  * Create an instance of the SDP pipeline.
- * Allows for persistent SDP handlers to be set and implictly used.
+ * Allows for persistent SDP handlers to be set and implicitly used.
  * @method createPipeline
  * @return {Object} An SDP pipeline.
  */
@@ -8550,7 +8550,7 @@ var _utils = __webpack_require__(13);
  */
 
 
-// Auth selectors for backwards compatability.
+// Auth selectors for backwards compatibility.
 function getSubscriptionConfig(state) {
   return (0, _fp.cloneDeep)(state.config.subscription);
 }
@@ -8588,7 +8588,7 @@ function getNotificationChannels(state) {
  */
 function getSubscribedServices(state, type) {
   const info = getSubscriptionInfo(state);
-  // For backwards compability, make sure that this is an array. It isn't when
+  // For backwards compatibility, make sure that this is an array. It isn't when
   //    the old Auth plugin is being used (eg. Link v3.X).
   let subscriptions = Array.isArray(info) ? info : [info];
 
@@ -8617,7 +8617,7 @@ function getSubscriptionInfo(state) {
   if (state.subscription) {
     return (0, _fp.cloneDeep)(state.subscription.subscriptions);
   } else {
-    // For backwards compatability, also check if the authentication substate
+    // For backwards compatibility, also check if the authentication substate
     //    has subscription info. It will have the info when the oldAuth plugin
     //    is being used (eg. Link v3.X).
     // Warning: This returns an object, unlike the above which returns an array.
@@ -8647,7 +8647,7 @@ function getSubscriptionExpiry(state) {
   const subConfig = state.config.subscription;
   const authConfig = state.config.authentication;
 
-  // In order to maintain backwards compability with the auth plugin config
+  // In order to maintain backwards compatibility with the auth plugin config
   // we need to first check if this setting is provided in the authentication plugin
   // config, and if not use the one from subscription plugin.  We need to check
   // authentication config first because if no value is provided in the subscription
@@ -8660,8 +8660,8 @@ function getSubscriptionExpiry(state) {
 
 /**
  * Retrieve the websocket info from config. We merge the websocket config
- * from auth plugin with the one from subscription plugin giving precidence to
- * the websocket config in auth plugin since we need to maintain backwards compability
+ * from auth plugin with the one from subscription plugin giving precedence to
+ * the websocket config in auth plugin since we need to maintain backwards compatibility
  * with the old format config.
  * @method getSubscriptionExpiry
  * @return {number}
@@ -8675,7 +8675,7 @@ function getWebsocketConfig(state) {
   // that any client provided values from the authentication config.  All keys existing
   // in authentication config will overwrite those from subscription config.  However,
   // since defaults are not set for websocket in the authentication plugin, only client
-  // provided values for websocket will be used from authentication config and defualts
+  // provided values for websocket will be used from authentication config and defaults
   // will come from the subscription plugin.
   return (0, _utils.mergeValues)(subConfig.websocket, authConfig.websocket);
 }
@@ -9326,7 +9326,7 @@ function Track(mediaTrack, mediaStream) {
 
   /**
    * When a track is muted, we forward this to any listener.
-   * This handler is tipically invoked by actions triggered outside the
+   * This handler is typically invoked by actions triggered outside the
    * direct control of the webrtc SDK.
    */
   track.onmute = event => {
@@ -9340,7 +9340,7 @@ function Track(mediaTrack, mediaStream) {
 
   /**
    * When a track is unmuted, we forward this to any listener.
-   * This handler is tipically invoked by actions triggered outside the
+   * This handler is typically invoked by actions triggered outside the
    * direct control of the webrtc SDK.
    */
   track.onunmute = event => {
@@ -9573,7 +9573,7 @@ function Track(mediaTrack, mediaStream) {
     track.stop();
     /**
      * Treat stopping the track the same as it being ended.
-     * Noramlly, onended is not triggered when `stop` is called, only when it is
+     * Normally, onended is not triggered when `stop` is called, only when it is
      *    "remotely ended".
      */
     track.onended();
@@ -10718,7 +10718,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 /**
  * Blocking operations that can be performed on a call.
- * ie. no two of thes operations, either local or remote,
+ * ie. no two of these operations, either local or remote,
  *    can be performed at the same time.
  * TODO: Should all operations just be listed here? Probably.
  */
@@ -14739,7 +14739,7 @@ function createManager(options = {}) {
 
       logger = (0, _logger2.default)(target, options);
 
-      // Save the new logger to be returned by future getter cals.
+      // Save the new logger to be returned by future getter calls.
       loggers[loggerName] = logger;
     }
 
@@ -15488,7 +15488,7 @@ var _validation = __webpack_require__(86);
  */
 function createTimer(log, warn) {
   // Validate that params are a function.
-  //    Uses funtions as `log(message, data)`.
+  //    Uses functions as `log(message, data)`.
   (0, _validation.checkHandler)(log);
   (0, _validation.checkHandler)(warn);
 
@@ -15805,7 +15805,7 @@ var _fp = __webpack_require__(3);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * Retrieves the log level for a specifie logger type, or the default level.
+ * Retrieves the log level for a specified logger type, or the default level.
  * @method getLevel
  * @param  {Object} state            SDK redux state.
  * @param  {String} [type='DEFAULT'] A type of Logger.
@@ -17346,7 +17346,7 @@ function* trackManagerEventsHandler({ track, action }) {
 /**
  * Sets up listeners for the Track Manager events.
  * Contains logic for how specific webRTC events should be
- *    parsed before being sent elsewhere. Splut into a
+ *    parsed before being sent elsewhere. Split into a
  *    stand-alone function in order to be re-usable.
  * @method setListeners
  * @param  {Object}   manager The Track Manager.
@@ -22974,7 +22974,7 @@ function localTracks() {
    */
   .filter(sender => Boolean(sender.track)).map(sender => trackManager.get(sender.track.id)).filter(track => {
     // Make sure the trackManager has the track and that its active.
-    // It's possble that Peer has the sender but not the actual track yet.
+    // It's possible that Peer has the sender but not the actual track yet.
     return track && track.getState().state === 'live' && track.getStream().active;
   });
 }
@@ -23044,7 +23044,7 @@ function getRemoteTracks() {
    */
   .filter(receiver => Boolean(receiver.track)).map(receiver => trackManager.get(receiver.track.id)).filter(track => {
     // Make sure the trackManager has the track and that its active.
-    // It's possble that Peer has the receiver but not the actual track yet.
+    // It's possible that Peer has the receiver but not the actual track yet.
     return track && track.getState().state === 'live' && track.getStream().active;
   });
 }
@@ -23266,7 +23266,7 @@ function now() {
 }
 
 /**
- * Create a new timer object. Timers are not started when created and need to be started manualy.
+ * Create a new timer object. Timers are not started when created and need to be started manually.
  *
  * @returns {Object} The timer object that supports the timer interface.
  */
@@ -23338,12 +23338,12 @@ function MediaManager(managers) {
 
   /**
    * Workaround to get Firefox to behave similarly to Chrome regarding device permission prompts.
-   * @method browserContraintsWorkaround
+   * @method browserConstraintsWorkaround
    * @param  {MediaStreamConstraints}  constraints
-   * @return {Object}  media contraints
+   * @return {Object}  media constraints
    */
 
-  function browserContraintsWorkaround(constraints) {
+  function browserConstraintsWorkaround(constraints) {
     /**
      * Firefox workaround.
      *
@@ -23361,7 +23361,7 @@ function MediaManager(managers) {
      * See: https://developer.mozilla.org/en-US/docs/Web/API/ConstrainDOMString
      *
      *  - When the "ideal" behaviour is followed and the user has not given
-     *      permission (and not disallowed), the browswer will prompt the user
+     *      permission (and not disallowed), the browser will prompt the user
      *      for permission.
      *  - [Issue] When the "ideal" behaviour is followed and the user has given
      *      permission previously, the browser will not prompt the user for
@@ -23448,7 +23448,7 @@ function MediaManager(managers) {
    * @return {Promise}
    */
   function createLocal(constraints) {
-    const constraintsWorkaround = browserContraintsWorkaround(constraints);
+    const constraintsWorkaround = browserConstraintsWorkaround(constraints);
 
     // Get user media, ...
     return new _promise2.default((resolve, reject) => {
@@ -23475,7 +23475,7 @@ function MediaManager(managers) {
    */
 
   function createLocalScreen(constraints) {
-    const constraintsWorkaround = browserContraintsWorkaround(constraints);
+    const constraintsWorkaround = browserConstraintsWorkaround(constraints);
 
     return new _promise2.default((resolve, reject) => {
       navigator.mediaDevices.getDisplayMedia(constraintsWorkaround).then(mediaStream => {
@@ -24191,7 +24191,7 @@ function Session(id, managers, config = {}) {
    * @param {Object} mediaConstraints
    */
   function setParameters(mediaConstraints) {
-    // RTCRtpSender.setParameters is currently unsupported on Firefox (or atleast not supported as it should be)
+    // RTCRtpSender.setParameters is currently unsupported on Firefox (or at least not supported as it should be)
     if ((0, _utils.getBrowserDetails)().browser === 'firefox') {
       log.debug('Setting sender parameters not supported on Firefox; skipping.');
       return;
@@ -24893,13 +24893,13 @@ function DeviceManager() {
   /**
    * Ask for permission and gets the list of available device(s) available from the end-user's devices.
    * @method setupDeviceInitialization
-   * @param browserContraints
+   * @param browserConstraints
    * @return {Object}
    */
 
-  function setupDeviceInitialization(browserContraints) {
+  function setupDeviceInitialization(browserConstraints) {
     return new _promise2.default((resolve, reject) => {
-      navigator.mediaDevices.getUserMedia(browserContraints).then(mediaStream => {
+      navigator.mediaDevices.getUserMedia(browserConstraints).then(mediaStream => {
         mediaStream.getTracks().forEach(track => {
           track.stop();
         });
@@ -25378,7 +25378,7 @@ function subscribe(services = [], options) {
  * Indicates that the subscription process has finished.
  * @method subscribeFinished
  * @param  {Object}  subscriptions  An object representing the subscriptions.
- * @param  {string}  type                 The type of notificaitonChannel for this subscription.
+ * @param  {string}  type                 The type of notificationChannel for this subscription.
  * @param  {Object}  error                An error object.
  * @param  {Object}  platform             The platform being used.
  * @return {Object}                       A flux standard action.
@@ -25630,7 +25630,7 @@ function getCpaasAgentHeaderValue(platform, url) {
   // Assume request is for CPaaS platform, by default.
   let headerValue = `cpaas-js-sdk/${(0, _version.getVersion)()}`;
 
-  // Check if request is for callMe service, otherwise determine the apropriate platform.
+  // Check if request is for callMe service, otherwise determine the appropriate platform.
   // (callMe service uses Link platform for call requests)
   if (url && url.includes('/anonymous/')) {
     headerValue = `callme-js-sdk/${(0, _version.getVersion)()}`;
@@ -25647,7 +25647,7 @@ function getCpaasAgentHeaderValue(platform, url) {
 
 /**
  * Prepares a REST request options object for logging by removing passwords
- * and parses the body string into an object that can be intereacted with in console.
+ * and parses the body string into an object that can be interacted with in console.
  * @method sanitizeRequest
  * @param {Object} options An object containing any custom settings that you want to
  *                         apply to the request. See [fetch API](https://developer.mozilla.org/en-US/docs/Web/API/fetch)
@@ -26106,7 +26106,7 @@ function setCredentialsFinished({ userInfo, connection, error }, platform) {
  * Creates an updateToken action with connection and platform information.
  *
  * @method updateToken
- * @param {string} token A session id retrieved after a sucsessful subscription on the platform.
+ * @param {string} token A session id retrieved after a successful subscription on the platform.
  * @param {string} platform The backend platform we are currently on.
  * @return {Object} A flux standard action.
  */
@@ -27621,7 +27621,7 @@ function* disconnectWebsocket(payload, platform) {
 /**
  * Effect for waiting for the websocket / subscription to reconnect.
  * Assumption is that the websocket is in the middle of reconnect attempts. This
- *    is why the timeout is so long; one of the two scenarios should be guarenteed
+ *    is why the timeout is so long; one of the two scenarios should be guaranteed
  *    to happen before then.
  * @param {number} timeout The time, in milliseconds, to wait before timing out.
  * @return {boolean} Whether the websocket has reconnected or not.
@@ -28315,7 +28315,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function checkBandwidthControls(bandwidthControls) {
   const finalBandwidthControls = (0, _extends3.default)({}, bandwidthControls);
 
-  // If there are no bandwiwdth limits set or the bandwidth limits provided are not numbers, set them to undefined
+  // If there are no bandwidth limits set or the bandwidth limits provided are not numbers, set them to undefined
   if (!bandwidthControls || !(bandwidthControls.audio && typeof bandwidthControls.audio === 'number')) {
     finalBandwidthControls.audio = null;
   }
@@ -29188,7 +29188,7 @@ exports.getTrackDscpMapping = getTrackDscpMapping;
  * @param {Array<Track>} videoTracks The list of video tracks
  * @param {Array<Track>} screenTracks The list of screen tracks
  * @param {Object} dscpControls The DSCP controls provided
- * @return {Object} An object map of track: dscpSetting for all applicate tracks
+ * @return {Object} An object map of track: dscpSetting for all applicable tracks
  */
 function getTrackDscpMapping(audioTracks, videoTracks, screenTracks, dscpControls) {
   const dscpTrackMapping = {};
@@ -29255,11 +29255,11 @@ function* createLocal(webRTC, mediaConstraints) {
 
   try {
     if (mediaConstraints.screenShare) {
-      const screenShareContraints = {
+      const screenShareConstraints = {
         video: mediaConstraints.screenShare
       };
 
-      const screenShareMedia = yield (0, _effects.call)([webRTC.media, 'createLocalScreen'], screenShareContraints);
+      const screenShareMedia = yield (0, _effects.call)([webRTC.media, 'createLocalScreen'], screenShareConstraints);
       result.medias.push({
         type: 'screen',
         media: screenShareMedia
@@ -29297,7 +29297,7 @@ function* createLocal(webRTC, mediaConstraints) {
 
     log.info(errMessage);
 
-    // Clean up successfull media object when there is partial media failure.
+    // Clean up successful media object when there is partial media failure.
     for (const eachMedia of result.medias) {
       yield (0, _effects.call)([eachMedia.media, 'stop']);
     }
@@ -29884,7 +29884,7 @@ function naiveMatchMedias(prevList, currList) {
  * Compare two summarized Media section objects to determine how it changed.
  * @method compareSummary
  * @param  {MediaSummary} prevMedia The previous media summary.
- * @param  {MediaSummary} currMedia The current meduia summary.
+ * @param  {MediaSummary} currMedia The current media summary.
  * @return {MediaChanges} How the media directions changed from prevMedia to currMedia.
  */
 function compareSummary(prevMedia, currMedia) {
@@ -30349,7 +30349,7 @@ function* fetchSDP(connection, partialUrl) {
   const { server } = connection;
   const method = 'GET';
   const url = `${server.protocol}://${server.server}:${server.port}${partialUrl}`;
-  log.debug(`Sending request to fecth SDP: ${method} ${url}`);
+  log.debug(`Sending request to fetch SDP: ${method} ${url}`);
 
   const response = yield (0, _effects2.default)({
     url,
@@ -30854,7 +30854,7 @@ function fetchUserFinish(user, error) {
  * @param {Object} [options] Sorting options
  * @param {string} [options.sortBy] The attribute upon which to sort results. This can be any of the above listed filters which describe a user attribute.
  * @param {string} [options.order] Order by which to return results. Can be one of "asc" or "desc".
- * @param {number} [options.max] The maximmum number of results to return.
+ * @param {number} [options.max] The maximum number of results to return.
  * @param {string} [options.next] The pointer for a chunk of results, which may be returned from other a previous query.
  * @returns {Object} A flux standard action representing the SEARCH_DIRECTORY action.
  */
@@ -31487,7 +31487,7 @@ var _fp = __webpack_require__(3);
 // eslint-disable-next-line no-warning-comments
 /**
  * The SDK creation factory. Create an instance of the SDK by calling this factory with the desired configurations.
- * The SDK instance will be refered as 'api' throughout the rest of the documentation content.
+ * The SDK instance will be referred as 'api' throughout the rest of the documentation content.
  * @public
  * @method create
  * @param {config} config The configuration object.
@@ -34145,7 +34145,7 @@ module.exports = __webpack_require__(100).f('iterator');
  * @property {Object} target The subject that the log is about.
  * @property {string} target.type The type of the target. This is also
  *    used as part of the name of the Logger.
- * @property {string} [target.id] A unique identifer for the target.
+ * @property {string} [target.id] A unique identifier for the target.
  * @property {string} target.name A combination of the target type and ID. If no
  *    id was provided, this will be the same as the type.
  * @property {Array} messages The logged information, given to the Logger
@@ -35077,11 +35077,11 @@ function mediaAPI({ dispatch, getState }) {
      */
     initializeDevices(constraints) {
       log.debug(_logs.API_LOG_TAG + 'media.initializeDevices: ', constraints);
-      const browserContraints = {
+      const browserConstraints = {
         audio: constraints === undefined ? true : constraints.audio,
         video: constraints === undefined ? true : constraints.video
       };
-      dispatch(_actions.deviceActions.initializeDevice(browserContraints));
+      dispatch(_actions.deviceActions.initializeDevice(browserConstraints));
     },
     /**
      * Render Media Tracks in a container.
@@ -36006,7 +36006,7 @@ function* updateLogHandlerEntry(webRTC) {
  * Special-case saga: This functionality needs to be run when the SDK is
  *    initialized, but can't be part of the plugin's `init` saga. This is
  *    because it needs the level state to have been set in state, but that isn't
- *    guarenteed during the `init` saga. The order that plugins are loaded would
+ *    guaranteed during the `init` saga. The order that plugins are loaded would
  *    affect this (logs would need to be before webrtc).
  * @method initLogLevel
  * @param  {Object} webRTC The webRTC stack.
@@ -36283,7 +36283,7 @@ function proxyPlugin() {
   // Initialize a real webRTC stack.
   const webRTC = (0, _kandyWebrtc2.default)();
   // Initialize the Proxy stack. The real webRTC stack is needed for
-  //    when proxy-mode is disbled.
+  //    when proxy-mode is disabled.
   const proxy = (0, _proxyStack2.default)(webRTC);
 
   function* init({ webRTC }) {
@@ -36708,7 +36708,7 @@ function initializeProxy(webRTC) {
   };
 
   /**
-   * Retreives the current mode of the Proxy Stack.
+   * Retrieves the current mode of the Proxy Stack.
    * @method getProxyMode
    * @return {boolean}
    */
@@ -36744,7 +36744,7 @@ function initializeProxy(webRTC) {
   };
 
   /**
-   * Retreives the current channel to be used.
+   * Retrieves the current channel to be used.
    * @method getChannel
    * @return {Channel}
    */
@@ -36814,7 +36814,7 @@ function initializeProxy(webRTC) {
 
   /**
    * Retrieve details about the browser.
-   * Intended to only be used for retreiving the local browser details. The
+   * Intended to only be used for retrieving the local browser details. The
    *    Proxy details are retrieved when initializing the remote SDK.
    * @method getBrowserDetails
    * @return {Object}
@@ -37932,7 +37932,7 @@ reducers[actionTypes.UNSUBSCRIBE_FINISHED] = {
 };
 
 /*
- * When a plugin reports a succesful subscription, store it in state.
+ * When a plugin reports a successful subscription, store it in state.
  */
 reducers[actionTypes.PLUGIN_SUBSCRIPTION_FINISHED] = {
   next(state, action) {
@@ -37943,7 +37943,7 @@ reducers[actionTypes.PLUGIN_SUBSCRIPTION_FINISHED] = {
 };
 
 /*
- * When a plugin reports a succesful unsubscription, remove it from state.
+ * When a plugin reports a successful unsubscription, remove it from state.
  */
 reducers[actionTypes.PLUGIN_UNSUBSCRIPTION_FINISHED] = {
   next(state, action) {
@@ -37970,7 +37970,7 @@ reducers[actionTypes.REGISTER_SUB_SERVICE] = {
 };
 
 /*
- * Store the new notifiction channel into state.
+ * Store the new notification channel into state.
  * Assumption: A channel of the same type should NOT already exist.
  */
 reducers[actionTypes.CHANNEL_OPENED] = {
@@ -39804,7 +39804,7 @@ reducers[actionTypes.SET_CREDENTIALS_FINISH] = {
 };
 
 /*
- * Remove the x-token from the request header after subscription is successfull.
+ * Remove the x-token from the request header after subscription is successful.
  */
 reducers[actionTypes.UPDATE_HMAC_TOKEN] = {
   next(state, action) {
@@ -40323,7 +40323,7 @@ function api({ dispatch, getState }) {
     setCredentials({ username, password, authname, hmacToken, bearerAccessToken, idToken }) {
       log.debug(_logs.API_LOG_TAG + 'setCredentials: ', username);
       // TODO: Refactor into multiple actions for each credential mode
-      // TODO: Validation of two authentication possibility scenerio
+      // TODO: Validation of two authentication possibility scenario
       dispatch(actions.setCredentials({
         username,
         password,
@@ -42570,7 +42570,7 @@ function callAPI({ dispatch, getState }) {
      * @requires callMe
      * @method sendDTMF
      * @param {string} callId ID of the call being acted on.
-     * @param {string} tone DTMF tone(s) to send. Valid chracters are ['0','1','2','3','4','5','6','7','8','9','#','*' and ','].
+     * @param {string} tone DTMF tone(s) to send. Valid characters are ['0','1','2','3','4','5','6','7','8','9','#','*' and ','].
      * @param {number} [duration=100] The amount of time, in milliseconds, that each DTMF tone should last.
      * @param {number} [intertoneGap=70] The length of time, in milliseconds, to wait between tones.
      *
@@ -42596,7 +42596,7 @@ function callAPI({ dispatch, getState }) {
      * A Track ID can optionally be provided to get a report for a specific
      *    Track of the Call.
      *
-     * This API will return a promise which, when resolved, will contain the report of the particlar call.
+     * This API will return a promise which, when resolved, will contain the report of the particular call.
      * The progress of the operation will be tracked via the
      *    {@link call.event:call:operation call:operation} event.
      *
@@ -42975,7 +42975,7 @@ function callAPI({ dispatch, getState }) {
 
       const deferredResult = (0, _pDefer2.default)();
 
-      // Trigger the action, but include a defered result which caller can use when
+      // Trigger the action, but include a deferred result which caller can use when
       // we actually obtain the data (i.e. list of codecs) from WebRTCManager.
       dispatch(_actions.callActions.getAvailableCodecs({ kind }, deferredResult));
 
@@ -43096,7 +43096,7 @@ function callAPI({ dispatch, getState }) {
      *  the Call endpoints will receive each other's media.
      * @property {string} DISCONNECTED Media has become disconnected and the Call endpoints have stopped receiving each other's media.
      *  The Call will automatically attempt to reconnect, transitioning back to `completed` if successful or to `failed` if not.
-     * @property {string} FAILED The connection has failed and cannot be recovered automatically. A full media connection refresh is required to restablish a connection. See the {@link call.restartMedia} API.
+     * @property {string} FAILED The connection has failed and cannot be recovered automatically. A full media connection refresh is required to reestablish a connection. See the {@link call.restartMedia} API.
      * @property {string} CLOSED The connection has been shut down and is no longer in use.
      * @example
      * // Use the media connection states to check the status of the media connection of the Call.
@@ -43124,7 +43124,7 @@ function callAPI({ dispatch, getState }) {
      *       ...
      *       break
      *     case mediaConnectionStates.FAILED:
-     *      // Media has failed. The call requires a media refresh to restablish.
+     *      // Media has failed. The call requires a media refresh to reestablish.
      *      // This state will occur after the `DISCONNECTED` state is encountered.
      *      ...
      *       break
@@ -44459,7 +44459,7 @@ function* checkRenegotiationFlagEntry(deps) {
 }
 
 /**
- * Peform a call renegotitation.
+ * Perform a call renegotiation.
  * @method renegotiationEntry
  * @param {Object} deps             Dependencies to be injected.
  * @param {Object} deps.webRTC      The WebRTC stack.
@@ -44878,7 +44878,7 @@ function* getStatsEntry(deps) {
  * @method setTurnCredentials
  */
 function* setTurnCredentials() {
-  // Check that the action is a succesful subscription that includes
+  // Check that the action is a successful subscription that includes
   //    TURN information from the server.
   function hasTurnCredentials(action) {
     return !action.error && (action.type === _actionTypes6.CONNECT_FINISHED && action.payload.subscription && action.payload.subscription.turnCredentials || action.type === _actionTypes5.SUBSCRIBE_FINISHED && action.payload.subscriptions && action.payload.subscriptions.length && action.payload.subscriptions[0].turnCredentials);
@@ -45903,7 +45903,7 @@ function handleLinkCallRequestError(response) {
 
 /**
  * Generates the call url for the rest request based on the options provided.
- * @param {Object} requestInfo Object cotaining request information
+ * @param {Object} requestInfo Object containing request information
  * @param {Object} options
  * @param {boolean} [options.isAnonymous] Flag indicating whether the call is anonymous or not.
  * @param {string} [options.account] An account token used by the request if it is an anonymous call.
@@ -49411,7 +49411,7 @@ const log = _logs.logManager.getLogger('CALLSTACK');
  * Performs the webRTC session functions associated rolling back the local portion
  *  of a "hold" (inactive media) offer
  *
- * Responsiblities:
+ * Responsibilities:
  *  1. Revert the direction of the local and remote transceivers to "sendrecv"
  *  2. Rollback the local description SDP offer
  * @method rollbackLocalHoldOperation
@@ -49454,7 +49454,7 @@ function* rollbackLocalHoldOperation(deps, sessionId) {
  * Performs the webRTC session functions associated rolling back the local portion
  *  of an "unhold" (full media) offer
  *
- * Responsiblities:
+ * Responsibilities:
  *  1. Revert the direction of the local and remote transceivers to "inactive"
  *  2. Rollback the local description SDP offer
  * @method rollbackLocalUnholdOperation
@@ -49496,7 +49496,7 @@ function* rollbackLocalUnholdOperation(deps, sessionId) {
  * Performs the webRTC session functions associated rolling back the local portion
  *  of an "Add Media" offer
  *
- * Responsiblities:
+ * Responsibilities:
  *  1. Remove and cleanup the tracks added to the peer
  *  2. Rollback the local description SDP offer
  * @method rollbackLocalAddMedia
@@ -49564,7 +49564,7 @@ function* rollbackLocalAddMedia(deps, sessionId, medias) {
  * Unlike other rollback operations, for a remove media operation we will not try and re-add
  *  the removed tracks since the application's intention was to stop the media.
  *
- * Responsiblities:
+ * Responsibilities:
  *  1. Rollback the local description SDP offer
  * @method rollbackLocalRemoveMedia
  * @param {Object} deps
@@ -49750,7 +49750,7 @@ function* incomingCall(deps, params) {
   // Dispatch a custom parameters received action/event if any custom parameters were received as part of the notification
   if (customParameters) {
     const customNames = customParameters.map(param => param.name);
-    log.debug(`Recevied custom parameters as part of the Call: ${customNames}.`);
+    log.debug(`Received custom parameters as part of the Call: ${customNames}.`);
     yield (0, _effects.put)(_actions.callActions.customParametersReceived(callId, {
       customParameters
     }));
@@ -49888,7 +49888,7 @@ function* parseCallRequest(deps, params) {
   // Dispatch a custom parameters received action/event if any custom parameters were received as part of the notification
   if (customParameters) {
     const customNames = customParameters.map(param => param.name);
-    log.debug(`Recevied custom parameters as part of the Call: ${customNames}.`);
+    log.debug(`Received custom parameters as part of the Call: ${customNames}.`);
     yield (0, _effects.put)(_actions.callActions.customParametersReceived(targetCall.id, {
       customParameters
     }));
@@ -49957,7 +49957,7 @@ function* parseCallResponse(deps, params) {
   // Dispatch a custom parameters received action/event if any custom parameters were received as part of the notification
   if (customParameters) {
     const customNames = customParameters.map(param => param.name);
-    log.debug(`Recevied custom parameters as part of the Call: ${customNames}.`);
+    log.debug(`Received custom parameters as part of the Call: ${customNames}.`);
     yield (0, _effects.put)(_actions.callActions.customParametersReceived(targetCall.id, {
       customParameters
     }));
@@ -50054,7 +50054,7 @@ function* callStatusUpdateEnded(deps, params) {
  * - direct transfer
  * - consultative transfer
  * - join
- * , where user A transfered user B to user C.
+ * , where user A transferred user B to user C.
  *
  * For the direct & consultative transfer operations, the 'sessionComplete' notification
  * will just refer to the original call between: A<->B, which has now completed.
@@ -50208,7 +50208,7 @@ function* callStatusUpdateRinging(deps, params) {
   // Dispatch a custom parameters received action/event if any custom parameters were received as part of the notification
   if (customParameters) {
     const customNames = customParameters.map(param => param.name);
-    log.debug(`Recevied custom parameters as part of the Call: ${customNames}.`);
+    log.debug(`Received custom parameters as part of the Call: ${customNames}.`);
     yield (0, _effects.put)(_actions.callActions.customParametersReceived(currentCall.id, {
       customParameters
     }));
@@ -50379,7 +50379,7 @@ function* receiveEarlyMedia(deps, params) {
   // Dispatch a custom parameters received action/event if any custom parameters were received as part of the notification
   if (customParameters) {
     const customNames = customParameters.map(param => param.name);
-    log.debug(`Recevied custom parameters as part of the Call: ${customNames}.`);
+    log.debug(`Received custom parameters as part of the Call: ${customNames}.`);
     yield (0, _effects.put)(_actions.callActions.customParametersReceived(currentCall.id, {
       customParameters
     }));
@@ -50491,7 +50491,7 @@ const log = _logs.logManager.getLogger('CALL');
  *        - Indicates regular webRTC negotiation should occur.
  * Responsibilities:
  *    1. Determine what the remote operation was (ie. what is being offered).
- *    2. Process the offer based on remote oepration and current local state.
+ *    2. Process the offer based on remote operation and current local state.
  *    3. Respond to the request.
  *    4. Update call state (via redux action).
  * @method handleUpdateRequest
@@ -50560,7 +50560,7 @@ function* handleUpdateRequest(deps, targetCall, params) {
      *      a renegotiation occurs that changes from 'MoH' to 'media flowing'
      *      state. This needs to be handled as an unhold by the SDK so that
      *      the call state is updated to reflect the media state.
-     *  - As part of a remote consultative transer operation (when this user was
+     *  - As part of a remote consultative transfer operation (when this user was
      *      the first call specified in the transfer operation, but not for the
      *      second user). Same 'MoH' to 'media flowing' scenario as direct
      *      transfer.
@@ -51303,7 +51303,7 @@ function wasUnhold(mediaDiff) {
 }
 
 /**
- * A "3.X hold" opeation is when a hold operation changes media to `sendonly`
+ * A "3.X hold" operation is when a hold operation changes media to `sendonly`
  *    instead of `inactive`. This is what the 3.X SDK and Mobile SDK does. This
  *    is for interop with remote endpoints other than the 4.X SDK.
  *
@@ -51326,14 +51326,14 @@ function was3xHold(mediaDiff) {
 
   /*
    * 1) Handles when some media was flowing before the change.
-   *  or a special case where media was flowing but assumes media wasnt flowing.
+   *  or a special case where media was flowing but assumes media wasn't flowing.
    * 2) All changed media is now "sendonly".
    *    All changed video media is not receiving.
    */
   const wasFlowing = hadMediaFlowing(mediaDiff);
   const allSendOnly = changed.every(({ media, changes }) => {
     /**
-     * Possible scenerios:
+     * Possible scenarios:
      *
      *  1. Audio-only 3.X Hold:
      *    - A sendrecv --> A sendonly
@@ -51353,7 +51353,7 @@ function was3xHold(mediaDiff) {
      *  7. Two way Audio, One way send Video:
      *    - A/V sendrecv/sendonly --> A/V sendonly/sendonly (video checked by 5) below)
      *
-     * The summary of these senarios are:
+     * The summary of these scenarios are:
      *  - Audio always stops receiving.
      *  - Audio always continues sending.
      *  - Video is never receiving afterwards (stop, same).
@@ -51399,7 +51399,7 @@ function was3xHold(mediaDiff) {
 }
 
 /**
- * A "3.X unhold" opeation is when a v3.X SDK performs unhold. This is for
+ * A "3.X unhold" operation is when a v3.X SDK performs unhold. This is for
  *    interop.
  *
  * This operation is the same as a "regular" unhold, except that media changes
@@ -51569,7 +51569,7 @@ function wasRemoveMedia(mediaDiff) {
  * A "start Music on Hold" operation is when media is currently held, and one
  *    audio media is changed to "send only".
  *
- * This checker does not guarentee that it was a "start MoH" scenario, and not
+ * This checker does not guarantee that it was a "start MoH" scenario, and not
  *    a very specific "add media" scenario. It is an edge-case, but it is
  *    possible that both sides of the Call removed all media, then one side
  *    adds a single audio track. There is no way to tell the difference with
@@ -51623,7 +51623,7 @@ function wasStartMoh(mediaDiff) {
  * A "stop Music on Hold" operation is when media starts in a MoH state, then
  *    reverts back to an "on hold" state.
  *
- * This checker does not guarentee that it was a "stop MoH" scenario, and not
+ * This checker does not guarantee that it was a "stop MoH" scenario, and not
  *    a very specific "remove media" scenario. It is possible that a Call is
  *    established with one-way audio (and no video), then the audio is removed.
  *    There is no way to tell the difference with only a MediaDiff object.
@@ -51700,7 +51700,7 @@ function wasNoChange(mediaDiff) {
 }
 
 /**
- * Determines whether a MediDiff object describes the SDP as having had media
+ * Determines whether a MediaDiff object describes the SDP as having had media
  *    flowing (a media both sending and receiving; flowing in both directions)
  *    _before_ the SDP changes.
  * @method hadMediaFlowing
@@ -51757,7 +51757,7 @@ function hadMediaFlowing(mediaDiff) {
 }
 
 /**
- * Determines whether a MediDiff object describes the SDP as having media
+ * Determines whether a MediaDiff object describes the SDP as having media
  *    flowing (a media both sending and receiving; flowing in both directions)
  *    _after_ the SDP changes.
  * @method hasMediaFlowing
@@ -52189,7 +52189,7 @@ const log = _logs.logManager.getLogger('CALL');
  * Entry saga for sending DTMF tones on a call.
  *
  * Determines if the DTMF tones need to be out-of-band (preferred) or in-band.
- *    Referes to helper functions to send the tones.
+ *    Refers to helper functions to send the tones.
  *
  * Assumptions:
  *    1. None; everything is checked.
@@ -52298,7 +52298,7 @@ function* sendDtmf(deps, action) {
  * @param  {string}  options.tone           The tone sequence.
  * @param  {number}  [options.duration]     The length of each DTMF tone.
  * @param  {number}  [options.intertoneGap] The gap between each DTMF tone.
- * @return {boolean} Whether the operation was succesful or not.
+ * @return {boolean} Whether the operation was successful or not.
  */
 function* playOutBand(session, options) {
   const result = yield (0, _effects.call)([session, 'sendDTMF'], options);
@@ -52335,7 +52335,7 @@ function* playOutBand(session, options) {
  * @param  {string}  options.tone           The tone sequence.
  * @param  {number}  [options.duration=100]     The length of each DTMF tone.
  * @param  {number}  [options.intertoneGap=70]  The gap between each DTMF tone.
- * @return {boolean} Whether the operation was succesful or not.
+ * @return {boolean} Whether the operation was successful or not.
  */
 function* playInBand(session, options) {
   let { tone, duration, intertoneGap: gap } = options;
@@ -52502,7 +52502,7 @@ function* addTones(context, targetNode, tones, options) {
  * Checks whether an SDP has at least one telephone-event codec.
  *
  * TODO: If there isn't a telephone-event, then the PeerConnection won't have
- *    a "dtmf sender" (RTCRtpSender.dtmf). Should preferrably check for that
+ *    a "dtmf sender" (RTCRtpSender.dtmf). Should preferably check for that
  *    rather than looking through the SDP.
  * This isn't being done because the Session/Peer models wrap "send dtmf" in a
  *    way that makes it inconvenient to use.
@@ -53957,7 +53957,7 @@ function api({ dispatch, getState }) {
     /**
      * Sets the cached call history data, expects stringified data as it will be parsed.
      *
-     * The data can be retreived from the {@link callHistory.getCache
+     * The data can be retrieved from the {@link callHistory.getCache
      *    call.history.getCache} API. This allows an
      *    application to persist the information across SDK instances when the
      *    backend environment does not support the CallHistory feature.
@@ -54423,7 +54423,7 @@ function* removeCallLogs(action) {
         message: `Failed to remove call log. Status Code: ${statusCode}.`
       });
     } else {
-      // Handle errrs from the request helper.
+      // Handle errors from the request helper.
       const { message } = response.payload.result;
       log.info('Failed call log removal.', message);
 
@@ -55233,7 +55233,7 @@ function* clickToCallSaga() {
 
     // ensure both caller and callee are provided in payload.
     if (!action.payload.caller || !action.payload.callee) {
-      log.info('Missing call particiant information');
+      log.info('Missing call participant information');
       yield (0, _effects.put)(actions.clickToCallFinish({
         payload: {
           error: new _errors2.default({
@@ -55975,7 +55975,7 @@ const log = _logs.logManager.getLogger('CONNECTIVITY');
 function* wsConnectFlow() {
   log.info('Creating channel for handling websocket actions ...');
   const chan = yield (0, _effects.actionChannel)(actionTypes.WS_ATTEMPT_CONNECT);
-  log.info('Channel successfuly created.');
+  log.info('Channel successfully created.');
   yield (0, _effects.takeEvery)(chan, websocketLifecycle);
 }
 
@@ -56349,7 +56349,7 @@ function* connectWebsocket(wsInfo, platform) {
     });
     const attemptDuration = Date.now() - wsConnectStart;
 
-    // Checking for both timeout and open websocket errors here since we need to calculate the next delay paramaters in
+    // Checking for both timeout and open websocket errors here since we need to calculate the next delay parameters in
     //  both scenarios
     if (timeout || openWs && openWs.error) {
       connectionAttempt++;
@@ -57106,7 +57106,7 @@ function messageReceived(destination, parts, messageId, sender, timestamp, meta 
  *
  * @method incomingMessageRead
  * @param {string} messageId The unique id of the message being marked as read.
- * @param {string} participant The other pariticipant of the conversation.
+ * @param {string} participant The other participant of the conversation.
  * @returns {Object} A flux standard action representing the incoming message read action.
  */
 const incomingMessageRead = exports.incomingMessageRead = (messageId, participant) => messageReadHelper(actionTypes.INCOMING_MESSAGE_READ, messageId, participant);
@@ -57116,7 +57116,7 @@ const incomingMessageRead = exports.incomingMessageRead = (messageId, participan
  *
  * @method sendMessageRead
  * @param {string} messageId The unique id of the message being marked as read.
- * @param {string} participant The other pariticipant of the conversation.
+ * @param {string} participant The other participant of the conversation.
  * @returns {Object} A flux standard action representing the send message read action.
  */
 const sendMessageRead = exports.sendMessageRead = (messageId, participant) => messageReadHelper(actionTypes.SEND_MESSAGE_READ, messageId, participant);
@@ -66872,7 +66872,7 @@ const log = _logs.logManager.getLogger('PRESENCE'); /**
  * @property {string} status The current status the user has set for themselves. For supported values see {@link presence.statuses}.
  * @property {string} activity The current activity of the user.
  *      For supported values see {@link presence.activities}.
- * @property {string} note Additional message acompanying the status & activity.
+ * @property {string} note Additional message accompanying the status & activity.
  * @property {boolean} loading Whether the presence information has been loaded or is in the process of loading.
  */
 
@@ -67208,7 +67208,7 @@ function* updatePresence({ payload }) {
   }
 }
 /**
- * Link saga for gettting the presence updates one time only for the user(s).
+ * Link saga for getting the presence updates one time only for the user(s).
  * @method getPresence
  */
 function* getPresence({ payload }) {
@@ -67239,7 +67239,7 @@ function* subscribePresence({ payload }) {
 
 /**
  * Link saga for Handling unsubscribing the user(s) presence.
- * User will not be able to recieve presence updates of the unsubscribed user.
+ * User will not be able to receive presence updates of the unsubscribed user.
  * @method unsubscribePresence
  */
 function* unsubscribePresence({ payload }) {
@@ -67256,7 +67256,7 @@ function* unsubscribePresence({ payload }) {
 
 /**
  * Link receivePresence saga.
- * Handles the presence info recieved from the notification message.
+ * Handles the presence info received from the notification message.
  * @method receivePresence
  * @param {Object} wsAction
  */
@@ -67481,7 +67481,7 @@ eventsMap[actionTypes.UNSUBSCRIBE_FINISH] = action => {
   }
 };
 
-// TODO: Should have events to notifiy of successful operations for these actions.
+// TODO: Should have events to notify of successful operations for these actions.
 eventsMap[actionTypes.CREATE_PRESENCE_LIST_FINISH] = presenceError;
 
 exports.default = eventsMap;
@@ -68801,7 +68801,7 @@ function usersLink() {
 
   /**
    * On-Premises fetchUser saga
-   * Performs to uworkflow of caching a user.
+   * Performs the workflow of caching a user.
    * @return {Generator} [description]
    */
   function* fetchUser() {
@@ -68852,7 +68852,7 @@ function usersLink() {
       if (!userProfile.error) {
         userData.data = userProfile;
       } else {
-        log.debug('Error retrieving user profile informaion', userProfile.text);
+        log.debug('Error retrieving user profile information', userProfile.text);
       }
 
       if (!currentLocale.error) {
@@ -69052,7 +69052,7 @@ function* fetchSelfInfo(connection) {
 }
 
 /**
- * Fetch user localeinformation from SPiDR with the provided connection info.
+ * Fetch user locale information from SPiDR with the provided connection info.
  * @param  {Object}     connection Connection information for the platform in use.
  * @return {Object}            Fetch request's response.
  */
@@ -70362,14 +70362,14 @@ exports.default = async function makeRequest(options, requestId) {
 
     /*
      * Try to parse the response as JSON, and if successful, include
-     * it in the returned error. otherwise, provide an empty object instaed.
+     * it in the returned error. otherwise, provide an empty object instead.
      */
     let responseBody;
     try {
       responseBody = await response.json();
     } catch (err) {
       responseBody = {};
-      log.debug('Failed to parse reponse:', err.message);
+      log.debug('Failed to parse response:', err.message);
     }
     return makeResponse({ error: 'REQUEST' }, (0, _extends3.default)({ body: responseBody }, result));
   }
@@ -70860,7 +70860,7 @@ function api({ dispatch, getState }) {
  */
 
 /**
- * The Phone Numer ie: +18885559876
+ * The Phone Number ie: +18885559876
  *
  * @public
  * @static

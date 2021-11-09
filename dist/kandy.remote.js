@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.remote.js
- * Version: 4.34.0-beta.784
+ * Version: 4.34.0-beta.785
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -4836,7 +4836,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.34.0-beta.784';
+  return '4.34.0-beta.785';
 }
 
 /***/ }),
@@ -5091,7 +5091,7 @@ function runPipeline(handlers, sdp, info) {
 
 /**
  * Create an instance of the SDP pipeline.
- * Allows for persistent SDP handlers to be set and implictly used.
+ * Allows for persistent SDP handlers to be set and implicitly used.
  * @method createPipeline
  * @return {Object} An SDP pipeline.
  */
@@ -7310,7 +7310,7 @@ function Track(mediaTrack, mediaStream) {
 
   /**
    * When a track is muted, we forward this to any listener.
-   * This handler is tipically invoked by actions triggered outside the
+   * This handler is typically invoked by actions triggered outside the
    * direct control of the webrtc SDK.
    */
   track.onmute = event => {
@@ -7324,7 +7324,7 @@ function Track(mediaTrack, mediaStream) {
 
   /**
    * When a track is unmuted, we forward this to any listener.
-   * This handler is tipically invoked by actions triggered outside the
+   * This handler is typically invoked by actions triggered outside the
    * direct control of the webrtc SDK.
    */
   track.onunmute = event => {
@@ -7557,7 +7557,7 @@ function Track(mediaTrack, mediaStream) {
     track.stop();
     /**
      * Treat stopping the track the same as it being ended.
-     * Noramlly, onended is not triggered when `stop` is called, only when it is
+     * Normally, onended is not triggered when `stop` is called, only when it is
      *    "remotely ended".
      */
     track.onended();
@@ -11481,7 +11481,7 @@ function createManager(options = {}) {
 
       logger = (0, _logger2.default)(target, options);
 
-      // Save the new logger to be returned by future getter cals.
+      // Save the new logger to be returned by future getter calls.
       loggers[loggerName] = logger;
     }
 
@@ -12230,7 +12230,7 @@ var _validation = __webpack_require__(86);
  */
 function createTimer(log, warn) {
   // Validate that params are a function.
-  //    Uses funtions as `log(message, data)`.
+  //    Uses functions as `log(message, data)`.
   (0, _validation.checkHandler)(log);
   (0, _validation.checkHandler)(warn);
 
@@ -13804,7 +13804,7 @@ function* trackManagerEventsHandler({ track, action }) {
 /**
  * Sets up listeners for the Track Manager events.
  * Contains logic for how specific webRTC events should be
- *    parsed before being sent elsewhere. Splut into a
+ *    parsed before being sent elsewhere. Split into a
  *    stand-alone function in order to be re-usable.
  * @method setListeners
  * @param  {Object}   manager The Track Manager.
@@ -19432,7 +19432,7 @@ function localTracks() {
    */
   .filter(sender => Boolean(sender.track)).map(sender => trackManager.get(sender.track.id)).filter(track => {
     // Make sure the trackManager has the track and that its active.
-    // It's possble that Peer has the sender but not the actual track yet.
+    // It's possible that Peer has the sender but not the actual track yet.
     return track && track.getState().state === 'live' && track.getStream().active;
   });
 }
@@ -19502,7 +19502,7 @@ function getRemoteTracks() {
    */
   .filter(receiver => Boolean(receiver.track)).map(receiver => trackManager.get(receiver.track.id)).filter(track => {
     // Make sure the trackManager has the track and that its active.
-    // It's possble that Peer has the receiver but not the actual track yet.
+    // It's possible that Peer has the receiver but not the actual track yet.
     return track && track.getState().state === 'live' && track.getStream().active;
   });
 }
@@ -19724,7 +19724,7 @@ function now() {
 }
 
 /**
- * Create a new timer object. Timers are not started when created and need to be started manualy.
+ * Create a new timer object. Timers are not started when created and need to be started manually.
  *
  * @returns {Object} The timer object that supports the timer interface.
  */
@@ -19796,12 +19796,12 @@ function MediaManager(managers) {
 
   /**
    * Workaround to get Firefox to behave similarly to Chrome regarding device permission prompts.
-   * @method browserContraintsWorkaround
+   * @method browserConstraintsWorkaround
    * @param  {MediaStreamConstraints}  constraints
-   * @return {Object}  media contraints
+   * @return {Object}  media constraints
    */
 
-  function browserContraintsWorkaround(constraints) {
+  function browserConstraintsWorkaround(constraints) {
     /**
      * Firefox workaround.
      *
@@ -19819,7 +19819,7 @@ function MediaManager(managers) {
      * See: https://developer.mozilla.org/en-US/docs/Web/API/ConstrainDOMString
      *
      *  - When the "ideal" behaviour is followed and the user has not given
-     *      permission (and not disallowed), the browswer will prompt the user
+     *      permission (and not disallowed), the browser will prompt the user
      *      for permission.
      *  - [Issue] When the "ideal" behaviour is followed and the user has given
      *      permission previously, the browser will not prompt the user for
@@ -19906,7 +19906,7 @@ function MediaManager(managers) {
    * @return {Promise}
    */
   function createLocal(constraints) {
-    const constraintsWorkaround = browserContraintsWorkaround(constraints);
+    const constraintsWorkaround = browserConstraintsWorkaround(constraints);
 
     // Get user media, ...
     return new _promise2.default((resolve, reject) => {
@@ -19933,7 +19933,7 @@ function MediaManager(managers) {
    */
 
   function createLocalScreen(constraints) {
-    const constraintsWorkaround = browserContraintsWorkaround(constraints);
+    const constraintsWorkaround = browserConstraintsWorkaround(constraints);
 
     return new _promise2.default((resolve, reject) => {
       navigator.mediaDevices.getDisplayMedia(constraintsWorkaround).then(mediaStream => {
@@ -20649,7 +20649,7 @@ function Session(id, managers, config = {}) {
    * @param {Object} mediaConstraints
    */
   function setParameters(mediaConstraints) {
-    // RTCRtpSender.setParameters is currently unsupported on Firefox (or atleast not supported as it should be)
+    // RTCRtpSender.setParameters is currently unsupported on Firefox (or at least not supported as it should be)
     if ((0, _utils.getBrowserDetails)().browser === 'firefox') {
       log.debug('Setting sender parameters not supported on Firefox; skipping.');
       return;
@@ -21351,13 +21351,13 @@ function DeviceManager() {
   /**
    * Ask for permission and gets the list of available device(s) available from the end-user's devices.
    * @method setupDeviceInitialization
-   * @param browserContraints
+   * @param browserConstraints
    * @return {Object}
    */
 
-  function setupDeviceInitialization(browserContraints) {
+  function setupDeviceInitialization(browserConstraints) {
     return new _promise2.default((resolve, reject) => {
-      navigator.mediaDevices.getUserMedia(browserContraints).then(mediaStream => {
+      navigator.mediaDevices.getUserMedia(browserConstraints).then(mediaStream => {
         mediaStream.getTracks().forEach(track => {
           track.stop();
         });
@@ -22349,7 +22349,7 @@ function clientProxy() {
   };
 
   /**
-   * Retreives the current channel being used.
+   * Retrieves the current channel being used.
    * @method getChannel
    * @return {Channel}
    */
@@ -22876,7 +22876,7 @@ function setupListeners(webRTC, emit) {
   const mediaManagerHandler = ({ action, media }) => {
     // If it is a new Media, watch for its events.
     if (action.type === actionTypes.MEDIA_NEW) {
-      // Handle session events by emiting them directly.
+      // Handle session events by emitting them directly.
       (0, _media.setListeners)(media, emit);
     }
 
@@ -22888,7 +22888,7 @@ function setupListeners(webRTC, emit) {
   const sessionManagerHandler = ({ action, session }) => {
     // If it is a new Session, watch for its events.
     if (action.type === actionTypes.SESSION_ADDED) {
-      // Handle session events by emiting them directly.
+      // Handle session events by emitting them directly.
       (0, _session.setListeners)(session, emit);
     }
 
@@ -22900,7 +22900,7 @@ function setupListeners(webRTC, emit) {
   const trackManagerHandler = ({ action, track }) => {
     // If it is a new Track, watch for its events.
     if (action.type === actionTypes.TRACK_ADDED) {
-      // Handle track events by emiting them directly.
+      // Handle track events by emitting them directly.
       (0, _track.setListeners)(track, emit);
     }
 

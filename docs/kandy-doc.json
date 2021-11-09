@@ -8,7 +8,7 @@
           "children": [
             {
               "type": "text",
-              "value": "The SDK creation factory. Create an instance of the SDK by calling this factory with the desired configurations.\nThe SDK instance will be refered as 'api' throughout the rest of the documentation content."
+              "value": "The SDK creation factory. Create an instance of the SDK by calling this factory with the desired configurations.\nThe SDK instance will be referred as 'api' throughout the rest of the documentation content."
             }
           ]
         }
@@ -22534,7 +22534,7 @@
             },
             {
               "title": "param",
-              "description": "DTMF tone(s) to send. Valid chracters are ['0','1','2','3','4','5','6','7','8','9','#','*' and ','].",
+              "description": "DTMF tone(s) to send. Valid characters are ['0','1','2','3','4','5','6','7','8','9','#','*' and ','].",
               "lineNumber": 23,
               "type": {
                 "type": "NameExpression",
@@ -22633,7 +22633,7 @@
                     "children": [
                       {
                         "type": "text",
-                        "value": "DTMF tone(s) to send. Valid chracters are ['0','1','2','3','4','5','6','7','8','9','#','*' and ',']."
+                        "value": "DTMF tone(s) to send. Valid characters are ['0','1','2','3','4','5','6','7','8','9','#','*' and ',']."
                       }
                     ]
                   }
@@ -22789,7 +22789,7 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "This API will return a promise which, when resolved, will contain the report of the particlar call.\nThe progress of the operation will be tracked via the\n"
+                    "value": "This API will return a promise which, when resolved, will contain the report of the particular call.\nThe progress of the operation will be tracked via the\n"
                   },
                   {
                     "type": "link",
@@ -25744,7 +25744,7 @@
             },
             {
               "title": "property",
-              "description": "The connection has failed and cannot be recovered automatically. A full media connection refresh is required to restablish a connection. See the {@link call.restartMedia} API.",
+              "description": "The connection has failed and cannot be recovered automatically. A full media connection refresh is required to reestablish a connection. See the {@link call.restartMedia} API.",
               "lineNumber": 40,
               "type": {
                 "type": "NameExpression",
@@ -25764,7 +25764,7 @@
             },
             {
               "title": "example",
-              "description": "// Use the media connection states to check the status of the media connection of the Call.\nclient.on('call:mediaConnectionChange', function (params) {\n  // Retrieve the state of the Call this event is for.\n  const call = client.call.getById(params.callId)\n  const mediaConnectionStates = client.call.mediaConnectionStates\n\n  // Check the mediaConnectionState to determine which scenario the call is in.\n  switch (call.mediaConnectionState) {\n    case mediaConnectionStates.CONNECTED:\n    case mediaConnectionStates.COMPLETED:\n      // Media established: The Call's media is connected. The Call's participants\n      //    are able to see/hear each other.\n      // These states will occur after Call establishment.\n      ...\n      break\n    case mediaConnectionStates.NEW:\n    case mediaConnectionStates.CHECKING:\n    case mediaConnectionStates.DISCONNECTED:\n      // Media pending: The Call's media is not connected. The Call is working\n      //    to connect media automatically.\n      // These states will occur during Call establishment and may occur midcall if there are\n      //    connection issues (eg. poor network quality) or a Call participant has changed (eg. transfer).\n      ...\n      break\n    case mediaConnectionStates.FAILED:\n     // Media has failed. The call requires a media refresh to restablish.\n     // This state will occur after the `DISCONNECTED` state is encountered.\n     ...\n      break\n    case mediaConnectionStates.CLOSED:\n      // Media ended due to the Call being ended.\n      // This state will occur after Call establishment.\n      ...\n      break\n  }\n}",
+              "description": "// Use the media connection states to check the status of the media connection of the Call.\nclient.on('call:mediaConnectionChange', function (params) {\n  // Retrieve the state of the Call this event is for.\n  const call = client.call.getById(params.callId)\n  const mediaConnectionStates = client.call.mediaConnectionStates\n\n  // Check the mediaConnectionState to determine which scenario the call is in.\n  switch (call.mediaConnectionState) {\n    case mediaConnectionStates.CONNECTED:\n    case mediaConnectionStates.COMPLETED:\n      // Media established: The Call's media is connected. The Call's participants\n      //    are able to see/hear each other.\n      // These states will occur after Call establishment.\n      ...\n      break\n    case mediaConnectionStates.NEW:\n    case mediaConnectionStates.CHECKING:\n    case mediaConnectionStates.DISCONNECTED:\n      // Media pending: The Call's media is not connected. The Call is working\n      //    to connect media automatically.\n      // These states will occur during Call establishment and may occur midcall if there are\n      //    connection issues (eg. poor network quality) or a Call participant has changed (eg. transfer).\n      ...\n      break\n    case mediaConnectionStates.FAILED:\n     // Media has failed. The call requires a media refresh to reestablish.\n     // This state will occur after the `DISCONNECTED` state is encountered.\n     ...\n      break\n    case mediaConnectionStates.CLOSED:\n      // Media ended due to the Call being ended.\n      // This state will occur after Call establishment.\n      ...\n      break\n  }\n}",
               "lineNumber": 42
             }
           ],
@@ -25794,7 +25794,7 @@
           "augments": [],
           "examples": [
             {
-              "description": "// Use the media connection states to check the status of the media connection of the Call.\nclient.on('call:mediaConnectionChange', function (params) {\n  // Retrieve the state of the Call this event is for.\n  const call = client.call.getById(params.callId)\n  const mediaConnectionStates = client.call.mediaConnectionStates\n\n  // Check the mediaConnectionState to determine which scenario the call is in.\n  switch (call.mediaConnectionState) {\n    case mediaConnectionStates.CONNECTED:\n    case mediaConnectionStates.COMPLETED:\n      // Media established: The Call's media is connected. The Call's participants\n      //    are able to see/hear each other.\n      // These states will occur after Call establishment.\n      ...\n      break\n    case mediaConnectionStates.NEW:\n    case mediaConnectionStates.CHECKING:\n    case mediaConnectionStates.DISCONNECTED:\n      // Media pending: The Call's media is not connected. The Call is working\n      //    to connect media automatically.\n      // These states will occur during Call establishment and may occur midcall if there are\n      //    connection issues (eg. poor network quality) or a Call participant has changed (eg. transfer).\n      ...\n      break\n    case mediaConnectionStates.FAILED:\n     // Media has failed. The call requires a media refresh to restablish.\n     // This state will occur after the `DISCONNECTED` state is encountered.\n     ...\n      break\n    case mediaConnectionStates.CLOSED:\n      // Media ended due to the Call being ended.\n      // This state will occur after Call establishment.\n      ...\n      break\n  }\n}"
+              "description": "// Use the media connection states to check the status of the media connection of the Call.\nclient.on('call:mediaConnectionChange', function (params) {\n  // Retrieve the state of the Call this event is for.\n  const call = client.call.getById(params.callId)\n  const mediaConnectionStates = client.call.mediaConnectionStates\n\n  // Check the mediaConnectionState to determine which scenario the call is in.\n  switch (call.mediaConnectionState) {\n    case mediaConnectionStates.CONNECTED:\n    case mediaConnectionStates.COMPLETED:\n      // Media established: The Call's media is connected. The Call's participants\n      //    are able to see/hear each other.\n      // These states will occur after Call establishment.\n      ...\n      break\n    case mediaConnectionStates.NEW:\n    case mediaConnectionStates.CHECKING:\n    case mediaConnectionStates.DISCONNECTED:\n      // Media pending: The Call's media is not connected. The Call is working\n      //    to connect media automatically.\n      // These states will occur during Call establishment and may occur midcall if there are\n      //    connection issues (eg. poor network quality) or a Call participant has changed (eg. transfer).\n      ...\n      break\n    case mediaConnectionStates.FAILED:\n     // Media has failed. The call requires a media refresh to reestablish.\n     // This state will occur after the `DISCONNECTED` state is encountered.\n     ...\n      break\n    case mediaConnectionStates.CLOSED:\n      // Media ended due to the Call being ended.\n      // This state will occur after Call establishment.\n      ...\n      break\n  }\n}"
             }
           ],
           "implements": [],
@@ -25975,7 +25975,7 @@
                     "children": [
                       {
                         "type": "text",
-                        "value": "The connection has failed and cannot be recovered automatically. A full media connection refresh is required to restablish a connection. See the "
+                        "value": "The connection has failed and cannot be recovered automatically. A full media connection refresh is required to reestablish a connection. See the "
                       },
                       {
                         "type": "link",
@@ -28351,7 +28351,7 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "The data can be retreived from the "
+                    "value": "The data can be retrieved from the "
                   },
                   {
                     "type": "link",
@@ -37021,7 +37021,7 @@
             },
             {
               "title": "property",
-              "description": "A unique identifer for the target.",
+              "description": "A unique identifier for the target.",
               "lineNumber": 20,
               "type": {
                 "type": "OptionalType",
@@ -37230,7 +37230,7 @@
                         "children": [
                           {
                             "type": "text",
-                            "value": "A unique identifer for the target."
+                            "value": "A unique identifier for the target."
                           }
                         ]
                       }
@@ -43870,7 +43870,7 @@
             },
             {
               "title": "property",
-              "description": "Additional message acompanying the status & activity.",
+              "description": "Additional message accompanying the status & activity.",
               "lineNumber": 19,
               "type": {
                 "type": "NameExpression",
@@ -44030,7 +44030,7 @@
                     "children": [
                       {
                         "type": "text",
-                        "value": "Additional message acompanying the status & activity."
+                        "value": "Additional message accompanying the status & activity."
                       }
                     ]
                   }

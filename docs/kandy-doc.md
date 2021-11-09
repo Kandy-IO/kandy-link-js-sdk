@@ -3,7 +3,7 @@
 ## create
 
 The SDK creation factory. Create an instance of the SDK by calling this factory with the desired configurations.
-The SDK instance will be refered as 'api' throughout the rest of the documentation content.
+The SDK instance will be referred as 'api' throughout the rest of the documentation content.
 
 ### Parameters
 
@@ -1327,7 +1327,7 @@ The progress of the operation will be tracked via the
 #### Parameters
 
 *   `callId` **[string][8]** ID of the call being acted on.
-*   `tone` **[string][8]** DTMF tone(s) to send. Valid chracters are \['0','1','2','3','4','5','6','7','8','9','#','\*' and ','].
+*   `tone` **[string][8]** DTMF tone(s) to send. Valid characters are \['0','1','2','3','4','5','6','7','8','9','#','\*' and ','].
 *   `duration` **[number][12]** The amount of time, in milliseconds, that each DTMF tone should last. (optional, default `100`)
 *   `intertoneGap` **[number][12]** The length of time, in milliseconds, to wait between tones. (optional, default `70`)
 
@@ -1348,7 +1348,7 @@ during the Call.
 A Track ID can optionally be provided to get a report for a specific
 Track of the Call.
 
-This API will return a promise which, when resolved, will contain the report of the particlar call.
+This API will return a promise which, when resolved, will contain the report of the particular call.
 The progress of the operation will be tracked via the
 [call:operation][49] event.
 
@@ -1663,7 +1663,7 @@ Type: [Object][7]
     the Call endpoints will receive each other's media.
 *   `DISCONNECTED` **[string][8]** Media has become disconnected and the Call endpoints have stopped receiving each other's media.
     The Call will automatically attempt to reconnect, transitioning back to `completed` if successful or to `failed` if not.
-*   `FAILED` **[string][8]** The connection has failed and cannot be recovered automatically. A full media connection refresh is required to restablish a connection. See the [call.restartMedia][71] API.
+*   `FAILED` **[string][8]** The connection has failed and cannot be recovered automatically. A full media connection refresh is required to reestablish a connection. See the [call.restartMedia][71] API.
 *   `CLOSED` **[string][8]** The connection has been shut down and is no longer in use.
 
 #### Examples
@@ -1694,7 +1694,7 @@ client.on('call:mediaConnectionChange', function (params) {
       ...
       break
     case mediaConnectionStates.FAILED:
-     // Media has failed. The call requires a media refresh to restablish.
+     // Media has failed. The call requires a media refresh to reestablish.
      // This state will occur after the `DISCONNECTED` state is encountered.
      ...
       break
@@ -2234,7 +2234,7 @@ Returns **[string][8]** A stringified list of call log records from the cache, o
 
 Sets the cached call history data, expects stringified data as it will be parsed.
 
-The data can be retreived from the [call.history.getCache][85] API. This allows an
+The data can be retrieved from the [call.history.getCache][85] API. This allows an
 application to persist the information across SDK instances when the
 backend environment does not support the CallHistory feature.
 
@@ -2787,7 +2787,7 @@ Type: [Object][7]
 
     *   `target.type` **[string][8]** The type of the target. This is also
         used as part of the name of the Logger.
-    *   `target.id` **[string][8]?** A unique identifer for the target.
+    *   `target.id` **[string][8]?** A unique identifier for the target.
     *   `target.name` **[string][8]** A combination of the target type and ID. If no
         id was provided, this will be the same as the type.
 *   `messages` **[Array][14]** The logged information, given to the Logger
@@ -3318,7 +3318,7 @@ Type: [Object][7]
 *   `status` **[string][8]** The current status the user has set for themselves. For supported values see [presence.statuses][115].
 *   `activity` **[string][8]** The current activity of the user.
     For supported values see [presence.activities][116].
-*   `note` **[string][8]** Additional message acompanying the status & activity.
+*   `note` **[string][8]** Additional message accompanying the status & activity.
 *   `loading` **[boolean][11]** Whether the presence information has been loaded or is in the process of loading.
 
 ### update
