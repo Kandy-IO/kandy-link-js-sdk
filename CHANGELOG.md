@@ -11,6 +11,11 @@ Kandy.js change log.
 
 - Added a new object property `mediaOffered` to `CallObject` (for an incoming call) to reflect what caller has offered in terms of media. `KJS-334`
 
+### Fixed
+
+- Fixed an issue where the media direction wasn't being set correctly when adding video to a transceiver that we are reusing, this resulted in
+  the call losing remote video when local video is added. `KJS-396`
+
 ## 4.33.0 - 2021-10-29
 
 ### Added
