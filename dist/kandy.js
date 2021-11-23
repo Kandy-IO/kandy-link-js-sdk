@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.34.0-beta.795
+ * Version: 4.34.0-beta.796
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -6448,7 +6448,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.34.0-beta.795';
+  return '4.34.0-beta.796';
 }
 
 /***/ }),
@@ -59759,12 +59759,12 @@ function* enableWebsocketChannel(action) {
 const INITIAL_BUFFER_SIZE = 10;
 
 function* processNotification() {
-  const config = yield (0, _effects.select)(_selectors2.getNotificationConfig);
   var queue = [];
 
   const externalNotifications = yield (0, _effects.actionChannel)(actionTypes.PROCESS_NOTIFICATION, _reduxSaga.buffers.expanding(INITIAL_BUFFER_SIZE));
   while (true) {
     const action = yield (0, _effects.take)(externalNotifications);
+    const config = yield (0, _effects.select)(_selectors2.getNotificationConfig);
     log.info(`Received notification on channel ${action.meta.channel} for platform: ${action.meta.platform}; Handling...`);
 
     // Only process notifications from enabled channels, ie. "silence" the channel.
@@ -59792,7 +59792,13 @@ function* processNotification() {
       log.warn('Dropped incoming call notification with id: ' + notificationId + ' received through channel: ' + action.meta.channel + ' because current mode for handling notifications is set to: push-channel-only.');
       continue;
     } else {
-      const duplicate = queue.includes(notificationId);
+      // Don't check for duplicate notifications if idCacheLength is set to 0
+      // Get the list of "relevant" IDs in the queue ("relevant" being the latest X elements).
+      // This covers edge-cases where the cache length config is changed (to a smaller number)
+      //    after the queue has begun to be populated.
+      const ids = config.idCacheLength === 0 ? [] : queue.slice(config.idCacheLength * -1);
+      // If the notification ID is part of the list, then it's a duplicate.
+      const duplicate = ids.includes(notificationId);
       if (duplicate) {
         log.info('Notification was a duplicate; ignoring.');
         const error = new Error(`Notification id ${notificationId} is duplicate.`);
@@ -59803,7 +59809,9 @@ function* processNotification() {
         yield (0, _effects.put)(actions.processNotificationFinish(error));
       } else {
         queue.push(notificationId);
-        if (queue.length > config.idCacheLength) {
+        // Because the client can update the value of idCacheLength at any time
+        // we have to adjust the size of our queue accordingly
+        while (queue.length > config.idCacheLength) {
           queue.shift();
         }
 
