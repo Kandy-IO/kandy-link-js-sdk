@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.33.0
+ * Version: 4.34.0
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -96,7 +96,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 333);
+/******/ 	return __webpack_require__(__webpack_require__.s = 326);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -169,7 +169,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* harmony import */ var _redux_saga_symbols__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
 /* harmony import */ var _babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(43);
 /* harmony import */ var _redux_saga_is__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(1);
-/* harmony import */ var _redux_saga_delay_p__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(70);
+/* harmony import */ var _redux_saga_delay_p__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(69);
 
 
 
@@ -871,11 +871,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.logManager = exports.API_LOG_TAG = undefined;
 
-var _kandyLogger = __webpack_require__(85);
+var _kandyLogger = __webpack_require__(84);
 
 var _kandyLogger2 = _interopRequireDefault(_kandyLogger);
 
-var _config = __webpack_require__(141);
+var _config = __webpack_require__(140);
 
 var _config2 = _interopRequireDefault(_config);
 
@@ -901,8 +901,8 @@ const logManager = exports.logManager = manager;
 /* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var _ = __webpack_require__(170).runInContext();
-module.exports = __webpack_require__(171)(_, _);
+var _ = __webpack_require__(169).runInContext();
+module.exports = __webpack_require__(170)(_, _);
 
 
 /***/ }),
@@ -955,7 +955,7 @@ var redux_saga_is_esm = __webpack_require__(1);
 var io_6de156f3 = __webpack_require__(0);
 
 // EXTERNAL MODULE: /var/jenkins_home/workspace/Kandy.js_master/node_modules/@redux-saga/delay-p/dist/redux-saga-delay-p.esm.js
-var redux_saga_delay_p_esm = __webpack_require__(70);
+var redux_saga_delay_p_esm = __webpack_require__(69);
 
 // CONCATENATED MODULE: /var/jenkins_home/workspace/Kandy.js_master/node_modules/@redux-saga/core/dist/redux-saga-effects.esm.js
 
@@ -1466,7 +1466,7 @@ createSymbol('LOCATION');
 
 exports.__esModule = true;
 
-var _assign = __webpack_require__(99);
+var _assign = __webpack_require__(98);
 
 var _assign2 = _interopRequireDefault(_assign);
 
@@ -1653,8 +1653,8 @@ const SET_BROWSER_DETAILS = exports.SET_BROWSER_DETAILS = prefix + 'SET_BROWSER_
 /* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var store = __webpack_require__(80)('wks');
-var uid = __webpack_require__(59);
+var store = __webpack_require__(79)('wks');
+var uid = __webpack_require__(60);
 var Symbol = __webpack_require__(9).Symbol;
 var USE_SYMBOL = typeof Symbol == 'function';
 
@@ -1670,7 +1670,7 @@ $exports.store = store;
 /* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(212), __esModule: true };
+module.exports = { "default": __webpack_require__(211), __esModule: true };
 
 /***/ }),
 /* 13 */
@@ -1695,7 +1695,7 @@ exports.normalizeServices = normalizeServices;
 
 var _fp = __webpack_require__(3);
 
-var _queryString = __webpack_require__(177);
+var _queryString = __webpack_require__(176);
 
 var _queryString2 = _interopRequireDefault(_queryString);
 
@@ -1813,7 +1813,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.logManager = undefined;
 
-var _kandyLogger = __webpack_require__(85);
+var _kandyLogger = __webpack_require__(84);
 
 var _kandyLogger2 = _interopRequireDefault(_kandyLogger);
 
@@ -1845,9 +1845,9 @@ exports.getRequestInfo = getRequestInfo;
 
 var _fp = __webpack_require__(3);
 
-var _constants = __webpack_require__(155);
+var _constants = __webpack_require__(154);
 
-var _constants2 = __webpack_require__(19);
+var _constants2 = __webpack_require__(20);
 
 /*
  * Redux-saga selector functions.
@@ -1999,9 +1999,9 @@ function getRequestInfo(state, platform) {
 
   const { subscription, clientCorrelator } = getAuthConfig(state);
   let { server } = getAuthConfig(state);
-  const { userInfo } = (0, _fp.cloneDeep)(state.authentication);
+  let { userInfo } = (0, _fp.cloneDeep)(state.authentication);
 
-  // For backwards compatability, we need to fall back to
+  // For backwards compatibility, we need to fall back to
   // subscription for the server connection details
   if (!server) {
     server = {
@@ -2010,6 +2010,11 @@ function getRequestInfo(state, platform) {
       port: subscription.port,
       version: subscription.version
     };
+  }
+
+  // If user info does not exist yet, use an empty object. Requests will still fail, but they will be handled.
+  if (!userInfo) {
+    userInfo = {};
   }
 
   let requestInfo;
@@ -2088,8 +2093,8 @@ module.exports = !__webpack_require__(33)(function () {
 /***/ (function(module, exports, __webpack_require__) {
 
 var anObject = __webpack_require__(23);
-var IE8_DOM_DEFINE = __webpack_require__(107);
-var toPrimitive = __webpack_require__(75);
+var IE8_DOM_DEFINE = __webpack_require__(106);
+var toPrimitive = __webpack_require__(74);
 var dP = Object.defineProperty;
 
 exports.f = __webpack_require__(17) ? Object.defineProperty : function defineProperty(O, P, Attributes) {
@@ -2115,39 +2120,8 @@ exports.f = __webpack_require__(17) ? Object.defineProperty : function definePro
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-const platforms = exports.platforms = {
-  LINK: 'link',
-  UC: 'uc',
-  CPAAS: 'cpaas'
-};
 
-const notificationTypes = exports.notificationTypes = {
-  WEBSOCKET: 'websocket',
-  PUSH: 'push'
-};
-
-const connCheckResponsibility = exports.connCheckResponsibility = {
-  CLIENT: 'client',
-  SERVER: 'server'
-};
-
-const connCheckMethods = exports.connCheckMethods = {
-  KEEP_ALIVE: 'keepAlive',
-  PING_PONG: 'pingPong'
-};
-
-/***/ }),
-/* 20 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _codes = __webpack_require__(401);
+var _codes = __webpack_require__(384);
 
 Object.defineProperty(exports, 'authCodes', {
   enumerable: true,
@@ -2221,6 +2195,12 @@ Object.defineProperty(exports, 'usersCodes', {
     return _codes.usersCodes;
   }
 });
+Object.defineProperty(exports, 'webrtcCodes', {
+  enumerable: true,
+  get: function () {
+    return _codes.webrtcCodes;
+  }
+});
 class BasicError {
   constructor({ message, code }) {
     this.name = 'BasicError';
@@ -2229,6 +2209,37 @@ class BasicError {
   }
 }
 exports.default = BasicError;
+
+/***/ }),
+/* 20 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+const platforms = exports.platforms = {
+  LINK: 'link',
+  UC: 'uc',
+  CPAAS: 'cpaas'
+};
+
+const notificationTypes = exports.notificationTypes = {
+  WEBSOCKET: 'websocket',
+  PUSH: 'push'
+};
+
+const connCheckResponsibility = exports.connCheckResponsibility = {
+  CLIENT: 'client',
+  SERVER: 'server'
+};
+
+const connCheckMethods = exports.connCheckMethods = {
+  KEEP_ALIVE: 'keepAlive',
+  PING_PONG: 'pingPong'
+};
 
 /***/ }),
 /* 21 */
@@ -2432,7 +2443,7 @@ function createAction(type, payloadCreator, metaCreator) {
   return array[array.length - 1];
 });
 // EXTERNAL MODULE: /var/jenkins_home/workspace/Kandy.js_master/node_modules/to-camel-case/index.js
-var to_camel_case = __webpack_require__(292);
+var to_camel_case = __webpack_require__(290);
 var to_camel_case_default = /*#__PURE__*/__webpack_require__.n(to_camel_case);
 
 // CONCATENATED MODULE: /var/jenkins_home/workspace/Kandy.js_master/node_modules/redux-actions/es/utils/camelCase.js
@@ -2659,7 +2670,7 @@ function actionCreatorsFromIdentityActions(identityActions, options) {
   });
 }
 // EXTERNAL MODULE: /var/jenkins_home/workspace/Kandy.js_master/node_modules/just-curry-it/index.js
-var just_curry_it = __webpack_require__(332);
+var just_curry_it = __webpack_require__(325);
 var just_curry_it_default = /*#__PURE__*/__webpack_require__.n(just_curry_it);
 
 // CONCATENATED MODULE: /var/jenkins_home/workspace/Kandy.js_master/node_modules/redux-actions/es/createCurriedAction.js
@@ -2817,23 +2828,23 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.miscActions = exports.mediaActions = exports.sessionActions = exports.trackActions = exports.deviceActions = undefined;
 
-var _devices = __webpack_require__(149);
+var _devices = __webpack_require__(148);
 
 var deviceActionsImport = _interopRequireWildcard(_devices);
 
-var _tracks = __webpack_require__(221);
+var _tracks = __webpack_require__(220);
 
 var trackActionsImport = _interopRequireWildcard(_tracks);
 
-var _sessions = __webpack_require__(222);
+var _sessions = __webpack_require__(221);
 
 var sessionActionsImport = _interopRequireWildcard(_sessions);
 
-var _media = __webpack_require__(223);
+var _media = __webpack_require__(222);
 
 var mediaActionsImport = _interopRequireWildcard(_media);
 
-var _misc = __webpack_require__(224);
+var _misc = __webpack_require__(223);
 
 var miscActionsImport = _interopRequireWildcard(_misc);
 
@@ -3216,7 +3227,7 @@ exports.getTurnInfo = getTurnInfo;
 
 var _constants = __webpack_require__(37);
 
-var _selectors = __webpack_require__(148);
+var _selectors = __webpack_require__(147);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -3373,7 +3384,7 @@ var redux_saga_is_esm = __webpack_require__(1);
 var io_6de156f3 = __webpack_require__(0);
 
 // EXTERNAL MODULE: /var/jenkins_home/workspace/Kandy.js_master/node_modules/redux/es/redux.js
-var redux = __webpack_require__(97);
+var redux = __webpack_require__(96);
 
 // CONCATENATED MODULE: /var/jenkins_home/workspace/Kandy.js_master/node_modules/@redux-saga/deferred/dist/redux-saga-deferred.esm.js
 function deferred() {
@@ -3398,7 +3409,7 @@ function arrayOfDeferred(length) {
 
 
 // EXTERNAL MODULE: /var/jenkins_home/workspace/Kandy.js_master/node_modules/@redux-saga/delay-p/dist/redux-saga-delay-p.esm.js
-var redux_saga_delay_p_esm = __webpack_require__(70);
+var redux_saga_delay_p_esm = __webpack_require__(69);
 
 // CONCATENATED MODULE: /var/jenkins_home/workspace/Kandy.js_master/node_modules/@redux-saga/core/dist/redux-saga-core.esm.js
 
@@ -4813,7 +4824,7 @@ exports.unsubscribe = unsubscribe;
 exports.emitEvent = emitEvent;
 exports.aliasEvent = aliasEvent;
 
-var _actionTypes = __webpack_require__(219);
+var _actionTypes = __webpack_require__(218);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -4986,7 +4997,7 @@ module.exports = function (it, key) {
 /* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(195), __esModule: true };
+module.exports = { "default": __webpack_require__(194), __esModule: true };
 
 /***/ }),
 /* 33 */
@@ -5006,8 +5017,8 @@ module.exports = function (exec) {
 /***/ (function(module, exports, __webpack_require__) {
 
 // to indexed object, toObject with fallback for non-array-like ES3 strings
-var IObject = __webpack_require__(76);
-var defined = __webpack_require__(77);
+var IObject = __webpack_require__(75);
+var defined = __webpack_require__(76);
 module.exports = function (it) {
   return IObject(defined(it));
 };
@@ -5017,14 +5028,14 @@ module.exports = function (it) {
 /* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(230), __esModule: true };
+module.exports = { "default": __webpack_require__(229), __esModule: true };
 
 /***/ }),
 /* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.13 ToObject(argument)
-var defined = __webpack_require__(77);
+var defined = __webpack_require__(76);
 module.exports = function (it) {
   return Object(defined(it));
 };
@@ -5180,7 +5191,7 @@ const CALL_STATES = exports.CALL_STATES = {
   JOIN_FAILURE: 'Join Failed'
 
   /**
-   * Status codes that match success messsages.
+   * Status codes that match success messages.
    * @name STATUS_CODES
    * @type {Object}
    * @property {number} DIRECT_TRANSFER_SUCCESS Status code for successful direct transfer.
@@ -5258,8 +5269,8 @@ module.exports = function (bitmap, value) {
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.14 / 15.2.3.14 Object.keys(O)
-var $keys = __webpack_require__(108);
-var enumBugKeys = __webpack_require__(81);
+var $keys = __webpack_require__(107);
+var enumBugKeys = __webpack_require__(80);
 
 module.exports = Object.keys || function keys(O) {
   return $keys(O, enumBugKeys);
@@ -5270,7 +5281,7 @@ module.exports = Object.keys || function keys(O) {
 /* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(206), __esModule: true };
+module.exports = { "default": __webpack_require__(205), __esModule: true };
 
 /***/ }),
 /* 41 */
@@ -6119,11 +6130,11 @@ module.exports = {};
 /***/ (function(module, exports, __webpack_require__) {
 
 var ctx = __webpack_require__(29);
-var call = __webpack_require__(118);
-var isArrayIter = __webpack_require__(119);
+var call = __webpack_require__(117);
+var isArrayIter = __webpack_require__(118);
 var anObject = __webpack_require__(23);
-var toLength = __webpack_require__(58);
-var getIterFn = __webpack_require__(120);
+var toLength = __webpack_require__(59);
+var getIterFn = __webpack_require__(119);
 var BREAK = {};
 var RETURN = {};
 var exports = module.exports = function (iterable, entries, fn, that, ITERATOR) {
@@ -6149,13 +6160,13 @@ exports.RETURN = RETURN;
 /* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(175), __esModule: true };
+module.exports = { "default": __webpack_require__(174), __esModule: true };
 
 /***/ }),
 /* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(183), __esModule: true };
+module.exports = { "default": __webpack_require__(182), __esModule: true };
 
 /***/ }),
 /* 55 */
@@ -6230,13 +6241,13 @@ Object.defineProperty(exports, "__esModule", {
 exports.update = update;
 exports.setSdpHandlers = setSdpHandlers;
 
-var _actionTypes = __webpack_require__(296);
+var _actionTypes = __webpack_require__(294);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _utils = __webpack_require__(211);
+var _utils = __webpack_require__(210);
 
-var _sdpHandlers = __webpack_require__(331);
+var _sdpHandlers = __webpack_require__(324);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -6305,6 +6316,23 @@ function setSdpHandlers(sdpHandlers, options) {
 /* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
+var parser = __webpack_require__(251);
+var writer = __webpack_require__(252);
+
+exports.write = writer;
+exports.parse = parser.parse;
+exports.parseParams = parser.parseParams;
+exports.parseFmtpConfig = parser.parseFmtpConfig; // Alias of parseParams().
+exports.parsePayloads = parser.parsePayloads;
+exports.parseRemoteCandidates = parser.parseRemoteCandidates;
+exports.parseImageAttributes = parser.parseImageAttributes;
+exports.parseSimulcastStreamList = parser.parseSimulcastStreamList;
+
+
+/***/ }),
+/* 58 */
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
 
 
@@ -6314,13 +6342,13 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = request;
 exports.requestSaga = requestSaga;
 
-var _actionTypes = __webpack_require__(156);
+var _actionTypes = __webpack_require__(155);
 
-var _actions = __webpack_require__(301);
+var _actions = __webpack_require__(299);
 
 var actions = _interopRequireWildcard(_actions);
 
-var _utils = __webpack_require__(284);
+var _utils = __webpack_require__(283);
 
 var _utils2 = __webpack_require__(13);
 
@@ -6341,7 +6369,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
  * @param {Object} [options.queryParams] The parameters to be added to the query string
  * @param {string} [options.responseType] The data type assumed to be received in the response body
  * @param {Blob|BufferSource|FormData|UrlSearchParams|string} [options.body] Any body that you want to add to your request.
- * @return A blocking redux-saga effect that will instruct the middleware to wait for the request to be fullfilled or until it fails.
+ * @return A blocking redux-saga effect that will instruct the middleware to wait for the request to be fulfilled or until it fails.
  */
 // Requests plugin.
 function request(options, commonOptions) {
@@ -6379,11 +6407,11 @@ function* requestSaga(options, manualOptions) {
 }
 
 /***/ }),
-/* 58 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.15 ToLength
-var toInteger = __webpack_require__(78);
+var toInteger = __webpack_require__(77);
 var min = Math.min;
 module.exports = function (it) {
   return it > 0 ? min(toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
@@ -6391,7 +6419,7 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 59 */
+/* 60 */
 /***/ (function(module, exports) {
 
 var id = 0;
@@ -6402,32 +6430,10 @@ module.exports = function (key) {
 
 
 /***/ }),
-/* 60 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getVersion = getVersion;
-/**
- * Returns the version of the currently running SDK.
- *
- * It must be used by any plugins (including the factory) as the unique source of truth when it comes to determine the current SDK version.
- * The actual version value is provided by the build process scripts (aka webpack.config.***.js) which simply do a string substitution
- * for the @@ tag below with actual version value.
- */
-function getVersion() {
-  return '4.33.0';
-}
-
-/***/ }),
 /* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var META = __webpack_require__(59)('meta');
+var META = __webpack_require__(60)('meta');
 var isObject = __webpack_require__(14);
 var has = __webpack_require__(31);
 var setDesc = __webpack_require__(18).f;
@@ -6488,22 +6494,22 @@ var meta = module.exports = {
 
 // 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
 var anObject = __webpack_require__(23);
-var dPs = __webpack_require__(140);
-var enumBugKeys = __webpack_require__(81);
-var IE_PROTO = __webpack_require__(79)('IE_PROTO');
+var dPs = __webpack_require__(139);
+var enumBugKeys = __webpack_require__(80);
+var IE_PROTO = __webpack_require__(78)('IE_PROTO');
 var Empty = function () { /* empty */ };
 var PROTOTYPE = 'prototype';
 
 // Create object with fake `null` prototype: use iframe Object with cleared prototype
 var createDict = function () {
   // Thrash, waste and sodomy: IE GC bug
-  var iframe = __webpack_require__(74)('iframe');
+  var iframe = __webpack_require__(73)('iframe');
   var i = enumBugKeys.length;
   var lt = '<';
   var gt = '>';
   var iframeDocument;
   iframe.style.display = 'none';
-  __webpack_require__(112).appendChild(iframe);
+  __webpack_require__(111).appendChild(iframe);
   iframe.src = 'javascript:'; // eslint-disable-line no-script-url
   // createDict = iframe.contentWindow.Object;
   // html.removeChild(iframe);
@@ -6535,10 +6541,10 @@ module.exports = Object.create || function create(O, Properties) {
 
 "use strict";
 
-var $at = __webpack_require__(198)(true);
+var $at = __webpack_require__(197)(true);
 
 // 21.1.3.27 String.prototype[@@iterator]()
-__webpack_require__(88)(String, 'String', function (iterated) {
+__webpack_require__(87)(String, 'String', function (iterated) {
   this._t = String(iterated); // target
   this._i = 0;                // next index
 // 21.1.5.2.1 %StringIteratorPrototype%.next()
@@ -6567,7 +6573,7 @@ exports.mergeValues = mergeValues;
 exports.makeSafeForCSS = makeSafeForCSS;
 exports.getBrowserDetails = getBrowserDetails;
 
-var _adapter_no_edge = __webpack_require__(229);
+var _adapter_no_edge = __webpack_require__(228);
 
 var _adapter_no_edge2 = _interopRequireDefault(_adapter_no_edge);
 
@@ -6622,13 +6628,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _freeze = __webpack_require__(131);
+var _freeze = __webpack_require__(130);
 
 var _freeze2 = _interopRequireDefault(_freeze);
 
 exports.runPipeline = runPipeline;
 
-var _sdpTransform = __webpack_require__(66);
+var _sdpTransform = __webpack_require__(57);
 
 var _sdpTransform2 = _interopRequireDefault(_sdpTransform);
 
@@ -6675,7 +6681,7 @@ function runPipeline(handlers, sdp, info) {
 
 /**
  * Create an instance of the SDP pipeline.
- * Allows for persistent SDP handlers to be set and implictly used.
+ * Allows for persistent SDP handlers to be set and implicitly used.
  * @method createPipeline
  * @return {Object} An SDP pipeline.
  */
@@ -6734,23 +6740,6 @@ exports.default = createPipeline();
 /* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var parser = __webpack_require__(252);
-var writer = __webpack_require__(253);
-
-exports.write = writer;
-exports.parse = parser.parse;
-exports.parseParams = parser.parseParams;
-exports.parseFmtpConfig = parser.parseFmtpConfig; // Alias of parseParams().
-exports.parsePayloads = parser.parsePayloads;
-exports.parseRemoteCandidates = parser.parseRemoteCandidates;
-exports.parseImageAttributes = parser.parseImageAttributes;
-exports.parseSimulcastStreamList = parser.parseSimulcastStreamList;
-
-
-/***/ }),
-/* 67 */
-/***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
 
 
@@ -6779,7 +6768,7 @@ const CHANGE_CONNECTIVITY_CHECKING = exports.CHANGE_CONNECTIVITY_CHECKING = pref
 const CHANGE_PING_INTERVAL = exports.CHANGE_PING_INTERVAL = prefix + 'CHANGE_PING_INTERVAL';
 
 /***/ }),
-/* 68 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6790,11 +6779,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.turnActions = exports.callActions = undefined;
 
-var _call = __webpack_require__(304);
+var _call = __webpack_require__(302);
 
 var callActionsImport = _interopRequireWildcard(_call);
 
-var _turn = __webpack_require__(430);
+var _turn = __webpack_require__(423);
 
 var turnActionsImport = _interopRequireWildcard(_turn);
 
@@ -6807,7 +6796,7 @@ const callActions = exports.callActions = callActionsImport;
 const turnActions = exports.turnActions = turnActionsImport;
 
 /***/ }),
-/* 69 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6944,7 +6933,7 @@ const TRACK_ADDED = exports.TRACK_ADDED = trackPrefix + 'ADDED';
 const TRACK_REMOVED = exports.TRACK_REMOVED = trackPrefix + 'REMOVED';
 
 /***/ }),
-/* 70 */
+/* 69 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6972,6 +6961,28 @@ function delayP(ms, val) {
 
 
 /***/ }),
+/* 70 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getVersion = getVersion;
+/**
+ * Returns the version of the currently running SDK.
+ *
+ * It must be used by any plugins (including the factory) as the unique source of truth when it comes to determine the current SDK version.
+ * The actual version value is provided by the build process scripts (aka webpack.config.***.js) which simply do a string substitution
+ * for the @@ tag below with actual version value.
+ */
+function getVersion() {
+  return '4.34.0';
+}
+
+/***/ }),
 /* 71 */
 /***/ (function(module, exports) {
 
@@ -6997,7 +7008,7 @@ var _fp = __webpack_require__(3);
 
 var _logs = __webpack_require__(2);
 
-var _v8n = __webpack_require__(342);
+var _v8n = __webpack_require__(335);
 
 var _v8n2 = _interopRequireDefault(_v8n);
 
@@ -7103,118 +7114,6 @@ const aOrAn = string => /[aeiou]/i.test(string[0]) ? 'an' : 'a';
 /* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-
-
-
-var TYPED_OK =  (typeof Uint8Array !== 'undefined') &&
-                (typeof Uint16Array !== 'undefined') &&
-                (typeof Int32Array !== 'undefined');
-
-function _has(obj, key) {
-  return Object.prototype.hasOwnProperty.call(obj, key);
-}
-
-exports.assign = function (obj /*from1, from2, from3, ...*/) {
-  var sources = Array.prototype.slice.call(arguments, 1);
-  while (sources.length) {
-    var source = sources.shift();
-    if (!source) { continue; }
-
-    if (typeof source !== 'object') {
-      throw new TypeError(source + 'must be non-object');
-    }
-
-    for (var p in source) {
-      if (_has(source, p)) {
-        obj[p] = source[p];
-      }
-    }
-  }
-
-  return obj;
-};
-
-
-// reduce buffer size, avoiding mem copy
-exports.shrinkBuf = function (buf, size) {
-  if (buf.length === size) { return buf; }
-  if (buf.subarray) { return buf.subarray(0, size); }
-  buf.length = size;
-  return buf;
-};
-
-
-var fnTyped = {
-  arraySet: function (dest, src, src_offs, len, dest_offs) {
-    if (src.subarray && dest.subarray) {
-      dest.set(src.subarray(src_offs, src_offs + len), dest_offs);
-      return;
-    }
-    // Fallback to ordinary array
-    for (var i = 0; i < len; i++) {
-      dest[dest_offs + i] = src[src_offs + i];
-    }
-  },
-  // Join array of chunks to single array.
-  flattenChunks: function (chunks) {
-    var i, l, len, pos, chunk, result;
-
-    // calculate data length
-    len = 0;
-    for (i = 0, l = chunks.length; i < l; i++) {
-      len += chunks[i].length;
-    }
-
-    // join chunks
-    result = new Uint8Array(len);
-    pos = 0;
-    for (i = 0, l = chunks.length; i < l; i++) {
-      chunk = chunks[i];
-      result.set(chunk, pos);
-      pos += chunk.length;
-    }
-
-    return result;
-  }
-};
-
-var fnUntyped = {
-  arraySet: function (dest, src, src_offs, len, dest_offs) {
-    for (var i = 0; i < len; i++) {
-      dest[dest_offs + i] = src[src_offs + i];
-    }
-  },
-  // Join array of chunks to single array.
-  flattenChunks: function (chunks) {
-    return [].concat.apply([], chunks);
-  }
-};
-
-
-// Enable/Disable typed arrays use, for testing
-//
-exports.setTyped = function (on) {
-  if (on) {
-    exports.Buf8  = Uint8Array;
-    exports.Buf16 = Uint16Array;
-    exports.Buf32 = Int32Array;
-    exports.assign(exports, fnTyped);
-  } else {
-    exports.Buf8  = Array;
-    exports.Buf16 = Array;
-    exports.Buf32 = Array;
-    exports.assign(exports, fnUntyped);
-  }
-};
-
-exports.setTyped(TYPED_OK);
-
-
-/***/ }),
-/* 74 */
-/***/ (function(module, exports, __webpack_require__) {
-
 var isObject = __webpack_require__(14);
 var document = __webpack_require__(9).document;
 // typeof document.createElement is 'object' in old IE
@@ -7225,7 +7124,7 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 75 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.1 ToPrimitive(input [, PreferredType])
@@ -7243,7 +7142,7 @@ module.exports = function (it, S) {
 
 
 /***/ }),
-/* 76 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // fallback for non-array-like ES3 and non-enumerable old V8 strings
@@ -7255,7 +7154,7 @@ module.exports = Object('z').propertyIsEnumerable(0) ? Object : function (it) {
 
 
 /***/ }),
-/* 77 */
+/* 76 */
 /***/ (function(module, exports) {
 
 // 7.2.1 RequireObjectCoercible(argument)
@@ -7266,7 +7165,7 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 78 */
+/* 77 */
 /***/ (function(module, exports) {
 
 // 7.1.4 ToInteger
@@ -7278,18 +7177,18 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 79 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var shared = __webpack_require__(80)('keys');
-var uid = __webpack_require__(59);
+var shared = __webpack_require__(79)('keys');
+var uid = __webpack_require__(60);
 module.exports = function (key) {
   return shared[key] || (shared[key] = uid(key));
 };
 
 
 /***/ }),
-/* 80 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var core = __webpack_require__(7);
@@ -7307,7 +7206,7 @@ var store = global[SHARED] || (global[SHARED] = {});
 
 
 /***/ }),
-/* 81 */
+/* 80 */
 /***/ (function(module, exports) {
 
 // IE 8- don't enum bug keys
@@ -7317,14 +7216,14 @@ module.exports = (
 
 
 /***/ }),
-/* 82 */
+/* 81 */
 /***/ (function(module, exports) {
 
 exports.f = Object.getOwnPropertySymbols;
 
 
 /***/ }),
-/* 83 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7345,7 +7244,7 @@ exports.default = function (obj, keys) {
 };
 
 /***/ }),
-/* 84 */
+/* 83 */
 /***/ (function(module, exports) {
 
 var g;
@@ -7371,7 +7270,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 85 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7382,11 +7281,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.logFormatter = exports.logLevels = undefined;
 
-var _logManager = __webpack_require__(182);
+var _logManager = __webpack_require__(181);
 
 var _logManager2 = _interopRequireDefault(_logManager);
 
-var _logFormatter = __webpack_require__(115);
+var _logFormatter = __webpack_require__(114);
 
 var _logFormatter2 = _interopRequireDefault(_logFormatter);
 
@@ -7409,13 +7308,13 @@ const logLevels = exports.logLevels = _constants.logLevels;
 const logFormatter = exports.logFormatter = _logFormatter2.default;
 
 /***/ }),
-/* 86 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var global = __webpack_require__(9);
 var core = __webpack_require__(7);
 var LIBRARY = __webpack_require__(48);
-var wksExt = __webpack_require__(101);
+var wksExt = __webpack_require__(100);
 var defineProperty = __webpack_require__(18).f;
 module.exports = function (name) {
   var $Symbol = core.Symbol || (core.Symbol = LIBRARY ? {} : global.Symbol || {});
@@ -7424,7 +7323,7 @@ module.exports = function (name) {
 
 
 /***/ }),
-/* 87 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7474,19 +7373,19 @@ function checkHandler(handler) {
 }
 
 /***/ }),
-/* 88 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var LIBRARY = __webpack_require__(48);
 var $export = __webpack_require__(8);
-var redefine = __webpack_require__(110);
+var redefine = __webpack_require__(109);
 var hide = __webpack_require__(30);
 var Iterators = __webpack_require__(51);
-var $iterCreate = __webpack_require__(199);
+var $iterCreate = __webpack_require__(198);
 var setToStringTag = __webpack_require__(50);
-var getPrototypeOf = __webpack_require__(102);
+var getPrototypeOf = __webpack_require__(101);
 var ITERATOR = __webpack_require__(11)('iterator');
 var BUGGY = !([].keys && 'next' in [].keys()); // Safari has buggy iterators w/o `next`
 var FF_ITERATOR = '@@iterator';
@@ -7550,10 +7449,10 @@ module.exports = function (Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCE
 
 
 /***/ }),
-/* 89 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(200);
+__webpack_require__(199);
 var global = __webpack_require__(9);
 var hide = __webpack_require__(30);
 var Iterators = __webpack_require__(51);
@@ -7575,7 +7474,7 @@ for (var i = 0; i < DOMIterables.length; i++) {
 
 
 /***/ }),
-/* 90 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var hide = __webpack_require__(30);
@@ -7588,7 +7487,7 @@ module.exports = function (target, src, safe) {
 
 
 /***/ }),
-/* 91 */
+/* 90 */
 /***/ (function(module, exports) {
 
 module.exports = function (it, Constructor, name, forbiddenField) {
@@ -7599,7 +7498,7 @@ module.exports = function (it, Constructor, name, forbiddenField) {
 
 
 /***/ }),
-/* 92 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // getting tag from 19.1.3.6 Object.prototype.toString()
@@ -7628,7 +7527,7 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 93 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7653,7 +7552,7 @@ module.exports.f = function (C) {
 
 
 /***/ }),
-/* 94 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7804,7 +7703,7 @@ function preventDtlsRoleChange(newSdp, info, originalSdp) {
 }
 
 /***/ }),
-/* 95 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7833,7 +7732,7 @@ const CHANNEL_OPENED = exports.CHANNEL_OPENED = prefix + 'CHANNEL_OPENED';
 const CHANNEL_CLOSED = exports.CHANNEL_CLOSED = prefix + 'CHANNEL_CLOSED';
 
 /***/ }),
-/* 96 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7879,7 +7778,7 @@ const SEARCH_DIRECTORY = exports.SEARCH_DIRECTORY = prefix + 'SEARCH_DIRECTORY';
 const SEARCH_DIRECTORY_FINISH = exports.SEARCH_DIRECTORY_FINISH = prefix + 'SEARCH_DIRECTORY_FINISH';
 
 /***/ }),
-/* 97 */
+/* 96 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7890,7 +7789,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "combineReducers", function() { return combineReducers; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "compose", function() { return compose; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createStore", function() { return createStore; });
-/* harmony import */ var symbol_observable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(98);
+/* harmony import */ var symbol_observable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(97);
 
 
 /**
@@ -8543,11 +8442,11 @@ if (false) {}
 
 
 /***/ }),
-/* 98 */
+/* 97 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(global, module) {/* harmony import */ var _ponyfill_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(137);
+/* WEBPACK VAR INJECTION */(function(global, module) {/* harmony import */ var _ponyfill_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(136);
 /* global window */
 
 
@@ -8566,16 +8465,16 @@ if (typeof self !== 'undefined') {
 var result = Object(_ponyfill_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(root);
 /* harmony default export */ __webpack_exports__["a"] = (result);
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(84), __webpack_require__(169)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(83), __webpack_require__(168)(module)))
+
+/***/ }),
+/* 98 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(163), __esModule: true };
 
 /***/ }),
 /* 99 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(164), __esModule: true };
-
-/***/ }),
-/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // most Object methods by ES6 should accept primitives
@@ -8591,20 +8490,20 @@ module.exports = function (KEY, exec) {
 
 
 /***/ }),
-/* 101 */
+/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports.f = __webpack_require__(11);
 
 
 /***/ }),
-/* 102 */
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
 var has = __webpack_require__(31);
 var toObject = __webpack_require__(36);
-var IE_PROTO = __webpack_require__(79)('IE_PROTO');
+var IE_PROTO = __webpack_require__(78)('IE_PROTO');
 var ObjectProto = Object.prototype;
 
 module.exports = Object.getPrototypeOf || function (O) {
@@ -8617,7 +8516,7 @@ module.exports = Object.getPrototypeOf || function (O) {
 
 
 /***/ }),
-/* 103 */
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isObject = __webpack_require__(14);
@@ -8628,7 +8527,7 @@ module.exports = function (it, TYPE) {
 
 
 /***/ }),
-/* 104 */
+/* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8662,7 +8561,7 @@ var _utils = __webpack_require__(13);
  */
 
 
-// Auth selectors for backwards compatability.
+// Auth selectors for backwards compatibility.
 function getSubscriptionConfig(state) {
   return (0, _fp.cloneDeep)(state.config.subscription);
 }
@@ -8700,7 +8599,7 @@ function getNotificationChannels(state) {
  */
 function getSubscribedServices(state, type) {
   const info = getSubscriptionInfo(state);
-  // For backwards compability, make sure that this is an array. It isn't when
+  // For backwards compatibility, make sure that this is an array. It isn't when
   //    the old Auth plugin is being used (eg. Link v3.X).
   let subscriptions = Array.isArray(info) ? info : [info];
 
@@ -8729,7 +8628,7 @@ function getSubscriptionInfo(state) {
   if (state.subscription) {
     return (0, _fp.cloneDeep)(state.subscription.subscriptions);
   } else {
-    // For backwards compatability, also check if the authentication substate
+    // For backwards compatibility, also check if the authentication substate
     //    has subscription info. It will have the info when the oldAuth plugin
     //    is being used (eg. Link v3.X).
     // Warning: This returns an object, unlike the above which returns an array.
@@ -8759,7 +8658,7 @@ function getSubscriptionExpiry(state) {
   const subConfig = state.config.subscription;
   const authConfig = state.config.authentication;
 
-  // In order to maintain backwards compability with the auth plugin config
+  // In order to maintain backwards compatibility with the auth plugin config
   // we need to first check if this setting is provided in the authentication plugin
   // config, and if not use the one from subscription plugin.  We need to check
   // authentication config first because if no value is provided in the subscription
@@ -8772,8 +8671,8 @@ function getSubscriptionExpiry(state) {
 
 /**
  * Retrieve the websocket info from config. We merge the websocket config
- * from auth plugin with the one from subscription plugin giving precidence to
- * the websocket config in auth plugin since we need to maintain backwards compability
+ * from auth plugin with the one from subscription plugin giving precedence to
+ * the websocket config in auth plugin since we need to maintain backwards compatibility
  * with the old format config.
  * @method getSubscriptionExpiry
  * @return {number}
@@ -8787,13 +8686,13 @@ function getWebsocketConfig(state) {
   // that any client provided values from the authentication config.  All keys existing
   // in authentication config will overwrite those from subscription config.  However,
   // since defaults are not set for websocket in the authentication plugin, only client
-  // provided values for websocket will be used from authentication config and defualts
+  // provided values for websocket will be used from authentication config and defaults
   // will come from the subscription plugin.
   return (0, _utils.mergeValues)(subConfig.websocket, authConfig.websocket);
 }
 
 /***/ }),
-/* 105 */
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8829,23 +8728,23 @@ const AUTHORIZATION_ERROR = exports.AUTHORIZATION_ERROR = prefix + 'AUTHORIZATIO
 const UPDATE_HMAC_TOKEN = exports.UPDATE_HMAC_TOKEN = prefix + 'UPDATE_HMAC_TOKEN';
 
 /***/ }),
-/* 106 */,
-/* 107 */
+/* 105 */,
+/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = !__webpack_require__(17) && !__webpack_require__(33)(function () {
-  return Object.defineProperty(__webpack_require__(74)('div'), 'a', { get: function () { return 7; } }).a != 7;
+  return Object.defineProperty(__webpack_require__(73)('div'), 'a', { get: function () { return 7; } }).a != 7;
 });
 
 
 /***/ }),
-/* 108 */
+/* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var has = __webpack_require__(31);
 var toIObject = __webpack_require__(34);
-var arrayIndexOf = __webpack_require__(167)(false);
-var IE_PROTO = __webpack_require__(79)('IE_PROTO');
+var arrayIndexOf = __webpack_require__(166)(false);
+var IE_PROTO = __webpack_require__(78)('IE_PROTO');
 
 module.exports = function (object, names) {
   var O = toIObject(object);
@@ -8862,7 +8761,7 @@ module.exports = function (object, names) {
 
 
 /***/ }),
-/* 109 */
+/* 108 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -8890,14 +8789,14 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 110 */
+/* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(30);
 
 
 /***/ }),
-/* 111 */
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.2.2 IsArray(argument)
@@ -8908,7 +8807,7 @@ module.exports = Array.isArray || function isArray(arg) {
 
 
 /***/ }),
-/* 112 */
+/* 111 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var document = __webpack_require__(9).document;
@@ -8916,12 +8815,12 @@ module.exports = document && document.documentElement;
 
 
 /***/ }),
-/* 113 */
+/* 112 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)
-var $keys = __webpack_require__(108);
-var hiddenKeys = __webpack_require__(81).concat('length', 'prototype');
+var $keys = __webpack_require__(107);
+var hiddenKeys = __webpack_require__(80).concat('length', 'prototype');
 
 exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
   return $keys(O, hiddenKeys);
@@ -8929,15 +8828,15 @@ exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
 
 
 /***/ }),
-/* 114 */
+/* 113 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var pIE = __webpack_require__(49);
 var createDesc = __webpack_require__(38);
 var toIObject = __webpack_require__(34);
-var toPrimitive = __webpack_require__(75);
+var toPrimitive = __webpack_require__(74);
 var has = __webpack_require__(31);
-var IE8_DOM_DEFINE = __webpack_require__(107);
+var IE8_DOM_DEFINE = __webpack_require__(106);
 var gOPD = Object.getOwnPropertyDescriptor;
 
 exports.f = __webpack_require__(17) ? gOPD : function getOwnPropertyDescriptor(O, P) {
@@ -8951,7 +8850,7 @@ exports.f = __webpack_require__(17) ? gOPD : function getOwnPropertyDescriptor(O
 
 
 /***/ }),
-/* 115 */
+/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8985,7 +8884,7 @@ function defaultLogFormatter(entry) {
 }
 
 /***/ }),
-/* 116 */
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9003,7 +8902,7 @@ const SET_HANDLER = exports.SET_HANDLER = prefix + 'SET_HANDLER';
 const HANDLERS_CHANGE = exports.HANDLERS_CHANGE = prefix + 'HANDLERS_CHANGE';
 
 /***/ }),
-/* 117 */
+/* 116 */
 /***/ (function(module, exports) {
 
 module.exports = function (done, value) {
@@ -9012,7 +8911,7 @@ module.exports = function (done, value) {
 
 
 /***/ }),
-/* 118 */
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // call something on iterator step with safe closing on error
@@ -9030,7 +8929,7 @@ module.exports = function (iterator, fn, value, entries) {
 
 
 /***/ }),
-/* 119 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // check on default Array iterator
@@ -9044,10 +8943,10 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 120 */
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var classof = __webpack_require__(92);
+var classof = __webpack_require__(91);
 var ITERATOR = __webpack_require__(11)('iterator');
 var Iterators = __webpack_require__(51);
 module.exports = __webpack_require__(7).getIteratorMethod = function (it) {
@@ -9058,7 +8957,7 @@ module.exports = __webpack_require__(7).getIteratorMethod = function (it) {
 
 
 /***/ }),
-/* 121 */
+/* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9079,7 +8978,7 @@ module.exports = function (KEY) {
 
 
 /***/ }),
-/* 122 */
+/* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var ITERATOR = __webpack_require__(11)('iterator');
@@ -9107,7 +9006,7 @@ module.exports = function (exec, skipClosing) {
 
 
 /***/ }),
-/* 123 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.3.20 SpeciesConstructor(O, defaultConstructor)
@@ -9122,13 +9021,13 @@ module.exports = function (O, D) {
 
 
 /***/ }),
-/* 124 */
+/* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var ctx = __webpack_require__(29);
-var invoke = __webpack_require__(214);
-var html = __webpack_require__(112);
-var cel = __webpack_require__(74);
+var invoke = __webpack_require__(213);
+var html = __webpack_require__(111);
+var cel = __webpack_require__(73);
 var global = __webpack_require__(9);
 var process = global.process;
 var setTask = global.setImmediate;
@@ -9212,7 +9111,7 @@ module.exports = {
 
 
 /***/ }),
-/* 125 */
+/* 124 */
 /***/ (function(module, exports) {
 
 module.exports = function (exec) {
@@ -9225,12 +9124,12 @@ module.exports = function (exec) {
 
 
 /***/ }),
-/* 126 */
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var anObject = __webpack_require__(23);
 var isObject = __webpack_require__(14);
-var newPromiseCapability = __webpack_require__(93);
+var newPromiseCapability = __webpack_require__(92);
 
 module.exports = function (C, x) {
   anObject(C);
@@ -9243,7 +9142,7 @@ module.exports = function (C, x) {
 
 
 /***/ }),
-/* 127 */
+/* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9255,39 +9154,39 @@ Object.defineProperty(exports, "__esModule", {
 exports.getWebRTCSupportCapabilities = getWebRTCSupportCapabilities;
 exports.default = initialize;
 
-var _track = __webpack_require__(128);
+var _track = __webpack_require__(127);
 
 var _track2 = _interopRequireDefault(_track);
 
-var _media = __webpack_require__(129);
+var _media = __webpack_require__(128);
 
 var _media2 = _interopRequireDefault(_media);
 
-var _Peer = __webpack_require__(130);
+var _Peer = __webpack_require__(129);
 
 var _Peer2 = _interopRequireDefault(_Peer);
 
-var _mediaManager = __webpack_require__(275);
+var _mediaManager = __webpack_require__(274);
 
 var _mediaManager2 = _interopRequireDefault(_mediaManager);
 
-var _peerManager = __webpack_require__(276);
+var _peerManager = __webpack_require__(275);
 
 var _peerManager2 = _interopRequireDefault(_peerManager);
 
-var _sessionManager = __webpack_require__(277);
+var _sessionManager = __webpack_require__(276);
 
 var _sessionManager2 = _interopRequireDefault(_sessionManager);
 
-var _deviceManager = __webpack_require__(279);
+var _deviceManager = __webpack_require__(278);
 
 var _deviceManager2 = _interopRequireDefault(_deviceManager);
 
-var _trackManager = __webpack_require__(280);
+var _trackManager = __webpack_require__(279);
 
 var _trackManager2 = _interopRequireDefault(_trackManager);
 
-var _webrtcManager = __webpack_require__(281);
+var _webrtcManager = __webpack_require__(280);
 
 var _webrtcManager2 = _interopRequireDefault(_webrtcManager);
 
@@ -9297,7 +9196,7 @@ var _pipeline = __webpack_require__(65);
 
 var _pipeline2 = _interopRequireDefault(_pipeline);
 
-var _handlers = __webpack_require__(94);
+var _handlers = __webpack_require__(93);
 
 var sdpHandlers = _interopRequireWildcard(_handlers);
 
@@ -9375,7 +9274,7 @@ function initialize() {
 }
 
 /***/ }),
-/* 128 */
+/* 127 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9438,7 +9337,7 @@ function Track(mediaTrack, mediaStream) {
 
   /**
    * When a track is muted, we forward this to any listener.
-   * This handler is tipically invoked by actions triggered outside the
+   * This handler is typically invoked by actions triggered outside the
    * direct control of the webrtc SDK.
    */
   track.onmute = event => {
@@ -9452,7 +9351,7 @@ function Track(mediaTrack, mediaStream) {
 
   /**
    * When a track is unmuted, we forward this to any listener.
-   * This handler is tipically invoked by actions triggered outside the
+   * This handler is typically invoked by actions triggered outside the
    * direct control of the webrtc SDK.
    */
   track.onunmute = event => {
@@ -9685,7 +9584,7 @@ function Track(mediaTrack, mediaStream) {
     track.stop();
     /**
      * Treat stopping the track the same as it being ended.
-     * Noramlly, onended is not triggered when `stop` is called, only when it is
+     * Normally, onended is not triggered when `stop` is called, only when it is
      *    "remotely ended".
      */
     track.onended();
@@ -9763,7 +9662,7 @@ function Track(mediaTrack, mediaStream) {
 }
 
 /***/ }),
-/* 129 */
+/* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10029,7 +9928,7 @@ function Media(nativeStream, isLocal) {
 // Libraries.
 
 /***/ }),
-/* 130 */
+/* 129 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10039,7 +9938,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _set = __webpack_require__(235);
+var _set = __webpack_require__(234);
 
 var _set2 = _interopRequireDefault(_set);
 
@@ -10053,21 +9952,21 @@ var _extends3 = _interopRequireDefault(_extends2);
 
 exports.default = peer;
 
-var _events = __webpack_require__(238);
+var _events = __webpack_require__(237);
 
 var _events2 = _interopRequireDefault(_events);
 
-var _methods = __webpack_require__(245);
+var _methods = __webpack_require__(244);
 
 var _methods2 = _interopRequireDefault(_methods);
 
-var _properties = __webpack_require__(266);
+var _properties = __webpack_require__(265);
 
 var _properties2 = _interopRequireDefault(_properties);
 
 var _utils = __webpack_require__(64);
 
-var _config = __webpack_require__(273);
+var _config = __webpack_require__(272);
 
 var _config2 = _interopRequireDefault(_config);
 
@@ -10077,7 +9976,7 @@ var _eventemitter = __webpack_require__(25);
 
 var _eventemitter2 = _interopRequireDefault(_eventemitter);
 
-var _timer = __webpack_require__(274);
+var _timer = __webpack_require__(273);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -10253,13 +10152,13 @@ function peer(id, config = {}, trackManager) {
 }
 
 /***/ }),
-/* 131 */
+/* 130 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(250), __esModule: true };
+module.exports = { "default": __webpack_require__(249), __esModule: true };
 
 /***/ }),
-/* 132 */
+/* 131 */
 /***/ (function(module, exports) {
 
 var grammar = module.exports = {
@@ -10759,7 +10658,7 @@ Object.keys(grammar).forEach(function (key) {
 
 
 /***/ }),
-/* 133 */
+/* 132 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10775,7 +10674,7 @@ exports.getCheckConnectivity = getCheckConnectivity;
 
 var _fp = __webpack_require__(3);
 
-var _name = __webpack_require__(303);
+var _name = __webpack_require__(301);
 
 var _name2 = _interopRequireDefault(_name);
 
@@ -10819,7 +10718,7 @@ function getCheckConnectivity(state) {
 }
 
 /***/ }),
-/* 134 */
+/* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10830,7 +10729,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 /**
  * Blocking operations that can be performed on a call.
- * ie. no two of thes operations, either local or remote,
+ * ie. no two of these operations, either local or remote,
  *    can be performed at the same time.
  * TODO: Should all operations just be listed here? Probably.
  */
@@ -10898,7 +10797,7 @@ const OPERATIONS = exports.OPERATIONS = {
 };const NO_FINISH_OPS = exports.NO_FINISH_OPS = [OPERATIONS.ADD_BASIC_MEDIA, OPERATIONS.REMOVE_BASIC_MEDIA];
 
 /***/ }),
-/* 135 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10908,7 +10807,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _entries = __webpack_require__(450);
+var _entries = __webpack_require__(443);
 
 var _entries2 = _interopRequireDefault(_entries);
 
@@ -10920,21 +10819,21 @@ exports.webRtcAddMedia = webRtcAddMedia;
 exports.webRtcRemoveMedia = webRtcRemoveMedia;
 exports.webRtcReplaceTrack = webRtcReplaceTrack;
 
-var _pipeline = __webpack_require__(158);
+var _pipeline = __webpack_require__(157);
 
 var _pipeline2 = _interopRequireDefault(_pipeline);
 
-var _dscp = __webpack_require__(309);
+var _dscp = __webpack_require__(307);
 
 var _logs = __webpack_require__(2);
 
-var _errors = __webpack_require__(20);
+var _errors = __webpack_require__(19);
 
 var _errors2 = _interopRequireDefault(_errors);
 
 var _selectors = __webpack_require__(26);
 
-var _media = __webpack_require__(310);
+var _media = __webpack_require__(308);
 
 var mediaOps = _interopRequireWildcard(_media);
 
@@ -11469,7 +11368,7 @@ function* webRtcReplaceTrack(webRTC, params) {
 }
 
 /***/ }),
-/* 136 */
+/* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11508,7 +11407,7 @@ const FETCH_MESSAGES_FINISHED = exports.FETCH_MESSAGES_FINISHED = PREFIX + 'FETC
 const FILE_UPLOAD_FAIL = exports.FILE_UPLOAD_FAIL = PREFIX + 'FILE_UPLOAD_FAIL';
 
 /***/ }),
-/* 137 */
+/* 136 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11533,7 +11432,7 @@ function symbolObservablePonyfill(root) {
 
 
 /***/ }),
-/* 138 */
+/* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var DESCRIPTORS = __webpack_require__(17);
@@ -11560,13 +11459,13 @@ module.exports = function (isEntries) {
 
 
 /***/ }),
-/* 139 */
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(185), __esModule: true };
+module.exports = { "default": __webpack_require__(184), __esModule: true };
 
 /***/ }),
-/* 140 */
+/* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var dP = __webpack_require__(18);
@@ -11585,7 +11484,7 @@ module.exports = __webpack_require__(17) ? Object.defineProperties : function de
 
 
 /***/ }),
-/* 141 */
+/* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11596,7 +11495,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.partialDefaultLogActions = exports.defaultOptions = undefined;
 
-var _actionHandler = __webpack_require__(194);
+var _actionHandler = __webpack_require__(193);
 
 var _actionHandler2 = _interopRequireDefault(_actionHandler);
 
@@ -11692,23 +11591,23 @@ const partialDefaultLogActions = exports.partialDefaultLogActions = {
 };
 
 /***/ }),
-/* 142 */
+/* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var dP = __webpack_require__(18).f;
 var create = __webpack_require__(62);
-var redefineAll = __webpack_require__(90);
+var redefineAll = __webpack_require__(89);
 var ctx = __webpack_require__(29);
-var anInstance = __webpack_require__(91);
+var anInstance = __webpack_require__(90);
 var forOf = __webpack_require__(52);
-var $iterDefine = __webpack_require__(88);
-var step = __webpack_require__(117);
-var setSpecies = __webpack_require__(121);
+var $iterDefine = __webpack_require__(87);
+var step = __webpack_require__(116);
+var setSpecies = __webpack_require__(120);
 var DESCRIPTORS = __webpack_require__(17);
 var fastKey = __webpack_require__(61).fastKey;
-var validate = __webpack_require__(103);
+var validate = __webpack_require__(102);
 var SIZE = DESCRIPTORS ? '_s' : 'size';
 
 var getEntry = function (that, key) {
@@ -11843,7 +11742,7 @@ module.exports = {
 
 
 /***/ }),
-/* 143 */
+/* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11853,13 +11752,13 @@ var $export = __webpack_require__(8);
 var meta = __webpack_require__(61);
 var fails = __webpack_require__(33);
 var hide = __webpack_require__(30);
-var redefineAll = __webpack_require__(90);
+var redefineAll = __webpack_require__(89);
 var forOf = __webpack_require__(52);
-var anInstance = __webpack_require__(91);
+var anInstance = __webpack_require__(90);
 var isObject = __webpack_require__(14);
 var setToStringTag = __webpack_require__(50);
 var dP = __webpack_require__(18).f;
-var each = __webpack_require__(202)(0);
+var each = __webpack_require__(201)(0);
 var DESCRIPTORS = __webpack_require__(17);
 
 module.exports = function (NAME, wrapper, methods, common, IS_MAP, IS_WEAK) {
@@ -11909,12 +11808,12 @@ module.exports = function (NAME, wrapper, methods, common, IS_MAP, IS_WEAK) {
 
 
 /***/ }),
-/* 144 */
+/* 143 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://github.com/DavidBruant/Map-Set.prototype.toJSON
-var classof = __webpack_require__(92);
-var from = __webpack_require__(205);
+var classof = __webpack_require__(91);
+var from = __webpack_require__(204);
 module.exports = function (NAME) {
   return function toJSON() {
     if (classof(this) != NAME) throw TypeError(NAME + "#toJSON isn't generic");
@@ -11924,7 +11823,7 @@ module.exports = function (NAME) {
 
 
 /***/ }),
-/* 145 */
+/* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11943,7 +11842,7 @@ module.exports = function (COLLECTION) {
 
 
 /***/ }),
-/* 146 */
+/* 145 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11978,13 +11877,13 @@ module.exports = function (COLLECTION) {
 
 
 /***/ }),
-/* 147 */
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(209), __esModule: true };
+module.exports = { "default": __webpack_require__(208), __esModule: true };
 
 /***/ }),
-/* 148 */
+/* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12070,7 +11969,7 @@ function getBrowserDetails(state) {
 }
 
 /***/ }),
-/* 149 */
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12118,7 +12017,7 @@ function initializeDeviceFinish({ devices, error }) {
 }
 
 /***/ }),
-/* 150 */
+/* 149 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12204,7 +12103,7 @@ function setListeners(track, emit, END = 'END') {
 }
 
 /***/ }),
-/* 151 */
+/* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12305,7 +12204,7 @@ function setListeners(media, emit, END = 'END') {
 }
 
 /***/ }),
-/* 152 */
+/* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12441,7 +12340,7 @@ function setListeners(session, emit, END = 'END') {
 }
 
 /***/ }),
-/* 153 */
+/* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12468,7 +12367,7 @@ function getSdpSessionId(sdp) {
 }
 
 /***/ }),
-/* 154 */
+/* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12489,7 +12388,7 @@ const INITIALIZE = exports.INITIALIZE = PREFIX + 'INITIALIZE';
 const INITIALIZE_FINISH = exports.INITIALIZE_FINISH = PREFIX + 'INITIALIZE_FINISH';
 
 /***/ }),
-/* 155 */
+/* 154 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12519,7 +12418,7 @@ const SUBSCRIPTION_STATE = exports.SUBSCRIPTION_STATE = {
 };
 
 /***/ }),
-/* 156 */
+/* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12536,7 +12435,7 @@ const RESPONSE = exports.RESPONSE = PREFIX + 'RESPONSE';
 const AUTHORIZATION_ERROR = exports.AUTHORIZATION_ERROR = PREFIX + 'AUTHORIZATION_ERROR';
 
 /***/ }),
-/* 157 */
+/* 156 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12547,11 +12446,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.changePingInterval = exports.changeConnectivityChecking = exports.receiveServerPong = exports.receiveServerPing = exports.lostConnection = exports.wsError = exports.wsClosed = exports.wsReconnectFailed = exports.wsDisconnectFinished = exports.wsConnectFinished = exports.wsDisconnect = exports.wsAttemptConnect = undefined;
 
-var _actionTypes = __webpack_require__(67);
+var _actionTypes = __webpack_require__(66);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(20);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -12594,7 +12493,7 @@ const changeConnectivityChecking = exports.changeConnectivityChecking = createWs
 const changePingInterval = exports.changePingInterval = createWsAction(actionTypes.CHANGE_PING_INTERVAL);
 
 /***/ }),
-/* 158 */
+/* 157 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12608,7 +12507,7 @@ var _stringify = __webpack_require__(32);
 
 var _stringify2 = _interopRequireDefault(_stringify);
 
-var _freeze = __webpack_require__(131);
+var _freeze = __webpack_require__(130);
 
 var _freeze2 = _interopRequireDefault(_freeze);
 
@@ -12616,15 +12515,15 @@ exports.default = runPipeline;
 
 var _logs = __webpack_require__(2);
 
-var _kandyLogger = __webpack_require__(85);
+var _kandyLogger = __webpack_require__(84);
 
-var _sdpTransform = __webpack_require__(66);
+var _sdpTransform = __webpack_require__(57);
 
 var _sdpTransform2 = _interopRequireDefault(_sdpTransform);
 
 var _fp = __webpack_require__(3);
 
-var _variableDiff = __webpack_require__(441);
+var _variableDiff = __webpack_require__(434);
 
 var _variableDiff2 = _interopRequireDefault(_variableDiff);
 
@@ -12780,7 +12679,7 @@ const sixSpaces = '      ';
 const eightSpaces = '        ';
 
 /***/ }),
-/* 159 */
+/* 158 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12802,7 +12701,7 @@ const ADD_CALL_HISTORY_ENTRY = exports.ADD_CALL_HISTORY_ENTRY = prefix + 'ADD_CA
 const SET_CACHE = exports.SET_CACHE = prefix + 'SET_CACHE';
 
 /***/ }),
-/* 160 */
+/* 159 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12817,7 +12716,7 @@ const CLICK_TO_CALL = exports.CLICK_TO_CALL = PREFIX + 'CLICK_TO_CALL';
 const CLICK_TO_CALL_FINISH = exports.CLICK_TO_CALL_FINISH = PREFIX + 'CLICK_TO_CALL_FINISH';
 
 /***/ }),
-/* 161 */
+/* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12832,7 +12731,7 @@ const MWI_UPDATE = exports.MWI_UPDATE = PREFIX + 'MWI_UPDATE';
 const FETCH_MWI = exports.FETCH_MWI = PREFIX + 'FETCH_MWI';
 
 /***/ }),
-/* 162 */
+/* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12858,7 +12757,7 @@ const DELETE_PRESENCE_LIST = exports.DELETE_PRESENCE_LIST = prefix + 'DELETE_PRE
 const GET_PRESENCE_LIST = exports.GET_PRESENCE_LIST = prefix + 'GET_PRESENCE_LIST';
 
 /***/ }),
-/* 163 */
+/* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12881,25 +12780,25 @@ const SIP_EVENT_UNSUBSCRIBE_FINISH = exports.SIP_EVENT_UNSUBSCRIBE_FINISH = PREF
 const SIP_EVENT_RECEIVED = exports.SIP_EVENT_RECEIVED = PREFIX + 'SIP_EVENT_RECEIVED';
 
 /***/ }),
-/* 164 */
+/* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(165);
+__webpack_require__(164);
 module.exports = __webpack_require__(7).Object.assign;
 
 
 /***/ }),
-/* 165 */
+/* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.3.1 Object.assign(target, source)
 var $export = __webpack_require__(8);
 
-$export($export.S + $export.F, 'Object', { assign: __webpack_require__(166) });
+$export($export.S + $export.F, 'Object', { assign: __webpack_require__(165) });
 
 
 /***/ }),
-/* 166 */
+/* 165 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12907,10 +12806,10 @@ $export($export.S + $export.F, 'Object', { assign: __webpack_require__(166) });
 // 19.1.2.1 Object.assign(target, source, ...)
 var DESCRIPTORS = __webpack_require__(17);
 var getKeys = __webpack_require__(39);
-var gOPS = __webpack_require__(82);
+var gOPS = __webpack_require__(81);
 var pIE = __webpack_require__(49);
 var toObject = __webpack_require__(36);
-var IObject = __webpack_require__(76);
+var IObject = __webpack_require__(75);
 var $assign = Object.assign;
 
 // should work with symbols and should have deterministic property order (V8 bug)
@@ -12944,14 +12843,14 @@ module.exports = !$assign || __webpack_require__(33)(function () {
 
 
 /***/ }),
-/* 167 */
+/* 166 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // false -> Array#indexOf
 // true  -> Array#includes
 var toIObject = __webpack_require__(34);
-var toLength = __webpack_require__(58);
-var toAbsoluteIndex = __webpack_require__(168);
+var toLength = __webpack_require__(59);
+var toAbsoluteIndex = __webpack_require__(167);
 module.exports = function (IS_INCLUDES) {
   return function ($this, el, fromIndex) {
     var O = toIObject($this);
@@ -12973,10 +12872,10 @@ module.exports = function (IS_INCLUDES) {
 
 
 /***/ }),
-/* 168 */
+/* 167 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var toInteger = __webpack_require__(78);
+var toInteger = __webpack_require__(77);
 var max = Math.max;
 var min = Math.min;
 module.exports = function (index, length) {
@@ -12986,7 +12885,7 @@ module.exports = function (index, length) {
 
 
 /***/ }),
-/* 169 */
+/* 168 */
 /***/ (function(module, exports) {
 
 module.exports = function(originalModule) {
@@ -13016,7 +12915,7 @@ module.exports = function(originalModule) {
 
 
 /***/ }),
-/* 170 */
+/* 169 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, module) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -13160,14 +13059,14 @@ u&&(Z.prototype[t]=function(){var t=this.__wrapped__,o=e?[1]:arguments,f=t insta
 var t=_l[n],r=/^(?:push|sort|unshift)$/.test(n)?"tap":"thru",e=/^(?:pop|shift)$/.test(n);Z.prototype[n]=function(){var n=arguments;if(e&&!this.__chain__){var u=this.value();return t.apply(bh(u)?u:[],n)}return this[r](function(r){return t.apply(bh(r)?r:[],n)})}}),ue(Ct.prototype,function(n,t){var r=Z[t];if(r){var e=r.name+"";bl.call(fs,e)||(fs[e]=[]),fs[e].push({name:t,func:r})}}),fs[Qu(X,vn).name]=[{name:"wrapper",func:X}],Ct.prototype.clone=$t,Ct.prototype.reverse=Yt,Ct.prototype.value=Qt,Z.prototype.at=Qs,
 Z.prototype.chain=tf,Z.prototype.commit=rf,Z.prototype.next=ef,Z.prototype.plant=of,Z.prototype.reverse=ff,Z.prototype.toJSON=Z.prototype.valueOf=Z.prototype.value=cf,Z.prototype.first=Z.prototype.head,Ul&&(Z.prototype[Ul]=uf),Z},be=de(); true?(re._=be,!(__WEBPACK_AMD_DEFINE_RESULT__ = (function(){return be}).call(exports, __webpack_require__, exports, module),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))):undefined}).call(this);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(84), __webpack_require__(109)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(83), __webpack_require__(108)(module)))
 
 /***/ }),
-/* 171 */
+/* 170 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var mapping = __webpack_require__(172),
-    fallbackHolder = __webpack_require__(173);
+var mapping = __webpack_require__(171),
+    fallbackHolder = __webpack_require__(172);
 
 /** Built-in value reference. */
 var push = Array.prototype.push;
@@ -13738,7 +13637,7 @@ module.exports = baseConvert;
 
 
 /***/ }),
-/* 172 */
+/* 171 */
 /***/ (function(module, exports) {
 
 /** Used to map aliases to their real names. */
@@ -14102,7 +14001,7 @@ exports.skipRearg = {
 
 
 /***/ }),
-/* 173 */
+/* 172 */
 /***/ (function(module, exports) {
 
 /**
@@ -14114,7 +14013,7 @@ module.exports = {};
 
 
 /***/ }),
-/* 174 */
+/* 173 */
 /***/ (function(module, exports) {
 
 module.exports = function isObject(arg) {
@@ -14124,22 +14023,22 @@ module.exports = function isObject(arg) {
 
 
 /***/ }),
-/* 175 */
+/* 174 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(176);
+__webpack_require__(175);
 module.exports = __webpack_require__(7).Object.keys;
 
 
 /***/ }),
-/* 176 */
+/* 175 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.14 Object.keys(O)
 var toObject = __webpack_require__(36);
 var $keys = __webpack_require__(39);
 
-__webpack_require__(100)('keys', function () {
+__webpack_require__(99)('keys', function () {
   return function keys(it) {
     return $keys(toObject(it));
   };
@@ -14147,15 +14046,15 @@ __webpack_require__(100)('keys', function () {
 
 
 /***/ }),
-/* 177 */
+/* 176 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-const strictUriEncode = __webpack_require__(178);
-const decodeComponent = __webpack_require__(179);
-const splitOnFirst = __webpack_require__(180);
-const filterObject = __webpack_require__(181);
+const strictUriEncode = __webpack_require__(177);
+const decodeComponent = __webpack_require__(178);
+const splitOnFirst = __webpack_require__(179);
+const filterObject = __webpack_require__(180);
 
 const isNullOrUndefined = value => value === null || value === undefined;
 
@@ -14601,7 +14500,7 @@ exports.exclude = (input, filter, options) => {
 
 
 /***/ }),
-/* 178 */
+/* 177 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14610,7 +14509,7 @@ module.exports = str => encodeURIComponent(str).replace(/[!'()*]/g, x => `%${x.c
 
 
 /***/ }),
-/* 179 */
+/* 178 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14711,7 +14610,7 @@ module.exports = function (encodedURI) {
 
 
 /***/ }),
-/* 180 */
+/* 179 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14740,7 +14639,7 @@ module.exports = (string, separator) => {
 
 
 /***/ }),
-/* 181 */
+/* 180 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14764,7 +14663,7 @@ module.exports = function (obj, predicate) {
 
 
 /***/ }),
-/* 182 */
+/* 181 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14778,23 +14677,23 @@ var _values = __webpack_require__(54);
 
 var _values2 = _interopRequireDefault(_values);
 
-var _symbol = __webpack_require__(139);
+var _symbol = __webpack_require__(138);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
 exports.default = createManager;
 
-var _logger = __webpack_require__(191);
+var _logger = __webpack_require__(190);
 
 var _logger2 = _interopRequireDefault(_logger);
 
-var _logHandler = __webpack_require__(193);
+var _logHandler = __webpack_require__(192);
 
 var _logHandler2 = _interopRequireDefault(_logHandler);
 
 var _constants = __webpack_require__(55);
 
-var _validation = __webpack_require__(87);
+var _validation = __webpack_require__(86);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -14851,7 +14750,7 @@ function createManager(options = {}) {
 
       logger = (0, _logger2.default)(target, options);
 
-      // Save the new logger to be returned by future getter cals.
+      // Save the new logger to be returned by future getter calls.
       loggers[loggerName] = logger;
     }
 
@@ -15053,20 +14952,20 @@ function createManager(options = {}) {
 }
 
 /***/ }),
-/* 183 */
+/* 182 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(184);
+__webpack_require__(183);
 module.exports = __webpack_require__(7).Object.values;
 
 
 /***/ }),
-/* 184 */
+/* 183 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://github.com/tc39/proposal-object-values-entries
 var $export = __webpack_require__(8);
-var $values = __webpack_require__(138)(false);
+var $values = __webpack_require__(137)(false);
 
 $export($export.S, 'Object', {
   values: function values(it) {
@@ -15076,18 +14975,18 @@ $export($export.S, 'Object', {
 
 
 /***/ }),
-/* 185 */
+/* 184 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(186);
+__webpack_require__(185);
 __webpack_require__(71);
+__webpack_require__(188);
 __webpack_require__(189);
-__webpack_require__(190);
 module.exports = __webpack_require__(7).Symbol;
 
 
 /***/ }),
-/* 186 */
+/* 185 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15097,27 +14996,27 @@ var global = __webpack_require__(9);
 var has = __webpack_require__(31);
 var DESCRIPTORS = __webpack_require__(17);
 var $export = __webpack_require__(8);
-var redefine = __webpack_require__(110);
+var redefine = __webpack_require__(109);
 var META = __webpack_require__(61).KEY;
 var $fails = __webpack_require__(33);
-var shared = __webpack_require__(80);
+var shared = __webpack_require__(79);
 var setToStringTag = __webpack_require__(50);
-var uid = __webpack_require__(59);
+var uid = __webpack_require__(60);
 var wks = __webpack_require__(11);
-var wksExt = __webpack_require__(101);
-var wksDefine = __webpack_require__(86);
-var enumKeys = __webpack_require__(187);
-var isArray = __webpack_require__(111);
+var wksExt = __webpack_require__(100);
+var wksDefine = __webpack_require__(85);
+var enumKeys = __webpack_require__(186);
+var isArray = __webpack_require__(110);
 var anObject = __webpack_require__(23);
 var isObject = __webpack_require__(14);
 var toObject = __webpack_require__(36);
 var toIObject = __webpack_require__(34);
-var toPrimitive = __webpack_require__(75);
+var toPrimitive = __webpack_require__(74);
 var createDesc = __webpack_require__(38);
 var _create = __webpack_require__(62);
-var gOPNExt = __webpack_require__(188);
-var $GOPD = __webpack_require__(114);
-var $GOPS = __webpack_require__(82);
+var gOPNExt = __webpack_require__(187);
+var $GOPD = __webpack_require__(113);
+var $GOPS = __webpack_require__(81);
 var $DP = __webpack_require__(18);
 var $keys = __webpack_require__(39);
 var gOPD = $GOPD.f;
@@ -15242,7 +15141,7 @@ if (!USE_NATIVE) {
 
   $GOPD.f = $getOwnPropertyDescriptor;
   $DP.f = $defineProperty;
-  __webpack_require__(113).f = gOPNExt.f = $getOwnPropertyNames;
+  __webpack_require__(112).f = gOPNExt.f = $getOwnPropertyNames;
   __webpack_require__(49).f = $propertyIsEnumerable;
   $GOPS.f = $getOwnPropertySymbols;
 
@@ -15340,12 +15239,12 @@ setToStringTag(global.JSON, 'JSON', true);
 
 
 /***/ }),
-/* 187 */
+/* 186 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // all enumerable object keys, includes symbols
 var getKeys = __webpack_require__(39);
-var gOPS = __webpack_require__(82);
+var gOPS = __webpack_require__(81);
 var pIE = __webpack_require__(49);
 module.exports = function (it) {
   var result = getKeys(it);
@@ -15361,12 +15260,12 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 188 */
+/* 187 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
 var toIObject = __webpack_require__(34);
-var gOPN = __webpack_require__(113).f;
+var gOPN = __webpack_require__(112).f;
 var toString = {}.toString;
 
 var windowNames = typeof window == 'object' && window && Object.getOwnPropertyNames
@@ -15386,21 +15285,21 @@ module.exports.f = function getOwnPropertyNames(it) {
 
 
 /***/ }),
+/* 188 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(85)('asyncIterator');
+
+
+/***/ }),
 /* 189 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(86)('asyncIterator');
+__webpack_require__(85)('observable');
 
 
 /***/ }),
 /* 190 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(86)('observable');
-
-
-/***/ }),
-/* 191 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15418,9 +15317,9 @@ exports.default = createLogger;
 
 var _constants = __webpack_require__(55);
 
-var _validation = __webpack_require__(87);
+var _validation = __webpack_require__(86);
 
-var _timer = __webpack_require__(192);
+var _timer = __webpack_require__(191);
 
 var _timer2 = _interopRequireDefault(_timer);
 
@@ -15576,7 +15475,7 @@ function createLogger(target, options = {}) {
 }
 
 /***/ }),
-/* 192 */
+/* 191 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15587,7 +15486,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = createTimer;
 
-var _validation = __webpack_require__(87);
+var _validation = __webpack_require__(86);
 
 /**
  * Timer factory function.
@@ -15600,7 +15499,7 @@ var _validation = __webpack_require__(87);
  */
 function createTimer(log, warn) {
   // Validate that params are a function.
-  //    Uses funtions as `log(message, data)`.
+  //    Uses functions as `log(message, data)`.
   (0, _validation.checkHandler)(log);
   (0, _validation.checkHandler)(warn);
 
@@ -15699,7 +15598,7 @@ function createTimer(log, warn) {
 }
 
 /***/ }),
-/* 193 */
+/* 192 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15710,7 +15609,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = defaultLogHandler;
 
-var _logFormatter = __webpack_require__(115);
+var _logFormatter = __webpack_require__(114);
 
 var _logFormatter2 = _interopRequireDefault(_logFormatter);
 
@@ -15737,7 +15636,7 @@ function defaultLogHandler(entry) {
 }
 
 /***/ }),
-/* 194 */
+/* 193 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15810,7 +15709,7 @@ function defaultActionHandler(entry) {
 }
 
 /***/ }),
-/* 195 */
+/* 194 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var core = __webpack_require__(7);
@@ -15821,7 +15720,7 @@ module.exports = function stringify(it) { // eslint-disable-line no-unused-vars
 
 
 /***/ }),
-/* 196 */
+/* 195 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15835,7 +15734,7 @@ exports.levelsChanged = levelsChanged;
 exports.setHandler = setHandler;
 exports.handlersChanged = handlersChanged;
 
-var _actionTypes = __webpack_require__(116);
+var _actionTypes = __webpack_require__(115);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -15895,7 +15794,7 @@ function handlersChanged(handlerMap) {
 }
 
 /***/ }),
-/* 197 */
+/* 196 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15917,7 +15816,7 @@ var _fp = __webpack_require__(3);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * Retrieves the log level for a specifie logger type, or the default level.
+ * Retrieves the log level for a specified logger type, or the default level.
  * @method getLevel
  * @param  {Object} state            SDK redux state.
  * @param  {String} [type='DEFAULT'] A type of Logger.
@@ -15941,11 +15840,11 @@ function getTypes(state) {
 }
 
 /***/ }),
-/* 198 */
+/* 197 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var toInteger = __webpack_require__(78);
-var defined = __webpack_require__(77);
+var toInteger = __webpack_require__(77);
+var defined = __webpack_require__(76);
 // true  -> String#at
 // false -> String#codePointAt
 module.exports = function (TO_STRING) {
@@ -15964,7 +15863,7 @@ module.exports = function (TO_STRING) {
 
 
 /***/ }),
-/* 199 */
+/* 198 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15984,13 +15883,13 @@ module.exports = function (Constructor, NAME, next) {
 
 
 /***/ }),
-/* 200 */
+/* 199 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var addToUnscopables = __webpack_require__(201);
-var step = __webpack_require__(117);
+var addToUnscopables = __webpack_require__(200);
+var step = __webpack_require__(116);
 var Iterators = __webpack_require__(51);
 var toIObject = __webpack_require__(34);
 
@@ -15998,7 +15897,7 @@ var toIObject = __webpack_require__(34);
 // 22.1.3.13 Array.prototype.keys()
 // 22.1.3.29 Array.prototype.values()
 // 22.1.3.30 Array.prototype[@@iterator]()
-module.exports = __webpack_require__(88)(Array, 'Array', function (iterated, kind) {
+module.exports = __webpack_require__(87)(Array, 'Array', function (iterated, kind) {
   this._t = toIObject(iterated); // target
   this._i = 0;                   // next index
   this._k = kind;                // kind
@@ -16025,14 +15924,14 @@ addToUnscopables('entries');
 
 
 /***/ }),
-/* 201 */
+/* 200 */
 /***/ (function(module, exports) {
 
 module.exports = function () { /* empty */ };
 
 
 /***/ }),
-/* 202 */
+/* 201 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 0 -> Array#forEach
@@ -16043,10 +15942,10 @@ module.exports = function () { /* empty */ };
 // 5 -> Array#find
 // 6 -> Array#findIndex
 var ctx = __webpack_require__(29);
-var IObject = __webpack_require__(76);
+var IObject = __webpack_require__(75);
 var toObject = __webpack_require__(36);
-var toLength = __webpack_require__(58);
-var asc = __webpack_require__(203);
+var toLength = __webpack_require__(59);
+var asc = __webpack_require__(202);
 module.exports = function (TYPE, $create) {
   var IS_MAP = TYPE == 1;
   var IS_FILTER = TYPE == 2;
@@ -16082,11 +15981,11 @@ module.exports = function (TYPE, $create) {
 
 
 /***/ }),
-/* 203 */
+/* 202 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 9.4.2.3 ArraySpeciesCreate(originalArray, length)
-var speciesConstructor = __webpack_require__(204);
+var speciesConstructor = __webpack_require__(203);
 
 module.exports = function (original, length) {
   return new (speciesConstructor(original))(length);
@@ -16094,11 +15993,11 @@ module.exports = function (original, length) {
 
 
 /***/ }),
-/* 204 */
+/* 203 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isObject = __webpack_require__(14);
-var isArray = __webpack_require__(111);
+var isArray = __webpack_require__(110);
 var SPECIES = __webpack_require__(11)('species');
 
 module.exports = function (original) {
@@ -16116,7 +16015,7 @@ module.exports = function (original) {
 
 
 /***/ }),
-/* 205 */
+/* 204 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var forOf = __webpack_require__(52);
@@ -16129,16 +16028,16 @@ module.exports = function (iter, ITERATOR) {
 
 
 /***/ }),
-/* 206 */
+/* 205 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(63);
-__webpack_require__(207);
+__webpack_require__(206);
 module.exports = __webpack_require__(7).Array.from;
 
 
 /***/ }),
-/* 207 */
+/* 206 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16146,13 +16045,13 @@ module.exports = __webpack_require__(7).Array.from;
 var ctx = __webpack_require__(29);
 var $export = __webpack_require__(8);
 var toObject = __webpack_require__(36);
-var call = __webpack_require__(118);
-var isArrayIter = __webpack_require__(119);
-var toLength = __webpack_require__(58);
-var createProperty = __webpack_require__(208);
-var getIterFn = __webpack_require__(120);
+var call = __webpack_require__(117);
+var isArrayIter = __webpack_require__(118);
+var toLength = __webpack_require__(59);
+var createProperty = __webpack_require__(207);
+var getIterFn = __webpack_require__(119);
 
-$export($export.S + $export.F * !__webpack_require__(122)(function (iter) { Array.from(iter); }), 'Array', {
+$export($export.S + $export.F * !__webpack_require__(121)(function (iter) { Array.from(iter); }), 'Array', {
   // 22.1.2.1 Array.from(arrayLike, mapfn = undefined, thisArg = undefined)
   from: function from(arrayLike /* , mapfn = undefined, thisArg = undefined */) {
     var O = toObject(arrayLike);
@@ -16182,7 +16081,7 @@ $export($export.S + $export.F * !__webpack_require__(122)(function (iter) { Arra
 
 
 /***/ }),
-/* 208 */
+/* 207 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16197,10 +16096,10 @@ module.exports = function (object, index, value) {
 
 
 /***/ }),
-/* 209 */
+/* 208 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(210);
+__webpack_require__(209);
 var $Object = __webpack_require__(7).Object;
 module.exports = function create(P, D) {
   return $Object.create(P, D);
@@ -16208,7 +16107,7 @@ module.exports = function create(P, D) {
 
 
 /***/ }),
-/* 210 */
+/* 209 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var $export = __webpack_require__(8);
@@ -16217,7 +16116,7 @@ $export($export.S, 'Object', { create: __webpack_require__(62) });
 
 
 /***/ }),
-/* 211 */
+/* 210 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16365,20 +16264,20 @@ function generateEndParams(currentCallState, isLocal, params) {
 }
 
 /***/ }),
-/* 212 */
+/* 211 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(71);
 __webpack_require__(63);
-__webpack_require__(89);
-__webpack_require__(213);
+__webpack_require__(88);
+__webpack_require__(212);
+__webpack_require__(216);
 __webpack_require__(217);
-__webpack_require__(218);
 module.exports = __webpack_require__(7).Promise;
 
 
 /***/ }),
-/* 213 */
+/* 212 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16386,19 +16285,19 @@ module.exports = __webpack_require__(7).Promise;
 var LIBRARY = __webpack_require__(48);
 var global = __webpack_require__(9);
 var ctx = __webpack_require__(29);
-var classof = __webpack_require__(92);
+var classof = __webpack_require__(91);
 var $export = __webpack_require__(8);
 var isObject = __webpack_require__(14);
 var aFunction = __webpack_require__(46);
-var anInstance = __webpack_require__(91);
+var anInstance = __webpack_require__(90);
 var forOf = __webpack_require__(52);
-var speciesConstructor = __webpack_require__(123);
-var task = __webpack_require__(124).set;
-var microtask = __webpack_require__(215)();
-var newPromiseCapabilityModule = __webpack_require__(93);
-var perform = __webpack_require__(125);
-var userAgent = __webpack_require__(216);
-var promiseResolve = __webpack_require__(126);
+var speciesConstructor = __webpack_require__(122);
+var task = __webpack_require__(123).set;
+var microtask = __webpack_require__(214)();
+var newPromiseCapabilityModule = __webpack_require__(92);
+var perform = __webpack_require__(124);
+var userAgent = __webpack_require__(215);
+var promiseResolve = __webpack_require__(125);
 var PROMISE = 'Promise';
 var TypeError = global.TypeError;
 var process = global.process;
@@ -16573,7 +16472,7 @@ if (!USE_NATIVE) {
     this._h = 0;              // <- rejection state, 0 - default, 1 - handled, 2 - unhandled
     this._n = false;          // <- notify
   };
-  Internal.prototype = __webpack_require__(90)($Promise.prototype, {
+  Internal.prototype = __webpack_require__(89)($Promise.prototype, {
     // 25.4.5.3 Promise.prototype.then(onFulfilled, onRejected)
     then: function then(onFulfilled, onRejected) {
       var reaction = newPromiseCapability(speciesConstructor(this, $Promise));
@@ -16605,7 +16504,7 @@ if (!USE_NATIVE) {
 
 $export($export.G + $export.W + $export.F * !USE_NATIVE, { Promise: $Promise });
 __webpack_require__(50)($Promise, PROMISE);
-__webpack_require__(121)(PROMISE);
+__webpack_require__(120)(PROMISE);
 Wrapper = __webpack_require__(7)[PROMISE];
 
 // statics
@@ -16624,7 +16523,7 @@ $export($export.S + $export.F * (LIBRARY || !USE_NATIVE), PROMISE, {
     return promiseResolve(LIBRARY && this === Wrapper ? $Promise : this, x);
   }
 });
-$export($export.S + $export.F * !(USE_NATIVE && __webpack_require__(122)(function (iter) {
+$export($export.S + $export.F * !(USE_NATIVE && __webpack_require__(121)(function (iter) {
   $Promise.all(iter)['catch'](empty);
 })), PROMISE, {
   // 25.4.4.1 Promise.all(iterable)
@@ -16671,7 +16570,7 @@ $export($export.S + $export.F * !(USE_NATIVE && __webpack_require__(122)(functio
 
 
 /***/ }),
-/* 214 */
+/* 213 */
 /***/ (function(module, exports) {
 
 // fast apply, http://jsperf.lnkit.com/fast-apply/5
@@ -16693,11 +16592,11 @@ module.exports = function (fn, args, that) {
 
 
 /***/ }),
-/* 215 */
+/* 214 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var global = __webpack_require__(9);
-var macrotask = __webpack_require__(124).set;
+var macrotask = __webpack_require__(123).set;
 var Observer = global.MutationObserver || global.WebKitMutationObserver;
 var process = global.process;
 var Promise = global.Promise;
@@ -16768,7 +16667,7 @@ module.exports = function () {
 
 
 /***/ }),
-/* 216 */
+/* 215 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var global = __webpack_require__(9);
@@ -16778,7 +16677,7 @@ module.exports = navigator && navigator.userAgent || '';
 
 
 /***/ }),
-/* 217 */
+/* 216 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16787,8 +16686,8 @@ module.exports = navigator && navigator.userAgent || '';
 var $export = __webpack_require__(8);
 var core = __webpack_require__(7);
 var global = __webpack_require__(9);
-var speciesConstructor = __webpack_require__(123);
-var promiseResolve = __webpack_require__(126);
+var speciesConstructor = __webpack_require__(122);
+var promiseResolve = __webpack_require__(125);
 
 $export($export.P + $export.R, 'Promise', { 'finally': function (onFinally) {
   var C = speciesConstructor(this, core.Promise || global.Promise);
@@ -16805,15 +16704,15 @@ $export($export.P + $export.R, 'Promise', { 'finally': function (onFinally) {
 
 
 /***/ }),
-/* 218 */
+/* 217 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 // https://github.com/tc39/proposal-promise-try
 var $export = __webpack_require__(8);
-var newPromiseCapability = __webpack_require__(93);
-var perform = __webpack_require__(125);
+var newPromiseCapability = __webpack_require__(92);
+var perform = __webpack_require__(124);
 
 $export($export.S, 'Promise', { 'try': function (callbackfn) {
   var promiseCapability = newPromiseCapability.f(this);
@@ -16824,7 +16723,7 @@ $export($export.S, 'Promise', { 'try': function (callbackfn) {
 
 
 /***/ }),
-/* 219 */
+/* 218 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16844,7 +16743,7 @@ const EVENTS_EMIT = exports.EVENTS_EMIT = PREFIX + 'EVENTS_EMIT';
 const MAP_EVENTS = exports.MAP_EVENTS = PREFIX + 'MAP_EVENTS';
 
 /***/ }),
-/* 220 */
+/* 219 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16854,7 +16753,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _assign = __webpack_require__(99);
+var _assign = __webpack_require__(98);
 
 var _assign2 = _interopRequireDefault(_assign);
 
@@ -17016,7 +16915,7 @@ function eventEmitter(prototype = {}) {
 }
 
 /***/ }),
-/* 221 */
+/* 220 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17069,11 +16968,17 @@ function trackRemoved(trackId, params) {
 }
 
 function trackHelper(type, payload = {}, meta = {}) {
-  return {
+  const action = {
     type,
     payload,
     meta
   };
+
+  if (payload.error) {
+    action.error = true;
+  }
+
+  return action;
 }
 
 function muteTracks(trackIds) {
@@ -17125,7 +17030,7 @@ function removeTracksFinish(trackIds, params) {
 }
 
 /***/ }),
-/* 222 */
+/* 221 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17210,7 +17115,7 @@ function sessionIceConnectionStateChange(id, params) {
 }
 
 /***/ }),
-/* 223 */
+/* 222 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17280,7 +17185,7 @@ function mediaTrackEnded(id, params) {
 }
 
 /***/ }),
-/* 224 */
+/* 223 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17313,7 +17218,7 @@ function setBrowserDetails(details) {
 } // Webrtc plugin.
 
 /***/ }),
-/* 225 */
+/* 224 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17388,7 +17293,7 @@ function setListeners(manager, emit, END = 'END') {
 }
 
 /***/ }),
-/* 226 */
+/* 225 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17406,7 +17311,7 @@ var _actionTypes = __webpack_require__(10);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _track = __webpack_require__(150);
+var _track = __webpack_require__(149);
 
 var _track2 = _interopRequireDefault(_track);
 
@@ -17458,7 +17363,7 @@ function* trackManagerEventsHandler({ track, action }) {
 /**
  * Sets up listeners for the Track Manager events.
  * Contains logic for how specific webRTC events should be
- *    parsed before being sent elsewhere. Splut into a
+ *    parsed before being sent elsewhere. Split into a
  *    stand-alone function in order to be re-usable.
  * @method setListeners
  * @param  {Object}   manager The Track Manager.
@@ -17513,7 +17418,7 @@ function setListeners(manager, emit, END = 'END') {
 }
 
 /***/ }),
-/* 227 */
+/* 226 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17531,7 +17436,7 @@ var _actionTypes = __webpack_require__(10);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _media = __webpack_require__(151);
+var _media = __webpack_require__(150);
 
 var _media2 = _interopRequireDefault(_media);
 
@@ -17625,7 +17530,7 @@ function setListeners(manager, emit, END = 'END') {
 }
 
 /***/ }),
-/* 228 */
+/* 227 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17643,7 +17548,7 @@ var _actionTypes = __webpack_require__(10);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _session = __webpack_require__(152);
+var _session = __webpack_require__(151);
 
 var _session2 = _interopRequireDefault(_session);
 
@@ -17730,7 +17635,7 @@ function setListeners(manager, emit, END = 'END') {
 }
 
 /***/ }),
-/* 229 */
+/* 228 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var require;var require;(function(f){if(true){module.exports=f()}else { var g; }})(function(){var define,module,exports;return (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return require(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
@@ -21255,31 +21160,31 @@ if (typeof module === 'object') {
 
 
 /***/ }),
-/* 230 */
+/* 229 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(71);
 __webpack_require__(63);
-__webpack_require__(89);
+__webpack_require__(88);
+__webpack_require__(230);
 __webpack_require__(231);
 __webpack_require__(232);
 __webpack_require__(233);
-__webpack_require__(234);
 module.exports = __webpack_require__(7).Map;
 
 
 /***/ }),
-/* 231 */
+/* 230 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var strong = __webpack_require__(142);
-var validate = __webpack_require__(103);
+var strong = __webpack_require__(141);
+var validate = __webpack_require__(102);
 var MAP = 'Map';
 
 // 23.1 Map Objects
-module.exports = __webpack_require__(143)(MAP, function (get) {
+module.exports = __webpack_require__(142)(MAP, function (get) {
   return function Map() { return get(this, arguments.length > 0 ? arguments[0] : undefined); };
 }, {
   // 23.1.3.6 Map.prototype.get(key)
@@ -21295,20 +21200,28 @@ module.exports = __webpack_require__(143)(MAP, function (get) {
 
 
 /***/ }),
-/* 232 */
+/* 231 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://github.com/DavidBruant/Map-Set.prototype.toJSON
 var $export = __webpack_require__(8);
 
-$export($export.P + $export.R, 'Map', { toJSON: __webpack_require__(144)('Map') });
+$export($export.P + $export.R, 'Map', { toJSON: __webpack_require__(143)('Map') });
+
+
+/***/ }),
+/* 232 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// https://tc39.github.io/proposal-setmap-offrom/#sec-map.of
+__webpack_require__(144)('Map');
 
 
 /***/ }),
 /* 233 */
 /***/ (function(module, exports, __webpack_require__) {
 
-// https://tc39.github.io/proposal-setmap-offrom/#sec-map.of
+// https://tc39.github.io/proposal-setmap-offrom/#sec-map.from
 __webpack_require__(145)('Map');
 
 
@@ -21316,32 +21229,24 @@ __webpack_require__(145)('Map');
 /* 234 */
 /***/ (function(module, exports, __webpack_require__) {
 
-// https://tc39.github.io/proposal-setmap-offrom/#sec-map.from
-__webpack_require__(146)('Map');
-
+module.exports = { "default": __webpack_require__(235), __esModule: true };
 
 /***/ }),
 /* 235 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(236), __esModule: true };
+__webpack_require__(236);
+module.exports = __webpack_require__(7).Reflect.set;
+
 
 /***/ }),
 /* 236 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(237);
-module.exports = __webpack_require__(7).Reflect.set;
-
-
-/***/ }),
-/* 237 */
-/***/ (function(module, exports, __webpack_require__) {
-
 // 26.1.13 Reflect.set(target, propertyKey, V [, receiver])
 var dP = __webpack_require__(18);
-var gOPD = __webpack_require__(114);
-var getPrototypeOf = __webpack_require__(102);
+var gOPD = __webpack_require__(113);
+var getPrototypeOf = __webpack_require__(101);
 var has = __webpack_require__(31);
 var $export = __webpack_require__(8);
 var createDesc = __webpack_require__(38);
@@ -21374,7 +21279,7 @@ $export($export.S, 'Reflect', { set: set });
 
 
 /***/ }),
-/* 238 */
+/* 237 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21384,27 +21289,27 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _icecandidate = __webpack_require__(239);
+var _icecandidate = __webpack_require__(238);
 
 var _icecandidate2 = _interopRequireDefault(_icecandidate);
 
-var _iceconnectionstatechange = __webpack_require__(240);
+var _iceconnectionstatechange = __webpack_require__(239);
 
 var _iceconnectionstatechange2 = _interopRequireDefault(_iceconnectionstatechange);
 
-var _icegatheringstatechange = __webpack_require__(241);
+var _icegatheringstatechange = __webpack_require__(240);
 
 var _icegatheringstatechange2 = _interopRequireDefault(_icegatheringstatechange);
 
-var _negotiationneeded = __webpack_require__(242);
+var _negotiationneeded = __webpack_require__(241);
 
 var _negotiationneeded2 = _interopRequireDefault(_negotiationneeded);
 
-var _signalingstatechange = __webpack_require__(243);
+var _signalingstatechange = __webpack_require__(242);
 
 var _signalingstatechange2 = _interopRequireDefault(_signalingstatechange);
 
-var _track = __webpack_require__(244);
+var _track = __webpack_require__(243);
 
 var _track2 = _interopRequireDefault(_track);
 
@@ -21420,7 +21325,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 239 */
+/* 238 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21499,7 +21404,7 @@ function onicecandidate(listener) {
 }
 
 /***/ }),
-/* 240 */
+/* 239 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21528,7 +21433,7 @@ function oniceconnectionstatechange(listener) {
 }
 
 /***/ }),
-/* 241 */
+/* 240 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21575,7 +21480,7 @@ function onicegatheringstatechange(listener) {
 }
 
 /***/ }),
-/* 242 */
+/* 241 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21604,7 +21509,7 @@ function onnegotiationneeded(listener) {
 }
 
 /***/ }),
-/* 243 */
+/* 242 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21633,7 +21538,7 @@ function onsignalingstatechange(listener) {
 }
 
 /***/ }),
-/* 244 */
+/* 243 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21693,7 +21598,7 @@ function ontrack(listener) {
 }
 
 /***/ }),
-/* 245 */
+/* 244 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21703,59 +21608,59 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _addIceCandidate = __webpack_require__(246);
+var _addIceCandidate = __webpack_require__(245);
 
 var _addIceCandidate2 = _interopRequireDefault(_addIceCandidate);
 
-var _addTrack = __webpack_require__(247);
+var _addTrack = __webpack_require__(246);
 
 var _addTrack2 = _interopRequireDefault(_addTrack);
 
-var _close = __webpack_require__(248);
+var _close = __webpack_require__(247);
 
 var _close2 = _interopRequireDefault(_close);
 
-var _createAnswer = __webpack_require__(249);
+var _createAnswer = __webpack_require__(248);
 
 var _createAnswer2 = _interopRequireDefault(_createAnswer);
 
-var _createOffer = __webpack_require__(254);
+var _createOffer = __webpack_require__(253);
 
 var _createOffer2 = _interopRequireDefault(_createOffer);
 
-var _findReusableTransceiver = __webpack_require__(255);
+var _findReusableTransceiver = __webpack_require__(254);
 
 var _findReusableTransceiver2 = _interopRequireDefault(_findReusableTransceiver);
 
-var _getState = __webpack_require__(256);
+var _getState = __webpack_require__(255);
 
 var _getState2 = _interopRequireDefault(_getState);
 
-var _getStats = __webpack_require__(257);
+var _getStats = __webpack_require__(256);
 
 var _getStats2 = _interopRequireDefault(_getStats);
 
-var _removeTrack = __webpack_require__(258);
+var _removeTrack = __webpack_require__(257);
 
 var _removeTrack2 = _interopRequireDefault(_removeTrack);
 
-var _replaceTrack = __webpack_require__(259);
+var _replaceTrack = __webpack_require__(258);
 
 var _replaceTrack2 = _interopRequireDefault(_replaceTrack);
 
-var _sendDTMF = __webpack_require__(260);
+var _sendDTMF = __webpack_require__(259);
 
 var _sendDTMF2 = _interopRequireDefault(_sendDTMF);
 
-var _setLocalDescription = __webpack_require__(261);
+var _setLocalDescription = __webpack_require__(260);
 
 var _setLocalDescription2 = _interopRequireDefault(_setLocalDescription);
 
-var _setRemoteDescription = __webpack_require__(263);
+var _setRemoteDescription = __webpack_require__(262);
 
 var _setRemoteDescription2 = _interopRequireDefault(_setRemoteDescription);
 
-var _setTransceiversDirection = __webpack_require__(264);
+var _setTransceiversDirection = __webpack_require__(263);
 
 var _setTransceiversDirection2 = _interopRequireDefault(_setTransceiversDirection);
 
@@ -21781,7 +21686,7 @@ const methods = {
 exports.default = methods;
 
 /***/ }),
-/* 246 */
+/* 245 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21821,7 +21726,7 @@ function addIceCandidate(candidate) {
 }
 
 /***/ }),
-/* 247 */
+/* 246 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21853,7 +21758,7 @@ function addTrack(track) {
 }
 
 /***/ }),
-/* 248 */
+/* 247 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21881,7 +21786,7 @@ function close() {
 }
 
 /***/ }),
-/* 249 */
+/* 248 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21903,7 +21808,7 @@ var _sdpSemantics = __webpack_require__(41);
 
 var _pipeline = __webpack_require__(65);
 
-var _handlers = __webpack_require__(94);
+var _handlers = __webpack_require__(93);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21964,22 +21869,22 @@ function createAnswer(options = {}) {
 }
 
 /***/ }),
-/* 250 */
+/* 249 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(251);
+__webpack_require__(250);
 module.exports = __webpack_require__(7).Object.freeze;
 
 
 /***/ }),
-/* 251 */
+/* 250 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.5 Object.freeze(O)
 var isObject = __webpack_require__(14);
 var meta = __webpack_require__(61).onFreeze;
 
-__webpack_require__(100)('freeze', function ($freeze) {
+__webpack_require__(99)('freeze', function ($freeze) {
   return function freeze(it) {
     return $freeze && isObject(it) ? $freeze(meta(it)) : it;
   };
@@ -21987,7 +21892,7 @@ __webpack_require__(100)('freeze', function ($freeze) {
 
 
 /***/ }),
-/* 252 */
+/* 251 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var toIntIfInt = function (v) {
@@ -22026,7 +21931,7 @@ var parseReg = function (obj, location, content) {
   }
 };
 
-var grammar = __webpack_require__(132);
+var grammar = __webpack_require__(131);
 var validLine = RegExp.prototype.test.bind(/^([a-z])=(.*)/);
 
 exports.parse = function (sdp) {
@@ -22117,10 +22022,10 @@ exports.parseSimulcastStreamList = function (str) {
 
 
 /***/ }),
-/* 253 */
+/* 252 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var grammar = __webpack_require__(132);
+var grammar = __webpack_require__(131);
 
 // customized util.format - discards excess arguments and can void middle ones
 var formatRegExp = /%[sdv%]/g;
@@ -22237,7 +22142,7 @@ module.exports = function (session, opts) {
 
 
 /***/ }),
-/* 254 */
+/* 253 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22259,7 +22164,7 @@ var _sdpSemantics = __webpack_require__(41);
 
 var _pipeline = __webpack_require__(65);
 
-var _handlers = __webpack_require__(94);
+var _handlers = __webpack_require__(93);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22312,7 +22217,7 @@ function createOffer(options = {}) {
 }
 
 /***/ }),
-/* 255 */
+/* 254 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22346,7 +22251,7 @@ function findReusableTransceiver(kind) {
 }
 
 /***/ }),
-/* 256 */
+/* 255 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22376,7 +22281,7 @@ function getState() {
 }
 
 /***/ }),
-/* 257 */
+/* 256 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22427,7 +22332,7 @@ function getStats(trackId) {
 }
 
 /***/ }),
-/* 258 */
+/* 257 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22461,7 +22366,7 @@ function removeTrack(trackId) {
 }
 
 /***/ }),
-/* 259 */
+/* 258 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22517,7 +22422,7 @@ function replaceTrack(newTrack, options) {
 }
 
 /***/ }),
-/* 260 */
+/* 259 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22617,7 +22522,7 @@ function insertDTMF(sender, tone, duration, intertoneGap, callback, log) {
 }
 
 /***/ }),
-/* 261 */
+/* 260 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22635,11 +22540,11 @@ exports.default = setLocalDescription;
 
 var _constants = __webpack_require__(21);
 
-var _iceCollectionLoop = __webpack_require__(262);
+var _iceCollectionLoop = __webpack_require__(261);
 
 var _iceCollectionLoop2 = _interopRequireDefault(_iceCollectionLoop);
 
-var _sdpTransform = __webpack_require__(66);
+var _sdpTransform = __webpack_require__(57);
 
 var _sdpTransform2 = _interopRequireDefault(_sdpTransform);
 
@@ -22747,7 +22652,7 @@ function setLocalDescription(desc) {
 // Libraries.
 
 /***/ }),
-/* 262 */
+/* 261 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22817,7 +22722,7 @@ function iceCollectionLoop(proxyBase, offeredMedia) {
 }
 
 /***/ }),
-/* 263 */
+/* 262 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22881,7 +22786,7 @@ function setRemoteDescription(desc) {
 }
 
 /***/ }),
-/* 264 */
+/* 263 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22896,7 +22801,7 @@ var _fp = __webpack_require__(3);
 
 var _sdpSemantics = __webpack_require__(41);
 
-var _transceiverUtils = __webpack_require__(265);
+var _transceiverUtils = __webpack_require__(264);
 
 /**
  * Sets the direction of transceivers.
@@ -22938,7 +22843,7 @@ function setTransceiversDirection(targetDirection, options = {}) {
 }
 
 /***/ }),
-/* 265 */
+/* 264 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22983,7 +22888,7 @@ function setTransceiverDirection(transceiver, targetDirection) {
 }
 
 /***/ }),
-/* 266 */
+/* 265 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22993,27 +22898,27 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _localDescription = __webpack_require__(267);
+var _localDescription = __webpack_require__(266);
 
 var _localDescription2 = _interopRequireDefault(_localDescription);
 
-var _localTracks = __webpack_require__(268);
+var _localTracks = __webpack_require__(267);
 
 var _localTracks2 = _interopRequireDefault(_localTracks);
 
-var _remoteDescription = __webpack_require__(269);
+var _remoteDescription = __webpack_require__(268);
 
 var _remoteDescription2 = _interopRequireDefault(_remoteDescription);
 
-var _remoteTracksActive = __webpack_require__(270);
+var _remoteTracksActive = __webpack_require__(269);
 
 var _remoteTracksActive2 = _interopRequireDefault(_remoteTracksActive);
 
-var _remoteTracks = __webpack_require__(271);
+var _remoteTracks = __webpack_require__(270);
 
 var _remoteTracks2 = _interopRequireDefault(_remoteTracks);
 
-var _senderTracks = __webpack_require__(272);
+var _senderTracks = __webpack_require__(271);
 
 var _senderTracks2 = _interopRequireDefault(_senderTracks);
 
@@ -23022,7 +22927,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = { localDescription: _localDescription2.default, localTracks: _localTracks2.default, remoteDescription: _remoteDescription2.default, remoteTracks: _remoteTracksActive2.default, remoteTracksAll: _remoteTracks2.default, senderTracks: _senderTracks2.default };
 
 /***/ }),
-/* 267 */
+/* 266 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23056,7 +22961,7 @@ function getLocalDescription() {
 }
 
 /***/ }),
-/* 268 */
+/* 267 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23086,13 +22991,13 @@ function localTracks() {
    */
   .filter(sender => Boolean(sender.track)).map(sender => trackManager.get(sender.track.id)).filter(track => {
     // Make sure the trackManager has the track and that its active.
-    // It's possble that Peer has the sender but not the actual track yet.
+    // It's possible that Peer has the sender but not the actual track yet.
     return track && track.getState().state === 'live' && track.getStream().active;
   });
 }
 
 /***/ }),
-/* 269 */
+/* 268 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23126,7 +23031,7 @@ function getRemoteDescription() {
 }
 
 /***/ }),
-/* 270 */
+/* 269 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23156,13 +23061,13 @@ function getRemoteTracks() {
    */
   .filter(receiver => Boolean(receiver.track)).map(receiver => trackManager.get(receiver.track.id)).filter(track => {
     // Make sure the trackManager has the track and that its active.
-    // It's possble that Peer has the receiver but not the actual track yet.
+    // It's possible that Peer has the receiver but not the actual track yet.
     return track && track.getState().state === 'live' && track.getStream().active;
   });
 }
 
 /***/ }),
-/* 271 */
+/* 270 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23197,7 +23102,7 @@ function getRemoteTracks() {
 }
 
 /***/ }),
-/* 272 */
+/* 271 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23232,7 +23137,7 @@ function senderTracks() {
 }
 
 /***/ }),
-/* 273 */
+/* 272 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23308,7 +23213,7 @@ function iceCollectionCheck(iceCandidates, extraInfo) {
 }
 
 /***/ }),
-/* 274 */
+/* 273 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23318,7 +23223,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _create = __webpack_require__(147);
+var _create = __webpack_require__(146);
 
 var _create2 = _interopRequireDefault(_create);
 
@@ -23378,7 +23283,7 @@ function now() {
 }
 
 /**
- * Create a new timer object. Timers are not started when created and need to be started manualy.
+ * Create a new timer object. Timers are not started when created and need to be started manually.
  *
  * @returns {Object} The timer object that supports the timer interface.
  */
@@ -23387,7 +23292,7 @@ function createTimer() {
 }
 
 /***/ }),
-/* 275 */
+/* 274 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23413,7 +23318,7 @@ exports.default = MediaManager;
 
 var _logs = __webpack_require__(15);
 
-var _media = __webpack_require__(129);
+var _media = __webpack_require__(128);
 
 var _media2 = _interopRequireDefault(_media);
 
@@ -23450,12 +23355,12 @@ function MediaManager(managers) {
 
   /**
    * Workaround to get Firefox to behave similarly to Chrome regarding device permission prompts.
-   * @method browserContraintsWorkaround
+   * @method browserConstraintsWorkaround
    * @param  {MediaStreamConstraints}  constraints
-   * @return {Object}  media contraints
+   * @return {Object}  media constraints
    */
 
-  function browserContraintsWorkaround(constraints) {
+  function browserConstraintsWorkaround(constraints) {
     /**
      * Firefox workaround.
      *
@@ -23473,7 +23378,7 @@ function MediaManager(managers) {
      * See: https://developer.mozilla.org/en-US/docs/Web/API/ConstrainDOMString
      *
      *  - When the "ideal" behaviour is followed and the user has not given
-     *      permission (and not disallowed), the browswer will prompt the user
+     *      permission (and not disallowed), the browser will prompt the user
      *      for permission.
      *  - [Issue] When the "ideal" behaviour is followed and the user has given
      *      permission previously, the browser will not prompt the user for
@@ -23560,7 +23465,7 @@ function MediaManager(managers) {
    * @return {Promise}
    */
   function createLocal(constraints) {
-    const constraintsWorkaround = browserContraintsWorkaround(constraints);
+    const constraintsWorkaround = browserConstraintsWorkaround(constraints);
 
     // Get user media, ...
     return new _promise2.default((resolve, reject) => {
@@ -23587,7 +23492,7 @@ function MediaManager(managers) {
    */
 
   function createLocalScreen(constraints) {
-    const constraintsWorkaround = browserContraintsWorkaround(constraints);
+    const constraintsWorkaround = browserConstraintsWorkaround(constraints);
 
     return new _promise2.default((resolve, reject) => {
       navigator.mediaDevices.getDisplayMedia(constraintsWorkaround).then(mediaStream => {
@@ -23729,7 +23634,7 @@ function MediaManager(managers) {
 // Libraries.
 
 /***/ }),
-/* 276 */
+/* 275 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23751,7 +23656,7 @@ exports.default = PeerManager;
 
 var _logs = __webpack_require__(15);
 
-var _Peer = __webpack_require__(130);
+var _Peer = __webpack_require__(129);
 
 var _Peer2 = _interopRequireDefault(_Peer);
 
@@ -23853,7 +23758,7 @@ function PeerManager(managers) {
 }
 
 /***/ }),
-/* 277 */
+/* 276 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23875,7 +23780,7 @@ exports.default = SessionManager;
 
 var _logs = __webpack_require__(15);
 
-var _session = __webpack_require__(278);
+var _session = __webpack_require__(277);
 
 var _session2 = _interopRequireDefault(_session);
 
@@ -23968,7 +23873,7 @@ function SessionManager(managers) {
 }
 
 /***/ }),
-/* 278 */
+/* 277 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23998,7 +23903,7 @@ var _pipeline2 = _interopRequireDefault(_pipeline);
 
 var _sdpSemantics = __webpack_require__(41);
 
-var _extractors = __webpack_require__(153);
+var _extractors = __webpack_require__(152);
 
 var _utils = __webpack_require__(64);
 
@@ -24137,8 +24042,14 @@ function Session(id, managers, config = {}) {
             reusableTransceiver.sender
             // Replace the dummy track on the Sender with the actual track we want to send.
             .replaceTrack(track.track).then(() => {
-              // Set the correct direction on the Transceiver to include that we now want to send.
-              reusableTransceiver.direction = reusableTransceiver.direction === 'recvonly' ? 'sendrecv' : 'sendonly';
+              /*
+               * Set the correct direction on the Transceiver to include that we now want to send:
+               *   - sendrecv --> sendrecv
+               *   - sendonly --> sendonly
+               *   - recvonly --> sendrecv
+               *   - inactive --> sendonly
+               */
+              reusableTransceiver.direction = ['sendrecv', 'recvonly'].includes(reusableTransceiver.direction) ? 'sendrecv' : 'sendonly';
 
               // Ensure the track has an associated MediaStream. The remote endpoint will
               //    get access to this MediaStream and be able to listen for events (for
@@ -24303,7 +24214,7 @@ function Session(id, managers, config = {}) {
    * @param {Object} mediaConstraints
    */
   function setParameters(mediaConstraints) {
-    // RTCRtpSender.setParameters is currently unsupported on Firefox (or atleast not supported as it should be)
+    // RTCRtpSender.setParameters is currently unsupported on Firefox (or at least not supported as it should be)
     if ((0, _utils.getBrowserDetails)().browser === 'firefox') {
       log.debug('Setting sender parameters not supported on Firefox; skipping.');
       return;
@@ -24892,7 +24803,7 @@ function Session(id, managers, config = {}) {
 // SDP Helpers.
 
 /***/ }),
-/* 279 */
+/* 278 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25005,13 +24916,13 @@ function DeviceManager() {
   /**
    * Ask for permission and gets the list of available device(s) available from the end-user's devices.
    * @method setupDeviceInitialization
-   * @param browserContraints
+   * @param browserConstraints
    * @return {Object}
    */
 
-  function setupDeviceInitialization(browserContraints) {
+  function setupDeviceInitialization(browserConstraints) {
     return new _promise2.default((resolve, reject) => {
-      navigator.mediaDevices.getUserMedia(browserContraints).then(mediaStream => {
+      navigator.mediaDevices.getUserMedia(browserConstraints).then(mediaStream => {
         mediaStream.getTracks().forEach(track => {
           track.stop();
         });
@@ -25060,7 +24971,7 @@ function DeviceManager() {
 }
 
 /***/ }),
-/* 280 */
+/* 279 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25080,7 +24991,7 @@ var _map2 = _interopRequireDefault(_map);
 
 exports.default = TrackManager;
 
-var _track = __webpack_require__(128);
+var _track = __webpack_require__(127);
 
 var _track2 = _interopRequireDefault(_track);
 
@@ -25214,7 +25125,7 @@ function TrackManager() {
 // Libraries.
 
 /***/ }),
-/* 281 */
+/* 280 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25247,7 +25158,7 @@ function WebRTCManager(managers) {
 }
 
 /***/ }),
-/* 282 */
+/* 281 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25420,7 +25331,7 @@ function replyChannel(channel) {
 }
 
 /***/ }),
-/* 283 */
+/* 282 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25447,7 +25358,7 @@ exports.reportUnsubscriptionFinished = reportUnsubscriptionFinished;
 exports.channelOpened = channelOpened;
 exports.channelClosed = channelClosed;
 
-var _actionTypes = __webpack_require__(95);
+var _actionTypes = __webpack_require__(94);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -25490,7 +25401,7 @@ function subscribe(services = [], options) {
  * Indicates that the subscription process has finished.
  * @method subscribeFinished
  * @param  {Object}  subscriptions  An object representing the subscriptions.
- * @param  {string}  type                 The type of notificaitonChannel for this subscription.
+ * @param  {string}  type                 The type of notificationChannel for this subscription.
  * @param  {Object}  error                An error object.
  * @param  {Object}  platform             The platform being used.
  * @return {Object}                       A flux standard action.
@@ -25647,7 +25558,7 @@ function channelClosed(type) {
 }
 
 /***/ }),
-/* 284 */
+/* 283 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25661,17 +25572,17 @@ exports.getCpaasAgentHeaderValue = getCpaasAgentHeaderValue;
 exports.sanitizeRequest = sanitizeRequest;
 exports.fetchResource = fetchResource;
 
-var _selectors = __webpack_require__(414);
+var _selectors = __webpack_require__(407);
 
 var _selectors2 = __webpack_require__(16);
 
 var _logs = __webpack_require__(2);
 
-var _version = __webpack_require__(60);
+var _version = __webpack_require__(70);
 
 var _utils = __webpack_require__(13);
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(20);
 
 var _effects = __webpack_require__(4);
 
@@ -25742,7 +25653,7 @@ function getCpaasAgentHeaderValue(platform, url) {
   // Assume request is for CPaaS platform, by default.
   let headerValue = `cpaas-js-sdk/${(0, _version.getVersion)()}`;
 
-  // Check if request is for callMe service, otherwise determine the apropriate platform.
+  // Check if request is for callMe service, otherwise determine the appropriate platform.
   // (callMe service uses Link platform for call requests)
   if (url && url.includes('/anonymous/')) {
     headerValue = `callme-js-sdk/${(0, _version.getVersion)()}`;
@@ -25759,7 +25670,7 @@ function getCpaasAgentHeaderValue(platform, url) {
 
 /**
  * Prepares a REST request options object for logging by removing passwords
- * and parses the body string into an object that can be intereacted with in console.
+ * and parses the body string into an object that can be interacted with in console.
  * @method sanitizeRequest
  * @param {Object} options An object containing any custom settings that you want to
  *                         apply to the request. See [fetch API](https://developer.mozilla.org/en-US/docs/Web/API/fetch)
@@ -25825,7 +25736,7 @@ async function fetchResource(resource, requestInfo, module) {
 }
 
 /***/ }),
-/* 285 */
+/* 284 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25852,7 +25763,7 @@ exports.setCredentials = setCredentials;
 exports.setCredentialsFinished = setCredentialsFinished;
 exports.updateHmacToken = updateHmacToken;
 
-var _actionTypes = __webpack_require__(105);
+var _actionTypes = __webpack_require__(104);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -26218,7 +26129,7 @@ function setCredentialsFinished({ userInfo, connection, error }, platform) {
  * Creates an updateToken action with connection and platform information.
  *
  * @method updateToken
- * @param {string} token A session id retrieved after a sucsessful subscription on the platform.
+ * @param {string} token A session id retrieved after a successful subscription on the platform.
  * @param {string} platform The backend platform we are currently on.
  * @return {Object} A flux standard action.
  */
@@ -26236,7 +26147,7 @@ function updateHmacToken(token, platform) {
 }
 
 /***/ }),
-/* 286 */
+/* 285 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26249,19 +26160,19 @@ exports.setupCall = setupCall;
 exports.setupIncomingCall = setupIncomingCall;
 exports.answerWebrtcSession = answerWebrtcSession;
 
-var _actions = __webpack_require__(68);
+var _actions = __webpack_require__(67);
 
 var _selectors = __webpack_require__(26);
 
 var _logs = __webpack_require__(2);
 
-var _pipeline = __webpack_require__(158);
+var _pipeline = __webpack_require__(157);
 
 var _pipeline2 = _interopRequireDefault(_pipeline);
 
-var _dscp = __webpack_require__(309);
+var _dscp = __webpack_require__(307);
 
-var _media = __webpack_require__(310);
+var _media = __webpack_require__(308);
 
 var mediaOps = _interopRequireWildcard(_media);
 
@@ -26614,7 +26525,7 @@ function* answerWebrtcSession(deps, mediaConstraints, sessionOptions) {
 }
 
 /***/ }),
-/* 287 */
+/* 286 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26630,7 +26541,7 @@ exports.removeCallLogsFinish = removeCallLogsFinish;
 exports.addCallLogEntry = addCallLogEntry;
 exports.setCache = setCache;
 
-var _actionTypes = __webpack_require__(159);
+var _actionTypes = __webpack_require__(158);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -26725,7 +26636,7 @@ function setCache(data) {
 }
 
 /***/ }),
-/* 288 */
+/* 287 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26754,7 +26665,7 @@ var _actionTypes = __webpack_require__(44);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(20);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -26961,7 +26872,7 @@ function enableNotificationChannelFinish(channel, { params, error } = {}) {
 }
 
 /***/ }),
-/* 289 */
+/* 288 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26972,11 +26883,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.convoActions = exports.messageActions = undefined;
 
-var _messages = __webpack_require__(500);
+var _messages = __webpack_require__(493);
 
 var messageActionsImport = _interopRequireWildcard(_messages);
 
-var _conversations = __webpack_require__(501);
+var _conversations = __webpack_require__(494);
 
 var convoActionsImport = _interopRequireWildcard(_conversations);
 
@@ -26996,7 +26907,7 @@ const messageActions = exports.messageActions = messageActionsImport;
 const convoActions = exports.convoActions = convoActionsImport;
 
 /***/ }),
-/* 290 */
+/* 289 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27080,50 +26991,11 @@ function findMember(state, destination, id) {
 }
 
 /***/ }),
-/* 291 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-// (C) 1995-2013 Jean-loup Gailly and Mark Adler
-// (C) 2014-2017 Vitaly Puzrin and Andrey Tupitsin
-//
-// This software is provided 'as-is', without any express or implied
-// warranty. In no event will the authors be held liable for any damages
-// arising from the use of this software.
-//
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it
-// freely, subject to the following restrictions:
-//
-// 1. The origin of this software must not be misrepresented; you must not
-//   claim that you wrote the original software. If you use this software
-//   in a product, an acknowledgment in the product documentation would be
-//   appreciated but is not required.
-// 2. Altered source versions must be plainly marked as such, and must not be
-//   misrepresented as being the original software.
-// 3. This notice may not be removed or altered from any source distribution.
-
-module.exports = {
-  2:      'need dictionary',     /* Z_NEED_DICT       2  */
-  1:      'stream end',          /* Z_STREAM_END      1  */
-  0:      '',                    /* Z_OK              0  */
-  '-1':   'file error',          /* Z_ERRNO         (-1) */
-  '-2':   'stream error',        /* Z_STREAM_ERROR  (-2) */
-  '-3':   'data error',          /* Z_DATA_ERROR    (-3) */
-  '-4':   'insufficient memory', /* Z_MEM_ERROR     (-4) */
-  '-5':   'buffer error',        /* Z_BUF_ERROR     (-5) */
-  '-6':   'incompatible version' /* Z_VERSION_ERROR (-6) */
-};
-
-
-/***/ }),
-/* 292 */
+/* 290 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var space = __webpack_require__(347)
+var space = __webpack_require__(340)
 
 /**
  * Export.
@@ -27146,17 +27018,17 @@ function toCamelCase(string) {
 
 
 /***/ }),
-/* 293 */
+/* 291 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isArray = __webpack_require__(294);
-var isFunction = __webpack_require__(295);
-var isObject = __webpack_require__(174);
-var isStamp = __webpack_require__(337);
-var isComposable = __webpack_require__(338);
+var isArray = __webpack_require__(292);
+var isFunction = __webpack_require__(293);
+var isObject = __webpack_require__(173);
+var isStamp = __webpack_require__(330);
+var isComposable = __webpack_require__(331);
 
-var assign = __webpack_require__(339);
-var merge = __webpack_require__(340);
+var assign = __webpack_require__(332);
+var merge = __webpack_require__(333);
 
 var slice = Array.prototype.slice;
 
@@ -27342,14 +27214,14 @@ module.exports = function compose() {
 
 
 /***/ }),
-/* 294 */
+/* 292 */
 /***/ (function(module, exports) {
 
 module.exports = Array.isArray;
 
 
 /***/ }),
-/* 295 */
+/* 293 */
 /***/ (function(module, exports) {
 
 module.exports = function isFunction(arg) {
@@ -27358,7 +27230,7 @@ module.exports = function isFunction(arg) {
 
 
 /***/ }),
-/* 296 */
+/* 294 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27374,7 +27246,7 @@ const CONFIG_UPDATE = exports.CONFIG_UPDATE = PREFIX + 'CONFIG_UPDATE';
 const SET_SDP_HANDLERS = exports.SET_SDP_HANDLERS = PREFIX + 'SET_SDP_HANDLERS';
 
 /***/ }),
-/* 297 */
+/* 295 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27492,8 +27364,22 @@ const TRACK_SOURCE_MUTED = exports.TRACK_SOURCE_MUTED = 'media:sourceMuted';
  */
 const TRACK_SOURCE_UNMUTED = exports.TRACK_SOURCE_UNMUTED = 'media:sourceUnmuted';
 
+/**
+ * The specified Track has been rendered into an element.
+ *
+ * @public
+ * @static
+ * @memberof media
+ * @event media:trackRendered
+ * @param {Object} params
+ * @param {Array<string>} params.trackIds The list of track id's that were rendered.
+ * @param {string} params.selector The css selector used to identify the element the track is rendered into.
+ * @param {api.BasicError} [params.error] An error object, if the operation was not successful.
+ */
+const TRACK_RENDERED = exports.TRACK_RENDERED = 'media:trackRendered';
+
 /***/ }),
-/* 298 */
+/* 296 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27514,7 +27400,7 @@ exports.setChannelFinish = setChannelFinish;
 exports.initializeRemote = initializeRemote;
 exports.initializeRemoteFinish = initializeRemoteFinish;
 
-var _actionTypes = __webpack_require__(154);
+var _actionTypes = __webpack_require__(153);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -27560,7 +27446,7 @@ function initializeRemoteFinish({ error, browser }) {
 }
 
 /***/ }),
-/* 299 */
+/* 297 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27590,7 +27476,7 @@ function getProxyState(state) {
 } // Libraries.
 
 /***/ }),
-/* 300 */
+/* 298 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27620,7 +27506,7 @@ const SUBSCRIPTION_STATE = exports.SUBSCRIPTION_STATE = {
 };
 
 /***/ }),
-/* 301 */
+/* 299 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27633,7 +27519,7 @@ exports.request = request;
 exports.response = response;
 exports.authorizationError = authorizationError;
 
-var _actionTypes = __webpack_require__(156);
+var _actionTypes = __webpack_require__(155);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -27690,7 +27576,7 @@ function authorizationError(error) {
 }
 
 /***/ }),
-/* 302 */
+/* 300 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27703,15 +27589,15 @@ exports.connectWebsocket = connectWebsocket;
 exports.disconnectWebsocket = disconnectWebsocket;
 exports.waitForReconnect = waitForReconnect;
 
-var _actions = __webpack_require__(157);
+var _actions = __webpack_require__(156);
 
-var _actionTypes = __webpack_require__(67);
+var _actionTypes = __webpack_require__(66);
 
-var _selectors = __webpack_require__(133);
+var _selectors = __webpack_require__(132);
 
 var _selectors2 = __webpack_require__(16);
 
-var _actionTypes2 = __webpack_require__(95);
+var _actionTypes2 = __webpack_require__(94);
 
 var _effects = __webpack_require__(4);
 
@@ -27772,7 +27658,7 @@ function* disconnectWebsocket(payload, platform) {
 /**
  * Effect for waiting for the websocket / subscription to reconnect.
  * Assumption is that the websocket is in the middle of reconnect attempts. This
- *    is why the timeout is so long; one of the two scenarios should be guarenteed
+ *    is why the timeout is so long; one of the two scenarios should be guaranteed
  *    to happen before then.
  * @param {number} timeout The time, in milliseconds, to wait before timing out.
  * @return {boolean} Whether the websocket has reconnected or not.
@@ -27797,7 +27683,7 @@ function* waitForReconnect(timeout = 60000) {
 }
 
 /***/ }),
-/* 303 */
+/* 301 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27810,7 +27696,7 @@ const name = 'connectivity';
 exports.default = name;
 
 /***/ }),
-/* 304 */
+/* 302 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27892,7 +27778,7 @@ exports.restartMedia = restartMedia;
 exports.restartMediaFinish = restartMediaFinish;
 exports.updateCall = updateCall;
 
-var _actionTypes = __webpack_require__(69);
+var _actionTypes = __webpack_require__(68);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -28251,7 +28137,7 @@ function updateCall(id, params) {
 }
 
 /***/ }),
-/* 305 */
+/* 303 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28420,7 +28306,7 @@ function normalizeSipUri(address, domain) {
 }
 
 /***/ }),
-/* 306 */
+/* 304 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28441,7 +28327,7 @@ module.exports = pDefer;
 
 
 /***/ }),
-/* 307 */
+/* 305 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28466,7 +28352,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function checkBandwidthControls(bandwidthControls) {
   const finalBandwidthControls = (0, _extends3.default)({}, bandwidthControls);
 
-  // If there are no bandwiwdth limits set or the bandwidth limits provided are not numbers, set them to undefined
+  // If there are no bandwidth limits set or the bandwidth limits provided are not numbers, set them to undefined
   if (!bandwidthControls || !(bandwidthControls.audio && typeof bandwidthControls.audio === 'number')) {
     finalBandwidthControls.audio = null;
   }
@@ -28477,12 +28363,12 @@ function checkBandwidthControls(bandwidthControls) {
 }
 
 /***/ }),
-/* 308 */
+/* 306 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* MIT license */
 /* eslint-disable no-mixed-operators */
-const cssKeywords = __webpack_require__(445);
+const cssKeywords = __webpack_require__(438);
 
 // NOTE: conversions should only return primitive values (i.e. arrays, or
 //       values that give correct `typeof` results).
@@ -29322,7 +29208,7 @@ convert.rgb.gray = function (rgb) {
 
 
 /***/ }),
-/* 309 */
+/* 307 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29339,7 +29225,7 @@ exports.getTrackDscpMapping = getTrackDscpMapping;
  * @param {Array<Track>} videoTracks The list of video tracks
  * @param {Array<Track>} screenTracks The list of screen tracks
  * @param {Object} dscpControls The DSCP controls provided
- * @return {Object} An object map of track: dscpSetting for all applicate tracks
+ * @return {Object} An object map of track: dscpSetting for all applicable tracks
  */
 function getTrackDscpMapping(audioTracks, videoTracks, screenTracks, dscpControls) {
   const dscpTrackMapping = {};
@@ -29365,7 +29251,7 @@ function getTrackDscpMapping(audioTracks, videoTracks, screenTracks, dscpControl
 }
 
 /***/ }),
-/* 310 */
+/* 308 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29378,7 +29264,7 @@ exports.createLocal = createLocal;
 
 var _logs = __webpack_require__(2);
 
-var _errors = __webpack_require__(20);
+var _errors = __webpack_require__(19);
 
 var _errors2 = _interopRequireDefault(_errors);
 
@@ -29406,11 +29292,11 @@ function* createLocal(webRTC, mediaConstraints) {
 
   try {
     if (mediaConstraints.screenShare) {
-      const screenShareContraints = {
+      const screenShareConstraints = {
         video: mediaConstraints.screenShare
       };
 
-      const screenShareMedia = yield (0, _effects.call)([webRTC.media, 'createLocalScreen'], screenShareContraints);
+      const screenShareMedia = yield (0, _effects.call)([webRTC.media, 'createLocalScreen'], screenShareConstraints);
       result.medias.push({
         type: 'screen',
         media: screenShareMedia
@@ -29448,7 +29334,7 @@ function* createLocal(webRTC, mediaConstraints) {
 
     log.info(errMessage);
 
-    // Clean up successfull media object when there is partial media failure.
+    // Clean up successful media object when there is partial media failure.
     for (const eachMedia of result.medias) {
       yield (0, _effects.call)([eachMedia.media, 'stop']);
     }
@@ -29463,7 +29349,7 @@ function* createLocal(webRTC, mediaConstraints) {
 }
 
 /***/ }),
-/* 311 */
+/* 309 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29480,7 +29366,7 @@ var _selectors = __webpack_require__(26);
 
 var _constants = __webpack_require__(37);
 
-var _errors = __webpack_require__(20);
+var _errors = __webpack_require__(19);
 
 var _errors2 = _interopRequireDefault(_errors);
 
@@ -29656,7 +29542,7 @@ function sanitizeSdesFromSdp(newSdp, info, originalSdp) {
 }
 
 /***/ }),
-/* 312 */
+/* 310 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29674,7 +29560,7 @@ exports.compareSummary = compareSummary;
 
 var _logs = __webpack_require__(2);
 
-var _sdpTransform = __webpack_require__(66);
+var _sdpTransform = __webpack_require__(57);
 
 var _sdpTransform2 = _interopRequireDefault(_sdpTransform);
 
@@ -30035,7 +29921,7 @@ function naiveMatchMedias(prevList, currList) {
  * Compare two summarized Media section objects to determine how it changed.
  * @method compareSummary
  * @param  {MediaSummary} prevMedia The previous media summary.
- * @param  {MediaSummary} currMedia The current meduia summary.
+ * @param  {MediaSummary} currMedia The current media summary.
  * @return {MediaChanges} How the media directions changed from prevMedia to currMedia.
  */
 function compareSummary(prevMedia, currMedia) {
@@ -30080,7 +29966,7 @@ function compareSummary(prevMedia, currMedia) {
 }
 
 /***/ }),
-/* 313 */
+/* 311 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30092,7 +29978,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.clickToCall = clickToCall;
 exports.clickToCallFinish = clickToCallFinish;
 
-var _actionTypes = __webpack_require__(160);
+var _actionTypes = __webpack_require__(159);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -30151,7 +30037,7 @@ function clickToCallFinish({ callId, caller, callee, requestTime, error }) {
 }
 
 /***/ }),
-/* 314 */
+/* 312 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30209,7 +30095,7 @@ const MESSAGES_CHANGE = exports.MESSAGES_CHANGE = 'messages:change';
 const MESSAGES_ERROR = exports.MESSAGES_ERROR = 'messages:error';
 
 /***/ }),
-/* 315 */
+/* 313 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30226,7 +30112,7 @@ var _extends3 = _interopRequireDefault(_extends2);
 exports.mwiUpdate = mwiUpdate;
 exports.fetchMwi = fetchMwi;
 
-var _actionTypes = __webpack_require__(161);
+var _actionTypes = __webpack_require__(160);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -30271,7 +30157,7 @@ function fetchMwi() {
 }
 
 /***/ }),
-/* 316 */
+/* 314 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30309,7 +30195,7 @@ function getNotificationConfig(state) {
 }
 
 /***/ }),
-/* 317 */
+/* 315 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30331,7 +30217,7 @@ exports.pushNotificationsRegistration = pushNotificationsRegistration;
 exports.pushNotificationsDeRegistration = pushNotificationsDeRegistration;
 exports.fetchSDP = fetchSDP;
 
-var _effects = __webpack_require__(57);
+var _effects = __webpack_require__(58);
 
 var _effects2 = _interopRequireDefault(_effects);
 
@@ -30500,7 +30386,7 @@ function* fetchSDP(connection, partialUrl) {
   const { server } = connection;
   const method = 'GET';
   const url = `${server.protocol}://${server.server}:${server.port}${partialUrl}`;
-  log.debug(`Sending request to fecth SDP: ${method} ${url}`);
+  log.debug(`Sending request to fetch SDP: ${method} ${url}`);
 
   const response = yield (0, _effects2.default)({
     url,
@@ -30517,452 +30403,7 @@ function* fetchSDP(connection, partialUrl) {
 }
 
 /***/ }),
-/* 318 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-// Note: adler32 takes 12% for level 0 and 2% for level 6.
-// It isn't worth it to make additional optimizations as in original.
-// Small size is preferable.
-
-// (C) 1995-2013 Jean-loup Gailly and Mark Adler
-// (C) 2014-2017 Vitaly Puzrin and Andrey Tupitsin
-//
-// This software is provided 'as-is', without any express or implied
-// warranty. In no event will the authors be held liable for any damages
-// arising from the use of this software.
-//
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it
-// freely, subject to the following restrictions:
-//
-// 1. The origin of this software must not be misrepresented; you must not
-//   claim that you wrote the original software. If you use this software
-//   in a product, an acknowledgment in the product documentation would be
-//   appreciated but is not required.
-// 2. Altered source versions must be plainly marked as such, and must not be
-//   misrepresented as being the original software.
-// 3. This notice may not be removed or altered from any source distribution.
-
-function adler32(adler, buf, len, pos) {
-  var s1 = (adler & 0xffff) |0,
-      s2 = ((adler >>> 16) & 0xffff) |0,
-      n = 0;
-
-  while (len !== 0) {
-    // Set limit ~ twice less than 5552, to keep
-    // s2 in 31-bits, because we force signed ints.
-    // in other case %= will fail.
-    n = len > 2000 ? 2000 : len;
-    len -= n;
-
-    do {
-      s1 = (s1 + buf[pos++]) |0;
-      s2 = (s2 + s1) |0;
-    } while (--n);
-
-    s1 %= 65521;
-    s2 %= 65521;
-  }
-
-  return (s1 | (s2 << 16)) |0;
-}
-
-
-module.exports = adler32;
-
-
-/***/ }),
-/* 319 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-// Note: we can't get significant speed boost here.
-// So write code to minimize size - no pregenerated tables
-// and array tools dependencies.
-
-// (C) 1995-2013 Jean-loup Gailly and Mark Adler
-// (C) 2014-2017 Vitaly Puzrin and Andrey Tupitsin
-//
-// This software is provided 'as-is', without any express or implied
-// warranty. In no event will the authors be held liable for any damages
-// arising from the use of this software.
-//
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it
-// freely, subject to the following restrictions:
-//
-// 1. The origin of this software must not be misrepresented; you must not
-//   claim that you wrote the original software. If you use this software
-//   in a product, an acknowledgment in the product documentation would be
-//   appreciated but is not required.
-// 2. Altered source versions must be plainly marked as such, and must not be
-//   misrepresented as being the original software.
-// 3. This notice may not be removed or altered from any source distribution.
-
-// Use ordinary array, since untyped makes no boost here
-function makeTable() {
-  var c, table = [];
-
-  for (var n = 0; n < 256; n++) {
-    c = n;
-    for (var k = 0; k < 8; k++) {
-      c = ((c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1));
-    }
-    table[n] = c;
-  }
-
-  return table;
-}
-
-// Create table on load. Just 255 signed longs. Not a problem.
-var crcTable = makeTable();
-
-
-function crc32(crc, buf, len, pos) {
-  var t = crcTable,
-      end = pos + len;
-
-  crc ^= -1;
-
-  for (var i = pos; i < end; i++) {
-    crc = (crc >>> 8) ^ t[(crc ^ buf[i]) & 0xFF];
-  }
-
-  return (crc ^ (-1)); // >>> 0;
-}
-
-
-module.exports = crc32;
-
-
-/***/ }),
-/* 320 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-// String encode/decode helpers
-
-
-
-var utils = __webpack_require__(73);
-
-
-// Quick check if we can use fast array to bin string conversion
-//
-// - apply(Array) can fail on Android 2.2
-// - apply(Uint8Array) can fail on iOS 5.1 Safari
-//
-var STR_APPLY_OK = true;
-var STR_APPLY_UIA_OK = true;
-
-try { String.fromCharCode.apply(null, [ 0 ]); } catch (__) { STR_APPLY_OK = false; }
-try { String.fromCharCode.apply(null, new Uint8Array(1)); } catch (__) { STR_APPLY_UIA_OK = false; }
-
-
-// Table with utf8 lengths (calculated by first byte of sequence)
-// Note, that 5 & 6-byte values and some 4-byte values can not be represented in JS,
-// because max possible codepoint is 0x10ffff
-var _utf8len = new utils.Buf8(256);
-for (var q = 0; q < 256; q++) {
-  _utf8len[q] = (q >= 252 ? 6 : q >= 248 ? 5 : q >= 240 ? 4 : q >= 224 ? 3 : q >= 192 ? 2 : 1);
-}
-_utf8len[254] = _utf8len[254] = 1; // Invalid sequence start
-
-
-// convert string to array (typed, when possible)
-exports.string2buf = function (str) {
-  var buf, c, c2, m_pos, i, str_len = str.length, buf_len = 0;
-
-  // count binary size
-  for (m_pos = 0; m_pos < str_len; m_pos++) {
-    c = str.charCodeAt(m_pos);
-    if ((c & 0xfc00) === 0xd800 && (m_pos + 1 < str_len)) {
-      c2 = str.charCodeAt(m_pos + 1);
-      if ((c2 & 0xfc00) === 0xdc00) {
-        c = 0x10000 + ((c - 0xd800) << 10) + (c2 - 0xdc00);
-        m_pos++;
-      }
-    }
-    buf_len += c < 0x80 ? 1 : c < 0x800 ? 2 : c < 0x10000 ? 3 : 4;
-  }
-
-  // allocate buffer
-  buf = new utils.Buf8(buf_len);
-
-  // convert
-  for (i = 0, m_pos = 0; i < buf_len; m_pos++) {
-    c = str.charCodeAt(m_pos);
-    if ((c & 0xfc00) === 0xd800 && (m_pos + 1 < str_len)) {
-      c2 = str.charCodeAt(m_pos + 1);
-      if ((c2 & 0xfc00) === 0xdc00) {
-        c = 0x10000 + ((c - 0xd800) << 10) + (c2 - 0xdc00);
-        m_pos++;
-      }
-    }
-    if (c < 0x80) {
-      /* one byte */
-      buf[i++] = c;
-    } else if (c < 0x800) {
-      /* two bytes */
-      buf[i++] = 0xC0 | (c >>> 6);
-      buf[i++] = 0x80 | (c & 0x3f);
-    } else if (c < 0x10000) {
-      /* three bytes */
-      buf[i++] = 0xE0 | (c >>> 12);
-      buf[i++] = 0x80 | (c >>> 6 & 0x3f);
-      buf[i++] = 0x80 | (c & 0x3f);
-    } else {
-      /* four bytes */
-      buf[i++] = 0xf0 | (c >>> 18);
-      buf[i++] = 0x80 | (c >>> 12 & 0x3f);
-      buf[i++] = 0x80 | (c >>> 6 & 0x3f);
-      buf[i++] = 0x80 | (c & 0x3f);
-    }
-  }
-
-  return buf;
-};
-
-// Helper (used in 2 places)
-function buf2binstring(buf, len) {
-  // use fallback for big arrays to avoid stack overflow
-  if (len < 65537) {
-    if ((buf.subarray && STR_APPLY_UIA_OK) || (!buf.subarray && STR_APPLY_OK)) {
-      return String.fromCharCode.apply(null, utils.shrinkBuf(buf, len));
-    }
-  }
-
-  var result = '';
-  for (var i = 0; i < len; i++) {
-    result += String.fromCharCode(buf[i]);
-  }
-  return result;
-}
-
-
-// Convert byte array to binary string
-exports.buf2binstring = function (buf) {
-  return buf2binstring(buf, buf.length);
-};
-
-
-// Convert binary string (typed, when possible)
-exports.binstring2buf = function (str) {
-  var buf = new utils.Buf8(str.length);
-  for (var i = 0, len = buf.length; i < len; i++) {
-    buf[i] = str.charCodeAt(i);
-  }
-  return buf;
-};
-
-
-// convert array to string
-exports.buf2string = function (buf, max) {
-  var i, out, c, c_len;
-  var len = max || buf.length;
-
-  // Reserve max possible length (2 words per char)
-  // NB: by unknown reasons, Array is significantly faster for
-  //     String.fromCharCode.apply than Uint16Array.
-  var utf16buf = new Array(len * 2);
-
-  for (out = 0, i = 0; i < len;) {
-    c = buf[i++];
-    // quick process ascii
-    if (c < 0x80) { utf16buf[out++] = c; continue; }
-
-    c_len = _utf8len[c];
-    // skip 5 & 6 byte codes
-    if (c_len > 4) { utf16buf[out++] = 0xfffd; i += c_len - 1; continue; }
-
-    // apply mask on first byte
-    c &= c_len === 2 ? 0x1f : c_len === 3 ? 0x0f : 0x07;
-    // join the rest
-    while (c_len > 1 && i < len) {
-      c = (c << 6) | (buf[i++] & 0x3f);
-      c_len--;
-    }
-
-    // terminated by end of string?
-    if (c_len > 1) { utf16buf[out++] = 0xfffd; continue; }
-
-    if (c < 0x10000) {
-      utf16buf[out++] = c;
-    } else {
-      c -= 0x10000;
-      utf16buf[out++] = 0xd800 | ((c >> 10) & 0x3ff);
-      utf16buf[out++] = 0xdc00 | (c & 0x3ff);
-    }
-  }
-
-  return buf2binstring(utf16buf, out);
-};
-
-
-// Calculate max possible position in utf8 buffer,
-// that will not break sequence. If that's not possible
-// - (very small limits) return max size as is.
-//
-// buf[] - utf8 bytes array
-// max   - length limit (mandatory);
-exports.utf8border = function (buf, max) {
-  var pos;
-
-  max = max || buf.length;
-  if (max > buf.length) { max = buf.length; }
-
-  // go back from last position, until start of sequence found
-  pos = max - 1;
-  while (pos >= 0 && (buf[pos] & 0xC0) === 0x80) { pos--; }
-
-  // Very small and broken sequence,
-  // return max, because we should return something anyway.
-  if (pos < 0) { return max; }
-
-  // If we came to start of buffer - that means buffer is too small,
-  // return max too.
-  if (pos === 0) { return max; }
-
-  return (pos + _utf8len[buf[pos]] > max) ? pos : max;
-};
-
-
-/***/ }),
-/* 321 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-// (C) 1995-2013 Jean-loup Gailly and Mark Adler
-// (C) 2014-2017 Vitaly Puzrin and Andrey Tupitsin
-//
-// This software is provided 'as-is', without any express or implied
-// warranty. In no event will the authors be held liable for any damages
-// arising from the use of this software.
-//
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it
-// freely, subject to the following restrictions:
-//
-// 1. The origin of this software must not be misrepresented; you must not
-//   claim that you wrote the original software. If you use this software
-//   in a product, an acknowledgment in the product documentation would be
-//   appreciated but is not required.
-// 2. Altered source versions must be plainly marked as such, and must not be
-//   misrepresented as being the original software.
-// 3. This notice may not be removed or altered from any source distribution.
-
-function ZStream() {
-  /* next input byte */
-  this.input = null; // JS specific, because we have no pointers
-  this.next_in = 0;
-  /* number of bytes available at input */
-  this.avail_in = 0;
-  /* total number of input bytes read so far */
-  this.total_in = 0;
-  /* next output byte should be put there */
-  this.output = null; // JS specific, because we have no pointers
-  this.next_out = 0;
-  /* remaining free space at output */
-  this.avail_out = 0;
-  /* total number of bytes output so far */
-  this.total_out = 0;
-  /* last error message, NULL if no error */
-  this.msg = ''/*Z_NULL*/;
-  /* not visible by applications */
-  this.state = null;
-  /* best guess about the data type: binary or text */
-  this.data_type = 2/*Z_UNKNOWN*/;
-  /* adler32 value of the uncompressed data */
-  this.adler = 0;
-}
-
-module.exports = ZStream;
-
-
-/***/ }),
-/* 322 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-// (C) 1995-2013 Jean-loup Gailly and Mark Adler
-// (C) 2014-2017 Vitaly Puzrin and Andrey Tupitsin
-//
-// This software is provided 'as-is', without any express or implied
-// warranty. In no event will the authors be held liable for any damages
-// arising from the use of this software.
-//
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it
-// freely, subject to the following restrictions:
-//
-// 1. The origin of this software must not be misrepresented; you must not
-//   claim that you wrote the original software. If you use this software
-//   in a product, an acknowledgment in the product documentation would be
-//   appreciated but is not required.
-// 2. Altered source versions must be plainly marked as such, and must not be
-//   misrepresented as being the original software.
-// 3. This notice may not be removed or altered from any source distribution.
-
-module.exports = {
-
-  /* Allowed flush values; see deflate() and inflate() below for details */
-  Z_NO_FLUSH:         0,
-  Z_PARTIAL_FLUSH:    1,
-  Z_SYNC_FLUSH:       2,
-  Z_FULL_FLUSH:       3,
-  Z_FINISH:           4,
-  Z_BLOCK:            5,
-  Z_TREES:            6,
-
-  /* Return codes for the compression/decompression functions. Negative values
-  * are errors, positive values are used for special but normal events.
-  */
-  Z_OK:               0,
-  Z_STREAM_END:       1,
-  Z_NEED_DICT:        2,
-  Z_ERRNO:           -1,
-  Z_STREAM_ERROR:    -2,
-  Z_DATA_ERROR:      -3,
-  //Z_MEM_ERROR:     -4,
-  Z_BUF_ERROR:       -5,
-  //Z_VERSION_ERROR: -6,
-
-  /* compression levels */
-  Z_NO_COMPRESSION:         0,
-  Z_BEST_SPEED:             1,
-  Z_BEST_COMPRESSION:       9,
-  Z_DEFAULT_COMPRESSION:   -1,
-
-
-  Z_FILTERED:               1,
-  Z_HUFFMAN_ONLY:           2,
-  Z_RLE:                    3,
-  Z_FIXED:                  4,
-  Z_DEFAULT_STRATEGY:       0,
-
-  /* Possible values of the data_type field (though see inflate()) */
-  Z_BINARY:                 0,
-  Z_TEXT:                   1,
-  //Z_ASCII:                1, // = Z_TEXT (deprecated)
-  Z_UNKNOWN:                2,
-
-  /* The deflate compression method */
-  Z_DEFLATED:               8
-  //Z_NULL:                 null // Use -1 or null inline, depending on var type
-};
-
-
-/***/ }),
-/* 323 */
+/* 316 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30985,11 +30426,11 @@ exports.getPresenceList = getPresenceList;
 exports.createListFinish = createListFinish;
 exports.presenceReceived = presenceReceived;
 
-var _actionTypes = __webpack_require__(162);
+var _actionTypes = __webpack_require__(161);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _errors = __webpack_require__(20);
+var _errors = __webpack_require__(19);
 
 var _errors2 = _interopRequireDefault(_errors);
 
@@ -31146,7 +30587,7 @@ function presenceReceived(presence) {
 }
 
 /***/ }),
-/* 324 */
+/* 317 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31180,7 +30621,7 @@ const STATUS = exports.STATUS = {
 };
 
 /***/ }),
-/* 325 */
+/* 318 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31208,7 +30649,7 @@ function getSipEventInfo(state, eventType) {
 }
 
 /***/ }),
-/* 326 */
+/* 319 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31230,7 +30671,7 @@ exports.sipEventUnsubscribe = sipEventUnsubscribe;
 exports.sipEventUnsubscribeFinish = sipEventUnsubscribeFinish;
 exports.sipEventReceived = sipEventReceived;
 
-var _actionTypes = __webpack_require__(163);
+var _actionTypes = __webpack_require__(162);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -31367,7 +30808,7 @@ function sipEventReceived(sipEvent, callId) {
 }
 
 /***/ }),
-/* 327 */
+/* 320 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31383,7 +30824,7 @@ exports.fetchUserFinish = fetchUserFinish;
 exports.searchDirectory = searchDirectory;
 exports.searchDirectoryFinish = searchDirectoryFinish;
 
-var _actionTypes = __webpack_require__(96);
+var _actionTypes = __webpack_require__(95);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -31450,7 +30891,7 @@ function fetchUserFinish(user, error) {
  * @param {Object} [options] Sorting options
  * @param {string} [options.sortBy] The attribute upon which to sort results. This can be any of the above listed filters which describe a user attribute.
  * @param {string} [options.order] Order by which to return results. Can be one of "asc" or "desc".
- * @param {number} [options.max] The maximmum number of results to return.
+ * @param {number} [options.max] The maximum number of results to return.
  * @param {string} [options.next] The pointer for a chunk of results, which may be returned from other a previous query.
  * @returns {Object} A flux standard action representing the SEARCH_DIRECTORY action.
  */
@@ -31478,7 +30919,7 @@ function searchDirectoryFinish({ users, error }) {
 }
 
 /***/ }),
-/* 328 */
+/* 321 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31498,7 +30939,7 @@ exports.removeContactFinish = removeContactFinish;
 exports.updateContact = updateContact;
 exports.updateContactFinish = updateContactFinish;
 
-var _actionTypes = __webpack_require__(96);
+var _actionTypes = __webpack_require__(95);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -31639,7 +31080,7 @@ function updateContactFinish({ contact, error }) {
 }
 
 /***/ }),
-/* 329 */
+/* 322 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31706,7 +31147,7 @@ function getUser(state, name) {
 }
 
 /***/ }),
-/* 330 */
+/* 323 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31796,7 +31237,7 @@ const USERS_CHANGE = exports.USERS_CHANGE = 'users:change';
 const USERS_ERROR = exports.USERS_ERROR = 'users:error';
 
 /***/ }),
-/* 331 */
+/* 324 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -31917,7 +31358,7 @@ function createCodecRemover (codecs = []) {
 
 
 /***/ }),
-/* 332 */
+/* 325 */
 /***/ (function(module, exports) {
 
 module.exports = curry;
@@ -31963,81 +31404,81 @@ function curry(fn, arity) {
 
 
 /***/ }),
-/* 333 */
+/* 326 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _core = __webpack_require__(334);
+var _core = __webpack_require__(327);
 
 var _core2 = _interopRequireDefault(_core);
 
-var _basePlugins = __webpack_require__(343);
+var _basePlugins = __webpack_require__(336);
 
 var _basePlugins2 = _interopRequireDefault(_basePlugins);
 
-var _webrtc = __webpack_require__(375);
+var _webrtc = __webpack_require__(368);
 
 var _webrtc2 = _interopRequireDefault(_webrtc);
 
-var _webrtcProxy = __webpack_require__(392);
+var _webrtcProxy = __webpack_require__(386);
 
 var _webrtcProxy2 = _interopRequireDefault(_webrtcProxy);
 
-var _link = __webpack_require__(404);
+var _link = __webpack_require__(397);
 
 var _link2 = _interopRequireDefault(_link);
 
-var _link3 = __webpack_require__(415);
+var _link3 = __webpack_require__(408);
 
 var _link4 = _interopRequireDefault(_link3);
 
-var _link5 = __webpack_require__(426);
+var _link5 = __webpack_require__(419);
 
 var _link6 = _interopRequireDefault(_link5);
 
-var _callHistory = __webpack_require__(468);
+var _callHistory = __webpack_require__(461);
 
 var _callHistory2 = _interopRequireDefault(_callHistory);
 
-var _clickToCall = __webpack_require__(480);
+var _clickToCall = __webpack_require__(473);
 
 var _clickToCall2 = _interopRequireDefault(_clickToCall);
 
-var _link7 = __webpack_require__(488);
+var _link7 = __webpack_require__(481);
 
 var _link8 = _interopRequireDefault(_link7);
 
-var _link9 = __webpack_require__(497);
+var _link9 = __webpack_require__(490);
 
 var _link10 = _interopRequireDefault(_link9);
 
-var _link11 = __webpack_require__(510);
+var _link11 = __webpack_require__(503);
 
 var _link12 = _interopRequireDefault(_link11);
 
-var _link13 = __webpack_require__(518);
+var _link13 = __webpack_require__(511);
 
 var _link14 = _interopRequireDefault(_link13);
 
-var _link15 = __webpack_require__(535);
+var _link15 = __webpack_require__(520);
 
 var _link16 = _interopRequireDefault(_link15);
 
-var _sipEvents = __webpack_require__(544);
+var _sipEvents = __webpack_require__(529);
 
 var _sipEvents2 = _interopRequireDefault(_sipEvents);
 
-var _link17 = __webpack_require__(551);
+var _link17 = __webpack_require__(536);
 
 var _link18 = _interopRequireDefault(_link17);
 
-var _request = __webpack_require__(561);
+var _request = __webpack_require__(546);
 
-__webpack_require__(571);
+__webpack_require__(556);
 
-var _sdpHandlers = __webpack_require__(331);
+var _sdpHandlers = __webpack_require__(324);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -32060,7 +31501,7 @@ root.sdpHandlers = {
 };module.exports = root;
 
 /***/ }),
-/* 334 */
+/* 327 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32071,7 +31512,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = commonIndex;
 
-var _factory = __webpack_require__(335);
+var _factory = __webpack_require__(328);
 
 var _fp = __webpack_require__(3);
 
@@ -32083,7 +31524,7 @@ var _fp = __webpack_require__(3);
 // eslint-disable-next-line no-warning-comments
 /**
  * The SDK creation factory. Create an instance of the SDK by calling this factory with the desired configurations.
- * The SDK instance will be refered as 'api' throughout the rest of the documentation content.
+ * The SDK instance will be referred as 'api' throughout the rest of the documentation content.
  * @public
  * @method create
  * @param {config} config The configuration object.
@@ -32206,7 +31647,7 @@ function commonIndex(options = {}, plugins = []) {
 }
 
 /***/ }),
-/* 335 */
+/* 328 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32220,15 +31661,15 @@ var _extends2 = __webpack_require__(6);
 
 var _extends3 = _interopRequireDefault(_extends2);
 
-var _objectWithoutProperties2 = __webpack_require__(83);
+var _objectWithoutProperties2 = __webpack_require__(82);
 
 var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
 exports.factory = factory;
 
-var _redux = __webpack_require__(97);
+var _redux = __webpack_require__(96);
 
-var _reduxDevtoolsExtension = __webpack_require__(336);
+var _reduxDevtoolsExtension = __webpack_require__(329);
 
 var _reduxSaga = __webpack_require__(27);
 
@@ -32238,13 +31679,13 @@ var _fp = __webpack_require__(3);
 
 var _effects = __webpack_require__(4);
 
-var _compose = __webpack_require__(293);
+var _compose = __webpack_require__(291);
 
 var _compose2 = _interopRequireDefault(_compose);
 
 var _utils = __webpack_require__(13);
 
-var _version = __webpack_require__(60);
+var _version = __webpack_require__(70);
 
 var _logs = __webpack_require__(2);
 
@@ -32570,13 +32011,13 @@ function factory(pluginFactories, sdkOptions = {}) {
 }
 
 /***/ }),
-/* 336 */
+/* 329 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var compose = __webpack_require__(97).compose;
+var compose = __webpack_require__(96).compose;
 
 exports.__esModule = true;
 exports.composeWithDevTools =
@@ -32599,10 +32040,10 @@ exports.devToolsEnhancer =
 
 
 /***/ }),
-/* 337 */
+/* 330 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isFunction = __webpack_require__(295);
+var isFunction = __webpack_require__(293);
 
 module.exports = function isStamp(arg) {
   return isFunction(arg) && isFunction(arg.compose);
@@ -32610,29 +32051,29 @@ module.exports = function isStamp(arg) {
 
 
 /***/ }),
-/* 338 */
+/* 331 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // More proper implementation would be
 // isDescriptor(obj) || isStamp(obj)
 // but there is no sense since stamp is function and function is object.
-module.exports = __webpack_require__(174);
+module.exports = __webpack_require__(173);
 
 
 /***/ }),
-/* 339 */
+/* 332 */
 /***/ (function(module, exports) {
 
 module.exports = Object.assign;
 
 
 /***/ }),
-/* 340 */
+/* 333 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isPlainObject = __webpack_require__(341);
-var isObject = __webpack_require__(174);
-var isArray = __webpack_require__(294);
+var isPlainObject = __webpack_require__(334);
+var isObject = __webpack_require__(173);
+var isArray = __webpack_require__(292);
 
 /**
  * The 'src' argument plays the command role.
@@ -32684,7 +32125,7 @@ module.exports = function (dst) {
 
 
 /***/ }),
-/* 341 */
+/* 334 */
 /***/ (function(module, exports) {
 
 module.exports = function isPlainObject(value) {
@@ -32694,7 +32135,7 @@ module.exports = function isPlainObject(value) {
 
 
 /***/ }),
-/* 342 */
+/* 335 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -33371,7 +32812,7 @@ function testSchema(schema) {
 
 
 /***/ }),
-/* 343 */
+/* 336 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33381,15 +32822,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _plugin = __webpack_require__(344);
+var _plugin = __webpack_require__(337);
 
 var _plugin2 = _interopRequireDefault(_plugin);
 
-var _config = __webpack_require__(366);
+var _config = __webpack_require__(359);
 
 var _config2 = _interopRequireDefault(_config);
 
-var _events = __webpack_require__(371);
+var _events = __webpack_require__(364);
 
 var _events2 = _interopRequireDefault(_events);
 
@@ -33402,7 +32843,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = [{ name: 'logs', fn: _plugin2.default }, { name: 'config', fn: _config2.default }, { name: 'events', fn: _events2.default }];
 
 /***/ }),
-/* 344 */
+/* 337 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33422,23 +32863,23 @@ var _keys2 = _interopRequireDefault(_keys);
 
 exports.default = logPlugin;
 
-var _api = __webpack_require__(345);
+var _api = __webpack_require__(338);
 
 var _api2 = _interopRequireDefault(_api);
 
-var _reducers = __webpack_require__(346);
+var _reducers = __webpack_require__(339);
 
 var _reducers2 = _interopRequireDefault(_reducers);
 
-var _actions = __webpack_require__(196);
+var _actions = __webpack_require__(195);
 
 var actions = _interopRequireWildcard(_actions);
 
-var _config = __webpack_require__(141);
+var _config = __webpack_require__(140);
 
-var _sagas = __webpack_require__(349);
+var _sagas = __webpack_require__(342);
 
-var _actions2 = __webpack_require__(356);
+var _actions2 = __webpack_require__(349);
 
 var _actions3 = _interopRequireDefault(_actions2);
 
@@ -33448,11 +32889,11 @@ var _utils = __webpack_require__(13);
 
 var _effects = __webpack_require__(4);
 
-var _kandyLogger = __webpack_require__(85);
+var _kandyLogger = __webpack_require__(84);
 
 var _index = __webpack_require__(2);
 
-__webpack_require__(365);
+__webpack_require__(358);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -33563,7 +33004,7 @@ function logPlugin(options = {}) {
 // Include the extra JSDoc items.
 
 /***/ }),
-/* 345 */
+/* 338 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33576,11 +33017,11 @@ exports.default = api;
 
 var _index = __webpack_require__(2);
 
-var _actions = __webpack_require__(196);
+var _actions = __webpack_require__(195);
 
 var actions = _interopRequireWildcard(_actions);
 
-var _selectors = __webpack_require__(197);
+var _selectors = __webpack_require__(196);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -33762,7 +33203,7 @@ function api({ dispatch, getState }) {
 } // Logs plugin.
 
 /***/ }),
-/* 346 */
+/* 339 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33776,7 +33217,7 @@ var _extends2 = __webpack_require__(6);
 
 var _extends3 = _interopRequireDefault(_extends2);
 
-var _actionTypes = __webpack_require__(116);
+var _actionTypes = __webpack_require__(115);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -33813,11 +33254,11 @@ const reducer = (0, _reduxActions.handleActions)(reducers, {});
 exports.default = reducer;
 
 /***/ }),
-/* 347 */
+/* 340 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var clean = __webpack_require__(348)
+var clean = __webpack_require__(341)
 
 /**
  * Export.
@@ -33840,7 +33281,7 @@ function toSpaceCase(string) {
 
 
 /***/ }),
-/* 348 */
+/* 341 */
 /***/ (function(module, exports) {
 
 
@@ -33913,7 +33354,7 @@ function uncamelize(string) {
 
 
 /***/ }),
-/* 349 */
+/* 342 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33923,7 +33364,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _set = __webpack_require__(350);
+var _set = __webpack_require__(343);
 
 var _set2 = _interopRequireDefault(_set);
 
@@ -33934,11 +33375,11 @@ exports.setLogHandler = setLogHandler;
 exports.getLevelMap = getLevelMap;
 exports.getHandlerMap = getHandlerMap;
 
-var _actionTypes = __webpack_require__(116);
+var _actionTypes = __webpack_require__(115);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _actions = __webpack_require__(196);
+var _actions = __webpack_require__(195);
 
 var actions = _interopRequireWildcard(_actions);
 
@@ -34099,37 +33540,37 @@ function getHandlerMap(logManager) {
 }
 
 /***/ }),
-/* 350 */
+/* 343 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(351), __esModule: true };
+module.exports = { "default": __webpack_require__(344), __esModule: true };
 
 /***/ }),
-/* 351 */
+/* 344 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(71);
 __webpack_require__(63);
-__webpack_require__(89);
-__webpack_require__(352);
-__webpack_require__(353);
-__webpack_require__(354);
-__webpack_require__(355);
+__webpack_require__(88);
+__webpack_require__(345);
+__webpack_require__(346);
+__webpack_require__(347);
+__webpack_require__(348);
 module.exports = __webpack_require__(7).Set;
 
 
 /***/ }),
-/* 352 */
+/* 345 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var strong = __webpack_require__(142);
-var validate = __webpack_require__(103);
+var strong = __webpack_require__(141);
+var validate = __webpack_require__(102);
 var SET = 'Set';
 
 // 23.2 Set Objects
-module.exports = __webpack_require__(143)(SET, function (get) {
+module.exports = __webpack_require__(142)(SET, function (get) {
   return function Set() { return get(this, arguments.length > 0 ? arguments[0] : undefined); };
 }, {
   // 23.2.3.1 Set.prototype.add(value)
@@ -34140,33 +33581,33 @@ module.exports = __webpack_require__(143)(SET, function (get) {
 
 
 /***/ }),
-/* 353 */
+/* 346 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://github.com/DavidBruant/Map-Set.prototype.toJSON
 var $export = __webpack_require__(8);
 
-$export($export.P + $export.R, 'Set', { toJSON: __webpack_require__(144)('Set') });
+$export($export.P + $export.R, 'Set', { toJSON: __webpack_require__(143)('Set') });
 
 
 /***/ }),
-/* 354 */
+/* 347 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://tc39.github.io/proposal-setmap-offrom/#sec-set.of
+__webpack_require__(144)('Set');
+
+
+/***/ }),
+/* 348 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// https://tc39.github.io/proposal-setmap-offrom/#sec-set.from
 __webpack_require__(145)('Set');
 
 
 /***/ }),
-/* 355 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// https://tc39.github.io/proposal-setmap-offrom/#sec-set.from
-__webpack_require__(146)('Set');
-
-
-/***/ }),
-/* 356 */
+/* 349 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34186,13 +33627,13 @@ var _index = __webpack_require__(2);
 
 var _constants = __webpack_require__(55);
 
-var _transformers = __webpack_require__(357);
+var _transformers = __webpack_require__(350);
 
 var _transformers2 = _interopRequireDefault(_transformers);
 
-var _utils = __webpack_require__(358);
+var _utils = __webpack_require__(351);
 
-var _reduxLogger = __webpack_require__(359);
+var _reduxLogger = __webpack_require__(352);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -34266,7 +33707,7 @@ function excludeActions(actions) {
 }
 
 /***/ }),
-/* 357 */
+/* 350 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34333,7 +33774,7 @@ function removePayloads(action) {
 }
 
 /***/ }),
-/* 358 */
+/* 351 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34363,13 +33804,13 @@ function titleFormatter(action, time, took) {
 }
 
 /***/ }),
-/* 359 */
+/* 352 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(global) {
 
-var _defineProperties = __webpack_require__(360);
+var _defineProperties = __webpack_require__(353);
 
 var _defineProperties2 = _interopRequireDefault(_defineProperties);
 
@@ -34377,15 +33818,15 @@ var _from = __webpack_require__(40);
 
 var _from2 = _interopRequireDefault(_from);
 
-var _iterator = __webpack_require__(363);
+var _iterator = __webpack_require__(356);
 
 var _iterator2 = _interopRequireDefault(_iterator);
 
-var _symbol = __webpack_require__(139);
+var _symbol = __webpack_require__(138);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
-var _assign = __webpack_require__(99);
+var _assign = __webpack_require__(98);
 
 var _assign2 = _interopRequireDefault(_assign);
 
@@ -34393,7 +33834,7 @@ var _keys = __webpack_require__(53);
 
 var _keys2 = _interopRequireDefault(_keys);
 
-var _create = __webpack_require__(147);
+var _create = __webpack_require__(146);
 
 var _create2 = _interopRequireDefault(_create);
 
@@ -34666,19 +34107,19 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
         r = e.getState;return "function" == typeof t || "function" == typeof r ? S()({ dispatch: t, getState: r }) : void console.error("\n[redux-logger v3] BREAKING CHANGE\n[redux-logger v3] Since 3.0.0 redux-logger exports by default logger with default settings.\n[redux-logger v3] Change\n[redux-logger v3] import createLogger from 'redux-logger'\n[redux-logger v3] to\n[redux-logger v3] import { createLogger } from 'redux-logger'\n");
   };e.defaults = L, e.createLogger = S, e.logger = T, e.default = T, Object.defineProperty(e, "__esModule", { value: !0 });
 });
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(84)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(83)))
 
 /***/ }),
-/* 360 */
+/* 353 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(361), __esModule: true };
+module.exports = { "default": __webpack_require__(354), __esModule: true };
 
 /***/ }),
-/* 361 */
+/* 354 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(362);
+__webpack_require__(355);
 var $Object = __webpack_require__(7).Object;
 module.exports = function defineProperties(T, D) {
   return $Object.defineProperties(T, D);
@@ -34686,31 +34127,31 @@ module.exports = function defineProperties(T, D) {
 
 
 /***/ }),
-/* 362 */
+/* 355 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var $export = __webpack_require__(8);
 // 19.1.2.3 / 15.2.3.7 Object.defineProperties(O, Properties)
-$export($export.S + $export.F * !__webpack_require__(17), 'Object', { defineProperties: __webpack_require__(140) });
+$export($export.S + $export.F * !__webpack_require__(17), 'Object', { defineProperties: __webpack_require__(139) });
 
 
 /***/ }),
-/* 363 */
+/* 356 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(364), __esModule: true };
+module.exports = { "default": __webpack_require__(357), __esModule: true };
 
 /***/ }),
-/* 364 */
+/* 357 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(63);
-__webpack_require__(89);
-module.exports = __webpack_require__(101).f('iterator');
+__webpack_require__(88);
+module.exports = __webpack_require__(100).f('iterator');
 
 
 /***/ }),
-/* 365 */
+/* 358 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34741,7 +34182,7 @@ module.exports = __webpack_require__(101).f('iterator');
  * @property {Object} target The subject that the log is about.
  * @property {string} target.type The type of the target. This is also
  *    used as part of the name of the Logger.
- * @property {string} [target.id] A unique identifer for the target.
+ * @property {string} [target.id] A unique identifier for the target.
  * @property {string} target.name A combination of the target type and ID. If no
  *    id was provided, this will be the same as the type.
  * @property {Array} messages The logged information, given to the Logger
@@ -34810,7 +34251,7 @@ module.exports = __webpack_require__(101).f('iterator');
 
 
 /***/ }),
-/* 366 */
+/* 359 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34821,7 +34262,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = configImplementation;
 
-var _interface = __webpack_require__(367);
+var _interface = __webpack_require__(360);
 
 var _interface2 = _interopRequireDefault(_interface);
 
@@ -34852,7 +34293,7 @@ function configImplementation() {
    */
 
 /***/ }),
-/* 367 */
+/* 360 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34862,11 +34303,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _api = __webpack_require__(368);
+var _api = __webpack_require__(361);
 
 var _api2 = _interopRequireDefault(_api);
 
-var _reducers = __webpack_require__(370);
+var _reducers = __webpack_require__(363);
 
 var _reducers2 = _interopRequireDefault(_reducers);
 
@@ -34885,7 +34326,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 368 */
+/* 361 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34900,7 +34341,7 @@ var _actions = __webpack_require__(56);
 
 var actions = _interopRequireWildcard(_actions);
 
-var _selectors = __webpack_require__(369);
+var _selectors = __webpack_require__(362);
 
 var _logs = __webpack_require__(2);
 
@@ -34944,7 +34385,7 @@ function api(context) {
 }
 
 /***/ }),
-/* 369 */
+/* 362 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34969,7 +34410,7 @@ function getConfiguration(state) {
 }
 
 /***/ }),
-/* 370 */
+/* 363 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34983,7 +34424,7 @@ var _extends2 = __webpack_require__(6);
 
 var _extends3 = _interopRequireDefault(_extends2);
 
-var _actionTypes = __webpack_require__(296);
+var _actionTypes = __webpack_require__(294);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -35018,7 +34459,7 @@ const reducer = (0, _reduxActions.handleActions)(reducers, {});
 exports.default = reducer;
 
 /***/ }),
-/* 371 */
+/* 364 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35034,17 +34475,17 @@ var _promise2 = _interopRequireDefault(_promise);
 
 exports.default = eventsImplementation;
 
-var _interface = __webpack_require__(372);
+var _interface = __webpack_require__(365);
 
 var _interface2 = _interopRequireDefault(_interface);
 
 var _actions = __webpack_require__(28);
 
-var _actionTypes = __webpack_require__(219);
+var _actionTypes = __webpack_require__(218);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _eventEmitter = __webpack_require__(220);
+var _eventEmitter = __webpack_require__(219);
 
 var _eventEmitter2 = _interopRequireDefault(_eventEmitter);
 
@@ -35163,7 +34604,7 @@ function middleware(context) {
 }
 
 /***/ }),
-/* 372 */
+/* 365 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35173,11 +34614,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _api = __webpack_require__(373);
+var _api = __webpack_require__(366);
 
 var _api2 = _interopRequireDefault(_api);
 
-var _reducers = __webpack_require__(374);
+var _reducers = __webpack_require__(367);
 
 var _reducers2 = _interopRequireDefault(_reducers);
 
@@ -35197,7 +34638,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 373 */
+/* 366 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35291,7 +34732,7 @@ function api({ dispatch }) {
 }
 
 /***/ }),
-/* 374 */
+/* 367 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35307,7 +34748,7 @@ var _extends3 = _interopRequireDefault(_extends2);
 
 exports.default = reducer;
 
-var _actionTypes = __webpack_require__(219);
+var _actionTypes = __webpack_require__(218);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -35353,7 +34794,7 @@ function reducer(state = {}, action) {
 }
 
 /***/ }),
-/* 375 */
+/* 368 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35365,19 +34806,19 @@ Object.defineProperty(exports, "__esModule", {
 exports.initializeStack = initializeStack;
 exports.default = webRtcPlugin;
 
-var _interface = __webpack_require__(376);
+var _interface = __webpack_require__(369);
 
 var _interface2 = _interopRequireDefault(_interface);
 
-var _events = __webpack_require__(385);
+var _events = __webpack_require__(378);
 
 var _events2 = _interopRequireDefault(_events);
 
-var _channels = __webpack_require__(388);
+var _channels = __webpack_require__(381);
 
 var _channels2 = _interopRequireDefault(_channels);
 
-var _sagas = __webpack_require__(389);
+var _sagas = __webpack_require__(382);
 
 var sagas = _interopRequireWildcard(_sagas);
 
@@ -35389,7 +34830,7 @@ var _logs = __webpack_require__(2);
 
 var _utils = __webpack_require__(13);
 
-var _kandyWebrtc = __webpack_require__(127);
+var _kandyWebrtc = __webpack_require__(126);
 
 var _kandyWebrtc2 = _interopRequireDefault(_kandyWebrtc);
 
@@ -35458,7 +34899,7 @@ function webRtcPlugin() {
 }
 
 /***/ }),
-/* 376 */
+/* 369 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35468,11 +34909,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _api = __webpack_require__(377);
+var _api = __webpack_require__(370);
 
 var _api2 = _interopRequireDefault(_api);
 
-var _reducers = __webpack_require__(379);
+var _reducers = __webpack_require__(372);
 
 var _reducers2 = _interopRequireDefault(_reducers);
 
@@ -35485,7 +34926,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 377 */
+/* 370 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35496,9 +34937,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = api;
 
-var _selectors = __webpack_require__(148);
+var _selectors = __webpack_require__(147);
 
-var _media = __webpack_require__(378);
+var _media = __webpack_require__(371);
 
 var _media2 = _interopRequireDefault(_media);
 
@@ -35541,7 +34982,7 @@ function api(context) {
 }
 
 /***/ }),
-/* 378 */
+/* 371 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35559,7 +35000,7 @@ exports.default = mediaAPI;
 
 var _actions = __webpack_require__(24);
 
-var _selectors = __webpack_require__(148);
+var _selectors = __webpack_require__(147);
 
 var _logs = __webpack_require__(2);
 
@@ -35673,11 +35114,11 @@ function mediaAPI({ dispatch, getState }) {
      */
     initializeDevices(constraints) {
       log.debug(_logs.API_LOG_TAG + 'media.initializeDevices: ', constraints);
-      const browserContraints = {
+      const browserConstraints = {
         audio: constraints === undefined ? true : constraints.audio,
         video: constraints === undefined ? true : constraints.video
       };
-      dispatch(_actions.deviceActions.initializeDevice(browserContraints));
+      dispatch(_actions.deviceActions.initializeDevice(browserConstraints));
     },
     /**
      * Render Media Tracks in a container.
@@ -35774,7 +35215,7 @@ function mediaAPI({ dispatch, getState }) {
 }
 
 /***/ }),
-/* 379 */
+/* 372 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35794,30 +35235,30 @@ exports.default = function (state = {}, action) {
   };
 };
 
-var _devices = __webpack_require__(380);
+var _devices = __webpack_require__(373);
 
 var _devices2 = _interopRequireDefault(_devices);
 
-var _media = __webpack_require__(381);
+var _media = __webpack_require__(374);
 
 var _media2 = _interopRequireDefault(_media);
 
-var _tracks = __webpack_require__(382);
+var _tracks = __webpack_require__(375);
 
 var _tracks2 = _interopRequireDefault(_tracks);
 
-var _sessions = __webpack_require__(383);
+var _sessions = __webpack_require__(376);
 
 var _sessions2 = _interopRequireDefault(_sessions);
 
-var _browser = __webpack_require__(384);
+var _browser = __webpack_require__(377);
 
 var _browser2 = _interopRequireDefault(_browser);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ }),
-/* 380 */
+/* 373 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35869,7 +35310,7 @@ const reducer = (0, _reduxActions.handleActions)(reducers, defaultState);
 exports.default = reducer;
 
 /***/ }),
-/* 381 */
+/* 374 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35969,7 +35410,7 @@ const reducer = (0, _reduxActions.handleActions)(reducers, []);
 exports.default = reducer;
 
 /***/ }),
-/* 382 */
+/* 375 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36111,7 +35552,7 @@ const reducer = (0, _reduxActions.handleActions)(reducers, []);
 exports.default = reducer;
 
 /***/ }),
-/* 383 */
+/* 376 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36237,7 +35678,7 @@ const reducer = (0, _reduxActions.handleActions)(reducers, []);
 exports.default = reducer;
 
 /***/ }),
-/* 384 */
+/* 377 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36275,7 +35716,7 @@ const reducer = (0, _reduxActions.handleActions)(reducers, {});
 exports.default = reducer;
 
 /***/ }),
-/* 385 */
+/* 378 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36289,11 +35730,11 @@ var _extends2 = __webpack_require__(6);
 
 var _extends3 = _interopRequireDefault(_extends2);
 
-var _devices = __webpack_require__(386);
+var _devices = __webpack_require__(379);
 
 var _devices2 = _interopRequireDefault(_devices);
 
-var _tracks = __webpack_require__(387);
+var _tracks = __webpack_require__(380);
 
 var _tracks2 = _interopRequireDefault(_tracks);
 
@@ -36302,7 +35743,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = (0, _extends3.default)({}, _devices2.default, _tracks2.default);
 
 /***/ }),
-/* 386 */
+/* 379 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36312,7 +35753,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _eventTypes = __webpack_require__(297);
+var _eventTypes = __webpack_require__(295);
 
 var eventTypes = _interopRequireWildcard(_eventTypes);
 
@@ -36347,7 +35788,7 @@ events[actionTypes.INITIALIZE_DEVICES_FINISH] = action => {
 exports.default = events;
 
 /***/ }),
-/* 387 */
+/* 380 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36357,7 +35798,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _eventTypes = __webpack_require__(297);
+var _eventTypes = __webpack_require__(295);
 
 var eventTypes = _interopRequireWildcard(_eventTypes);
 
@@ -36415,10 +35856,21 @@ events[actionTypes.TRACK_SOURCE_UNMUTED] = action => {
   };
 };
 
+events[actionTypes.RENDER_TRACKS_FINISH] = action => {
+  return {
+    type: eventTypes.TRACK_RENDERED,
+    args: {
+      trackIds: action.payload.trackIds,
+      selector: action.payload.selector,
+      error: action.payload.error
+    }
+  };
+};
+
 exports.default = events;
 
 /***/ }),
-/* 388 */
+/* 381 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36429,7 +35881,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.watchMediaManagerEvents = exports.watchTrackManagerEvents = exports.watchDeviceEvents = undefined;
 
-var _devices = __webpack_require__(225);
+var _devices = __webpack_require__(224);
 
 Object.defineProperty(exports, 'watchDeviceEvents', {
   enumerable: true,
@@ -36438,7 +35890,7 @@ Object.defineProperty(exports, 'watchDeviceEvents', {
   }
 });
 
-var _trackManager = __webpack_require__(226);
+var _trackManager = __webpack_require__(225);
 
 Object.defineProperty(exports, 'watchTrackManagerEvents', {
   enumerable: true,
@@ -36447,7 +35899,7 @@ Object.defineProperty(exports, 'watchTrackManagerEvents', {
   }
 });
 
-var _mediaManager = __webpack_require__(227);
+var _mediaManager = __webpack_require__(226);
 
 Object.defineProperty(exports, 'watchMediaManagerEvents', {
   enumerable: true,
@@ -36463,7 +35915,7 @@ var _devices2 = _interopRequireDefault(_devices);
 
 var _trackManager2 = _interopRequireDefault(_trackManager);
 
-var _sessionManager = __webpack_require__(228);
+var _sessionManager = __webpack_require__(227);
 
 var _sessionManager2 = _interopRequireDefault(_sessionManager);
 
@@ -36484,7 +35936,7 @@ function* watchManagers(managers, webRTC) {
 }
 
 /***/ }),
-/* 389 */
+/* 382 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36502,11 +35954,11 @@ exports.updateLogLevelEntry = updateLogLevelEntry;
 exports.updateLogHandlerEntry = updateLogHandlerEntry;
 exports.initLogLevel = initLogLevel;
 
-var _media = __webpack_require__(390);
+var _media = __webpack_require__(383);
 
 var mediaSagas = _interopRequireWildcard(_media);
 
-var _logs = __webpack_require__(391);
+var _logs = __webpack_require__(385);
 
 var logSagas = _interopRequireWildcard(_logs);
 
@@ -36514,9 +35966,9 @@ var _actionTypes = __webpack_require__(10);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _actionTypes2 = __webpack_require__(116);
+var _actionTypes2 = __webpack_require__(115);
 
-var _selectors = __webpack_require__(197);
+var _selectors = __webpack_require__(196);
 
 var _effects = __webpack_require__(4);
 
@@ -36602,7 +36054,7 @@ function* updateLogHandlerEntry(webRTC) {
  * Special-case saga: This functionality needs to be run when the SDK is
  *    initialized, but can't be part of the plugin's `init` saga. This is
  *    because it needs the level state to have been set in state, but that isn't
- *    guarenteed during the `init` saga. The order that plugins are loaded would
+ *    guaranteed during the `init` saga. The order that plugins are loaded would
  *    affect this (logs would need to be before webrtc).
  * @method initLogLevel
  * @param  {Object} webRTC The webRTC stack.
@@ -36616,7 +36068,7 @@ function* initLogLevel(webRTC) {
 }
 
 /***/ }),
-/* 390 */
+/* 383 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36639,8 +36091,13 @@ var _effects = __webpack_require__(4);
 
 var _fp = __webpack_require__(3);
 
-// Libraries.
-// Webrtc plugin.
+var _errors = __webpack_require__(19);
+
+var _errors2 = _interopRequireDefault(_errors);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// Other plugins.
 const log = _logs.logManager.getLogger('MEDIA');
 
 /**
@@ -36650,23 +36107,47 @@ const log = _logs.logManager.getLogger('MEDIA');
  */
 
 
-// Other plugins.
+// Libraries.
+// Webrtc plugin.
 function* renderTracks(webRTC, action) {
   const { trackIds, selector, speakerId } = action.payload;
-  log.info(`Rendering track(s) in element ${selector}.`, trackIds);
 
   // Get the tracks that are to be rendered.
   const tracks = yield (0, _effects.call)([webRTC.track, 'getTracks'], trackIds);
   const filteredTracks = tracks.filter(track => !(0, _fp.isUndefined)(track));
+  let payload = {};
 
-  // Render the tracks.
-  yield (0, _effects.all)(filteredTracks.map(track => (0, _effects.call)([track, 'renderIn'], selector, speakerId)));
+  // Each of trackIds, selector and speakerId must be present in order to render a track
+  if (trackIds &&
+  // trackIds is an array
+  trackIds instanceof Array &&
+  // trackIds is not empty
+  trackIds.length > 0 && selector &&
+  // selector is a string
+  (0, _fp.isString)(selector) &&
+  // selector is not empty
+  selector.length > 0) {
+    log.info(`Rendering track(s) in element ${selector}.`, trackIds);
 
-  log.info('Finished rendering track(s).', filteredTracks.map(track => track.id));
+    // Render the tracks.
+    yield (0, _effects.all)(filteredTracks.map(track => (0, _effects.call)([track, 'renderIn'], selector, speakerId)));
+
+    log.info('Finished rendering track(s).', filteredTracks.map(track => track.id));
+
+    payload = { selector };
+  } else {
+    const message = 'Failed to render tracks. One of trackIds or cssSelector is missing from request.';
+
+    log.info(message, filteredTracks.map(track => track.id));
+
+    payload.error = new _errors2.default({
+      message,
+      code: _errors.webrtcCodes.INVALID_PARAM
+    });
+  }
+
   // Report operation done.
-  yield (0, _effects.put)(_actions.trackActions.renderTracksFinish(filteredTracks.map(track => track.id), {
-    selector
-  }));
+  yield (0, _effects.put)(_actions.trackActions.renderTracksFinish(filteredTracks.map(track => track.id), payload));
 }
 
 /**
@@ -36756,7 +36237,166 @@ function* initializeDevices(webRTC, action) {
 }
 
 /***/ }),
-/* 391 */
+/* 384 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+/**
+ * Error codes for the Auth plugin.
+ * @name authCodes
+ */
+const authCodes = exports.authCodes = {
+  INVALID_CREDENTIALS: 'authentication:1',
+  CONNECT_FAIL_WS_ERROR: 'authentication:2',
+  LINK_UNSUBSCRIBE_FAIL: 'authentication:3',
+  LINK_SUBSCRIBE_FAIL: 'authentication:4',
+  LINK_EXTEND_SUBSCRIPTION_FAIL: 'authentication:5',
+  LINK_UPDATE_SUBSCRIPTION_FAIL: 'authentication:6',
+  UC_SUBSCRIBE_FAIL: 'authentication:7',
+  UC_REFRESH_TOKEN_FAIL: 'authentication:8',
+  UC_CREATE_TOKEN_FAIL: 'authentication:9',
+  UC_EXTEND_SUBSCRIPTION_FAIL: 'authentication:10',
+  UC_DISCONNECT_FAIL: 'authentication:11',
+  MISSING_SERVICE: 'authentication:12'
+
+  /**
+   * Error codes for the Call plugin.
+   * @name callCodes
+   */
+};const callCodes = exports.callCodes = {
+  UNKNOWN_ERROR: 'call:1',
+  GENERIC_ERROR: 'call:2',
+  INIT_MEDIA_FAILED: 'call:3',
+  USER_MEDIA_ERROR: 'call:4',
+  NOT_SUPPORTED: 'call:5',
+  // The call is in the wrong state.
+  INVALID_STATE: 'call:6',
+  // A provided parameter is not valid.
+  INVALID_PARAM: 'call:7',
+  // There is a desync between components' state.
+  STATE_DESYNC: 'call:8',
+  // Offer could not be generated
+  INVALID_OFFER: 'call:9'
+
+  /**
+   * Error codes for the Call History plugin.
+   * @name callHistoryCodes
+   */
+};const callHistoryCodes = exports.callHistoryCodes = {
+  UNKNOWN_ERROR: 'callHistory:1',
+  BAD_REQUEST: 'callHistory:2',
+  NOT_FOUND: 'callHistory:3',
+  NOT_AUTHENTICATED: 'callHistory:4',
+  FORBIDDEN: 'callHistory:5'
+  /**
+   * @name clickToCallCodes
+   */
+};const clickToCallCodes = exports.clickToCallCodes = {
+  MISSING_ARGS: 'clickToCall:1',
+  RESPONSE_ERROR: 'clickToCall:2'
+  /**
+   * Error codes for the Groups plugin.
+   * @name groupsCodes
+   */
+};const groupsCodes = exports.groupsCodes = {
+  UNKNOWN_ERROR: 'groups:1',
+  GENERIC_ERROR: 'groups:2',
+  MISSING_PARAMETERS: 'groups:3'
+
+  /**
+   * Error codes for the Message plugin.
+   * @name messagingCodes
+   */
+};const messagingCodes = exports.messagingCodes = {
+  CREATE_GROUP_FAIL: 'messaging:1',
+  MARK_READ_FAIL: 'messaging:2',
+  REMOVE_MEMBERS_FAIL: 'messaging:3',
+  ADD_MEMBERS_FAIL: 'messaging:4',
+  SEND_MESSAGE_FAIL: 'messaging:5',
+  FETCH_MESSAGES_FAIL: 'messaging:6',
+  FILE_UPLOAD_FAIL: 'messaging:7',
+  FETCH_CONVERSATIONS_FAIL: 'messaging:8',
+  INVALID_DESTINATION: 'messaging:9',
+  INVALID_FILE_PARTS: 'messaging:10',
+  SET_IS_TYPING_FAIL: 'messaging:11'
+
+  /**
+   * Error codes for the Message Waiting Indicator plugin.
+   * @name mwiCodes
+   */
+};const mwiCodes = exports.mwiCodes = {
+  FETCH_MWI_FAIL: 'mwi:1'
+
+  /**
+   * Error codes from the Sip Events plugin.
+   * @name sipEventCodes
+   */
+};const sipEventCodes = exports.sipEventCodes = {
+  UNKNOWN_ERROR: 'sipEvents:1',
+  // The user did not subscribe/connect for the specified sip event service.
+  NOT_PROVISIONED: 'sipEvents:2',
+  // The user is not subscribed for the specified sip event.
+  NOT_SUBSCRIBED: 'sipEvents:3'
+
+  /**
+   * Error codes for the audio bridge portion of the call plugin.
+   * @name bridgeCodes
+   */
+};const bridgeCodes = exports.bridgeCodes = {
+  UNKNOWN_ERROR: 'audioBridge:1',
+  // TODO: Make "invalid input" (and others) a generic code.
+  INVALID_INPUT: 'audioBridge:2',
+  ALREADY_EXISTS: 'audioBridge:3',
+  NOT_FOUND: 'audioBridge:4',
+  NOT_SUPPORTED: 'audioBridge:5',
+  MEDIA_NOT_FOUND: 'audioBridge:6',
+  INVALID_STATE: 'audioBridge:7'
+
+  /**
+   * Error codes for the subscription plugin.
+   * @name subscriptionCodes
+   */
+};const subscriptionCodes = exports.subscriptionCodes = {
+  WS_CONNECTION_ERROR: 'subscription:1',
+  CPAAS_WSREQUEST_FAIL: 'subscription:2',
+  CPAAS_WSREVOKE_FAIL: 'subscription:3',
+  CPAAS_WSREFRESH_FAIL: 'subscription:4',
+  CPAAS_SERVICE_SUB_FAIL: 'subscription:5',
+  CPAAS_SERVICE_UNSUB_FAIL: 'subscription:6',
+  CPAAS_UNSUBSCRIBE_FAIL: 'subscription:7'
+  /**
+   * Error codes for the Presence plugin.
+   * @name presenceCodes
+   */
+};const presenceCodes = exports.presenceCodes = {
+  INVALID_STATUS: 'presence:1',
+  INVALID_ACTIVITY: 'presence:2'
+
+  /**
+   * Error codes for the Users plugin
+   * @name usersCodes
+   */
+};const usersCodes = exports.usersCodes = {
+  UNKNOWN: 'users:1',
+  REFRESH_CONTACTS_FAIL: 'users:2',
+  DIRECTORY_REQUEST_FAIL: 'users:3',
+  INVALID_PARAM: 'users:4'
+
+  /**
+   * Error codes for the Webrtc plugin
+   * @name webrtcCodes
+   */
+};const webrtcCodes = exports.webrtcCodes = {
+  INVALID_PARAM: 'webrtc:1'
+};
+
+/***/ }),
+/* 385 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36804,7 +36444,7 @@ function* updateLogHandler(webRTC, action) {
 }
 
 /***/ }),
-/* 392 */
+/* 386 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36815,19 +36455,19 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = proxyPlugin;
 
-var _interface = __webpack_require__(393);
+var _interface = __webpack_require__(387);
 
 var _interface2 = _interopRequireDefault(_interface);
 
-var _proxyStack = __webpack_require__(396);
+var _proxyStack = __webpack_require__(390);
 
 var _proxyStack2 = _interopRequireDefault(_proxyStack);
 
-var _sagas = __webpack_require__(399);
+var _sagas = __webpack_require__(393);
 
 var sagas = _interopRequireWildcard(_sagas);
 
-var _events = __webpack_require__(402);
+var _events = __webpack_require__(395);
 
 var _events2 = _interopRequireDefault(_events);
 
@@ -36837,7 +36477,7 @@ var _utils = __webpack_require__(13);
 
 var _logs = __webpack_require__(2);
 
-var _kandyWebrtc = __webpack_require__(127);
+var _kandyWebrtc = __webpack_require__(126);
 
 var _kandyWebrtc2 = _interopRequireDefault(_kandyWebrtc);
 
@@ -36879,7 +36519,7 @@ function proxyPlugin() {
   // Initialize a real webRTC stack.
   const webRTC = (0, _kandyWebrtc2.default)();
   // Initialize the Proxy stack. The real webRTC stack is needed for
-  //    when proxy-mode is disbled.
+  //    when proxy-mode is disabled.
   const proxy = (0, _proxyStack2.default)(webRTC);
 
   function* init({ webRTC }) {
@@ -36917,7 +36557,7 @@ function proxyPlugin() {
 }
 
 /***/ }),
-/* 393 */
+/* 387 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36927,11 +36567,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _api = __webpack_require__(394);
+var _api = __webpack_require__(388);
 
 var _api2 = _interopRequireDefault(_api);
 
-var _reducers = __webpack_require__(395);
+var _reducers = __webpack_require__(389);
 
 var _reducers2 = _interopRequireDefault(_reducers);
 
@@ -36947,7 +36587,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 394 */
+/* 388 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36958,11 +36598,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = api;
 
-var _actions = __webpack_require__(298);
+var _actions = __webpack_require__(296);
 
 var actions = _interopRequireWildcard(_actions);
 
-var _selectors = __webpack_require__(299);
+var _selectors = __webpack_require__(297);
 
 var _logs = __webpack_require__(2);
 
@@ -37136,7 +36776,7 @@ function api({ dispatch, getState }) {
 }
 
 /***/ }),
-/* 395 */
+/* 389 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37150,7 +36790,7 @@ var _extends2 = __webpack_require__(6);
 
 var _extends3 = _interopRequireDefault(_extends2);
 
-var _actionTypes = __webpack_require__(154);
+var _actionTypes = __webpack_require__(153);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -37207,7 +36847,7 @@ const reducer = (0, _reduxActions.handleActions)(reducers, defaultState);
 exports.default = reducer;
 
 /***/ }),
-/* 396 */
+/* 390 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37223,15 +36863,15 @@ var _promise2 = _interopRequireDefault(_promise);
 
 exports.default = initializeProxy;
 
-var _manager = __webpack_require__(397);
+var _manager = __webpack_require__(391);
 
 var _manager2 = _interopRequireDefault(_manager);
 
-var _channel = __webpack_require__(282);
+var _channel = __webpack_require__(281);
 
 var _logs = __webpack_require__(2);
 
-var _version = __webpack_require__(60);
+var _version = __webpack_require__(70);
 
 var _uuid = __webpack_require__(42);
 
@@ -37304,7 +36944,7 @@ function initializeProxy(webRTC) {
   };
 
   /**
-   * Retreives the current mode of the Proxy Stack.
+   * Retrieves the current mode of the Proxy Stack.
    * @method getProxyMode
    * @return {boolean}
    */
@@ -37340,7 +36980,7 @@ function initializeProxy(webRTC) {
   };
 
   /**
-   * Retreives the current channel to be used.
+   * Retrieves the current channel to be used.
    * @method getChannel
    * @return {Channel}
    */
@@ -37410,7 +37050,7 @@ function initializeProxy(webRTC) {
 
   /**
    * Retrieve details about the browser.
-   * Intended to only be used for retreiving the local browser details. The
+   * Intended to only be used for retrieving the local browser details. The
    *    Proxy details are retrieved when initializing the remote SDK.
    * @method getBrowserDetails
    * @return {Object}
@@ -37442,7 +37082,7 @@ function initializeProxy(webRTC) {
 }
 
 /***/ }),
-/* 397 */
+/* 391 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37572,7 +37212,7 @@ exports.default = function (base, actualManager) {
   });
 };
 
-var _model = __webpack_require__(398);
+var _model = __webpack_require__(392);
 
 var _model2 = _interopRequireDefault(_model);
 
@@ -37585,7 +37225,7 @@ var _uuid = __webpack_require__(42);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ }),
-/* 398 */
+/* 392 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37741,7 +37381,7 @@ function modelProxy(base, channel) {
 // Libraries.
 
 /***/ }),
-/* 399 */
+/* 393 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37755,15 +37395,15 @@ exports.setChannel = setChannel;
 exports.initializeRemote = initializeRemote;
 exports.updateLogLevelEntry = updateLogLevelEntry;
 
-var _actionTypes = __webpack_require__(154);
+var _actionTypes = __webpack_require__(153);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _proxyStack = __webpack_require__(400);
+var _proxyStack = __webpack_require__(394);
 
 var sagas = _interopRequireWildcard(_proxyStack);
 
-var _actionTypes2 = __webpack_require__(116);
+var _actionTypes2 = __webpack_require__(115);
 
 var _effects = __webpack_require__(4);
 
@@ -37794,7 +37434,7 @@ function* updateLogLevelEntry(webRTC) {
 }
 
 /***/ }),
-/* 400 */
+/* 394 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37809,21 +37449,21 @@ exports.handleMessages = handleMessages;
 exports.initializeRemote = initializeRemote;
 exports.updateProxyLevel = updateProxyLevel;
 
-var _actions = __webpack_require__(298);
+var _actions = __webpack_require__(296);
 
 var actions = _interopRequireWildcard(_actions);
 
-var _selectors = __webpack_require__(299);
+var _selectors = __webpack_require__(297);
 
 var _selectors2 = __webpack_require__(26);
 
 var _logs = __webpack_require__(2);
 
-var _selectors3 = __webpack_require__(197);
+var _selectors3 = __webpack_require__(196);
 
-var _devices = __webpack_require__(149);
+var _devices = __webpack_require__(148);
 
-var _errors = __webpack_require__(20);
+var _errors = __webpack_require__(19);
 
 var _errors2 = _interopRequireDefault(_errors);
 
@@ -38039,159 +37679,7 @@ function* updateProxyLevel(webRTC, action) {
 }
 
 /***/ }),
-/* 401 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-/**
- * Error codes for the Auth plugin.
- * @name authCodes
- */
-const authCodes = exports.authCodes = {
-  INVALID_CREDENTIALS: 'authentication:1',
-  CONNECT_FAIL_WS_ERROR: 'authentication:2',
-  LINK_UNSUBSCRIBE_FAIL: 'authentication:3',
-  LINK_SUBSCRIBE_FAIL: 'authentication:4',
-  LINK_EXTEND_SUBSCRIPTION_FAIL: 'authentication:5',
-  LINK_UPDATE_SUBSCRIPTION_FAIL: 'authentication:6',
-  UC_SUBSCRIBE_FAIL: 'authentication:7',
-  UC_REFRESH_TOKEN_FAIL: 'authentication:8',
-  UC_CREATE_TOKEN_FAIL: 'authentication:9',
-  UC_EXTEND_SUBSCRIPTION_FAIL: 'authentication:10',
-  UC_DISCONNECT_FAIL: 'authentication:11',
-  MISSING_SERVICE: 'authentication:12'
-
-  /**
-   * Error codes for the Call plugin.
-   * @name callCodes
-   */
-};const callCodes = exports.callCodes = {
-  UNKNOWN_ERROR: 'call:1',
-  GENERIC_ERROR: 'call:2',
-  INIT_MEDIA_FAILED: 'call:3',
-  USER_MEDIA_ERROR: 'call:4',
-  NOT_SUPPORTED: 'call:5',
-  // The call is in the wrong state.
-  INVALID_STATE: 'call:6',
-  // A provided parameter is not valid.
-  INVALID_PARAM: 'call:7',
-  // There is a desync between components' state.
-  STATE_DESYNC: 'call:8',
-  // Offer could not be generated
-  INVALID_OFFER: 'call:9'
-
-  /**
-   * Error codes for the Call History plugin.
-   * @name callHistoryCodes
-   */
-};const callHistoryCodes = exports.callHistoryCodes = {
-  UNKNOWN_ERROR: 'callHistory:1',
-  BAD_REQUEST: 'callHistory:2',
-  NOT_FOUND: 'callHistory:3',
-  NOT_AUTHENTICATED: 'callHistory:4',
-  FORBIDDEN: 'callHistory:5'
-  /**
-   * @name clickToCallCodes
-   */
-};const clickToCallCodes = exports.clickToCallCodes = {
-  MISSING_ARGS: 'clickToCall:1',
-  RESPONSE_ERROR: 'clickToCall:2'
-  /**
-   * Error codes for the Groups plugin.
-   * @name groupsCodes
-   */
-};const groupsCodes = exports.groupsCodes = {
-  UNKNOWN_ERROR: 'groups:1',
-  GENERIC_ERROR: 'groups:2',
-  MISSING_PARAMETERS: 'groups:3'
-
-  /**
-   * Error codes for the Message plugin.
-   * @name messagingCodes
-   */
-};const messagingCodes = exports.messagingCodes = {
-  CREATE_GROUP_FAIL: 'messaging:1',
-  MARK_READ_FAIL: 'messaging:2',
-  REMOVE_MEMBERS_FAIL: 'messaging:3',
-  ADD_MEMBERS_FAIL: 'messaging:4',
-  SEND_MESSAGE_FAIL: 'messaging:5',
-  FETCH_MESSAGES_FAIL: 'messaging:6',
-  FILE_UPLOAD_FAIL: 'messaging:7',
-  FETCH_CONVERSATIONS_FAIL: 'messaging:8',
-  INVALID_DESTINATION: 'messaging:9',
-  INVALID_FILE_PARTS: 'messaging:10',
-  SET_IS_TYPING_FAIL: 'messaging:11'
-
-  /**
-   * Error codes for the Message Waiting Indicator plugin.
-   * @name mwiCodes
-   */
-};const mwiCodes = exports.mwiCodes = {
-  FETCH_MWI_FAIL: 'mwi:1'
-
-  /**
-   * Error codes from the Sip Events plugin.
-   * @name sipEventCodes
-   */
-};const sipEventCodes = exports.sipEventCodes = {
-  UNKNOWN_ERROR: 'sipEvents:1',
-  // The user did not subscribe/connect for the specified sip event service.
-  NOT_PROVISIONED: 'sipEvents:2',
-  // The user is not subscribed for the specified sip event.
-  NOT_SUBSCRIBED: 'sipEvents:3'
-
-  /**
-   * Error codes for the audio bridge portion of the call plugin.
-   * @name bridgeCodes
-   */
-};const bridgeCodes = exports.bridgeCodes = {
-  UNKNOWN_ERROR: 'audioBridge:1',
-  // TODO: Make "invalid input" (and others) a generic code.
-  INVALID_INPUT: 'audioBridge:2',
-  ALREADY_EXISTS: 'audioBridge:3',
-  NOT_FOUND: 'audioBridge:4',
-  NOT_SUPPORTED: 'audioBridge:5',
-  MEDIA_NOT_FOUND: 'audioBridge:6',
-  INVALID_STATE: 'audioBridge:7'
-
-  /**
-   * Error codes for the subscription plugin.
-   * @name subscriptionCodes
-   */
-};const subscriptionCodes = exports.subscriptionCodes = {
-  WS_CONNECTION_ERROR: 'subscription:1',
-  CPAAS_WSREQUEST_FAIL: 'subscription:2',
-  CPAAS_WSREVOKE_FAIL: 'subscription:3',
-  CPAAS_WSREFRESH_FAIL: 'subscription:4',
-  CPAAS_SERVICE_SUB_FAIL: 'subscription:5',
-  CPAAS_SERVICE_UNSUB_FAIL: 'subscription:6',
-  CPAAS_UNSUBSCRIBE_FAIL: 'subscription:7'
-  /**
-   * Error codes for the Presence plugin.
-   * @name presenceCodes
-   */
-};const presenceCodes = exports.presenceCodes = {
-  INVALID_STATUS: 'presence:1',
-  INVALID_ACTIVITY: 'presence:2'
-
-  /**
-   * Error codes for the Users plugin
-   * @name usersCodes
-   */
-};const usersCodes = exports.usersCodes = {
-  UNKNOWN: 'users:1',
-  REFRESH_CONTACTS_FAIL: 'users:2',
-  DIRECTORY_REQUEST_FAIL: 'users:3',
-  INVALID_PARAM: 'users:4'
-};
-
-/***/ }),
-/* 402 */
+/* 395 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38201,11 +37689,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _actionTypes = __webpack_require__(154);
+var _actionTypes = __webpack_require__(153);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _eventTypes = __webpack_require__(403);
+var _eventTypes = __webpack_require__(396);
 
 var eventTypes = _interopRequireWildcard(_eventTypes);
 
@@ -38243,7 +37731,7 @@ eventsMap[actionTypes.INITIALIZE_FINISH] = proxyEvents;
 exports.default = eventsMap;
 
 /***/ }),
-/* 403 */
+/* 396 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38272,7 +37760,7 @@ const PROXY_CHANGE = exports.PROXY_CHANGE = 'proxy:change';
 const PROXY_ERROR = exports.PROXY_ERROR = 'proxy:error';
 
 /***/ }),
-/* 404 */
+/* 397 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38283,11 +37771,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = createSubscriptionPlugin;
 
-var _interface = __webpack_require__(405);
+var _interface = __webpack_require__(398);
 
 var _effects = __webpack_require__(4);
 
-var _events = __webpack_require__(409);
+var _events = __webpack_require__(402);
 
 var _events2 = _interopRequireDefault(_events);
 
@@ -38299,7 +37787,7 @@ var _utils = __webpack_require__(13);
 
 var _validation = __webpack_require__(72);
 
-var _sagas = __webpack_require__(411);
+var _sagas = __webpack_require__(404);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -38378,7 +37866,7 @@ function createSubscriptionPlugin(options = {}) {
 }
 
 /***/ }),
-/* 405 */
+/* 398 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38389,15 +37877,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.api = exports.name = exports.reducer = undefined;
 
-var _reducers = __webpack_require__(406);
+var _reducers = __webpack_require__(399);
 
 var _reducers2 = _interopRequireDefault(_reducers);
 
-var _name = __webpack_require__(407);
+var _name = __webpack_require__(400);
 
 var _name2 = _interopRequireDefault(_name);
 
-var _api = __webpack_require__(408);
+var _api = __webpack_require__(401);
 
 var _api2 = _interopRequireDefault(_api);
 
@@ -38408,7 +37896,7 @@ exports.name = _name2.default;
 exports.api = _api2.default;
 
 /***/ }),
-/* 406 */
+/* 399 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38422,13 +37910,13 @@ var _extends2 = __webpack_require__(6);
 
 var _extends3 = _interopRequireDefault(_extends2);
 
-var _actionTypes = __webpack_require__(95);
+var _actionTypes = __webpack_require__(94);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(20);
 
-var _constants2 = __webpack_require__(155);
+var _constants2 = __webpack_require__(154);
 
 var _reduxActions = __webpack_require__(22);
 
@@ -38528,7 +38016,7 @@ reducers[actionTypes.UNSUBSCRIBE_FINISHED] = {
 };
 
 /*
- * When a plugin reports a succesful subscription, store it in state.
+ * When a plugin reports a successful subscription, store it in state.
  */
 reducers[actionTypes.PLUGIN_SUBSCRIPTION_FINISHED] = {
   next(state, action) {
@@ -38539,7 +38027,7 @@ reducers[actionTypes.PLUGIN_SUBSCRIPTION_FINISHED] = {
 };
 
 /*
- * When a plugin reports a succesful unsubscription, remove it from state.
+ * When a plugin reports a successful unsubscription, remove it from state.
  */
 reducers[actionTypes.PLUGIN_UNSUBSCRIPTION_FINISHED] = {
   next(state, action) {
@@ -38566,7 +38054,7 @@ reducers[actionTypes.REGISTER_SUB_SERVICE] = {
 };
 
 /*
- * Store the new notifiction channel into state.
+ * Store the new notification channel into state.
  * Assumption: A channel of the same type should NOT already exist.
  */
 reducers[actionTypes.CHANNEL_OPENED] = {
@@ -38608,7 +38096,7 @@ const reducer = (0, _reduxActions.handleActions)(reducers, defaultState);
 exports.default = reducer;
 
 /***/ }),
-/* 407 */
+/* 400 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38625,7 +38113,7 @@ const name = 'subscription';
 exports.default = name;
 
 /***/ }),
-/* 408 */
+/* 401 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38636,15 +38124,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = api;
 
-var _actions = __webpack_require__(283);
+var _actions = __webpack_require__(282);
 
 var actions = _interopRequireWildcard(_actions);
 
-var _selectors = __webpack_require__(104);
+var _selectors = __webpack_require__(103);
 
 var _selectors2 = __webpack_require__(16);
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(20);
 
 var _utils = __webpack_require__(13);
 
@@ -38906,7 +38394,7 @@ function api({ dispatch, getState }) {
 }
 
 /***/ }),
-/* 409 */
+/* 402 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38916,11 +38404,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _eventTypes = __webpack_require__(410);
+var _eventTypes = __webpack_require__(403);
 
 var eventTypes = _interopRequireWildcard(_eventTypes);
 
-var _actionTypes = __webpack_require__(95);
+var _actionTypes = __webpack_require__(94);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -38962,7 +38450,7 @@ eventsMap[actionTypes.RESUBSCRIPTION_FINISHED] = function (action) {
 exports.default = eventsMap;
 
 /***/ }),
-/* 410 */
+/* 403 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39014,7 +38502,7 @@ const SUB_ERROR = exports.SUB_ERROR = 'subscription:error';
 const SUB_RESUB = exports.SUB_RESUB = 'subscription:resub';
 
 /***/ }),
-/* 411 */
+/* 404 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39028,7 +38516,7 @@ var _extends2 = __webpack_require__(6);
 
 var _extends3 = _interopRequireDefault(_extends2);
 
-var _objectWithoutProperties2 = __webpack_require__(83);
+var _objectWithoutProperties2 = __webpack_require__(82);
 
 var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
@@ -39046,23 +38534,23 @@ exports.onSubscriptionGone = onSubscriptionGone;
 exports.onConnectionLostEntry = onConnectionLostEntry;
 exports.onConnectionLost = onConnectionLost;
 
-var _actionTypes = __webpack_require__(95);
+var _actionTypes = __webpack_require__(94);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _actions = __webpack_require__(283);
+var _actions = __webpack_require__(282);
 
 var actions = _interopRequireWildcard(_actions);
 
-var _constants = __webpack_require__(300);
+var _constants = __webpack_require__(298);
 
 var _selectors = __webpack_require__(16);
 
-var _selectors2 = __webpack_require__(104);
+var _selectors2 = __webpack_require__(103);
 
-var _constants2 = __webpack_require__(19);
+var _constants2 = __webpack_require__(20);
 
-var _subscriptions = __webpack_require__(412);
+var _subscriptions = __webpack_require__(405);
 
 var _logs = __webpack_require__(2);
 
@@ -39070,19 +38558,19 @@ var _effects = __webpack_require__(4);
 
 var _fp = __webpack_require__(3);
 
-var _effects2 = __webpack_require__(302);
+var _effects2 = __webpack_require__(300);
 
-var _selectors3 = __webpack_require__(133);
+var _selectors3 = __webpack_require__(132);
 
-var _actionTypes2 = __webpack_require__(67);
+var _actionTypes2 = __webpack_require__(66);
 
 var connectivityActionTypes = _interopRequireWildcard(_actionTypes2);
 
 var _actionTypes3 = __webpack_require__(44);
 
-var _actions2 = __webpack_require__(285);
+var _actions2 = __webpack_require__(284);
 
-var _errors = __webpack_require__(20);
+var _errors = __webpack_require__(19);
 
 var _errors2 = _interopRequireDefault(_errors);
 
@@ -39504,7 +38992,7 @@ function* onConnectionLost() {
 }
 
 /***/ }),
-/* 412 */
+/* 405 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39526,13 +39014,13 @@ exports.subscribe = subscribe;
 exports.unsubscribe = unsubscribe;
 exports.resubscribe = resubscribe;
 
-var _services = __webpack_require__(413);
+var _services = __webpack_require__(406);
 
-var _effects = __webpack_require__(57);
+var _effects = __webpack_require__(58);
 
 var _effects2 = _interopRequireDefault(_effects);
 
-var _errors = __webpack_require__(20);
+var _errors = __webpack_require__(19);
 
 var _errors2 = _interopRequireDefault(_errors);
 
@@ -39787,7 +39275,7 @@ function* resubscribe(connection, [subscription]) {
 }
 
 /***/ }),
-/* 413 */
+/* 406 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39798,7 +39286,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.parseSpidrServices = parseSpidrServices;
 
-var _constants = __webpack_require__(300);
+var _constants = __webpack_require__(298);
 
 /**
  * Uses the requested and received SPiDR [subscription] services to determine
@@ -39849,7 +39337,7 @@ function parseSpidrServices(requested, received) {
 }
 
 /***/ }),
-/* 414 */
+/* 407 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39882,7 +39370,7 @@ function customAgentVersionHeaderSuffix(state) {
 }
 
 /***/ }),
-/* 415 */
+/* 408 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39895,13 +39383,13 @@ exports.default = authLink;
 
 var _effects = __webpack_require__(4);
 
-var _events = __webpack_require__(416);
+var _events = __webpack_require__(409);
 
 var _events2 = _interopRequireDefault(_events);
 
 var _actions = __webpack_require__(28);
 
-var _interface = __webpack_require__(418);
+var _interface = __webpack_require__(411);
 
 var _actions2 = __webpack_require__(56);
 
@@ -39911,7 +39399,7 @@ var _logs = __webpack_require__(2);
 
 var _validation = __webpack_require__(72);
 
-var _sagas = __webpack_require__(423);
+var _sagas = __webpack_require__(416);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -40023,7 +39511,7 @@ function authLink(options = {}) {
 }
 
 /***/ }),
-/* 416 */
+/* 409 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40033,15 +39521,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _eventTypes = __webpack_require__(417);
+var _eventTypes = __webpack_require__(410);
 
 var eventTypes = _interopRequireWildcard(_eventTypes);
 
-var _actionTypes = __webpack_require__(105);
+var _actionTypes = __webpack_require__(104);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
-
-var _version = __webpack_require__(60);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -40051,9 +39537,6 @@ function authChangedEvent(action) {
     args: action.error ? { error: action.payload } : {}
   };
 }
-
-// Helpers
-
 
 const eventsMap = {};
 
@@ -40094,20 +39577,15 @@ eventsMap[actionTypes.RESUBSCRIPTION_FINISHED] = function (action) {
 };
 
 eventsMap[actionTypes.SET_CONNECTION_INFO] = function (action) {
-  const version = (0, _version.getVersion)();
-  const matchedVersion = version.startsWith('3');
-
-  if (matchedVersion) {
-    return {
-      type: eventTypes.AUTH_CREDENTIALS_SET
-    };
-  }
+  return {
+    type: eventTypes.AUTH_CREDENTIALS_SET
+  };
 };
 
 exports.default = eventsMap;
 
 /***/ }),
-/* 417 */
+/* 410 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40159,8 +39637,7 @@ const AUTH_ERROR = exports.AUTH_ERROR = 'auth:error';
 const AUTH_RESUB = exports.AUTH_RESUB = 'auth:resub';
 
 /**
- * The information needed for connecting has been set.
- * This event would only occur when the credentials for 3.x SDk as been set.
+ * The information (credentials) needed for connecting have been set.
  *
  * @public
  * @memberof api
@@ -40170,7 +39647,7 @@ const AUTH_RESUB = exports.AUTH_RESUB = 'auth:resub';
 const AUTH_CREDENTIALS_SET = exports.AUTH_CREDENTIALS_SET = 'auth:credentialsSet';
 
 /***/ }),
-/* 418 */
+/* 411 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40181,15 +39658,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.api = exports.name = exports.reducer = undefined;
 
-var _reducers = __webpack_require__(419);
+var _reducers = __webpack_require__(412);
 
 var _reducers2 = _interopRequireDefault(_reducers);
 
-var _name = __webpack_require__(420);
+var _name = __webpack_require__(413);
 
 var _name2 = _interopRequireDefault(_name);
 
-var _api = __webpack_require__(421);
+var _api = __webpack_require__(414);
 
 var _api2 = _interopRequireDefault(_api);
 
@@ -40200,7 +39677,7 @@ exports.name = _name2.default;
 exports.api = _api2.default;
 
 /***/ }),
-/* 419 */
+/* 412 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40210,7 +39687,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _objectWithoutProperties2 = __webpack_require__(83);
+var _objectWithoutProperties2 = __webpack_require__(82);
 
 var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
@@ -40218,7 +39695,7 @@ var _extends2 = __webpack_require__(6);
 
 var _extends3 = _interopRequireDefault(_extends2);
 
-var _actionTypes = __webpack_require__(105);
+var _actionTypes = __webpack_require__(104);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -40400,7 +39877,7 @@ reducers[actionTypes.SET_CREDENTIALS_FINISH] = {
 };
 
 /*
- * Remove the x-token from the request header after subscription is successfull.
+ * Remove the x-token from the request header after subscription is successful.
  */
 reducers[actionTypes.UPDATE_HMAC_TOKEN] = {
   next(state, action) {
@@ -40448,7 +39925,7 @@ const reducer = (0, _reduxActions.handleActions)(reducers, {
 exports.default = reducer;
 
 /***/ }),
-/* 420 */
+/* 413 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40465,7 +39942,7 @@ const name = 'authentication';
 exports.default = name;
 
 /***/ }),
-/* 421 */
+/* 414 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40476,17 +39953,17 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = api;
 
-var _actions = __webpack_require__(285);
+var _actions = __webpack_require__(284);
 
 var actions = _interopRequireWildcard(_actions);
 
 var _selectors = __webpack_require__(16);
 
-var _constants = __webpack_require__(155);
+var _constants = __webpack_require__(154);
 
 var _logs = __webpack_require__(2);
 
-var _jwtDecode = __webpack_require__(422);
+var _jwtDecode = __webpack_require__(415);
 
 var _jwtDecode2 = _interopRequireDefault(_jwtDecode);
 
@@ -40919,7 +40396,7 @@ function api({ dispatch, getState }) {
     setCredentials({ username, password, authname, hmacToken, bearerAccessToken, idToken }) {
       log.debug(_logs.API_LOG_TAG + 'setCredentials: ', username);
       // TODO: Refactor into multiple actions for each credential mode
-      // TODO: Validation of two authentication possibility scenerio
+      // TODO: Validation of two authentication possibility scenario
       dispatch(actions.setCredentials({
         username,
         password,
@@ -40933,7 +40410,7 @@ function api({ dispatch, getState }) {
 }
 
 /***/ }),
-/* 422 */
+/* 415 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -40944,7 +40421,7 @@ function e(e){this.message=e}e.prototype=new Error,e.prototype.name="InvalidChar
 
 
 /***/ }),
-/* 423 */
+/* 416 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40964,47 +40441,47 @@ exports.onConnectionLost = onConnectionLost;
 
 var _effects = __webpack_require__(4);
 
-var _actions = __webpack_require__(285);
+var _actions = __webpack_require__(284);
 
 var actions = _interopRequireWildcard(_actions);
 
-var _actionTypes = __webpack_require__(105);
+var _actionTypes = __webpack_require__(104);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _constants = __webpack_require__(155);
+var _constants = __webpack_require__(154);
 
 var _actionTypes2 = __webpack_require__(44);
 
-var _actions2 = __webpack_require__(283);
+var _actions2 = __webpack_require__(282);
 
 var subscribeActions = _interopRequireWildcard(_actions2);
 
-var _actionTypes3 = __webpack_require__(95);
+var _actionTypes3 = __webpack_require__(94);
 
 var subscribeActionTypes = _interopRequireWildcard(_actionTypes3);
 
-var _actionTypes4 = __webpack_require__(67);
+var _actionTypes4 = __webpack_require__(66);
 
 var connectivityActionTypes = _interopRequireWildcard(_actionTypes4);
 
-var _selectors = __webpack_require__(104);
+var _selectors = __webpack_require__(103);
 
 var _selectors2 = __webpack_require__(16);
 
-var _constants2 = __webpack_require__(19);
+var _constants2 = __webpack_require__(20);
 
 var _utils = __webpack_require__(13);
 
-var _errors = __webpack_require__(20);
+var _errors = __webpack_require__(19);
 
 var _errors2 = _interopRequireDefault(_errors);
 
-var _base = __webpack_require__(424);
+var _base = __webpack_require__(417);
 
 var _base2 = _interopRequireDefault(_base);
 
-var _utf = __webpack_require__(425);
+var _utf = __webpack_require__(418);
 
 var _utf2 = _interopRequireDefault(_utf);
 
@@ -41299,7 +40776,7 @@ function* onConnectionLost() {
 }
 
 /***/ }),
-/* 424 */
+/* 417 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! https://mths.be/base64 v1.0.0 by @mathias | MIT license */
@@ -41456,10 +40933,10 @@ function* onConnectionLost() {
 
 }(this));
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(109)(module), __webpack_require__(84)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(108)(module), __webpack_require__(83)))
 
 /***/ }),
-/* 425 */
+/* 418 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*! https://mths.be/utf8js v3.0.0 by @mathias */
@@ -41667,7 +41144,7 @@ function* onConnectionLost() {
 
 
 /***/ }),
-/* 426 */
+/* 419 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41678,15 +41155,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = callsLink;
 
-var _interfaceNew = __webpack_require__(427);
+var _interfaceNew = __webpack_require__(420);
 
 var _interfaceNew2 = _interopRequireDefault(_interfaceNew);
 
-var _sagas = __webpack_require__(435);
+var _sagas = __webpack_require__(428);
 
 var sagas = _interopRequireWildcard(_sagas);
 
-var _events = __webpack_require__(466);
+var _events = __webpack_require__(459);
 
 var _events2 = _interopRequireDefault(_events);
 
@@ -41702,7 +41179,7 @@ var _fp = __webpack_require__(3);
 
 var _effects = __webpack_require__(4);
 
-var _kandyWebrtc = __webpack_require__(127);
+var _kandyWebrtc = __webpack_require__(126);
 
 var _validation = __webpack_require__(72);
 
@@ -41894,7 +41371,7 @@ function callsLink(options = {}) {
 }
 
 /***/ }),
-/* 427 */
+/* 420 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41904,11 +41381,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _api = __webpack_require__(428);
+var _api = __webpack_require__(421);
 
 var _api2 = _interopRequireDefault(_api);
 
-var _reducers = __webpack_require__(431);
+var _reducers = __webpack_require__(424);
 
 var _reducers2 = _interopRequireDefault(_reducers);
 
@@ -41929,7 +41406,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 428 */
+/* 421 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41940,7 +41417,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = api;
 
-var _call = __webpack_require__(429);
+var _call = __webpack_require__(422);
 
 var _call2 = _interopRequireDefault(_call);
 
@@ -41976,6 +41453,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @property {boolean} remoteHold Indicates whether this call is currently being held remotely.
  * @property {Array<string>} localTracks A list of Track IDs that the call is sending to the remote participant.
  * @property {Array<string>} remoteTracks A list of Track IDs that the call is receiving from the remote participant.
+ * @property {call.MediaOffered} [mediaOffered] Information about what media was offered by the person who made the call.
  * @property {Object} remoteParticipant Information about the other call participant.
  * @property {string} [remoteParticipant.displayNumber] The User ID of the remote participant in the form "username@domain".
  * @property {string} [remoteParticipant.displayName] The display name of the remote participant.
@@ -42006,6 +41484,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @property {boolean} remoteHold Indicates whether this call is currently being held remotely.
  * @property {Array<string>} localTracks A list of Track IDs that the call is sending to the remote participant.
  * @property {Array<string>} remoteTracks A list of Track IDs that the call is receiving from the remote participant.
+ * @property {call.MediaOffered} [mediaOffered] Information about what media was offered by the person who made the call.
  * @property {Object} remoteParticipant Information about the other call participant.
  * @property {string} [remoteParticipant.displayNumber] The User ID of the remote participant in the form "username@domain".
  * @property {string} [remoteParticipant.displayName] The display name of the remote participant.
@@ -42068,6 +41547,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *      width: { ideal: 1280 }
  *    }
  * })
+ */
+
+/**
+ * The MediaOffered type defines what media capabilities are offered by the person making a call.
+ * This is an optional property and therefore may be null if it is not known or if it's associated with caller's side of the call.
+ *
+ * @public
+ * @static
+ * @typedef {Object} MediaOffered
+ * @memberof call
+ * @property {boolean} audio Specifies if any audio capability has been offered by the caller. If set to true, then the caller is capable of supporting at least one audio stream in the current call.
+ * @property {boolean} video Specifies if any video capability has been offered by the caller. If set to true, then the caller is capable of supporting at least one video stream in the current call.
  */
 
 /**
@@ -42301,7 +41792,7 @@ function api(context) {
 }
 
 /***/ }),
-/* 429 */
+/* 422 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42317,11 +41808,11 @@ var _extends3 = _interopRequireDefault(_extends2);
 
 exports.default = callAPI;
 
-var _actions = __webpack_require__(68);
+var _actions = __webpack_require__(67);
 
 var _selectors = __webpack_require__(26);
 
-var _normalization = __webpack_require__(305);
+var _normalization = __webpack_require__(303);
 
 var _selectors2 = __webpack_require__(16);
 
@@ -42331,7 +41822,7 @@ var _uuid = __webpack_require__(42);
 
 var _fp = __webpack_require__(3);
 
-var _pDefer = __webpack_require__(306);
+var _pDefer = __webpack_require__(304);
 
 var _pDefer2 = _interopRequireDefault(_pDefer);
 
@@ -43152,7 +42643,7 @@ function callAPI({ dispatch, getState }) {
      * @requires callMe
      * @method sendDTMF
      * @param {string} callId ID of the call being acted on.
-     * @param {string} tone DTMF tone(s) to send. Valid chracters are ['0','1','2','3','4','5','6','7','8','9','#','*' and ','].
+     * @param {string} tone DTMF tone(s) to send. Valid characters are ['0','1','2','3','4','5','6','7','8','9','#','*' and ','].
      * @param {number} [duration=100] The amount of time, in milliseconds, that each DTMF tone should last.
      * @param {number} [intertoneGap=70] The length of time, in milliseconds, to wait between tones.
      *
@@ -43178,7 +42669,7 @@ function callAPI({ dispatch, getState }) {
      * A Track ID can optionally be provided to get a report for a specific
      *    Track of the Call.
      *
-     * This API will return a promise which, when resolved, will contain the report of the particlar call.
+     * This API will return a promise which, when resolved, will contain the report of the particular call.
      * The progress of the operation will be tracked via the
      *    {@link call.event:call:operation call:operation} event.
      *
@@ -43557,7 +43048,7 @@ function callAPI({ dispatch, getState }) {
 
       const deferredResult = (0, _pDefer2.default)();
 
-      // Trigger the action, but include a defered result which caller can use when
+      // Trigger the action, but include a deferred result which caller can use when
       // we actually obtain the data (i.e. list of codecs) from WebRTCManager.
       dispatch(_actions.callActions.getAvailableCodecs({ kind }, deferredResult));
 
@@ -43678,7 +43169,7 @@ function callAPI({ dispatch, getState }) {
      *  the Call endpoints will receive each other's media.
      * @property {string} DISCONNECTED Media has become disconnected and the Call endpoints have stopped receiving each other's media.
      *  The Call will automatically attempt to reconnect, transitioning back to `completed` if successful or to `failed` if not.
-     * @property {string} FAILED The connection has failed and cannot be recovered automatically. A full media connection refresh is required to restablish a connection. See the {@link call.restartMedia} API.
+     * @property {string} FAILED The connection has failed and cannot be recovered automatically. A full media connection refresh is required to reestablish a connection. See the {@link call.restartMedia} API.
      * @property {string} CLOSED The connection has been shut down and is no longer in use.
      * @example
      * // Use the media connection states to check the status of the media connection of the Call.
@@ -43706,7 +43197,7 @@ function callAPI({ dispatch, getState }) {
      *       ...
      *       break
      *     case mediaConnectionStates.FAILED:
-     *      // Media has failed. The call requires a media refresh to restablish.
+     *      // Media has failed. The call requires a media refresh to reestablish.
      *      // This state will occur after the `DISCONNECTED` state is encountered.
      *      ...
      *       break
@@ -43869,7 +43360,7 @@ function callAPI({ dispatch, getState }) {
 }
 
 /***/ }),
-/* 430 */
+/* 423 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43880,7 +43371,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.turnChanged = turnChanged;
 
-var _actionTypes = __webpack_require__(69);
+var _actionTypes = __webpack_require__(68);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -43902,7 +43393,7 @@ function turnChanged({ servers, credentials }) {
 } // Call plugin.
 
 /***/ }),
-/* 431 */
+/* 424 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43919,18 +43410,18 @@ exports.default = function (state = {}, action) {
   };
 };
 
-var _call = __webpack_require__(432);
+var _call = __webpack_require__(425);
 
 var _call2 = _interopRequireDefault(_call);
 
-var _turn = __webpack_require__(434);
+var _turn = __webpack_require__(427);
 
 var _turn2 = _interopRequireDefault(_turn);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ }),
-/* 432 */
+/* 425 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43940,7 +43431,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _objectWithoutProperties2 = __webpack_require__(83);
+var _objectWithoutProperties2 = __webpack_require__(82);
 
 var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
@@ -43948,7 +43439,7 @@ var _extends2 = __webpack_require__(6);
 
 var _extends3 = _interopRequireDefault(_extends2);
 
-var _actionTypes = __webpack_require__(69);
+var _actionTypes = __webpack_require__(68);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -43958,7 +43449,7 @@ var webrtcActionTypes = _interopRequireWildcard(_actionTypes2);
 
 var _constants = __webpack_require__(37);
 
-var _utils = __webpack_require__(433);
+var _utils = __webpack_require__(426);
 
 var _reduxActions = __webpack_require__(22);
 
@@ -44580,7 +44071,7 @@ const reducer = (0, _reduxActions.handleActions)(reducers, []);
 exports.default = reducer;
 
 /***/ }),
-/* 433 */
+/* 426 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44597,7 +44088,7 @@ var _extends3 = _interopRequireDefault(_extends2);
 exports.getOperationMeta = getOperationMeta;
 exports.setOperationState = setOperationState;
 
-var _constants = __webpack_require__(134);
+var _constants = __webpack_require__(133);
 
 var _fp = __webpack_require__(3);
 
@@ -44781,7 +44272,7 @@ function setOperationState(state, action) {
 }
 
 /***/ }),
-/* 434 */
+/* 427 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44795,7 +44286,7 @@ var _extends2 = __webpack_require__(6);
 
 var _extends3 = _interopRequireDefault(_extends2);
 
-var _actionTypes = __webpack_require__(69);
+var _actionTypes = __webpack_require__(68);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -44828,7 +44319,7 @@ const reducer = (0, _reduxActions.handleActions)(reducers, {});
 exports.default = reducer;
 
 /***/ }),
-/* 435 */
+/* 428 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44877,7 +44368,7 @@ exports.getAvailableCodecsEntry = getAvailableCodecsEntry;
 exports.restartIce = restartIce;
 exports.watchForMediaDisconnect = watchForMediaDisconnect;
 
-var _actionTypes = __webpack_require__(69);
+var _actionTypes = __webpack_require__(68);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -44885,45 +44376,45 @@ var _actionTypes2 = __webpack_require__(10);
 
 var webrtcActionTypes = _interopRequireWildcard(_actionTypes2);
 
-var _actionTypes3 = __webpack_require__(67);
+var _actionTypes3 = __webpack_require__(66);
 
 var connectivityActionTypes = _interopRequireWildcard(_actionTypes3);
 
-var _support = __webpack_require__(436);
+var _support = __webpack_require__(429);
 
 var supportSagas = _interopRequireWildcard(_support);
 
-var _calls = __webpack_require__(437);
+var _calls = __webpack_require__(430);
 
 var requests = _interopRequireWildcard(_calls);
 
-var _utils = __webpack_require__(439);
+var _utils = __webpack_require__(432);
 
 var _constants = __webpack_require__(37);
 
 var _selectors = __webpack_require__(26);
 
-var _establish = __webpack_require__(440);
+var _establish = __webpack_require__(433);
 
-var _midcall = __webpack_require__(453);
+var _midcall = __webpack_require__(446);
 
 var midcallSagas = _interopRequireWildcard(_midcall);
 
-var _notifications = __webpack_require__(456);
+var _notifications = __webpack_require__(449);
 
-var _dtmf = __webpack_require__(463);
+var _dtmf = __webpack_require__(456);
 
-var _support2 = __webpack_require__(464);
+var _support2 = __webpack_require__(457);
 
-var _codecs = __webpack_require__(465);
+var _codecs = __webpack_require__(458);
 
 var _effects = __webpack_require__(4);
 
 var _actionTypes4 = __webpack_require__(44);
 
-var _actionTypes5 = __webpack_require__(95);
+var _actionTypes5 = __webpack_require__(94);
 
-var _actionTypes6 = __webpack_require__(105);
+var _actionTypes6 = __webpack_require__(104);
 
 var _logs = __webpack_require__(2);
 
@@ -45041,7 +44532,7 @@ function* checkRenegotiationFlagEntry(deps) {
 }
 
 /**
- * Peform a call renegotitation.
+ * Perform a call renegotiation.
  * @method renegotiationEntry
  * @param {Object} deps             Dependencies to be injected.
  * @param {Object} deps.webRTC      The WebRTC stack.
@@ -45460,7 +44951,7 @@ function* getStatsEntry(deps) {
  * @method setTurnCredentials
  */
 function* setTurnCredentials() {
-  // Check that the action is a succesful subscription that includes
+  // Check that the action is a successful subscription that includes
   //    TURN information from the server.
   function hasTurnCredentials(action) {
     return !action.error && (action.type === _actionTypes6.CONNECT_FINISHED && action.payload.subscription && action.payload.subscription.turnCredentials || action.type === _actionTypes5.SUBSCRIBE_FINISHED && action.payload.subscriptions && action.payload.subscriptions.length && action.payload.subscriptions[0].turnCredentials);
@@ -45558,7 +45049,7 @@ function* watchForMediaDisconnect(deps) {
 }
 
 /***/ }),
-/* 436 */
+/* 429 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45574,13 +45065,13 @@ var _extends3 = _interopRequireDefault(_extends2);
 
 exports.setTurnCredentials = setTurnCredentials;
 
-var _actions = __webpack_require__(68);
+var _actions = __webpack_require__(67);
 
 var _selectors = __webpack_require__(26);
 
 var _logs = __webpack_require__(2);
 
-var _actionTypes = __webpack_require__(105);
+var _actionTypes = __webpack_require__(104);
 
 var _effects = __webpack_require__(4);
 
@@ -45632,7 +45123,7 @@ function* setTurnCredentials(action) {
 }
 
 /***/ }),
-/* 437 */
+/* 430 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45666,7 +45157,7 @@ exports.auditCall = auditCall;
 exports.updateSessionResponse = updateSessionResponse;
 exports.linkCallRequest = linkCallRequest;
 
-var _normalization = __webpack_require__(305);
+var _normalization = __webpack_require__(303);
 
 var _selectors = __webpack_require__(26);
 
@@ -45674,17 +45165,17 @@ var _selectors2 = __webpack_require__(16);
 
 var _logs = __webpack_require__(2);
 
-var _effects = __webpack_require__(57);
+var _effects = __webpack_require__(58);
 
 var _effects2 = _interopRequireDefault(_effects);
 
-var _errors = __webpack_require__(20);
+var _errors = __webpack_require__(19);
 
 var _errors2 = _interopRequireDefault(_errors);
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(20);
 
-var _utils = __webpack_require__(438);
+var _utils = __webpack_require__(431);
 
 var _effects3 = __webpack_require__(4);
 
@@ -46485,7 +45976,7 @@ function handleLinkCallRequestError(response) {
 
 /**
  * Generates the call url for the rest request based on the options provided.
- * @param {Object} requestInfo Object cotaining request information
+ * @param {Object} requestInfo Object containing request information
  * @param {Object} options
  * @param {boolean} [options.isAnonymous] Flag indicating whether the call is anonymous or not.
  * @param {string} [options.account] An account token used by the request if it is an anonymous call.
@@ -46520,7 +46011,7 @@ function generateCallUrl(requestInfo, options) {
 }
 
 /***/ }),
-/* 438 */
+/* 431 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46531,9 +46022,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getWebsocketId = getWebsocketId;
 
-var _selectors = __webpack_require__(104);
+var _selectors = __webpack_require__(103);
 
-var _errors = __webpack_require__(20);
+var _errors = __webpack_require__(19);
 
 var _errors2 = _interopRequireDefault(_errors);
 
@@ -46576,7 +46067,7 @@ function* getWebsocketId() {
 }
 
 /***/ }),
-/* 439 */
+/* 432 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46668,7 +46159,7 @@ function* getRemoteParticipant(notification) {
 }
 
 /***/ }),
-/* 440 */
+/* 433 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46684,21 +46175,21 @@ exports.rejectCall = rejectCall;
 exports.ignoreCall = ignoreCall;
 exports.forwardCall = forwardCall;
 
-var _actions = __webpack_require__(68);
+var _actions = __webpack_require__(67);
 
 var _selectors = __webpack_require__(26);
 
 var _constants = __webpack_require__(37);
 
-var _bandwidth = __webpack_require__(307);
+var _bandwidth = __webpack_require__(305);
 
-var _establish = __webpack_require__(286);
+var _establish = __webpack_require__(285);
 
-var _midcall = __webpack_require__(135);
+var _midcall = __webpack_require__(134);
 
 var _logs = __webpack_require__(2);
 
-var _errors = __webpack_require__(20);
+var _errors = __webpack_require__(19);
 
 var _errors2 = _interopRequireDefault(_errors);
 
@@ -47326,13 +46817,13 @@ function* forwardCall(deps, action) {
 }
 
 /***/ }),
-/* 441 */
+/* 434 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var chalk = __webpack_require__(442);
+var chalk = __webpack_require__(435);
 
 var typeColors = {
   modified: 'yellow',
@@ -47472,17 +46963,17 @@ function diff(left, right, options) {
 module.exports = diff;
 
 /***/ }),
-/* 442 */
+/* 435 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-const ansiStyles = __webpack_require__(443);
-const {stdout: stdoutColor, stderr: stderrColor} = __webpack_require__(447);
+const ansiStyles = __webpack_require__(436);
+const {stdout: stdoutColor, stderr: stderrColor} = __webpack_require__(440);
 const {
 	stringReplaceAll,
 	stringEncaseCRLFWithFirstIndex
-} = __webpack_require__(448);
+} = __webpack_require__(441);
 
 const {isArray} = Array;
 
@@ -47691,7 +47182,7 @@ const chalkTag = (chalk, ...strings) => {
 	}
 
 	if (template === undefined) {
-		template = __webpack_require__(449);
+		template = __webpack_require__(442);
 	}
 
 	return template(chalk, parts.join(''));
@@ -47708,7 +47199,7 @@ module.exports = chalk;
 
 
 /***/ }),
-/* 443 */
+/* 436 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47754,7 +47245,7 @@ const setLazyProperty = (object, property, get) => {
 let colorConvert;
 const makeDynamicStyles = (wrap, targetSpace, identity, isBackground) => {
 	if (colorConvert === undefined) {
-		colorConvert = __webpack_require__(444);
+		colorConvert = __webpack_require__(437);
 	}
 
 	const offset = isBackground ? 10 : 0;
@@ -47876,14 +47367,14 @@ Object.defineProperty(module, 'exports', {
 	get: assembleStyles
 });
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(109)(module)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(108)(module)))
 
 /***/ }),
-/* 444 */
+/* 437 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const conversions = __webpack_require__(308);
-const route = __webpack_require__(446);
+const conversions = __webpack_require__(306);
+const route = __webpack_require__(439);
 
 const convert = {};
 
@@ -47966,7 +47457,7 @@ module.exports = convert;
 
 
 /***/ }),
-/* 445 */
+/* 438 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -48125,10 +47616,10 @@ module.exports = {
 
 
 /***/ }),
-/* 446 */
+/* 439 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const conversions = __webpack_require__(308);
+const conversions = __webpack_require__(306);
 
 /*
 	This function routes a model to all other models.
@@ -48228,7 +47719,7 @@ module.exports = function (fromModel) {
 
 
 /***/ }),
-/* 447 */
+/* 440 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -48240,7 +47731,7 @@ module.exports = {
 
 
 /***/ }),
-/* 448 */
+/* 441 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -48286,7 +47777,7 @@ module.exports = {
 
 
 /***/ }),
-/* 449 */
+/* 442 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -48427,26 +47918,26 @@ module.exports = (chalk, temporary) => {
 
 
 /***/ }),
-/* 450 */
+/* 443 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(451), __esModule: true };
+module.exports = { "default": __webpack_require__(444), __esModule: true };
 
 /***/ }),
-/* 451 */
+/* 444 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(452);
+__webpack_require__(445);
 module.exports = __webpack_require__(7).Object.entries;
 
 
 /***/ }),
-/* 452 */
+/* 445 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://github.com/tc39/proposal-object-values-entries
 var $export = __webpack_require__(8);
-var $entries = __webpack_require__(138)(true);
+var $entries = __webpack_require__(137)(true);
 
 $export($export.S, 'Object', {
   entries: function entries(it) {
@@ -48456,7 +47947,7 @@ $export($export.S, 'Object', {
 
 
 /***/ }),
-/* 453 */
+/* 446 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -48491,35 +47982,35 @@ exports.join = join;
 exports.replaceTrack = replaceTrack;
 exports.iceRestart = iceRestart;
 
-var _establish = __webpack_require__(286);
+var _establish = __webpack_require__(285);
 
-var _midcall = __webpack_require__(135);
+var _midcall = __webpack_require__(134);
 
-var _rollback = __webpack_require__(454);
+var _rollback = __webpack_require__(447);
 
 var rollbackOps = _interopRequireWildcard(_rollback);
 
-var _bandwidth = __webpack_require__(307);
+var _bandwidth = __webpack_require__(305);
 
-var _actions = __webpack_require__(68);
+var _actions = __webpack_require__(67);
 
 var _selectors = __webpack_require__(26);
 
 var _logs = __webpack_require__(2);
 
-var _errors = __webpack_require__(20);
+var _errors = __webpack_require__(19);
 
 var _errors2 = _interopRequireDefault(_errors);
 
-var _selectors2 = __webpack_require__(148);
+var _selectors2 = __webpack_require__(147);
 
 var _selectors3 = __webpack_require__(16);
 
-var _selectors4 = __webpack_require__(133);
+var _selectors4 = __webpack_require__(132);
 
-var _effects = __webpack_require__(302);
+var _effects = __webpack_require__(300);
 
-var _utils = __webpack_require__(311);
+var _utils = __webpack_require__(309);
 
 var _constants = __webpack_require__(37);
 
@@ -48527,11 +48018,11 @@ var _effects2 = __webpack_require__(4);
 
 var _fp = __webpack_require__(3);
 
-var _version = __webpack_require__(60);
+var _version = __webpack_require__(70);
 
-var _constants2 = __webpack_require__(19);
+var _constants2 = __webpack_require__(20);
 
-var _sdkId = __webpack_require__(455);
+var _sdkId = __webpack_require__(448);
 
 var _sdkId2 = _interopRequireDefault(_sdkId);
 
@@ -49814,16 +49305,28 @@ function* replaceTrack(deps, action) {
 
   const { trackId, mediaConstraints } = action.payload;
 
-  const stateError = yield (0, _effects2.call)(_utils.validateCallState, action.payload.id, { state: _constants.CALL_STATES.CONNECTED });
-  if (stateError) {
-    log.debug(`Invalid call state: ${stateError.message}`);
+  const currentCall = yield (0, _effects2.select)(_selectors.getCallById, action.payload.id);
+  if (!currentCall) {
+    log.debug(`Call ${action.payload.id} not found.`);
     yield (0, _effects2.put)(_actions.callActions.replaceTrackFinish(action.payload.id, {
-      error: stateError
+      error: new _errors2.default({
+        code: _errors.callCodes.INVALID_PARAM,
+        message: 'Call state not found; invalid call ID.'
+      })
     }));
     return;
   }
 
-  const currentCall = yield (0, _effects2.select)(_selectors.getCallById, action.payload.id);
+  if ([_constants.CALL_STATES.CANCELLED, _constants.CALL_STATES.ENDED, _constants.CALL_STATES.INITIATING].includes(currentCall.state)) {
+    log.debug(`Invalid call state: ${currentCall.state}`);
+    yield (0, _effects2.put)(_actions.callActions.replaceTrackFinish(action.payload.id, {
+      error: new _errors2.default({
+        code: _errors.callCodes.INVALID_STATE,
+        message: `Call is in an invalid state: ${currentCall.state}.`
+      })
+    }));
+    return;
+  }
 
   const { error, newTrackId, oldTrackState } = yield (0, _effects2.call)(_midcall.webRtcReplaceTrack, webRTC, {
     sessionId: currentCall.webrtcSessionId,
@@ -49966,7 +49469,7 @@ function* iceRestart(deps, action) {
 }
 
 /***/ }),
-/* 454 */
+/* 447 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49993,7 +49496,7 @@ const log = _logs.logManager.getLogger('CALLSTACK');
  * Performs the webRTC session functions associated rolling back the local portion
  *  of a "hold" (inactive media) offer
  *
- * Responsiblities:
+ * Responsibilities:
  *  1. Revert the direction of the local and remote transceivers to "sendrecv"
  *  2. Rollback the local description SDP offer
  * @method rollbackLocalHoldOperation
@@ -50036,7 +49539,7 @@ function* rollbackLocalHoldOperation(deps, sessionId) {
  * Performs the webRTC session functions associated rolling back the local portion
  *  of an "unhold" (full media) offer
  *
- * Responsiblities:
+ * Responsibilities:
  *  1. Revert the direction of the local and remote transceivers to "inactive"
  *  2. Rollback the local description SDP offer
  * @method rollbackLocalUnholdOperation
@@ -50078,7 +49581,7 @@ function* rollbackLocalUnholdOperation(deps, sessionId) {
  * Performs the webRTC session functions associated rolling back the local portion
  *  of an "Add Media" offer
  *
- * Responsiblities:
+ * Responsibilities:
  *  1. Remove and cleanup the tracks added to the peer
  *  2. Rollback the local description SDP offer
  * @method rollbackLocalAddMedia
@@ -50146,7 +49649,7 @@ function* rollbackLocalAddMedia(deps, sessionId, medias) {
  * Unlike other rollback operations, for a remove media operation we will not try and re-add
  *  the removed tracks since the application's intention was to stop the media.
  *
- * Responsiblities:
+ * Responsibilities:
  *  1. Rollback the local description SDP offer
  * @method rollbackLocalRemoveMedia
  * @param {Object} deps
@@ -50178,7 +49681,7 @@ function* rollbackLocalRemoveMedia(deps, sessionId) {
 }
 
 /***/ }),
-/* 455 */
+/* 448 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -50196,7 +49699,7 @@ const sdkId = (0, _uuid.v4)();
 exports.default = sdkId;
 
 /***/ }),
-/* 456 */
+/* 449 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -50215,29 +49718,29 @@ exports.callStatusUpdateFailed = callStatusUpdateFailed;
 exports.callCancelled = callCancelled;
 exports.receiveEarlyMedia = receiveEarlyMedia;
 
-var _actions = __webpack_require__(68);
+var _actions = __webpack_require__(67);
 
 var _selectors = __webpack_require__(26);
 
 var _constants = __webpack_require__(37);
 
-var _constants2 = __webpack_require__(134);
+var _constants2 = __webpack_require__(133);
 
-var _negotiation = __webpack_require__(457);
+var _negotiation = __webpack_require__(450);
 
 var negotiation = _interopRequireWildcard(_negotiation);
 
-var _pipeline = __webpack_require__(158);
+var _pipeline = __webpack_require__(157);
 
 var _pipeline2 = _interopRequireDefault(_pipeline);
 
 var _logs = __webpack_require__(2);
 
-var _establish = __webpack_require__(286);
+var _establish = __webpack_require__(285);
 
-var _midcall = __webpack_require__(135);
+var _midcall = __webpack_require__(134);
 
-var _errors = __webpack_require__(20);
+var _errors = __webpack_require__(19);
 
 var _errors2 = _interopRequireDefault(_errors);
 
@@ -50245,9 +49748,13 @@ var _effects = __webpack_require__(4);
 
 var _uuid = __webpack_require__(42);
 
-var _utils = __webpack_require__(311);
+var _sdpTransform = __webpack_require__(57);
 
-var _index = __webpack_require__(211);
+var _sdpTransform2 = _interopRequireDefault(_sdpTransform);
+
+var _utils = __webpack_require__(309);
+
+var _index = __webpack_require__(210);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -50282,28 +49789,6 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 // Helpers
 // TODO: Move this to a shared location.
-
-
-// Libraries.
-
-
-// Other plugins
-
-
-// Callstack plugin.
-/**
- * "Notification sagas" handle received notifications.
- * Each saga handles a single websocket notification that may be received from
- *    the backend.
- *
- * There may not be an established webRTC session for these sagas. This may be
- *    because (1) the notification is a new incoming call, or (2) there is a
- *    de-sync between SDK state and server state. This may or may not be
- *    considered as an error scenario (eg. a "call ended" notification for a
- *    call the SDK doesn't know about may be safely ignored).
- */
-
-// Call plugin.
 function* incomingCall(deps, params) {
   const requests = deps.requests;
   const { sdp, wrtcsSessionId, remoteNumber, remoteName, calleeNumber, customParameters } = params;
@@ -50313,6 +49798,16 @@ function* incomingCall(deps, params) {
 
   const log = _logs.logManager.getLogger('CALL', callId);
   log.info('Received new incoming call; initiating.', { wrtcsSessionId });
+
+  let mediaOffered = null;
+  if (sdp) {
+    // For a regular call, parse the SDP & collect what media has been offered by the caller:
+    // We only support two types
+    mediaOffered = { audio: false, video: false };
+    _sdpTransform2.default.parse(sdp).media.forEach(aMedia => {
+      mediaOffered[aMedia.type] = true;
+    });
+  }
 
   // Dispatch the action right away so the call is in state at this point.
   yield (0, _effects.put)(_actions.callActions.callIncoming(callId, {
@@ -50330,13 +49825,17 @@ function* incomingCall(deps, params) {
     wrtcsSessionId,
 
     // Whether the call was received as a slow start call or not.
-    isSlowStart: !sdp
+    isSlowStart: !sdp,
+
+    // Capture what the caller offered in terms of media
+    // For a slow-start call, this will be null.
+    mediaOffered
   }));
 
   // Dispatch a custom parameters received action/event if any custom parameters were received as part of the notification
   if (customParameters) {
     const customNames = customParameters.map(param => param.name);
-    log.debug(`Recevied custom parameters as part of the Call: ${customNames}.`);
+    log.debug(`Received custom parameters as part of the Call: ${customNames}.`);
     yield (0, _effects.put)(_actions.callActions.customParametersReceived(callId, {
       customParameters
     }));
@@ -50428,6 +49927,28 @@ function* incomingCall(deps, params) {
  * @param {string} params.remoteName   Name of the remote participant.
  * @param {string} params.remoteNumber Number of the remote participant.
  */
+
+
+// Libraries.
+
+
+// Other plugins
+
+
+// Callstack plugin.
+/**
+ * "Notification sagas" handle received notifications.
+ * Each saga handles a single websocket notification that may be received from
+ *    the backend.
+ *
+ * There may not be an established webRTC session for these sagas. This may be
+ *    because (1) the notification is a new incoming call, or (2) there is a
+ *    de-sync between SDK state and server state. This may or may not be
+ *    considered as an error scenario (eg. a "call ended" notification for a
+ *    call the SDK doesn't know about may be safely ignored).
+ */
+
+// Call plugin.
 function* parseCallRequest(deps, params) {
   const { wrtcsSessionId, sdp, remoteName, remoteNumber, customParameters } = params;
   const targetCall = yield (0, _effects.select)(_selectors.getCallByWrtcsSessionId, wrtcsSessionId);
@@ -50452,7 +49973,7 @@ function* parseCallRequest(deps, params) {
   // Dispatch a custom parameters received action/event if any custom parameters were received as part of the notification
   if (customParameters) {
     const customNames = customParameters.map(param => param.name);
-    log.debug(`Recevied custom parameters as part of the Call: ${customNames}.`);
+    log.debug(`Received custom parameters as part of the Call: ${customNames}.`);
     yield (0, _effects.put)(_actions.callActions.customParametersReceived(targetCall.id, {
       customParameters
     }));
@@ -50521,7 +50042,7 @@ function* parseCallResponse(deps, params) {
   // Dispatch a custom parameters received action/event if any custom parameters were received as part of the notification
   if (customParameters) {
     const customNames = customParameters.map(param => param.name);
-    log.debug(`Recevied custom parameters as part of the Call: ${customNames}.`);
+    log.debug(`Received custom parameters as part of the Call: ${customNames}.`);
     yield (0, _effects.put)(_actions.callActions.customParametersReceived(targetCall.id, {
       customParameters
     }));
@@ -50618,7 +50139,7 @@ function* callStatusUpdateEnded(deps, params) {
  * - direct transfer
  * - consultative transfer
  * - join
- * , where user A transfered user B to user C.
+ * , where user A transferred user B to user C.
  *
  * For the direct & consultative transfer operations, the 'sessionComplete' notification
  * will just refer to the original call between: A<->B, which has now completed.
@@ -50772,7 +50293,7 @@ function* callStatusUpdateRinging(deps, params) {
   // Dispatch a custom parameters received action/event if any custom parameters were received as part of the notification
   if (customParameters) {
     const customNames = customParameters.map(param => param.name);
-    log.debug(`Recevied custom parameters as part of the Call: ${customNames}.`);
+    log.debug(`Received custom parameters as part of the Call: ${customNames}.`);
     yield (0, _effects.put)(_actions.callActions.customParametersReceived(currentCall.id, {
       customParameters
     }));
@@ -50943,7 +50464,7 @@ function* receiveEarlyMedia(deps, params) {
   // Dispatch a custom parameters received action/event if any custom parameters were received as part of the notification
   if (customParameters) {
     const customNames = customParameters.map(param => param.name);
-    log.debug(`Recevied custom parameters as part of the Call: ${customNames}.`);
+    log.debug(`Received custom parameters as part of the Call: ${customNames}.`);
     yield (0, _effects.put)(_actions.callActions.customParametersReceived(currentCall.id, {
       customParameters
     }));
@@ -50982,7 +50503,7 @@ function* receiveEarlyMedia(deps, params) {
 }
 
 /***/ }),
-/* 457 */
+/* 450 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -50997,31 +50518,31 @@ exports.handleUpdateResponse = handleUpdateResponse;
 exports.handleSlowUpdateResponse = handleSlowUpdateResponse;
 exports.getCallAction = getCallAction;
 
-var _compareMedia = __webpack_require__(312);
+var _compareMedia = __webpack_require__(310);
 
 var _compareMedia2 = _interopRequireDefault(_compareMedia);
 
-var _operations = __webpack_require__(458);
+var _operations = __webpack_require__(451);
 
 var _operations2 = _interopRequireDefault(_operations);
 
-var _actions = __webpack_require__(68);
+var _actions = __webpack_require__(67);
 
 var _selectors = __webpack_require__(26);
 
 var _constants = __webpack_require__(37);
 
-var _sdp = __webpack_require__(459);
+var _sdp = __webpack_require__(452);
 
-var _state = __webpack_require__(460);
+var _state = __webpack_require__(453);
 
-var _constants2 = __webpack_require__(134);
+var _constants2 = __webpack_require__(133);
 
 var _logs = __webpack_require__(2);
 
-var _midcall = __webpack_require__(135);
+var _midcall = __webpack_require__(134);
 
-var _negotiation = __webpack_require__(461);
+var _negotiation = __webpack_require__(454);
 
 var _effects = __webpack_require__(4);
 
@@ -51055,7 +50576,7 @@ const log = _logs.logManager.getLogger('CALL');
  *        - Indicates regular webRTC negotiation should occur.
  * Responsibilities:
  *    1. Determine what the remote operation was (ie. what is being offered).
- *    2. Process the offer based on remote oepration and current local state.
+ *    2. Process the offer based on remote operation and current local state.
  *    3. Respond to the request.
  *    4. Update call state (via redux action).
  * @method handleUpdateRequest
@@ -51124,7 +50645,7 @@ function* handleUpdateRequest(deps, targetCall, params) {
      *      a renegotiation occurs that changes from 'MoH' to 'media flowing'
      *      state. This needs to be handled as an unhold by the SDK so that
      *      the call state is updated to reflect the media state.
-     *  - As part of a remote consultative transer operation (when this user was
+     *  - As part of a remote consultative transfer operation (when this user was
      *      the first call specified in the transfer operation, but not for the
      *      second user). Same 'MoH' to 'media flowing' scenario as direct
      *      transfer.
@@ -51664,7 +51185,7 @@ function* getCallAction(remoteOp) {
 }
 
 /***/ }),
-/* 458 */
+/* 451 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -51686,9 +51207,9 @@ exports.wasNoChange = wasNoChange;
 exports.hadMediaFlowing = hadMediaFlowing;
 exports.hasMediaFlowing = hasMediaFlowing;
 
-var _compareMedia = __webpack_require__(312);
+var _compareMedia = __webpack_require__(310);
 
-var _constants = __webpack_require__(134);
+var _constants = __webpack_require__(133);
 
 /**
  * Based on a MediaDiff object, determine what the call operation was that
@@ -51867,7 +51388,7 @@ function wasUnhold(mediaDiff) {
 }
 
 /**
- * A "3.X hold" opeation is when a hold operation changes media to `sendonly`
+ * A "3.X hold" operation is when a hold operation changes media to `sendonly`
  *    instead of `inactive`. This is what the 3.X SDK and Mobile SDK does. This
  *    is for interop with remote endpoints other than the 4.X SDK.
  *
@@ -51890,14 +51411,14 @@ function was3xHold(mediaDiff) {
 
   /*
    * 1) Handles when some media was flowing before the change.
-   *  or a special case where media was flowing but assumes media wasnt flowing.
+   *  or a special case where media was flowing but assumes media wasn't flowing.
    * 2) All changed media is now "sendonly".
    *    All changed video media is not receiving.
    */
   const wasFlowing = hadMediaFlowing(mediaDiff);
   const allSendOnly = changed.every(({ media, changes }) => {
     /**
-     * Possible scenerios:
+     * Possible scenarios:
      *
      *  1. Audio-only 3.X Hold:
      *    - A sendrecv --> A sendonly
@@ -51917,7 +51438,7 @@ function was3xHold(mediaDiff) {
      *  7. Two way Audio, One way send Video:
      *    - A/V sendrecv/sendonly --> A/V sendonly/sendonly (video checked by 5) below)
      *
-     * The summary of these senarios are:
+     * The summary of these scenarios are:
      *  - Audio always stops receiving.
      *  - Audio always continues sending.
      *  - Video is never receiving afterwards (stop, same).
@@ -51963,7 +51484,7 @@ function was3xHold(mediaDiff) {
 }
 
 /**
- * A "3.X unhold" opeation is when a v3.X SDK performs unhold. This is for
+ * A "3.X unhold" operation is when a v3.X SDK performs unhold. This is for
  *    interop.
  *
  * This operation is the same as a "regular" unhold, except that media changes
@@ -52133,7 +51654,7 @@ function wasRemoveMedia(mediaDiff) {
  * A "start Music on Hold" operation is when media is currently held, and one
  *    audio media is changed to "send only".
  *
- * This checker does not guarentee that it was a "start MoH" scenario, and not
+ * This checker does not guarantee that it was a "start MoH" scenario, and not
  *    a very specific "add media" scenario. It is an edge-case, but it is
  *    possible that both sides of the Call removed all media, then one side
  *    adds a single audio track. There is no way to tell the difference with
@@ -52187,7 +51708,7 @@ function wasStartMoh(mediaDiff) {
  * A "stop Music on Hold" operation is when media starts in a MoH state, then
  *    reverts back to an "on hold" state.
  *
- * This checker does not guarentee that it was a "stop MoH" scenario, and not
+ * This checker does not guarantee that it was a "stop MoH" scenario, and not
  *    a very specific "remove media" scenario. It is possible that a Call is
  *    established with one-way audio (and no video), then the audio is removed.
  *    There is no way to tell the difference with only a MediaDiff object.
@@ -52264,7 +51785,7 @@ function wasNoChange(mediaDiff) {
 }
 
 /**
- * Determines whether a MediDiff object describes the SDP as having had media
+ * Determines whether a MediaDiff object describes the SDP as having had media
  *    flowing (a media both sending and receiving; flowing in both directions)
  *    _before_ the SDP changes.
  * @method hadMediaFlowing
@@ -52321,7 +51842,7 @@ function hadMediaFlowing(mediaDiff) {
 }
 
 /**
- * Determines whether a MediDiff object describes the SDP as having media
+ * Determines whether a MediaDiff object describes the SDP as having media
  *    flowing (a media both sending and receiving; flowing in both directions)
  *    _after_ the SDP changes.
  * @method hasMediaFlowing
@@ -52364,7 +51885,7 @@ function hasMediaFlowing(mediaDiff) {
 }
 
 /***/ }),
-/* 459 */
+/* 452 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -52377,7 +51898,7 @@ exports.setMediaInactive = setMediaInactive;
 exports.hasMediaFlowing = hasMediaFlowing;
 exports.hasMusicOnHold = hasMusicOnHold;
 
-var _sdpTransform = __webpack_require__(66);
+var _sdpTransform = __webpack_require__(57);
 
 var _sdpTransform2 = _interopRequireDefault(_sdpTransform);
 
@@ -52435,7 +51956,7 @@ function* hasMusicOnHold(sdp) {
 }
 
 /***/ }),
-/* 460 */
+/* 453 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -52513,7 +52034,7 @@ function isDualHold(callState) {
 }
 
 /***/ }),
-/* 461 */
+/* 454 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -52527,17 +52048,17 @@ exports.receivedAnswer = receivedAnswer;
 
 var _logs = __webpack_require__(2);
 
-var _errors = __webpack_require__(20);
+var _errors = __webpack_require__(19);
 
 var _errors2 = _interopRequireDefault(_errors);
 
 var _selectors = __webpack_require__(26);
 
-var _utils = __webpack_require__(211);
+var _utils = __webpack_require__(210);
 
-var _sdp = __webpack_require__(462);
+var _sdp = __webpack_require__(455);
 
-var _pipeline = __webpack_require__(158);
+var _pipeline = __webpack_require__(157);
 
 var _pipeline2 = _interopRequireDefault(_pipeline);
 
@@ -52677,7 +52198,7 @@ function* receivedAnswer(deps, sessionInfo, targetCall) {
 }
 
 /***/ }),
-/* 462 */
+/* 455 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -52688,7 +52209,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.hasSameSessionId = hasSameSessionId;
 
-var _extractors = __webpack_require__(153);
+var _extractors = __webpack_require__(152);
 
 /**
  * Checks whether two SDPs have the same session ID.
@@ -52707,7 +52228,7 @@ function hasSameSessionId(sdp, newSdp) {
 }
 
 /***/ }),
-/* 463 */
+/* 456 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -52723,7 +52244,7 @@ exports.hasTelephoneEvent = hasTelephoneEvent;
 exports.convertTone = convertTone;
 exports.splitTones = splitTones;
 
-var _actions = __webpack_require__(68);
+var _actions = __webpack_require__(67);
 
 var _selectors = __webpack_require__(26);
 
@@ -52731,13 +52252,13 @@ var _constants = __webpack_require__(37);
 
 var _logs = __webpack_require__(2);
 
-var _errors = __webpack_require__(20);
+var _errors = __webpack_require__(19);
 
 var _errors2 = _interopRequireDefault(_errors);
 
 var _effects = __webpack_require__(4);
 
-var _sdpTransform = __webpack_require__(66);
+var _sdpTransform = __webpack_require__(57);
 
 var _sdpTransform2 = _interopRequireDefault(_sdpTransform);
 
@@ -52753,7 +52274,7 @@ const log = _logs.logManager.getLogger('CALL');
  * Entry saga for sending DTMF tones on a call.
  *
  * Determines if the DTMF tones need to be out-of-band (preferred) or in-band.
- *    Referes to helper functions to send the tones.
+ *    Refers to helper functions to send the tones.
  *
  * Assumptions:
  *    1. None; everything is checked.
@@ -52862,7 +52383,7 @@ function* sendDtmf(deps, action) {
  * @param  {string}  options.tone           The tone sequence.
  * @param  {number}  [options.duration]     The length of each DTMF tone.
  * @param  {number}  [options.intertoneGap] The gap between each DTMF tone.
- * @return {boolean} Whether the operation was succesful or not.
+ * @return {boolean} Whether the operation was successful or not.
  */
 function* playOutBand(session, options) {
   const result = yield (0, _effects.call)([session, 'sendDTMF'], options);
@@ -52899,7 +52420,7 @@ function* playOutBand(session, options) {
  * @param  {string}  options.tone           The tone sequence.
  * @param  {number}  [options.duration=100]     The length of each DTMF tone.
  * @param  {number}  [options.intertoneGap=70]  The gap between each DTMF tone.
- * @return {boolean} Whether the operation was succesful or not.
+ * @return {boolean} Whether the operation was successful or not.
  */
 function* playInBand(session, options) {
   let { tone, duration, intertoneGap: gap } = options;
@@ -53066,7 +52587,7 @@ function* addTones(context, targetNode, tones, options) {
  * Checks whether an SDP has at least one telephone-event codec.
  *
  * TODO: If there isn't a telephone-event, then the PeerConnection won't have
- *    a "dtmf sender" (RTCRtpSender.dtmf). Should preferrably check for that
+ *    a "dtmf sender" (RTCRtpSender.dtmf). Should preferably check for that
  *    rather than looking through the SDP.
  * This isn't being done because the Session/Peer models wrap "send dtmf" in a
  *    way that makes it inconvenient to use.
@@ -53140,7 +52661,7 @@ function splitTones(tone) {
 }
 
 /***/ }),
-/* 464 */
+/* 457 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -53154,9 +52675,9 @@ exports.getSessions = getSessions;
 exports.updateCallState = updateCallState;
 exports.normalizeIceFailure = normalizeIceFailure;
 
-var _actions = __webpack_require__(68);
+var _actions = __webpack_require__(67);
 
-var _actionTypes = __webpack_require__(69);
+var _actionTypes = __webpack_require__(68);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -53164,7 +52685,7 @@ var _selectors = __webpack_require__(26);
 
 var _constants = __webpack_require__(37);
 
-var _midcall = __webpack_require__(135);
+var _midcall = __webpack_require__(134);
 
 var _logs = __webpack_require__(2);
 
@@ -53481,7 +53002,7 @@ function* normalizeIceFailure(action) {
 }
 
 /***/ }),
-/* 465 */
+/* 458 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -53492,7 +53013,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getAvailableCodecs = getAvailableCodecs;
 
-var _call = __webpack_require__(304);
+var _call = __webpack_require__(302);
 
 var callActions = _interopRequireWildcard(_call);
 
@@ -53555,7 +53076,7 @@ function* getAvailableCodecs(deps, action) {
 // Call Plugin
 
 /***/ }),
-/* 466 */
+/* 459 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -53570,15 +53091,15 @@ var _extends2 = __webpack_require__(6);
 
 var _extends3 = _interopRequireDefault(_extends2);
 
-var _eventTypes = __webpack_require__(467);
+var _eventTypes = __webpack_require__(460);
 
 var eventTypes = _interopRequireWildcard(_eventTypes);
 
-var _actionTypes = __webpack_require__(69);
+var _actionTypes = __webpack_require__(68);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _constants = __webpack_require__(134);
+var _constants = __webpack_require__(133);
 
 var _actionTypes2 = __webpack_require__(10);
 
@@ -53891,7 +53412,8 @@ callEvents[actionTypes.AVAILABLE_CODECS_RETRIEVED] = action => {
 
 callEvents[actionTypes.CALL_INCOMING] = action => {
   return callEventHandler(eventTypes.CALL_INCOMING, action, {
-    error: action.payload.error
+    error: action.payload.error,
+    mediaOffered: action.payload.mediaOffered
   });
 };
 
@@ -53979,7 +53501,7 @@ callEvents[actionTypes.MEDIA_RESTART_FINISH] = (action, params) => {
 exports.default = (0, _extends3.default)({}, callEvents);
 
 /***/ }),
-/* 467 */
+/* 460 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -54301,7 +53823,7 @@ const MEDIA_CONNECTION_CHANGE = exports.MEDIA_CONNECTION_CHANGE = 'call:mediaCon
 const MEDIA_RESTART = exports.MEDIA_RESTART = 'call:mediaRestart';
 
 /***/ }),
-/* 468 */
+/* 461 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -54312,13 +53834,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = callHistory;
 
-var _interface = __webpack_require__(469);
+var _interface = __webpack_require__(462);
 
-var _sagas = __webpack_require__(473);
+var _sagas = __webpack_require__(466);
 
 var sagas = _interopRequireWildcard(_sagas);
 
-var _events = __webpack_require__(478);
+var _events = __webpack_require__(471);
 
 var _events2 = _interopRequireDefault(_events);
 
@@ -54359,7 +53881,7 @@ function callHistory() {
 // Other plugins.
 
 /***/ }),
-/* 469 */
+/* 462 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -54370,11 +53892,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.reducer = exports.api = exports.name = undefined;
 
-var _api = __webpack_require__(470);
+var _api = __webpack_require__(463);
 
 var _api2 = _interopRequireDefault(_api);
 
-var _reducers = __webpack_require__(472);
+var _reducers = __webpack_require__(465);
 
 var _reducers2 = _interopRequireDefault(_reducers);
 
@@ -54387,7 +53909,7 @@ exports.api = _api2.default;
 exports.reducer = _reducers2.default;
 
 /***/ }),
-/* 470 */
+/* 463 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -54403,11 +53925,11 @@ var _stringify2 = _interopRequireDefault(_stringify);
 
 exports.default = api;
 
-var _actions = __webpack_require__(287);
+var _actions = __webpack_require__(286);
 
 var actions = _interopRequireWildcard(_actions);
 
-var _selectors = __webpack_require__(471);
+var _selectors = __webpack_require__(464);
 
 var _logs = __webpack_require__(2);
 
@@ -54520,7 +54042,7 @@ function api({ dispatch, getState }) {
     /**
      * Sets the cached call history data, expects stringified data as it will be parsed.
      *
-     * The data can be retreived from the {@link callHistory.getCache
+     * The data can be retrieved from the {@link callHistory.getCache
      *    call.history.getCache} API. This allows an
      *    application to persist the information across SDK instances when the
      *    backend environment does not support the CallHistory feature.
@@ -54540,7 +54062,7 @@ function api({ dispatch, getState }) {
 }
 
 /***/ }),
-/* 471 */
+/* 464 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -54575,7 +54097,7 @@ function getCachedHistory(state) {
 }
 
 /***/ }),
-/* 472 */
+/* 465 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -54585,7 +54107,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _actionTypes = __webpack_require__(159);
+var _actionTypes = __webpack_require__(158);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -54682,7 +54204,7 @@ const isSimilar = function (serverLogEntry) {
 };
 
 /***/ }),
-/* 473 */
+/* 466 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -54695,17 +54217,17 @@ exports.fetchLogs = fetchLogs;
 exports.removeLogs = removeLogs;
 exports.createLocalLog = createLocalLog;
 
-var _server = __webpack_require__(474);
+var _server = __webpack_require__(467);
 
-var _client = __webpack_require__(475);
+var _client = __webpack_require__(468);
 
-var _actionTypes = __webpack_require__(159);
+var _actionTypes = __webpack_require__(158);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _actionTypes2 = __webpack_require__(477);
+var _actionTypes2 = __webpack_require__(470);
 
-var _actionTypes3 = __webpack_require__(69);
+var _actionTypes3 = __webpack_require__(68);
 
 var _constants = __webpack_require__(37);
 
@@ -54770,7 +54292,7 @@ function* createLocalLog() {
 }
 
 /***/ }),
-/* 474 */
+/* 467 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -54782,7 +54304,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.retrieveCallLogs = retrieveCallLogs;
 exports.removeCallLogs = removeCallLogs;
 
-var _actions = __webpack_require__(287);
+var _actions = __webpack_require__(286);
 
 var actions = _interopRequireWildcard(_actions);
 
@@ -54790,11 +54312,11 @@ var _selectors = __webpack_require__(16);
 
 var _logs = __webpack_require__(2);
 
-var _effects = __webpack_require__(57);
+var _effects = __webpack_require__(58);
 
 var _effects2 = _interopRequireDefault(_effects);
 
-var _errors = __webpack_require__(20);
+var _errors = __webpack_require__(19);
 
 var _errors2 = _interopRequireDefault(_errors);
 
@@ -54802,7 +54324,7 @@ var _fp = __webpack_require__(3);
 
 var _effects3 = __webpack_require__(4);
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(20);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -54986,7 +54508,7 @@ function* removeCallLogs(action) {
         message: `Failed to remove call log. Status Code: ${statusCode}.`
       });
     } else {
-      // Handle errrs from the request helper.
+      // Handle errors from the request helper.
       const { message } = response.payload.result;
       log.info('Failed call log removal.', message);
 
@@ -55004,7 +54526,7 @@ function* removeCallLogs(action) {
 }
 
 /***/ }),
-/* 475 */
+/* 468 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -55016,15 +54538,15 @@ Object.defineProperty(exports, "__esModule", {
 exports.oldStoreCallLogs = oldStoreCallLogs;
 exports.storeCallLogs = storeCallLogs;
 
-var _actions = __webpack_require__(287);
+var _actions = __webpack_require__(286);
 
 var _selectors = __webpack_require__(16);
 
-var _actionTypes = __webpack_require__(69);
+var _actionTypes = __webpack_require__(68);
 
 var _constants = __webpack_require__(37);
 
-var _selectors2 = __webpack_require__(476);
+var _selectors2 = __webpack_require__(469);
 
 var _selectors3 = __webpack_require__(26);
 
@@ -55169,7 +54691,7 @@ function* storeCallLogs(action) {
 }
 
 /***/ }),
-/* 476 */
+/* 469 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -55276,7 +54798,7 @@ function getBridgeCalls(state, bridgeId) {
 }
 
 /***/ }),
-/* 477 */
+/* 470 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -55406,7 +54928,7 @@ const UNSILENCE_AUDIO_BRIDGE_FINISH = exports.UNSILENCE_AUDIO_BRIDGE_FINISH = PR
 const UPDATE_AUDIO_BRIDGE_CALLS = exports.UPDATE_AUDIO_BRIDGE_CALLS = PREFIX + 'UPDATE_AUDIO_BRIDGE_CALLS';
 
 /***/ }),
-/* 478 */
+/* 471 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -55416,11 +54938,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _eventTypes = __webpack_require__(479);
+var _eventTypes = __webpack_require__(472);
 
 var eventTypes = _interopRequireWildcard(_eventTypes);
 
-var _actionTypes = __webpack_require__(159);
+var _actionTypes = __webpack_require__(158);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -55452,7 +54974,7 @@ events[actionTypes.ADD_CALL_HISTORY_ENTRY] = callHistoryEvent;
 exports.default = events;
 
 /***/ }),
-/* 479 */
+/* 472 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -55488,7 +55010,7 @@ const CALL_HISTORY_ERROR = exports.CALL_HISTORY_ERROR = 'callHistory:error';
 const CALL_HISTORY_CACHE_CHANGE = exports.CALL_HISTORY_CACHE_CHANGE = 'callHistoryCache:change';
 
 /***/ }),
-/* 480 */
+/* 473 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -55499,13 +55021,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = clickToCallImplementation;
 
-var _interface = __webpack_require__(481);
+var _interface = __webpack_require__(474);
 
 var _interface2 = _interopRequireDefault(_interface);
 
-var _sagas = __webpack_require__(485);
+var _sagas = __webpack_require__(478);
 
-var _events = __webpack_require__(486);
+var _events = __webpack_require__(479);
 
 var _events2 = _interopRequireDefault(_events);
 
@@ -55555,7 +55077,7 @@ function clickToCallImplementation() {
  */
 
 /***/ }),
-/* 481 */
+/* 474 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -55565,11 +55087,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _api = __webpack_require__(482);
+var _api = __webpack_require__(475);
 
 var _api2 = _interopRequireDefault(_api);
 
-var _reducers = __webpack_require__(484);
+var _reducers = __webpack_require__(477);
 
 var _reducers2 = _interopRequireDefault(_reducers);
 
@@ -55588,7 +55110,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 482 */
+/* 475 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -55599,11 +55121,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = api;
 
-var _actions = __webpack_require__(313);
+var _actions = __webpack_require__(311);
 
 var actions = _interopRequireWildcard(_actions);
 
-var _selectors = __webpack_require__(483);
+var _selectors = __webpack_require__(476);
 
 var _uuid = __webpack_require__(42);
 
@@ -55659,7 +55181,7 @@ function api(context) {
 }
 
 /***/ }),
-/* 483 */
+/* 476 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -55684,7 +55206,7 @@ function getAll(state) {
 } // Other Libraries
 
 /***/ }),
-/* 484 */
+/* 477 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -55696,7 +55218,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _reduxActions = __webpack_require__(22);
 
-var _actionTypes = __webpack_require__(160);
+var _actionTypes = __webpack_require__(159);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -55734,7 +55256,7 @@ const reducer = (0, _reduxActions.handleActions)(reducers, []);
 exports.default = reducer;
 
 /***/ }),
-/* 485 */
+/* 478 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -55750,11 +55272,11 @@ var _stringify2 = _interopRequireDefault(_stringify);
 
 exports.clickToCallSaga = clickToCallSaga;
 
-var _actionTypes = __webpack_require__(160);
+var _actionTypes = __webpack_require__(159);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _actions = __webpack_require__(313);
+var _actions = __webpack_require__(311);
 
 var actions = _interopRequireWildcard(_actions);
 
@@ -55764,15 +55286,15 @@ var _effects = __webpack_require__(4);
 
 var _logs = __webpack_require__(2);
 
-var _effects2 = __webpack_require__(57);
+var _effects2 = __webpack_require__(58);
 
 var _effects3 = _interopRequireDefault(_effects2);
 
-var _errors = __webpack_require__(20);
+var _errors = __webpack_require__(19);
 
 var _errors2 = _interopRequireDefault(_errors);
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(20);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -55796,7 +55318,7 @@ function* clickToCallSaga() {
 
     // ensure both caller and callee are provided in payload.
     if (!action.payload.caller || !action.payload.callee) {
-      log.info('Missing call particiant information');
+      log.info('Missing call participant information');
       yield (0, _effects.put)(actions.clickToCallFinish({
         payload: {
           error: new _errors2.default({
@@ -55858,7 +55380,7 @@ function* clickToCallSaga() {
 }
 
 /***/ }),
-/* 486 */
+/* 479 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -55868,11 +55390,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _eventTypes = __webpack_require__(487);
+var _eventTypes = __webpack_require__(480);
 
 var eventTypes = _interopRequireWildcard(_eventTypes);
 
-var _actionTypes = __webpack_require__(160);
+var _actionTypes = __webpack_require__(159);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -55911,7 +55433,7 @@ events[actionTypes.CLICK_TO_CALL_FINISH] = clickToCallEvent;
 exports.default = events;
 
 /***/ }),
-/* 487 */
+/* 480 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -55947,7 +55469,7 @@ const CLICK_TO_CALL_STARTED = exports.CLICK_TO_CALL_STARTED = 'clickToCall:start
 const CLICK_TO_CALL_ERROR = exports.CLICK_TO_CALL_ERROR = 'clickToCall:error';
 
 /***/ }),
-/* 488 */
+/* 481 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -55958,11 +55480,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = connectivity;
 
-var _base = __webpack_require__(489);
+var _base = __webpack_require__(482);
 
 var _base2 = _interopRequireDefault(_base);
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(20);
 
 var _fp = __webpack_require__(3);
 
@@ -56029,7 +55551,7 @@ function connectivity(options = {}) {
 }
 
 /***/ }),
-/* 489 */
+/* 482 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -56040,15 +55562,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = baseConnectivity;
 
-var _interface = __webpack_require__(490);
+var _interface = __webpack_require__(483);
 
 var _interface2 = _interopRequireDefault(_interface);
 
-var _events = __webpack_require__(493);
+var _events = __webpack_require__(486);
 
 var _events2 = _interopRequireDefault(_events);
 
-var _sagas = __webpack_require__(495);
+var _sagas = __webpack_require__(488);
 
 var _actions = __webpack_require__(56);
 
@@ -56056,7 +55578,7 @@ var _actions2 = __webpack_require__(28);
 
 var _effects = __webpack_require__(4);
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(20);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -56099,7 +55621,7 @@ function baseConnectivity(options) {
 } // Connectivity plugin.
 
 /***/ }),
-/* 490 */
+/* 483 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -56109,15 +55631,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _name = __webpack_require__(303);
+var _name = __webpack_require__(301);
 
 var _name2 = _interopRequireDefault(_name);
 
-var _api = __webpack_require__(491);
+var _api = __webpack_require__(484);
 
 var _api2 = _interopRequireDefault(_api);
 
-var _reducers = __webpack_require__(492);
+var _reducers = __webpack_require__(485);
 
 var _reducers2 = _interopRequireDefault(_reducers);
 
@@ -56126,7 +55648,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = { name: _name2.default, api: _api2.default, reducer: _reducers2.default };
 
 /***/ }),
-/* 491 */
+/* 484 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -56137,11 +55659,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = api;
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(20);
 
-var _actions = __webpack_require__(157);
+var _actions = __webpack_require__(156);
 
-var _selectors = __webpack_require__(133);
+var _selectors = __webpack_require__(132);
 
 var _selectors2 = __webpack_require__(16);
 
@@ -56252,7 +55774,7 @@ function api({ dispatch, getState }) {
 }
 
 /***/ }),
-/* 492 */
+/* 485 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -56266,7 +55788,7 @@ var _extends2 = __webpack_require__(6);
 
 var _extends3 = _interopRequireDefault(_extends2);
 
-var _actionTypes = __webpack_require__(67);
+var _actionTypes = __webpack_require__(66);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -56404,7 +55926,7 @@ const reducer = (0, _reduxActions.handleActions)(reducers, {});
 exports.default = reducer;
 
 /***/ }),
-/* 493 */
+/* 486 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -56414,11 +55936,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _eventTypes = __webpack_require__(494);
+var _eventTypes = __webpack_require__(487);
 
 var eventTypes = _interopRequireWildcard(_eventTypes);
 
-var _actionTypes = __webpack_require__(67);
+var _actionTypes = __webpack_require__(66);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -56457,7 +55979,7 @@ events[actionTypes.WS_ATTEMPT_CONNECT] = function (action) {
 exports.default = events;
 
 /***/ }),
-/* 494 */
+/* 487 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -56478,7 +56000,7 @@ Object.defineProperty(exports, "__esModule", {
 const WS_CHANGE = exports.WS_CHANGE = 'ws:change';
 
 /***/ }),
-/* 495 */
+/* 488 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -56498,27 +56020,27 @@ exports.serverPingFlow = serverPingFlow;
 exports.clientPingFlow = clientPingFlow;
 exports.connectWebsocket = connectWebsocket;
 
-var _websocket = __webpack_require__(496);
+var _websocket = __webpack_require__(489);
 
-var _selectors = __webpack_require__(133);
+var _selectors = __webpack_require__(132);
 
-var _actionTypes = __webpack_require__(67);
+var _actionTypes = __webpack_require__(66);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _actions = __webpack_require__(157);
+var _actions = __webpack_require__(156);
 
 var actions = _interopRequireWildcard(_actions);
 
 var _selectors2 = __webpack_require__(16);
 
-var _selectors3 = __webpack_require__(104);
+var _selectors3 = __webpack_require__(103);
 
 var _logs = __webpack_require__(2);
 
 var _effects = __webpack_require__(4);
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(20);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -56538,7 +56060,7 @@ const log = _logs.logManager.getLogger('CONNECTIVITY');
 function* wsConnectFlow() {
   log.info('Creating channel for handling websocket actions ...');
   const chan = yield (0, _effects.actionChannel)(actionTypes.WS_ATTEMPT_CONNECT);
-  log.info('Channel successfuly created.');
+  log.info('Channel successfully created.');
   yield (0, _effects.takeEvery)(chan, websocketLifecycle);
 }
 
@@ -56618,16 +56140,15 @@ function* websocketLifecycle(wsConnectAction) {
   //      we want to cancel these tasks either way.
   yield (0, _effects.cancel)([emitTask, pingFlow]);
 
+  log.debug('Cleaning up websocket connection ...');
+  yield (0, _effects.call)(_websocket.cleanupWebSocket, websocket);
+
   if (action.type === actionTypes.WS_DISCONNECT) {
     // If we're disconnecting, close the websocket to end it's lifecycle.
-    log.debug('Closing websocket connection ...');
-    yield (0, _effects.call)(_websocket.closeWebsocket, websocket);
     yield (0, _effects.put)(actions.wsDisconnectFinished(undefined, platform));
-    log.info('Successfully closed websocket connection.');
-  } else if (action.type === actionTypes.WS_CLOSED && [1000, 1005].includes(action.payload.code === 1000)) {
+    log.info('Successfully disconnected websocket connection.');
+  } else if (action.type === actionTypes.WS_CLOSED && action.payload.code === 1000) {
     // 1000 signifies a normal closure
-    // 1005 indicates a closure with no status code (this is the default if websocket.close() is called without passing a code)
-
     // Normal websocket close, don't try to reconnect
     log.debug('Websocket closed normally.');
     yield (0, _effects.put)(actions.wsReconnectFailed(undefined, platform));
@@ -56662,7 +56183,7 @@ function* websocketLifecycle(wsConnectAction) {
 
       // If we've lost connection, re-dispatch the initial action, so that we can
       //      start the lifecycle over.
-      log.debug('Attempting to reconnect to websocket ...');
+      log.debug('Attempting to reconnect using a new websocket ...');
       yield (0, _effects.put)(actions.wsAttemptConnect(wsInfo, wsConnectAction.meta.platform, true));
     } else {
       log.debug('Not attempting to reconnect to websocket autoReconnect is false.');
@@ -56912,7 +56433,7 @@ function* connectWebsocket(wsInfo, platform) {
     });
     const attemptDuration = Date.now() - wsConnectStart;
 
-    // Checking for both timeout and open websocket errors here since we need to calculate the next delay paramaters in
+    // Checking for both timeout and open websocket errors here since we need to calculate the next delay parameters in
     //  both scenarios
     if (timeout || openWs && openWs.error) {
       connectionAttempt++;
@@ -56958,7 +56479,7 @@ function* connectWebsocket(wsInfo, platform) {
 }
 
 /***/ }),
-/* 496 */
+/* 489 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -56973,10 +56494,10 @@ var _promise = __webpack_require__(12);
 var _promise2 = _interopRequireDefault(_promise);
 
 exports.openWebsocket = openWebsocket;
-exports.closeWebsocket = closeWebsocket;
+exports.cleanupWebSocket = cleanupWebSocket;
 exports.wsEmitter = wsEmitter;
 
-var _actions = __webpack_require__(157);
+var _actions = __webpack_require__(156);
 
 var _reduxSaga = __webpack_require__(27);
 
@@ -56984,7 +56505,7 @@ var _effects = __webpack_require__(4);
 
 var _utils = __webpack_require__(13);
 
-var _actions2 = __webpack_require__(288);
+var _actions2 = __webpack_require__(287);
 
 var _logs = __webpack_require__(2);
 
@@ -57038,17 +56559,15 @@ function openWebsocket(options) {
 
 /**
  * Clean-up a provided websocket.
- * @method closeWebsocket
+ * @method cleanupWebSocket
  * @param  {Websocket} ws Websocket to be cleaned-up.
  * @return {Websocket} ws The websocket after being cleaned.
  */
-function closeWebsocket(ws) {
+function cleanupWebSocket(ws) {
   if (ws.close) {
     ws.close();
-  } else {
-    ws.onclose = null;
   }
-
+  ws.onclose = null;
   ws.onmessage = null;
   ws.onopen = null;
   ws.onerror = null;
@@ -57089,7 +56608,7 @@ function createWsChannel(ws, platform) {
       emit(_reduxSaga.END);
     };
 
-    return () => closeWebsocket(ws);
+    return () => cleanupWebSocket(ws);
   }, _reduxSaga.buffers.expanding(INITIAL_BUFFER_SIZE));
 }
 
@@ -57108,7 +56627,7 @@ function* wsEmitter(ws, platform) {
 }
 
 /***/ }),
-/* 497 */
+/* 490 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -57121,7 +56640,7 @@ exports.default = linkMessaging;
 
 var _effects = __webpack_require__(4);
 
-var _events = __webpack_require__(498);
+var _events = __webpack_require__(491);
 
 var _events2 = _interopRequireDefault(_events);
 
@@ -57133,9 +56652,9 @@ var _logs = __webpack_require__(2);
 
 var _fp = __webpack_require__(3);
 
-var _sagas = __webpack_require__(499);
+var _sagas = __webpack_require__(492);
 
-var _interface = __webpack_require__(503);
+var _interface = __webpack_require__(496);
 
 var _interface2 = _interopRequireDefault(_interface);
 
@@ -57200,7 +56719,7 @@ function linkMessaging(options = {}) {
 }
 
 /***/ }),
-/* 498 */
+/* 491 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -57210,11 +56729,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _actionTypes = __webpack_require__(136);
+var _actionTypes = __webpack_require__(135);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _eventTypes = __webpack_require__(314);
+var _eventTypes = __webpack_require__(312);
 
 var eventTypes = _interopRequireWildcard(_eventTypes);
 
@@ -57354,7 +56873,7 @@ eventsMap[actionTypes.DELETE_MESSAGE_FINISH] = function (action) {
 exports.default = eventsMap;
 
 /***/ }),
-/* 499 */
+/* 492 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -57373,27 +56892,27 @@ exports.receiveMessage = receiveMessage;
 
 var _effects = __webpack_require__(4);
 
-var _actionTypes = __webpack_require__(136);
+var _actionTypes = __webpack_require__(135);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _actions = __webpack_require__(289);
+var _actions = __webpack_require__(288);
 
-var _selectors = __webpack_require__(290);
+var _selectors = __webpack_require__(289);
 
 var _selectors2 = __webpack_require__(16);
 
 var _actionTypes2 = __webpack_require__(44);
 
-var _predicates = __webpack_require__(502);
+var _predicates = __webpack_require__(495);
 
 var P = _interopRequireWildcard(_predicates);
 
-var _effects2 = __webpack_require__(57);
+var _effects2 = __webpack_require__(58);
 
 var _effects3 = _interopRequireDefault(_effects2);
 
-var _errors = __webpack_require__(20);
+var _errors = __webpack_require__(19);
 
 var _errors2 = _interopRequireDefault(_errors);
 
@@ -57530,7 +57049,7 @@ function* receiveMessage() {
 }
 
 /***/ }),
-/* 500 */
+/* 493 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -57548,7 +57067,7 @@ exports.clearMessages = clearMessages;
 exports.deleteMessage = deleteMessage;
 exports.deleteMessageFinish = deleteMessageFinish;
 
-var _actionTypes = __webpack_require__(136);
+var _actionTypes = __webpack_require__(135);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -57669,7 +57188,7 @@ function messageReceived(destination, parts, messageId, sender, timestamp, meta 
  *
  * @method incomingMessageRead
  * @param {string} messageId The unique id of the message being marked as read.
- * @param {string} participant The other pariticipant of the conversation.
+ * @param {string} participant The other participant of the conversation.
  * @returns {Object} A flux standard action representing the incoming message read action.
  */
 const incomingMessageRead = exports.incomingMessageRead = (messageId, participant) => messageReadHelper(actionTypes.INCOMING_MESSAGE_READ, messageId, participant);
@@ -57679,7 +57198,7 @@ const incomingMessageRead = exports.incomingMessageRead = (messageId, participan
  *
  * @method sendMessageRead
  * @param {string} messageId The unique id of the message being marked as read.
- * @param {string} participant The other pariticipant of the conversation.
+ * @param {string} participant The other participant of the conversation.
  * @returns {Object} A flux standard action representing the send message read action.
  */
 const sendMessageRead = exports.sendMessageRead = (messageId, participant) => messageReadHelper(actionTypes.SEND_MESSAGE_READ, messageId, participant);
@@ -57788,7 +57307,7 @@ function deleteMessageFinish({ destination, type, messageId, error }) {
 }
 
 /***/ }),
-/* 501 */
+/* 494 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -57809,7 +57328,7 @@ exports.updateConversation = updateConversation;
 exports.deleteConversation = deleteConversation;
 exports.deleteConversationFinish = deleteConversationFinish;
 
-var _actionTypes = __webpack_require__(136);
+var _actionTypes = __webpack_require__(135);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -57922,7 +57441,7 @@ function deleteConversationFinish({ destination, type, error }) {
 }
 
 /***/ }),
-/* 502 */
+/* 495 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -57935,7 +57454,7 @@ exports.link = exports.types = exports.platform = exports.type = exports.or = ex
 
 var _fp = __webpack_require__(3);
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(20);
 
 exports.matches = _fp.matches;
 // Constants
@@ -57949,7 +57468,7 @@ const types = exports.types = (...types) => (0, _fp.overSome)((0, _fp.map)(type,
 const link = exports.link = platform(_constants.platforms.LINK);
 
 /***/ }),
-/* 503 */
+/* 496 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -57959,15 +57478,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _api = __webpack_require__(504);
+var _api = __webpack_require__(497);
 
 var _api2 = _interopRequireDefault(_api);
 
-var _reducers = __webpack_require__(505);
+var _reducers = __webpack_require__(498);
 
 var _reducers2 = _interopRequireDefault(_reducers);
 
-var _mixins = __webpack_require__(506);
+var _mixins = __webpack_require__(499);
 
 var _mixins2 = _interopRequireDefault(_mixins);
 
@@ -57986,7 +57505,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 504 */
+/* 497 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -57997,9 +57516,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = api;
 
-var _actions = __webpack_require__(289);
+var _actions = __webpack_require__(288);
 
-var _selectors = __webpack_require__(290);
+var _selectors = __webpack_require__(289);
 
 var _logs = __webpack_require__(2);
 
@@ -58184,7 +57703,7 @@ function api(context) {
 }
 
 /***/ }),
-/* 505 */
+/* 498 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -58198,7 +57717,7 @@ var _extends2 = __webpack_require__(6);
 
 var _extends3 = _interopRequireDefault(_extends2);
 
-var _actionTypes = __webpack_require__(136);
+var _actionTypes = __webpack_require__(135);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -58478,7 +57997,7 @@ function sendMessageFinishHelper(message, action) {
 }
 
 /***/ }),
-/* 506 */
+/* 499 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -58488,25 +58007,25 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _getPrototypeOf = __webpack_require__(507);
+var _getPrototypeOf = __webpack_require__(500);
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
 var _fp = __webpack_require__(3);
 
-var _actions = __webpack_require__(289);
+var _actions = __webpack_require__(288);
 
-var _selectors = __webpack_require__(290);
+var _selectors = __webpack_require__(289);
 
 var _selectors2 = __webpack_require__(16);
 
-var _compose = __webpack_require__(293);
+var _compose = __webpack_require__(291);
 
 var _compose2 = _interopRequireDefault(_compose);
 
 var _actions2 = __webpack_require__(28);
 
-var _eventTypes = __webpack_require__(314);
+var _eventTypes = __webpack_require__(312);
 
 var _logs = __webpack_require__(2);
 
@@ -58991,28 +58510,28 @@ exports.default = {
 };
 
 /***/ }),
-/* 507 */
+/* 500 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(508), __esModule: true };
+module.exports = { "default": __webpack_require__(501), __esModule: true };
 
 /***/ }),
-/* 508 */
+/* 501 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(509);
+__webpack_require__(502);
 module.exports = __webpack_require__(7).Object.getPrototypeOf;
 
 
 /***/ }),
-/* 509 */
+/* 502 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.9 Object.getPrototypeOf(O)
 var toObject = __webpack_require__(36);
-var $getPrototypeOf = __webpack_require__(102);
+var $getPrototypeOf = __webpack_require__(101);
 
-__webpack_require__(100)('getPrototypeOf', function () {
+__webpack_require__(99)('getPrototypeOf', function () {
   return function getPrototypeOf(it) {
     return $getPrototypeOf(toObject(it));
   };
@@ -59020,7 +58539,7 @@ __webpack_require__(100)('getPrototypeOf', function () {
 
 
 /***/ }),
-/* 510 */
+/* 503 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -59033,17 +58552,17 @@ exports.default = mwiLink;
 
 var _effects = __webpack_require__(4);
 
-var _events = __webpack_require__(511);
+var _events = __webpack_require__(504);
 
 var _events2 = _interopRequireDefault(_events);
 
 var _actions = __webpack_require__(28);
 
-var _interface = __webpack_require__(513);
+var _interface = __webpack_require__(506);
 
 var _interface2 = _interopRequireDefault(_interface);
 
-var _sagas = __webpack_require__(517);
+var _sagas = __webpack_require__(510);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -59074,7 +58593,7 @@ function mwiLink() {
 }
 
 /***/ }),
-/* 511 */
+/* 504 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -59084,11 +58603,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _actionTypes = __webpack_require__(161);
+var _actionTypes = __webpack_require__(160);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _eventTypes = __webpack_require__(512);
+var _eventTypes = __webpack_require__(505);
 
 var eventTypes = _interopRequireWildcard(_eventTypes);
 
@@ -59121,7 +58640,7 @@ eventsMap[actionTypes.MWI_UPDATE] = function (action) {
 exports.default = eventsMap;
 
 /***/ }),
-/* 512 */
+/* 505 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -59163,7 +58682,7 @@ const MWI_CHANGE = exports.MWI_CHANGE = 'voicemail:change';
 const MWI_ERROR = exports.MWI_ERROR = 'voicemail:error';
 
 /***/ }),
-/* 513 */
+/* 506 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -59173,11 +58692,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _api = __webpack_require__(514);
+var _api = __webpack_require__(507);
 
 var _api2 = _interopRequireDefault(_api);
 
-var _reducers = __webpack_require__(516);
+var _reducers = __webpack_require__(509);
 
 var _reducers2 = _interopRequireDefault(_reducers);
 
@@ -59197,7 +58716,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 514 */
+/* 507 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -59208,11 +58727,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = api;
 
-var _actions = __webpack_require__(315);
+var _actions = __webpack_require__(313);
 
 var actions = _interopRequireWildcard(_actions);
 
-var _selectors = __webpack_require__(515);
+var _selectors = __webpack_require__(508);
 
 var _logs = __webpack_require__(2);
 
@@ -59265,7 +58784,7 @@ function api({ dispatch, getState }) {
 }
 
 /***/ }),
-/* 515 */
+/* 508 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -59294,7 +58813,7 @@ function getMwi(state) {
 }
 
 /***/ }),
-/* 516 */
+/* 509 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -59308,7 +58827,7 @@ var _extends2 = __webpack_require__(6);
 
 var _extends3 = _interopRequireDefault(_extends2);
 
-var _actionTypes = __webpack_require__(161);
+var _actionTypes = __webpack_require__(160);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -59330,7 +58849,7 @@ const reducer = (0, _reduxActions.handleActions)(reducers, {});
 exports.default = reducer;
 
 /***/ }),
-/* 517 */
+/* 510 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -59353,23 +58872,23 @@ var _selectors = __webpack_require__(16);
 
 var _actionTypes = __webpack_require__(44);
 
-var _actions = __webpack_require__(315);
+var _actions = __webpack_require__(313);
 
 var actions = _interopRequireWildcard(_actions);
 
-var _actionTypes2 = __webpack_require__(161);
+var _actionTypes2 = __webpack_require__(160);
 
 var actionTypes = _interopRequireWildcard(_actionTypes2);
 
-var _effects2 = __webpack_require__(57);
+var _effects2 = __webpack_require__(58);
 
 var _effects3 = _interopRequireDefault(_effects2);
 
-var _errors = __webpack_require__(20);
+var _errors = __webpack_require__(19);
 
 var _errors2 = _interopRequireDefault(_errors);
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(20);
 
 var _logs = __webpack_require__(2);
 
@@ -59476,7 +58995,7 @@ function* fetchMwi() {
 }
 
 /***/ }),
-/* 518 */
+/* 511 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -59487,19 +59006,17 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = notifications;
 
-var _interface = __webpack_require__(519);
+var _interface = __webpack_require__(512);
 
-var _events = __webpack_require__(522);
+var _events = __webpack_require__(515);
 
 var _events2 = _interopRequireDefault(_events);
 
-var _pushRegistration = __webpack_require__(524);
+var _pushRegistration = __webpack_require__(517);
 
 var pushRegistrationSagas = _interopRequireWildcard(_pushRegistration);
 
-var _notification = __webpack_require__(525);
-
-var notificationSagas = _interopRequireWildcard(_notification);
+var _notification = __webpack_require__(518);
 
 var _actions = __webpack_require__(28);
 
@@ -59581,12 +59098,12 @@ function notifications(options = {}) {
     init,
     api: _interface.api,
     reducer: _interface.reducer,
-    sagas: [...(0, _fp.values)(notificationSagas), ...(0, _fp.values)(pushRegistrationSagas)]
+    sagas: [_notification.enableWebsocketChannelEntry, _notification.processNotification, ...(0, _fp.values)(pushRegistrationSagas)]
   };
 }
 
 /***/ }),
-/* 519 */
+/* 512 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -59597,11 +59114,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.reducer = exports.api = exports.name = undefined;
 
-var _reducers = __webpack_require__(520);
+var _reducers = __webpack_require__(513);
 
 var _reducers2 = _interopRequireDefault(_reducers);
 
-var _api = __webpack_require__(521);
+var _api = __webpack_require__(514);
 
 var _api2 = _interopRequireDefault(_api);
 
@@ -59614,7 +59131,7 @@ exports.api = _api2.default;
 exports.reducer = _reducers2.default;
 
 /***/ }),
-/* 520 */
+/* 513 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -59632,7 +59149,7 @@ var _actionTypes = __webpack_require__(44);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _actionTypes2 = __webpack_require__(67);
+var _actionTypes2 = __webpack_require__(66);
 
 var _reduxActions = __webpack_require__(22);
 
@@ -59711,7 +59228,7 @@ const defaultState = {
 exports.default = reducer;
 
 /***/ }),
-/* 521 */
+/* 514 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -59722,15 +59239,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = api;
 
-var _actions = __webpack_require__(288);
+var _actions = __webpack_require__(287);
 
 var actions = _interopRequireWildcard(_actions);
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(20);
 
 var _logs = __webpack_require__(2);
 
-var _pDefer = __webpack_require__(306);
+var _pDefer = __webpack_require__(304);
 
 var _pDefer2 = _interopRequireDefault(_pDefer);
 
@@ -59914,7 +59431,7 @@ function api({ dispatch }) {
 }
 
 /***/ }),
-/* 522 */
+/* 515 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -59924,7 +59441,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _eventTypes = __webpack_require__(523);
+var _eventTypes = __webpack_require__(516);
 
 var eventTypes = _interopRequireWildcard(_eventTypes);
 
@@ -59962,7 +59479,7 @@ events[actionTypes.NOTIFICATION_RECEIVED] = function (action) {
 exports.default = events;
 
 /***/ }),
-/* 523 */
+/* 516 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -60008,7 +59525,7 @@ const NOTI_ERROR = exports.NOTI_ERROR = 'notifications:error';
 const NOTI_RECEIVED = exports.NOTI_RECEIVED = 'notification:received';
 
 /***/ }),
-/* 524 */
+/* 517 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -60039,9 +59556,9 @@ var _actionTypes = __webpack_require__(44);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _selectors2 = __webpack_require__(316);
+var _selectors2 = __webpack_require__(314);
 
-var _requests = __webpack_require__(317);
+var _requests = __webpack_require__(315);
 
 var requests = _interopRequireWildcard(_requests);
 
@@ -60150,7 +59667,7 @@ function* unregisterPushDeviceToken(action) {
 }
 
 /***/ }),
-/* 525 */
+/* 518 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -60170,22 +59687,23 @@ var _keys2 = _interopRequireDefault(_keys);
 
 exports.enableWebsocketChannelEntry = enableWebsocketChannelEntry;
 exports.processNotification = processNotification;
+exports.normalizeSDP = normalizeSDP;
 
 var _fp = __webpack_require__(3);
 
-var _pako = __webpack_require__(526);
-
 var _reduxSaga = __webpack_require__(27);
+
+var _pako = __webpack_require__(519);
 
 var _effects = __webpack_require__(4);
 
 var _selectors = __webpack_require__(16);
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(20);
 
 var _logs = __webpack_require__(2);
 
-var _actions = __webpack_require__(288);
+var _actions = __webpack_require__(287);
 
 var actions = _interopRequireWildcard(_actions);
 
@@ -60193,9 +59711,9 @@ var _actionTypes = __webpack_require__(44);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _selectors2 = __webpack_require__(316);
+var _selectors2 = __webpack_require__(314);
 
-var _requests = __webpack_require__(317);
+var _requests = __webpack_require__(315);
 
 var requests = _interopRequireWildcard(_requests);
 
@@ -60230,12 +59748,12 @@ function* enableWebsocketChannel(action) {
 const INITIAL_BUFFER_SIZE = 10;
 
 function* processNotification() {
-  const config = yield (0, _effects.select)(_selectors2.getNotificationConfig);
   var queue = [];
 
   const externalNotifications = yield (0, _effects.actionChannel)(actionTypes.PROCESS_NOTIFICATION, _reduxSaga.buffers.expanding(INITIAL_BUFFER_SIZE));
   while (true) {
     const action = yield (0, _effects.take)(externalNotifications);
+    const config = yield (0, _effects.select)(_selectors2.getNotificationConfig);
     log.info(`Received notification on channel ${action.meta.channel} for platform: ${action.meta.platform}; Handling...`);
 
     // Only process notifications from enabled channels, ie. "silence" the channel.
@@ -60263,7 +59781,13 @@ function* processNotification() {
       log.warn('Dropped incoming call notification with id: ' + notificationId + ' received through channel: ' + action.meta.channel + ' because current mode for handling notifications is set to: push-channel-only.');
       continue;
     } else {
-      const duplicate = queue.includes(notificationId);
+      // Don't check for duplicate notifications if idCacheLength is set to 0
+      // Get the list of "relevant" IDs in the queue ("relevant" being the latest X elements).
+      // This covers edge-cases where the cache length config is changed (to a smaller number)
+      //    after the queue has begun to be populated.
+      const ids = config.idCacheLength === 0 ? [] : queue.slice(config.idCacheLength * -1);
+      // If the notification ID is part of the list, then it's a duplicate.
+      const duplicate = ids.includes(notificationId);
       if (duplicate) {
         log.info('Notification was a duplicate; ignoring.');
         const error = new Error(`Notification id ${notificationId} is duplicate.`);
@@ -60274,7 +59798,9 @@ function* processNotification() {
         yield (0, _effects.put)(actions.processNotificationFinish(error));
       } else {
         queue.push(notificationId);
-        if (queue.length > config.idCacheLength) {
+        // Because the client can update the value of idCacheLength at any time
+        // we have to adjust the size of our queue accordingly
+        while (queue.length > config.idCacheLength) {
           queue.shift();
         }
 
@@ -60330,12 +59856,28 @@ function* normalizeSDP(payload) {
     log.debug('Found SDP format: compressed. Deflating compressed SDP...');
     // convert based64 encoded string into bytes
     const sdpCompressedBytes = atob(payload.notificationMessage.sessionParams.sdp);
+
+    // First convert the ASCII string into an array of unsigned integers
+    // pako.inflate() requires an Uint8Array as parameter.
+    const buf = new ArrayBuffer(sdpCompressedBytes.length);
+    const bufView = new Uint8Array(buf); // allocate enough space ..
+    for (let i = 0, strLen = sdpCompressedBytes.length; i < strLen; i++) {
+      bufView[i] = sdpCompressedBytes.charCodeAt(i); // fill-in the array of uint(s)
+    }
+
     // uncompressed the bytes
-    const sdpUnCompressedBytes = yield (0, _effects.call)(_pako.inflate, sdpCompressedBytes);
-    // convert uncompressed bytes back into string
-    const sdpString = String.fromCharCode.apply(null, new Uint16Array(sdpUnCompressedBytes));
-    payload.notificationMessage.sessionParams.sdp = sdpString;
-    log.debug(`Returning uncompressed SDP as part of payload: ${sdpString}`);
+    try {
+      const sdpUnCompressedBytes = (0, _pako.inflate)(bufView);
+      // convert uncompressed bytes back into string
+
+      const sdpString = String.fromCharCode.apply(null, sdpUnCompressedBytes);
+
+      payload.notificationMessage.sessionParams.sdp = sdpString;
+      log.debug(`Returning uncompressed SDP as part of payload: ${sdpString}`);
+    } catch (err) {
+      log.debug(`Cannot inflate the compressed SDP: ${err}`);
+      // TODO: If there was an error, try to handle it here.
+    }
     return payload;
   } else if (payload.notificationMessage.sessionParams.sdpFormat === 'url') {
     const connection = yield (0, _effects.select)(_selectors.getConnectionInfo);
@@ -60350,7 +59892,12 @@ function* normalizeSDP(payload) {
     }
     log.info('Fetching SDP...');
     const response = yield (0, _effects.call)(requests.fetchSDP, connection, payload.notificationMessage.sessionParams.sdp);
-    payload.notificationMessage.sessionParams.sdp = response.eventDataResponse.sdp;
+    if (response.error) {
+      // REST request failed.
+      // TODO: Handle the error here rather than throwing an error
+    } else {
+      payload.notificationMessage.sessionParams.sdp = response.eventDataResponse.sdp;
+    }
     return payload;
   } else {
     log.debug(`Unknown sdpFormat received: ${payload.notificationMessage.sessionParams.sdpFormat}.`);
@@ -60359,439 +59906,1262 @@ function* normalizeSDP(payload) {
 }
 
 /***/ }),
-/* 526 */
-/***/ (function(module, exports, __webpack_require__) {
+/* 519 */
+/***/ (function(__webpack_module__, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-// Top level file is just a mixin of submodules & constants
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Deflate", function() { return Deflate_1; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Inflate", function() { return Inflate_1; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "constants", function() { return constants_1; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return pako; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deflate", function() { return deflate_1; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deflateRaw", function() { return deflateRaw_1; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "gzip", function() { return gzip_1; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "inflate", function() { return inflate_1; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "inflateRaw", function() { return inflateRaw_1; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ungzip", function() { return ungzip_1; });
 
+/*! pako 2.0.4 https://github.com/nodeca/pako @license (MIT AND Zlib) */
+// (C) 1995-2013 Jean-loup Gailly and Mark Adler
+// (C) 2014-2017 Vitaly Puzrin and Andrey Tupitsin
+//
+// This software is provided 'as-is', without any express or implied
+// warranty. In no event will the authors be held liable for any damages
+// arising from the use of this software.
+//
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+//
+// 1. The origin of this software must not be misrepresented; you must not
+//   claim that you wrote the original software. If you use this software
+//   in a product, an acknowledgment in the product documentation would be
+//   appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+//   misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
 
-var assign    = __webpack_require__(73).assign;
-
-var deflate   = __webpack_require__(527);
-var inflate   = __webpack_require__(530);
-var constants = __webpack_require__(322);
-
-var pako = {};
-
-assign(pako, deflate, inflate, constants);
-
-module.exports = pako;
-
-
-/***/ }),
-/* 527 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-
-var zlib_deflate = __webpack_require__(528);
-var utils        = __webpack_require__(73);
-var strings      = __webpack_require__(320);
-var msg          = __webpack_require__(291);
-var ZStream      = __webpack_require__(321);
-
-var toString = Object.prototype.toString;
+/* eslint-disable space-unary-ops */
 
 /* Public constants ==========================================================*/
 /* ===========================================================================*/
 
-var Z_NO_FLUSH      = 0;
-var Z_FINISH        = 4;
 
-var Z_OK            = 0;
-var Z_STREAM_END    = 1;
-var Z_SYNC_FLUSH    = 2;
+//const Z_FILTERED          = 1;
+//const Z_HUFFMAN_ONLY      = 2;
+//const Z_RLE               = 3;
+const Z_FIXED$1               = 4;
+//const Z_DEFAULT_STRATEGY  = 0;
 
-var Z_DEFAULT_COMPRESSION = -1;
+/* Possible values of the data_type field (though see inflate()) */
+const Z_BINARY              = 0;
+const Z_TEXT                = 1;
+//const Z_ASCII             = 1; // = Z_TEXT
+const Z_UNKNOWN$1             = 2;
 
-var Z_DEFAULT_STRATEGY    = 0;
-
-var Z_DEFLATED  = 8;
-
-/* ===========================================================================*/
-
-
-/**
- * class Deflate
- *
- * Generic JS-style wrapper for zlib calls. If you don't need
- * streaming behaviour - use more simple functions: [[deflate]],
- * [[deflateRaw]] and [[gzip]].
- **/
-
-/* internal
- * Deflate.chunks -> Array
- *
- * Chunks of output data, if [[Deflate#onData]] not overridden.
- **/
-
-/**
- * Deflate.result -> Uint8Array|Array
- *
- * Compressed result, generated by default [[Deflate#onData]]
- * and [[Deflate#onEnd]] handlers. Filled after you push last chunk
- * (call [[Deflate#push]] with `Z_FINISH` / `true` param)  or if you
- * push a chunk with explicit flush (call [[Deflate#push]] with
- * `Z_SYNC_FLUSH` param).
- **/
-
-/**
- * Deflate.err -> Number
- *
- * Error code after deflate finished. 0 (Z_OK) on success.
- * You will not need it in real life, because deflate errors
- * are possible only on wrong options or bad `onData` / `onEnd`
- * custom handlers.
- **/
-
-/**
- * Deflate.msg -> String
- *
- * Error message, if [[Deflate.err]] != 0
- **/
+/*============================================================================*/
 
 
-/**
- * new Deflate(options)
- * - options (Object): zlib deflate options.
- *
- * Creates new deflator instance with specified params. Throws exception
- * on bad params. Supported options:
- *
- * - `level`
- * - `windowBits`
- * - `memLevel`
- * - `strategy`
- * - `dictionary`
- *
- * [http://zlib.net/manual.html#Advanced](http://zlib.net/manual.html#Advanced)
- * for more information on these.
- *
- * Additional options, for internal needs:
- *
- * - `chunkSize` - size of generated data chunks (16K by default)
- * - `raw` (Boolean) - do raw deflate
- * - `gzip` (Boolean) - create gzip wrapper
- * - `to` (String) - if equal to 'string', then result will be "binary string"
- *    (each char code [0..255])
- * - `header` (Object) - custom header for gzip
- *   - `text` (Boolean) - true if compressed data believed to be text
- *   - `time` (Number) - modification time, unix timestamp
- *   - `os` (Number) - operation system code
- *   - `extra` (Array) - array of bytes with extra data (max 65536)
- *   - `name` (String) - file name (binary string)
- *   - `comment` (String) - comment (binary string)
- *   - `hcrc` (Boolean) - true if header crc should be added
- *
- * ##### Example:
- *
- * ```javascript
- * var pako = require('pako')
- *   , chunk1 = Uint8Array([1,2,3,4,5,6,7,8,9])
- *   , chunk2 = Uint8Array([10,11,12,13,14,15,16,17,18,19]);
- *
- * var deflate = new pako.Deflate({ level: 3});
- *
- * deflate.push(chunk1, false);
- * deflate.push(chunk2, true);  // true -> last chunk
- *
- * if (deflate.err) { throw new Error(deflate.err); }
- *
- * console.log(deflate.result);
- * ```
- **/
-function Deflate(options) {
-  if (!(this instanceof Deflate)) return new Deflate(options);
+function zero$1(buf) { let len = buf.length; while (--len >= 0) { buf[len] = 0; } }
 
-  this.options = utils.assign({
-    level: Z_DEFAULT_COMPRESSION,
-    method: Z_DEFLATED,
-    chunkSize: 16384,
-    windowBits: 15,
-    memLevel: 8,
-    strategy: Z_DEFAULT_STRATEGY,
-    to: ''
-  }, options || {});
+// From zutil.h
 
-  var opt = this.options;
+const STORED_BLOCK = 0;
+const STATIC_TREES = 1;
+const DYN_TREES    = 2;
+/* The three kinds of block type */
 
-  if (opt.raw && (opt.windowBits > 0)) {
-    opt.windowBits = -opt.windowBits;
-  }
+const MIN_MATCH$1    = 3;
+const MAX_MATCH$1    = 258;
+/* The minimum and maximum match lengths */
 
-  else if (opt.gzip && (opt.windowBits > 0) && (opt.windowBits < 16)) {
-    opt.windowBits += 16;
-  }
+// From deflate.h
+/* ===========================================================================
+ * Internal compression state.
+ */
 
-  this.err    = 0;      // error code, if happens (0 = Z_OK)
-  this.msg    = '';     // error message
-  this.ended  = false;  // used to avoid multiple onEnd() calls
-  this.chunks = [];     // chunks of compressed data
+const LENGTH_CODES$1  = 29;
+/* number of length codes, not counting the special END_BLOCK code */
 
-  this.strm = new ZStream();
-  this.strm.avail_out = 0;
+const LITERALS$1      = 256;
+/* number of literal bytes 0..255 */
 
-  var status = zlib_deflate.deflateInit2(
-    this.strm,
-    opt.level,
-    opt.method,
-    opt.windowBits,
-    opt.memLevel,
-    opt.strategy
-  );
+const L_CODES$1       = LITERALS$1 + 1 + LENGTH_CODES$1;
+/* number of Literal or Length codes, including the END_BLOCK code */
 
-  if (status !== Z_OK) {
-    throw new Error(msg[status]);
-  }
+const D_CODES$1       = 30;
+/* number of distance codes */
 
-  if (opt.header) {
-    zlib_deflate.deflateSetHeader(this.strm, opt.header);
-  }
+const BL_CODES$1      = 19;
+/* number of codes used to transfer the bit lengths */
 
-  if (opt.dictionary) {
-    var dict;
-    // Convert data if needed
-    if (typeof opt.dictionary === 'string') {
-      // If we need to compress text, change encoding to utf8.
-      dict = strings.string2buf(opt.dictionary);
-    } else if (toString.call(opt.dictionary) === '[object ArrayBuffer]') {
-      dict = new Uint8Array(opt.dictionary);
-    } else {
-      dict = opt.dictionary;
-    }
+const HEAP_SIZE$1     = 2 * L_CODES$1 + 1;
+/* maximum heap size */
 
-    status = zlib_deflate.deflateSetDictionary(this.strm, dict);
+const MAX_BITS$1      = 15;
+/* All codes must not exceed MAX_BITS bits */
 
-    if (status !== Z_OK) {
-      throw new Error(msg[status]);
-    }
+const Buf_size      = 16;
+/* size of bit buffer in bi_buf */
 
-    this._dict_set = true;
-  }
+
+/* ===========================================================================
+ * Constants
+ */
+
+const MAX_BL_BITS = 7;
+/* Bit length codes must not exceed MAX_BL_BITS bits */
+
+const END_BLOCK   = 256;
+/* end of block literal code */
+
+const REP_3_6     = 16;
+/* repeat previous bit length 3-6 times (2 bits of repeat count) */
+
+const REPZ_3_10   = 17;
+/* repeat a zero length 3-10 times  (3 bits of repeat count) */
+
+const REPZ_11_138 = 18;
+/* repeat a zero length 11-138 times  (7 bits of repeat count) */
+
+/* eslint-disable comma-spacing,array-bracket-spacing */
+const extra_lbits =   /* extra bits for each length code */
+  new Uint8Array([0,0,0,0,0,0,0,0,1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,0]);
+
+const extra_dbits =   /* extra bits for each distance code */
+  new Uint8Array([0,0,0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12,13,13]);
+
+const extra_blbits =  /* extra bits for each bit length code */
+  new Uint8Array([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,3,7]);
+
+const bl_order =
+  new Uint8Array([16,17,18,0,8,7,9,6,10,5,11,4,12,3,13,2,14,1,15]);
+/* eslint-enable comma-spacing,array-bracket-spacing */
+
+/* The lengths of the bit length codes are sent in order of decreasing
+ * probability, to avoid transmitting the lengths for unused bit length codes.
+ */
+
+/* ===========================================================================
+ * Local data. These are initialized only once.
+ */
+
+// We pre-fill arrays with 0 to avoid uninitialized gaps
+
+const DIST_CODE_LEN = 512; /* see definition of array dist_code below */
+
+// !!!! Use flat array instead of structure, Freq = i*2, Len = i*2+1
+const static_ltree  = new Array((L_CODES$1 + 2) * 2);
+zero$1(static_ltree);
+/* The static literal tree. Since the bit lengths are imposed, there is no
+ * need for the L_CODES extra codes used during heap construction. However
+ * The codes 286 and 287 are needed to build a canonical tree (see _tr_init
+ * below).
+ */
+
+const static_dtree  = new Array(D_CODES$1 * 2);
+zero$1(static_dtree);
+/* The static distance tree. (Actually a trivial tree since all codes use
+ * 5 bits.)
+ */
+
+const _dist_code    = new Array(DIST_CODE_LEN);
+zero$1(_dist_code);
+/* Distance codes. The first 256 values correspond to the distances
+ * 3 .. 258, the last 256 values correspond to the top 8 bits of
+ * the 15 bit distances.
+ */
+
+const _length_code  = new Array(MAX_MATCH$1 - MIN_MATCH$1 + 1);
+zero$1(_length_code);
+/* length code for each normalized match length (0 == MIN_MATCH) */
+
+const base_length   = new Array(LENGTH_CODES$1);
+zero$1(base_length);
+/* First normalized length for each code (0 = MIN_MATCH) */
+
+const base_dist     = new Array(D_CODES$1);
+zero$1(base_dist);
+/* First normalized distance for each code (0 = distance of 1) */
+
+
+function StaticTreeDesc(static_tree, extra_bits, extra_base, elems, max_length) {
+
+  this.static_tree  = static_tree;  /* static tree or NULL */
+  this.extra_bits   = extra_bits;   /* extra bits for each code or NULL */
+  this.extra_base   = extra_base;   /* base index for extra_bits */
+  this.elems        = elems;        /* max number of elements in the tree */
+  this.max_length   = max_length;   /* max bit length for the codes */
+
+  // show if `static_tree` has data or dummy - needed for monomorphic objects
+  this.has_stree    = static_tree && static_tree.length;
 }
 
-/**
- * Deflate#push(data[, mode]) -> Boolean
- * - data (Uint8Array|Array|ArrayBuffer|String): input data. Strings will be
- *   converted to utf8 byte sequence.
- * - mode (Number|Boolean): 0..6 for corresponding Z_NO_FLUSH..Z_TREE modes.
- *   See constants. Skipped or `false` means Z_NO_FLUSH, `true` means Z_FINISH.
- *
- * Sends input data to deflate pipe, generating [[Deflate#onData]] calls with
- * new compressed chunks. Returns `true` on success. The last data block must have
- * mode Z_FINISH (or `true`). That will flush internal pending buffers and call
- * [[Deflate#onEnd]]. For interim explicit flushes (without ending the stream) you
- * can use mode Z_SYNC_FLUSH, keeping the compression context.
- *
- * On fail call [[Deflate#onEnd]] with error code and return false.
- *
- * We strongly recommend to use `Uint8Array` on input for best speed (output
- * array format is detected automatically). Also, don't skip last param and always
- * use the same type in your code (boolean or number). That will improve JS speed.
- *
- * For regular `Array`-s make sure all elements are [0..255].
- *
- * ##### Example
- *
- * ```javascript
- * push(chunk, false); // push one of data chunks
- * ...
- * push(chunk, true);  // push last chunk
- * ```
- **/
-Deflate.prototype.push = function (data, mode) {
-  var strm = this.strm;
-  var chunkSize = this.options.chunkSize;
-  var status, _mode;
 
-  if (this.ended) { return false; }
+let static_l_desc;
+let static_d_desc;
+let static_bl_desc;
 
-  _mode = (mode === ~~mode) ? mode : ((mode === true) ? Z_FINISH : Z_NO_FLUSH);
 
-  // Convert data if needed
-  if (typeof data === 'string') {
-    // If we need to compress text, change encoding to utf8.
-    strm.input = strings.string2buf(data);
-  } else if (toString.call(data) === '[object ArrayBuffer]') {
-    strm.input = new Uint8Array(data);
+function TreeDesc(dyn_tree, stat_desc) {
+  this.dyn_tree = dyn_tree;     /* the dynamic tree */
+  this.max_code = 0;            /* largest code with non zero frequency */
+  this.stat_desc = stat_desc;   /* the corresponding static tree */
+}
+
+
+
+const d_code = (dist) => {
+
+  return dist < 256 ? _dist_code[dist] : _dist_code[256 + (dist >>> 7)];
+};
+
+
+/* ===========================================================================
+ * Output a short LSB first on the stream.
+ * IN assertion: there is enough room in pendingBuf.
+ */
+const put_short = (s, w) => {
+//    put_byte(s, (uch)((w) & 0xff));
+//    put_byte(s, (uch)((ush)(w) >> 8));
+  s.pending_buf[s.pending++] = (w) & 0xff;
+  s.pending_buf[s.pending++] = (w >>> 8) & 0xff;
+};
+
+
+/* ===========================================================================
+ * Send a value on a given number of bits.
+ * IN assertion: length <= 16 and value fits in length bits.
+ */
+const send_bits = (s, value, length) => {
+
+  if (s.bi_valid > (Buf_size - length)) {
+    s.bi_buf |= (value << s.bi_valid) & 0xffff;
+    put_short(s, s.bi_buf);
+    s.bi_buf = value >> (Buf_size - s.bi_valid);
+    s.bi_valid += length - Buf_size;
   } else {
-    strm.input = data;
+    s.bi_buf |= (value << s.bi_valid) & 0xffff;
+    s.bi_valid += length;
   }
+};
 
-  strm.next_in = 0;
-  strm.avail_in = strm.input.length;
 
+const send_code = (s, c, tree) => {
+
+  send_bits(s, tree[c * 2]/*.Code*/, tree[c * 2 + 1]/*.Len*/);
+};
+
+
+/* ===========================================================================
+ * Reverse the first len bits of a code, using straightforward code (a faster
+ * method would use a table)
+ * IN assertion: 1 <= len <= 15
+ */
+const bi_reverse = (code, len) => {
+
+  let res = 0;
   do {
-    if (strm.avail_out === 0) {
-      strm.output = new utils.Buf8(chunkSize);
-      strm.next_out = 0;
-      strm.avail_out = chunkSize;
-    }
-    status = zlib_deflate.deflate(strm, _mode);    /* no bad return value */
+    res |= code & 1;
+    code >>>= 1;
+    res <<= 1;
+  } while (--len > 0);
+  return res >>> 1;
+};
 
-    if (status !== Z_STREAM_END && status !== Z_OK) {
-      this.onEnd(status);
-      this.ended = true;
-      return false;
+
+/* ===========================================================================
+ * Flush the bit buffer, keeping at most 7 bits in it.
+ */
+const bi_flush = (s) => {
+
+  if (s.bi_valid === 16) {
+    put_short(s, s.bi_buf);
+    s.bi_buf = 0;
+    s.bi_valid = 0;
+
+  } else if (s.bi_valid >= 8) {
+    s.pending_buf[s.pending++] = s.bi_buf & 0xff;
+    s.bi_buf >>= 8;
+    s.bi_valid -= 8;
+  }
+};
+
+
+/* ===========================================================================
+ * Compute the optimal bit lengths for a tree and update the total bit length
+ * for the current block.
+ * IN assertion: the fields freq and dad are set, heap[heap_max] and
+ *    above are the tree nodes sorted by increasing frequency.
+ * OUT assertions: the field len is set to the optimal bit length, the
+ *     array bl_count contains the frequencies for each bit length.
+ *     The length opt_len is updated; static_len is also updated if stree is
+ *     not null.
+ */
+const gen_bitlen = (s, desc) =>
+//    deflate_state *s;
+//    tree_desc *desc;    /* the tree descriptor */
+{
+  const tree            = desc.dyn_tree;
+  const max_code        = desc.max_code;
+  const stree           = desc.stat_desc.static_tree;
+  const has_stree       = desc.stat_desc.has_stree;
+  const extra           = desc.stat_desc.extra_bits;
+  const base            = desc.stat_desc.extra_base;
+  const max_length      = desc.stat_desc.max_length;
+  let h;              /* heap index */
+  let n, m;           /* iterate over the tree elements */
+  let bits;           /* bit length */
+  let xbits;          /* extra bits */
+  let f;              /* frequency */
+  let overflow = 0;   /* number of elements with bit length too large */
+
+  for (bits = 0; bits <= MAX_BITS$1; bits++) {
+    s.bl_count[bits] = 0;
+  }
+
+  /* In a first pass, compute the optimal bit lengths (which may
+   * overflow in the case of the bit length tree).
+   */
+  tree[s.heap[s.heap_max] * 2 + 1]/*.Len*/ = 0; /* root of the heap */
+
+  for (h = s.heap_max + 1; h < HEAP_SIZE$1; h++) {
+    n = s.heap[h];
+    bits = tree[tree[n * 2 + 1]/*.Dad*/ * 2 + 1]/*.Len*/ + 1;
+    if (bits > max_length) {
+      bits = max_length;
+      overflow++;
     }
-    if (strm.avail_out === 0 || (strm.avail_in === 0 && (_mode === Z_FINISH || _mode === Z_SYNC_FLUSH))) {
-      if (this.options.to === 'string') {
-        this.onData(strings.buf2binstring(utils.shrinkBuf(strm.output, strm.next_out)));
-      } else {
-        this.onData(utils.shrinkBuf(strm.output, strm.next_out));
+    tree[n * 2 + 1]/*.Len*/ = bits;
+    /* We overwrite tree[n].Dad which is no longer needed */
+
+    if (n > max_code) { continue; } /* not a leaf node */
+
+    s.bl_count[bits]++;
+    xbits = 0;
+    if (n >= base) {
+      xbits = extra[n - base];
+    }
+    f = tree[n * 2]/*.Freq*/;
+    s.opt_len += f * (bits + xbits);
+    if (has_stree) {
+      s.static_len += f * (stree[n * 2 + 1]/*.Len*/ + xbits);
+    }
+  }
+  if (overflow === 0) { return; }
+
+  // Trace((stderr,"\nbit length overflow\n"));
+  /* This happens for example on obj2 and pic of the Calgary corpus */
+
+  /* Find the first bit length which could increase: */
+  do {
+    bits = max_length - 1;
+    while (s.bl_count[bits] === 0) { bits--; }
+    s.bl_count[bits]--;      /* move one leaf down the tree */
+    s.bl_count[bits + 1] += 2; /* move one overflow item as its brother */
+    s.bl_count[max_length]--;
+    /* The brother of the overflow item also moves one step up,
+     * but this does not affect bl_count[max_length]
+     */
+    overflow -= 2;
+  } while (overflow > 0);
+
+  /* Now recompute all bit lengths, scanning in increasing frequency.
+   * h is still equal to HEAP_SIZE. (It is simpler to reconstruct all
+   * lengths instead of fixing only the wrong ones. This idea is taken
+   * from 'ar' written by Haruhiko Okumura.)
+   */
+  for (bits = max_length; bits !== 0; bits--) {
+    n = s.bl_count[bits];
+    while (n !== 0) {
+      m = s.heap[--h];
+      if (m > max_code) { continue; }
+      if (tree[m * 2 + 1]/*.Len*/ !== bits) {
+        // Trace((stderr,"code %d bits %d->%d\n", m, tree[m].Len, bits));
+        s.opt_len += (bits - tree[m * 2 + 1]/*.Len*/) * tree[m * 2]/*.Freq*/;
+        tree[m * 2 + 1]/*.Len*/ = bits;
       }
+      n--;
     }
-  } while ((strm.avail_in > 0 || strm.avail_out === 0) && status !== Z_STREAM_END);
-
-  // Finalize on the last chunk.
-  if (_mode === Z_FINISH) {
-    status = zlib_deflate.deflateEnd(this.strm);
-    this.onEnd(status);
-    this.ended = true;
-    return status === Z_OK;
   }
-
-  // callback interim results if Z_SYNC_FLUSH.
-  if (_mode === Z_SYNC_FLUSH) {
-    this.onEnd(Z_OK);
-    strm.avail_out = 0;
-    return true;
-  }
-
-  return true;
 };
 
 
-/**
- * Deflate#onData(chunk) -> Void
- * - chunk (Uint8Array|Array|String): output data. Type of array depends
- *   on js engine support. When string output requested, each chunk
- *   will be string.
- *
- * By default, stores data blocks in `chunks[]` property and glue
- * those in `onEnd`. Override this handler, if you need another behaviour.
- **/
-Deflate.prototype.onData = function (chunk) {
-  this.chunks.push(chunk);
+/* ===========================================================================
+ * Generate the codes for a given tree and bit counts (which need not be
+ * optimal).
+ * IN assertion: the array bl_count contains the bit length statistics for
+ * the given tree and the field len is set for all tree elements.
+ * OUT assertion: the field code is set for all tree elements of non
+ *     zero code length.
+ */
+const gen_codes = (tree, max_code, bl_count) =>
+//    ct_data *tree;             /* the tree to decorate */
+//    int max_code;              /* largest code with non zero frequency */
+//    ushf *bl_count;            /* number of codes at each bit length */
+{
+  const next_code = new Array(MAX_BITS$1 + 1); /* next code value for each bit length */
+  let code = 0;              /* running code value */
+  let bits;                  /* bit index */
+  let n;                     /* code index */
+
+  /* The distribution counts are first used to generate the code values
+   * without bit reversal.
+   */
+  for (bits = 1; bits <= MAX_BITS$1; bits++) {
+    next_code[bits] = code = (code + bl_count[bits - 1]) << 1;
+  }
+  /* Check that the bit counts in bl_count are consistent. The last code
+   * must be all ones.
+   */
+  //Assert (code + bl_count[MAX_BITS]-1 == (1<<MAX_BITS)-1,
+  //        "inconsistent bit counts");
+  //Tracev((stderr,"\ngen_codes: max_code %d ", max_code));
+
+  for (n = 0;  n <= max_code; n++) {
+    let len = tree[n * 2 + 1]/*.Len*/;
+    if (len === 0) { continue; }
+    /* Now reverse the bits */
+    tree[n * 2]/*.Code*/ = bi_reverse(next_code[len]++, len);
+
+    //Tracecv(tree != static_ltree, (stderr,"\nn %3d %c l %2d c %4x (%x) ",
+    //     n, (isgraph(n) ? n : ' '), len, tree[n].Code, next_code[len]-1));
+  }
 };
 
 
-/**
- * Deflate#onEnd(status) -> Void
- * - status (Number): deflate status. 0 (Z_OK) on success,
- *   other if not.
- *
- * Called once after you tell deflate that the input stream is
- * complete (Z_FINISH) or should be flushed (Z_SYNC_FLUSH)
- * or if an error happened. By default - join collected chunks,
- * free memory and fill `results` / `err` properties.
- **/
-Deflate.prototype.onEnd = function (status) {
-  // On success - join
-  if (status === Z_OK) {
-    if (this.options.to === 'string') {
-      this.result = this.chunks.join('');
+/* ===========================================================================
+ * Initialize the various 'constant' tables.
+ */
+const tr_static_init = () => {
+
+  let n;        /* iterates over tree elements */
+  let bits;     /* bit counter */
+  let length;   /* length value */
+  let code;     /* code value */
+  let dist;     /* distance index */
+  const bl_count = new Array(MAX_BITS$1 + 1);
+  /* number of codes at each bit length for an optimal tree */
+
+  // do check in _tr_init()
+  //if (static_init_done) return;
+
+  /* For some embedded targets, global variables are not initialized: */
+/*#ifdef NO_INIT_GLOBAL_POINTERS
+  static_l_desc.static_tree = static_ltree;
+  static_l_desc.extra_bits = extra_lbits;
+  static_d_desc.static_tree = static_dtree;
+  static_d_desc.extra_bits = extra_dbits;
+  static_bl_desc.extra_bits = extra_blbits;
+#endif*/
+
+  /* Initialize the mapping length (0..255) -> length code (0..28) */
+  length = 0;
+  for (code = 0; code < LENGTH_CODES$1 - 1; code++) {
+    base_length[code] = length;
+    for (n = 0; n < (1 << extra_lbits[code]); n++) {
+      _length_code[length++] = code;
+    }
+  }
+  //Assert (length == 256, "tr_static_init: length != 256");
+  /* Note that the length 255 (match length 258) can be represented
+   * in two different ways: code 284 + 5 bits or code 285, so we
+   * overwrite length_code[255] to use the best encoding:
+   */
+  _length_code[length - 1] = code;
+
+  /* Initialize the mapping dist (0..32K) -> dist code (0..29) */
+  dist = 0;
+  for (code = 0; code < 16; code++) {
+    base_dist[code] = dist;
+    for (n = 0; n < (1 << extra_dbits[code]); n++) {
+      _dist_code[dist++] = code;
+    }
+  }
+  //Assert (dist == 256, "tr_static_init: dist != 256");
+  dist >>= 7; /* from now on, all distances are divided by 128 */
+  for (; code < D_CODES$1; code++) {
+    base_dist[code] = dist << 7;
+    for (n = 0; n < (1 << (extra_dbits[code] - 7)); n++) {
+      _dist_code[256 + dist++] = code;
+    }
+  }
+  //Assert (dist == 256, "tr_static_init: 256+dist != 512");
+
+  /* Construct the codes of the static literal tree */
+  for (bits = 0; bits <= MAX_BITS$1; bits++) {
+    bl_count[bits] = 0;
+  }
+
+  n = 0;
+  while (n <= 143) {
+    static_ltree[n * 2 + 1]/*.Len*/ = 8;
+    n++;
+    bl_count[8]++;
+  }
+  while (n <= 255) {
+    static_ltree[n * 2 + 1]/*.Len*/ = 9;
+    n++;
+    bl_count[9]++;
+  }
+  while (n <= 279) {
+    static_ltree[n * 2 + 1]/*.Len*/ = 7;
+    n++;
+    bl_count[7]++;
+  }
+  while (n <= 287) {
+    static_ltree[n * 2 + 1]/*.Len*/ = 8;
+    n++;
+    bl_count[8]++;
+  }
+  /* Codes 286 and 287 do not exist, but we must include them in the
+   * tree construction to get a canonical Huffman tree (longest code
+   * all ones)
+   */
+  gen_codes(static_ltree, L_CODES$1 + 1, bl_count);
+
+  /* The static distance tree is trivial: */
+  for (n = 0; n < D_CODES$1; n++) {
+    static_dtree[n * 2 + 1]/*.Len*/ = 5;
+    static_dtree[n * 2]/*.Code*/ = bi_reverse(n, 5);
+  }
+
+  // Now data ready and we can init static trees
+  static_l_desc = new StaticTreeDesc(static_ltree, extra_lbits, LITERALS$1 + 1, L_CODES$1, MAX_BITS$1);
+  static_d_desc = new StaticTreeDesc(static_dtree, extra_dbits, 0,          D_CODES$1, MAX_BITS$1);
+  static_bl_desc = new StaticTreeDesc(new Array(0), extra_blbits, 0,         BL_CODES$1, MAX_BL_BITS);
+
+  //static_init_done = true;
+};
+
+
+/* ===========================================================================
+ * Initialize a new block.
+ */
+const init_block = (s) => {
+
+  let n; /* iterates over tree elements */
+
+  /* Initialize the trees. */
+  for (n = 0; n < L_CODES$1;  n++) { s.dyn_ltree[n * 2]/*.Freq*/ = 0; }
+  for (n = 0; n < D_CODES$1;  n++) { s.dyn_dtree[n * 2]/*.Freq*/ = 0; }
+  for (n = 0; n < BL_CODES$1; n++) { s.bl_tree[n * 2]/*.Freq*/ = 0; }
+
+  s.dyn_ltree[END_BLOCK * 2]/*.Freq*/ = 1;
+  s.opt_len = s.static_len = 0;
+  s.last_lit = s.matches = 0;
+};
+
+
+/* ===========================================================================
+ * Flush the bit buffer and align the output on a byte boundary
+ */
+const bi_windup = (s) =>
+{
+  if (s.bi_valid > 8) {
+    put_short(s, s.bi_buf);
+  } else if (s.bi_valid > 0) {
+    //put_byte(s, (Byte)s->bi_buf);
+    s.pending_buf[s.pending++] = s.bi_buf;
+  }
+  s.bi_buf = 0;
+  s.bi_valid = 0;
+};
+
+/* ===========================================================================
+ * Copy a stored block, storing first the length and its
+ * one's complement if requested.
+ */
+const copy_block = (s, buf, len, header) =>
+//DeflateState *s;
+//charf    *buf;    /* the input data */
+//unsigned len;     /* its length */
+//int      header;  /* true if block header must be written */
+{
+  bi_windup(s);        /* align on byte boundary */
+
+  if (header) {
+    put_short(s, len);
+    put_short(s, ~len);
+  }
+//  while (len--) {
+//    put_byte(s, *buf++);
+//  }
+  s.pending_buf.set(s.window.subarray(buf, buf + len), s.pending);
+  s.pending += len;
+};
+
+/* ===========================================================================
+ * Compares to subtrees, using the tree depth as tie breaker when
+ * the subtrees have equal frequency. This minimizes the worst case length.
+ */
+const smaller = (tree, n, m, depth) => {
+
+  const _n2 = n * 2;
+  const _m2 = m * 2;
+  return (tree[_n2]/*.Freq*/ < tree[_m2]/*.Freq*/ ||
+         (tree[_n2]/*.Freq*/ === tree[_m2]/*.Freq*/ && depth[n] <= depth[m]));
+};
+
+/* ===========================================================================
+ * Restore the heap property by moving down the tree starting at node k,
+ * exchanging a node with the smallest of its two sons if necessary, stopping
+ * when the heap property is re-established (each father smaller than its
+ * two sons).
+ */
+const pqdownheap = (s, tree, k) =>
+//    deflate_state *s;
+//    ct_data *tree;  /* the tree to restore */
+//    int k;               /* node to move down */
+{
+  const v = s.heap[k];
+  let j = k << 1;  /* left son of k */
+  while (j <= s.heap_len) {
+    /* Set j to the smallest of the two sons: */
+    if (j < s.heap_len &&
+      smaller(tree, s.heap[j + 1], s.heap[j], s.depth)) {
+      j++;
+    }
+    /* Exit if v is smaller than both sons */
+    if (smaller(tree, v, s.heap[j], s.depth)) { break; }
+
+    /* Exchange v with the smallest son */
+    s.heap[k] = s.heap[j];
+    k = j;
+
+    /* And continue down the tree, setting j to the left son of k */
+    j <<= 1;
+  }
+  s.heap[k] = v;
+};
+
+
+// inlined manually
+// const SMALLEST = 1;
+
+/* ===========================================================================
+ * Send the block data compressed using the given Huffman trees
+ */
+const compress_block = (s, ltree, dtree) =>
+//    deflate_state *s;
+//    const ct_data *ltree; /* literal tree */
+//    const ct_data *dtree; /* distance tree */
+{
+  let dist;           /* distance of matched string */
+  let lc;             /* match length or unmatched char (if dist == 0) */
+  let lx = 0;         /* running index in l_buf */
+  let code;           /* the code to send */
+  let extra;          /* number of extra bits to send */
+
+  if (s.last_lit !== 0) {
+    do {
+      dist = (s.pending_buf[s.d_buf + lx * 2] << 8) | (s.pending_buf[s.d_buf + lx * 2 + 1]);
+      lc = s.pending_buf[s.l_buf + lx];
+      lx++;
+
+      if (dist === 0) {
+        send_code(s, lc, ltree); /* send a literal byte */
+        //Tracecv(isgraph(lc), (stderr," '%c' ", lc));
+      } else {
+        /* Here, lc is the match length - MIN_MATCH */
+        code = _length_code[lc];
+        send_code(s, code + LITERALS$1 + 1, ltree); /* send the length code */
+        extra = extra_lbits[code];
+        if (extra !== 0) {
+          lc -= base_length[code];
+          send_bits(s, lc, extra);       /* send the extra length bits */
+        }
+        dist--; /* dist is now the match distance - 1 */
+        code = d_code(dist);
+        //Assert (code < D_CODES, "bad d_code");
+
+        send_code(s, code, dtree);       /* send the distance code */
+        extra = extra_dbits[code];
+        if (extra !== 0) {
+          dist -= base_dist[code];
+          send_bits(s, dist, extra);   /* send the extra distance bits */
+        }
+      } /* literal or match pair ? */
+
+      /* Check that the overlay between pending_buf and d_buf+l_buf is ok: */
+      //Assert((uInt)(s->pending) < s->lit_bufsize + 2*lx,
+      //       "pendingBuf overflow");
+
+    } while (lx < s.last_lit);
+  }
+
+  send_code(s, END_BLOCK, ltree);
+};
+
+
+/* ===========================================================================
+ * Construct one Huffman tree and assigns the code bit strings and lengths.
+ * Update the total bit length for the current block.
+ * IN assertion: the field freq is set for all tree elements.
+ * OUT assertions: the fields len and code are set to the optimal bit length
+ *     and corresponding code. The length opt_len is updated; static_len is
+ *     also updated if stree is not null. The field max_code is set.
+ */
+const build_tree = (s, desc) =>
+//    deflate_state *s;
+//    tree_desc *desc; /* the tree descriptor */
+{
+  const tree     = desc.dyn_tree;
+  const stree    = desc.stat_desc.static_tree;
+  const has_stree = desc.stat_desc.has_stree;
+  const elems    = desc.stat_desc.elems;
+  let n, m;          /* iterate over heap elements */
+  let max_code = -1; /* largest code with non zero frequency */
+  let node;          /* new node being created */
+
+  /* Construct the initial heap, with least frequent element in
+   * heap[SMALLEST]. The sons of heap[n] are heap[2*n] and heap[2*n+1].
+   * heap[0] is not used.
+   */
+  s.heap_len = 0;
+  s.heap_max = HEAP_SIZE$1;
+
+  for (n = 0; n < elems; n++) {
+    if (tree[n * 2]/*.Freq*/ !== 0) {
+      s.heap[++s.heap_len] = max_code = n;
+      s.depth[n] = 0;
+
     } else {
-      this.result = utils.flattenChunks(this.chunks);
+      tree[n * 2 + 1]/*.Len*/ = 0;
     }
   }
-  this.chunks = [];
-  this.err = status;
-  this.msg = this.strm.msg;
+
+  /* The pkzip format requires that at least one distance code exists,
+   * and that at least one bit should be sent even if there is only one
+   * possible code. So to avoid special checks later on we force at least
+   * two codes of non zero frequency.
+   */
+  while (s.heap_len < 2) {
+    node = s.heap[++s.heap_len] = (max_code < 2 ? ++max_code : 0);
+    tree[node * 2]/*.Freq*/ = 1;
+    s.depth[node] = 0;
+    s.opt_len--;
+
+    if (has_stree) {
+      s.static_len -= stree[node * 2 + 1]/*.Len*/;
+    }
+    /* node is 0 or 1 so it does not have extra bits */
+  }
+  desc.max_code = max_code;
+
+  /* The elements heap[heap_len/2+1 .. heap_len] are leaves of the tree,
+   * establish sub-heaps of increasing lengths:
+   */
+  for (n = (s.heap_len >> 1/*int /2*/); n >= 1; n--) { pqdownheap(s, tree, n); }
+
+  /* Construct the Huffman tree by repeatedly combining the least two
+   * frequent nodes.
+   */
+  node = elems;              /* next internal node of the tree */
+  do {
+    //pqremove(s, tree, n);  /* n = node of least frequency */
+    /*** pqremove ***/
+    n = s.heap[1/*SMALLEST*/];
+    s.heap[1/*SMALLEST*/] = s.heap[s.heap_len--];
+    pqdownheap(s, tree, 1/*SMALLEST*/);
+    /***/
+
+    m = s.heap[1/*SMALLEST*/]; /* m = node of next least frequency */
+
+    s.heap[--s.heap_max] = n; /* keep the nodes sorted by frequency */
+    s.heap[--s.heap_max] = m;
+
+    /* Create a new node father of n and m */
+    tree[node * 2]/*.Freq*/ = tree[n * 2]/*.Freq*/ + tree[m * 2]/*.Freq*/;
+    s.depth[node] = (s.depth[n] >= s.depth[m] ? s.depth[n] : s.depth[m]) + 1;
+    tree[n * 2 + 1]/*.Dad*/ = tree[m * 2 + 1]/*.Dad*/ = node;
+
+    /* and insert the new node in the heap */
+    s.heap[1/*SMALLEST*/] = node++;
+    pqdownheap(s, tree, 1/*SMALLEST*/);
+
+  } while (s.heap_len >= 2);
+
+  s.heap[--s.heap_max] = s.heap[1/*SMALLEST*/];
+
+  /* At this point, the fields freq and dad are set. We can now
+   * generate the bit lengths.
+   */
+  gen_bitlen(s, desc);
+
+  /* The field len is now set, we can generate the bit codes */
+  gen_codes(tree, max_code, s.bl_count);
 };
 
 
-/**
- * deflate(data[, options]) -> Uint8Array|Array|String
- * - data (Uint8Array|Array|String): input data to compress.
- * - options (Object): zlib deflate options.
- *
- * Compress `data` with deflate algorithm and `options`.
- *
- * Supported options are:
- *
- * - level
- * - windowBits
- * - memLevel
- * - strategy
- * - dictionary
- *
- * [http://zlib.net/manual.html#Advanced](http://zlib.net/manual.html#Advanced)
- * for more information on these.
- *
- * Sugar (options):
- *
- * - `raw` (Boolean) - say that we work with raw stream, if you don't wish to specify
- *   negative windowBits implicitly.
- * - `to` (String) - if equal to 'string', then result will be "binary string"
- *    (each char code [0..255])
- *
- * ##### Example:
- *
- * ```javascript
- * var pako = require('pako')
- *   , data = Uint8Array([1,2,3,4,5,6,7,8,9]);
- *
- * console.log(pako.deflate(data));
- * ```
- **/
-function deflate(input, options) {
-  var deflator = new Deflate(options);
+/* ===========================================================================
+ * Scan a literal or distance tree to determine the frequencies of the codes
+ * in the bit length tree.
+ */
+const scan_tree = (s, tree, max_code) =>
+//    deflate_state *s;
+//    ct_data *tree;   /* the tree to be scanned */
+//    int max_code;    /* and its largest code of non zero frequency */
+{
+  let n;                     /* iterates over all tree elements */
+  let prevlen = -1;          /* last emitted length */
+  let curlen;                /* length of current code */
 
-  deflator.push(input, true);
+  let nextlen = tree[0 * 2 + 1]/*.Len*/; /* length of next code */
 
-  // That will never happens, if you don't cheat with options :)
-  if (deflator.err) { throw deflator.msg || msg[deflator.err]; }
+  let count = 0;             /* repeat count of the current code */
+  let max_count = 7;         /* max repeat count */
+  let min_count = 4;         /* min repeat count */
 
-  return deflator.result;
-}
+  if (nextlen === 0) {
+    max_count = 138;
+    min_count = 3;
+  }
+  tree[(max_code + 1) * 2 + 1]/*.Len*/ = 0xffff; /* guard */
 
+  for (n = 0; n <= max_code; n++) {
+    curlen = nextlen;
+    nextlen = tree[(n + 1) * 2 + 1]/*.Len*/;
 
-/**
- * deflateRaw(data[, options]) -> Uint8Array|Array|String
- * - data (Uint8Array|Array|String): input data to compress.
- * - options (Object): zlib deflate options.
- *
- * The same as [[deflate]], but creates raw data, without wrapper
- * (header and adler32 crc).
- **/
-function deflateRaw(input, options) {
-  options = options || {};
-  options.raw = true;
-  return deflate(input, options);
-}
+    if (++count < max_count && curlen === nextlen) {
+      continue;
 
+    } else if (count < min_count) {
+      s.bl_tree[curlen * 2]/*.Freq*/ += count;
 
-/**
- * gzip(data[, options]) -> Uint8Array|Array|String
- * - data (Uint8Array|Array|String): input data to compress.
- * - options (Object): zlib deflate options.
- *
- * The same as [[deflate]], but create gzip wrapper instead of
- * deflate one.
- **/
-function gzip(input, options) {
-  options = options || {};
-  options.gzip = true;
-  return deflate(input, options);
-}
+    } else if (curlen !== 0) {
+
+      if (curlen !== prevlen) { s.bl_tree[curlen * 2]/*.Freq*/++; }
+      s.bl_tree[REP_3_6 * 2]/*.Freq*/++;
+
+    } else if (count <= 10) {
+      s.bl_tree[REPZ_3_10 * 2]/*.Freq*/++;
+
+    } else {
+      s.bl_tree[REPZ_11_138 * 2]/*.Freq*/++;
+    }
+
+    count = 0;
+    prevlen = curlen;
+
+    if (nextlen === 0) {
+      max_count = 138;
+      min_count = 3;
+
+    } else if (curlen === nextlen) {
+      max_count = 6;
+      min_count = 3;
+
+    } else {
+      max_count = 7;
+      min_count = 4;
+    }
+  }
+};
 
 
-exports.Deflate = Deflate;
-exports.deflate = deflate;
-exports.deflateRaw = deflateRaw;
-exports.gzip = gzip;
+/* ===========================================================================
+ * Send a literal or distance tree in compressed form, using the codes in
+ * bl_tree.
+ */
+const send_tree = (s, tree, max_code) =>
+//    deflate_state *s;
+//    ct_data *tree; /* the tree to be scanned */
+//    int max_code;       /* and its largest code of non zero frequency */
+{
+  let n;                     /* iterates over all tree elements */
+  let prevlen = -1;          /* last emitted length */
+  let curlen;                /* length of current code */
+
+  let nextlen = tree[0 * 2 + 1]/*.Len*/; /* length of next code */
+
+  let count = 0;             /* repeat count of the current code */
+  let max_count = 7;         /* max repeat count */
+  let min_count = 4;         /* min repeat count */
+
+  /* tree[max_code+1].Len = -1; */  /* guard already set */
+  if (nextlen === 0) {
+    max_count = 138;
+    min_count = 3;
+  }
+
+  for (n = 0; n <= max_code; n++) {
+    curlen = nextlen;
+    nextlen = tree[(n + 1) * 2 + 1]/*.Len*/;
+
+    if (++count < max_count && curlen === nextlen) {
+      continue;
+
+    } else if (count < min_count) {
+      do { send_code(s, curlen, s.bl_tree); } while (--count !== 0);
+
+    } else if (curlen !== 0) {
+      if (curlen !== prevlen) {
+        send_code(s, curlen, s.bl_tree);
+        count--;
+      }
+      //Assert(count >= 3 && count <= 6, " 3_6?");
+      send_code(s, REP_3_6, s.bl_tree);
+      send_bits(s, count - 3, 2);
+
+    } else if (count <= 10) {
+      send_code(s, REPZ_3_10, s.bl_tree);
+      send_bits(s, count - 3, 3);
+
+    } else {
+      send_code(s, REPZ_11_138, s.bl_tree);
+      send_bits(s, count - 11, 7);
+    }
+
+    count = 0;
+    prevlen = curlen;
+    if (nextlen === 0) {
+      max_count = 138;
+      min_count = 3;
+
+    } else if (curlen === nextlen) {
+      max_count = 6;
+      min_count = 3;
+
+    } else {
+      max_count = 7;
+      min_count = 4;
+    }
+  }
+};
 
 
-/***/ }),
-/* 528 */
-/***/ (function(module, exports, __webpack_require__) {
+/* ===========================================================================
+ * Construct the Huffman tree for the bit lengths and return the index in
+ * bl_order of the last bit length code to send.
+ */
+const build_bl_tree = (s) => {
 
-"use strict";
+  let max_blindex;  /* index of last bit length code of non zero freq */
 
+  /* Determine the bit length frequencies for literal and distance trees */
+  scan_tree(s, s.dyn_ltree, s.l_desc.max_code);
+  scan_tree(s, s.dyn_dtree, s.d_desc.max_code);
+
+  /* Build the bit length tree: */
+  build_tree(s, s.bl_desc);
+  /* opt_len now includes the length of the tree representations, except
+   * the lengths of the bit lengths codes and the 5+5+4 bits for the counts.
+   */
+
+  /* Determine the number of bit length codes to send. The pkzip format
+   * requires that at least 4 bit length codes be sent. (appnote.txt says
+   * 3 but the actual value used is 4.)
+   */
+  for (max_blindex = BL_CODES$1 - 1; max_blindex >= 3; max_blindex--) {
+    if (s.bl_tree[bl_order[max_blindex] * 2 + 1]/*.Len*/ !== 0) {
+      break;
+    }
+  }
+  /* Update opt_len to include the bit length tree and counts */
+  s.opt_len += 3 * (max_blindex + 1) + 5 + 5 + 4;
+  //Tracev((stderr, "\ndyn trees: dyn %ld, stat %ld",
+  //        s->opt_len, s->static_len));
+
+  return max_blindex;
+};
+
+
+/* ===========================================================================
+ * Send the header for a block using dynamic Huffman trees: the counts, the
+ * lengths of the bit length codes, the literal tree and the distance tree.
+ * IN assertion: lcodes >= 257, dcodes >= 1, blcodes >= 4.
+ */
+const send_all_trees = (s, lcodes, dcodes, blcodes) =>
+//    deflate_state *s;
+//    int lcodes, dcodes, blcodes; /* number of codes for each tree */
+{
+  let rank;                    /* index in bl_order */
+
+  //Assert (lcodes >= 257 && dcodes >= 1 && blcodes >= 4, "not enough codes");
+  //Assert (lcodes <= L_CODES && dcodes <= D_CODES && blcodes <= BL_CODES,
+  //        "too many codes");
+  //Tracev((stderr, "\nbl counts: "));
+  send_bits(s, lcodes - 257, 5); /* not +255 as stated in appnote.txt */
+  send_bits(s, dcodes - 1,   5);
+  send_bits(s, blcodes - 4,  4); /* not -3 as stated in appnote.txt */
+  for (rank = 0; rank < blcodes; rank++) {
+    //Tracev((stderr, "\nbl code %2d ", bl_order[rank]));
+    send_bits(s, s.bl_tree[bl_order[rank] * 2 + 1]/*.Len*/, 3);
+  }
+  //Tracev((stderr, "\nbl tree: sent %ld", s->bits_sent));
+
+  send_tree(s, s.dyn_ltree, lcodes - 1); /* literal tree */
+  //Tracev((stderr, "\nlit tree: sent %ld", s->bits_sent));
+
+  send_tree(s, s.dyn_dtree, dcodes - 1); /* distance tree */
+  //Tracev((stderr, "\ndist tree: sent %ld", s->bits_sent));
+};
+
+
+/* ===========================================================================
+ * Check if the data type is TEXT or BINARY, using the following algorithm:
+ * - TEXT if the two conditions below are satisfied:
+ *    a) There are no non-portable control characters belonging to the
+ *       "black list" (0..6, 14..25, 28..31).
+ *    b) There is at least one printable character belonging to the
+ *       "white list" (9 {TAB}, 10 {LF}, 13 {CR}, 32..255).
+ * - BINARY otherwise.
+ * - The following partially-portable control characters form a
+ *   "gray list" that is ignored in this detection algorithm:
+ *   (7 {BEL}, 8 {BS}, 11 {VT}, 12 {FF}, 26 {SUB}, 27 {ESC}).
+ * IN assertion: the fields Freq of dyn_ltree are set.
+ */
+const detect_data_type = (s) => {
+  /* black_mask is the bit mask of black-listed bytes
+   * set bits 0..6, 14..25, and 28..31
+   * 0xf3ffc07f = binary 11110011111111111100000001111111
+   */
+  let black_mask = 0xf3ffc07f;
+  let n;
+
+  /* Check for non-textual ("black-listed") bytes. */
+  for (n = 0; n <= 31; n++, black_mask >>>= 1) {
+    if ((black_mask & 1) && (s.dyn_ltree[n * 2]/*.Freq*/ !== 0)) {
+      return Z_BINARY;
+    }
+  }
+
+  /* Check for textual ("white-listed") bytes. */
+  if (s.dyn_ltree[9 * 2]/*.Freq*/ !== 0 || s.dyn_ltree[10 * 2]/*.Freq*/ !== 0 ||
+      s.dyn_ltree[13 * 2]/*.Freq*/ !== 0) {
+    return Z_TEXT;
+  }
+  for (n = 32; n < LITERALS$1; n++) {
+    if (s.dyn_ltree[n * 2]/*.Freq*/ !== 0) {
+      return Z_TEXT;
+    }
+  }
+
+  /* There are no "black-listed" or "white-listed" bytes:
+   * this stream either is empty or has tolerated ("gray-listed") bytes only.
+   */
+  return Z_BINARY;
+};
+
+
+let static_init_done = false;
+
+/* ===========================================================================
+ * Initialize the tree data structures for a new zlib stream.
+ */
+const _tr_init$1 = (s) =>
+{
+
+  if (!static_init_done) {
+    tr_static_init();
+    static_init_done = true;
+  }
+
+  s.l_desc  = new TreeDesc(s.dyn_ltree, static_l_desc);
+  s.d_desc  = new TreeDesc(s.dyn_dtree, static_d_desc);
+  s.bl_desc = new TreeDesc(s.bl_tree, static_bl_desc);
+
+  s.bi_buf = 0;
+  s.bi_valid = 0;
+
+  /* Initialize the first block of the first file: */
+  init_block(s);
+};
+
+
+/* ===========================================================================
+ * Send a stored block
+ */
+const _tr_stored_block$1 = (s, buf, stored_len, last) =>
+//DeflateState *s;
+//charf *buf;       /* input block */
+//ulg stored_len;   /* length of input block */
+//int last;         /* one if this is the last block for a file */
+{
+  send_bits(s, (STORED_BLOCK << 1) + (last ? 1 : 0), 3);    /* send block type */
+  copy_block(s, buf, stored_len, true); /* with header */
+};
+
+
+/* ===========================================================================
+ * Send one empty static block to give enough lookahead for inflate.
+ * This takes 10 bits, of which 7 may remain in the bit buffer.
+ */
+const _tr_align$1 = (s) => {
+  send_bits(s, STATIC_TREES << 1, 3);
+  send_code(s, END_BLOCK, static_ltree);
+  bi_flush(s);
+};
+
+
+/* ===========================================================================
+ * Determine the best encoding for the current block: dynamic trees, static
+ * trees or store, and output the encoded block to the zip file.
+ */
+const _tr_flush_block$1 = (s, buf, stored_len, last) =>
+//DeflateState *s;
+//charf *buf;       /* input block, or NULL if too old */
+//ulg stored_len;   /* length of input block */
+//int last;         /* one if this is the last block for a file */
+{
+  let opt_lenb, static_lenb;  /* opt_len and static_len in bytes */
+  let max_blindex = 0;        /* index of last bit length code of non zero freq */
+
+  /* Build the Huffman trees unless a stored block is forced */
+  if (s.level > 0) {
+
+    /* Check if the file is binary or text */
+    if (s.strm.data_type === Z_UNKNOWN$1) {
+      s.strm.data_type = detect_data_type(s);
+    }
+
+    /* Construct the literal and distance trees */
+    build_tree(s, s.l_desc);
+    // Tracev((stderr, "\nlit data: dyn %ld, stat %ld", s->opt_len,
+    //        s->static_len));
+
+    build_tree(s, s.d_desc);
+    // Tracev((stderr, "\ndist data: dyn %ld, stat %ld", s->opt_len,
+    //        s->static_len));
+    /* At this point, opt_len and static_len are the total bit lengths of
+     * the compressed block data, excluding the tree representations.
+     */
+
+    /* Build the bit length tree for the above two trees, and get the index
+     * in bl_order of the last bit length code to send.
+     */
+    max_blindex = build_bl_tree(s);
+
+    /* Determine the best encoding. Compute the block lengths in bytes. */
+    opt_lenb = (s.opt_len + 3 + 7) >>> 3;
+    static_lenb = (s.static_len + 3 + 7) >>> 3;
+
+    // Tracev((stderr, "\nopt %lu(%lu) stat %lu(%lu) stored %lu lit %u ",
+    //        opt_lenb, s->opt_len, static_lenb, s->static_len, stored_len,
+    //        s->last_lit));
+
+    if (static_lenb <= opt_lenb) { opt_lenb = static_lenb; }
+
+  } else {
+    // Assert(buf != (char*)0, "lost buf");
+    opt_lenb = static_lenb = stored_len + 5; /* force a stored block */
+  }
+
+  if ((stored_len + 4 <= opt_lenb) && (buf !== -1)) {
+    /* 4: two words for the lengths */
+
+    /* The test buf != NULL is only necessary if LIT_BUFSIZE > WSIZE.
+     * Otherwise we can't have processed more than WSIZE input bytes since
+     * the last block flush, because compression would have been
+     * successful. If LIT_BUFSIZE <= WSIZE, it is never too late to
+     * transform a block into a stored block.
+     */
+    _tr_stored_block$1(s, buf, stored_len, last);
+
+  } else if (s.strategy === Z_FIXED$1 || static_lenb === opt_lenb) {
+
+    send_bits(s, (STATIC_TREES << 1) + (last ? 1 : 0), 3);
+    compress_block(s, static_ltree, static_dtree);
+
+  } else {
+    send_bits(s, (DYN_TREES << 1) + (last ? 1 : 0), 3);
+    send_all_trees(s, s.l_desc.max_code + 1, s.d_desc.max_code + 1, max_blindex + 1);
+    compress_block(s, s.dyn_ltree, s.dyn_dtree);
+  }
+  // Assert (s->compressed_len == s->bits_sent, "bad compressed size");
+  /* The above check is made mod 2^32, for files larger than 512 MB
+   * and uLong implemented on 32 bits.
+   */
+  init_block(s);
+
+  if (last) {
+    bi_windup(s);
+  }
+  // Tracev((stderr,"\ncomprlen %lu(%lu) ", s->compressed_len>>3,
+  //       s->compressed_len-7*last));
+};
+
+/* ===========================================================================
+ * Save the match info and tally the frequency counts. Return true if
+ * the current block must be flushed.
+ */
+const _tr_tally$1 = (s, dist, lc) =>
+//    deflate_state *s;
+//    unsigned dist;  /* distance of matched string */
+//    unsigned lc;    /* match length-MIN_MATCH or unmatched char (if dist==0) */
+{
+  //let out_length, in_length, dcode;
+
+  s.pending_buf[s.d_buf + s.last_lit * 2]     = (dist >>> 8) & 0xff;
+  s.pending_buf[s.d_buf + s.last_lit * 2 + 1] = dist & 0xff;
+
+  s.pending_buf[s.l_buf + s.last_lit] = lc & 0xff;
+  s.last_lit++;
+
+  if (dist === 0) {
+    /* lc is the unmatched char */
+    s.dyn_ltree[lc * 2]/*.Freq*/++;
+  } else {
+    s.matches++;
+    /* Here, lc is the match length - MIN_MATCH */
+    dist--;             /* dist = match distance - 1 */
+    //Assert((ush)dist < (ush)MAX_DIST(s) &&
+    //       (ush)lc <= (ush)(MAX_MATCH-MIN_MATCH) &&
+    //       (ush)d_code(dist) < (ush)D_CODES,  "_tr_tally: bad match");
+
+    s.dyn_ltree[(_length_code[lc] + LITERALS$1 + 1) * 2]/*.Freq*/++;
+    s.dyn_dtree[d_code(dist) * 2]/*.Freq*/++;
+  }
+
+// (!) This block is disabled in zlib defaults,
+// don't enable it for binary compatibility
+
+//#ifdef TRUNCATE_BLOCK
+//  /* Try to guess if it is profitable to stop the current block here */
+//  if ((s.last_lit & 0x1fff) === 0 && s.level > 2) {
+//    /* Compute an upper bound for the compressed length */
+//    out_length = s.last_lit*8;
+//    in_length = s.strstart - s.block_start;
+//
+//    for (dcode = 0; dcode < D_CODES; dcode++) {
+//      out_length += s.dyn_dtree[dcode*2]/*.Freq*/ * (5 + extra_dbits[dcode]);
+//    }
+//    out_length >>>= 3;
+//    //Tracev((stderr,"\nlast_lit %u, in %ld, out ~%ld(%ld%%) ",
+//    //       s->last_lit, in_length, out_length,
+//    //       100L - out_length*100L/in_length));
+//    if (s.matches < (s.last_lit>>1)/*int /2*/ && out_length < (in_length>>1)/*int /2*/) {
+//      return true;
+//    }
+//  }
+//#endif
+
+  return (s.last_lit === s.lit_bufsize - 1);
+  /* We avoid equality with lit_bufsize because of wraparound at 64K
+   * on 16 bit machines and because stored blocks are restricted to
+   * 64K-1 bytes.
+   */
+};
+
+var _tr_init_1  = _tr_init$1;
+var _tr_stored_block_1 = _tr_stored_block$1;
+var _tr_flush_block_1  = _tr_flush_block$1;
+var _tr_tally_1 = _tr_tally$1;
+var _tr_align_1 = _tr_align$1;
+
+var trees = {
+	_tr_init: _tr_init_1,
+	_tr_stored_block: _tr_stored_block_1,
+	_tr_flush_block: _tr_flush_block_1,
+	_tr_tally: _tr_tally_1,
+	_tr_align: _tr_align_1
+};
+
+// Note: adler32 takes 12% for level 0 and 2% for level 6.
+// It isn't worth it to make additional optimizations as in original.
+// Small size is preferable.
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
 // (C) 2014-2017 Vitaly Puzrin and Andrey Tupitsin
@@ -60812,120 +61182,291 @@ exports.gzip = gzip;
 //   misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 
-var utils   = __webpack_require__(73);
-var trees   = __webpack_require__(529);
-var adler32 = __webpack_require__(318);
-var crc32   = __webpack_require__(319);
-var msg     = __webpack_require__(291);
+const adler32 = (adler, buf, len, pos) => {
+  let s1 = (adler & 0xffff) |0,
+      s2 = ((adler >>> 16) & 0xffff) |0,
+      n = 0;
+
+  while (len !== 0) {
+    // Set limit ~ twice less than 5552, to keep
+    // s2 in 31-bits, because we force signed ints.
+    // in other case %= will fail.
+    n = len > 2000 ? 2000 : len;
+    len -= n;
+
+    do {
+      s1 = (s1 + buf[pos++]) |0;
+      s2 = (s2 + s1) |0;
+    } while (--n);
+
+    s1 %= 65521;
+    s2 %= 65521;
+  }
+
+  return (s1 | (s2 << 16)) |0;
+};
+
+
+var adler32_1 = adler32;
+
+// Note: we can't get significant speed boost here.
+// So write code to minimize size - no pregenerated tables
+// and array tools dependencies.
+
+// (C) 1995-2013 Jean-loup Gailly and Mark Adler
+// (C) 2014-2017 Vitaly Puzrin and Andrey Tupitsin
+//
+// This software is provided 'as-is', without any express or implied
+// warranty. In no event will the authors be held liable for any damages
+// arising from the use of this software.
+//
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+//
+// 1. The origin of this software must not be misrepresented; you must not
+//   claim that you wrote the original software. If you use this software
+//   in a product, an acknowledgment in the product documentation would be
+//   appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+//   misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+
+// Use ordinary array, since untyped makes no boost here
+const makeTable = () => {
+  let c, table = [];
+
+  for (var n = 0; n < 256; n++) {
+    c = n;
+    for (var k = 0; k < 8; k++) {
+      c = ((c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1));
+    }
+    table[n] = c;
+  }
+
+  return table;
+};
+
+// Create table on load. Just 255 signed longs. Not a problem.
+const crcTable = new Uint32Array(makeTable());
+
+
+const crc32 = (crc, buf, len, pos) => {
+  const t = crcTable;
+  const end = pos + len;
+
+  crc ^= -1;
+
+  for (let i = pos; i < end; i++) {
+    crc = (crc >>> 8) ^ t[(crc ^ buf[i]) & 0xFF];
+  }
+
+  return (crc ^ (-1)); // >>> 0;
+};
+
+
+var crc32_1 = crc32;
+
+// (C) 1995-2013 Jean-loup Gailly and Mark Adler
+// (C) 2014-2017 Vitaly Puzrin and Andrey Tupitsin
+//
+// This software is provided 'as-is', without any express or implied
+// warranty. In no event will the authors be held liable for any damages
+// arising from the use of this software.
+//
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+//
+// 1. The origin of this software must not be misrepresented; you must not
+//   claim that you wrote the original software. If you use this software
+//   in a product, an acknowledgment in the product documentation would be
+//   appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+//   misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+
+var messages = {
+  2:      'need dictionary',     /* Z_NEED_DICT       2  */
+  1:      'stream end',          /* Z_STREAM_END      1  */
+  0:      '',                    /* Z_OK              0  */
+  '-1':   'file error',          /* Z_ERRNO         (-1) */
+  '-2':   'stream error',        /* Z_STREAM_ERROR  (-2) */
+  '-3':   'data error',          /* Z_DATA_ERROR    (-3) */
+  '-4':   'insufficient memory', /* Z_MEM_ERROR     (-4) */
+  '-5':   'buffer error',        /* Z_BUF_ERROR     (-5) */
+  '-6':   'incompatible version' /* Z_VERSION_ERROR (-6) */
+};
+
+// (C) 1995-2013 Jean-loup Gailly and Mark Adler
+// (C) 2014-2017 Vitaly Puzrin and Andrey Tupitsin
+//
+// This software is provided 'as-is', without any express or implied
+// warranty. In no event will the authors be held liable for any damages
+// arising from the use of this software.
+//
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+//
+// 1. The origin of this software must not be misrepresented; you must not
+//   claim that you wrote the original software. If you use this software
+//   in a product, an acknowledgment in the product documentation would be
+//   appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+//   misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+
+var constants$2 = {
+
+  /* Allowed flush values; see deflate() and inflate() below for details */
+  Z_NO_FLUSH:         0,
+  Z_PARTIAL_FLUSH:    1,
+  Z_SYNC_FLUSH:       2,
+  Z_FULL_FLUSH:       3,
+  Z_FINISH:           4,
+  Z_BLOCK:            5,
+  Z_TREES:            6,
+
+  /* Return codes for the compression/decompression functions. Negative values
+  * are errors, positive values are used for special but normal events.
+  */
+  Z_OK:               0,
+  Z_STREAM_END:       1,
+  Z_NEED_DICT:        2,
+  Z_ERRNO:           -1,
+  Z_STREAM_ERROR:    -2,
+  Z_DATA_ERROR:      -3,
+  Z_MEM_ERROR:       -4,
+  Z_BUF_ERROR:       -5,
+  //Z_VERSION_ERROR: -6,
+
+  /* compression levels */
+  Z_NO_COMPRESSION:         0,
+  Z_BEST_SPEED:             1,
+  Z_BEST_COMPRESSION:       9,
+  Z_DEFAULT_COMPRESSION:   -1,
+
+
+  Z_FILTERED:               1,
+  Z_HUFFMAN_ONLY:           2,
+  Z_RLE:                    3,
+  Z_FIXED:                  4,
+  Z_DEFAULT_STRATEGY:       0,
+
+  /* Possible values of the data_type field (though see inflate()) */
+  Z_BINARY:                 0,
+  Z_TEXT:                   1,
+  //Z_ASCII:                1, // = Z_TEXT (deprecated)
+  Z_UNKNOWN:                2,
+
+  /* The deflate compression method */
+  Z_DEFLATED:               8
+  //Z_NULL:                 null // Use -1 or null inline, depending on var type
+};
+
+// (C) 1995-2013 Jean-loup Gailly and Mark Adler
+// (C) 2014-2017 Vitaly Puzrin and Andrey Tupitsin
+//
+// This software is provided 'as-is', without any express or implied
+// warranty. In no event will the authors be held liable for any damages
+// arising from the use of this software.
+//
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+//
+// 1. The origin of this software must not be misrepresented; you must not
+//   claim that you wrote the original software. If you use this software
+//   in a product, an acknowledgment in the product documentation would be
+//   appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+//   misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+
+const { _tr_init, _tr_stored_block, _tr_flush_block, _tr_tally, _tr_align } = trees;
+
+
+
 
 /* Public constants ==========================================================*/
 /* ===========================================================================*/
 
-
-/* Allowed flush values; see deflate() and inflate() below for details */
-var Z_NO_FLUSH      = 0;
-var Z_PARTIAL_FLUSH = 1;
-//var Z_SYNC_FLUSH    = 2;
-var Z_FULL_FLUSH    = 3;
-var Z_FINISH        = 4;
-var Z_BLOCK         = 5;
-//var Z_TREES         = 6;
-
-
-/* Return codes for the compression/decompression functions. Negative values
- * are errors, positive values are used for special but normal events.
- */
-var Z_OK            = 0;
-var Z_STREAM_END    = 1;
-//var Z_NEED_DICT     = 2;
-//var Z_ERRNO         = -1;
-var Z_STREAM_ERROR  = -2;
-var Z_DATA_ERROR    = -3;
-//var Z_MEM_ERROR     = -4;
-var Z_BUF_ERROR     = -5;
-//var Z_VERSION_ERROR = -6;
-
-
-/* compression levels */
-//var Z_NO_COMPRESSION      = 0;
-//var Z_BEST_SPEED          = 1;
-//var Z_BEST_COMPRESSION    = 9;
-var Z_DEFAULT_COMPRESSION = -1;
-
-
-var Z_FILTERED            = 1;
-var Z_HUFFMAN_ONLY        = 2;
-var Z_RLE                 = 3;
-var Z_FIXED               = 4;
-var Z_DEFAULT_STRATEGY    = 0;
-
-/* Possible values of the data_type field (though see inflate()) */
-//var Z_BINARY              = 0;
-//var Z_TEXT                = 1;
-//var Z_ASCII               = 1; // = Z_TEXT
-var Z_UNKNOWN             = 2;
-
-
-/* The deflate compression method */
-var Z_DEFLATED  = 8;
+const {
+  Z_NO_FLUSH: Z_NO_FLUSH$2, Z_PARTIAL_FLUSH, Z_FULL_FLUSH: Z_FULL_FLUSH$1, Z_FINISH: Z_FINISH$3, Z_BLOCK: Z_BLOCK$1,
+  Z_OK: Z_OK$3, Z_STREAM_END: Z_STREAM_END$3, Z_STREAM_ERROR: Z_STREAM_ERROR$2, Z_DATA_ERROR: Z_DATA_ERROR$2, Z_BUF_ERROR: Z_BUF_ERROR$1,
+  Z_DEFAULT_COMPRESSION: Z_DEFAULT_COMPRESSION$1,
+  Z_FILTERED, Z_HUFFMAN_ONLY, Z_RLE, Z_FIXED, Z_DEFAULT_STRATEGY: Z_DEFAULT_STRATEGY$1,
+  Z_UNKNOWN,
+  Z_DEFLATED: Z_DEFLATED$2
+} = constants$2;
 
 /*============================================================================*/
 
 
-var MAX_MEM_LEVEL = 9;
+const MAX_MEM_LEVEL = 9;
 /* Maximum value for memLevel in deflateInit2 */
-var MAX_WBITS = 15;
+const MAX_WBITS$1 = 15;
 /* 32K LZ77 window */
-var DEF_MEM_LEVEL = 8;
+const DEF_MEM_LEVEL = 8;
 
 
-var LENGTH_CODES  = 29;
+const LENGTH_CODES  = 29;
 /* number of length codes, not counting the special END_BLOCK code */
-var LITERALS      = 256;
+const LITERALS      = 256;
 /* number of literal bytes 0..255 */
-var L_CODES       = LITERALS + 1 + LENGTH_CODES;
+const L_CODES       = LITERALS + 1 + LENGTH_CODES;
 /* number of Literal or Length codes, including the END_BLOCK code */
-var D_CODES       = 30;
+const D_CODES       = 30;
 /* number of distance codes */
-var BL_CODES      = 19;
+const BL_CODES      = 19;
 /* number of codes used to transfer the bit lengths */
-var HEAP_SIZE     = 2 * L_CODES + 1;
+const HEAP_SIZE     = 2 * L_CODES + 1;
 /* maximum heap size */
-var MAX_BITS  = 15;
+const MAX_BITS  = 15;
 /* All codes must not exceed MAX_BITS bits */
 
-var MIN_MATCH = 3;
-var MAX_MATCH = 258;
-var MIN_LOOKAHEAD = (MAX_MATCH + MIN_MATCH + 1);
+const MIN_MATCH = 3;
+const MAX_MATCH = 258;
+const MIN_LOOKAHEAD = (MAX_MATCH + MIN_MATCH + 1);
 
-var PRESET_DICT = 0x20;
+const PRESET_DICT = 0x20;
 
-var INIT_STATE = 42;
-var EXTRA_STATE = 69;
-var NAME_STATE = 73;
-var COMMENT_STATE = 91;
-var HCRC_STATE = 103;
-var BUSY_STATE = 113;
-var FINISH_STATE = 666;
+const INIT_STATE = 42;
+const EXTRA_STATE = 69;
+const NAME_STATE = 73;
+const COMMENT_STATE = 91;
+const HCRC_STATE = 103;
+const BUSY_STATE = 113;
+const FINISH_STATE = 666;
 
-var BS_NEED_MORE      = 1; /* block not completed, need more input or more output */
-var BS_BLOCK_DONE     = 2; /* block flush performed */
-var BS_FINISH_STARTED = 3; /* finish started, need only more output at next deflate */
-var BS_FINISH_DONE    = 4; /* finish done, accept no more input or output */
+const BS_NEED_MORE      = 1; /* block not completed, need more input or more output */
+const BS_BLOCK_DONE     = 2; /* block flush performed */
+const BS_FINISH_STARTED = 3; /* finish started, need only more output at next deflate */
+const BS_FINISH_DONE    = 4; /* finish done, accept no more input or output */
 
-var OS_CODE = 0x03; // Unix :) . Don't detect, use this default.
+const OS_CODE = 0x03; // Unix :) . Don't detect, use this default.
 
-function err(strm, errorCode) {
-  strm.msg = msg[errorCode];
+const err = (strm, errorCode) => {
+  strm.msg = messages[errorCode];
   return errorCode;
-}
+};
 
-function rank(f) {
+const rank = (f) => {
   return ((f) << 1) - ((f) > 4 ? 9 : 0);
-}
+};
 
-function zero(buf) { var len = buf.length; while (--len >= 0) { buf[len] = 0; } }
+const zero = (buf) => {
+  let len = buf.length; while (--len >= 0) { buf[len] = 0; }
+};
 
+
+/* eslint-disable new-cap */
+let HASH_ZLIB = (s, prev, data) => ((prev << s.hash_shift) ^ data) & s.hash_mask;
+// This hash causes less collisions, https://github.com/nodeca/pako/issues/135
+// But breaks binary compatibility
+//let HASH_FAST = (s, prev, data) => ((prev << 8) + (prev >> 8) + (data << 4)) & s.hash_mask;
+let HASH = HASH_ZLIB;
 
 /* =========================================================================
  * Flush as much pending output as possible. All deflate() output goes
@@ -60933,17 +61474,17 @@ function zero(buf) { var len = buf.length; while (--len >= 0) { buf[len] = 0; } 
  * to avoid allocating a large strm->output buffer and copying into it.
  * (See also read_buf()).
  */
-function flush_pending(strm) {
-  var s = strm.state;
+const flush_pending = (strm) => {
+  const s = strm.state;
 
   //_tr_flush_bits(s);
-  var len = s.pending;
+  let len = s.pending;
   if (len > strm.avail_out) {
     len = strm.avail_out;
   }
   if (len === 0) { return; }
 
-  utils.arraySet(strm.output, s.pending_buf, s.pending_out, len, strm.next_out);
+  strm.output.set(s.pending_buf.subarray(s.pending_out, s.pending_out + len), strm.next_out);
   strm.next_out += len;
   s.pending_out += len;
   strm.total_out += len;
@@ -60952,19 +61493,19 @@ function flush_pending(strm) {
   if (s.pending === 0) {
     s.pending_out = 0;
   }
-}
+};
 
 
-function flush_block_only(s, last) {
-  trees._tr_flush_block(s, (s.block_start >= 0 ? s.block_start : -1), s.strstart - s.block_start, last);
+const flush_block_only = (s, last) => {
+  _tr_flush_block(s, (s.block_start >= 0 ? s.block_start : -1), s.strstart - s.block_start, last);
   s.block_start = s.strstart;
   flush_pending(s.strm);
-}
+};
 
 
-function put_byte(s, b) {
+const put_byte = (s, b) => {
   s.pending_buf[s.pending++] = b;
-}
+};
 
 
 /* =========================================================================
@@ -60972,12 +61513,13 @@ function put_byte(s, b) {
  * IN assertion: the stream state is correct and there is enough room in
  * pending_buf.
  */
-function putShortMSB(s, b) {
-//  put_byte(s, (Byte)(b >> 8));
+const putShortMSB = (s, b) => {
+
+  //  put_byte(s, (Byte)(b >> 8));
 //  put_byte(s, (Byte)(b & 0xff));
   s.pending_buf[s.pending++] = (b >>> 8) & 0xff;
   s.pending_buf[s.pending++] = b & 0xff;
-}
+};
 
 
 /* ===========================================================================
@@ -60987,8 +61529,9 @@ function putShortMSB(s, b) {
  * allocating a large strm->input buffer and copying from it.
  * (See also flush_pending()).
  */
-function read_buf(strm, buf, start, size) {
-  var len = strm.avail_in;
+const read_buf = (strm, buf, start, size) => {
+
+  let len = strm.avail_in;
 
   if (len > size) { len = size; }
   if (len === 0) { return 0; }
@@ -60996,20 +61539,20 @@ function read_buf(strm, buf, start, size) {
   strm.avail_in -= len;
 
   // zmemcpy(buf, strm->next_in, len);
-  utils.arraySet(buf, strm.input, strm.next_in, len, start);
+  buf.set(strm.input.subarray(strm.next_in, strm.next_in + len), start);
   if (strm.state.wrap === 1) {
-    strm.adler = adler32(strm.adler, buf, len, start);
+    strm.adler = adler32_1(strm.adler, buf, len, start);
   }
 
   else if (strm.state.wrap === 2) {
-    strm.adler = crc32(strm.adler, buf, len, start);
+    strm.adler = crc32_1(strm.adler, buf, len, start);
   }
 
   strm.next_in += len;
   strm.total_in += len;
 
   return len;
-}
+};
 
 
 /* ===========================================================================
@@ -61021,28 +61564,29 @@ function read_buf(strm, buf, start, size) {
  *   string (strstart) and its distance is <= MAX_DIST, and prev_length >= 1
  * OUT assertion: the match length is not greater than s->lookahead.
  */
-function longest_match(s, cur_match) {
-  var chain_length = s.max_chain_length;      /* max hash chain length */
-  var scan = s.strstart; /* current string */
-  var match;                       /* matched string */
-  var len;                           /* length of current match */
-  var best_len = s.prev_length;              /* best match length so far */
-  var nice_match = s.nice_match;             /* stop if match long enough */
-  var limit = (s.strstart > (s.w_size - MIN_LOOKAHEAD)) ?
+const longest_match = (s, cur_match) => {
+
+  let chain_length = s.max_chain_length;      /* max hash chain length */
+  let scan = s.strstart; /* current string */
+  let match;                       /* matched string */
+  let len;                           /* length of current match */
+  let best_len = s.prev_length;              /* best match length so far */
+  let nice_match = s.nice_match;             /* stop if match long enough */
+  const limit = (s.strstart > (s.w_size - MIN_LOOKAHEAD)) ?
       s.strstart - (s.w_size - MIN_LOOKAHEAD) : 0/*NIL*/;
 
-  var _win = s.window; // shortcut
+  const _win = s.window; // shortcut
 
-  var wmask = s.w_mask;
-  var prev  = s.prev;
+  const wmask = s.w_mask;
+  const prev  = s.prev;
 
   /* Stop when cur_match becomes <= limit. To simplify the code,
    * we prevent matches with the string of window index 0.
    */
 
-  var strend = s.strstart + MAX_MATCH;
-  var scan_end1  = _win[scan + best_len - 1];
-  var scan_end   = _win[scan + best_len];
+  const strend = s.strstart + MAX_MATCH;
+  let scan_end1  = _win[scan + best_len - 1];
+  let scan_end   = _win[scan + best_len];
 
   /* The code is optimized for HASH_BITS >= 8 and MAX_MATCH-2 multiple of 16.
    * It is easy to get rid of this optimization if necessary.
@@ -61121,7 +61665,7 @@ function longest_match(s, cur_match) {
     return best_len;
   }
   return s.lookahead;
-}
+};
 
 
 /* ===========================================================================
@@ -61134,9 +61678,10 @@ function longest_match(s, cur_match) {
  *    performed for at least two bytes (required for the zip translate_eol
  *    option -- not supported here).
  */
-function fill_window(s) {
-  var _w_size = s.w_size;
-  var p, n, m, more, str;
+const fill_window = (s) => {
+
+  const _w_size = s.w_size;
+  let p, n, m, more, str;
 
   //Assert(s->lookahead < MIN_LOOKAHEAD, "already enough lookahead");
 
@@ -61163,7 +61708,7 @@ function fill_window(s) {
      */
     if (s.strstart >= _w_size + (_w_size - MIN_LOOKAHEAD)) {
 
-      utils.arraySet(s.window, s.window, _w_size, _w_size, 0);
+      s.window.set(s.window.subarray(_w_size, _w_size + _w_size), 0);
       s.match_start -= _w_size;
       s.strstart -= _w_size;
       /* we now have strstart >= MAX_DIST */
@@ -61178,6 +61723,7 @@ function fill_window(s) {
 
       n = s.hash_size;
       p = n;
+
       do {
         m = s.head[--p];
         s.head[p] = (m >= _w_size ? m - _w_size : 0);
@@ -61185,6 +61731,7 @@ function fill_window(s) {
 
       n = _w_size;
       p = n;
+
       do {
         m = s.prev[--p];
         s.prev[p] = (m >= _w_size ? m - _w_size : 0);
@@ -61220,13 +61767,13 @@ function fill_window(s) {
       s.ins_h = s.window[str];
 
       /* UPDATE_HASH(s, s->ins_h, s->window[str + 1]); */
-      s.ins_h = ((s.ins_h << s.hash_shift) ^ s.window[str + 1]) & s.hash_mask;
+      s.ins_h = HASH(s, s.ins_h, s.window[str + 1]);
 //#if MIN_MATCH != 3
 //        Call update_hash() MIN_MATCH-3 more times
 //#endif
       while (s.insert) {
         /* UPDATE_HASH(s, s->ins_h, s->window[str + MIN_MATCH-1]); */
-        s.ins_h = ((s.ins_h << s.hash_shift) ^ s.window[str + MIN_MATCH - 1]) & s.hash_mask;
+        s.ins_h = HASH(s, s.ins_h, s.window[str + MIN_MATCH - 1]);
 
         s.prev[str & s.w_mask] = s.head[s.ins_h];
         s.head[s.ins_h] = str;
@@ -61251,8 +61798,8 @@ function fill_window(s) {
    * routines allow scanning to strstart + MAX_MATCH, ignoring lookahead.
    */
 //  if (s.high_water < s.window_size) {
-//    var curr = s.strstart + s.lookahead;
-//    var init = 0;
+//    const curr = s.strstart + s.lookahead;
+//    let init = 0;
 //
 //    if (s.high_water < curr) {
 //      /* Previous high water mark below current data -- zero WIN_INIT
@@ -61279,7 +61826,7 @@ function fill_window(s) {
 //
 //  Assert((ulg)s->strstart <= s->window_size - MIN_LOOKAHEAD,
 //    "not enough room for search");
-}
+};
 
 /* ===========================================================================
  * Copy without compression as much as possible from the input stream, return
@@ -61290,11 +61837,12 @@ function fill_window(s) {
  * NOTE: this function should be optimized to avoid extra copying from
  * window to pending_buf.
  */
-function deflate_stored(s, flush) {
+const deflate_stored = (s, flush) => {
+
   /* Stored blocks are limited to 0xffff bytes, pending_buf is limited
    * to pending_buf_size, and each stored block has a 5 byte header:
    */
-  var max_block_size = 0xffff;
+  let max_block_size = 0xffff;
 
   if (max_block_size > s.pending_buf_size - 5) {
     max_block_size = s.pending_buf_size - 5;
@@ -61313,7 +61861,7 @@ function deflate_stored(s, flush) {
 //      }
 
       fill_window(s);
-      if (s.lookahead === 0 && flush === Z_NO_FLUSH) {
+      if (s.lookahead === 0 && flush === Z_NO_FLUSH$2) {
         return BS_NEED_MORE;
       }
 
@@ -61329,7 +61877,7 @@ function deflate_stored(s, flush) {
     s.lookahead = 0;
 
     /* Emit a stored block if pending_buf will be full: */
-    var max_start = s.block_start + max_block_size;
+    const max_start = s.block_start + max_block_size;
 
     if (s.strstart === 0 || s.strstart >= max_start) {
       /* strstart == 0 is possible when wraparound on 16-bit machine */
@@ -61359,7 +61907,7 @@ function deflate_stored(s, flush) {
 
   s.insert = 0;
 
-  if (flush === Z_FINISH) {
+  if (flush === Z_FINISH$3) {
     /*** FLUSH_BLOCK(s, 1); ***/
     flush_block_only(s, true);
     if (s.strm.avail_out === 0) {
@@ -61379,7 +61927,7 @@ function deflate_stored(s, flush) {
   }
 
   return BS_NEED_MORE;
-}
+};
 
 /* ===========================================================================
  * Compress as much as possible from the input stream, return the current
@@ -61388,9 +61936,10 @@ function deflate_stored(s, flush) {
  * new strings in the dictionary only for unmatched strings or for short
  * matches. It is used only for the fast compression options.
  */
-function deflate_fast(s, flush) {
-  var hash_head;        /* head of the hash chain */
-  var bflush;           /* set if current block must be flushed */
+const deflate_fast = (s, flush) => {
+
+  let hash_head;        /* head of the hash chain */
+  let bflush;           /* set if current block must be flushed */
 
   for (;;) {
     /* Make sure that we always have enough lookahead, except
@@ -61400,7 +61949,7 @@ function deflate_fast(s, flush) {
      */
     if (s.lookahead < MIN_LOOKAHEAD) {
       fill_window(s);
-      if (s.lookahead < MIN_LOOKAHEAD && flush === Z_NO_FLUSH) {
+      if (s.lookahead < MIN_LOOKAHEAD && flush === Z_NO_FLUSH$2) {
         return BS_NEED_MORE;
       }
       if (s.lookahead === 0) {
@@ -61414,7 +61963,7 @@ function deflate_fast(s, flush) {
     hash_head = 0/*NIL*/;
     if (s.lookahead >= MIN_MATCH) {
       /*** INSERT_STRING(s, s.strstart, hash_head); ***/
-      s.ins_h = ((s.ins_h << s.hash_shift) ^ s.window[s.strstart + MIN_MATCH - 1]) & s.hash_mask;
+      s.ins_h = HASH(s, s.ins_h, s.window[s.strstart + MIN_MATCH - 1]);
       hash_head = s.prev[s.strstart & s.w_mask] = s.head[s.ins_h];
       s.head[s.ins_h] = s.strstart;
       /***/
@@ -61436,7 +61985,7 @@ function deflate_fast(s, flush) {
 
       /*** _tr_tally_dist(s, s.strstart - s.match_start,
                      s.match_length - MIN_MATCH, bflush); ***/
-      bflush = trees._tr_tally(s, s.strstart - s.match_start, s.match_length - MIN_MATCH);
+      bflush = _tr_tally(s, s.strstart - s.match_start, s.match_length - MIN_MATCH);
 
       s.lookahead -= s.match_length;
 
@@ -61448,7 +61997,7 @@ function deflate_fast(s, flush) {
         do {
           s.strstart++;
           /*** INSERT_STRING(s, s.strstart, hash_head); ***/
-          s.ins_h = ((s.ins_h << s.hash_shift) ^ s.window[s.strstart + MIN_MATCH - 1]) & s.hash_mask;
+          s.ins_h = HASH(s, s.ins_h, s.window[s.strstart + MIN_MATCH - 1]);
           hash_head = s.prev[s.strstart & s.w_mask] = s.head[s.ins_h];
           s.head[s.ins_h] = s.strstart;
           /***/
@@ -61463,7 +62012,7 @@ function deflate_fast(s, flush) {
         s.match_length = 0;
         s.ins_h = s.window[s.strstart];
         /* UPDATE_HASH(s, s.ins_h, s.window[s.strstart+1]); */
-        s.ins_h = ((s.ins_h << s.hash_shift) ^ s.window[s.strstart + 1]) & s.hash_mask;
+        s.ins_h = HASH(s, s.ins_h, s.window[s.strstart + 1]);
 
 //#if MIN_MATCH != 3
 //                Call UPDATE_HASH() MIN_MATCH-3 more times
@@ -61476,7 +62025,7 @@ function deflate_fast(s, flush) {
       /* No match, output a literal byte */
       //Tracevv((stderr,"%c", s.window[s.strstart]));
       /*** _tr_tally_lit(s, s.window[s.strstart], bflush); ***/
-      bflush = trees._tr_tally(s, 0, s.window[s.strstart]);
+      bflush = _tr_tally(s, 0, s.window[s.strstart]);
 
       s.lookahead--;
       s.strstart++;
@@ -61491,7 +62040,7 @@ function deflate_fast(s, flush) {
     }
   }
   s.insert = ((s.strstart < (MIN_MATCH - 1)) ? s.strstart : MIN_MATCH - 1);
-  if (flush === Z_FINISH) {
+  if (flush === Z_FINISH$3) {
     /*** FLUSH_BLOCK(s, 1); ***/
     flush_block_only(s, true);
     if (s.strm.avail_out === 0) {
@@ -61509,18 +62058,19 @@ function deflate_fast(s, flush) {
     /***/
   }
   return BS_BLOCK_DONE;
-}
+};
 
 /* ===========================================================================
  * Same as above, but achieves better compression. We use a lazy
  * evaluation for matches: a match is finally adopted only if there is
  * no better match at the next window position.
  */
-function deflate_slow(s, flush) {
-  var hash_head;          /* head of hash chain */
-  var bflush;              /* set if current block must be flushed */
+const deflate_slow = (s, flush) => {
 
-  var max_insert;
+  let hash_head;          /* head of hash chain */
+  let bflush;              /* set if current block must be flushed */
+
+  let max_insert;
 
   /* Process the input block. */
   for (;;) {
@@ -61531,7 +62081,7 @@ function deflate_slow(s, flush) {
      */
     if (s.lookahead < MIN_LOOKAHEAD) {
       fill_window(s);
-      if (s.lookahead < MIN_LOOKAHEAD && flush === Z_NO_FLUSH) {
+      if (s.lookahead < MIN_LOOKAHEAD && flush === Z_NO_FLUSH$2) {
         return BS_NEED_MORE;
       }
       if (s.lookahead === 0) { break; } /* flush the current block */
@@ -61543,7 +62093,7 @@ function deflate_slow(s, flush) {
     hash_head = 0/*NIL*/;
     if (s.lookahead >= MIN_MATCH) {
       /*** INSERT_STRING(s, s.strstart, hash_head); ***/
-      s.ins_h = ((s.ins_h << s.hash_shift) ^ s.window[s.strstart + MIN_MATCH - 1]) & s.hash_mask;
+      s.ins_h = HASH(s, s.ins_h, s.window[s.strstart + MIN_MATCH - 1]);
       hash_head = s.prev[s.strstart & s.w_mask] = s.head[s.ins_h];
       s.head[s.ins_h] = s.strstart;
       /***/
@@ -61584,7 +62134,7 @@ function deflate_slow(s, flush) {
 
       /***_tr_tally_dist(s, s.strstart - 1 - s.prev_match,
                      s.prev_length - MIN_MATCH, bflush);***/
-      bflush = trees._tr_tally(s, s.strstart - 1 - s.prev_match, s.prev_length - MIN_MATCH);
+      bflush = _tr_tally(s, s.strstart - 1 - s.prev_match, s.prev_length - MIN_MATCH);
       /* Insert in hash table all strings up to the end of the match.
        * strstart-1 and strstart are already inserted. If there is not
        * enough lookahead, the last two strings are not inserted in
@@ -61595,7 +62145,7 @@ function deflate_slow(s, flush) {
       do {
         if (++s.strstart <= max_insert) {
           /*** INSERT_STRING(s, s.strstart, hash_head); ***/
-          s.ins_h = ((s.ins_h << s.hash_shift) ^ s.window[s.strstart + MIN_MATCH - 1]) & s.hash_mask;
+          s.ins_h = HASH(s, s.ins_h, s.window[s.strstart + MIN_MATCH - 1]);
           hash_head = s.prev[s.strstart & s.w_mask] = s.head[s.ins_h];
           s.head[s.ins_h] = s.strstart;
           /***/
@@ -61621,7 +62171,7 @@ function deflate_slow(s, flush) {
        */
       //Tracevv((stderr,"%c", s->window[s->strstart-1]));
       /*** _tr_tally_lit(s, s.window[s.strstart-1], bflush); ***/
-      bflush = trees._tr_tally(s, 0, s.window[s.strstart - 1]);
+      bflush = _tr_tally(s, 0, s.window[s.strstart - 1]);
 
       if (bflush) {
         /*** FLUSH_BLOCK_ONLY(s, 0) ***/
@@ -61646,12 +62196,12 @@ function deflate_slow(s, flush) {
   if (s.match_available) {
     //Tracevv((stderr,"%c", s->window[s->strstart-1]));
     /*** _tr_tally_lit(s, s.window[s.strstart-1], bflush); ***/
-    bflush = trees._tr_tally(s, 0, s.window[s.strstart - 1]);
+    bflush = _tr_tally(s, 0, s.window[s.strstart - 1]);
 
     s.match_available = 0;
   }
   s.insert = s.strstart < MIN_MATCH - 1 ? s.strstart : MIN_MATCH - 1;
-  if (flush === Z_FINISH) {
+  if (flush === Z_FINISH$3) {
     /*** FLUSH_BLOCK(s, 1); ***/
     flush_block_only(s, true);
     if (s.strm.avail_out === 0) {
@@ -61670,7 +62220,7 @@ function deflate_slow(s, flush) {
   }
 
   return BS_BLOCK_DONE;
-}
+};
 
 
 /* ===========================================================================
@@ -61678,12 +62228,13 @@ function deflate_slow(s, flush) {
  * one.  Do not maintain a hash table.  (It will be regenerated if this run of
  * deflate switches away from Z_RLE.)
  */
-function deflate_rle(s, flush) {
-  var bflush;            /* set if current block must be flushed */
-  var prev;              /* byte at distance one to match */
-  var scan, strend;      /* scan goes up to strend for length of run */
+const deflate_rle = (s, flush) => {
 
-  var _win = s.window;
+  let bflush;            /* set if current block must be flushed */
+  let prev;              /* byte at distance one to match */
+  let scan, strend;      /* scan goes up to strend for length of run */
+
+  const _win = s.window;
 
   for (;;) {
     /* Make sure that we always have enough lookahead, except
@@ -61692,7 +62243,7 @@ function deflate_rle(s, flush) {
      */
     if (s.lookahead <= MAX_MATCH) {
       fill_window(s);
-      if (s.lookahead <= MAX_MATCH && flush === Z_NO_FLUSH) {
+      if (s.lookahead <= MAX_MATCH && flush === Z_NO_FLUSH$2) {
         return BS_NEED_MORE;
       }
       if (s.lookahead === 0) { break; } /* flush the current block */
@@ -61725,7 +62276,7 @@ function deflate_rle(s, flush) {
       //check_match(s, s.strstart, s.strstart - 1, s.match_length);
 
       /*** _tr_tally_dist(s, 1, s.match_length - MIN_MATCH, bflush); ***/
-      bflush = trees._tr_tally(s, 1, s.match_length - MIN_MATCH);
+      bflush = _tr_tally(s, 1, s.match_length - MIN_MATCH);
 
       s.lookahead -= s.match_length;
       s.strstart += s.match_length;
@@ -61734,7 +62285,7 @@ function deflate_rle(s, flush) {
       /* No match, output a literal byte */
       //Tracevv((stderr,"%c", s->window[s->strstart]));
       /*** _tr_tally_lit(s, s.window[s.strstart], bflush); ***/
-      bflush = trees._tr_tally(s, 0, s.window[s.strstart]);
+      bflush = _tr_tally(s, 0, s.window[s.strstart]);
 
       s.lookahead--;
       s.strstart++;
@@ -61749,7 +62300,7 @@ function deflate_rle(s, flush) {
     }
   }
   s.insert = 0;
-  if (flush === Z_FINISH) {
+  if (flush === Z_FINISH$3) {
     /*** FLUSH_BLOCK(s, 1); ***/
     flush_block_only(s, true);
     if (s.strm.avail_out === 0) {
@@ -61767,21 +62318,22 @@ function deflate_rle(s, flush) {
     /***/
   }
   return BS_BLOCK_DONE;
-}
+};
 
 /* ===========================================================================
  * For Z_HUFFMAN_ONLY, do not look for matches.  Do not maintain a hash table.
  * (It will be regenerated if this run of deflate switches away from Huffman.)
  */
-function deflate_huff(s, flush) {
-  var bflush;             /* set if current block must be flushed */
+const deflate_huff = (s, flush) => {
+
+  let bflush;             /* set if current block must be flushed */
 
   for (;;) {
     /* Make sure that we have a literal to write. */
     if (s.lookahead === 0) {
       fill_window(s);
       if (s.lookahead === 0) {
-        if (flush === Z_NO_FLUSH) {
+        if (flush === Z_NO_FLUSH$2) {
           return BS_NEED_MORE;
         }
         break;      /* flush the current block */
@@ -61792,7 +62344,7 @@ function deflate_huff(s, flush) {
     s.match_length = 0;
     //Tracevv((stderr,"%c", s->window[s->strstart]));
     /*** _tr_tally_lit(s, s.window[s.strstart], bflush); ***/
-    bflush = trees._tr_tally(s, 0, s.window[s.strstart]);
+    bflush = _tr_tally(s, 0, s.window[s.strstart]);
     s.lookahead--;
     s.strstart++;
     if (bflush) {
@@ -61805,7 +62357,7 @@ function deflate_huff(s, flush) {
     }
   }
   s.insert = 0;
-  if (flush === Z_FINISH) {
+  if (flush === Z_FINISH$3) {
     /*** FLUSH_BLOCK(s, 1); ***/
     flush_block_only(s, true);
     if (s.strm.avail_out === 0) {
@@ -61823,7 +62375,7 @@ function deflate_huff(s, flush) {
     /***/
   }
   return BS_BLOCK_DONE;
-}
+};
 
 /* Values for max_lazy_match, good_match and max_chain_length, depending on
  * the desired pack level (0..9). The values given below have been tuned to
@@ -61831,6 +62383,7 @@ function deflate_huff(s, flush) {
  * found for specific files.
  */
 function Config(good_length, max_lazy, nice_length, max_chain, func) {
+
   this.good_length = good_length;
   this.max_lazy = max_lazy;
   this.nice_length = nice_length;
@@ -61838,9 +62391,7 @@ function Config(good_length, max_lazy, nice_length, max_chain, func) {
   this.func = func;
 }
 
-var configuration_table;
-
-configuration_table = [
+const configuration_table = [
   /*      good lazy nice chain */
   new Config(0, 0, 0, 0, deflate_stored),          /* 0 store only */
   new Config(4, 4, 8, 4, deflate_fast),            /* 1 max speed, no lazy matches */
@@ -61859,7 +62410,8 @@ configuration_table = [
 /* ===========================================================================
  * Initialize the "longest match" routines for a new zlib stream
  */
-function lm_init(s) {
+const lm_init = (s) => {
+
   s.window_size = 2 * s.w_size;
 
   /*** CLEAR_HASH(s); ***/
@@ -61879,7 +62431,7 @@ function lm_init(s) {
   s.match_length = s.prev_length = MIN_MATCH - 1;
   s.match_available = 0;
   s.ins_h = 0;
-}
+};
 
 
 function DeflateState() {
@@ -61892,7 +62444,7 @@ function DeflateState() {
   this.wrap = 0;              /* bit 0 true for zlib, bit 1 true for gzip */
   this.gzhead = null;         /* gzip header information to write */
   this.gzindex = 0;           /* where in extra, name, or comment */
-  this.method = Z_DEFLATED; /* can only be DEFLATED */
+  this.method = Z_DEFLATED$2; /* can only be DEFLATED */
   this.last_flush = -1;   /* value of flush param for previous deflate call */
 
   this.w_size = 0;  /* LZ77 window size (32K by default) */
@@ -61985,9 +62537,9 @@ function DeflateState() {
 
   // Use flat array of DOUBLE size, with interleaved fata,
   // because JS does not support effective
-  this.dyn_ltree  = new utils.Buf16(HEAP_SIZE * 2);
-  this.dyn_dtree  = new utils.Buf16((2 * D_CODES + 1) * 2);
-  this.bl_tree    = new utils.Buf16((2 * BL_CODES + 1) * 2);
+  this.dyn_ltree  = new Uint16Array(HEAP_SIZE * 2);
+  this.dyn_dtree  = new Uint16Array((2 * D_CODES + 1) * 2);
+  this.bl_tree    = new Uint16Array((2 * BL_CODES + 1) * 2);
   zero(this.dyn_ltree);
   zero(this.dyn_dtree);
   zero(this.bl_tree);
@@ -61997,11 +62549,11 @@ function DeflateState() {
   this.bl_desc  = null;         /* desc. for bit length tree */
 
   //ush bl_count[MAX_BITS+1];
-  this.bl_count = new utils.Buf16(MAX_BITS + 1);
+  this.bl_count = new Uint16Array(MAX_BITS + 1);
   /* number of codes at each bit length for an optimal tree */
 
   //int heap[2*L_CODES+1];      /* heap used to build the Huffman trees */
-  this.heap = new utils.Buf16(2 * L_CODES + 1);  /* heap used to build the Huffman trees */
+  this.heap = new Uint16Array(2 * L_CODES + 1);  /* heap used to build the Huffman trees */
   zero(this.heap);
 
   this.heap_len = 0;               /* number of elements in the heap */
@@ -62010,7 +62562,7 @@ function DeflateState() {
    * The same heap array is used to build all trees.
    */
 
-  this.depth = new utils.Buf16(2 * L_CODES + 1); //uch depth[2*L_CODES+1];
+  this.depth = new Uint16Array(2 * L_CODES + 1); //uch depth[2*L_CODES+1];
   zero(this.depth);
   /* Depth of each subtree used as tie breaker for trees of equal frequency
    */
@@ -62071,17 +62623,16 @@ function DeflateState() {
 }
 
 
-function deflateResetKeep(strm) {
-  var s;
+const deflateResetKeep = (strm) => {
 
   if (!strm || !strm.state) {
-    return err(strm, Z_STREAM_ERROR);
+    return err(strm, Z_STREAM_ERROR$2);
   }
 
   strm.total_in = strm.total_out = 0;
   strm.data_type = Z_UNKNOWN;
 
-  s = strm.state;
+  const s = strm.state;
   s.pending = 0;
   s.pending_out = 0;
 
@@ -62094,36 +62645,39 @@ function deflateResetKeep(strm) {
     0  // crc32(0, Z_NULL, 0)
   :
     1; // adler32(0, Z_NULL, 0)
-  s.last_flush = Z_NO_FLUSH;
-  trees._tr_init(s);
-  return Z_OK;
-}
+  s.last_flush = Z_NO_FLUSH$2;
+  _tr_init(s);
+  return Z_OK$3;
+};
 
 
-function deflateReset(strm) {
-  var ret = deflateResetKeep(strm);
-  if (ret === Z_OK) {
+const deflateReset = (strm) => {
+
+  const ret = deflateResetKeep(strm);
+  if (ret === Z_OK$3) {
     lm_init(strm.state);
   }
   return ret;
-}
+};
 
 
-function deflateSetHeader(strm, head) {
-  if (!strm || !strm.state) { return Z_STREAM_ERROR; }
-  if (strm.state.wrap !== 2) { return Z_STREAM_ERROR; }
+const deflateSetHeader = (strm, head) => {
+
+  if (!strm || !strm.state) { return Z_STREAM_ERROR$2; }
+  if (strm.state.wrap !== 2) { return Z_STREAM_ERROR$2; }
   strm.state.gzhead = head;
-  return Z_OK;
-}
+  return Z_OK$3;
+};
 
 
-function deflateInit2(strm, level, method, windowBits, memLevel, strategy) {
+const deflateInit2 = (strm, level, method, windowBits, memLevel, strategy) => {
+
   if (!strm) { // === Z_NULL
-    return Z_STREAM_ERROR;
+    return Z_STREAM_ERROR$2;
   }
-  var wrap = 1;
+  let wrap = 1;
 
-  if (level === Z_DEFAULT_COMPRESSION) {
+  if (level === Z_DEFAULT_COMPRESSION$1) {
     level = 6;
   }
 
@@ -62138,10 +62692,10 @@ function deflateInit2(strm, level, method, windowBits, memLevel, strategy) {
   }
 
 
-  if (memLevel < 1 || memLevel > MAX_MEM_LEVEL || method !== Z_DEFLATED ||
+  if (memLevel < 1 || memLevel > MAX_MEM_LEVEL || method !== Z_DEFLATED$2 ||
     windowBits < 8 || windowBits > 15 || level < 0 || level > 9 ||
     strategy < 0 || strategy > Z_FIXED) {
-    return err(strm, Z_STREAM_ERROR);
+    return err(strm, Z_STREAM_ERROR$2);
   }
 
 
@@ -62150,7 +62704,7 @@ function deflateInit2(strm, level, method, windowBits, memLevel, strategy) {
   }
   /* until 256-byte window bug fixed */
 
-  var s = new DeflateState();
+  const s = new DeflateState();
 
   strm.state = s;
   s.strm = strm;
@@ -62166,9 +62720,9 @@ function deflateInit2(strm, level, method, windowBits, memLevel, strategy) {
   s.hash_mask = s.hash_size - 1;
   s.hash_shift = ~~((s.hash_bits + MIN_MATCH - 1) / MIN_MATCH);
 
-  s.window = new utils.Buf8(s.w_size * 2);
-  s.head = new utils.Buf16(s.hash_size);
-  s.prev = new utils.Buf16(s.w_size);
+  s.window = new Uint8Array(s.w_size * 2);
+  s.head = new Uint16Array(s.hash_size);
+  s.prev = new Uint16Array(s.w_size);
 
   // Don't need mem init magic for JS.
   //s.high_water = 0;  /* nothing written to s->window yet */
@@ -62179,7 +62733,7 @@ function deflateInit2(strm, level, method, windowBits, memLevel, strategy) {
 
   //overlay = (ushf *) ZALLOC(strm, s->lit_bufsize, sizeof(ush)+2);
   //s->pending_buf = (uchf *) overlay;
-  s.pending_buf = new utils.Buf8(s.pending_buf_size);
+  s.pending_buf = new Uint8Array(s.pending_buf_size);
 
   // It is offset from `s.pending_buf` (size is `s.lit_bufsize * 2`)
   //s->d_buf = overlay + s->lit_bufsize/sizeof(ush);
@@ -62193,32 +62747,33 @@ function deflateInit2(strm, level, method, windowBits, memLevel, strategy) {
   s.method = method;
 
   return deflateReset(strm);
-}
+};
 
-function deflateInit(strm, level) {
-  return deflateInit2(strm, level, Z_DEFLATED, MAX_WBITS, DEF_MEM_LEVEL, Z_DEFAULT_STRATEGY);
-}
+const deflateInit = (strm, level) => {
+
+  return deflateInit2(strm, level, Z_DEFLATED$2, MAX_WBITS$1, DEF_MEM_LEVEL, Z_DEFAULT_STRATEGY$1);
+};
 
 
-function deflate(strm, flush) {
-  var old_flush, s;
-  var beg, val; // for gzip header write only
+const deflate$2 = (strm, flush) => {
+
+  let beg, val; // for gzip header write only
 
   if (!strm || !strm.state ||
-    flush > Z_BLOCK || flush < 0) {
-    return strm ? err(strm, Z_STREAM_ERROR) : Z_STREAM_ERROR;
+    flush > Z_BLOCK$1 || flush < 0) {
+    return strm ? err(strm, Z_STREAM_ERROR$2) : Z_STREAM_ERROR$2;
   }
 
-  s = strm.state;
+  const s = strm.state;
 
   if (!strm.output ||
       (!strm.input && strm.avail_in !== 0) ||
-      (s.status === FINISH_STATE && flush !== Z_FINISH)) {
-    return err(strm, (strm.avail_out === 0) ? Z_BUF_ERROR : Z_STREAM_ERROR);
+      (s.status === FINISH_STATE && flush !== Z_FINISH$3)) {
+    return err(strm, (strm.avail_out === 0) ? Z_BUF_ERROR$1 : Z_STREAM_ERROR$2);
   }
 
   s.strm = strm; /* just in case */
-  old_flush = s.last_flush;
+  const old_flush = s.last_flush;
   s.last_flush = flush;
 
   /* Write the header */
@@ -62247,7 +62802,7 @@ function deflate(strm, flush) {
                     (!s.gzhead.extra ? 0 : 4) +
                     (!s.gzhead.name ? 0 : 8) +
                     (!s.gzhead.comment ? 0 : 16)
-                );
+        );
         put_byte(s, s.gzhead.time & 0xff);
         put_byte(s, (s.gzhead.time >> 8) & 0xff);
         put_byte(s, (s.gzhead.time >> 16) & 0xff);
@@ -62261,7 +62816,7 @@ function deflate(strm, flush) {
           put_byte(s, (s.gzhead.extra.length >> 8) & 0xff);
         }
         if (s.gzhead.hcrc) {
-          strm.adler = crc32(strm.adler, s.pending_buf, s.pending, 0);
+          strm.adler = crc32_1(strm.adler, s.pending_buf, s.pending, 0);
         }
         s.gzindex = 0;
         s.status = EXTRA_STATE;
@@ -62269,8 +62824,8 @@ function deflate(strm, flush) {
     }
     else // DEFLATE header
     {
-      var header = (Z_DEFLATED + ((s.w_bits - 8) << 4)) << 8;
-      var level_flags = -1;
+      let header = (Z_DEFLATED$2 + ((s.w_bits - 8) << 4)) << 8;
+      let level_flags = -1;
 
       if (s.strategy >= Z_HUFFMAN_ONLY || s.level < 2) {
         level_flags = 0;
@@ -62305,7 +62860,7 @@ function deflate(strm, flush) {
       while (s.gzindex < (s.gzhead.extra.length & 0xffff)) {
         if (s.pending === s.pending_buf_size) {
           if (s.gzhead.hcrc && s.pending > beg) {
-            strm.adler = crc32(strm.adler, s.pending_buf, s.pending - beg, beg);
+            strm.adler = crc32_1(strm.adler, s.pending_buf, s.pending - beg, beg);
           }
           flush_pending(strm);
           beg = s.pending;
@@ -62317,7 +62872,7 @@ function deflate(strm, flush) {
         s.gzindex++;
       }
       if (s.gzhead.hcrc && s.pending > beg) {
-        strm.adler = crc32(strm.adler, s.pending_buf, s.pending - beg, beg);
+        strm.adler = crc32_1(strm.adler, s.pending_buf, s.pending - beg, beg);
       }
       if (s.gzindex === s.gzhead.extra.length) {
         s.gzindex = 0;
@@ -62336,7 +62891,7 @@ function deflate(strm, flush) {
       do {
         if (s.pending === s.pending_buf_size) {
           if (s.gzhead.hcrc && s.pending > beg) {
-            strm.adler = crc32(strm.adler, s.pending_buf, s.pending - beg, beg);
+            strm.adler = crc32_1(strm.adler, s.pending_buf, s.pending - beg, beg);
           }
           flush_pending(strm);
           beg = s.pending;
@@ -62355,7 +62910,7 @@ function deflate(strm, flush) {
       } while (val !== 0);
 
       if (s.gzhead.hcrc && s.pending > beg) {
-        strm.adler = crc32(strm.adler, s.pending_buf, s.pending - beg, beg);
+        strm.adler = crc32_1(strm.adler, s.pending_buf, s.pending - beg, beg);
       }
       if (val === 0) {
         s.gzindex = 0;
@@ -62374,7 +62929,7 @@ function deflate(strm, flush) {
       do {
         if (s.pending === s.pending_buf_size) {
           if (s.gzhead.hcrc && s.pending > beg) {
-            strm.adler = crc32(strm.adler, s.pending_buf, s.pending - beg, beg);
+            strm.adler = crc32_1(strm.adler, s.pending_buf, s.pending - beg, beg);
           }
           flush_pending(strm);
           beg = s.pending;
@@ -62393,7 +62948,7 @@ function deflate(strm, flush) {
       } while (val !== 0);
 
       if (s.gzhead.hcrc && s.pending > beg) {
-        strm.adler = crc32(strm.adler, s.pending_buf, s.pending - beg, beg);
+        strm.adler = crc32_1(strm.adler, s.pending_buf, s.pending - beg, beg);
       }
       if (val === 0) {
         s.status = HCRC_STATE;
@@ -62432,7 +62987,7 @@ function deflate(strm, flush) {
        * return OK instead of BUF_ERROR at next call of deflate:
        */
       s.last_flush = -1;
-      return Z_OK;
+      return Z_OK$3;
     }
 
     /* Make sure there is something to do and avoid duplicate consecutive
@@ -62440,20 +62995,20 @@ function deflate(strm, flush) {
      * returning Z_STREAM_END instead of Z_BUF_ERROR.
      */
   } else if (strm.avail_in === 0 && rank(flush) <= rank(old_flush) &&
-    flush !== Z_FINISH) {
-    return err(strm, Z_BUF_ERROR);
+    flush !== Z_FINISH$3) {
+    return err(strm, Z_BUF_ERROR$1);
   }
 
   /* User must not provide more input after the first FINISH: */
   if (s.status === FINISH_STATE && strm.avail_in !== 0) {
-    return err(strm, Z_BUF_ERROR);
+    return err(strm, Z_BUF_ERROR$1);
   }
 
   /* Start a new block or continue the current one.
    */
   if (strm.avail_in !== 0 || s.lookahead !== 0 ||
-    (flush !== Z_NO_FLUSH && s.status !== FINISH_STATE)) {
-    var bstate = (s.strategy === Z_HUFFMAN_ONLY) ? deflate_huff(s, flush) :
+    (flush !== Z_NO_FLUSH$2 && s.status !== FINISH_STATE)) {
+    let bstate = (s.strategy === Z_HUFFMAN_ONLY) ? deflate_huff(s, flush) :
       (s.strategy === Z_RLE ? deflate_rle(s, flush) :
         configuration_table[s.level].func(s, flush));
 
@@ -62465,7 +63020,7 @@ function deflate(strm, flush) {
         s.last_flush = -1;
         /* avoid BUF_ERROR next call, see above */
       }
-      return Z_OK;
+      return Z_OK$3;
       /* If flush != Z_NO_FLUSH && avail_out == 0, the next call
        * of deflate should use the same flush parameter to make sure
        * that the flush is complete. So we don't have to output an
@@ -62476,15 +63031,15 @@ function deflate(strm, flush) {
     }
     if (bstate === BS_BLOCK_DONE) {
       if (flush === Z_PARTIAL_FLUSH) {
-        trees._tr_align(s);
+        _tr_align(s);
       }
-      else if (flush !== Z_BLOCK) { /* FULL_FLUSH or SYNC_FLUSH */
+      else if (flush !== Z_BLOCK$1) { /* FULL_FLUSH or SYNC_FLUSH */
 
-        trees._tr_stored_block(s, 0, 0, false);
+        _tr_stored_block(s, 0, 0, false);
         /* For a full flush, this empty block will be recognized
          * as a special marker by inflate_sync().
          */
-        if (flush === Z_FULL_FLUSH) {
+        if (flush === Z_FULL_FLUSH$1) {
           /*** CLEAR_HASH(s); ***/             /* forget history */
           zero(s.head); // Fill with NIL (= 0);
 
@@ -62498,15 +63053,15 @@ function deflate(strm, flush) {
       flush_pending(strm);
       if (strm.avail_out === 0) {
         s.last_flush = -1; /* avoid BUF_ERROR at next call, see above */
-        return Z_OK;
+        return Z_OK$3;
       }
     }
   }
   //Assert(strm->avail_out > 0, "bug2");
   //if (strm.avail_out <= 0) { throw new Error("bug2");}
 
-  if (flush !== Z_FINISH) { return Z_OK; }
-  if (s.wrap <= 0) { return Z_STREAM_END; }
+  if (flush !== Z_FINISH$3) { return Z_OK$3; }
+  if (s.wrap <= 0) { return Z_STREAM_END$3; }
 
   /* Write the trailer */
   if (s.wrap === 2) {
@@ -62531,17 +63086,17 @@ function deflate(strm, flush) {
    */
   if (s.wrap > 0) { s.wrap = -s.wrap; }
   /* write the trailer only once! */
-  return s.pending !== 0 ? Z_OK : Z_STREAM_END;
-}
+  return s.pending !== 0 ? Z_OK$3 : Z_STREAM_END$3;
+};
 
-function deflateEnd(strm) {
-  var status;
+
+const deflateEnd = (strm) => {
 
   if (!strm/*== Z_NULL*/ || !strm.state/*== Z_NULL*/) {
-    return Z_STREAM_ERROR;
+    return Z_STREAM_ERROR$2;
   }
 
-  status = strm.state.status;
+  const status = strm.state.status;
   if (status !== INIT_STATE &&
     status !== EXTRA_STATE &&
     status !== NAME_STATE &&
@@ -62550,45 +63105,38 @@ function deflateEnd(strm) {
     status !== BUSY_STATE &&
     status !== FINISH_STATE
   ) {
-    return err(strm, Z_STREAM_ERROR);
+    return err(strm, Z_STREAM_ERROR$2);
   }
 
   strm.state = null;
 
-  return status === BUSY_STATE ? err(strm, Z_DATA_ERROR) : Z_OK;
-}
+  return status === BUSY_STATE ? err(strm, Z_DATA_ERROR$2) : Z_OK$3;
+};
 
 
 /* =========================================================================
  * Initializes the compression dictionary from the given byte
  * sequence without producing any compressed output.
  */
-function deflateSetDictionary(strm, dictionary) {
-  var dictLength = dictionary.length;
+const deflateSetDictionary = (strm, dictionary) => {
 
-  var s;
-  var str, n;
-  var wrap;
-  var avail;
-  var next;
-  var input;
-  var tmpDict;
+  let dictLength = dictionary.length;
 
   if (!strm/*== Z_NULL*/ || !strm.state/*== Z_NULL*/) {
-    return Z_STREAM_ERROR;
+    return Z_STREAM_ERROR$2;
   }
 
-  s = strm.state;
-  wrap = s.wrap;
+  const s = strm.state;
+  const wrap = s.wrap;
 
   if (wrap === 2 || (wrap === 1 && s.status !== INIT_STATE) || s.lookahead) {
-    return Z_STREAM_ERROR;
+    return Z_STREAM_ERROR$2;
   }
 
   /* when using zlib wrappers, compute Adler-32 for provided dictionary */
   if (wrap === 1) {
     /* adler32(strm->adler, dictionary, dictLength); */
-    strm.adler = adler32(strm.adler, dictionary, dictLength, 0);
+    strm.adler = adler32_1(strm.adler, dictionary, dictLength, 0);
   }
 
   s.wrap = 0;   /* avoid computing Adler-32 in read_buf */
@@ -62604,25 +63152,25 @@ function deflateSetDictionary(strm, dictionary) {
     }
     /* use the tail */
     // dictionary = dictionary.slice(dictLength - s.w_size);
-    tmpDict = new utils.Buf8(s.w_size);
-    utils.arraySet(tmpDict, dictionary, dictLength - s.w_size, s.w_size, 0);
+    let tmpDict = new Uint8Array(s.w_size);
+    tmpDict.set(dictionary.subarray(dictLength - s.w_size, dictLength), 0);
     dictionary = tmpDict;
     dictLength = s.w_size;
   }
   /* insert dictionary into window and hash */
-  avail = strm.avail_in;
-  next = strm.next_in;
-  input = strm.input;
+  const avail = strm.avail_in;
+  const next = strm.next_in;
+  const input = strm.input;
   strm.avail_in = dictLength;
   strm.next_in = 0;
   strm.input = dictionary;
   fill_window(s);
   while (s.lookahead >= MIN_MATCH) {
-    str = s.strstart;
-    n = s.lookahead - (MIN_MATCH - 1);
+    let str = s.strstart;
+    let n = s.lookahead - (MIN_MATCH - 1);
     do {
       /* UPDATE_HASH(s, s->ins_h, s->window[str + MIN_MATCH-1]); */
-      s.ins_h = ((s.ins_h << s.hash_shift) ^ s.window[str + MIN_MATCH - 1]) & s.hash_mask;
+      s.ins_h = HASH(s, s.ins_h, s.window[str + MIN_MATCH - 1]);
 
       s.prev[str & s.w_mask] = s.head[s.ins_h];
 
@@ -62643,36 +63191,271 @@ function deflateSetDictionary(strm, dictionary) {
   strm.input = input;
   strm.avail_in = avail;
   s.wrap = wrap;
-  return Z_OK;
-}
+  return Z_OK$3;
+};
 
 
-exports.deflateInit = deflateInit;
-exports.deflateInit2 = deflateInit2;
-exports.deflateReset = deflateReset;
-exports.deflateResetKeep = deflateResetKeep;
-exports.deflateSetHeader = deflateSetHeader;
-exports.deflate = deflate;
-exports.deflateEnd = deflateEnd;
-exports.deflateSetDictionary = deflateSetDictionary;
-exports.deflateInfo = 'pako deflate (from Nodeca project)';
+var deflateInit_1 = deflateInit;
+var deflateInit2_1 = deflateInit2;
+var deflateReset_1 = deflateReset;
+var deflateResetKeep_1 = deflateResetKeep;
+var deflateSetHeader_1 = deflateSetHeader;
+var deflate_2$1 = deflate$2;
+var deflateEnd_1 = deflateEnd;
+var deflateSetDictionary_1 = deflateSetDictionary;
+var deflateInfo = 'pako deflate (from Nodeca project)';
 
 /* Not implemented
-exports.deflateBound = deflateBound;
-exports.deflateCopy = deflateCopy;
-exports.deflateParams = deflateParams;
-exports.deflatePending = deflatePending;
-exports.deflatePrime = deflatePrime;
-exports.deflateTune = deflateTune;
+module.exports.deflateBound = deflateBound;
+module.exports.deflateCopy = deflateCopy;
+module.exports.deflateParams = deflateParams;
+module.exports.deflatePending = deflatePending;
+module.exports.deflatePrime = deflatePrime;
+module.exports.deflateTune = deflateTune;
 */
 
+var deflate_1$2 = {
+	deflateInit: deflateInit_1,
+	deflateInit2: deflateInit2_1,
+	deflateReset: deflateReset_1,
+	deflateResetKeep: deflateResetKeep_1,
+	deflateSetHeader: deflateSetHeader_1,
+	deflate: deflate_2$1,
+	deflateEnd: deflateEnd_1,
+	deflateSetDictionary: deflateSetDictionary_1,
+	deflateInfo: deflateInfo
+};
 
-/***/ }),
-/* 529 */
-/***/ (function(module, exports, __webpack_require__) {
+const _has = (obj, key) => {
+  return Object.prototype.hasOwnProperty.call(obj, key);
+};
 
-"use strict";
+var assign = function (obj /*from1, from2, from3, ...*/) {
+  const sources = Array.prototype.slice.call(arguments, 1);
+  while (sources.length) {
+    const source = sources.shift();
+    if (!source) { continue; }
 
+    if (typeof source !== 'object') {
+      throw new TypeError(source + 'must be non-object');
+    }
+
+    for (const p in source) {
+      if (_has(source, p)) {
+        obj[p] = source[p];
+      }
+    }
+  }
+
+  return obj;
+};
+
+
+// Join array of chunks to single array.
+var flattenChunks = (chunks) => {
+  // calculate data length
+  let len = 0;
+
+  for (let i = 0, l = chunks.length; i < l; i++) {
+    len += chunks[i].length;
+  }
+
+  // join chunks
+  const result = new Uint8Array(len);
+
+  for (let i = 0, pos = 0, l = chunks.length; i < l; i++) {
+    let chunk = chunks[i];
+    result.set(chunk, pos);
+    pos += chunk.length;
+  }
+
+  return result;
+};
+
+var common = {
+	assign: assign,
+	flattenChunks: flattenChunks
+};
+
+// String encode/decode helpers
+
+
+// Quick check if we can use fast array to bin string conversion
+//
+// - apply(Array) can fail on Android 2.2
+// - apply(Uint8Array) can fail on iOS 5.1 Safari
+//
+let STR_APPLY_UIA_OK = true;
+
+try { String.fromCharCode.apply(null, new Uint8Array(1)); } catch (__) { STR_APPLY_UIA_OK = false; }
+
+
+// Table with utf8 lengths (calculated by first byte of sequence)
+// Note, that 5 & 6-byte values and some 4-byte values can not be represented in JS,
+// because max possible codepoint is 0x10ffff
+const _utf8len = new Uint8Array(256);
+for (let q = 0; q < 256; q++) {
+  _utf8len[q] = (q >= 252 ? 6 : q >= 248 ? 5 : q >= 240 ? 4 : q >= 224 ? 3 : q >= 192 ? 2 : 1);
+}
+_utf8len[254] = _utf8len[254] = 1; // Invalid sequence start
+
+
+// convert string to array (typed, when possible)
+var string2buf = (str) => {
+  if (typeof TextEncoder === 'function' && TextEncoder.prototype.encode) {
+    return new TextEncoder().encode(str);
+  }
+
+  let buf, c, c2, m_pos, i, str_len = str.length, buf_len = 0;
+
+  // count binary size
+  for (m_pos = 0; m_pos < str_len; m_pos++) {
+    c = str.charCodeAt(m_pos);
+    if ((c & 0xfc00) === 0xd800 && (m_pos + 1 < str_len)) {
+      c2 = str.charCodeAt(m_pos + 1);
+      if ((c2 & 0xfc00) === 0xdc00) {
+        c = 0x10000 + ((c - 0xd800) << 10) + (c2 - 0xdc00);
+        m_pos++;
+      }
+    }
+    buf_len += c < 0x80 ? 1 : c < 0x800 ? 2 : c < 0x10000 ? 3 : 4;
+  }
+
+  // allocate buffer
+  buf = new Uint8Array(buf_len);
+
+  // convert
+  for (i = 0, m_pos = 0; i < buf_len; m_pos++) {
+    c = str.charCodeAt(m_pos);
+    if ((c & 0xfc00) === 0xd800 && (m_pos + 1 < str_len)) {
+      c2 = str.charCodeAt(m_pos + 1);
+      if ((c2 & 0xfc00) === 0xdc00) {
+        c = 0x10000 + ((c - 0xd800) << 10) + (c2 - 0xdc00);
+        m_pos++;
+      }
+    }
+    if (c < 0x80) {
+      /* one byte */
+      buf[i++] = c;
+    } else if (c < 0x800) {
+      /* two bytes */
+      buf[i++] = 0xC0 | (c >>> 6);
+      buf[i++] = 0x80 | (c & 0x3f);
+    } else if (c < 0x10000) {
+      /* three bytes */
+      buf[i++] = 0xE0 | (c >>> 12);
+      buf[i++] = 0x80 | (c >>> 6 & 0x3f);
+      buf[i++] = 0x80 | (c & 0x3f);
+    } else {
+      /* four bytes */
+      buf[i++] = 0xf0 | (c >>> 18);
+      buf[i++] = 0x80 | (c >>> 12 & 0x3f);
+      buf[i++] = 0x80 | (c >>> 6 & 0x3f);
+      buf[i++] = 0x80 | (c & 0x3f);
+    }
+  }
+
+  return buf;
+};
+
+// Helper
+const buf2binstring = (buf, len) => {
+  // On Chrome, the arguments in a function call that are allowed is `65534`.
+  // If the length of the buffer is smaller than that, we can use this optimization,
+  // otherwise we will take a slower path.
+  if (len < 65534) {
+    if (buf.subarray && STR_APPLY_UIA_OK) {
+      return String.fromCharCode.apply(null, buf.length === len ? buf : buf.subarray(0, len));
+    }
+  }
+
+  let result = '';
+  for (let i = 0; i < len; i++) {
+    result += String.fromCharCode(buf[i]);
+  }
+  return result;
+};
+
+
+// convert array to string
+var buf2string = (buf, max) => {
+  const len = max || buf.length;
+
+  if (typeof TextDecoder === 'function' && TextDecoder.prototype.decode) {
+    return new TextDecoder().decode(buf.subarray(0, max));
+  }
+
+  let i, out;
+
+  // Reserve max possible length (2 words per char)
+  // NB: by unknown reasons, Array is significantly faster for
+  //     String.fromCharCode.apply than Uint16Array.
+  const utf16buf = new Array(len * 2);
+
+  for (out = 0, i = 0; i < len;) {
+    let c = buf[i++];
+    // quick process ascii
+    if (c < 0x80) { utf16buf[out++] = c; continue; }
+
+    let c_len = _utf8len[c];
+    // skip 5 & 6 byte codes
+    if (c_len > 4) { utf16buf[out++] = 0xfffd; i += c_len - 1; continue; }
+
+    // apply mask on first byte
+    c &= c_len === 2 ? 0x1f : c_len === 3 ? 0x0f : 0x07;
+    // join the rest
+    while (c_len > 1 && i < len) {
+      c = (c << 6) | (buf[i++] & 0x3f);
+      c_len--;
+    }
+
+    // terminated by end of string?
+    if (c_len > 1) { utf16buf[out++] = 0xfffd; continue; }
+
+    if (c < 0x10000) {
+      utf16buf[out++] = c;
+    } else {
+      c -= 0x10000;
+      utf16buf[out++] = 0xd800 | ((c >> 10) & 0x3ff);
+      utf16buf[out++] = 0xdc00 | (c & 0x3ff);
+    }
+  }
+
+  return buf2binstring(utf16buf, out);
+};
+
+
+// Calculate max possible position in utf8 buffer,
+// that will not break sequence. If that's not possible
+// - (very small limits) return max size as is.
+//
+// buf[] - utf8 bytes array
+// max   - length limit (mandatory);
+var utf8border = (buf, max) => {
+
+  max = max || buf.length;
+  if (max > buf.length) { max = buf.length; }
+
+  // go back from last position, until start of sequence found
+  let pos = max - 1;
+  while (pos >= 0 && (buf[pos] & 0xC0) === 0x80) { pos--; }
+
+  // Very small and broken sequence,
+  // return max, because we should return something anyway.
+  if (pos < 0) { return max; }
+
+  // If we came to start of buffer - that means buffer is too small,
+  // return max too.
+  if (pos === 0) { return max; }
+
+  return (pos + _utf8len[buf[pos]] > max) ? pos : max;
+};
+
+var strings = {
+	string2buf: string2buf,
+	buf2string: buf2string,
+	utf8border: utf8border
+};
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
 // (C) 2014-2017 Vitaly Puzrin and Andrey Tupitsin
@@ -62693,1271 +63476,98 @@ exports.deflateTune = deflateTune;
 //   misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 
-var utils = __webpack_require__(73);
+function ZStream() {
+  /* next input byte */
+  this.input = null; // JS specific, because we have no pointers
+  this.next_in = 0;
+  /* number of bytes available at input */
+  this.avail_in = 0;
+  /* total number of input bytes read so far */
+  this.total_in = 0;
+  /* next output byte should be put there */
+  this.output = null; // JS specific, because we have no pointers
+  this.next_out = 0;
+  /* remaining free space at output */
+  this.avail_out = 0;
+  /* total number of bytes output so far */
+  this.total_out = 0;
+  /* last error message, NULL if no error */
+  this.msg = ''/*Z_NULL*/;
+  /* not visible by applications */
+  this.state = null;
+  /* best guess about the data type: binary or text */
+  this.data_type = 2/*Z_UNKNOWN*/;
+  /* adler32 value of the uncompressed data */
+  this.adler = 0;
+}
+
+var zstream = ZStream;
+
+const toString$1 = Object.prototype.toString;
 
 /* Public constants ==========================================================*/
 /* ===========================================================================*/
 
+const {
+  Z_NO_FLUSH: Z_NO_FLUSH$1, Z_SYNC_FLUSH, Z_FULL_FLUSH, Z_FINISH: Z_FINISH$2,
+  Z_OK: Z_OK$2, Z_STREAM_END: Z_STREAM_END$2,
+  Z_DEFAULT_COMPRESSION,
+  Z_DEFAULT_STRATEGY,
+  Z_DEFLATED: Z_DEFLATED$1
+} = constants$2;
+
+/* ===========================================================================*/
 
-//var Z_FILTERED          = 1;
-//var Z_HUFFMAN_ONLY      = 2;
-//var Z_RLE               = 3;
-var Z_FIXED               = 4;
-//var Z_DEFAULT_STRATEGY  = 0;
-
-/* Possible values of the data_type field (though see inflate()) */
-var Z_BINARY              = 0;
-var Z_TEXT                = 1;
-//var Z_ASCII             = 1; // = Z_TEXT
-var Z_UNKNOWN             = 2;
-
-/*============================================================================*/
-
-
-function zero(buf) { var len = buf.length; while (--len >= 0) { buf[len] = 0; } }
-
-// From zutil.h
-
-var STORED_BLOCK = 0;
-var STATIC_TREES = 1;
-var DYN_TREES    = 2;
-/* The three kinds of block type */
-
-var MIN_MATCH    = 3;
-var MAX_MATCH    = 258;
-/* The minimum and maximum match lengths */
-
-// From deflate.h
-/* ===========================================================================
- * Internal compression state.
- */
-
-var LENGTH_CODES  = 29;
-/* number of length codes, not counting the special END_BLOCK code */
-
-var LITERALS      = 256;
-/* number of literal bytes 0..255 */
-
-var L_CODES       = LITERALS + 1 + LENGTH_CODES;
-/* number of Literal or Length codes, including the END_BLOCK code */
-
-var D_CODES       = 30;
-/* number of distance codes */
-
-var BL_CODES      = 19;
-/* number of codes used to transfer the bit lengths */
-
-var HEAP_SIZE     = 2 * L_CODES + 1;
-/* maximum heap size */
-
-var MAX_BITS      = 15;
-/* All codes must not exceed MAX_BITS bits */
-
-var Buf_size      = 16;
-/* size of bit buffer in bi_buf */
-
-
-/* ===========================================================================
- * Constants
- */
-
-var MAX_BL_BITS = 7;
-/* Bit length codes must not exceed MAX_BL_BITS bits */
-
-var END_BLOCK   = 256;
-/* end of block literal code */
-
-var REP_3_6     = 16;
-/* repeat previous bit length 3-6 times (2 bits of repeat count) */
-
-var REPZ_3_10   = 17;
-/* repeat a zero length 3-10 times  (3 bits of repeat count) */
-
-var REPZ_11_138 = 18;
-/* repeat a zero length 11-138 times  (7 bits of repeat count) */
-
-/* eslint-disable comma-spacing,array-bracket-spacing */
-var extra_lbits =   /* extra bits for each length code */
-  [0,0,0,0,0,0,0,0,1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,0];
-
-var extra_dbits =   /* extra bits for each distance code */
-  [0,0,0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12,13,13];
-
-var extra_blbits =  /* extra bits for each bit length code */
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,3,7];
-
-var bl_order =
-  [16,17,18,0,8,7,9,6,10,5,11,4,12,3,13,2,14,1,15];
-/* eslint-enable comma-spacing,array-bracket-spacing */
-
-/* The lengths of the bit length codes are sent in order of decreasing
- * probability, to avoid transmitting the lengths for unused bit length codes.
- */
-
-/* ===========================================================================
- * Local data. These are initialized only once.
- */
-
-// We pre-fill arrays with 0 to avoid uninitialized gaps
-
-var DIST_CODE_LEN = 512; /* see definition of array dist_code below */
-
-// !!!! Use flat array instead of structure, Freq = i*2, Len = i*2+1
-var static_ltree  = new Array((L_CODES + 2) * 2);
-zero(static_ltree);
-/* The static literal tree. Since the bit lengths are imposed, there is no
- * need for the L_CODES extra codes used during heap construction. However
- * The codes 286 and 287 are needed to build a canonical tree (see _tr_init
- * below).
- */
-
-var static_dtree  = new Array(D_CODES * 2);
-zero(static_dtree);
-/* The static distance tree. (Actually a trivial tree since all codes use
- * 5 bits.)
- */
-
-var _dist_code    = new Array(DIST_CODE_LEN);
-zero(_dist_code);
-/* Distance codes. The first 256 values correspond to the distances
- * 3 .. 258, the last 256 values correspond to the top 8 bits of
- * the 15 bit distances.
- */
-
-var _length_code  = new Array(MAX_MATCH - MIN_MATCH + 1);
-zero(_length_code);
-/* length code for each normalized match length (0 == MIN_MATCH) */
-
-var base_length   = new Array(LENGTH_CODES);
-zero(base_length);
-/* First normalized length for each code (0 = MIN_MATCH) */
-
-var base_dist     = new Array(D_CODES);
-zero(base_dist);
-/* First normalized distance for each code (0 = distance of 1) */
-
-
-function StaticTreeDesc(static_tree, extra_bits, extra_base, elems, max_length) {
-
-  this.static_tree  = static_tree;  /* static tree or NULL */
-  this.extra_bits   = extra_bits;   /* extra bits for each code or NULL */
-  this.extra_base   = extra_base;   /* base index for extra_bits */
-  this.elems        = elems;        /* max number of elements in the tree */
-  this.max_length   = max_length;   /* max bit length for the codes */
-
-  // show if `static_tree` has data or dummy - needed for monomorphic objects
-  this.has_stree    = static_tree && static_tree.length;
-}
-
-
-var static_l_desc;
-var static_d_desc;
-var static_bl_desc;
-
-
-function TreeDesc(dyn_tree, stat_desc) {
-  this.dyn_tree = dyn_tree;     /* the dynamic tree */
-  this.max_code = 0;            /* largest code with non zero frequency */
-  this.stat_desc = stat_desc;   /* the corresponding static tree */
-}
-
-
-
-function d_code(dist) {
-  return dist < 256 ? _dist_code[dist] : _dist_code[256 + (dist >>> 7)];
-}
-
-
-/* ===========================================================================
- * Output a short LSB first on the stream.
- * IN assertion: there is enough room in pendingBuf.
- */
-function put_short(s, w) {
-//    put_byte(s, (uch)((w) & 0xff));
-//    put_byte(s, (uch)((ush)(w) >> 8));
-  s.pending_buf[s.pending++] = (w) & 0xff;
-  s.pending_buf[s.pending++] = (w >>> 8) & 0xff;
-}
-
-
-/* ===========================================================================
- * Send a value on a given number of bits.
- * IN assertion: length <= 16 and value fits in length bits.
- */
-function send_bits(s, value, length) {
-  if (s.bi_valid > (Buf_size - length)) {
-    s.bi_buf |= (value << s.bi_valid) & 0xffff;
-    put_short(s, s.bi_buf);
-    s.bi_buf = value >> (Buf_size - s.bi_valid);
-    s.bi_valid += length - Buf_size;
-  } else {
-    s.bi_buf |= (value << s.bi_valid) & 0xffff;
-    s.bi_valid += length;
-  }
-}
-
-
-function send_code(s, c, tree) {
-  send_bits(s, tree[c * 2]/*.Code*/, tree[c * 2 + 1]/*.Len*/);
-}
-
-
-/* ===========================================================================
- * Reverse the first len bits of a code, using straightforward code (a faster
- * method would use a table)
- * IN assertion: 1 <= len <= 15
- */
-function bi_reverse(code, len) {
-  var res = 0;
-  do {
-    res |= code & 1;
-    code >>>= 1;
-    res <<= 1;
-  } while (--len > 0);
-  return res >>> 1;
-}
-
-
-/* ===========================================================================
- * Flush the bit buffer, keeping at most 7 bits in it.
- */
-function bi_flush(s) {
-  if (s.bi_valid === 16) {
-    put_short(s, s.bi_buf);
-    s.bi_buf = 0;
-    s.bi_valid = 0;
-
-  } else if (s.bi_valid >= 8) {
-    s.pending_buf[s.pending++] = s.bi_buf & 0xff;
-    s.bi_buf >>= 8;
-    s.bi_valid -= 8;
-  }
-}
-
-
-/* ===========================================================================
- * Compute the optimal bit lengths for a tree and update the total bit length
- * for the current block.
- * IN assertion: the fields freq and dad are set, heap[heap_max] and
- *    above are the tree nodes sorted by increasing frequency.
- * OUT assertions: the field len is set to the optimal bit length, the
- *     array bl_count contains the frequencies for each bit length.
- *     The length opt_len is updated; static_len is also updated if stree is
- *     not null.
- */
-function gen_bitlen(s, desc)
-//    deflate_state *s;
-//    tree_desc *desc;    /* the tree descriptor */
-{
-  var tree            = desc.dyn_tree;
-  var max_code        = desc.max_code;
-  var stree           = desc.stat_desc.static_tree;
-  var has_stree       = desc.stat_desc.has_stree;
-  var extra           = desc.stat_desc.extra_bits;
-  var base            = desc.stat_desc.extra_base;
-  var max_length      = desc.stat_desc.max_length;
-  var h;              /* heap index */
-  var n, m;           /* iterate over the tree elements */
-  var bits;           /* bit length */
-  var xbits;          /* extra bits */
-  var f;              /* frequency */
-  var overflow = 0;   /* number of elements with bit length too large */
-
-  for (bits = 0; bits <= MAX_BITS; bits++) {
-    s.bl_count[bits] = 0;
-  }
-
-  /* In a first pass, compute the optimal bit lengths (which may
-   * overflow in the case of the bit length tree).
-   */
-  tree[s.heap[s.heap_max] * 2 + 1]/*.Len*/ = 0; /* root of the heap */
-
-  for (h = s.heap_max + 1; h < HEAP_SIZE; h++) {
-    n = s.heap[h];
-    bits = tree[tree[n * 2 + 1]/*.Dad*/ * 2 + 1]/*.Len*/ + 1;
-    if (bits > max_length) {
-      bits = max_length;
-      overflow++;
-    }
-    tree[n * 2 + 1]/*.Len*/ = bits;
-    /* We overwrite tree[n].Dad which is no longer needed */
-
-    if (n > max_code) { continue; } /* not a leaf node */
-
-    s.bl_count[bits]++;
-    xbits = 0;
-    if (n >= base) {
-      xbits = extra[n - base];
-    }
-    f = tree[n * 2]/*.Freq*/;
-    s.opt_len += f * (bits + xbits);
-    if (has_stree) {
-      s.static_len += f * (stree[n * 2 + 1]/*.Len*/ + xbits);
-    }
-  }
-  if (overflow === 0) { return; }
-
-  // Trace((stderr,"\nbit length overflow\n"));
-  /* This happens for example on obj2 and pic of the Calgary corpus */
-
-  /* Find the first bit length which could increase: */
-  do {
-    bits = max_length - 1;
-    while (s.bl_count[bits] === 0) { bits--; }
-    s.bl_count[bits]--;      /* move one leaf down the tree */
-    s.bl_count[bits + 1] += 2; /* move one overflow item as its brother */
-    s.bl_count[max_length]--;
-    /* The brother of the overflow item also moves one step up,
-     * but this does not affect bl_count[max_length]
-     */
-    overflow -= 2;
-  } while (overflow > 0);
-
-  /* Now recompute all bit lengths, scanning in increasing frequency.
-   * h is still equal to HEAP_SIZE. (It is simpler to reconstruct all
-   * lengths instead of fixing only the wrong ones. This idea is taken
-   * from 'ar' written by Haruhiko Okumura.)
-   */
-  for (bits = max_length; bits !== 0; bits--) {
-    n = s.bl_count[bits];
-    while (n !== 0) {
-      m = s.heap[--h];
-      if (m > max_code) { continue; }
-      if (tree[m * 2 + 1]/*.Len*/ !== bits) {
-        // Trace((stderr,"code %d bits %d->%d\n", m, tree[m].Len, bits));
-        s.opt_len += (bits - tree[m * 2 + 1]/*.Len*/) * tree[m * 2]/*.Freq*/;
-        tree[m * 2 + 1]/*.Len*/ = bits;
-      }
-      n--;
-    }
-  }
-}
-
-
-/* ===========================================================================
- * Generate the codes for a given tree and bit counts (which need not be
- * optimal).
- * IN assertion: the array bl_count contains the bit length statistics for
- * the given tree and the field len is set for all tree elements.
- * OUT assertion: the field code is set for all tree elements of non
- *     zero code length.
- */
-function gen_codes(tree, max_code, bl_count)
-//    ct_data *tree;             /* the tree to decorate */
-//    int max_code;              /* largest code with non zero frequency */
-//    ushf *bl_count;            /* number of codes at each bit length */
-{
-  var next_code = new Array(MAX_BITS + 1); /* next code value for each bit length */
-  var code = 0;              /* running code value */
-  var bits;                  /* bit index */
-  var n;                     /* code index */
-
-  /* The distribution counts are first used to generate the code values
-   * without bit reversal.
-   */
-  for (bits = 1; bits <= MAX_BITS; bits++) {
-    next_code[bits] = code = (code + bl_count[bits - 1]) << 1;
-  }
-  /* Check that the bit counts in bl_count are consistent. The last code
-   * must be all ones.
-   */
-  //Assert (code + bl_count[MAX_BITS]-1 == (1<<MAX_BITS)-1,
-  //        "inconsistent bit counts");
-  //Tracev((stderr,"\ngen_codes: max_code %d ", max_code));
-
-  for (n = 0;  n <= max_code; n++) {
-    var len = tree[n * 2 + 1]/*.Len*/;
-    if (len === 0) { continue; }
-    /* Now reverse the bits */
-    tree[n * 2]/*.Code*/ = bi_reverse(next_code[len]++, len);
-
-    //Tracecv(tree != static_ltree, (stderr,"\nn %3d %c l %2d c %4x (%x) ",
-    //     n, (isgraph(n) ? n : ' '), len, tree[n].Code, next_code[len]-1));
-  }
-}
-
-
-/* ===========================================================================
- * Initialize the various 'constant' tables.
- */
-function tr_static_init() {
-  var n;        /* iterates over tree elements */
-  var bits;     /* bit counter */
-  var length;   /* length value */
-  var code;     /* code value */
-  var dist;     /* distance index */
-  var bl_count = new Array(MAX_BITS + 1);
-  /* number of codes at each bit length for an optimal tree */
-
-  // do check in _tr_init()
-  //if (static_init_done) return;
-
-  /* For some embedded targets, global variables are not initialized: */
-/*#ifdef NO_INIT_GLOBAL_POINTERS
-  static_l_desc.static_tree = static_ltree;
-  static_l_desc.extra_bits = extra_lbits;
-  static_d_desc.static_tree = static_dtree;
-  static_d_desc.extra_bits = extra_dbits;
-  static_bl_desc.extra_bits = extra_blbits;
-#endif*/
-
-  /* Initialize the mapping length (0..255) -> length code (0..28) */
-  length = 0;
-  for (code = 0; code < LENGTH_CODES - 1; code++) {
-    base_length[code] = length;
-    for (n = 0; n < (1 << extra_lbits[code]); n++) {
-      _length_code[length++] = code;
-    }
-  }
-  //Assert (length == 256, "tr_static_init: length != 256");
-  /* Note that the length 255 (match length 258) can be represented
-   * in two different ways: code 284 + 5 bits or code 285, so we
-   * overwrite length_code[255] to use the best encoding:
-   */
-  _length_code[length - 1] = code;
-
-  /* Initialize the mapping dist (0..32K) -> dist code (0..29) */
-  dist = 0;
-  for (code = 0; code < 16; code++) {
-    base_dist[code] = dist;
-    for (n = 0; n < (1 << extra_dbits[code]); n++) {
-      _dist_code[dist++] = code;
-    }
-  }
-  //Assert (dist == 256, "tr_static_init: dist != 256");
-  dist >>= 7; /* from now on, all distances are divided by 128 */
-  for (; code < D_CODES; code++) {
-    base_dist[code] = dist << 7;
-    for (n = 0; n < (1 << (extra_dbits[code] - 7)); n++) {
-      _dist_code[256 + dist++] = code;
-    }
-  }
-  //Assert (dist == 256, "tr_static_init: 256+dist != 512");
-
-  /* Construct the codes of the static literal tree */
-  for (bits = 0; bits <= MAX_BITS; bits++) {
-    bl_count[bits] = 0;
-  }
-
-  n = 0;
-  while (n <= 143) {
-    static_ltree[n * 2 + 1]/*.Len*/ = 8;
-    n++;
-    bl_count[8]++;
-  }
-  while (n <= 255) {
-    static_ltree[n * 2 + 1]/*.Len*/ = 9;
-    n++;
-    bl_count[9]++;
-  }
-  while (n <= 279) {
-    static_ltree[n * 2 + 1]/*.Len*/ = 7;
-    n++;
-    bl_count[7]++;
-  }
-  while (n <= 287) {
-    static_ltree[n * 2 + 1]/*.Len*/ = 8;
-    n++;
-    bl_count[8]++;
-  }
-  /* Codes 286 and 287 do not exist, but we must include them in the
-   * tree construction to get a canonical Huffman tree (longest code
-   * all ones)
-   */
-  gen_codes(static_ltree, L_CODES + 1, bl_count);
-
-  /* The static distance tree is trivial: */
-  for (n = 0; n < D_CODES; n++) {
-    static_dtree[n * 2 + 1]/*.Len*/ = 5;
-    static_dtree[n * 2]/*.Code*/ = bi_reverse(n, 5);
-  }
-
-  // Now data ready and we can init static trees
-  static_l_desc = new StaticTreeDesc(static_ltree, extra_lbits, LITERALS + 1, L_CODES, MAX_BITS);
-  static_d_desc = new StaticTreeDesc(static_dtree, extra_dbits, 0,          D_CODES, MAX_BITS);
-  static_bl_desc = new StaticTreeDesc(new Array(0), extra_blbits, 0,         BL_CODES, MAX_BL_BITS);
-
-  //static_init_done = true;
-}
-
-
-/* ===========================================================================
- * Initialize a new block.
- */
-function init_block(s) {
-  var n; /* iterates over tree elements */
-
-  /* Initialize the trees. */
-  for (n = 0; n < L_CODES;  n++) { s.dyn_ltree[n * 2]/*.Freq*/ = 0; }
-  for (n = 0; n < D_CODES;  n++) { s.dyn_dtree[n * 2]/*.Freq*/ = 0; }
-  for (n = 0; n < BL_CODES; n++) { s.bl_tree[n * 2]/*.Freq*/ = 0; }
-
-  s.dyn_ltree[END_BLOCK * 2]/*.Freq*/ = 1;
-  s.opt_len = s.static_len = 0;
-  s.last_lit = s.matches = 0;
-}
-
-
-/* ===========================================================================
- * Flush the bit buffer and align the output on a byte boundary
- */
-function bi_windup(s)
-{
-  if (s.bi_valid > 8) {
-    put_short(s, s.bi_buf);
-  } else if (s.bi_valid > 0) {
-    //put_byte(s, (Byte)s->bi_buf);
-    s.pending_buf[s.pending++] = s.bi_buf;
-  }
-  s.bi_buf = 0;
-  s.bi_valid = 0;
-}
-
-/* ===========================================================================
- * Copy a stored block, storing first the length and its
- * one's complement if requested.
- */
-function copy_block(s, buf, len, header)
-//DeflateState *s;
-//charf    *buf;    /* the input data */
-//unsigned len;     /* its length */
-//int      header;  /* true if block header must be written */
-{
-  bi_windup(s);        /* align on byte boundary */
-
-  if (header) {
-    put_short(s, len);
-    put_short(s, ~len);
-  }
-//  while (len--) {
-//    put_byte(s, *buf++);
-//  }
-  utils.arraySet(s.pending_buf, s.window, buf, len, s.pending);
-  s.pending += len;
-}
-
-/* ===========================================================================
- * Compares to subtrees, using the tree depth as tie breaker when
- * the subtrees have equal frequency. This minimizes the worst case length.
- */
-function smaller(tree, n, m, depth) {
-  var _n2 = n * 2;
-  var _m2 = m * 2;
-  return (tree[_n2]/*.Freq*/ < tree[_m2]/*.Freq*/ ||
-         (tree[_n2]/*.Freq*/ === tree[_m2]/*.Freq*/ && depth[n] <= depth[m]));
-}
-
-/* ===========================================================================
- * Restore the heap property by moving down the tree starting at node k,
- * exchanging a node with the smallest of its two sons if necessary, stopping
- * when the heap property is re-established (each father smaller than its
- * two sons).
- */
-function pqdownheap(s, tree, k)
-//    deflate_state *s;
-//    ct_data *tree;  /* the tree to restore */
-//    int k;               /* node to move down */
-{
-  var v = s.heap[k];
-  var j = k << 1;  /* left son of k */
-  while (j <= s.heap_len) {
-    /* Set j to the smallest of the two sons: */
-    if (j < s.heap_len &&
-      smaller(tree, s.heap[j + 1], s.heap[j], s.depth)) {
-      j++;
-    }
-    /* Exit if v is smaller than both sons */
-    if (smaller(tree, v, s.heap[j], s.depth)) { break; }
-
-    /* Exchange v with the smallest son */
-    s.heap[k] = s.heap[j];
-    k = j;
-
-    /* And continue down the tree, setting j to the left son of k */
-    j <<= 1;
-  }
-  s.heap[k] = v;
-}
-
-
-// inlined manually
-// var SMALLEST = 1;
-
-/* ===========================================================================
- * Send the block data compressed using the given Huffman trees
- */
-function compress_block(s, ltree, dtree)
-//    deflate_state *s;
-//    const ct_data *ltree; /* literal tree */
-//    const ct_data *dtree; /* distance tree */
-{
-  var dist;           /* distance of matched string */
-  var lc;             /* match length or unmatched char (if dist == 0) */
-  var lx = 0;         /* running index in l_buf */
-  var code;           /* the code to send */
-  var extra;          /* number of extra bits to send */
-
-  if (s.last_lit !== 0) {
-    do {
-      dist = (s.pending_buf[s.d_buf + lx * 2] << 8) | (s.pending_buf[s.d_buf + lx * 2 + 1]);
-      lc = s.pending_buf[s.l_buf + lx];
-      lx++;
-
-      if (dist === 0) {
-        send_code(s, lc, ltree); /* send a literal byte */
-        //Tracecv(isgraph(lc), (stderr," '%c' ", lc));
-      } else {
-        /* Here, lc is the match length - MIN_MATCH */
-        code = _length_code[lc];
-        send_code(s, code + LITERALS + 1, ltree); /* send the length code */
-        extra = extra_lbits[code];
-        if (extra !== 0) {
-          lc -= base_length[code];
-          send_bits(s, lc, extra);       /* send the extra length bits */
-        }
-        dist--; /* dist is now the match distance - 1 */
-        code = d_code(dist);
-        //Assert (code < D_CODES, "bad d_code");
-
-        send_code(s, code, dtree);       /* send the distance code */
-        extra = extra_dbits[code];
-        if (extra !== 0) {
-          dist -= base_dist[code];
-          send_bits(s, dist, extra);   /* send the extra distance bits */
-        }
-      } /* literal or match pair ? */
-
-      /* Check that the overlay between pending_buf and d_buf+l_buf is ok: */
-      //Assert((uInt)(s->pending) < s->lit_bufsize + 2*lx,
-      //       "pendingBuf overflow");
-
-    } while (lx < s.last_lit);
-  }
-
-  send_code(s, END_BLOCK, ltree);
-}
-
-
-/* ===========================================================================
- * Construct one Huffman tree and assigns the code bit strings and lengths.
- * Update the total bit length for the current block.
- * IN assertion: the field freq is set for all tree elements.
- * OUT assertions: the fields len and code are set to the optimal bit length
- *     and corresponding code. The length opt_len is updated; static_len is
- *     also updated if stree is not null. The field max_code is set.
- */
-function build_tree(s, desc)
-//    deflate_state *s;
-//    tree_desc *desc; /* the tree descriptor */
-{
-  var tree     = desc.dyn_tree;
-  var stree    = desc.stat_desc.static_tree;
-  var has_stree = desc.stat_desc.has_stree;
-  var elems    = desc.stat_desc.elems;
-  var n, m;          /* iterate over heap elements */
-  var max_code = -1; /* largest code with non zero frequency */
-  var node;          /* new node being created */
-
-  /* Construct the initial heap, with least frequent element in
-   * heap[SMALLEST]. The sons of heap[n] are heap[2*n] and heap[2*n+1].
-   * heap[0] is not used.
-   */
-  s.heap_len = 0;
-  s.heap_max = HEAP_SIZE;
-
-  for (n = 0; n < elems; n++) {
-    if (tree[n * 2]/*.Freq*/ !== 0) {
-      s.heap[++s.heap_len] = max_code = n;
-      s.depth[n] = 0;
-
-    } else {
-      tree[n * 2 + 1]/*.Len*/ = 0;
-    }
-  }
-
-  /* The pkzip format requires that at least one distance code exists,
-   * and that at least one bit should be sent even if there is only one
-   * possible code. So to avoid special checks later on we force at least
-   * two codes of non zero frequency.
-   */
-  while (s.heap_len < 2) {
-    node = s.heap[++s.heap_len] = (max_code < 2 ? ++max_code : 0);
-    tree[node * 2]/*.Freq*/ = 1;
-    s.depth[node] = 0;
-    s.opt_len--;
-
-    if (has_stree) {
-      s.static_len -= stree[node * 2 + 1]/*.Len*/;
-    }
-    /* node is 0 or 1 so it does not have extra bits */
-  }
-  desc.max_code = max_code;
-
-  /* The elements heap[heap_len/2+1 .. heap_len] are leaves of the tree,
-   * establish sub-heaps of increasing lengths:
-   */
-  for (n = (s.heap_len >> 1/*int /2*/); n >= 1; n--) { pqdownheap(s, tree, n); }
-
-  /* Construct the Huffman tree by repeatedly combining the least two
-   * frequent nodes.
-   */
-  node = elems;              /* next internal node of the tree */
-  do {
-    //pqremove(s, tree, n);  /* n = node of least frequency */
-    /*** pqremove ***/
-    n = s.heap[1/*SMALLEST*/];
-    s.heap[1/*SMALLEST*/] = s.heap[s.heap_len--];
-    pqdownheap(s, tree, 1/*SMALLEST*/);
-    /***/
-
-    m = s.heap[1/*SMALLEST*/]; /* m = node of next least frequency */
-
-    s.heap[--s.heap_max] = n; /* keep the nodes sorted by frequency */
-    s.heap[--s.heap_max] = m;
-
-    /* Create a new node father of n and m */
-    tree[node * 2]/*.Freq*/ = tree[n * 2]/*.Freq*/ + tree[m * 2]/*.Freq*/;
-    s.depth[node] = (s.depth[n] >= s.depth[m] ? s.depth[n] : s.depth[m]) + 1;
-    tree[n * 2 + 1]/*.Dad*/ = tree[m * 2 + 1]/*.Dad*/ = node;
-
-    /* and insert the new node in the heap */
-    s.heap[1/*SMALLEST*/] = node++;
-    pqdownheap(s, tree, 1/*SMALLEST*/);
-
-  } while (s.heap_len >= 2);
-
-  s.heap[--s.heap_max] = s.heap[1/*SMALLEST*/];
-
-  /* At this point, the fields freq and dad are set. We can now
-   * generate the bit lengths.
-   */
-  gen_bitlen(s, desc);
-
-  /* The field len is now set, we can generate the bit codes */
-  gen_codes(tree, max_code, s.bl_count);
-}
-
-
-/* ===========================================================================
- * Scan a literal or distance tree to determine the frequencies of the codes
- * in the bit length tree.
- */
-function scan_tree(s, tree, max_code)
-//    deflate_state *s;
-//    ct_data *tree;   /* the tree to be scanned */
-//    int max_code;    /* and its largest code of non zero frequency */
-{
-  var n;                     /* iterates over all tree elements */
-  var prevlen = -1;          /* last emitted length */
-  var curlen;                /* length of current code */
-
-  var nextlen = tree[0 * 2 + 1]/*.Len*/; /* length of next code */
-
-  var count = 0;             /* repeat count of the current code */
-  var max_count = 7;         /* max repeat count */
-  var min_count = 4;         /* min repeat count */
-
-  if (nextlen === 0) {
-    max_count = 138;
-    min_count = 3;
-  }
-  tree[(max_code + 1) * 2 + 1]/*.Len*/ = 0xffff; /* guard */
-
-  for (n = 0; n <= max_code; n++) {
-    curlen = nextlen;
-    nextlen = tree[(n + 1) * 2 + 1]/*.Len*/;
-
-    if (++count < max_count && curlen === nextlen) {
-      continue;
-
-    } else if (count < min_count) {
-      s.bl_tree[curlen * 2]/*.Freq*/ += count;
-
-    } else if (curlen !== 0) {
-
-      if (curlen !== prevlen) { s.bl_tree[curlen * 2]/*.Freq*/++; }
-      s.bl_tree[REP_3_6 * 2]/*.Freq*/++;
-
-    } else if (count <= 10) {
-      s.bl_tree[REPZ_3_10 * 2]/*.Freq*/++;
-
-    } else {
-      s.bl_tree[REPZ_11_138 * 2]/*.Freq*/++;
-    }
-
-    count = 0;
-    prevlen = curlen;
-
-    if (nextlen === 0) {
-      max_count = 138;
-      min_count = 3;
-
-    } else if (curlen === nextlen) {
-      max_count = 6;
-      min_count = 3;
-
-    } else {
-      max_count = 7;
-      min_count = 4;
-    }
-  }
-}
-
-
-/* ===========================================================================
- * Send a literal or distance tree in compressed form, using the codes in
- * bl_tree.
- */
-function send_tree(s, tree, max_code)
-//    deflate_state *s;
-//    ct_data *tree; /* the tree to be scanned */
-//    int max_code;       /* and its largest code of non zero frequency */
-{
-  var n;                     /* iterates over all tree elements */
-  var prevlen = -1;          /* last emitted length */
-  var curlen;                /* length of current code */
-
-  var nextlen = tree[0 * 2 + 1]/*.Len*/; /* length of next code */
-
-  var count = 0;             /* repeat count of the current code */
-  var max_count = 7;         /* max repeat count */
-  var min_count = 4;         /* min repeat count */
-
-  /* tree[max_code+1].Len = -1; */  /* guard already set */
-  if (nextlen === 0) {
-    max_count = 138;
-    min_count = 3;
-  }
-
-  for (n = 0; n <= max_code; n++) {
-    curlen = nextlen;
-    nextlen = tree[(n + 1) * 2 + 1]/*.Len*/;
-
-    if (++count < max_count && curlen === nextlen) {
-      continue;
-
-    } else if (count < min_count) {
-      do { send_code(s, curlen, s.bl_tree); } while (--count !== 0);
-
-    } else if (curlen !== 0) {
-      if (curlen !== prevlen) {
-        send_code(s, curlen, s.bl_tree);
-        count--;
-      }
-      //Assert(count >= 3 && count <= 6, " 3_6?");
-      send_code(s, REP_3_6, s.bl_tree);
-      send_bits(s, count - 3, 2);
-
-    } else if (count <= 10) {
-      send_code(s, REPZ_3_10, s.bl_tree);
-      send_bits(s, count - 3, 3);
-
-    } else {
-      send_code(s, REPZ_11_138, s.bl_tree);
-      send_bits(s, count - 11, 7);
-    }
-
-    count = 0;
-    prevlen = curlen;
-    if (nextlen === 0) {
-      max_count = 138;
-      min_count = 3;
-
-    } else if (curlen === nextlen) {
-      max_count = 6;
-      min_count = 3;
-
-    } else {
-      max_count = 7;
-      min_count = 4;
-    }
-  }
-}
-
-
-/* ===========================================================================
- * Construct the Huffman tree for the bit lengths and return the index in
- * bl_order of the last bit length code to send.
- */
-function build_bl_tree(s) {
-  var max_blindex;  /* index of last bit length code of non zero freq */
-
-  /* Determine the bit length frequencies for literal and distance trees */
-  scan_tree(s, s.dyn_ltree, s.l_desc.max_code);
-  scan_tree(s, s.dyn_dtree, s.d_desc.max_code);
-
-  /* Build the bit length tree: */
-  build_tree(s, s.bl_desc);
-  /* opt_len now includes the length of the tree representations, except
-   * the lengths of the bit lengths codes and the 5+5+4 bits for the counts.
-   */
-
-  /* Determine the number of bit length codes to send. The pkzip format
-   * requires that at least 4 bit length codes be sent. (appnote.txt says
-   * 3 but the actual value used is 4.)
-   */
-  for (max_blindex = BL_CODES - 1; max_blindex >= 3; max_blindex--) {
-    if (s.bl_tree[bl_order[max_blindex] * 2 + 1]/*.Len*/ !== 0) {
-      break;
-    }
-  }
-  /* Update opt_len to include the bit length tree and counts */
-  s.opt_len += 3 * (max_blindex + 1) + 5 + 5 + 4;
-  //Tracev((stderr, "\ndyn trees: dyn %ld, stat %ld",
-  //        s->opt_len, s->static_len));
-
-  return max_blindex;
-}
-
-
-/* ===========================================================================
- * Send the header for a block using dynamic Huffman trees: the counts, the
- * lengths of the bit length codes, the literal tree and the distance tree.
- * IN assertion: lcodes >= 257, dcodes >= 1, blcodes >= 4.
- */
-function send_all_trees(s, lcodes, dcodes, blcodes)
-//    deflate_state *s;
-//    int lcodes, dcodes, blcodes; /* number of codes for each tree */
-{
-  var rank;                    /* index in bl_order */
-
-  //Assert (lcodes >= 257 && dcodes >= 1 && blcodes >= 4, "not enough codes");
-  //Assert (lcodes <= L_CODES && dcodes <= D_CODES && blcodes <= BL_CODES,
-  //        "too many codes");
-  //Tracev((stderr, "\nbl counts: "));
-  send_bits(s, lcodes - 257, 5); /* not +255 as stated in appnote.txt */
-  send_bits(s, dcodes - 1,   5);
-  send_bits(s, blcodes - 4,  4); /* not -3 as stated in appnote.txt */
-  for (rank = 0; rank < blcodes; rank++) {
-    //Tracev((stderr, "\nbl code %2d ", bl_order[rank]));
-    send_bits(s, s.bl_tree[bl_order[rank] * 2 + 1]/*.Len*/, 3);
-  }
-  //Tracev((stderr, "\nbl tree: sent %ld", s->bits_sent));
-
-  send_tree(s, s.dyn_ltree, lcodes - 1); /* literal tree */
-  //Tracev((stderr, "\nlit tree: sent %ld", s->bits_sent));
-
-  send_tree(s, s.dyn_dtree, dcodes - 1); /* distance tree */
-  //Tracev((stderr, "\ndist tree: sent %ld", s->bits_sent));
-}
-
-
-/* ===========================================================================
- * Check if the data type is TEXT or BINARY, using the following algorithm:
- * - TEXT if the two conditions below are satisfied:
- *    a) There are no non-portable control characters belonging to the
- *       "black list" (0..6, 14..25, 28..31).
- *    b) There is at least one printable character belonging to the
- *       "white list" (9 {TAB}, 10 {LF}, 13 {CR}, 32..255).
- * - BINARY otherwise.
- * - The following partially-portable control characters form a
- *   "gray list" that is ignored in this detection algorithm:
- *   (7 {BEL}, 8 {BS}, 11 {VT}, 12 {FF}, 26 {SUB}, 27 {ESC}).
- * IN assertion: the fields Freq of dyn_ltree are set.
- */
-function detect_data_type(s) {
-  /* black_mask is the bit mask of black-listed bytes
-   * set bits 0..6, 14..25, and 28..31
-   * 0xf3ffc07f = binary 11110011111111111100000001111111
-   */
-  var black_mask = 0xf3ffc07f;
-  var n;
-
-  /* Check for non-textual ("black-listed") bytes. */
-  for (n = 0; n <= 31; n++, black_mask >>>= 1) {
-    if ((black_mask & 1) && (s.dyn_ltree[n * 2]/*.Freq*/ !== 0)) {
-      return Z_BINARY;
-    }
-  }
-
-  /* Check for textual ("white-listed") bytes. */
-  if (s.dyn_ltree[9 * 2]/*.Freq*/ !== 0 || s.dyn_ltree[10 * 2]/*.Freq*/ !== 0 ||
-      s.dyn_ltree[13 * 2]/*.Freq*/ !== 0) {
-    return Z_TEXT;
-  }
-  for (n = 32; n < LITERALS; n++) {
-    if (s.dyn_ltree[n * 2]/*.Freq*/ !== 0) {
-      return Z_TEXT;
-    }
-  }
-
-  /* There are no "black-listed" or "white-listed" bytes:
-   * this stream either is empty or has tolerated ("gray-listed") bytes only.
-   */
-  return Z_BINARY;
-}
-
-
-var static_init_done = false;
-
-/* ===========================================================================
- * Initialize the tree data structures for a new zlib stream.
- */
-function _tr_init(s)
-{
-
-  if (!static_init_done) {
-    tr_static_init();
-    static_init_done = true;
-  }
-
-  s.l_desc  = new TreeDesc(s.dyn_ltree, static_l_desc);
-  s.d_desc  = new TreeDesc(s.dyn_dtree, static_d_desc);
-  s.bl_desc = new TreeDesc(s.bl_tree, static_bl_desc);
-
-  s.bi_buf = 0;
-  s.bi_valid = 0;
-
-  /* Initialize the first block of the first file: */
-  init_block(s);
-}
-
-
-/* ===========================================================================
- * Send a stored block
- */
-function _tr_stored_block(s, buf, stored_len, last)
-//DeflateState *s;
-//charf *buf;       /* input block */
-//ulg stored_len;   /* length of input block */
-//int last;         /* one if this is the last block for a file */
-{
-  send_bits(s, (STORED_BLOCK << 1) + (last ? 1 : 0), 3);    /* send block type */
-  copy_block(s, buf, stored_len, true); /* with header */
-}
-
-
-/* ===========================================================================
- * Send one empty static block to give enough lookahead for inflate.
- * This takes 10 bits, of which 7 may remain in the bit buffer.
- */
-function _tr_align(s) {
-  send_bits(s, STATIC_TREES << 1, 3);
-  send_code(s, END_BLOCK, static_ltree);
-  bi_flush(s);
-}
-
-
-/* ===========================================================================
- * Determine the best encoding for the current block: dynamic trees, static
- * trees or store, and output the encoded block to the zip file.
- */
-function _tr_flush_block(s, buf, stored_len, last)
-//DeflateState *s;
-//charf *buf;       /* input block, or NULL if too old */
-//ulg stored_len;   /* length of input block */
-//int last;         /* one if this is the last block for a file */
-{
-  var opt_lenb, static_lenb;  /* opt_len and static_len in bytes */
-  var max_blindex = 0;        /* index of last bit length code of non zero freq */
-
-  /* Build the Huffman trees unless a stored block is forced */
-  if (s.level > 0) {
-
-    /* Check if the file is binary or text */
-    if (s.strm.data_type === Z_UNKNOWN) {
-      s.strm.data_type = detect_data_type(s);
-    }
-
-    /* Construct the literal and distance trees */
-    build_tree(s, s.l_desc);
-    // Tracev((stderr, "\nlit data: dyn %ld, stat %ld", s->opt_len,
-    //        s->static_len));
-
-    build_tree(s, s.d_desc);
-    // Tracev((stderr, "\ndist data: dyn %ld, stat %ld", s->opt_len,
-    //        s->static_len));
-    /* At this point, opt_len and static_len are the total bit lengths of
-     * the compressed block data, excluding the tree representations.
-     */
-
-    /* Build the bit length tree for the above two trees, and get the index
-     * in bl_order of the last bit length code to send.
-     */
-    max_blindex = build_bl_tree(s);
-
-    /* Determine the best encoding. Compute the block lengths in bytes. */
-    opt_lenb = (s.opt_len + 3 + 7) >>> 3;
-    static_lenb = (s.static_len + 3 + 7) >>> 3;
-
-    // Tracev((stderr, "\nopt %lu(%lu) stat %lu(%lu) stored %lu lit %u ",
-    //        opt_lenb, s->opt_len, static_lenb, s->static_len, stored_len,
-    //        s->last_lit));
-
-    if (static_lenb <= opt_lenb) { opt_lenb = static_lenb; }
-
-  } else {
-    // Assert(buf != (char*)0, "lost buf");
-    opt_lenb = static_lenb = stored_len + 5; /* force a stored block */
-  }
-
-  if ((stored_len + 4 <= opt_lenb) && (buf !== -1)) {
-    /* 4: two words for the lengths */
-
-    /* The test buf != NULL is only necessary if LIT_BUFSIZE > WSIZE.
-     * Otherwise we can't have processed more than WSIZE input bytes since
-     * the last block flush, because compression would have been
-     * successful. If LIT_BUFSIZE <= WSIZE, it is never too late to
-     * transform a block into a stored block.
-     */
-    _tr_stored_block(s, buf, stored_len, last);
-
-  } else if (s.strategy === Z_FIXED || static_lenb === opt_lenb) {
-
-    send_bits(s, (STATIC_TREES << 1) + (last ? 1 : 0), 3);
-    compress_block(s, static_ltree, static_dtree);
-
-  } else {
-    send_bits(s, (DYN_TREES << 1) + (last ? 1 : 0), 3);
-    send_all_trees(s, s.l_desc.max_code + 1, s.d_desc.max_code + 1, max_blindex + 1);
-    compress_block(s, s.dyn_ltree, s.dyn_dtree);
-  }
-  // Assert (s->compressed_len == s->bits_sent, "bad compressed size");
-  /* The above check is made mod 2^32, for files larger than 512 MB
-   * and uLong implemented on 32 bits.
-   */
-  init_block(s);
-
-  if (last) {
-    bi_windup(s);
-  }
-  // Tracev((stderr,"\ncomprlen %lu(%lu) ", s->compressed_len>>3,
-  //       s->compressed_len-7*last));
-}
-
-/* ===========================================================================
- * Save the match info and tally the frequency counts. Return true if
- * the current block must be flushed.
- */
-function _tr_tally(s, dist, lc)
-//    deflate_state *s;
-//    unsigned dist;  /* distance of matched string */
-//    unsigned lc;    /* match length-MIN_MATCH or unmatched char (if dist==0) */
-{
-  //var out_length, in_length, dcode;
-
-  s.pending_buf[s.d_buf + s.last_lit * 2]     = (dist >>> 8) & 0xff;
-  s.pending_buf[s.d_buf + s.last_lit * 2 + 1] = dist & 0xff;
-
-  s.pending_buf[s.l_buf + s.last_lit] = lc & 0xff;
-  s.last_lit++;
-
-  if (dist === 0) {
-    /* lc is the unmatched char */
-    s.dyn_ltree[lc * 2]/*.Freq*/++;
-  } else {
-    s.matches++;
-    /* Here, lc is the match length - MIN_MATCH */
-    dist--;             /* dist = match distance - 1 */
-    //Assert((ush)dist < (ush)MAX_DIST(s) &&
-    //       (ush)lc <= (ush)(MAX_MATCH-MIN_MATCH) &&
-    //       (ush)d_code(dist) < (ush)D_CODES,  "_tr_tally: bad match");
-
-    s.dyn_ltree[(_length_code[lc] + LITERALS + 1) * 2]/*.Freq*/++;
-    s.dyn_dtree[d_code(dist) * 2]/*.Freq*/++;
-  }
-
-// (!) This block is disabled in zlib defaults,
-// don't enable it for binary compatibility
-
-//#ifdef TRUNCATE_BLOCK
-//  /* Try to guess if it is profitable to stop the current block here */
-//  if ((s.last_lit & 0x1fff) === 0 && s.level > 2) {
-//    /* Compute an upper bound for the compressed length */
-//    out_length = s.last_lit*8;
-//    in_length = s.strstart - s.block_start;
-//
-//    for (dcode = 0; dcode < D_CODES; dcode++) {
-//      out_length += s.dyn_dtree[dcode*2]/*.Freq*/ * (5 + extra_dbits[dcode]);
-//    }
-//    out_length >>>= 3;
-//    //Tracev((stderr,"\nlast_lit %u, in %ld, out ~%ld(%ld%%) ",
-//    //       s->last_lit, in_length, out_length,
-//    //       100L - out_length*100L/in_length));
-//    if (s.matches < (s.last_lit>>1)/*int /2*/ && out_length < (in_length>>1)/*int /2*/) {
-//      return true;
-//    }
-//  }
-//#endif
-
-  return (s.last_lit === s.lit_bufsize - 1);
-  /* We avoid equality with lit_bufsize because of wraparound at 64K
-   * on 16 bit machines and because stored blocks are restricted to
-   * 64K-1 bytes.
-   */
-}
-
-exports._tr_init  = _tr_init;
-exports._tr_stored_block = _tr_stored_block;
-exports._tr_flush_block  = _tr_flush_block;
-exports._tr_tally = _tr_tally;
-exports._tr_align = _tr_align;
-
-
-/***/ }),
-/* 530 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-
-var zlib_inflate = __webpack_require__(531);
-var utils        = __webpack_require__(73);
-var strings      = __webpack_require__(320);
-var c            = __webpack_require__(322);
-var msg          = __webpack_require__(291);
-var ZStream      = __webpack_require__(321);
-var GZheader     = __webpack_require__(534);
-
-var toString = Object.prototype.toString;
 
 /**
- * class Inflate
+ * class Deflate
  *
  * Generic JS-style wrapper for zlib calls. If you don't need
- * streaming behaviour - use more simple functions: [[inflate]]
- * and [[inflateRaw]].
+ * streaming behaviour - use more simple functions: [[deflate]],
+ * [[deflateRaw]] and [[gzip]].
  **/
 
 /* internal
- * inflate.chunks -> Array
+ * Deflate.chunks -> Array
  *
- * Chunks of output data, if [[Inflate#onData]] not overridden.
+ * Chunks of output data, if [[Deflate#onData]] not overridden.
  **/
 
 /**
- * Inflate.result -> Uint8Array|Array|String
+ * Deflate.result -> Uint8Array
  *
- * Uncompressed result, generated by default [[Inflate#onData]]
- * and [[Inflate#onEnd]] handlers. Filled after you push last chunk
- * (call [[Inflate#push]] with `Z_FINISH` / `true` param) or if you
- * push a chunk with explicit flush (call [[Inflate#push]] with
- * `Z_SYNC_FLUSH` param).
+ * Compressed result, generated by default [[Deflate#onData]]
+ * and [[Deflate#onEnd]] handlers. Filled after you push last chunk
+ * (call [[Deflate#push]] with `Z_FINISH` / `true` param).
  **/
 
 /**
- * Inflate.err -> Number
+ * Deflate.err -> Number
  *
- * Error code after inflate finished. 0 (Z_OK) on success.
- * Should be checked if broken data possible.
+ * Error code after deflate finished. 0 (Z_OK) on success.
+ * You will not need it in real life, because deflate errors
+ * are possible only on wrong options or bad `onData` / `onEnd`
+ * custom handlers.
  **/
 
 /**
- * Inflate.msg -> String
+ * Deflate.msg -> String
  *
- * Error message, if [[Inflate.err]] != 0
+ * Error message, if [[Deflate.err]] != 0
  **/
 
 
 /**
- * new Inflate(options)
- * - options (Object): zlib inflate options.
+ * new Deflate(options)
+ * - options (Object): zlib deflate options.
  *
- * Creates new inflator instance with specified params. Throws exception
+ * Creates new deflator instance with specified params. Throws exception
  * on bad params. Supported options:
  *
+ * - `level`
  * - `windowBits`
+ * - `memLevel`
+ * - `strategy`
  * - `dictionary`
  *
  * [http://zlib.net/manual.html#Advanced](http://zlib.net/manual.html#Advanced)
@@ -63966,63 +63576,52 @@ var toString = Object.prototype.toString;
  * Additional options, for internal needs:
  *
  * - `chunkSize` - size of generated data chunks (16K by default)
- * - `raw` (Boolean) - do raw inflate
- * - `to` (String) - if equal to 'string', then result will be converted
- *   from utf8 to utf16 (javascript) string. When string output requested,
- *   chunk length can differ from `chunkSize`, depending on content.
- *
- * By default, when no options set, autodetect deflate/gzip data format via
- * wrapper header.
+ * - `raw` (Boolean) - do raw deflate
+ * - `gzip` (Boolean) - create gzip wrapper
+ * - `header` (Object) - custom header for gzip
+ *   - `text` (Boolean) - true if compressed data believed to be text
+ *   - `time` (Number) - modification time, unix timestamp
+ *   - `os` (Number) - operation system code
+ *   - `extra` (Array) - array of bytes with extra data (max 65536)
+ *   - `name` (String) - file name (binary string)
+ *   - `comment` (String) - comment (binary string)
+ *   - `hcrc` (Boolean) - true if header crc should be added
  *
  * ##### Example:
  *
  * ```javascript
- * var pako = require('pako')
- *   , chunk1 = Uint8Array([1,2,3,4,5,6,7,8,9])
- *   , chunk2 = Uint8Array([10,11,12,13,14,15,16,17,18,19]);
+ * const pako = require('pako')
+ *   , chunk1 = new Uint8Array([1,2,3,4,5,6,7,8,9])
+ *   , chunk2 = new Uint8Array([10,11,12,13,14,15,16,17,18,19]);
  *
- * var inflate = new pako.Inflate({ level: 3});
+ * const deflate = new pako.Deflate({ level: 3});
  *
- * inflate.push(chunk1, false);
- * inflate.push(chunk2, true);  // true -> last chunk
+ * deflate.push(chunk1, false);
+ * deflate.push(chunk2, true);  // true -> last chunk
  *
- * if (inflate.err) { throw new Error(inflate.err); }
+ * if (deflate.err) { throw new Error(deflate.err); }
  *
- * console.log(inflate.result);
+ * console.log(deflate.result);
  * ```
  **/
-function Inflate(options) {
-  if (!(this instanceof Inflate)) return new Inflate(options);
-
-  this.options = utils.assign({
+function Deflate$1(options) {
+  this.options = common.assign({
+    level: Z_DEFAULT_COMPRESSION,
+    method: Z_DEFLATED$1,
     chunkSize: 16384,
-    windowBits: 0,
-    to: ''
+    windowBits: 15,
+    memLevel: 8,
+    strategy: Z_DEFAULT_STRATEGY
   }, options || {});
 
-  var opt = this.options;
+  let opt = this.options;
 
-  // Force window size for `raw` data, if not set directly,
-  // because we have no header for autodetect.
-  if (opt.raw && (opt.windowBits >= 0) && (opt.windowBits < 16)) {
+  if (opt.raw && (opt.windowBits > 0)) {
     opt.windowBits = -opt.windowBits;
-    if (opt.windowBits === 0) { opt.windowBits = -15; }
   }
 
-  // If `windowBits` not defined (and mode not raw) - set autodetect flag for gzip/deflate
-  if ((opt.windowBits >= 0) && (opt.windowBits < 16) &&
-      !(options && options.windowBits)) {
-    opt.windowBits += 32;
-  }
-
-  // Gzip header has no info about windows size, we can do autodetect only
-  // for deflate. So, if window size not set, force it to max when gzip possible
-  if ((opt.windowBits > 15) && (opt.windowBits < 48)) {
-    // bit 3 (16) -> gzipped data
-    // bit 4 (32) -> autodetect gzip/deflate
-    if ((opt.windowBits & 15) === 0) {
-      opt.windowBits |= 15;
-    }
+  else if (opt.gzip && (opt.windowBits > 0) && (opt.windowBits < 16)) {
+    opt.windowBits += 16;
   }
 
   this.err    = 0;      // error code, if happens (0 = Z_OK)
@@ -64030,42 +63629,61 @@ function Inflate(options) {
   this.ended  = false;  // used to avoid multiple onEnd() calls
   this.chunks = [];     // chunks of compressed data
 
-  this.strm   = new ZStream();
+  this.strm = new zstream();
   this.strm.avail_out = 0;
 
-  var status  = zlib_inflate.inflateInit2(
+  let status = deflate_1$2.deflateInit2(
     this.strm,
-    opt.windowBits
+    opt.level,
+    opt.method,
+    opt.windowBits,
+    opt.memLevel,
+    opt.strategy
   );
 
-  if (status !== c.Z_OK) {
-    throw new Error(msg[status]);
+  if (status !== Z_OK$2) {
+    throw new Error(messages[status]);
   }
 
-  this.header = new GZheader();
+  if (opt.header) {
+    deflate_1$2.deflateSetHeader(this.strm, opt.header);
+  }
 
-  zlib_inflate.inflateGetHeader(this.strm, this.header);
+  if (opt.dictionary) {
+    let dict;
+    // Convert data if needed
+    if (typeof opt.dictionary === 'string') {
+      // If we need to compress text, change encoding to utf8.
+      dict = strings.string2buf(opt.dictionary);
+    } else if (toString$1.call(opt.dictionary) === '[object ArrayBuffer]') {
+      dict = new Uint8Array(opt.dictionary);
+    } else {
+      dict = opt.dictionary;
+    }
+
+    status = deflate_1$2.deflateSetDictionary(this.strm, dict);
+
+    if (status !== Z_OK$2) {
+      throw new Error(messages[status]);
+    }
+
+    this._dict_set = true;
+  }
 }
 
 /**
- * Inflate#push(data[, mode]) -> Boolean
- * - data (Uint8Array|Array|ArrayBuffer|String): input data
- * - mode (Number|Boolean): 0..6 for corresponding Z_NO_FLUSH..Z_TREE modes.
+ * Deflate#push(data[, flush_mode]) -> Boolean
+ * - data (Uint8Array|ArrayBuffer|String): input data. Strings will be
+ *   converted to utf8 byte sequence.
+ * - flush_mode (Number|Boolean): 0..6 for corresponding Z_NO_FLUSH..Z_TREE modes.
  *   See constants. Skipped or `false` means Z_NO_FLUSH, `true` means Z_FINISH.
  *
- * Sends input data to inflate pipe, generating [[Inflate#onData]] calls with
- * new output chunks. Returns `true` on success. The last data block must have
- * mode Z_FINISH (or `true`). That will flush internal pending buffers and call
- * [[Inflate#onEnd]]. For interim explicit flushes (without ending the stream) you
- * can use mode Z_SYNC_FLUSH, keeping the decompression context.
+ * Sends input data to deflate pipe, generating [[Deflate#onData]] calls with
+ * new compressed chunks. Returns `true` on success. The last data block must
+ * have `flush_mode` Z_FINISH (or `true`). That will flush internal pending
+ * buffers and call [[Deflate#onEnd]].
  *
- * On fail call [[Inflate#onEnd]] with error code and return false.
- *
- * We strongly recommend to use `Uint8Array` on input for best speed (output
- * format is detected automatically). Also, don't skip last param and always
- * use the same type in your code (boolean or number). That will improve JS speed.
- *
- * For regular `Array`-s make sure all elements are [0..255].
+ * On fail call [[Deflate#onEnd]] with error code and return false.
  *
  * ##### Example
  *
@@ -64075,26 +63693,21 @@ function Inflate(options) {
  * push(chunk, true);  // push last chunk
  * ```
  **/
-Inflate.prototype.push = function (data, mode) {
-  var strm = this.strm;
-  var chunkSize = this.options.chunkSize;
-  var dictionary = this.options.dictionary;
-  var status, _mode;
-  var next_out_utf8, tail, utf8str;
-  var dict;
-
-  // Flag to properly process Z_BUF_ERROR on testing inflate call
-  // when we check that all output data was flushed.
-  var allowBufError = false;
+Deflate$1.prototype.push = function (data, flush_mode) {
+  const strm = this.strm;
+  const chunkSize = this.options.chunkSize;
+  let status, _flush_mode;
 
   if (this.ended) { return false; }
-  _mode = (mode === ~~mode) ? mode : ((mode === true) ? c.Z_FINISH : c.Z_NO_FLUSH);
+
+  if (flush_mode === ~~flush_mode) _flush_mode = flush_mode;
+  else _flush_mode = flush_mode === true ? Z_FINISH$2 : Z_NO_FLUSH$1;
 
   // Convert data if needed
   if (typeof data === 'string') {
-    // Only binary strings can be decompressed on practice
-    strm.input = strings.binstring2buf(data);
-  } else if (toString.call(data) === '[object ArrayBuffer]') {
+    // If we need to compress text, change encoding to utf8.
+    strm.input = strings.string2buf(data);
+  } else if (toString$1.call(data) === '[object ArrayBuffer]') {
     strm.input = new Uint8Array(data);
   } else {
     strm.input = data;
@@ -64103,93 +63716,47 @@ Inflate.prototype.push = function (data, mode) {
   strm.next_in = 0;
   strm.avail_in = strm.input.length;
 
-  do {
+  for (;;) {
     if (strm.avail_out === 0) {
-      strm.output = new utils.Buf8(chunkSize);
+      strm.output = new Uint8Array(chunkSize);
       strm.next_out = 0;
       strm.avail_out = chunkSize;
     }
 
-    status = zlib_inflate.inflate(strm, c.Z_NO_FLUSH);    /* no bad return value */
+    // Make sure avail_out > 6 to avoid repeating markers
+    if ((_flush_mode === Z_SYNC_FLUSH || _flush_mode === Z_FULL_FLUSH) && strm.avail_out <= 6) {
+      this.onData(strm.output.subarray(0, strm.next_out));
+      strm.avail_out = 0;
+      continue;
+    }
 
-    if (status === c.Z_NEED_DICT && dictionary) {
-      // Convert data if needed
-      if (typeof dictionary === 'string') {
-        dict = strings.string2buf(dictionary);
-      } else if (toString.call(dictionary) === '[object ArrayBuffer]') {
-        dict = new Uint8Array(dictionary);
-      } else {
-        dict = dictionary;
+    status = deflate_1$2.deflate(strm, _flush_mode);
+
+    // Ended => flush and finish
+    if (status === Z_STREAM_END$2) {
+      if (strm.next_out > 0) {
+        this.onData(strm.output.subarray(0, strm.next_out));
       }
-
-      status = zlib_inflate.inflateSetDictionary(this.strm, dict);
-
-    }
-
-    if (status === c.Z_BUF_ERROR && allowBufError === true) {
-      status = c.Z_OK;
-      allowBufError = false;
-    }
-
-    if (status !== c.Z_STREAM_END && status !== c.Z_OK) {
+      status = deflate_1$2.deflateEnd(this.strm);
       this.onEnd(status);
       this.ended = true;
-      return false;
+      return status === Z_OK$2;
     }
 
-    if (strm.next_out) {
-      if (strm.avail_out === 0 || status === c.Z_STREAM_END || (strm.avail_in === 0 && (_mode === c.Z_FINISH || _mode === c.Z_SYNC_FLUSH))) {
-
-        if (this.options.to === 'string') {
-
-          next_out_utf8 = strings.utf8border(strm.output, strm.next_out);
-
-          tail = strm.next_out - next_out_utf8;
-          utf8str = strings.buf2string(strm.output, next_out_utf8);
-
-          // move tail
-          strm.next_out = tail;
-          strm.avail_out = chunkSize - tail;
-          if (tail) { utils.arraySet(strm.output, strm.output, next_out_utf8, tail, 0); }
-
-          this.onData(utf8str);
-
-        } else {
-          this.onData(utils.shrinkBuf(strm.output, strm.next_out));
-        }
-      }
+    // Flush if out buffer full
+    if (strm.avail_out === 0) {
+      this.onData(strm.output);
+      continue;
     }
 
-    // When no more input data, we should check that internal inflate buffers
-    // are flushed. The only way to do it when avail_out = 0 - run one more
-    // inflate pass. But if output data not exists, inflate return Z_BUF_ERROR.
-    // Here we set flag to process this error properly.
-    //
-    // NOTE. Deflate does not return error in this case and does not needs such
-    // logic.
-    if (strm.avail_in === 0 && strm.avail_out === 0) {
-      allowBufError = true;
+    // Flush if requested and has data
+    if (_flush_mode > 0 && strm.next_out > 0) {
+      this.onData(strm.output.subarray(0, strm.next_out));
+      strm.avail_out = 0;
+      continue;
     }
 
-  } while ((strm.avail_in > 0 || strm.avail_out === 0) && status !== c.Z_STREAM_END);
-
-  if (status === c.Z_STREAM_END) {
-    _mode = c.Z_FINISH;
-  }
-
-  // Finalize on the last chunk.
-  if (_mode === c.Z_FINISH) {
-    status = zlib_inflate.inflateEnd(this.strm);
-    this.onEnd(status);
-    this.ended = true;
-    return status === c.Z_OK;
-  }
-
-  // callback interim results if Z_SYNC_FLUSH.
-  if (_mode === c.Z_SYNC_FLUSH) {
-    this.onEnd(c.Z_OK);
-    strm.avail_out = 0;
-    return true;
+    if (strm.avail_in === 0) break;
   }
 
   return true;
@@ -64197,39 +63764,30 @@ Inflate.prototype.push = function (data, mode) {
 
 
 /**
- * Inflate#onData(chunk) -> Void
- * - chunk (Uint8Array|Array|String): output data. Type of array depends
- *   on js engine support. When string output requested, each chunk
- *   will be string.
+ * Deflate#onData(chunk) -> Void
+ * - chunk (Uint8Array): output data.
  *
  * By default, stores data blocks in `chunks[]` property and glue
  * those in `onEnd`. Override this handler, if you need another behaviour.
  **/
-Inflate.prototype.onData = function (chunk) {
+Deflate$1.prototype.onData = function (chunk) {
   this.chunks.push(chunk);
 };
 
 
 /**
- * Inflate#onEnd(status) -> Void
- * - status (Number): inflate status. 0 (Z_OK) on success,
+ * Deflate#onEnd(status) -> Void
+ * - status (Number): deflate status. 0 (Z_OK) on success,
  *   other if not.
  *
- * Called either after you tell inflate that the input stream is
- * complete (Z_FINISH) or should be flushed (Z_SYNC_FLUSH)
- * or if an error happened. By default - join collected chunks,
+ * Called once after you tell deflate that the input stream is
+ * complete (Z_FINISH). By default - join collected chunks,
  * free memory and fill `results` / `err` properties.
  **/
-Inflate.prototype.onEnd = function (status) {
+Deflate$1.prototype.onEnd = function (status) {
   // On success - join
-  if (status === c.Z_OK) {
-    if (this.options.to === 'string') {
-      // Glue & convert here, until we teach pako to send
-      // utf8 aligned strings to onData
-      this.result = this.chunks.join('');
-    } else {
-      this.result = utils.flattenChunks(this.chunks);
-    }
+  if (status === Z_OK$2) {
+    this.result = common.flattenChunks(this.chunks);
   }
   this.chunks = [];
   this.err = status;
@@ -64238,93 +63796,92 @@ Inflate.prototype.onEnd = function (status) {
 
 
 /**
- * inflate(data[, options]) -> Uint8Array|Array|String
- * - data (Uint8Array|Array|String): input data to decompress.
- * - options (Object): zlib inflate options.
+ * deflate(data[, options]) -> Uint8Array
+ * - data (Uint8Array|String): input data to compress.
+ * - options (Object): zlib deflate options.
  *
- * Decompress `data` with inflate/ungzip and `options`. Autodetect
- * format via wrapper header by default. That's why we don't provide
- * separate `ungzip` method.
+ * Compress `data` with deflate algorithm and `options`.
  *
  * Supported options are:
  *
+ * - level
  * - windowBits
+ * - memLevel
+ * - strategy
+ * - dictionary
  *
  * [http://zlib.net/manual.html#Advanced](http://zlib.net/manual.html#Advanced)
- * for more information.
+ * for more information on these.
  *
  * Sugar (options):
  *
  * - `raw` (Boolean) - say that we work with raw stream, if you don't wish to specify
  *   negative windowBits implicitly.
- * - `to` (String) - if equal to 'string', then result will be converted
- *   from utf8 to utf16 (javascript) string. When string output requested,
- *   chunk length can differ from `chunkSize`, depending on content.
- *
  *
  * ##### Example:
  *
  * ```javascript
- * var pako = require('pako')
- *   , input = pako.deflate([1,2,3,4,5,6,7,8,9])
- *   , output;
+ * const pako = require('pako')
+ * const data = new Uint8Array([1,2,3,4,5,6,7,8,9]);
  *
- * try {
- *   output = pako.inflate(input);
- * } catch (err)
- *   console.log(err);
- * }
+ * console.log(pako.deflate(data));
  * ```
  **/
-function inflate(input, options) {
-  var inflator = new Inflate(options);
+function deflate$1(input, options) {
+  const deflator = new Deflate$1(options);
 
-  inflator.push(input, true);
+  deflator.push(input, true);
 
   // That will never happens, if you don't cheat with options :)
-  if (inflator.err) { throw inflator.msg || msg[inflator.err]; }
+  if (deflator.err) { throw deflator.msg || messages[deflator.err]; }
 
-  return inflator.result;
+  return deflator.result;
 }
 
 
 /**
- * inflateRaw(data[, options]) -> Uint8Array|Array|String
- * - data (Uint8Array|Array|String): input data to decompress.
- * - options (Object): zlib inflate options.
+ * deflateRaw(data[, options]) -> Uint8Array
+ * - data (Uint8Array|String): input data to compress.
+ * - options (Object): zlib deflate options.
  *
- * The same as [[inflate]], but creates raw data, without wrapper
+ * The same as [[deflate]], but creates raw data, without wrapper
  * (header and adler32 crc).
  **/
-function inflateRaw(input, options) {
+function deflateRaw$1(input, options) {
   options = options || {};
   options.raw = true;
-  return inflate(input, options);
+  return deflate$1(input, options);
 }
 
 
 /**
- * ungzip(data[, options]) -> Uint8Array|Array|String
- * - data (Uint8Array|Array|String): input data to decompress.
- * - options (Object): zlib inflate options.
+ * gzip(data[, options]) -> Uint8Array
+ * - data (Uint8Array|String): input data to compress.
+ * - options (Object): zlib deflate options.
  *
- * Just shortcut to [[inflate]], because it autodetects format
- * by header.content. Done for convenience.
+ * The same as [[deflate]], but create gzip wrapper instead of
+ * deflate one.
  **/
+function gzip$1(input, options) {
+  options = options || {};
+  options.gzip = true;
+  return deflate$1(input, options);
+}
 
 
-exports.Inflate = Inflate;
-exports.inflate = inflate;
-exports.inflateRaw = inflateRaw;
-exports.ungzip  = inflate;
+var Deflate_1$1 = Deflate$1;
+var deflate_2 = deflate$1;
+var deflateRaw_1$1 = deflateRaw$1;
+var gzip_1$1 = gzip$1;
+var constants$1 = constants$2;
 
-
-/***/ }),
-/* 531 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
+var deflate_1$1 = {
+	Deflate: Deflate_1$1,
+	deflate: deflate_2,
+	deflateRaw: deflateRaw_1$1,
+	gzip: gzip_1$1,
+	constants: constants$1
+};
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
 // (C) 2014-2017 Vitaly Puzrin and Andrey Tupitsin
@@ -64345,103 +63902,768 @@ exports.ungzip  = inflate;
 //   misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 
-var utils         = __webpack_require__(73);
-var adler32       = __webpack_require__(318);
-var crc32         = __webpack_require__(319);
-var inflate_fast  = __webpack_require__(532);
-var inflate_table = __webpack_require__(533);
+// See state defs from inflate.js
+const BAD$1 = 30;       /* got a data error -- remain here until reset */
+const TYPE$1 = 12;      /* i: waiting for type bits, including last-flag bit */
 
-var CODES = 0;
-var LENS = 1;
-var DISTS = 2;
+/*
+   Decode literal, length, and distance codes and write out the resulting
+   literal and match bytes until either not enough input or output is
+   available, an end-of-block is encountered, or a data error is encountered.
+   When large enough input and output buffers are supplied to inflate(), for
+   example, a 16K input buffer and a 64K output buffer, more than 95% of the
+   inflate execution time is spent in this routine.
+
+   Entry assumptions:
+
+        state.mode === LEN
+        strm.avail_in >= 6
+        strm.avail_out >= 258
+        start >= strm.avail_out
+        state.bits < 8
+
+   On return, state.mode is one of:
+
+        LEN -- ran out of enough output space or enough available input
+        TYPE -- reached end of block code, inflate() to interpret next block
+        BAD -- error in block data
+
+   Notes:
+
+    - The maximum input bits used by a length/distance pair is 15 bits for the
+      length code, 5 bits for the length extra, 15 bits for the distance code,
+      and 13 bits for the distance extra.  This totals 48 bits, or six bytes.
+      Therefore if strm.avail_in >= 6, then there is enough input to avoid
+      checking for available input while decoding.
+
+    - The maximum bytes that a single length/distance pair can output is 258
+      bytes, which is the maximum length that can be coded.  inflate_fast()
+      requires strm.avail_out >= 258 for each loop to avoid checking for
+      output space.
+ */
+var inffast = function inflate_fast(strm, start) {
+  let _in;                    /* local strm.input */
+  let last;                   /* have enough input while in < last */
+  let _out;                   /* local strm.output */
+  let beg;                    /* inflate()'s initial strm.output */
+  let end;                    /* while out < end, enough space available */
+//#ifdef INFLATE_STRICT
+  let dmax;                   /* maximum distance from zlib header */
+//#endif
+  let wsize;                  /* window size or zero if not using window */
+  let whave;                  /* valid bytes in the window */
+  let wnext;                  /* window write index */
+  // Use `s_window` instead `window`, avoid conflict with instrumentation tools
+  let s_window;               /* allocated sliding window, if wsize != 0 */
+  let hold;                   /* local strm.hold */
+  let bits;                   /* local strm.bits */
+  let lcode;                  /* local strm.lencode */
+  let dcode;                  /* local strm.distcode */
+  let lmask;                  /* mask for first level of length codes */
+  let dmask;                  /* mask for first level of distance codes */
+  let here;                   /* retrieved table entry */
+  let op;                     /* code bits, operation, extra bits, or */
+                              /*  window position, window bytes to copy */
+  let len;                    /* match length, unused bytes */
+  let dist;                   /* match distance */
+  let from;                   /* where to copy match from */
+  let from_source;
+
+
+  let input, output; // JS specific, because we have no pointers
+
+  /* copy state to local variables */
+  const state = strm.state;
+  //here = state.here;
+  _in = strm.next_in;
+  input = strm.input;
+  last = _in + (strm.avail_in - 5);
+  _out = strm.next_out;
+  output = strm.output;
+  beg = _out - (start - strm.avail_out);
+  end = _out + (strm.avail_out - 257);
+//#ifdef INFLATE_STRICT
+  dmax = state.dmax;
+//#endif
+  wsize = state.wsize;
+  whave = state.whave;
+  wnext = state.wnext;
+  s_window = state.window;
+  hold = state.hold;
+  bits = state.bits;
+  lcode = state.lencode;
+  dcode = state.distcode;
+  lmask = (1 << state.lenbits) - 1;
+  dmask = (1 << state.distbits) - 1;
+
+
+  /* decode literals and length/distances until end-of-block or not enough
+     input data or output space */
+
+  top:
+  do {
+    if (bits < 15) {
+      hold += input[_in++] << bits;
+      bits += 8;
+      hold += input[_in++] << bits;
+      bits += 8;
+    }
+
+    here = lcode[hold & lmask];
+
+    dolen:
+    for (;;) { // Goto emulation
+      op = here >>> 24/*here.bits*/;
+      hold >>>= op;
+      bits -= op;
+      op = (here >>> 16) & 0xff/*here.op*/;
+      if (op === 0) {                          /* literal */
+        //Tracevv((stderr, here.val >= 0x20 && here.val < 0x7f ?
+        //        "inflate:         literal '%c'\n" :
+        //        "inflate:         literal 0x%02x\n", here.val));
+        output[_out++] = here & 0xffff/*here.val*/;
+      }
+      else if (op & 16) {                     /* length base */
+        len = here & 0xffff/*here.val*/;
+        op &= 15;                           /* number of extra bits */
+        if (op) {
+          if (bits < op) {
+            hold += input[_in++] << bits;
+            bits += 8;
+          }
+          len += hold & ((1 << op) - 1);
+          hold >>>= op;
+          bits -= op;
+        }
+        //Tracevv((stderr, "inflate:         length %u\n", len));
+        if (bits < 15) {
+          hold += input[_in++] << bits;
+          bits += 8;
+          hold += input[_in++] << bits;
+          bits += 8;
+        }
+        here = dcode[hold & dmask];
+
+        dodist:
+        for (;;) { // goto emulation
+          op = here >>> 24/*here.bits*/;
+          hold >>>= op;
+          bits -= op;
+          op = (here >>> 16) & 0xff/*here.op*/;
+
+          if (op & 16) {                      /* distance base */
+            dist = here & 0xffff/*here.val*/;
+            op &= 15;                       /* number of extra bits */
+            if (bits < op) {
+              hold += input[_in++] << bits;
+              bits += 8;
+              if (bits < op) {
+                hold += input[_in++] << bits;
+                bits += 8;
+              }
+            }
+            dist += hold & ((1 << op) - 1);
+//#ifdef INFLATE_STRICT
+            if (dist > dmax) {
+              strm.msg = 'invalid distance too far back';
+              state.mode = BAD$1;
+              break top;
+            }
+//#endif
+            hold >>>= op;
+            bits -= op;
+            //Tracevv((stderr, "inflate:         distance %u\n", dist));
+            op = _out - beg;                /* max distance in output */
+            if (dist > op) {                /* see if copy from window */
+              op = dist - op;               /* distance back in window */
+              if (op > whave) {
+                if (state.sane) {
+                  strm.msg = 'invalid distance too far back';
+                  state.mode = BAD$1;
+                  break top;
+                }
+
+// (!) This block is disabled in zlib defaults,
+// don't enable it for binary compatibility
+//#ifdef INFLATE_ALLOW_INVALID_DISTANCE_TOOFAR_ARRR
+//                if (len <= op - whave) {
+//                  do {
+//                    output[_out++] = 0;
+//                  } while (--len);
+//                  continue top;
+//                }
+//                len -= op - whave;
+//                do {
+//                  output[_out++] = 0;
+//                } while (--op > whave);
+//                if (op === 0) {
+//                  from = _out - dist;
+//                  do {
+//                    output[_out++] = output[from++];
+//                  } while (--len);
+//                  continue top;
+//                }
+//#endif
+              }
+              from = 0; // window index
+              from_source = s_window;
+              if (wnext === 0) {           /* very common case */
+                from += wsize - op;
+                if (op < len) {         /* some from window */
+                  len -= op;
+                  do {
+                    output[_out++] = s_window[from++];
+                  } while (--op);
+                  from = _out - dist;  /* rest from output */
+                  from_source = output;
+                }
+              }
+              else if (wnext < op) {      /* wrap around window */
+                from += wsize + wnext - op;
+                op -= wnext;
+                if (op < len) {         /* some from end of window */
+                  len -= op;
+                  do {
+                    output[_out++] = s_window[from++];
+                  } while (--op);
+                  from = 0;
+                  if (wnext < len) {  /* some from start of window */
+                    op = wnext;
+                    len -= op;
+                    do {
+                      output[_out++] = s_window[from++];
+                    } while (--op);
+                    from = _out - dist;      /* rest from output */
+                    from_source = output;
+                  }
+                }
+              }
+              else {                      /* contiguous in window */
+                from += wnext - op;
+                if (op < len) {         /* some from window */
+                  len -= op;
+                  do {
+                    output[_out++] = s_window[from++];
+                  } while (--op);
+                  from = _out - dist;  /* rest from output */
+                  from_source = output;
+                }
+              }
+              while (len > 2) {
+                output[_out++] = from_source[from++];
+                output[_out++] = from_source[from++];
+                output[_out++] = from_source[from++];
+                len -= 3;
+              }
+              if (len) {
+                output[_out++] = from_source[from++];
+                if (len > 1) {
+                  output[_out++] = from_source[from++];
+                }
+              }
+            }
+            else {
+              from = _out - dist;          /* copy direct from output */
+              do {                        /* minimum length is three */
+                output[_out++] = output[from++];
+                output[_out++] = output[from++];
+                output[_out++] = output[from++];
+                len -= 3;
+              } while (len > 2);
+              if (len) {
+                output[_out++] = output[from++];
+                if (len > 1) {
+                  output[_out++] = output[from++];
+                }
+              }
+            }
+          }
+          else if ((op & 64) === 0) {          /* 2nd level distance code */
+            here = dcode[(here & 0xffff)/*here.val*/ + (hold & ((1 << op) - 1))];
+            continue dodist;
+          }
+          else {
+            strm.msg = 'invalid distance code';
+            state.mode = BAD$1;
+            break top;
+          }
+
+          break; // need to emulate goto via "continue"
+        }
+      }
+      else if ((op & 64) === 0) {              /* 2nd level length code */
+        here = lcode[(here & 0xffff)/*here.val*/ + (hold & ((1 << op) - 1))];
+        continue dolen;
+      }
+      else if (op & 32) {                     /* end-of-block */
+        //Tracevv((stderr, "inflate:         end of block\n"));
+        state.mode = TYPE$1;
+        break top;
+      }
+      else {
+        strm.msg = 'invalid literal/length code';
+        state.mode = BAD$1;
+        break top;
+      }
+
+      break; // need to emulate goto via "continue"
+    }
+  } while (_in < last && _out < end);
+
+  /* return unused bytes (on entry, bits < 8, so in won't go too far back) */
+  len = bits >> 3;
+  _in -= len;
+  bits -= len << 3;
+  hold &= (1 << bits) - 1;
+
+  /* update state and return */
+  strm.next_in = _in;
+  strm.next_out = _out;
+  strm.avail_in = (_in < last ? 5 + (last - _in) : 5 - (_in - last));
+  strm.avail_out = (_out < end ? 257 + (end - _out) : 257 - (_out - end));
+  state.hold = hold;
+  state.bits = bits;
+  return;
+};
+
+// (C) 1995-2013 Jean-loup Gailly and Mark Adler
+// (C) 2014-2017 Vitaly Puzrin and Andrey Tupitsin
+//
+// This software is provided 'as-is', without any express or implied
+// warranty. In no event will the authors be held liable for any damages
+// arising from the use of this software.
+//
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+//
+// 1. The origin of this software must not be misrepresented; you must not
+//   claim that you wrote the original software. If you use this software
+//   in a product, an acknowledgment in the product documentation would be
+//   appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+//   misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+
+const MAXBITS = 15;
+const ENOUGH_LENS$1 = 852;
+const ENOUGH_DISTS$1 = 592;
+//const ENOUGH = (ENOUGH_LENS+ENOUGH_DISTS);
+
+const CODES$1 = 0;
+const LENS$1 = 1;
+const DISTS$1 = 2;
+
+const lbase = new Uint16Array([ /* Length codes 257..285 base */
+  3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 17, 19, 23, 27, 31,
+  35, 43, 51, 59, 67, 83, 99, 115, 131, 163, 195, 227, 258, 0, 0
+]);
+
+const lext = new Uint8Array([ /* Length codes 257..285 extra */
+  16, 16, 16, 16, 16, 16, 16, 16, 17, 17, 17, 17, 18, 18, 18, 18,
+  19, 19, 19, 19, 20, 20, 20, 20, 21, 21, 21, 21, 16, 72, 78
+]);
+
+const dbase = new Uint16Array([ /* Distance codes 0..29 base */
+  1, 2, 3, 4, 5, 7, 9, 13, 17, 25, 33, 49, 65, 97, 129, 193,
+  257, 385, 513, 769, 1025, 1537, 2049, 3073, 4097, 6145,
+  8193, 12289, 16385, 24577, 0, 0
+]);
+
+const dext = new Uint8Array([ /* Distance codes 0..29 extra */
+  16, 16, 16, 16, 17, 17, 18, 18, 19, 19, 20, 20, 21, 21, 22, 22,
+  23, 23, 24, 24, 25, 25, 26, 26, 27, 27,
+  28, 28, 29, 29, 64, 64
+]);
+
+const inflate_table = (type, lens, lens_index, codes, table, table_index, work, opts) =>
+{
+  const bits = opts.bits;
+      //here = opts.here; /* table entry for duplication */
+
+  let len = 0;               /* a code's length in bits */
+  let sym = 0;               /* index of code symbols */
+  let min = 0, max = 0;          /* minimum and maximum code lengths */
+  let root = 0;              /* number of index bits for root table */
+  let curr = 0;              /* number of index bits for current table */
+  let drop = 0;              /* code bits to drop for sub-table */
+  let left = 0;                   /* number of prefix codes available */
+  let used = 0;              /* code entries in table used */
+  let huff = 0;              /* Huffman code */
+  let incr;              /* for incrementing code, index */
+  let fill;              /* index for replicating entries */
+  let low;               /* low bits for current root entry */
+  let mask;              /* mask for low root bits */
+  let next;             /* next available space in table */
+  let base = null;     /* base value table to use */
+  let base_index = 0;
+//  let shoextra;    /* extra bits table to use */
+  let end;                    /* use base and extra for symbol > end */
+  const count = new Uint16Array(MAXBITS + 1); //[MAXBITS+1];    /* number of codes of each length */
+  const offs = new Uint16Array(MAXBITS + 1); //[MAXBITS+1];     /* offsets in table for each length */
+  let extra = null;
+  let extra_index = 0;
+
+  let here_bits, here_op, here_val;
+
+  /*
+   Process a set of code lengths to create a canonical Huffman code.  The
+   code lengths are lens[0..codes-1].  Each length corresponds to the
+   symbols 0..codes-1.  The Huffman code is generated by first sorting the
+   symbols by length from short to long, and retaining the symbol order
+   for codes with equal lengths.  Then the code starts with all zero bits
+   for the first code of the shortest length, and the codes are integer
+   increments for the same length, and zeros are appended as the length
+   increases.  For the deflate format, these bits are stored backwards
+   from their more natural integer increment ordering, and so when the
+   decoding tables are built in the large loop below, the integer codes
+   are incremented backwards.
+
+   This routine assumes, but does not check, that all of the entries in
+   lens[] are in the range 0..MAXBITS.  The caller must assure this.
+   1..MAXBITS is interpreted as that code length.  zero means that that
+   symbol does not occur in this code.
+
+   The codes are sorted by computing a count of codes for each length,
+   creating from that a table of starting indices for each length in the
+   sorted table, and then entering the symbols in order in the sorted
+   table.  The sorted table is work[], with that space being provided by
+   the caller.
+
+   The length counts are used for other purposes as well, i.e. finding
+   the minimum and maximum length codes, determining if there are any
+   codes at all, checking for a valid set of lengths, and looking ahead
+   at length counts to determine sub-table sizes when building the
+   decoding tables.
+   */
+
+  /* accumulate lengths for codes (assumes lens[] all in 0..MAXBITS) */
+  for (len = 0; len <= MAXBITS; len++) {
+    count[len] = 0;
+  }
+  for (sym = 0; sym < codes; sym++) {
+    count[lens[lens_index + sym]]++;
+  }
+
+  /* bound code lengths, force root to be within code lengths */
+  root = bits;
+  for (max = MAXBITS; max >= 1; max--) {
+    if (count[max] !== 0) { break; }
+  }
+  if (root > max) {
+    root = max;
+  }
+  if (max === 0) {                     /* no symbols to code at all */
+    //table.op[opts.table_index] = 64;  //here.op = (var char)64;    /* invalid code marker */
+    //table.bits[opts.table_index] = 1;   //here.bits = (var char)1;
+    //table.val[opts.table_index++] = 0;   //here.val = (var short)0;
+    table[table_index++] = (1 << 24) | (64 << 16) | 0;
+
+
+    //table.op[opts.table_index] = 64;
+    //table.bits[opts.table_index] = 1;
+    //table.val[opts.table_index++] = 0;
+    table[table_index++] = (1 << 24) | (64 << 16) | 0;
+
+    opts.bits = 1;
+    return 0;     /* no symbols, but wait for decoding to report error */
+  }
+  for (min = 1; min < max; min++) {
+    if (count[min] !== 0) { break; }
+  }
+  if (root < min) {
+    root = min;
+  }
+
+  /* check for an over-subscribed or incomplete set of lengths */
+  left = 1;
+  for (len = 1; len <= MAXBITS; len++) {
+    left <<= 1;
+    left -= count[len];
+    if (left < 0) {
+      return -1;
+    }        /* over-subscribed */
+  }
+  if (left > 0 && (type === CODES$1 || max !== 1)) {
+    return -1;                      /* incomplete set */
+  }
+
+  /* generate offsets into symbol table for each length for sorting */
+  offs[1] = 0;
+  for (len = 1; len < MAXBITS; len++) {
+    offs[len + 1] = offs[len] + count[len];
+  }
+
+  /* sort symbols by length, by symbol order within each length */
+  for (sym = 0; sym < codes; sym++) {
+    if (lens[lens_index + sym] !== 0) {
+      work[offs[lens[lens_index + sym]]++] = sym;
+    }
+  }
+
+  /*
+   Create and fill in decoding tables.  In this loop, the table being
+   filled is at next and has curr index bits.  The code being used is huff
+   with length len.  That code is converted to an index by dropping drop
+   bits off of the bottom.  For codes where len is less than drop + curr,
+   those top drop + curr - len bits are incremented through all values to
+   fill the table with replicated entries.
+
+   root is the number of index bits for the root table.  When len exceeds
+   root, sub-tables are created pointed to by the root entry with an index
+   of the low root bits of huff.  This is saved in low to check for when a
+   new sub-table should be started.  drop is zero when the root table is
+   being filled, and drop is root when sub-tables are being filled.
+
+   When a new sub-table is needed, it is necessary to look ahead in the
+   code lengths to determine what size sub-table is needed.  The length
+   counts are used for this, and so count[] is decremented as codes are
+   entered in the tables.
+
+   used keeps track of how many table entries have been allocated from the
+   provided *table space.  It is checked for LENS and DIST tables against
+   the constants ENOUGH_LENS and ENOUGH_DISTS to guard against changes in
+   the initial root table size constants.  See the comments in inftrees.h
+   for more information.
+
+   sym increments through all symbols, and the loop terminates when
+   all codes of length max, i.e. all codes, have been processed.  This
+   routine permits incomplete codes, so another loop after this one fills
+   in the rest of the decoding tables with invalid code markers.
+   */
+
+  /* set up for code type */
+  // poor man optimization - use if-else instead of switch,
+  // to avoid deopts in old v8
+  if (type === CODES$1) {
+    base = extra = work;    /* dummy value--not used */
+    end = 19;
+
+  } else if (type === LENS$1) {
+    base = lbase;
+    base_index -= 257;
+    extra = lext;
+    extra_index -= 257;
+    end = 256;
+
+  } else {                    /* DISTS */
+    base = dbase;
+    extra = dext;
+    end = -1;
+  }
+
+  /* initialize opts for loop */
+  huff = 0;                   /* starting code */
+  sym = 0;                    /* starting code symbol */
+  len = min;                  /* starting code length */
+  next = table_index;              /* current table to fill in */
+  curr = root;                /* current table index bits */
+  drop = 0;                   /* current bits to drop from code for index */
+  low = -1;                   /* trigger new sub-table when len > root */
+  used = 1 << root;          /* use root table entries */
+  mask = used - 1;            /* mask for comparing low */
+
+  /* check available table space */
+  if ((type === LENS$1 && used > ENOUGH_LENS$1) ||
+    (type === DISTS$1 && used > ENOUGH_DISTS$1)) {
+    return 1;
+  }
+
+  /* process all codes and make table entries */
+  for (;;) {
+    /* create table entry */
+    here_bits = len - drop;
+    if (work[sym] < end) {
+      here_op = 0;
+      here_val = work[sym];
+    }
+    else if (work[sym] > end) {
+      here_op = extra[extra_index + work[sym]];
+      here_val = base[base_index + work[sym]];
+    }
+    else {
+      here_op = 32 + 64;         /* end of block */
+      here_val = 0;
+    }
+
+    /* replicate for those indices with low len bits equal to huff */
+    incr = 1 << (len - drop);
+    fill = 1 << curr;
+    min = fill;                 /* save offset to next table */
+    do {
+      fill -= incr;
+      table[next + (huff >> drop) + fill] = (here_bits << 24) | (here_op << 16) | here_val |0;
+    } while (fill !== 0);
+
+    /* backwards increment the len-bit code huff */
+    incr = 1 << (len - 1);
+    while (huff & incr) {
+      incr >>= 1;
+    }
+    if (incr !== 0) {
+      huff &= incr - 1;
+      huff += incr;
+    } else {
+      huff = 0;
+    }
+
+    /* go to next symbol, update count, len */
+    sym++;
+    if (--count[len] === 0) {
+      if (len === max) { break; }
+      len = lens[lens_index + work[sym]];
+    }
+
+    /* create new sub-table if needed */
+    if (len > root && (huff & mask) !== low) {
+      /* if first time, transition to sub-tables */
+      if (drop === 0) {
+        drop = root;
+      }
+
+      /* increment past last table */
+      next += min;            /* here min is 1 << curr */
+
+      /* determine length of next table */
+      curr = len - drop;
+      left = 1 << curr;
+      while (curr + drop < max) {
+        left -= count[curr + drop];
+        if (left <= 0) { break; }
+        curr++;
+        left <<= 1;
+      }
+
+      /* check for enough space */
+      used += 1 << curr;
+      if ((type === LENS$1 && used > ENOUGH_LENS$1) ||
+        (type === DISTS$1 && used > ENOUGH_DISTS$1)) {
+        return 1;
+      }
+
+      /* point entry in root table to sub-table */
+      low = huff & mask;
+      /*table.op[low] = curr;
+      table.bits[low] = root;
+      table.val[low] = next - opts.table_index;*/
+      table[low] = (root << 24) | (curr << 16) | (next - table_index) |0;
+    }
+  }
+
+  /* fill in remaining table entry if code is incomplete (guaranteed to have
+   at most one remaining entry, since if the code is incomplete, the
+   maximum code length that was allowed to get this far is one bit) */
+  if (huff !== 0) {
+    //table.op[next + huff] = 64;            /* invalid code marker */
+    //table.bits[next + huff] = len - drop;
+    //table.val[next + huff] = 0;
+    table[next + huff] = ((len - drop) << 24) | (64 << 16) |0;
+  }
+
+  /* set return parameters */
+  //opts.table_index += used;
+  opts.bits = root;
+  return 0;
+};
+
+
+var inftrees = inflate_table;
+
+// (C) 1995-2013 Jean-loup Gailly and Mark Adler
+// (C) 2014-2017 Vitaly Puzrin and Andrey Tupitsin
+//
+// This software is provided 'as-is', without any express or implied
+// warranty. In no event will the authors be held liable for any damages
+// arising from the use of this software.
+//
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+//
+// 1. The origin of this software must not be misrepresented; you must not
+//   claim that you wrote the original software. If you use this software
+//   in a product, an acknowledgment in the product documentation would be
+//   appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+//   misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+
+
+
+
+
+
+const CODES = 0;
+const LENS = 1;
+const DISTS = 2;
 
 /* Public constants ==========================================================*/
 /* ===========================================================================*/
 
-
-/* Allowed flush values; see deflate() and inflate() below for details */
-//var Z_NO_FLUSH      = 0;
-//var Z_PARTIAL_FLUSH = 1;
-//var Z_SYNC_FLUSH    = 2;
-//var Z_FULL_FLUSH    = 3;
-var Z_FINISH        = 4;
-var Z_BLOCK         = 5;
-var Z_TREES         = 6;
-
-
-/* Return codes for the compression/decompression functions. Negative values
- * are errors, positive values are used for special but normal events.
- */
-var Z_OK            = 0;
-var Z_STREAM_END    = 1;
-var Z_NEED_DICT     = 2;
-//var Z_ERRNO         = -1;
-var Z_STREAM_ERROR  = -2;
-var Z_DATA_ERROR    = -3;
-var Z_MEM_ERROR     = -4;
-var Z_BUF_ERROR     = -5;
-//var Z_VERSION_ERROR = -6;
-
-/* The deflate compression method */
-var Z_DEFLATED  = 8;
+const {
+  Z_FINISH: Z_FINISH$1, Z_BLOCK, Z_TREES,
+  Z_OK: Z_OK$1, Z_STREAM_END: Z_STREAM_END$1, Z_NEED_DICT: Z_NEED_DICT$1, Z_STREAM_ERROR: Z_STREAM_ERROR$1, Z_DATA_ERROR: Z_DATA_ERROR$1, Z_MEM_ERROR: Z_MEM_ERROR$1, Z_BUF_ERROR,
+  Z_DEFLATED
+} = constants$2;
 
 
 /* STATES ====================================================================*/
 /* ===========================================================================*/
 
 
-var    HEAD = 1;       /* i: waiting for magic header */
-var    FLAGS = 2;      /* i: waiting for method and flags (gzip) */
-var    TIME = 3;       /* i: waiting for modification time (gzip) */
-var    OS = 4;         /* i: waiting for extra flags and operating system (gzip) */
-var    EXLEN = 5;      /* i: waiting for extra length (gzip) */
-var    EXTRA = 6;      /* i: waiting for extra bytes (gzip) */
-var    NAME = 7;       /* i: waiting for end of file name (gzip) */
-var    COMMENT = 8;    /* i: waiting for end of comment (gzip) */
-var    HCRC = 9;       /* i: waiting for header crc (gzip) */
-var    DICTID = 10;    /* i: waiting for dictionary check value */
-var    DICT = 11;      /* waiting for inflateSetDictionary() call */
-var        TYPE = 12;      /* i: waiting for type bits, including last-flag bit */
-var        TYPEDO = 13;    /* i: same, but skip check to exit inflate on new block */
-var        STORED = 14;    /* i: waiting for stored size (length and complement) */
-var        COPY_ = 15;     /* i/o: same as COPY below, but only first time in */
-var        COPY = 16;      /* i/o: waiting for input or output to copy stored block */
-var        TABLE = 17;     /* i: waiting for dynamic block table lengths */
-var        LENLENS = 18;   /* i: waiting for code length code lengths */
-var        CODELENS = 19;  /* i: waiting for length/lit and distance code lengths */
-var            LEN_ = 20;      /* i: same as LEN below, but only first time in */
-var            LEN = 21;       /* i: waiting for length/lit/eob code */
-var            LENEXT = 22;    /* i: waiting for length extra bits */
-var            DIST = 23;      /* i: waiting for distance code */
-var            DISTEXT = 24;   /* i: waiting for distance extra bits */
-var            MATCH = 25;     /* o: waiting for output space to copy string */
-var            LIT = 26;       /* o: waiting for output space to write literal */
-var    CHECK = 27;     /* i: waiting for 32-bit check value */
-var    LENGTH = 28;    /* i: waiting for 32-bit length (gzip) */
-var    DONE = 29;      /* finished check, done -- remain here until reset */
-var    BAD = 30;       /* got a data error -- remain here until reset */
-var    MEM = 31;       /* got an inflate() memory error -- remain here until reset */
-var    SYNC = 32;      /* looking for synchronization bytes to restart inflate() */
+const    HEAD = 1;       /* i: waiting for magic header */
+const    FLAGS = 2;      /* i: waiting for method and flags (gzip) */
+const    TIME = 3;       /* i: waiting for modification time (gzip) */
+const    OS = 4;         /* i: waiting for extra flags and operating system (gzip) */
+const    EXLEN = 5;      /* i: waiting for extra length (gzip) */
+const    EXTRA = 6;      /* i: waiting for extra bytes (gzip) */
+const    NAME = 7;       /* i: waiting for end of file name (gzip) */
+const    COMMENT = 8;    /* i: waiting for end of comment (gzip) */
+const    HCRC = 9;       /* i: waiting for header crc (gzip) */
+const    DICTID = 10;    /* i: waiting for dictionary check value */
+const    DICT = 11;      /* waiting for inflateSetDictionary() call */
+const        TYPE = 12;      /* i: waiting for type bits, including last-flag bit */
+const        TYPEDO = 13;    /* i: same, but skip check to exit inflate on new block */
+const        STORED = 14;    /* i: waiting for stored size (length and complement) */
+const        COPY_ = 15;     /* i/o: same as COPY below, but only first time in */
+const        COPY = 16;      /* i/o: waiting for input or output to copy stored block */
+const        TABLE = 17;     /* i: waiting for dynamic block table lengths */
+const        LENLENS = 18;   /* i: waiting for code length code lengths */
+const        CODELENS = 19;  /* i: waiting for length/lit and distance code lengths */
+const            LEN_ = 20;      /* i: same as LEN below, but only first time in */
+const            LEN = 21;       /* i: waiting for length/lit/eob code */
+const            LENEXT = 22;    /* i: waiting for length extra bits */
+const            DIST = 23;      /* i: waiting for distance code */
+const            DISTEXT = 24;   /* i: waiting for distance extra bits */
+const            MATCH = 25;     /* o: waiting for output space to copy string */
+const            LIT = 26;       /* o: waiting for output space to write literal */
+const    CHECK = 27;     /* i: waiting for 32-bit check value */
+const    LENGTH = 28;    /* i: waiting for 32-bit length (gzip) */
+const    DONE = 29;      /* finished check, done -- remain here until reset */
+const    BAD = 30;       /* got a data error -- remain here until reset */
+const    MEM = 31;       /* got an inflate() memory error -- remain here until reset */
+const    SYNC = 32;      /* looking for synchronization bytes to restart inflate() */
 
 /* ===========================================================================*/
 
 
 
-var ENOUGH_LENS = 852;
-var ENOUGH_DISTS = 592;
-//var ENOUGH =  (ENOUGH_LENS+ENOUGH_DISTS);
+const ENOUGH_LENS = 852;
+const ENOUGH_DISTS = 592;
+//const ENOUGH =  (ENOUGH_LENS+ENOUGH_DISTS);
 
-var MAX_WBITS = 15;
+const MAX_WBITS = 15;
 /* 32K LZ77 window */
-var DEF_WBITS = MAX_WBITS;
+const DEF_WBITS = MAX_WBITS;
 
 
-function zswap32(q) {
+const zswap32 = (q) => {
+
   return  (((q >>> 24) & 0xff) +
           ((q >>> 8) & 0xff00) +
           ((q & 0xff00) << 8) +
           ((q & 0xff) << 24));
-}
+};
 
 
 function InflateState() {
@@ -64487,14 +64709,14 @@ function InflateState() {
   this.have = 0;              /* number of code lengths in lens[] */
   this.next = null;              /* next available space in codes[] */
 
-  this.lens = new utils.Buf16(320); /* temporary storage for code lengths */
-  this.work = new utils.Buf16(288); /* work area for code table building */
+  this.lens = new Uint16Array(320); /* temporary storage for code lengths */
+  this.work = new Uint16Array(288); /* work area for code table building */
 
   /*
    because we don't have pointers in js, we use lencode and distcode directly
    as buffers so we don't need codes
   */
-  //this.codes = new utils.Buf32(ENOUGH);       /* space for code tables */
+  //this.codes = new Int32Array(ENOUGH);       /* space for code tables */
   this.lendyn = null;              /* dynamic table for length/literal codes (JS specific) */
   this.distdyn = null;             /* dynamic table for distance codes (JS specific) */
   this.sane = 0;                   /* if false, allow invalid distance too far */
@@ -64502,11 +64724,11 @@ function InflateState() {
   this.was = 0;                    /* initial length of match */
 }
 
-function inflateResetKeep(strm) {
-  var state;
 
-  if (!strm || !strm.state) { return Z_STREAM_ERROR; }
-  state = strm.state;
+const inflateResetKeep = (strm) => {
+
+  if (!strm || !strm.state) { return Z_STREAM_ERROR$1; }
+  const state = strm.state;
   strm.total_in = strm.total_out = state.total = 0;
   strm.msg = ''; /*Z_NULL*/
   if (state.wrap) {       /* to support ill-conceived Java test suite */
@@ -64520,34 +64742,34 @@ function inflateResetKeep(strm) {
   state.hold = 0;
   state.bits = 0;
   //state.lencode = state.distcode = state.next = state.codes;
-  state.lencode = state.lendyn = new utils.Buf32(ENOUGH_LENS);
-  state.distcode = state.distdyn = new utils.Buf32(ENOUGH_DISTS);
+  state.lencode = state.lendyn = new Int32Array(ENOUGH_LENS);
+  state.distcode = state.distdyn = new Int32Array(ENOUGH_DISTS);
 
   state.sane = 1;
   state.back = -1;
   //Tracev((stderr, "inflate: reset\n"));
-  return Z_OK;
-}
+  return Z_OK$1;
+};
 
-function inflateReset(strm) {
-  var state;
 
-  if (!strm || !strm.state) { return Z_STREAM_ERROR; }
-  state = strm.state;
+const inflateReset = (strm) => {
+
+  if (!strm || !strm.state) { return Z_STREAM_ERROR$1; }
+  const state = strm.state;
   state.wsize = 0;
   state.whave = 0;
   state.wnext = 0;
   return inflateResetKeep(strm);
 
-}
+};
 
-function inflateReset2(strm, windowBits) {
-  var wrap;
-  var state;
+
+const inflateReset2 = (strm, windowBits) => {
+  let wrap;
 
   /* get the state */
-  if (!strm || !strm.state) { return Z_STREAM_ERROR; }
-  state = strm.state;
+  if (!strm || !strm.state) { return Z_STREAM_ERROR$1; }
+  const state = strm.state;
 
   /* extract wrap request from windowBits parameter */
   if (windowBits < 0) {
@@ -64563,7 +64785,7 @@ function inflateReset2(strm, windowBits) {
 
   /* set number of window bits, free window if different */
   if (windowBits && (windowBits < 8 || windowBits > 15)) {
-    return Z_STREAM_ERROR;
+    return Z_STREAM_ERROR$1;
   }
   if (state.window !== null && state.wbits !== windowBits) {
     state.window = null;
@@ -64573,31 +64795,32 @@ function inflateReset2(strm, windowBits) {
   state.wrap = wrap;
   state.wbits = windowBits;
   return inflateReset(strm);
-}
+};
 
-function inflateInit2(strm, windowBits) {
-  var ret;
-  var state;
 
-  if (!strm) { return Z_STREAM_ERROR; }
+const inflateInit2 = (strm, windowBits) => {
+
+  if (!strm) { return Z_STREAM_ERROR$1; }
   //strm.msg = Z_NULL;                 /* in case we return an error */
 
-  state = new InflateState();
+  const state = new InflateState();
 
   //if (state === Z_NULL) return Z_MEM_ERROR;
   //Tracev((stderr, "inflate: allocated\n"));
   strm.state = state;
   state.window = null/*Z_NULL*/;
-  ret = inflateReset2(strm, windowBits);
-  if (ret !== Z_OK) {
+  const ret = inflateReset2(strm, windowBits);
+  if (ret !== Z_OK$1) {
     strm.state = null/*Z_NULL*/;
   }
   return ret;
-}
+};
 
-function inflateInit(strm) {
+
+const inflateInit = (strm) => {
+
   return inflateInit2(strm, DEF_WBITS);
-}
+};
 
 
 /*
@@ -64610,32 +64833,32 @@ function inflateInit(strm) {
  used for threaded applications, since the rewriting of the tables and virgin
  may not be thread-safe.
  */
-var virgin = true;
+let virgin = true;
 
-var lenfix, distfix; // We have no pointers in JS, so keep tables separate
+let lenfix, distfix; // We have no pointers in JS, so keep tables separate
 
-function fixedtables(state) {
+
+const fixedtables = (state) => {
+
   /* build fixed huffman tables if first call (may not be thread safe) */
   if (virgin) {
-    var sym;
-
-    lenfix = new utils.Buf32(512);
-    distfix = new utils.Buf32(32);
+    lenfix = new Int32Array(512);
+    distfix = new Int32Array(32);
 
     /* literal/length table */
-    sym = 0;
+    let sym = 0;
     while (sym < 144) { state.lens[sym++] = 8; }
     while (sym < 256) { state.lens[sym++] = 9; }
     while (sym < 280) { state.lens[sym++] = 7; }
     while (sym < 288) { state.lens[sym++] = 8; }
 
-    inflate_table(LENS,  state.lens, 0, 288, lenfix,   0, state.work, { bits: 9 });
+    inftrees(LENS,  state.lens, 0, 288, lenfix,   0, state.work, { bits: 9 });
 
     /* distance table */
     sym = 0;
     while (sym < 32) { state.lens[sym++] = 5; }
 
-    inflate_table(DISTS, state.lens, 0, 32,   distfix, 0, state.work, { bits: 5 });
+    inftrees(DISTS, state.lens, 0, 32,   distfix, 0, state.work, { bits: 5 });
 
     /* do this just once */
     virgin = false;
@@ -64645,7 +64868,7 @@ function fixedtables(state) {
   state.lenbits = 9;
   state.distcode = distfix;
   state.distbits = 5;
-}
+};
 
 
 /*
@@ -64662,9 +64885,10 @@ function fixedtables(state) {
  output will fall in the output data, making match copies simpler and faster.
  The advantage may be dependent on the size of the processor's data caches.
  */
-function updatewindow(strm, src, end, copy) {
-  var dist;
-  var state = strm.state;
+const updatewindow = (strm, src, end, copy) => {
+
+  let dist;
+  const state = strm.state;
 
   /* if it hasn't been done already, allocate space for the window */
   if (state.window === null) {
@@ -64672,12 +64896,12 @@ function updatewindow(strm, src, end, copy) {
     state.wnext = 0;
     state.whave = 0;
 
-    state.window = new utils.Buf8(state.wsize);
+    state.window = new Uint8Array(state.wsize);
   }
 
   /* copy state->wsize or less output bytes into the circular window */
   if (copy >= state.wsize) {
-    utils.arraySet(state.window, src, end - state.wsize, state.wsize, 0);
+    state.window.set(src.subarray(end - state.wsize, end), 0);
     state.wnext = 0;
     state.whave = state.wsize;
   }
@@ -64687,11 +64911,11 @@ function updatewindow(strm, src, end, copy) {
       dist = copy;
     }
     //zmemcpy(state->window + state->wnext, end - copy, dist);
-    utils.arraySet(state.window, src, end - copy, dist, state.wnext);
+    state.window.set(src.subarray(end - copy, end - copy + dist), state.wnext);
     copy -= dist;
     if (copy) {
       //zmemcpy(state->window, end - copy, copy);
-      utils.arraySet(state.window, src, end - copy, copy, 0);
+      state.window.set(src.subarray(end - copy, end), 0);
       state.wnext = copy;
       state.whave = state.wsize;
     }
@@ -64702,38 +64926,40 @@ function updatewindow(strm, src, end, copy) {
     }
   }
   return 0;
-}
+};
 
-function inflate(strm, flush) {
-  var state;
-  var input, output;          // input/output buffers
-  var next;                   /* next input INDEX */
-  var put;                    /* next output INDEX */
-  var have, left;             /* available input and output */
-  var hold;                   /* bit buffer */
-  var bits;                   /* bits in bit buffer */
-  var _in, _out;              /* save starting available input and output */
-  var copy;                   /* number of stored or match bytes to copy */
-  var from;                   /* where to copy match bytes from */
-  var from_source;
-  var here = 0;               /* current decoding table entry */
-  var here_bits, here_op, here_val; // paked "here" denormalized (JS specific)
-  //var last;                   /* parent table entry */
-  var last_bits, last_op, last_val; // paked "last" denormalized (JS specific)
-  var len;                    /* length to copy for repeats, bits to drop */
-  var ret;                    /* return code */
-  var hbuf = new utils.Buf8(4);    /* buffer for gzip header crc calculation */
-  var opts;
 
-  var n; // temporary var for NEED_BITS
+const inflate$2 = (strm, flush) => {
 
-  var order = /* permutation of code lengths */
-    [ 16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15 ];
+  let state;
+  let input, output;          // input/output buffers
+  let next;                   /* next input INDEX */
+  let put;                    /* next output INDEX */
+  let have, left;             /* available input and output */
+  let hold;                   /* bit buffer */
+  let bits;                   /* bits in bit buffer */
+  let _in, _out;              /* save starting available input and output */
+  let copy;                   /* number of stored or match bytes to copy */
+  let from;                   /* where to copy match bytes from */
+  let from_source;
+  let here = 0;               /* current decoding table entry */
+  let here_bits, here_op, here_val; // paked "here" denormalized (JS specific)
+  //let last;                   /* parent table entry */
+  let last_bits, last_op, last_val; // paked "last" denormalized (JS specific)
+  let len;                    /* length to copy for repeats, bits to drop */
+  let ret;                    /* return code */
+  const hbuf = new Uint8Array(4);    /* buffer for gzip header crc calculation */
+  let opts;
+
+  let n; // temporary variable for NEED_BITS
+
+  const order = /* permutation of code lengths */
+    new Uint8Array([ 16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15 ]);
 
 
   if (!strm || !strm.state || !strm.output ||
       (!strm.input && strm.avail_in !== 0)) {
-    return Z_STREAM_ERROR;
+    return Z_STREAM_ERROR$1;
   }
 
   state = strm.state;
@@ -64753,7 +64979,7 @@ function inflate(strm, flush) {
 
   _in = have;
   _out = left;
-  ret = Z_OK;
+  ret = Z_OK$1;
 
   inf_leave: // goto emulation
   for (;;) {
@@ -64776,7 +65002,7 @@ function inflate(strm, flush) {
           //=== CRC2(state.check, hold);
           hbuf[0] = hold & 0xff;
           hbuf[1] = (hold >>> 8) & 0xff;
-          state.check = crc32(state.check, hbuf, 2, 0);
+          state.check = crc32_1(state.check, hbuf, 2, 0);
           //===//
 
           //=== INITBITS();
@@ -64814,7 +65040,12 @@ function inflate(strm, flush) {
           state.mode = BAD;
           break;
         }
-        state.dmax = 1 << len;
+
+        // !!! pako patch. Force use `options.windowBits` if passed.
+        // Required to always use max window size by default.
+        state.dmax = 1 << state.wbits;
+        //state.dmax = 1 << len;
+
         //Tracev((stderr, "inflate:   zlib header ok\n"));
         strm.adler = state.check = 1/*adler32(0L, Z_NULL, 0)*/;
         state.mode = hold & 0x200 ? DICTID : TYPE;
@@ -64850,7 +65081,7 @@ function inflate(strm, flush) {
           //=== CRC2(state.check, hold);
           hbuf[0] = hold & 0xff;
           hbuf[1] = (hold >>> 8) & 0xff;
-          state.check = crc32(state.check, hbuf, 2, 0);
+          state.check = crc32_1(state.check, hbuf, 2, 0);
           //===//
         }
         //=== INITBITS();
@@ -64877,7 +65108,7 @@ function inflate(strm, flush) {
           hbuf[1] = (hold >>> 8) & 0xff;
           hbuf[2] = (hold >>> 16) & 0xff;
           hbuf[3] = (hold >>> 24) & 0xff;
-          state.check = crc32(state.check, hbuf, 4, 0);
+          state.check = crc32_1(state.check, hbuf, 4, 0);
           //===
         }
         //=== INITBITS();
@@ -64903,7 +65134,7 @@ function inflate(strm, flush) {
           //=== CRC2(state.check, hold);
           hbuf[0] = hold & 0xff;
           hbuf[1] = (hold >>> 8) & 0xff;
-          state.check = crc32(state.check, hbuf, 2, 0);
+          state.check = crc32_1(state.check, hbuf, 2, 0);
           //===//
         }
         //=== INITBITS();
@@ -64930,7 +65161,7 @@ function inflate(strm, flush) {
             //=== CRC2(state.check, hold);
             hbuf[0] = hold & 0xff;
             hbuf[1] = (hold >>> 8) & 0xff;
-            state.check = crc32(state.check, hbuf, 2, 0);
+            state.check = crc32_1(state.check, hbuf, 2, 0);
             //===//
           }
           //=== INITBITS();
@@ -64952,15 +65183,15 @@ function inflate(strm, flush) {
               len = state.head.extra_len - state.length;
               if (!state.head.extra) {
                 // Use untyped array for more convenient processing later
-                state.head.extra = new Array(state.head.extra_len);
+                state.head.extra = new Uint8Array(state.head.extra_len);
               }
-              utils.arraySet(
-                state.head.extra,
-                input,
-                next,
-                // extra field is limited to 65536 bytes
-                // - no need for additional size check
-                copy,
+              state.head.extra.set(
+                input.subarray(
+                  next,
+                  // extra field is limited to 65536 bytes
+                  // - no need for additional size check
+                  next + copy
+                ),
                 /*len + copy > state.head.extra_max - len ? state.head.extra_max : copy,*/
                 len
               );
@@ -64969,7 +65200,7 @@ function inflate(strm, flush) {
               //        state.head.extra_max - len : copy);
             }
             if (state.flags & 0x0200) {
-              state.check = crc32(state.check, input, copy, next);
+              state.check = crc32_1(state.check, input, copy, next);
             }
             have -= copy;
             next += copy;
@@ -64995,7 +65226,7 @@ function inflate(strm, flush) {
           } while (len && copy < have);
 
           if (state.flags & 0x0200) {
-            state.check = crc32(state.check, input, copy, next);
+            state.check = crc32_1(state.check, input, copy, next);
           }
           have -= copy;
           next += copy;
@@ -65020,7 +65251,7 @@ function inflate(strm, flush) {
             }
           } while (len && copy < have);
           if (state.flags & 0x0200) {
-            state.check = crc32(state.check, input, copy, next);
+            state.check = crc32_1(state.check, input, copy, next);
           }
           have -= copy;
           next += copy;
@@ -65084,7 +65315,7 @@ function inflate(strm, flush) {
           state.hold = hold;
           state.bits = bits;
           //---
-          return Z_NEED_DICT;
+          return Z_NEED_DICT$1;
         }
         strm.adler = state.check = 1/*adler32(0L, Z_NULL, 0)*/;
         state.mode = TYPE;
@@ -65186,7 +65417,7 @@ function inflate(strm, flush) {
           if (copy > left) { copy = left; }
           if (copy === 0) { break inf_leave; }
           //--- zmemcpy(put, next, copy); ---
-          utils.arraySet(output, input, next, copy, put);
+          output.set(input.subarray(next, next + copy), put);
           //---//
           have -= copy;
           next += copy;
@@ -65260,7 +65491,7 @@ function inflate(strm, flush) {
         state.lenbits = 7;
 
         opts = { bits: state.lenbits };
-        ret = inflate_table(CODES, state.lens, 0, 19, state.lencode, 0, state.work, opts);
+        ret = inftrees(CODES, state.lens, 0, 19, state.lencode, 0, state.work, opts);
         state.lenbits = opts.bits;
 
         if (ret) {
@@ -65391,7 +65622,7 @@ function inflate(strm, flush) {
         state.lenbits = 9;
 
         opts = { bits: state.lenbits };
-        ret = inflate_table(LENS, state.lens, 0, state.nlen, state.lencode, 0, state.work, opts);
+        ret = inftrees(LENS, state.lens, 0, state.nlen, state.lencode, 0, state.work, opts);
         // We have separate tables & no pointers. 2 commented lines below not needed.
         // state.next_index = opts.table_index;
         state.lenbits = opts.bits;
@@ -65408,7 +65639,7 @@ function inflate(strm, flush) {
         // Switch to use dynamic table
         state.distcode = state.distdyn;
         opts = { bits: state.distbits };
-        ret = inflate_table(DISTS, state.lens, state.nlen, state.ndist, state.distcode, 0, state.work, opts);
+        ret = inftrees(DISTS, state.lens, state.nlen, state.ndist, state.distcode, 0, state.work, opts);
         // We have separate tables & no pointers. 2 commented lines below not needed.
         // state.next_index = opts.table_index;
         state.distbits = opts.bits;
@@ -65436,7 +65667,7 @@ function inflate(strm, flush) {
           state.hold = hold;
           state.bits = bits;
           //---
-          inflate_fast(strm, _out);
+          inffast(strm, _out);
           //--- LOAD() ---
           put = strm.next_out;
           output = strm.output;
@@ -65697,7 +65928,7 @@ function inflate(strm, flush) {
           if (_out) {
             strm.adler = state.check =
                 /*UPDATE(state.check, put - _out, _out);*/
-                (state.flags ? crc32(state.check, output, _out, put - _out) : adler32(state.check, output, _out, put - _out));
+                (state.flags ? crc32_1(state.check, output, _out, put - _out) : adler32_1(state.check, output, _out, put - _out));
 
           }
           _out = left;
@@ -65739,17 +65970,17 @@ function inflate(strm, flush) {
         state.mode = DONE;
         /* falls through */
       case DONE:
-        ret = Z_STREAM_END;
+        ret = Z_STREAM_END$1;
         break inf_leave;
       case BAD:
-        ret = Z_DATA_ERROR;
+        ret = Z_DATA_ERROR$1;
         break inf_leave;
       case MEM:
-        return Z_MEM_ERROR;
+        return Z_MEM_ERROR$1;
       case SYNC:
         /* falls through */
       default:
-        return Z_STREAM_ERROR;
+        return Z_STREAM_ERROR$1;
     }
   }
 
@@ -65772,11 +66003,8 @@ function inflate(strm, flush) {
   //---
 
   if (state.wsize || (_out !== strm.avail_out && state.mode < BAD &&
-                      (state.mode < CHECK || flush !== Z_FINISH))) {
-    if (updatewindow(strm, strm.output, strm.next_out, _out - strm.avail_out)) {
-      state.mode = MEM;
-      return Z_MEM_ERROR;
-    }
+                      (state.mode < CHECK || flush !== Z_FINISH$1))) {
+    if (updatewindow(strm, strm.output, strm.next_out, _out - strm.avail_out)) ;
   }
   _in -= strm.avail_in;
   _out -= strm.avail_out;
@@ -65785,67 +66013,69 @@ function inflate(strm, flush) {
   state.total += _out;
   if (state.wrap && _out) {
     strm.adler = state.check = /*UPDATE(state.check, strm.next_out - _out, _out);*/
-      (state.flags ? crc32(state.check, output, _out, strm.next_out - _out) : adler32(state.check, output, _out, strm.next_out - _out));
+      (state.flags ? crc32_1(state.check, output, _out, strm.next_out - _out) : adler32_1(state.check, output, _out, strm.next_out - _out));
   }
   strm.data_type = state.bits + (state.last ? 64 : 0) +
                     (state.mode === TYPE ? 128 : 0) +
                     (state.mode === LEN_ || state.mode === COPY_ ? 256 : 0);
-  if (((_in === 0 && _out === 0) || flush === Z_FINISH) && ret === Z_OK) {
+  if (((_in === 0 && _out === 0) || flush === Z_FINISH$1) && ret === Z_OK$1) {
     ret = Z_BUF_ERROR;
   }
   return ret;
-}
+};
 
-function inflateEnd(strm) {
+
+const inflateEnd = (strm) => {
 
   if (!strm || !strm.state /*|| strm->zfree == (free_func)0*/) {
-    return Z_STREAM_ERROR;
+    return Z_STREAM_ERROR$1;
   }
 
-  var state = strm.state;
+  let state = strm.state;
   if (state.window) {
     state.window = null;
   }
   strm.state = null;
-  return Z_OK;
-}
+  return Z_OK$1;
+};
 
-function inflateGetHeader(strm, head) {
-  var state;
+
+const inflateGetHeader = (strm, head) => {
 
   /* check state */
-  if (!strm || !strm.state) { return Z_STREAM_ERROR; }
-  state = strm.state;
-  if ((state.wrap & 2) === 0) { return Z_STREAM_ERROR; }
+  if (!strm || !strm.state) { return Z_STREAM_ERROR$1; }
+  const state = strm.state;
+  if ((state.wrap & 2) === 0) { return Z_STREAM_ERROR$1; }
 
   /* save header structure */
   state.head = head;
   head.done = false;
-  return Z_OK;
-}
+  return Z_OK$1;
+};
 
-function inflateSetDictionary(strm, dictionary) {
-  var dictLength = dictionary.length;
 
-  var state;
-  var dictid;
-  var ret;
+const inflateSetDictionary = (strm, dictionary) => {
+  const dictLength = dictionary.length;
+
+  let state;
+  let dictid;
+  let ret;
 
   /* check state */
-  if (!strm /* == Z_NULL */ || !strm.state /* == Z_NULL */) { return Z_STREAM_ERROR; }
+  if (!strm /* == Z_NULL */ || !strm.state /* == Z_NULL */) { return Z_STREAM_ERROR$1; }
   state = strm.state;
 
   if (state.wrap !== 0 && state.mode !== DICT) {
-    return Z_STREAM_ERROR;
+    return Z_STREAM_ERROR$1;
   }
 
   /* check for correct dictionary identifier */
   if (state.mode === DICT) {
     dictid = 1; /* adler32(0, null, 0)*/
     /* dictid = adler32(dictid, dictionary, dictLength); */
-    dictid = adler32(dictid, dictionary, dictLength, 0);
+    dictid = adler32_1(dictid, dictionary, dictLength, 0);
     if (dictid !== state.check) {
-      return Z_DATA_ERROR;
+      return Z_DATA_ERROR$1;
     }
   }
   /* copy dictionary to window using updatewindow(), which will amend the
@@ -65853,743 +66083,47 @@ function inflateSetDictionary(strm, dictionary) {
   ret = updatewindow(strm, dictionary, dictLength, dictLength);
   if (ret) {
     state.mode = MEM;
-    return Z_MEM_ERROR;
+    return Z_MEM_ERROR$1;
   }
   state.havedict = 1;
   // Tracev((stderr, "inflate:   dictionary set\n"));
-  return Z_OK;
-}
+  return Z_OK$1;
+};
 
-exports.inflateReset = inflateReset;
-exports.inflateReset2 = inflateReset2;
-exports.inflateResetKeep = inflateResetKeep;
-exports.inflateInit = inflateInit;
-exports.inflateInit2 = inflateInit2;
-exports.inflate = inflate;
-exports.inflateEnd = inflateEnd;
-exports.inflateGetHeader = inflateGetHeader;
-exports.inflateSetDictionary = inflateSetDictionary;
-exports.inflateInfo = 'pako inflate (from Nodeca project)';
+
+var inflateReset_1 = inflateReset;
+var inflateReset2_1 = inflateReset2;
+var inflateResetKeep_1 = inflateResetKeep;
+var inflateInit_1 = inflateInit;
+var inflateInit2_1 = inflateInit2;
+var inflate_2$1 = inflate$2;
+var inflateEnd_1 = inflateEnd;
+var inflateGetHeader_1 = inflateGetHeader;
+var inflateSetDictionary_1 = inflateSetDictionary;
+var inflateInfo = 'pako inflate (from Nodeca project)';
 
 /* Not implemented
-exports.inflateCopy = inflateCopy;
-exports.inflateGetDictionary = inflateGetDictionary;
-exports.inflateMark = inflateMark;
-exports.inflatePrime = inflatePrime;
-exports.inflateSync = inflateSync;
-exports.inflateSyncPoint = inflateSyncPoint;
-exports.inflateUndermine = inflateUndermine;
+module.exports.inflateCopy = inflateCopy;
+module.exports.inflateGetDictionary = inflateGetDictionary;
+module.exports.inflateMark = inflateMark;
+module.exports.inflatePrime = inflatePrime;
+module.exports.inflateSync = inflateSync;
+module.exports.inflateSyncPoint = inflateSyncPoint;
+module.exports.inflateUndermine = inflateUndermine;
 */
 
-
-/***/ }),
-/* 532 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-// (C) 1995-2013 Jean-loup Gailly and Mark Adler
-// (C) 2014-2017 Vitaly Puzrin and Andrey Tupitsin
-//
-// This software is provided 'as-is', without any express or implied
-// warranty. In no event will the authors be held liable for any damages
-// arising from the use of this software.
-//
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it
-// freely, subject to the following restrictions:
-//
-// 1. The origin of this software must not be misrepresented; you must not
-//   claim that you wrote the original software. If you use this software
-//   in a product, an acknowledgment in the product documentation would be
-//   appreciated but is not required.
-// 2. Altered source versions must be plainly marked as such, and must not be
-//   misrepresented as being the original software.
-// 3. This notice may not be removed or altered from any source distribution.
-
-// See state defs from inflate.js
-var BAD = 30;       /* got a data error -- remain here until reset */
-var TYPE = 12;      /* i: waiting for type bits, including last-flag bit */
-
-/*
-   Decode literal, length, and distance codes and write out the resulting
-   literal and match bytes until either not enough input or output is
-   available, an end-of-block is encountered, or a data error is encountered.
-   When large enough input and output buffers are supplied to inflate(), for
-   example, a 16K input buffer and a 64K output buffer, more than 95% of the
-   inflate execution time is spent in this routine.
-
-   Entry assumptions:
-
-        state.mode === LEN
-        strm.avail_in >= 6
-        strm.avail_out >= 258
-        start >= strm.avail_out
-        state.bits < 8
-
-   On return, state.mode is one of:
-
-        LEN -- ran out of enough output space or enough available input
-        TYPE -- reached end of block code, inflate() to interpret next block
-        BAD -- error in block data
-
-   Notes:
-
-    - The maximum input bits used by a length/distance pair is 15 bits for the
-      length code, 5 bits for the length extra, 15 bits for the distance code,
-      and 13 bits for the distance extra.  This totals 48 bits, or six bytes.
-      Therefore if strm.avail_in >= 6, then there is enough input to avoid
-      checking for available input while decoding.
-
-    - The maximum bytes that a single length/distance pair can output is 258
-      bytes, which is the maximum length that can be coded.  inflate_fast()
-      requires strm.avail_out >= 258 for each loop to avoid checking for
-      output space.
- */
-module.exports = function inflate_fast(strm, start) {
-  var state;
-  var _in;                    /* local strm.input */
-  var last;                   /* have enough input while in < last */
-  var _out;                   /* local strm.output */
-  var beg;                    /* inflate()'s initial strm.output */
-  var end;                    /* while out < end, enough space available */
-//#ifdef INFLATE_STRICT
-  var dmax;                   /* maximum distance from zlib header */
-//#endif
-  var wsize;                  /* window size or zero if not using window */
-  var whave;                  /* valid bytes in the window */
-  var wnext;                  /* window write index */
-  // Use `s_window` instead `window`, avoid conflict with instrumentation tools
-  var s_window;               /* allocated sliding window, if wsize != 0 */
-  var hold;                   /* local strm.hold */
-  var bits;                   /* local strm.bits */
-  var lcode;                  /* local strm.lencode */
-  var dcode;                  /* local strm.distcode */
-  var lmask;                  /* mask for first level of length codes */
-  var dmask;                  /* mask for first level of distance codes */
-  var here;                   /* retrieved table entry */
-  var op;                     /* code bits, operation, extra bits, or */
-                              /*  window position, window bytes to copy */
-  var len;                    /* match length, unused bytes */
-  var dist;                   /* match distance */
-  var from;                   /* where to copy match from */
-  var from_source;
-
-
-  var input, output; // JS specific, because we have no pointers
-
-  /* copy state to local variables */
-  state = strm.state;
-  //here = state.here;
-  _in = strm.next_in;
-  input = strm.input;
-  last = _in + (strm.avail_in - 5);
-  _out = strm.next_out;
-  output = strm.output;
-  beg = _out - (start - strm.avail_out);
-  end = _out + (strm.avail_out - 257);
-//#ifdef INFLATE_STRICT
-  dmax = state.dmax;
-//#endif
-  wsize = state.wsize;
-  whave = state.whave;
-  wnext = state.wnext;
-  s_window = state.window;
-  hold = state.hold;
-  bits = state.bits;
-  lcode = state.lencode;
-  dcode = state.distcode;
-  lmask = (1 << state.lenbits) - 1;
-  dmask = (1 << state.distbits) - 1;
-
-
-  /* decode literals and length/distances until end-of-block or not enough
-     input data or output space */
-
-  top:
-  do {
-    if (bits < 15) {
-      hold += input[_in++] << bits;
-      bits += 8;
-      hold += input[_in++] << bits;
-      bits += 8;
-    }
-
-    here = lcode[hold & lmask];
-
-    dolen:
-    for (;;) { // Goto emulation
-      op = here >>> 24/*here.bits*/;
-      hold >>>= op;
-      bits -= op;
-      op = (here >>> 16) & 0xff/*here.op*/;
-      if (op === 0) {                          /* literal */
-        //Tracevv((stderr, here.val >= 0x20 && here.val < 0x7f ?
-        //        "inflate:         literal '%c'\n" :
-        //        "inflate:         literal 0x%02x\n", here.val));
-        output[_out++] = here & 0xffff/*here.val*/;
-      }
-      else if (op & 16) {                     /* length base */
-        len = here & 0xffff/*here.val*/;
-        op &= 15;                           /* number of extra bits */
-        if (op) {
-          if (bits < op) {
-            hold += input[_in++] << bits;
-            bits += 8;
-          }
-          len += hold & ((1 << op) - 1);
-          hold >>>= op;
-          bits -= op;
-        }
-        //Tracevv((stderr, "inflate:         length %u\n", len));
-        if (bits < 15) {
-          hold += input[_in++] << bits;
-          bits += 8;
-          hold += input[_in++] << bits;
-          bits += 8;
-        }
-        here = dcode[hold & dmask];
-
-        dodist:
-        for (;;) { // goto emulation
-          op = here >>> 24/*here.bits*/;
-          hold >>>= op;
-          bits -= op;
-          op = (here >>> 16) & 0xff/*here.op*/;
-
-          if (op & 16) {                      /* distance base */
-            dist = here & 0xffff/*here.val*/;
-            op &= 15;                       /* number of extra bits */
-            if (bits < op) {
-              hold += input[_in++] << bits;
-              bits += 8;
-              if (bits < op) {
-                hold += input[_in++] << bits;
-                bits += 8;
-              }
-            }
-            dist += hold & ((1 << op) - 1);
-//#ifdef INFLATE_STRICT
-            if (dist > dmax) {
-              strm.msg = 'invalid distance too far back';
-              state.mode = BAD;
-              break top;
-            }
-//#endif
-            hold >>>= op;
-            bits -= op;
-            //Tracevv((stderr, "inflate:         distance %u\n", dist));
-            op = _out - beg;                /* max distance in output */
-            if (dist > op) {                /* see if copy from window */
-              op = dist - op;               /* distance back in window */
-              if (op > whave) {
-                if (state.sane) {
-                  strm.msg = 'invalid distance too far back';
-                  state.mode = BAD;
-                  break top;
-                }
-
-// (!) This block is disabled in zlib defaults,
-// don't enable it for binary compatibility
-//#ifdef INFLATE_ALLOW_INVALID_DISTANCE_TOOFAR_ARRR
-//                if (len <= op - whave) {
-//                  do {
-//                    output[_out++] = 0;
-//                  } while (--len);
-//                  continue top;
-//                }
-//                len -= op - whave;
-//                do {
-//                  output[_out++] = 0;
-//                } while (--op > whave);
-//                if (op === 0) {
-//                  from = _out - dist;
-//                  do {
-//                    output[_out++] = output[from++];
-//                  } while (--len);
-//                  continue top;
-//                }
-//#endif
-              }
-              from = 0; // window index
-              from_source = s_window;
-              if (wnext === 0) {           /* very common case */
-                from += wsize - op;
-                if (op < len) {         /* some from window */
-                  len -= op;
-                  do {
-                    output[_out++] = s_window[from++];
-                  } while (--op);
-                  from = _out - dist;  /* rest from output */
-                  from_source = output;
-                }
-              }
-              else if (wnext < op) {      /* wrap around window */
-                from += wsize + wnext - op;
-                op -= wnext;
-                if (op < len) {         /* some from end of window */
-                  len -= op;
-                  do {
-                    output[_out++] = s_window[from++];
-                  } while (--op);
-                  from = 0;
-                  if (wnext < len) {  /* some from start of window */
-                    op = wnext;
-                    len -= op;
-                    do {
-                      output[_out++] = s_window[from++];
-                    } while (--op);
-                    from = _out - dist;      /* rest from output */
-                    from_source = output;
-                  }
-                }
-              }
-              else {                      /* contiguous in window */
-                from += wnext - op;
-                if (op < len) {         /* some from window */
-                  len -= op;
-                  do {
-                    output[_out++] = s_window[from++];
-                  } while (--op);
-                  from = _out - dist;  /* rest from output */
-                  from_source = output;
-                }
-              }
-              while (len > 2) {
-                output[_out++] = from_source[from++];
-                output[_out++] = from_source[from++];
-                output[_out++] = from_source[from++];
-                len -= 3;
-              }
-              if (len) {
-                output[_out++] = from_source[from++];
-                if (len > 1) {
-                  output[_out++] = from_source[from++];
-                }
-              }
-            }
-            else {
-              from = _out - dist;          /* copy direct from output */
-              do {                        /* minimum length is three */
-                output[_out++] = output[from++];
-                output[_out++] = output[from++];
-                output[_out++] = output[from++];
-                len -= 3;
-              } while (len > 2);
-              if (len) {
-                output[_out++] = output[from++];
-                if (len > 1) {
-                  output[_out++] = output[from++];
-                }
-              }
-            }
-          }
-          else if ((op & 64) === 0) {          /* 2nd level distance code */
-            here = dcode[(here & 0xffff)/*here.val*/ + (hold & ((1 << op) - 1))];
-            continue dodist;
-          }
-          else {
-            strm.msg = 'invalid distance code';
-            state.mode = BAD;
-            break top;
-          }
-
-          break; // need to emulate goto via "continue"
-        }
-      }
-      else if ((op & 64) === 0) {              /* 2nd level length code */
-        here = lcode[(here & 0xffff)/*here.val*/ + (hold & ((1 << op) - 1))];
-        continue dolen;
-      }
-      else if (op & 32) {                     /* end-of-block */
-        //Tracevv((stderr, "inflate:         end of block\n"));
-        state.mode = TYPE;
-        break top;
-      }
-      else {
-        strm.msg = 'invalid literal/length code';
-        state.mode = BAD;
-        break top;
-      }
-
-      break; // need to emulate goto via "continue"
-    }
-  } while (_in < last && _out < end);
-
-  /* return unused bytes (on entry, bits < 8, so in won't go too far back) */
-  len = bits >> 3;
-  _in -= len;
-  bits -= len << 3;
-  hold &= (1 << bits) - 1;
-
-  /* update state and return */
-  strm.next_in = _in;
-  strm.next_out = _out;
-  strm.avail_in = (_in < last ? 5 + (last - _in) : 5 - (_in - last));
-  strm.avail_out = (_out < end ? 257 + (end - _out) : 257 - (_out - end));
-  state.hold = hold;
-  state.bits = bits;
-  return;
+var inflate_1$2 = {
+	inflateReset: inflateReset_1,
+	inflateReset2: inflateReset2_1,
+	inflateResetKeep: inflateResetKeep_1,
+	inflateInit: inflateInit_1,
+	inflateInit2: inflateInit2_1,
+	inflate: inflate_2$1,
+	inflateEnd: inflateEnd_1,
+	inflateGetHeader: inflateGetHeader_1,
+	inflateSetDictionary: inflateSetDictionary_1,
+	inflateInfo: inflateInfo
 };
-
-
-/***/ }),
-/* 533 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-// (C) 1995-2013 Jean-loup Gailly and Mark Adler
-// (C) 2014-2017 Vitaly Puzrin and Andrey Tupitsin
-//
-// This software is provided 'as-is', without any express or implied
-// warranty. In no event will the authors be held liable for any damages
-// arising from the use of this software.
-//
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it
-// freely, subject to the following restrictions:
-//
-// 1. The origin of this software must not be misrepresented; you must not
-//   claim that you wrote the original software. If you use this software
-//   in a product, an acknowledgment in the product documentation would be
-//   appreciated but is not required.
-// 2. Altered source versions must be plainly marked as such, and must not be
-//   misrepresented as being the original software.
-// 3. This notice may not be removed or altered from any source distribution.
-
-var utils = __webpack_require__(73);
-
-var MAXBITS = 15;
-var ENOUGH_LENS = 852;
-var ENOUGH_DISTS = 592;
-//var ENOUGH = (ENOUGH_LENS+ENOUGH_DISTS);
-
-var CODES = 0;
-var LENS = 1;
-var DISTS = 2;
-
-var lbase = [ /* Length codes 257..285 base */
-  3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 17, 19, 23, 27, 31,
-  35, 43, 51, 59, 67, 83, 99, 115, 131, 163, 195, 227, 258, 0, 0
-];
-
-var lext = [ /* Length codes 257..285 extra */
-  16, 16, 16, 16, 16, 16, 16, 16, 17, 17, 17, 17, 18, 18, 18, 18,
-  19, 19, 19, 19, 20, 20, 20, 20, 21, 21, 21, 21, 16, 72, 78
-];
-
-var dbase = [ /* Distance codes 0..29 base */
-  1, 2, 3, 4, 5, 7, 9, 13, 17, 25, 33, 49, 65, 97, 129, 193,
-  257, 385, 513, 769, 1025, 1537, 2049, 3073, 4097, 6145,
-  8193, 12289, 16385, 24577, 0, 0
-];
-
-var dext = [ /* Distance codes 0..29 extra */
-  16, 16, 16, 16, 17, 17, 18, 18, 19, 19, 20, 20, 21, 21, 22, 22,
-  23, 23, 24, 24, 25, 25, 26, 26, 27, 27,
-  28, 28, 29, 29, 64, 64
-];
-
-module.exports = function inflate_table(type, lens, lens_index, codes, table, table_index, work, opts)
-{
-  var bits = opts.bits;
-      //here = opts.here; /* table entry for duplication */
-
-  var len = 0;               /* a code's length in bits */
-  var sym = 0;               /* index of code symbols */
-  var min = 0, max = 0;          /* minimum and maximum code lengths */
-  var root = 0;              /* number of index bits for root table */
-  var curr = 0;              /* number of index bits for current table */
-  var drop = 0;              /* code bits to drop for sub-table */
-  var left = 0;                   /* number of prefix codes available */
-  var used = 0;              /* code entries in table used */
-  var huff = 0;              /* Huffman code */
-  var incr;              /* for incrementing code, index */
-  var fill;              /* index for replicating entries */
-  var low;               /* low bits for current root entry */
-  var mask;              /* mask for low root bits */
-  var next;             /* next available space in table */
-  var base = null;     /* base value table to use */
-  var base_index = 0;
-//  var shoextra;    /* extra bits table to use */
-  var end;                    /* use base and extra for symbol > end */
-  var count = new utils.Buf16(MAXBITS + 1); //[MAXBITS+1];    /* number of codes of each length */
-  var offs = new utils.Buf16(MAXBITS + 1); //[MAXBITS+1];     /* offsets in table for each length */
-  var extra = null;
-  var extra_index = 0;
-
-  var here_bits, here_op, here_val;
-
-  /*
-   Process a set of code lengths to create a canonical Huffman code.  The
-   code lengths are lens[0..codes-1].  Each length corresponds to the
-   symbols 0..codes-1.  The Huffman code is generated by first sorting the
-   symbols by length from short to long, and retaining the symbol order
-   for codes with equal lengths.  Then the code starts with all zero bits
-   for the first code of the shortest length, and the codes are integer
-   increments for the same length, and zeros are appended as the length
-   increases.  For the deflate format, these bits are stored backwards
-   from their more natural integer increment ordering, and so when the
-   decoding tables are built in the large loop below, the integer codes
-   are incremented backwards.
-
-   This routine assumes, but does not check, that all of the entries in
-   lens[] are in the range 0..MAXBITS.  The caller must assure this.
-   1..MAXBITS is interpreted as that code length.  zero means that that
-   symbol does not occur in this code.
-
-   The codes are sorted by computing a count of codes for each length,
-   creating from that a table of starting indices for each length in the
-   sorted table, and then entering the symbols in order in the sorted
-   table.  The sorted table is work[], with that space being provided by
-   the caller.
-
-   The length counts are used for other purposes as well, i.e. finding
-   the minimum and maximum length codes, determining if there are any
-   codes at all, checking for a valid set of lengths, and looking ahead
-   at length counts to determine sub-table sizes when building the
-   decoding tables.
-   */
-
-  /* accumulate lengths for codes (assumes lens[] all in 0..MAXBITS) */
-  for (len = 0; len <= MAXBITS; len++) {
-    count[len] = 0;
-  }
-  for (sym = 0; sym < codes; sym++) {
-    count[lens[lens_index + sym]]++;
-  }
-
-  /* bound code lengths, force root to be within code lengths */
-  root = bits;
-  for (max = MAXBITS; max >= 1; max--) {
-    if (count[max] !== 0) { break; }
-  }
-  if (root > max) {
-    root = max;
-  }
-  if (max === 0) {                     /* no symbols to code at all */
-    //table.op[opts.table_index] = 64;  //here.op = (var char)64;    /* invalid code marker */
-    //table.bits[opts.table_index] = 1;   //here.bits = (var char)1;
-    //table.val[opts.table_index++] = 0;   //here.val = (var short)0;
-    table[table_index++] = (1 << 24) | (64 << 16) | 0;
-
-
-    //table.op[opts.table_index] = 64;
-    //table.bits[opts.table_index] = 1;
-    //table.val[opts.table_index++] = 0;
-    table[table_index++] = (1 << 24) | (64 << 16) | 0;
-
-    opts.bits = 1;
-    return 0;     /* no symbols, but wait for decoding to report error */
-  }
-  for (min = 1; min < max; min++) {
-    if (count[min] !== 0) { break; }
-  }
-  if (root < min) {
-    root = min;
-  }
-
-  /* check for an over-subscribed or incomplete set of lengths */
-  left = 1;
-  for (len = 1; len <= MAXBITS; len++) {
-    left <<= 1;
-    left -= count[len];
-    if (left < 0) {
-      return -1;
-    }        /* over-subscribed */
-  }
-  if (left > 0 && (type === CODES || max !== 1)) {
-    return -1;                      /* incomplete set */
-  }
-
-  /* generate offsets into symbol table for each length for sorting */
-  offs[1] = 0;
-  for (len = 1; len < MAXBITS; len++) {
-    offs[len + 1] = offs[len] + count[len];
-  }
-
-  /* sort symbols by length, by symbol order within each length */
-  for (sym = 0; sym < codes; sym++) {
-    if (lens[lens_index + sym] !== 0) {
-      work[offs[lens[lens_index + sym]]++] = sym;
-    }
-  }
-
-  /*
-   Create and fill in decoding tables.  In this loop, the table being
-   filled is at next and has curr index bits.  The code being used is huff
-   with length len.  That code is converted to an index by dropping drop
-   bits off of the bottom.  For codes where len is less than drop + curr,
-   those top drop + curr - len bits are incremented through all values to
-   fill the table with replicated entries.
-
-   root is the number of index bits for the root table.  When len exceeds
-   root, sub-tables are created pointed to by the root entry with an index
-   of the low root bits of huff.  This is saved in low to check for when a
-   new sub-table should be started.  drop is zero when the root table is
-   being filled, and drop is root when sub-tables are being filled.
-
-   When a new sub-table is needed, it is necessary to look ahead in the
-   code lengths to determine what size sub-table is needed.  The length
-   counts are used for this, and so count[] is decremented as codes are
-   entered in the tables.
-
-   used keeps track of how many table entries have been allocated from the
-   provided *table space.  It is checked for LENS and DIST tables against
-   the constants ENOUGH_LENS and ENOUGH_DISTS to guard against changes in
-   the initial root table size constants.  See the comments in inftrees.h
-   for more information.
-
-   sym increments through all symbols, and the loop terminates when
-   all codes of length max, i.e. all codes, have been processed.  This
-   routine permits incomplete codes, so another loop after this one fills
-   in the rest of the decoding tables with invalid code markers.
-   */
-
-  /* set up for code type */
-  // poor man optimization - use if-else instead of switch,
-  // to avoid deopts in old v8
-  if (type === CODES) {
-    base = extra = work;    /* dummy value--not used */
-    end = 19;
-
-  } else if (type === LENS) {
-    base = lbase;
-    base_index -= 257;
-    extra = lext;
-    extra_index -= 257;
-    end = 256;
-
-  } else {                    /* DISTS */
-    base = dbase;
-    extra = dext;
-    end = -1;
-  }
-
-  /* initialize opts for loop */
-  huff = 0;                   /* starting code */
-  sym = 0;                    /* starting code symbol */
-  len = min;                  /* starting code length */
-  next = table_index;              /* current table to fill in */
-  curr = root;                /* current table index bits */
-  drop = 0;                   /* current bits to drop from code for index */
-  low = -1;                   /* trigger new sub-table when len > root */
-  used = 1 << root;          /* use root table entries */
-  mask = used - 1;            /* mask for comparing low */
-
-  /* check available table space */
-  if ((type === LENS && used > ENOUGH_LENS) ||
-    (type === DISTS && used > ENOUGH_DISTS)) {
-    return 1;
-  }
-
-  /* process all codes and make table entries */
-  for (;;) {
-    /* create table entry */
-    here_bits = len - drop;
-    if (work[sym] < end) {
-      here_op = 0;
-      here_val = work[sym];
-    }
-    else if (work[sym] > end) {
-      here_op = extra[extra_index + work[sym]];
-      here_val = base[base_index + work[sym]];
-    }
-    else {
-      here_op = 32 + 64;         /* end of block */
-      here_val = 0;
-    }
-
-    /* replicate for those indices with low len bits equal to huff */
-    incr = 1 << (len - drop);
-    fill = 1 << curr;
-    min = fill;                 /* save offset to next table */
-    do {
-      fill -= incr;
-      table[next + (huff >> drop) + fill] = (here_bits << 24) | (here_op << 16) | here_val |0;
-    } while (fill !== 0);
-
-    /* backwards increment the len-bit code huff */
-    incr = 1 << (len - 1);
-    while (huff & incr) {
-      incr >>= 1;
-    }
-    if (incr !== 0) {
-      huff &= incr - 1;
-      huff += incr;
-    } else {
-      huff = 0;
-    }
-
-    /* go to next symbol, update count, len */
-    sym++;
-    if (--count[len] === 0) {
-      if (len === max) { break; }
-      len = lens[lens_index + work[sym]];
-    }
-
-    /* create new sub-table if needed */
-    if (len > root && (huff & mask) !== low) {
-      /* if first time, transition to sub-tables */
-      if (drop === 0) {
-        drop = root;
-      }
-
-      /* increment past last table */
-      next += min;            /* here min is 1 << curr */
-
-      /* determine length of next table */
-      curr = len - drop;
-      left = 1 << curr;
-      while (curr + drop < max) {
-        left -= count[curr + drop];
-        if (left <= 0) { break; }
-        curr++;
-        left <<= 1;
-      }
-
-      /* check for enough space */
-      used += 1 << curr;
-      if ((type === LENS && used > ENOUGH_LENS) ||
-        (type === DISTS && used > ENOUGH_DISTS)) {
-        return 1;
-      }
-
-      /* point entry in root table to sub-table */
-      low = huff & mask;
-      /*table.op[low] = curr;
-      table.bits[low] = root;
-      table.val[low] = next - opts.table_index;*/
-      table[low] = (root << 24) | (curr << 16) | (next - table_index) |0;
-    }
-  }
-
-  /* fill in remaining table entry if code is incomplete (guaranteed to have
-   at most one remaining entry, since if the code is incomplete, the
-   maximum code length that was allowed to get this far is one bit) */
-  if (huff !== 0) {
-    //table.op[next + huff] = 64;            /* invalid code marker */
-    //table.bits[next + huff] = len - drop;
-    //table.val[next + huff] = 0;
-    table[next + huff] = ((len - drop) << 24) | (64 << 16) |0;
-  }
-
-  /* set return parameters */
-  //opts.table_index += used;
-  opts.bits = root;
-  return 0;
-};
-
-
-/***/ }),
-/* 534 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
 
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
 // (C) 2014-2017 Vitaly Puzrin and Andrey Tupitsin
@@ -66646,11 +66180,459 @@ function GZheader() {
   this.done       = false;
 }
 
-module.exports = GZheader;
+var gzheader = GZheader;
+
+const toString = Object.prototype.toString;
+
+/* Public constants ==========================================================*/
+/* ===========================================================================*/
+
+const {
+  Z_NO_FLUSH, Z_FINISH,
+  Z_OK, Z_STREAM_END, Z_NEED_DICT, Z_STREAM_ERROR, Z_DATA_ERROR, Z_MEM_ERROR
+} = constants$2;
+
+/* ===========================================================================*/
+
+
+/**
+ * class Inflate
+ *
+ * Generic JS-style wrapper for zlib calls. If you don't need
+ * streaming behaviour - use more simple functions: [[inflate]]
+ * and [[inflateRaw]].
+ **/
+
+/* internal
+ * inflate.chunks -> Array
+ *
+ * Chunks of output data, if [[Inflate#onData]] not overridden.
+ **/
+
+/**
+ * Inflate.result -> Uint8Array|String
+ *
+ * Uncompressed result, generated by default [[Inflate#onData]]
+ * and [[Inflate#onEnd]] handlers. Filled after you push last chunk
+ * (call [[Inflate#push]] with `Z_FINISH` / `true` param).
+ **/
+
+/**
+ * Inflate.err -> Number
+ *
+ * Error code after inflate finished. 0 (Z_OK) on success.
+ * Should be checked if broken data possible.
+ **/
+
+/**
+ * Inflate.msg -> String
+ *
+ * Error message, if [[Inflate.err]] != 0
+ **/
+
+
+/**
+ * new Inflate(options)
+ * - options (Object): zlib inflate options.
+ *
+ * Creates new inflator instance with specified params. Throws exception
+ * on bad params. Supported options:
+ *
+ * - `windowBits`
+ * - `dictionary`
+ *
+ * [http://zlib.net/manual.html#Advanced](http://zlib.net/manual.html#Advanced)
+ * for more information on these.
+ *
+ * Additional options, for internal needs:
+ *
+ * - `chunkSize` - size of generated data chunks (16K by default)
+ * - `raw` (Boolean) - do raw inflate
+ * - `to` (String) - if equal to 'string', then result will be converted
+ *   from utf8 to utf16 (javascript) string. When string output requested,
+ *   chunk length can differ from `chunkSize`, depending on content.
+ *
+ * By default, when no options set, autodetect deflate/gzip data format via
+ * wrapper header.
+ *
+ * ##### Example:
+ *
+ * ```javascript
+ * const pako = require('pako')
+ * const chunk1 = new Uint8Array([1,2,3,4,5,6,7,8,9])
+ * const chunk2 = new Uint8Array([10,11,12,13,14,15,16,17,18,19]);
+ *
+ * const inflate = new pako.Inflate({ level: 3});
+ *
+ * inflate.push(chunk1, false);
+ * inflate.push(chunk2, true);  // true -> last chunk
+ *
+ * if (inflate.err) { throw new Error(inflate.err); }
+ *
+ * console.log(inflate.result);
+ * ```
+ **/
+function Inflate$1(options) {
+  this.options = common.assign({
+    chunkSize: 1024 * 64,
+    windowBits: 15,
+    to: ''
+  }, options || {});
+
+  const opt = this.options;
+
+  // Force window size for `raw` data, if not set directly,
+  // because we have no header for autodetect.
+  if (opt.raw && (opt.windowBits >= 0) && (opt.windowBits < 16)) {
+    opt.windowBits = -opt.windowBits;
+    if (opt.windowBits === 0) { opt.windowBits = -15; }
+  }
+
+  // If `windowBits` not defined (and mode not raw) - set autodetect flag for gzip/deflate
+  if ((opt.windowBits >= 0) && (opt.windowBits < 16) &&
+      !(options && options.windowBits)) {
+    opt.windowBits += 32;
+  }
+
+  // Gzip header has no info about windows size, we can do autodetect only
+  // for deflate. So, if window size not set, force it to max when gzip possible
+  if ((opt.windowBits > 15) && (opt.windowBits < 48)) {
+    // bit 3 (16) -> gzipped data
+    // bit 4 (32) -> autodetect gzip/deflate
+    if ((opt.windowBits & 15) === 0) {
+      opt.windowBits |= 15;
+    }
+  }
+
+  this.err    = 0;      // error code, if happens (0 = Z_OK)
+  this.msg    = '';     // error message
+  this.ended  = false;  // used to avoid multiple onEnd() calls
+  this.chunks = [];     // chunks of compressed data
+
+  this.strm   = new zstream();
+  this.strm.avail_out = 0;
+
+  let status  = inflate_1$2.inflateInit2(
+    this.strm,
+    opt.windowBits
+  );
+
+  if (status !== Z_OK) {
+    throw new Error(messages[status]);
+  }
+
+  this.header = new gzheader();
+
+  inflate_1$2.inflateGetHeader(this.strm, this.header);
+
+  // Setup dictionary
+  if (opt.dictionary) {
+    // Convert data if needed
+    if (typeof opt.dictionary === 'string') {
+      opt.dictionary = strings.string2buf(opt.dictionary);
+    } else if (toString.call(opt.dictionary) === '[object ArrayBuffer]') {
+      opt.dictionary = new Uint8Array(opt.dictionary);
+    }
+    if (opt.raw) { //In raw mode we need to set the dictionary early
+      status = inflate_1$2.inflateSetDictionary(this.strm, opt.dictionary);
+      if (status !== Z_OK) {
+        throw new Error(messages[status]);
+      }
+    }
+  }
+}
+
+/**
+ * Inflate#push(data[, flush_mode]) -> Boolean
+ * - data (Uint8Array|ArrayBuffer): input data
+ * - flush_mode (Number|Boolean): 0..6 for corresponding Z_NO_FLUSH..Z_TREE
+ *   flush modes. See constants. Skipped or `false` means Z_NO_FLUSH,
+ *   `true` means Z_FINISH.
+ *
+ * Sends input data to inflate pipe, generating [[Inflate#onData]] calls with
+ * new output chunks. Returns `true` on success. If end of stream detected,
+ * [[Inflate#onEnd]] will be called.
+ *
+ * `flush_mode` is not needed for normal operation, because end of stream
+ * detected automatically. You may try to use it for advanced things, but
+ * this functionality was not tested.
+ *
+ * On fail call [[Inflate#onEnd]] with error code and return false.
+ *
+ * ##### Example
+ *
+ * ```javascript
+ * push(chunk, false); // push one of data chunks
+ * ...
+ * push(chunk, true);  // push last chunk
+ * ```
+ **/
+Inflate$1.prototype.push = function (data, flush_mode) {
+  const strm = this.strm;
+  const chunkSize = this.options.chunkSize;
+  const dictionary = this.options.dictionary;
+  let status, _flush_mode, last_avail_out;
+
+  if (this.ended) return false;
+
+  if (flush_mode === ~~flush_mode) _flush_mode = flush_mode;
+  else _flush_mode = flush_mode === true ? Z_FINISH : Z_NO_FLUSH;
+
+  // Convert data if needed
+  if (toString.call(data) === '[object ArrayBuffer]') {
+    strm.input = new Uint8Array(data);
+  } else {
+    strm.input = data;
+  }
+
+  strm.next_in = 0;
+  strm.avail_in = strm.input.length;
+
+  for (;;) {
+    if (strm.avail_out === 0) {
+      strm.output = new Uint8Array(chunkSize);
+      strm.next_out = 0;
+      strm.avail_out = chunkSize;
+    }
+
+    status = inflate_1$2.inflate(strm, _flush_mode);
+
+    if (status === Z_NEED_DICT && dictionary) {
+      status = inflate_1$2.inflateSetDictionary(strm, dictionary);
+
+      if (status === Z_OK) {
+        status = inflate_1$2.inflate(strm, _flush_mode);
+      } else if (status === Z_DATA_ERROR) {
+        // Replace code with more verbose
+        status = Z_NEED_DICT;
+      }
+    }
+
+    // Skip snyc markers if more data follows and not raw mode
+    while (strm.avail_in > 0 &&
+           status === Z_STREAM_END &&
+           strm.state.wrap > 0 &&
+           data[strm.next_in] !== 0)
+    {
+      inflate_1$2.inflateReset(strm);
+      status = inflate_1$2.inflate(strm, _flush_mode);
+    }
+
+    switch (status) {
+      case Z_STREAM_ERROR:
+      case Z_DATA_ERROR:
+      case Z_NEED_DICT:
+      case Z_MEM_ERROR:
+        this.onEnd(status);
+        this.ended = true;
+        return false;
+    }
+
+    // Remember real `avail_out` value, because we may patch out buffer content
+    // to align utf8 strings boundaries.
+    last_avail_out = strm.avail_out;
+
+    if (strm.next_out) {
+      if (strm.avail_out === 0 || status === Z_STREAM_END) {
+
+        if (this.options.to === 'string') {
+
+          let next_out_utf8 = strings.utf8border(strm.output, strm.next_out);
+
+          let tail = strm.next_out - next_out_utf8;
+          let utf8str = strings.buf2string(strm.output, next_out_utf8);
+
+          // move tail & realign counters
+          strm.next_out = tail;
+          strm.avail_out = chunkSize - tail;
+          if (tail) strm.output.set(strm.output.subarray(next_out_utf8, next_out_utf8 + tail), 0);
+
+          this.onData(utf8str);
+
+        } else {
+          this.onData(strm.output.length === strm.next_out ? strm.output : strm.output.subarray(0, strm.next_out));
+        }
+      }
+    }
+
+    // Must repeat iteration if out buffer is full
+    if (status === Z_OK && last_avail_out === 0) continue;
+
+    // Finalize if end of stream reached.
+    if (status === Z_STREAM_END) {
+      status = inflate_1$2.inflateEnd(this.strm);
+      this.onEnd(status);
+      this.ended = true;
+      return true;
+    }
+
+    if (strm.avail_in === 0) break;
+  }
+
+  return true;
+};
+
+
+/**
+ * Inflate#onData(chunk) -> Void
+ * - chunk (Uint8Array|String): output data. When string output requested,
+ *   each chunk will be string.
+ *
+ * By default, stores data blocks in `chunks[]` property and glue
+ * those in `onEnd`. Override this handler, if you need another behaviour.
+ **/
+Inflate$1.prototype.onData = function (chunk) {
+  this.chunks.push(chunk);
+};
+
+
+/**
+ * Inflate#onEnd(status) -> Void
+ * - status (Number): inflate status. 0 (Z_OK) on success,
+ *   other if not.
+ *
+ * Called either after you tell inflate that the input stream is
+ * complete (Z_FINISH). By default - join collected chunks,
+ * free memory and fill `results` / `err` properties.
+ **/
+Inflate$1.prototype.onEnd = function (status) {
+  // On success - join
+  if (status === Z_OK) {
+    if (this.options.to === 'string') {
+      this.result = this.chunks.join('');
+    } else {
+      this.result = common.flattenChunks(this.chunks);
+    }
+  }
+  this.chunks = [];
+  this.err = status;
+  this.msg = this.strm.msg;
+};
+
+
+/**
+ * inflate(data[, options]) -> Uint8Array|String
+ * - data (Uint8Array): input data to decompress.
+ * - options (Object): zlib inflate options.
+ *
+ * Decompress `data` with inflate/ungzip and `options`. Autodetect
+ * format via wrapper header by default. That's why we don't provide
+ * separate `ungzip` method.
+ *
+ * Supported options are:
+ *
+ * - windowBits
+ *
+ * [http://zlib.net/manual.html#Advanced](http://zlib.net/manual.html#Advanced)
+ * for more information.
+ *
+ * Sugar (options):
+ *
+ * - `raw` (Boolean) - say that we work with raw stream, if you don't wish to specify
+ *   negative windowBits implicitly.
+ * - `to` (String) - if equal to 'string', then result will be converted
+ *   from utf8 to utf16 (javascript) string. When string output requested,
+ *   chunk length can differ from `chunkSize`, depending on content.
+ *
+ *
+ * ##### Example:
+ *
+ * ```javascript
+ * const pako = require('pako');
+ * const input = pako.deflate(new Uint8Array([1,2,3,4,5,6,7,8,9]));
+ * let output;
+ *
+ * try {
+ *   output = pako.inflate(input);
+ * } catch (err) {
+ *   console.log(err);
+ * }
+ * ```
+ **/
+function inflate$1(input, options) {
+  const inflator = new Inflate$1(options);
+
+  inflator.push(input);
+
+  // That will never happens, if you don't cheat with options :)
+  if (inflator.err) throw inflator.msg || messages[inflator.err];
+
+  return inflator.result;
+}
+
+
+/**
+ * inflateRaw(data[, options]) -> Uint8Array|String
+ * - data (Uint8Array): input data to decompress.
+ * - options (Object): zlib inflate options.
+ *
+ * The same as [[inflate]], but creates raw data, without wrapper
+ * (header and adler32 crc).
+ **/
+function inflateRaw$1(input, options) {
+  options = options || {};
+  options.raw = true;
+  return inflate$1(input, options);
+}
+
+
+/**
+ * ungzip(data[, options]) -> Uint8Array|String
+ * - data (Uint8Array): input data to decompress.
+ * - options (Object): zlib inflate options.
+ *
+ * Just shortcut to [[inflate]], because it autodetects format
+ * by header.content. Done for convenience.
+ **/
+
+
+var Inflate_1$1 = Inflate$1;
+var inflate_2 = inflate$1;
+var inflateRaw_1$1 = inflateRaw$1;
+var ungzip$1 = inflate$1;
+var constants = constants$2;
+
+var inflate_1$1 = {
+	Inflate: Inflate_1$1,
+	inflate: inflate_2,
+	inflateRaw: inflateRaw_1$1,
+	ungzip: ungzip$1,
+	constants: constants
+};
+
+const { Deflate, deflate, deflateRaw, gzip } = deflate_1$1;
+
+const { Inflate, inflate, inflateRaw, ungzip } = inflate_1$1;
+
+
+
+var Deflate_1 = Deflate;
+var deflate_1 = deflate;
+var deflateRaw_1 = deflateRaw;
+var gzip_1 = gzip;
+var Inflate_1 = Inflate;
+var inflate_1 = inflate;
+var inflateRaw_1 = inflateRaw;
+var ungzip_1 = ungzip;
+var constants_1 = constants$2;
+
+var pako = {
+	Deflate: Deflate_1,
+	deflate: deflate_1,
+	deflateRaw: deflateRaw_1,
+	gzip: gzip_1,
+	Inflate: Inflate_1,
+	inflate: inflate_1,
+	inflateRaw: inflateRaw_1,
+	ungzip: ungzip_1,
+	constants: constants_1
+};
+
+
 
 
 /***/ }),
-/* 535 */
+/* 520 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -66661,17 +66643,17 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = linkPresence;
 
-var _interface = __webpack_require__(536);
+var _interface = __webpack_require__(521);
 
-var _sagas = __webpack_require__(540);
+var _sagas = __webpack_require__(525);
 
 var sagas = _interopRequireWildcard(_sagas);
 
-var _events = __webpack_require__(542);
+var _events = __webpack_require__(527);
 
 var _events2 = _interopRequireDefault(_events);
 
-var _constants = __webpack_require__(324);
+var _constants = __webpack_require__(317);
 
 var _actions = __webpack_require__(28);
 
@@ -66747,7 +66729,7 @@ function linkPresence() {
 }
 
 /***/ }),
-/* 536 */
+/* 521 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -66757,7 +66739,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _api = __webpack_require__(537);
+var _api = __webpack_require__(522);
 
 Object.defineProperty(exports, 'api', {
   enumerable: true,
@@ -66766,7 +66748,7 @@ Object.defineProperty(exports, 'api', {
   }
 });
 
-var _reducers = __webpack_require__(539);
+var _reducers = __webpack_require__(524);
 
 Object.defineProperty(exports, 'reducer', {
   enumerable: true,
@@ -66778,7 +66760,7 @@ Object.defineProperty(exports, 'reducer', {
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ }),
-/* 537 */
+/* 522 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -66931,11 +66913,11 @@ exports.default = function (context) {
   return { presence: presenceApi };
 };
 
-var _actions = __webpack_require__(323);
+var _actions = __webpack_require__(316);
 
 var actions = _interopRequireWildcard(_actions);
 
-var _selectors = __webpack_require__(538);
+var _selectors = __webpack_require__(523);
 
 var selectors = _interopRequireWildcard(_selectors);
 
@@ -66980,12 +66962,12 @@ const log = _logs.logManager.getLogger('PRESENCE'); /**
  * @property {string} status The current status the user has set for themselves. For supported values see {@link presence.statuses}.
  * @property {string} activity The current activity of the user.
  *      For supported values see {@link presence.activities}.
- * @property {string} note Additional message acompanying the status & activity.
+ * @property {string} note Additional message accompanying the status & activity.
  * @property {boolean} loading Whether the presence information has been loaded or is in the process of loading.
  */
 
 /***/ }),
-/* 538 */
+/* 523 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -67036,7 +67018,7 @@ function getSelfPresence(state) {
 }
 
 /***/ }),
-/* 539 */
+/* 524 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -67050,7 +67032,7 @@ var _extends2 = __webpack_require__(6);
 
 var _extends3 = _interopRequireDefault(_extends2);
 
-var _actionTypes = __webpack_require__(162);
+var _actionTypes = __webpack_require__(161);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -67169,7 +67151,7 @@ const reducer = (0, _reduxActions.handleActions)(reducers, { self: {}, users: {}
 exports.default = reducer;
 
 /***/ }),
-/* 540 */
+/* 525 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -67189,15 +67171,15 @@ exports.presenceSubscribeSaga = presenceSubscribeSaga;
 exports.presenceUnsubscribeSaga = presenceUnsubscribeSaga;
 exports.presenceReceivedSaga = presenceReceivedSaga;
 
-var _actionTypes = __webpack_require__(162);
+var _actionTypes = __webpack_require__(161);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _actions = __webpack_require__(323);
+var _actions = __webpack_require__(316);
 
 var actions = _interopRequireWildcard(_actions);
 
-var _requests = __webpack_require__(541);
+var _requests = __webpack_require__(526);
 
 var _selectors = __webpack_require__(16);
 
@@ -67205,13 +67187,13 @@ var _actionTypes2 = __webpack_require__(44);
 
 var _effects = __webpack_require__(4);
 
-var _errors = __webpack_require__(20);
+var _errors = __webpack_require__(19);
 
 var _errors2 = _interopRequireDefault(_errors);
 
-var _constants = __webpack_require__(324);
+var _constants = __webpack_require__(317);
 
-var _constants2 = __webpack_require__(19);
+var _constants2 = __webpack_require__(20);
 
 var _logs = __webpack_require__(2);
 
@@ -67316,7 +67298,7 @@ function* updatePresence({ payload }) {
   }
 }
 /**
- * Link saga for gettting the presence updates one time only for the user(s).
+ * Link saga for getting the presence updates one time only for the user(s).
  * @method getPresence
  */
 function* getPresence({ payload }) {
@@ -67347,7 +67329,7 @@ function* subscribePresence({ payload }) {
 
 /**
  * Link saga for Handling unsubscribing the user(s) presence.
- * User will not be able to recieve presence updates of the unsubscribed user.
+ * User will not be able to receive presence updates of the unsubscribed user.
  * @method unsubscribePresence
  */
 function* unsubscribePresence({ payload }) {
@@ -67364,7 +67346,7 @@ function* unsubscribePresence({ payload }) {
 
 /**
  * Link receivePresence saga.
- * Handles the presence info recieved from the notification message.
+ * Handles the presence info received from the notification message.
  * @method receivePresence
  * @param {Object} wsAction
  */
@@ -67381,7 +67363,7 @@ function* receivePresence(wsAction) {
 }
 
 /***/ }),
-/* 541 */
+/* 526 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -67398,7 +67380,7 @@ var _stringify2 = _interopRequireDefault(_stringify);
 exports.updatePresenceRequest = updatePresenceRequest;
 exports.watchPresenceRequest = watchPresenceRequest;
 
-var _effects = __webpack_require__(57);
+var _effects = __webpack_require__(58);
 
 var _effects2 = _interopRequireDefault(_effects);
 
@@ -67495,7 +67477,7 @@ function* watchPresenceRequest(users, action, requestInfo) {
 }
 
 /***/ }),
-/* 542 */
+/* 527 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -67505,11 +67487,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _actionTypes = __webpack_require__(162);
+var _actionTypes = __webpack_require__(161);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _eventTypes = __webpack_require__(543);
+var _eventTypes = __webpack_require__(528);
 
 var eventTypes = _interopRequireWildcard(_eventTypes);
 
@@ -67589,13 +67571,13 @@ eventsMap[actionTypes.UNSUBSCRIBE_FINISH] = action => {
   }
 };
 
-// TODO: Should have events to notifiy of successful operations for these actions.
+// TODO: Should have events to notify of successful operations for these actions.
 eventsMap[actionTypes.CREATE_PRESENCE_LIST_FINISH] = presenceError;
 
 exports.default = eventsMap;
 
 /***/ }),
-/* 543 */
+/* 528 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -67676,7 +67658,7 @@ const UNSUBSCRIBE = exports.UNSUBSCRIBE = 'presence:unsubscribe';
 const ERROR = exports.ERROR = 'presence:error';
 
 /***/ }),
-/* 544 */
+/* 529 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -67687,15 +67669,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = sipEvents;
 
-var _interface = __webpack_require__(545);
+var _interface = __webpack_require__(530);
 
 var _interface2 = _interopRequireDefault(_interface);
 
-var _sagas = __webpack_require__(548);
+var _sagas = __webpack_require__(533);
 
 var sagas = _interopRequireWildcard(_sagas);
 
-var _events = __webpack_require__(549);
+var _events = __webpack_require__(534);
 
 var _events2 = _interopRequireDefault(_events);
 
@@ -67739,7 +67721,7 @@ function sipEvents() {
 // Other plugins.
 
 /***/ }),
-/* 545 */
+/* 530 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -67749,11 +67731,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _api = __webpack_require__(546);
+var _api = __webpack_require__(531);
 
 var _api2 = _interopRequireDefault(_api);
 
-var _reducer = __webpack_require__(547);
+var _reducer = __webpack_require__(532);
 
 var _reducer2 = _interopRequireDefault(_reducer);
 
@@ -67769,7 +67751,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 546 */
+/* 531 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -67780,9 +67762,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = api;
 
-var _selectors = __webpack_require__(325);
+var _selectors = __webpack_require__(318);
 
-var _actions = __webpack_require__(326);
+var _actions = __webpack_require__(319);
 
 var actions = _interopRequireWildcard(_actions);
 
@@ -67971,7 +67953,7 @@ function api({ dispatch, getState }) {
 }
 
 /***/ }),
-/* 547 */
+/* 532 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -67985,7 +67967,7 @@ var _extends2 = __webpack_require__(6);
 
 var _extends3 = _interopRequireDefault(_extends2);
 
-var _actionTypes = __webpack_require__(163);
+var _actionTypes = __webpack_require__(162);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -68061,7 +68043,7 @@ const reducer = (0, _reduxActions.handleActions)(reducers, {});
 exports.default = reducer;
 
 /***/ }),
-/* 548 */
+/* 533 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -68084,29 +68066,29 @@ exports.sipEventUpdate = sipEventUpdate;
 exports.sipEventUnsubscribe = sipEventUnsubscribe;
 exports.receiveEventNotify = receiveEventNotify;
 
-var _actionTypes = __webpack_require__(163);
+var _actionTypes = __webpack_require__(162);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _actions = __webpack_require__(326);
+var _actions = __webpack_require__(319);
 
 var actions = _interopRequireWildcard(_actions);
 
-var _selectors = __webpack_require__(325);
+var _selectors = __webpack_require__(318);
 
 var _selectors2 = __webpack_require__(16);
 
 var _selectors3 = __webpack_require__(26);
 
-var _selectors4 = __webpack_require__(104);
+var _selectors4 = __webpack_require__(103);
 
 var _actionTypes2 = __webpack_require__(44);
 
-var _effects = __webpack_require__(57);
+var _effects = __webpack_require__(58);
 
 var _effects2 = _interopRequireDefault(_effects);
 
-var _errors = __webpack_require__(20);
+var _errors = __webpack_require__(19);
 
 var _errors2 = _interopRequireDefault(_errors);
 
@@ -68116,7 +68098,7 @@ var _logs = __webpack_require__(2);
 
 var _fp = __webpack_require__(3);
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(20);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -68507,7 +68489,7 @@ function* receiveEventNotify() {
 }
 
 /***/ }),
-/* 549 */
+/* 534 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -68517,11 +68499,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _eventTypes = __webpack_require__(550);
+var _eventTypes = __webpack_require__(535);
 
 var eventTypes = _interopRequireWildcard(_eventTypes);
 
-var _actionTypes = __webpack_require__(163);
+var _actionTypes = __webpack_require__(162);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -68588,7 +68570,7 @@ events[actionTypes.SIP_EVENT_RECEIVED] = function (action) {
 exports.default = events;
 
 /***/ }),
-/* 550 */
+/* 535 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -68677,7 +68659,7 @@ const EVENT_ERROR = exports.EVENT_ERROR = 'sip:error';
 const EVENT_RECEIVED = exports.EVENT_RECEIVED = 'sip:eventsChange';
 
 /***/ }),
-/* 551 */
+/* 536 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -68701,35 +68683,35 @@ exports.getDirectory = getDirectory;
 exports.fetchSelfInfo = fetchSelfInfo;
 exports.fetchUserLocale = fetchUserLocale;
 
-var _actionTypes = __webpack_require__(96);
+var _actionTypes = __webpack_require__(95);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _users = __webpack_require__(327);
+var _users = __webpack_require__(320);
 
 var userActions = _interopRequireWildcard(_users);
 
-var _contacts = __webpack_require__(328);
+var _contacts = __webpack_require__(321);
 
 var contactActions = _interopRequireWildcard(_contacts);
 
 var _selectors = __webpack_require__(16);
 
-var _interface = __webpack_require__(552);
+var _interface = __webpack_require__(537);
 
 var _interface2 = _interopRequireDefault(_interface);
 
-var _contacts2 = __webpack_require__(559);
+var _contacts2 = __webpack_require__(544);
 
 var _contacts3 = _interopRequireDefault(_contacts2);
 
-var _users2 = __webpack_require__(560);
+var _users2 = __webpack_require__(545);
 
 var _users3 = _interopRequireDefault(_users2);
 
 var _actions = __webpack_require__(28);
 
-var _effects = __webpack_require__(57);
+var _effects = __webpack_require__(58);
 
 var _effects2 = _interopRequireDefault(_effects);
 
@@ -68737,7 +68719,7 @@ var _logs = __webpack_require__(2);
 
 var _effects3 = __webpack_require__(4);
 
-var _constants = __webpack_require__(19);
+var _constants = __webpack_require__(20);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -68909,7 +68891,7 @@ function usersLink() {
 
   /**
    * On-Premises fetchUser saga
-   * Performs to uworkflow of caching a user.
+   * Performs the workflow of caching a user.
    * @return {Generator} [description]
    */
   function* fetchUser() {
@@ -68960,7 +68942,7 @@ function usersLink() {
       if (!userProfile.error) {
         userData.data = userProfile;
       } else {
-        log.debug('Error retrieving user profile informaion', userProfile.text);
+        log.debug('Error retrieving user profile information', userProfile.text);
       }
 
       if (!currentLocale.error) {
@@ -69160,7 +69142,7 @@ function* fetchSelfInfo(connection) {
 }
 
 /**
- * Fetch user localeinformation from SPiDR with the provided connection info.
+ * Fetch user locale information from SPiDR with the provided connection info.
  * @param  {Object}     connection Connection information for the platform in use.
  * @return {Object}            Fetch request's response.
  */
@@ -69257,7 +69239,7 @@ function localUserFromRemote(user) {
 }
 
 /***/ }),
-/* 552 */
+/* 537 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -69267,11 +69249,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _api = __webpack_require__(553);
+var _api = __webpack_require__(538);
 
 var _api2 = _interopRequireDefault(_api);
 
-var _reducers = __webpack_require__(556);
+var _reducers = __webpack_require__(541);
 
 var _reducers2 = _interopRequireDefault(_reducers);
 
@@ -69288,7 +69270,7 @@ const name = 'users';
 exports.default = { name, api: _api2.default, reducer: _reducers2.default };
 
 /***/ }),
-/* 553 */
+/* 538 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -69299,11 +69281,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = api;
 
-var _users = __webpack_require__(554);
+var _users = __webpack_require__(539);
 
 var _users2 = _interopRequireDefault(_users);
 
-var _contacts = __webpack_require__(555);
+var _contacts = __webpack_require__(540);
 
 var _contacts2 = _interopRequireDefault(_contacts);
 
@@ -69327,7 +69309,7 @@ function api(context) {
 }
 
 /***/ }),
-/* 554 */
+/* 539 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -69338,11 +69320,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = usersAPI;
 
-var _users = __webpack_require__(327);
+var _users = __webpack_require__(320);
 
 var actions = _interopRequireWildcard(_users);
 
-var _selectors = __webpack_require__(329);
+var _selectors = __webpack_require__(322);
 
 var _logs = __webpack_require__(2);
 
@@ -69527,7 +69509,7 @@ function usersAPI({ dispatch, getState, primitives }) {
 }
 
 /***/ }),
-/* 555 */
+/* 540 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -69538,11 +69520,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = contactsAPI;
 
-var _contacts = __webpack_require__(328);
+var _contacts = __webpack_require__(321);
 
 var actions = _interopRequireWildcard(_contacts);
 
-var _selectors = __webpack_require__(329);
+var _selectors = __webpack_require__(322);
 
 var _logs = __webpack_require__(2);
 
@@ -69736,7 +69718,7 @@ function contactsAPI({ dispatch, getState, primitives }) {
 }
 
 /***/ }),
-/* 556 */
+/* 541 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -69750,11 +69732,11 @@ var _extends2 = __webpack_require__(6);
 
 var _extends3 = _interopRequireDefault(_extends2);
 
-var _contacts = __webpack_require__(557);
+var _contacts = __webpack_require__(542);
 
 var _contacts2 = _interopRequireDefault(_contacts);
 
-var _users = __webpack_require__(558);
+var _users = __webpack_require__(543);
 
 var _users2 = _interopRequireDefault(_users);
 
@@ -69775,7 +69757,7 @@ const reducer = (0, _reduxActions.handleActions)((0, _extends3.default)({}, _con
 exports.default = reducer;
 
 /***/ }),
-/* 557 */
+/* 542 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -69789,7 +69771,7 @@ var _extends2 = __webpack_require__(6);
 
 var _extends3 = _interopRequireDefault(_extends2);
 
-var _actionTypes = __webpack_require__(96);
+var _actionTypes = __webpack_require__(95);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -69902,7 +69884,7 @@ reducers[actionTypes.UPDATE_CONTACT_FINISH] = {
 exports.default = reducers;
 
 /***/ }),
-/* 558 */
+/* 543 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -69916,7 +69898,7 @@ var _extends2 = __webpack_require__(6);
 
 var _extends3 = _interopRequireDefault(_extends2);
 
-var _actionTypes = __webpack_require__(96);
+var _actionTypes = __webpack_require__(95);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -69982,7 +69964,7 @@ reducers[actionTypes.SEARCH_DIRECTORY_FINISH] = {
 exports.default = reducers;
 
 /***/ }),
-/* 559 */
+/* 544 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -69992,11 +69974,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _actionTypes = __webpack_require__(96);
+var _actionTypes = __webpack_require__(95);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _eventTypes = __webpack_require__(330);
+var _eventTypes = __webpack_require__(323);
 
 var eventTypes = _interopRequireWildcard(_eventTypes);
 
@@ -70040,7 +70022,7 @@ eventsMap[actionTypes.FETCH_CONTACT_FINISH] = contactsChangeEvent;
 exports.default = eventsMap;
 
 /***/ }),
-/* 560 */
+/* 545 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -70050,11 +70032,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _actionTypes = __webpack_require__(96);
+var _actionTypes = __webpack_require__(95);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _eventTypes = __webpack_require__(330);
+var _eventTypes = __webpack_require__(323);
 
 var eventTypes = _interopRequireWildcard(_eventTypes);
 
@@ -70092,7 +70074,7 @@ eventsMap[actionTypes.FETCH_USER_FINISH] = eventsMap[actionTypes.FETCH_SELF_INFO
 exports.default = eventsMap;
 
 /***/ }),
-/* 561 */
+/* 546 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -70103,17 +70085,17 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.cpaasRequest = exports.ucRequest = exports.linkRequest = undefined;
 
-var _configs = __webpack_require__(562);
+var _configs = __webpack_require__(547);
 
-var _sagas = __webpack_require__(563);
+var _sagas = __webpack_require__(548);
 
 var _sagas2 = _interopRequireDefault(_sagas);
 
-var _events = __webpack_require__(566);
+var _events = __webpack_require__(551);
 
 var _events2 = _interopRequireDefault(_events);
 
-var _interface = __webpack_require__(568);
+var _interface = __webpack_require__(553);
 
 var _actions = __webpack_require__(56);
 
@@ -70181,7 +70163,7 @@ function pluginFactory(platform) {
 }
 
 /***/ }),
-/* 562 */
+/* 547 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -70216,7 +70198,7 @@ const v8nValidation = _validation.validation.schema({
 const parseOptions = exports.parseOptions = (0, _validation.parse)('request', v8nValidation);
 
 /***/ }),
-/* 563 */
+/* 548 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -70228,27 +70210,27 @@ Object.defineProperty(exports, "__esModule", {
 exports.__testonly__ = undefined;
 exports.default = watchRequests;
 
-var _actionTypes = __webpack_require__(156);
+var _actionTypes = __webpack_require__(155);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _actions = __webpack_require__(301);
+var _actions = __webpack_require__(299);
 
 var actions = _interopRequireWildcard(_actions);
 
-var _makeRequest = __webpack_require__(564);
+var _makeRequest = __webpack_require__(549);
 
 var _makeRequest2 = _interopRequireDefault(_makeRequest);
 
-var _authorization = __webpack_require__(565);
+var _authorization = __webpack_require__(550);
 
 var authorizations = _interopRequireWildcard(_authorization);
 
-var _utils = __webpack_require__(284);
+var _utils = __webpack_require__(283);
 
 var _logs = __webpack_require__(2);
 
-var _version = __webpack_require__(60);
+var _version = __webpack_require__(70);
 
 var _effects = __webpack_require__(4);
 
@@ -70320,7 +70302,7 @@ const __testonly__ = exports.__testonly__ = { watchRequests, handleRequest
 };
 
 /***/ }),
-/* 564 */
+/* 549 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -70334,11 +70316,11 @@ var _extends2 = __webpack_require__(6);
 
 var _extends3 = _interopRequireDefault(_extends2);
 
-var _objectWithoutProperties2 = __webpack_require__(83);
+var _objectWithoutProperties2 = __webpack_require__(82);
 
 var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
-var _freeze = __webpack_require__(131);
+var _freeze = __webpack_require__(130);
 
 var _freeze2 = _interopRequireDefault(_freeze);
 
@@ -70470,14 +70452,14 @@ exports.default = async function makeRequest(options, requestId) {
 
     /*
      * Try to parse the response as JSON, and if successful, include
-     * it in the returned error. otherwise, provide an empty object instaed.
+     * it in the returned error. otherwise, provide an empty object instead.
      */
     let responseBody;
     try {
       responseBody = await response.json();
     } catch (err) {
       responseBody = {};
-      log.debug('Failed to parse reponse:', err.message);
+      log.debug('Failed to parse response:', err.message);
     }
     return makeResponse({ error: 'REQUEST' }, (0, _extends3.default)({ body: responseBody }, result));
   }
@@ -70578,7 +70560,7 @@ function makeResponse(apiResponse = {}, httpResponse = {}) {
 }
 
 /***/ }),
-/* 565 */
+/* 550 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -70596,7 +70578,7 @@ exports.linkAuthorization = linkAuthorization;
 exports.ucAuthorization = ucAuthorization;
 exports.cpaasAuthorization = cpaasAuthorization;
 
-var _errors = __webpack_require__(20);
+var _errors = __webpack_require__(19);
 
 var _errors2 = _interopRequireDefault(_errors);
 
@@ -70746,7 +70728,7 @@ function getStatusCode(response) {
 }
 
 /***/ }),
-/* 566 */
+/* 551 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -70756,11 +70738,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _eventTypes = __webpack_require__(567);
+var _eventTypes = __webpack_require__(552);
 
 var eventTypes = _interopRequireWildcard(_eventTypes);
 
-var _actionTypes = __webpack_require__(156);
+var _actionTypes = __webpack_require__(155);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -70780,7 +70762,7 @@ eventsMap[actionTypes.AUTHORIZATION_ERROR] = function (action) {
 exports.default = eventsMap;
 
 /***/ }),
-/* 567 */
+/* 552 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -70806,7 +70788,7 @@ Object.defineProperty(exports, "__esModule", {
 const REQUEST_ERROR = exports.REQUEST_ERROR = 'request:error';
 
 /***/ }),
-/* 568 */
+/* 553 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -70817,11 +70799,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.api = exports.name = undefined;
 
-var _name = __webpack_require__(569);
+var _name = __webpack_require__(554);
 
 var _name2 = _interopRequireDefault(_name);
 
-var _api = __webpack_require__(570);
+var _api = __webpack_require__(555);
 
 var _api2 = _interopRequireDefault(_api);
 
@@ -70831,7 +70813,7 @@ exports.name = _name2.default;
 exports.api = _api2.default;
 
 /***/ }),
-/* 569 */
+/* 554 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -70848,7 +70830,7 @@ const name = 'requests';
 exports.default = name;
 
 /***/ }),
-/* 570 */
+/* 555 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -70859,7 +70841,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = api;
 
-var _utils = __webpack_require__(284);
+var _utils = __webpack_require__(283);
 
 var _logs = __webpack_require__(2);
 
@@ -70882,13 +70864,20 @@ function api({ dispatch, getState }) {
   return {
     request: {
       /**
+       * The 'request' namespace (within the 'api' type) is used to make network requests to the server.
+       *
+       * @public
+       * @namespace request
+       */
+
+      /**
        * Send a request to the underlying REST service with the appropriate configuration and authentication.
        * This is a wrapper on top of the browser's [fetch API](https://developer.mozilla.org/en-US/docs/Web/API/fetch)
        * and behaves very similarly but using SDK configuration for the base URL and authentication as well
        * as SDK logging.
        *
        * @public
-       * @memberof api
+       * @memberof request
        * @method fetch
        * @param {string} resource The full path of the resource to fetch from the underlying service. This should include any REST version
        *                          or user information. This path will be appended to the base URL according to SDK configuration.
@@ -70907,7 +70896,7 @@ function api({ dispatch, getState }) {
        *
        * // Note that you will need to subscribe for the `custom` service in order to
        * // receive notifications from the `externalnotification` service.
-       * const response = await client.fetch('/rest/version/1/user/xyz@test.com/externalnotification', requestOptions)
+       * const response = await client.request.fetch('/rest/version/1/user/xyz@test.com/externalnotification', requestOptions)
        */
       async fetch(resource, init = {}) {
         log.debug(_logs.API_LOG_TAG + 'fetch: ', resource);
@@ -70925,7 +70914,7 @@ function api({ dispatch, getState }) {
 }
 
 /***/ }),
-/* 571 */
+/* 556 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -70968,7 +70957,7 @@ function api({ dispatch, getState }) {
  */
 
 /**
- * The Phone Numer ie: +18885559876
+ * The Phone Number ie: +18885559876
  *
  * @public
  * @static
