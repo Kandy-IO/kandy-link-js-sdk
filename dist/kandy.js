@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.34.0-beta.796
+ * Version: 4.34.0-beta.797
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -169,7 +169,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* harmony import */ var _redux_saga_symbols__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
 /* harmony import */ var _babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(43);
 /* harmony import */ var _redux_saga_is__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(1);
-/* harmony import */ var _redux_saga_delay_p__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(70);
+/* harmony import */ var _redux_saga_delay_p__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(69);
 
 
 
@@ -955,7 +955,7 @@ var redux_saga_is_esm = __webpack_require__(1);
 var io_6de156f3 = __webpack_require__(0);
 
 // EXTERNAL MODULE: /var/jenkins_home/workspace/Kandy.js_beta/node_modules/@redux-saga/delay-p/dist/redux-saga-delay-p.esm.js
-var redux_saga_delay_p_esm = __webpack_require__(70);
+var redux_saga_delay_p_esm = __webpack_require__(69);
 
 // CONCATENATED MODULE: /var/jenkins_home/workspace/Kandy.js_beta/node_modules/@redux-saga/core/dist/redux-saga-effects.esm.js
 
@@ -3409,7 +3409,7 @@ function arrayOfDeferred(length) {
 
 
 // EXTERNAL MODULE: /var/jenkins_home/workspace/Kandy.js_beta/node_modules/@redux-saga/delay-p/dist/redux-saga-delay-p.esm.js
-var redux_saga_delay_p_esm = __webpack_require__(70);
+var redux_saga_delay_p_esm = __webpack_require__(69);
 
 // CONCATENATED MODULE: /var/jenkins_home/workspace/Kandy.js_beta/node_modules/@redux-saga/core/dist/redux-saga-core.esm.js
 
@@ -6433,28 +6433,6 @@ module.exports = function (key) {
 /* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getVersion = getVersion;
-/**
- * Returns the version of the currently running SDK.
- *
- * It must be used by any plugins (including the factory) as the unique source of truth when it comes to determine the current SDK version.
- * The actual version value is provided by the build process scripts (aka webpack.config.***.js) which simply do a string substitution
- * for the @@ tag below with actual version value.
- */
-function getVersion() {
-  return '4.34.0-beta.796';
-}
-
-/***/ }),
-/* 62 */
-/***/ (function(module, exports, __webpack_require__) {
-
 var META = __webpack_require__(60)('meta');
 var isObject = __webpack_require__(14);
 var has = __webpack_require__(31);
@@ -6511,7 +6489,7 @@ var meta = module.exports = {
 
 
 /***/ }),
-/* 63 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
@@ -6558,7 +6536,7 @@ module.exports = Object.create || function create(O, Properties) {
 
 
 /***/ }),
-/* 64 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6582,7 +6560,7 @@ __webpack_require__(87)(String, 'String', function (iterated) {
 
 
 /***/ }),
-/* 65 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6640,7 +6618,7 @@ function getBrowserDetails() {
 }
 
 /***/ }),
-/* 66 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6759,7 +6737,7 @@ function createPipeline() {
 exports.default = createPipeline();
 
 /***/ }),
-/* 67 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6790,7 +6768,7 @@ const CHANGE_CONNECTIVITY_CHECKING = exports.CHANGE_CONNECTIVITY_CHECKING = pref
 const CHANGE_PING_INTERVAL = exports.CHANGE_PING_INTERVAL = prefix + 'CHANGE_PING_INTERVAL';
 
 /***/ }),
-/* 68 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6818,7 +6796,7 @@ const callActions = exports.callActions = callActionsImport;
 const turnActions = exports.turnActions = turnActionsImport;
 
 /***/ }),
-/* 69 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6955,7 +6933,7 @@ const TRACK_ADDED = exports.TRACK_ADDED = trackPrefix + 'ADDED';
 const TRACK_REMOVED = exports.TRACK_REMOVED = trackPrefix + 'REMOVED';
 
 /***/ }),
-/* 70 */
+/* 69 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6981,6 +6959,28 @@ function delayP(ms, val) {
 
 /* harmony default export */ __webpack_exports__["a"] = (delayP);
 
+
+/***/ }),
+/* 70 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getVersion = getVersion;
+/**
+ * Returns the version of the currently running SDK.
+ *
+ * It must be used by any plugins (including the factory) as the unique source of truth when it comes to determine the current SDK version.
+ * The actual version value is provided by the build process scripts (aka webpack.config.***.js) which simply do a string substitution
+ * for the @@ tag below with actual version value.
+ */
+function getVersion() {
+  return '4.34.0-beta.797';
+}
 
 /***/ }),
 /* 71 */
@@ -9192,7 +9192,7 @@ var _webrtcManager2 = _interopRequireDefault(_webrtcManager);
 
 var _logs = __webpack_require__(15);
 
-var _pipeline = __webpack_require__(66);
+var _pipeline = __webpack_require__(65);
 
 var _pipeline2 = _interopRequireDefault(_pipeline);
 
@@ -9200,7 +9200,7 @@ var _handlers = __webpack_require__(93);
 
 var sdpHandlers = _interopRequireWildcard(_handlers);
 
-var _utils = __webpack_require__(65);
+var _utils = __webpack_require__(64);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -9291,7 +9291,7 @@ var _eventemitter = __webpack_require__(25);
 
 var _eventemitter2 = _interopRequireDefault(_eventemitter);
 
-var _utils = __webpack_require__(65);
+var _utils = __webpack_require__(64);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -9964,7 +9964,7 @@ var _properties = __webpack_require__(265);
 
 var _properties2 = _interopRequireDefault(_properties);
 
-var _utils = __webpack_require__(65);
+var _utils = __webpack_require__(64);
 
 var _config = __webpack_require__(272);
 
@@ -11597,7 +11597,7 @@ const partialDefaultLogActions = exports.partialDefaultLogActions = {
 "use strict";
 
 var dP = __webpack_require__(18).f;
-var create = __webpack_require__(63);
+var create = __webpack_require__(62);
 var redefineAll = __webpack_require__(89);
 var ctx = __webpack_require__(29);
 var anInstance = __webpack_require__(90);
@@ -11606,7 +11606,7 @@ var $iterDefine = __webpack_require__(87);
 var step = __webpack_require__(116);
 var setSpecies = __webpack_require__(120);
 var DESCRIPTORS = __webpack_require__(17);
-var fastKey = __webpack_require__(62).fastKey;
+var fastKey = __webpack_require__(61).fastKey;
 var validate = __webpack_require__(102);
 var SIZE = DESCRIPTORS ? '_s' : 'size';
 
@@ -11749,7 +11749,7 @@ module.exports = {
 
 var global = __webpack_require__(9);
 var $export = __webpack_require__(8);
-var meta = __webpack_require__(62);
+var meta = __webpack_require__(61);
 var fails = __webpack_require__(33);
 var hide = __webpack_require__(30);
 var redefineAll = __webpack_require__(89);
@@ -12446,7 +12446,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.changePingInterval = exports.changeConnectivityChecking = exports.receiveServerPong = exports.receiveServerPing = exports.lostConnection = exports.wsError = exports.wsClosed = exports.wsReconnectFailed = exports.wsDisconnectFinished = exports.wsConnectFinished = exports.wsDisconnect = exports.wsAttemptConnect = undefined;
 
-var _actionTypes = __webpack_require__(67);
+var _actionTypes = __webpack_require__(66);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -14997,7 +14997,7 @@ var has = __webpack_require__(31);
 var DESCRIPTORS = __webpack_require__(17);
 var $export = __webpack_require__(8);
 var redefine = __webpack_require__(109);
-var META = __webpack_require__(62).KEY;
+var META = __webpack_require__(61).KEY;
 var $fails = __webpack_require__(33);
 var shared = __webpack_require__(79);
 var setToStringTag = __webpack_require__(50);
@@ -15013,7 +15013,7 @@ var toObject = __webpack_require__(36);
 var toIObject = __webpack_require__(34);
 var toPrimitive = __webpack_require__(74);
 var createDesc = __webpack_require__(38);
-var _create = __webpack_require__(63);
+var _create = __webpack_require__(62);
 var gOPNExt = __webpack_require__(187);
 var $GOPD = __webpack_require__(113);
 var $GOPS = __webpack_require__(81);
@@ -15868,7 +15868,7 @@ module.exports = function (TO_STRING) {
 
 "use strict";
 
-var create = __webpack_require__(63);
+var create = __webpack_require__(62);
 var descriptor = __webpack_require__(38);
 var setToStringTag = __webpack_require__(50);
 var IteratorPrototype = {};
@@ -16031,7 +16031,7 @@ module.exports = function (iter, ITERATOR) {
 /* 205 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(64);
+__webpack_require__(63);
 __webpack_require__(206);
 module.exports = __webpack_require__(7).Array.from;
 
@@ -16112,7 +16112,7 @@ module.exports = function create(P, D) {
 
 var $export = __webpack_require__(8);
 // 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
-$export($export.S, 'Object', { create: __webpack_require__(63) });
+$export($export.S, 'Object', { create: __webpack_require__(62) });
 
 
 /***/ }),
@@ -16268,7 +16268,7 @@ function generateEndParams(currentCallState, isLocal, params) {
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(71);
-__webpack_require__(64);
+__webpack_require__(63);
 __webpack_require__(88);
 __webpack_require__(212);
 __webpack_require__(216);
@@ -21164,7 +21164,7 @@ if (typeof module === 'object') {
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(71);
-__webpack_require__(64);
+__webpack_require__(63);
 __webpack_require__(88);
 __webpack_require__(230);
 __webpack_require__(231);
@@ -21806,7 +21806,7 @@ var _constants = __webpack_require__(21);
 
 var _sdpSemantics = __webpack_require__(41);
 
-var _pipeline = __webpack_require__(66);
+var _pipeline = __webpack_require__(65);
 
 var _handlers = __webpack_require__(93);
 
@@ -21882,7 +21882,7 @@ module.exports = __webpack_require__(7).Object.freeze;
 
 // 19.1.2.5 Object.freeze(O)
 var isObject = __webpack_require__(14);
-var meta = __webpack_require__(62).onFreeze;
+var meta = __webpack_require__(61).onFreeze;
 
 __webpack_require__(99)('freeze', function ($freeze) {
   return function freeze(it) {
@@ -22162,7 +22162,7 @@ var _constants = __webpack_require__(21);
 
 var _sdpSemantics = __webpack_require__(41);
 
-var _pipeline = __webpack_require__(66);
+var _pipeline = __webpack_require__(65);
 
 var _handlers = __webpack_require__(93);
 
@@ -23897,7 +23897,7 @@ var _logs = __webpack_require__(15);
 
 var _constants = __webpack_require__(21);
 
-var _pipeline = __webpack_require__(66);
+var _pipeline = __webpack_require__(65);
 
 var _pipeline2 = _interopRequireDefault(_pipeline);
 
@@ -23905,7 +23905,7 @@ var _sdpSemantics = __webpack_require__(41);
 
 var _extractors = __webpack_require__(152);
 
-var _utils = __webpack_require__(65);
+var _utils = __webpack_require__(64);
 
 var _eventemitter = __webpack_require__(25);
 
@@ -25578,7 +25578,7 @@ var _selectors2 = __webpack_require__(16);
 
 var _logs = __webpack_require__(2);
 
-var _version = __webpack_require__(61);
+var _version = __webpack_require__(70);
 
 var _utils = __webpack_require__(13);
 
@@ -26160,7 +26160,7 @@ exports.setupCall = setupCall;
 exports.setupIncomingCall = setupIncomingCall;
 exports.answerWebrtcSession = answerWebrtcSession;
 
-var _actions = __webpack_require__(68);
+var _actions = __webpack_require__(67);
 
 var _selectors = __webpack_require__(26);
 
@@ -27591,7 +27591,7 @@ exports.waitForReconnect = waitForReconnect;
 
 var _actions = __webpack_require__(156);
 
-var _actionTypes = __webpack_require__(67);
+var _actionTypes = __webpack_require__(66);
 
 var _selectors = __webpack_require__(132);
 
@@ -27778,7 +27778,7 @@ exports.restartMedia = restartMedia;
 exports.restartMediaFinish = restartMediaFinish;
 exports.updateCall = updateCall;
 
-var _actionTypes = __webpack_require__(69);
+var _actionTypes = __webpack_require__(68);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -31685,7 +31685,7 @@ var _compose2 = _interopRequireDefault(_compose);
 
 var _utils = __webpack_require__(13);
 
-var _version = __webpack_require__(61);
+var _version = __webpack_require__(70);
 
 var _logs = __webpack_require__(2);
 
@@ -33550,7 +33550,7 @@ module.exports = { "default": __webpack_require__(344), __esModule: true };
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(71);
-__webpack_require__(64);
+__webpack_require__(63);
 __webpack_require__(88);
 __webpack_require__(345);
 __webpack_require__(346);
@@ -34145,7 +34145,7 @@ module.exports = { "default": __webpack_require__(357), __esModule: true };
 /* 357 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(64);
+__webpack_require__(63);
 __webpack_require__(88);
 module.exports = __webpack_require__(100).f('iterator');
 
@@ -36871,7 +36871,7 @@ var _channel = __webpack_require__(281);
 
 var _logs = __webpack_require__(2);
 
-var _version = __webpack_require__(61);
+var _version = __webpack_require__(70);
 
 var _uuid = __webpack_require__(42);
 
@@ -38562,7 +38562,7 @@ var _effects2 = __webpack_require__(300);
 
 var _selectors3 = __webpack_require__(132);
 
-var _actionTypes2 = __webpack_require__(67);
+var _actionTypes2 = __webpack_require__(66);
 
 var connectivityActionTypes = _interopRequireWildcard(_actionTypes2);
 
@@ -39529,8 +39529,6 @@ var _actionTypes = __webpack_require__(104);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _version = __webpack_require__(61);
-
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function authChangedEvent(action) {
@@ -39539,9 +39537,6 @@ function authChangedEvent(action) {
     args: action.error ? { error: action.payload } : {}
   };
 }
-
-// Helpers
-
 
 const eventsMap = {};
 
@@ -39582,14 +39577,9 @@ eventsMap[actionTypes.RESUBSCRIPTION_FINISHED] = function (action) {
 };
 
 eventsMap[actionTypes.SET_CONNECTION_INFO] = function (action) {
-  const version = (0, _version.getVersion)();
-  const matchedVersion = version.startsWith('3');
-
-  if (matchedVersion) {
-    return {
-      type: eventTypes.AUTH_CREDENTIALS_SET
-    };
-  }
+  return {
+    type: eventTypes.AUTH_CREDENTIALS_SET
+  };
 };
 
 exports.default = eventsMap;
@@ -39647,8 +39637,7 @@ const AUTH_ERROR = exports.AUTH_ERROR = 'auth:error';
 const AUTH_RESUB = exports.AUTH_RESUB = 'auth:resub';
 
 /**
- * The information needed for connecting has been set.
- * This event would only occur when the credentials for 3.x SDk as been set.
+ * The information (credentials) needed for connecting have been set.
  *
  * @public
  * @memberof api
@@ -40472,7 +40461,7 @@ var _actionTypes3 = __webpack_require__(94);
 
 var subscribeActionTypes = _interopRequireWildcard(_actionTypes3);
 
-var _actionTypes4 = __webpack_require__(67);
+var _actionTypes4 = __webpack_require__(66);
 
 var connectivityActionTypes = _interopRequireWildcard(_actionTypes4);
 
@@ -41819,7 +41808,7 @@ var _extends3 = _interopRequireDefault(_extends2);
 
 exports.default = callAPI;
 
-var _actions = __webpack_require__(68);
+var _actions = __webpack_require__(67);
 
 var _selectors = __webpack_require__(26);
 
@@ -43382,7 +43371,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.turnChanged = turnChanged;
 
-var _actionTypes = __webpack_require__(69);
+var _actionTypes = __webpack_require__(68);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -43450,7 +43439,7 @@ var _extends2 = __webpack_require__(6);
 
 var _extends3 = _interopRequireDefault(_extends2);
 
-var _actionTypes = __webpack_require__(69);
+var _actionTypes = __webpack_require__(68);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -44297,7 +44286,7 @@ var _extends2 = __webpack_require__(6);
 
 var _extends3 = _interopRequireDefault(_extends2);
 
-var _actionTypes = __webpack_require__(69);
+var _actionTypes = __webpack_require__(68);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -44379,7 +44368,7 @@ exports.getAvailableCodecsEntry = getAvailableCodecsEntry;
 exports.restartIce = restartIce;
 exports.watchForMediaDisconnect = watchForMediaDisconnect;
 
-var _actionTypes = __webpack_require__(69);
+var _actionTypes = __webpack_require__(68);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -44387,7 +44376,7 @@ var _actionTypes2 = __webpack_require__(10);
 
 var webrtcActionTypes = _interopRequireWildcard(_actionTypes2);
 
-var _actionTypes3 = __webpack_require__(67);
+var _actionTypes3 = __webpack_require__(66);
 
 var connectivityActionTypes = _interopRequireWildcard(_actionTypes3);
 
@@ -45076,7 +45065,7 @@ var _extends3 = _interopRequireDefault(_extends2);
 
 exports.setTurnCredentials = setTurnCredentials;
 
-var _actions = __webpack_require__(68);
+var _actions = __webpack_require__(67);
 
 var _selectors = __webpack_require__(26);
 
@@ -46186,7 +46175,7 @@ exports.rejectCall = rejectCall;
 exports.ignoreCall = ignoreCall;
 exports.forwardCall = forwardCall;
 
-var _actions = __webpack_require__(68);
+var _actions = __webpack_require__(67);
 
 var _selectors = __webpack_require__(26);
 
@@ -48003,7 +47992,7 @@ var rollbackOps = _interopRequireWildcard(_rollback);
 
 var _bandwidth = __webpack_require__(305);
 
-var _actions = __webpack_require__(68);
+var _actions = __webpack_require__(67);
 
 var _selectors = __webpack_require__(26);
 
@@ -48029,7 +48018,7 @@ var _effects2 = __webpack_require__(4);
 
 var _fp = __webpack_require__(3);
 
-var _version = __webpack_require__(61);
+var _version = __webpack_require__(70);
 
 var _constants2 = __webpack_require__(20);
 
@@ -49729,7 +49718,7 @@ exports.callStatusUpdateFailed = callStatusUpdateFailed;
 exports.callCancelled = callCancelled;
 exports.receiveEarlyMedia = receiveEarlyMedia;
 
-var _actions = __webpack_require__(68);
+var _actions = __webpack_require__(67);
 
 var _selectors = __webpack_require__(26);
 
@@ -50537,7 +50526,7 @@ var _operations = __webpack_require__(451);
 
 var _operations2 = _interopRequireDefault(_operations);
 
-var _actions = __webpack_require__(68);
+var _actions = __webpack_require__(67);
 
 var _selectors = __webpack_require__(26);
 
@@ -52255,7 +52244,7 @@ exports.hasTelephoneEvent = hasTelephoneEvent;
 exports.convertTone = convertTone;
 exports.splitTones = splitTones;
 
-var _actions = __webpack_require__(68);
+var _actions = __webpack_require__(67);
 
 var _selectors = __webpack_require__(26);
 
@@ -52686,9 +52675,9 @@ exports.getSessions = getSessions;
 exports.updateCallState = updateCallState;
 exports.normalizeIceFailure = normalizeIceFailure;
 
-var _actions = __webpack_require__(68);
+var _actions = __webpack_require__(67);
 
-var _actionTypes = __webpack_require__(69);
+var _actionTypes = __webpack_require__(68);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -53106,7 +53095,7 @@ var _eventTypes = __webpack_require__(460);
 
 var eventTypes = _interopRequireWildcard(_eventTypes);
 
-var _actionTypes = __webpack_require__(69);
+var _actionTypes = __webpack_require__(68);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -54238,7 +54227,7 @@ var actionTypes = _interopRequireWildcard(_actionTypes);
 
 var _actionTypes2 = __webpack_require__(470);
 
-var _actionTypes3 = __webpack_require__(69);
+var _actionTypes3 = __webpack_require__(68);
 
 var _constants = __webpack_require__(37);
 
@@ -54553,7 +54542,7 @@ var _actions = __webpack_require__(286);
 
 var _selectors = __webpack_require__(16);
 
-var _actionTypes = __webpack_require__(69);
+var _actionTypes = __webpack_require__(68);
 
 var _constants = __webpack_require__(37);
 
@@ -55799,7 +55788,7 @@ var _extends2 = __webpack_require__(6);
 
 var _extends3 = _interopRequireDefault(_extends2);
 
-var _actionTypes = __webpack_require__(67);
+var _actionTypes = __webpack_require__(66);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -55951,7 +55940,7 @@ var _eventTypes = __webpack_require__(487);
 
 var eventTypes = _interopRequireWildcard(_eventTypes);
 
-var _actionTypes = __webpack_require__(67);
+var _actionTypes = __webpack_require__(66);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -56035,7 +56024,7 @@ var _websocket = __webpack_require__(489);
 
 var _selectors = __webpack_require__(132);
 
-var _actionTypes = __webpack_require__(67);
+var _actionTypes = __webpack_require__(66);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -59160,7 +59149,7 @@ var _actionTypes = __webpack_require__(44);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
-var _actionTypes2 = __webpack_require__(67);
+var _actionTypes2 = __webpack_require__(66);
 
 var _reduxActions = __webpack_require__(22);
 
@@ -70241,7 +70230,7 @@ var _utils = __webpack_require__(283);
 
 var _logs = __webpack_require__(2);
 
-var _version = __webpack_require__(61);
+var _version = __webpack_require__(70);
 
 var _effects = __webpack_require__(4);
 
