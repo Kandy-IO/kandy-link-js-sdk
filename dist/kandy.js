@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.35.0-beta.804
+ * Version: 4.35.0-beta.805
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -7630,7 +7630,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.35.0-beta.804';
+  return '4.35.0-beta.805';
 }
 
 /***/ }),
@@ -36985,11 +36985,11 @@ function* renderTracks(webRTC, action) {
   // trackIds is an array
   trackIds instanceof Array &&
   // trackIds is not empty
-  trackIds.length > 0 && selector &&
-  // selector is a string
-  (0, _fp.isString)(selector) &&
+  trackIds.length > 0 &&
   // selector is not empty
-  selector.length > 0) {
+  selector && (
+  // selector is a string or a DOM element
+  (0, _fp.isString)(selector) || selector instanceof Element)) {
     log.info(`Rendering track(s) in element ${selector}.`, trackIds);
 
     // Render the tracks.
