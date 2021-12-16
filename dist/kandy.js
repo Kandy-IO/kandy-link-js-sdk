@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.35.0-beta.806
+ * Version: 4.35.0-beta.807
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -7630,7 +7630,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.35.0-beta.806';
+  return '4.35.0-beta.807';
 }
 
 /***/ }),
@@ -39655,15 +39655,16 @@ function* doSubscribe(action) {
 
       // Request the websocket connection.
     };const wsOpenOrError = yield (0, _effects2.connectWebsocket)(websocketInfo, platform);
-
     if (wsOpenOrError.error) {
+      // Clean up our subscription on KandyLink
+      yield (0, _effects.call)(doUnsubscribe, subscription);
+
       throw wsOpenOrError.payload;
     }
 
     yield (0, _effects.put)(actions.subscribeFinished({ subscriptions: [subscription] }, platform));
     log.info(`Subscribed to the following services: ${subscription.service}`);
   } catch (error) {
-    // Error: subscription failed
     yield (0, _effects.put)(actions.subscribeFinished({ error }));
     log.debug(`Subscription failed: ${error.message}`);
   } finally {
@@ -39681,12 +39682,14 @@ function* doSubscribe(action) {
  * Performs the actions for actually unsubscribing from SPiDR.
  * @method doUnsubscribe
  */
-function* doUnsubscribe() {
-  // Retrieve needed info from the store.
-  let subscription = yield (0, _effects.select)(_selectors2.getSubscriptionInfo);
-  // Since link will only ever have 1 subscription object in
-  // this array, we can take the first element and use it directly
-  subscription = subscription[0];
+function* doUnsubscribe(subscription) {
+  if (!subscription) {
+    // Retrieve needed info from the store.
+    subscription = yield (0, _effects.select)(_selectors2.getSubscriptionInfo);
+    // Since link will only ever have 1 subscription object in
+    // this array, we can take the first element and use it directly
+    subscription = subscription[0];
+  }
   const connection = yield (0, _effects.select)(_selectors.getConnectionInfo);
 
   // If the above info is not present, we probably got a disconnect mid-connection attempt.

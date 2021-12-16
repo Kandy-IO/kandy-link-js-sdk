@@ -17,6 +17,7 @@ Kandy.js change log.
 - Fixed behaviour where a call would still connect when no ICE candidates were found. Calls that experience this will now fail instead. `KJS-329`
 - Fixed a backwards compatibility issue with the `client.media.renderTracks` API, `KJS-457`.
 - Fixed a Call issue where unexpected tracks would appear after call operations if video was added to the call at some point. `KJS-382`, `KJS-267`
+- Fixed an issue where we weren't deleting our subscription if the websocket connection couldn't be established when subscribing for services. `KJS-418`
 
 ## 4.34.0 - 2021-11-26
 
