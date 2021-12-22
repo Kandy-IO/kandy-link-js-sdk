@@ -5,6 +5,20 @@ Kandy.js change log.
 - This project adheres to [Semantic Versioning](http://semver.org/).
 - This change log follows [keepachangelog.com](http://keepachangelog.com/) recommendations.
 
+## 4.35.0 - 2021-12-21
+
+### Added
+
+- Added a new (optional) object property `defaultPeerConfig` to `config.call` which would allow for a complete configuration on an RTCPeerConnection. `defaultPeerConfig` supports the same set of properties defined in RTCConfiguration. See [RTCConfiguration properties](https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/RTCPeerConnection). `KJS-370`
+- Added handling of "websocket overridden" message notification (coming from backend) by automatically disconnecting current websocket & notifying the application level. `KJS-99`
+
+### Fixed
+
+- Fixed behaviour where a call would still connect when no ICE candidates were found. Calls that experience this will now fail instead. `KJS-329`
+- Fixed a backwards compatibility issue with the `client.media.renderTracks` API. `KJS-457`
+- Fixed a Call issue where unexpected tracks would appear after call operations if video was added to the call at some point. `KJS-382`, `KJS-267`
+- Fixed an issue where we weren't deleting our subscription if the websocket connection couldn't be established when subscribing for services. `KJS-418`
+
 ## 4.34.0 - 2021-11-26
 
 ### Added
@@ -23,6 +37,8 @@ Kandy.js change log.
 - Fixed an issue where calls would occasionally get stuck in `Initiating` state if no user info was provided. `KJS-421`
 - Fixed an issue where if the client updated the notifications config and set idCacheLength to 0 (disable duplicate checking) it wouldn't be
   used by the SDK and it would continue to check for duplicate notifications. `KJS-427`
+- Fixed presence state to indicate when the client has a pending operation in progress for subscribing/unsubscribing to user presence.
+  `KJS-295`
 
 ## 4.33.0 - 2021-10-29
 
@@ -89,7 +105,7 @@ Kandy.js change log.
 
 ### Changed
 
-- Changed the domain names used in configuration for all turn/stun servers to the newly public ones (for Kandy tutorials).
+- Changed the domain names used in configuration for all turn/stun servers to the newly public ones (for Kandy tutorials). `KJS-89`
 
 ### Fixed
 
