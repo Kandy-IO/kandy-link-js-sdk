@@ -30,20 +30,27 @@ const configuration = {
     },
     call: {
         serverTurnCredentials: true,
-        iceServers:[
-            {
-                url: '$KANDYTURN1$'
-            },
-            {
-                url: '$KANDYTURN2$'
-            },
-            {
-                url: '$KANDYSTUN1$'
-            },
-            {
-                url: '$KANDYSTUN2$'
-            }
-        ]
+        defaultPeerConfig: {
+          // A key-value dictionary that corresponds to the available RTCPeerConfiguration which is normally
+          // passed when creating an RTCPeerConnection.
+          // See https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/RTCPeerConnection#parameters RTCPeerConnection's
+          // configuration parameters} for more information.
+          // Specify the TURN/STUN servers that should be used.
+          iceServers:[
+              {
+                  url: '$KANDYTURN1$'
+              },
+              {
+                  url: '$KANDYTURN2$'
+              },
+              {
+                  url: '$KANDYSTUN1$'
+              },
+              {
+                  url: '$KANDYSTUN2$'
+              }
+          ]
+        },
     },
     logs: {
         // Log output configs.
@@ -140,14 +147,20 @@ The Call configs are used to initialize call/network settings. This can customiz
 
 ```javascript
 call: {
-  // Specify the TURN/STUN servers that should be used.
-  iceServers: [
-    {
-      urls: 'turns:...',
+  defaultPeerConfig: {
+    // A key-value dictionary that corresponds to the available RTCPeerConfiguration which is normally
+    // passed when creating an RTCPeerConnection.
+    // See https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/RTCPeerConnection#parameters RTCPeerConnection's
+    // configuration parameters} for more information.
+    // Specify the TURN/STUN servers that should be used.
+    iceServers: [
+      {
+        urls: 'turns:...',
+        // ...
+      },
       // ...
-    },
-    // ...
-  ],
+    ]
+  },
   // Specify that credentials should be fetched from the server.
   serverTurnCredentials: true
 }
