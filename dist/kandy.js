@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.36.0-beta.823
+ * Version: 4.36.0-beta.824
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -7190,7 +7190,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.36.0-beta.823';
+  return '4.36.0-beta.824';
 }
 
 /***/ }),
@@ -27366,6 +27366,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = parseConfigs;
+exports.mergeDefaults = mergeDefaults;
 
 var _logs = __webpack_require__(2);
 
@@ -27462,7 +27463,6 @@ const parseOptions = (0, _validation.parse)('call', v8nValidation);
 
 /**
  * Helper function to format the Call configs as the plugins expect it to be.
- * Performs validation on the values as well.
  * @method parseConfigs
  * @param {Object} options Call configs provided by application.
  * @returns {Object} Call configs re-formatted as needed.
@@ -27517,6 +27517,16 @@ function parseConfigs(options = {}) {
     options.ringingFeedbackMode = 'auto';
   }
 
+  return options;
+}
+
+/**
+ * Helper function to merge the default Call configs into the application-provided
+ *   configs and validate them.
+ * @param  {Object} options Call configs with expected formatting.
+ * @return {Object} Call configs with defaults included.
+ */
+function mergeDefaults(options = {}) {
   options = (0, _utils.mergeValues)(defaultOptions, options);
   parseOptions(options);
 
@@ -32783,9 +32793,11 @@ function factory(pluginFactories, sdkOptions = {}) {
   const version = (0, _version.getVersion)();
   log.info(`SDK version: ${version}`);
 
+  // Clone the options so we don't mutate the application's object.
+  const clonedOptions = (0, _fp.cloneDeep)(sdkOptions);
   // Separate factory and plugin options.
-  let { common: options } = sdkOptions,
-      pluginOptions = (0, _objectWithoutProperties3.default)(sdkOptions, ['common']);
+  let { common: options } = clonedOptions,
+      pluginOptions = (0, _objectWithoutProperties3.default)(clonedOptions, ['common']);
 
   options = (0, _utils.mergeValues)(factoryDefaults, options);
   parseOptions(options);
@@ -35400,20 +35412,23 @@ var _configs = __webpack_require__(294);
 
 var _configs2 = _interopRequireDefault(_configs);
 
+var _fp = __webpack_require__(3);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-// Other plugins.
-// Config plugin.
 const log = _logs.logManager.getLogger('CONFIG');
 
+// Other plugins.
+// Config plugin.
 function api(context) {
   const configApi = {
     /**
      * Gets the current configuration Object. This is the object that is initially set as part of SDK creation using 'create' function.
      *
      * @public
+     * @static
      * @memberof api
      * @requires config
      * @method getConfig
@@ -35425,7 +35440,17 @@ function api(context) {
     },
 
     /**
-     * Update values in the global Config section of the store. The values pertain to the SDK configuration.
+     * Update the configuration values for the SDK to use.
+     *
+     * This API will only modify the configurations provided, leaving other configurations
+     *   as they were originally set, by performing a merge of the new values into the
+     *   previous values.
+     *
+     * Please note that that the object provided to the `updateConfig` API may be different
+     *   than the object retrieved from the {@link api.getConfig getConfig} API. This may happen when a format
+     *   change has happened and the SDK modifies the provided format to alleviate
+     *   backwards-compatibility issues. We recommend ensuring the configurations you
+     *   provide are as described by the {@link config} section.
      *
      * @public
      * @static
@@ -35433,16 +35458,34 @@ function api(context) {
      * @requires config
      * @method updateConfig
      * @param {Object} newConfigValues Key-value pairs that will be placed into the store. See {@link config} for details on what key-value pairs are available for use.
+     * @example
+     * // Instantiate the SDK with certain configs.
+     * const client = create({
+     *   authentication: { ... },
+     *   logs: { ... },
+     *   ...
+     * })
+     *
+     * // Modify a subsection of the configs at a later time.
+     * // This will only update the specified configurations.
+     * client.updateConfig({
+     *     logs: {
+     *       loglevel: 'DEBUG'
+     *     }
+     * })
      */
     updateConfig: function (newConfigValues) {
       log.debug(_logs.API_LOG_TAG + 'updateConfig: ', newConfigValues);
 
+      // Clone the configs so we don't mutate the application's object.
+      const configs = (0, _fp.cloneDeep)(newConfigValues);
+
       // Validate the new config provided by the application.
-      if (newConfigValues.call) {
-        newConfigValues.call = (0, _configs2.default)(newConfigValues.call);
+      if (configs.call) {
+        configs.call = (0, _configs2.default)(configs.call);
       }
 
-      context.dispatch(actions.update(newConfigValues));
+      context.dispatch(actions.update(configs));
     }
   };
 
@@ -42360,6 +42403,8 @@ function callsLink(options = {}) {
   // Parse the options provided by the application and make any adjustments needed
   //    (for backwards-compatibility reasons).
   options = (0, _configs2.default)(options);
+  // Then merge the defaults into them and validate the values.
+  options = (0, _configs.mergeDefaults)(options);
 
   function* init({ webRTC }) {
     // Change sdpSemantics if not supported
