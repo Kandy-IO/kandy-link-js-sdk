@@ -13,6 +13,11 @@ Kandy.js change log.
   - This replaces the previous `iceCollectionCheck` Call config, and previous functions provided using that config will need to be updated to adhere to the form of the new IceCollectionCheckFunction definition.
   - See [IceCollectionCheckFunction documentation](https://kandy-io.github.io/kandy-link-js-sdk/docs/#callicecollectioncheckfunction) for more information.
 
+### Fixed
+
+- Fixed a Call issue where an irregular remote, slow-start operation would cause the Call's operation tracking to become out-of-sync with actual operations. `KJS-542`
+- Fixed a Call issue where after a successful direct transfer operation, the Call would not be ended as expected if the operation tracking was out-of-sync. `KJS-542`
+
 ### Changed
 
 - Changed when we start a call audit loop from Connected state to Initiated state in order to catch scenarios where the call is ended before it's connected. `KJS-445`
