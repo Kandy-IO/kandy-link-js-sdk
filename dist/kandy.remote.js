@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.remote.js
- * Version: 4.37.0-beta.835
+ * Version: 4.37.0-beta.836
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -1804,7 +1804,7 @@ function defer() {
 /***/ (function(module, exports, __webpack_require__) {
 
 var store = __webpack_require__(81)('wks');
-var uid = __webpack_require__(61);
+var uid = __webpack_require__(60);
 var Symbol = __webpack_require__(9).Symbol;
 var USE_SYMBOL = typeof Symbol == 'function';
 
@@ -5373,7 +5373,7 @@ var ctx = __webpack_require__(29);
 var call = __webpack_require__(111);
 var isArrayIter = __webpack_require__(112);
 var anObject = __webpack_require__(23);
-var toLength = __webpack_require__(60);
+var toLength = __webpack_require__(59);
 var getIterFn = __webpack_require__(113);
 var BREAK = {};
 var RETURN = {};
@@ -5470,26 +5470,9 @@ const logLevels = exports.logLevels = {
 
 /***/ }),
 /* 56 */,
-/* 57 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var parser = __webpack_require__(218);
-var writer = __webpack_require__(219);
-
-exports.write = writer;
-exports.parse = parser.parse;
-exports.parseParams = parser.parseParams;
-exports.parseFmtpConfig = parser.parseFmtpConfig; // Alias of parseParams().
-exports.parsePayloads = parser.parsePayloads;
-exports.parseRemoteCandidates = parser.parseRemoteCandidates;
-exports.parseImageAttributes = parser.parseImageAttributes;
-exports.parseSimulcastStreamList = parser.parseSimulcastStreamList;
-
-
-/***/ }),
+/* 57 */,
 /* 58 */,
-/* 59 */,
-/* 60 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.15 ToLength
@@ -5501,7 +5484,7 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 61 */
+/* 60 */
 /***/ (function(module, exports) {
 
 var id = 0;
@@ -5512,7 +5495,7 @@ module.exports = function (key) {
 
 
 /***/ }),
-/* 62 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5536,7 +5519,7 @@ __webpack_require__(85)(String, 'String', function (iterated) {
 
 
 /***/ }),
-/* 63 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
@@ -5583,7 +5566,7 @@ module.exports = Object.create || function create(O, Properties) {
 
 
 /***/ }),
-/* 64 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5601,14 +5584,14 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.37.0-beta.835';
+  return '4.37.0-beta.836';
 }
 
 /***/ }),
-/* 65 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var META = __webpack_require__(61)('meta');
+var META = __webpack_require__(60)('meta');
 var isObject = __webpack_require__(14);
 var has = __webpack_require__(31);
 var setDesc = __webpack_require__(19).f;
@@ -5661,6 +5644,23 @@ var meta = module.exports = {
   getWeak: getWeak,
   onFreeze: onFreeze
 };
+
+
+/***/ }),
+/* 65 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var parser = __webpack_require__(218);
+var writer = __webpack_require__(219);
+
+exports.write = writer;
+exports.parse = parser.parse;
+exports.parseParams = parser.parseParams;
+exports.parseFmtpConfig = parser.parseFmtpConfig; // Alias of parseParams().
+exports.parsePayloads = parser.parsePayloads;
+exports.parseRemoteCandidates = parser.parseRemoteCandidates;
+exports.parseImageAttributes = parser.parseImageAttributes;
+exports.parseSimulcastStreamList = parser.parseSimulcastStreamList;
 
 
 /***/ }),
@@ -5738,7 +5738,7 @@ var _freeze2 = _interopRequireDefault(_freeze);
 
 exports.runPipeline = runPipeline;
 
-var _sdpTransform = __webpack_require__(57);
+var _sdpTransform = __webpack_require__(65);
 
 var _sdpTransform2 = _interopRequireDefault(_sdpTransform);
 
@@ -5975,7 +5975,7 @@ module.exports = function (it) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var shared = __webpack_require__(81)('keys');
-var uid = __webpack_require__(61);
+var uid = __webpack_require__(60);
 module.exports = function (key) {
   return shared[key] || (shared[key] = uid(key));
 };
@@ -8887,7 +8887,7 @@ const partialDefaultLogActions = exports.partialDefaultLogActions = {
 "use strict";
 
 var dP = __webpack_require__(19).f;
-var create = __webpack_require__(63);
+var create = __webpack_require__(62);
 var redefineAll = __webpack_require__(90);
 var ctx = __webpack_require__(29);
 var anInstance = __webpack_require__(88);
@@ -8896,7 +8896,7 @@ var $iterDefine = __webpack_require__(85);
 var step = __webpack_require__(110);
 var setSpecies = __webpack_require__(118);
 var DESCRIPTORS = __webpack_require__(18);
-var fastKey = __webpack_require__(65).fastKey;
+var fastKey = __webpack_require__(64).fastKey;
 var validate = __webpack_require__(101);
 var SIZE = DESCRIPTORS ? '_s' : 'size';
 
@@ -9039,7 +9039,7 @@ module.exports = {
 
 var global = __webpack_require__(9);
 var $export = __webpack_require__(8);
-var meta = __webpack_require__(65);
+var meta = __webpack_require__(64);
 var fails = __webpack_require__(33);
 var hide = __webpack_require__(30);
 var redefineAll = __webpack_require__(90);
@@ -9669,7 +9669,7 @@ module.exports = !$assign || __webpack_require__(33)(function () {
 // false -> Array#indexOf
 // true  -> Array#includes
 var toIObject = __webpack_require__(34);
-var toLength = __webpack_require__(60);
+var toLength = __webpack_require__(59);
 var toAbsoluteIndex = __webpack_require__(167);
 module.exports = function (IS_INCLUDES) {
   return function ($this, el, fromIndex) {
@@ -10838,7 +10838,7 @@ module.exports = {};
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(72);
-__webpack_require__(62);
+__webpack_require__(61);
 __webpack_require__(86);
 __webpack_require__(179);
 __webpack_require__(183);
@@ -10875,7 +10875,7 @@ module.exports = function (TO_STRING) {
 
 "use strict";
 
-var create = __webpack_require__(63);
+var create = __webpack_require__(62);
 var descriptor = __webpack_require__(38);
 var setToStringTag = __webpack_require__(51);
 var IteratorPrototype = {};
@@ -12358,11 +12358,11 @@ var has = __webpack_require__(31);
 var DESCRIPTORS = __webpack_require__(18);
 var $export = __webpack_require__(8);
 var redefine = __webpack_require__(108);
-var META = __webpack_require__(65).KEY;
+var META = __webpack_require__(64).KEY;
 var $fails = __webpack_require__(33);
 var shared = __webpack_require__(81);
 var setToStringTag = __webpack_require__(51);
-var uid = __webpack_require__(61);
+var uid = __webpack_require__(60);
 var wks = __webpack_require__(13);
 var wksExt = __webpack_require__(100);
 var wksDefine = __webpack_require__(92);
@@ -12374,7 +12374,7 @@ var toObject = __webpack_require__(37);
 var toIObject = __webpack_require__(34);
 var toPrimitive = __webpack_require__(76);
 var createDesc = __webpack_require__(38);
-var _create = __webpack_require__(63);
+var _create = __webpack_require__(62);
 var gOPNExt = __webpack_require__(198);
 var $GOPD = __webpack_require__(122);
 var $GOPS = __webpack_require__(83);
@@ -13096,7 +13096,7 @@ module.exports = function stringify(it) { // eslint-disable-line no-unused-vars
 var ctx = __webpack_require__(29);
 var IObject = __webpack_require__(77);
 var toObject = __webpack_require__(37);
-var toLength = __webpack_require__(60);
+var toLength = __webpack_require__(59);
 var asc = __webpack_require__(209);
 module.exports = function (TYPE, $create) {
   var IS_MAP = TYPE == 1;
@@ -13183,7 +13183,7 @@ module.exports = function (iter, ITERATOR) {
 /* 212 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(62);
+__webpack_require__(61);
 __webpack_require__(213);
 module.exports = __webpack_require__(7).Array.from;
 
@@ -13199,7 +13199,7 @@ var $export = __webpack_require__(8);
 var toObject = __webpack_require__(37);
 var call = __webpack_require__(111);
 var isArrayIter = __webpack_require__(112);
-var toLength = __webpack_require__(60);
+var toLength = __webpack_require__(59);
 var createProperty = __webpack_require__(214);
 var getIterFn = __webpack_require__(113);
 
@@ -13264,7 +13264,7 @@ module.exports = function create(P, D) {
 
 var $export = __webpack_require__(8);
 // 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
-$export($export.S, 'Object', { create: __webpack_require__(63) });
+$export($export.S, 'Object', { create: __webpack_require__(62) });
 
 
 /***/ }),
@@ -17956,7 +17956,7 @@ if (typeof module === 'object') {
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(72);
-__webpack_require__(62);
+__webpack_require__(61);
 __webpack_require__(86);
 __webpack_require__(232);
 __webpack_require__(233);
@@ -18684,7 +18684,7 @@ module.exports = __webpack_require__(7).Object.freeze;
 
 // 19.1.2.5 Object.freeze(O)
 var isObject = __webpack_require__(14);
-var meta = __webpack_require__(65).onFreeze;
+var meta = __webpack_require__(64).onFreeze;
 
 __webpack_require__(99)('freeze', function ($freeze) {
   return function freeze(it) {
@@ -22178,7 +22178,7 @@ var _events2 = _interopRequireDefault(_events);
 
 var _logs = __webpack_require__(2);
 
-var _version = __webpack_require__(64);
+var _version = __webpack_require__(63);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -22301,7 +22301,7 @@ var _channel = __webpack_require__(280);
 
 var _logs = __webpack_require__(2);
 
-var _version = __webpack_require__(64);
+var _version = __webpack_require__(63);
 
 var _uuid = __webpack_require__(42);
 
