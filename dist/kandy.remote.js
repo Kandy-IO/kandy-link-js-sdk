@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.remote.js
- * Version: 4.37.0-beta.838
+ * Version: 4.38.0-beta.839
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -5584,7 +5584,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.37.0-beta.838';
+  return '4.38.0-beta.839';
 }
 
 /***/ }),
@@ -19613,7 +19613,7 @@ var _constants = __webpack_require__(21);
  */
 exports.default = {
   rtcConfig: {
-    sdpSemantics: _constants.PEER.SDP_SEMANTICS.PLAN_B
+    sdpSemantics: _constants.PEER.SDP_SEMANTICS.UNIFIED_PLAN
   },
   trickleIceMode: _constants.PEER.TRICKLE_ICE.FULL,
   removeBundling: false,

@@ -5,6 +5,12 @@ Kandy.js change log.
 - This project adheres to [Semantic Versioning](http://semver.org/).
 - This change log follows [keepachangelog.com](http://keepachangelog.com/) recommendations.
 
+## 4.38.0 - beta
+
+- Added the ability to authenticate a user using an access token. `KJS-534`
+  - `setCredentials` was updated, along with the deprecated `connect` authentication format. Please use the former.
+- Added the ability to update the CIM `accessToken` or `bearerAccessToken` tokens by using the new `updateToken` API. `KJS-537`
+
 ## 4.37.0 - 2022-02-25
 
 ### Added
