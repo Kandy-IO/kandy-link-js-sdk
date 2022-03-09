@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.38.0-beta.844
+ * Version: 4.38.0-beta.845
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -7343,7 +7343,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.38.0-beta.844';
+  return '4.38.0-beta.845';
 }
 
 /***/ }),
@@ -24121,19 +24121,24 @@ function Session(id, managers, config = {}) {
           }
 
           track.once('ended', ({ performRenegotiation }) => {
-            // If the PeerConnection is closed, we don't need to worry about
-            //    removing the track (and it would throw an error anyway).
-            if (peer.signalingState !== 'closed') {
-              peer.removeTrack(track.id);
-              emitter.emit('track:ended', {
-                local: true,
-                trackId: track.id,
-                performRenegotiation: performRenegotiation
-              });
-              // Remove track from session dscp settings
-              if (settings.dscpControls.hasOwnProperty(track.id)) {
-                log.debug(`Removing track ${track.id} from session dscp settings`);
-                delete settings.dscpControls[track.id];
+            const peer = peerManager.get(peerId);
+            if (peer) {
+              // If the PeerConnection is closed, we don't need to worry about
+              //    removing the track (and it would throw an error anyway).
+              if (peer.signalingState !== 'closed') {
+                peer.removeTrack(track.id);
+                emitter.emit('track:ended', {
+                  local: true,
+                  trackId: track.id,
+                  performRenegotiation: performRenegotiation
+                });
+                // Remove track from session dscp settings
+                if (settings.dscpControls.hasOwnProperty(track.id)) {
+                  log.debug(`Removing track ${track.id} from session dscp settings`);
+                  delete settings.dscpControls[track.id];
+                }
+              } else {
+                log.debug(`Received ended event for track ${track.id}, but its associated Peer ${peer.id} is closed. Ignoring this event...`);
               }
             }
           });
@@ -24363,19 +24368,24 @@ function Session(id, managers, config = {}) {
       }
 
       track.once('ended', ({ performRenegotiation }) => {
-        // If the PeerConnection is closed, we don't need to worry about
-        //    removing the track (and it would throw an error anyway).
-        if (peer.signalingState !== 'closed') {
-          peer.removeTrack(track.id);
-          emitter.emit('track:ended', {
-            local: true,
-            trackId: track.id,
-            performRenegotiation: performRenegotiation
-          });
-          // Remove track from session dscp settings
-          if (settings.dscpControls.hasOwnProperty(track.id)) {
-            log.debug(`Removing track ${track.id} from session dscp settings`);
-            delete settings.dscpControls[track.id];
+        const peer = peerManager.get(peerId);
+        if (peer) {
+          // If the PeerConnection is closed, we don't need to worry about
+          //    removing the track (and it would throw an error anyway).
+          if (peer.signalingState !== 'closed') {
+            peer.removeTrack(track.id);
+            emitter.emit('track:ended', {
+              local: true,
+              trackId: track.id,
+              performRenegotiation: performRenegotiation
+            });
+            // Remove track from session dscp settings
+            if (settings.dscpControls.hasOwnProperty(track.id)) {
+              log.debug(`Removing track ${track.id} from session dscp settings`);
+              delete settings.dscpControls[track.id];
+            }
+          } else {
+            log.debug(`Received ended event for track ${track.id}, but its associated Peer ${peer.id} is closed. Ignoring this event...`);
           }
         }
       });
@@ -24840,6 +24850,7 @@ function Session(id, managers, config = {}) {
     if (newPeer) {
       // The id of the created peer
       peerId = newPeer.id;
+      log.debug(`Recreated Peer with ID: ${peerId}`);
       peer = newPeer;
 
       // Copy tracks

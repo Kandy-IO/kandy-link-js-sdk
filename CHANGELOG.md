@@ -7,9 +7,15 @@ Kandy.js change log.
 
 ## 4.38.0 - beta
 
+### Added
+
 - Added the ability to authenticate a user using an access token. `KJS-534`
   - `setCredentials` was updated, along with the deprecated `connect` authentication format. Please use the former.
 - Added the ability to update the CIM `accessToken` or `bearerAccessToken` tokens by using the new `updateToken` API. `KJS-537`
+
+### Fixed
+
+- Fixed a Call issue where removing a local track would not trigger a `call:trackEnded` event if the user had previously been receiving music-on-hold. `KJS-626`
 
 ## 4.37.1 - 2022-03-08
 
