@@ -11,6 +11,13 @@ Kandy.js change log.
   - `setCredentials` was updated, along with the deprecated `connect` authentication format. Please use the former.
 - Added the ability to update the CIM `accessToken` or `bearerAccessToken` tokens by using the new `updateToken` API. `KJS-537`
 
+## 4.37.1 - 2022-03-08
+
+### Fixed
+
+- Refixed a Call issue where an irregular remote, slow-start operation causes the Call's subsequent operations to fail. `KJS-571`
+  - This issue was partially fixed in v4.37.0.
+
 ## 4.37.0 - 2022-02-25
 
 ### Added
