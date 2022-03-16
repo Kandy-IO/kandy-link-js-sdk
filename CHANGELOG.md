@@ -16,6 +16,7 @@ Kandy.js change log.
 ### Fixed
 
 - Fixed a Call issue where removing a local track would not trigger a `call:trackEnded` event if the user had previously been receiving music-on-hold. `KJS-626`
+- Fixed a Proxy issue where the error for providing invalid media constraints was missing the constraint name. `KJS-596`
 
 ## 4.37.1 - 2022-03-08
 

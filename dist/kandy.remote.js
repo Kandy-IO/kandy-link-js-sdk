@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.remote.js
- * Version: 4.38.0-beta.850
+ * Version: 4.38.0-beta.851
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -5584,7 +5584,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.38.0-beta.850';
+  return '4.38.0-beta.851';
 }
 
 /***/ }),
@@ -22519,6 +22519,12 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends2 = __webpack_require__(6);
+
+var _extends3 = _interopRequireDefault(_extends2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 /**
  * Device Manager "converter".
  * Receives a webRTC command intended for the Device Manager, performs the webRTC
@@ -22539,7 +22545,11 @@ exports.default = async function deviceManager(webRTC, command) {
       return devices;
     } catch (err) {
       console.debug('Failed to initialize devices: ', err);
-      return { name: err.name, message: err.message, error: true };
+      let error = { name: err.name, message: err.message, error: true };
+      if (err.name === 'OverconstrainedError' && err.constraint) {
+        error = (0, _extends3.default)({}, error, { constraint: err.constraint });
+      }
+      return error;
     }
   } else {
     // General case: Don't convert the return.
@@ -22558,7 +22568,23 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends2 = __webpack_require__(6);
+
+var _extends3 = _interopRequireDefault(_extends2);
+
 var _index = __webpack_require__(105);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function stringifyError(err) {
+  // Convert the Error into a format that can be stringified for the channel.
+  //    This will need to be reconstructed on the other side.
+  let error = { name: err.name, message: err.message };
+  if (err.name === 'OverconstrainedError' && err.constraint) {
+    error = (0, _extends3.default)({}, error, { constraint: err.constraint });
+  }
+  return { error };
+}
 
 /**
  * Media Manager "converter".
@@ -22569,6 +22595,7 @@ var _index = __webpack_require__(105);
  * @param {Object} command A webRTC command.
  * @return {Promise} Resolves when the webRTC operation has completed.
  */
+
 exports.default = async function mediaManager(webRTC, command) {
   const { operation, params } = command;
   const manager = webRTC.managers.media;
@@ -22583,9 +22610,7 @@ exports.default = async function mediaManager(webRTC, command) {
       return (0, _index.convertMedia)(media);
     } catch (err) {
       console.debug('Failed to create local media: ', err);
-      // Convert the Error into a format that can be stringified for the channel.
-      //    This will need to be reconstructed on the other side.
-      return { error: { name: err.name, message: err.message } };
+      return stringifyError(err);
     }
   } else if (operation === 'createLocalScreen') {
     try {
@@ -22593,9 +22618,7 @@ exports.default = async function mediaManager(webRTC, command) {
       return (0, _index.convertMedia)(media);
     } catch (err) {
       console.debug('Failed to create local screen: ', err);
-      // Convert the Error into a format that can be stringified for the channel.
-      //    This will need to be reconstructed on the other side.
-      return { error: { name: err.name, message: err.message } };
+      return stringifyError(err);
     }
   } else {
     // General case: Don't convert the return.
