@@ -5447,11 +5447,11 @@
           "context": {
             "loc": {
               "start": {
-                "line": 162,
+                "line": 202,
                 "column": 4
               },
               "end": {
-                "line": 167,
+                "line": 207,
                 "column": 5
               }
             },
@@ -5727,6 +5727,383 @@
                 "children": [
                   {
                     "type": "text",
+                    "value": "Connect by providing an access token to any backend services that the SDK instance deals with."
+                  }
+                ]
+              }
+            ]
+          },
+          "tags": [
+            {
+              "title": "public",
+              "description": null,
+              "lineNumber": 3,
+              "type": null
+            },
+            {
+              "title": "deprecated",
+              "description": "Since version 4.19.0. Please see {@link apisetCredentials setCredentials} and {@link services.subscribe subscribe} for new method of connecting.",
+              "lineNumber": 4
+            },
+            {
+              "title": "memberof",
+              "description": "api",
+              "lineNumber": 5
+            },
+            {
+              "title": "requires",
+              "description": null,
+              "lineNumber": 6,
+              "name": "accessTokenAuthCIM"
+            },
+            {
+              "title": "method",
+              "description": null,
+              "lineNumber": 7,
+              "name": "connect"
+            },
+            {
+              "title": "param",
+              "description": "The credentials object.",
+              "lineNumber": 8,
+              "type": {
+                "type": "NameExpression",
+                "name": "Object"
+              },
+              "name": "credentials"
+            },
+            {
+              "title": "param",
+              "description": "The username without the application's domain.",
+              "lineNumber": 9,
+              "type": {
+                "type": "NameExpression",
+                "name": "string"
+              },
+              "name": "credentials.username"
+            },
+            {
+              "title": "param",
+              "description": "An access token for the user with the provided user Id.",
+              "lineNumber": 10,
+              "type": {
+                "type": "NameExpression",
+                "name": "string"
+              },
+              "name": "credentials.accessToken"
+            },
+            {
+              "title": "param",
+              "description": "The time in seconds until the access token will expire.",
+              "lineNumber": 11,
+              "type": {
+                "type": "OptionalType",
+                "expression": {
+                  "type": "NameExpression",
+                  "name": "number"
+                }
+              },
+              "name": "credentials.expires"
+            },
+            {
+              "title": "param",
+              "description": "The options object for non-credential options.",
+              "lineNumber": 12,
+              "type": {
+                "type": "OptionalType",
+                "expression": {
+                  "type": "NameExpression",
+                  "name": "Object"
+                }
+              },
+              "name": "options"
+            },
+            {
+              "title": "param",
+              "description": "Unique ID for the client. This is used by the platform to identify an instance of the application used by the specific device.",
+              "lineNumber": 13,
+              "type": {
+                "type": "OptionalType",
+                "expression": {
+                  "type": "NameExpression",
+                  "name": "string"
+                }
+              },
+              "name": "options.clientCorrelator"
+            },
+            {
+              "title": "example",
+              "description": "client.connect({\n  username: 'alfred@example.com',\n  accessToken: 'AT0V1fswAiJadokx1iJMQdG04pRf',\n  expires: 3600\n});",
+              "lineNumber": 14
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 88,
+              "column": 4
+            },
+            "end": {
+              "line": 108,
+              "column": 7
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 202,
+                "column": 4
+              },
+              "end": {
+                "line": 207,
+                "column": 5
+              }
+            },
+            "file": "/var/jenkins_home/workspace/Kandy.js_master/packages/kandy/src/auth/interface/api.js"
+          },
+          "augments": [],
+          "examples": [
+            {
+              "description": "client.connect({\n  username: 'alfred@example.com',\n  accessToken: 'AT0V1fswAiJadokx1iJMQdG04pRf',\n  expires: 3600\n});"
+            }
+          ],
+          "implements": [],
+          "params": [
+            {
+              "title": "param",
+              "name": "credentials",
+              "lineNumber": 8,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "The credentials object."
+                      }
+                    ]
+                  }
+                ]
+              },
+              "type": {
+                "type": "NameExpression",
+                "name": "Object"
+              },
+              "properties": [
+                {
+                  "title": "param",
+                  "name": "credentials.username",
+                  "lineNumber": 9,
+                  "description": {
+                    "type": "root",
+                    "children": [
+                      {
+                        "type": "paragraph",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "The username without the application's domain."
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "type": {
+                    "type": "NameExpression",
+                    "name": "string"
+                  }
+                },
+                {
+                  "title": "param",
+                  "name": "credentials.accessToken",
+                  "lineNumber": 10,
+                  "description": {
+                    "type": "root",
+                    "children": [
+                      {
+                        "type": "paragraph",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "An access token for the user with the provided user Id."
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "type": {
+                    "type": "NameExpression",
+                    "name": "string"
+                  }
+                },
+                {
+                  "title": "param",
+                  "name": "credentials.expires",
+                  "lineNumber": 11,
+                  "description": {
+                    "type": "root",
+                    "children": [
+                      {
+                        "type": "paragraph",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "The time in seconds until the access token will expire."
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "type": {
+                    "type": "OptionalType",
+                    "expression": {
+                      "type": "NameExpression",
+                      "name": "number"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "title": "param",
+              "name": "options",
+              "lineNumber": 12,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "The options object for non-credential options."
+                      }
+                    ]
+                  }
+                ]
+              },
+              "type": {
+                "type": "OptionalType",
+                "expression": {
+                  "type": "NameExpression",
+                  "name": "Object"
+                }
+              },
+              "properties": [
+                {
+                  "title": "param",
+                  "name": "options.clientCorrelator",
+                  "lineNumber": 13,
+                  "description": {
+                    "type": "root",
+                    "children": [
+                      {
+                        "type": "paragraph",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "Unique ID for the client. This is used by the platform to identify an instance of the application used by the specific device."
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "type": {
+                    "type": "OptionalType",
+                    "expression": {
+                      "type": "NameExpression",
+                      "name": "string"
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
+          "yields": [],
+          "access": "public",
+          "deprecated": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Since version 4.19.0. Please see "
+                  },
+                  {
+                    "type": "link",
+                    "url": "#apisetcredentials",
+                    "title": null,
+                    "jsdoc": true,
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "setCredentials"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "value": " and "
+                  },
+                  {
+                    "type": "link",
+                    "url": "#servicessubscribe",
+                    "title": null,
+                    "jsdoc": true,
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "subscribe"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "value": " for new method of connecting."
+                  }
+                ]
+              }
+            ]
+          },
+          "memberof": "api",
+          "kind": "function",
+          "name": "connect",
+          "members": {
+            "global": [],
+            "inner": [],
+            "instance": [],
+            "events": [],
+            "static": []
+          },
+          "path": [
+            {
+              "name": "api",
+              "kind": "module"
+            },
+            {
+              "name": "connect",
+              "kind": "function"
+            }
+          ],
+          "namespace": "apiconnect"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
                     "value": "Connect by providing a username and HMAC token. This connects to any backend services that the SDK instance deals with.\nAn HMAC token is used to verify a user via the user's authorization within an organization.\nHMAC tokens are generated by using the HmacSHA1 algorithm and a key on a data object\ncontaining an "
                   },
                   {
@@ -5887,22 +6264,22 @@
           ],
           "loc": {
             "start": {
-              "line": 88,
+              "line": 109,
               "column": 4
             },
             "end": {
-              "line": 121,
+              "line": 142,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 162,
+                "line": 202,
                 "column": 4
               },
               "end": {
-                "line": 167,
+                "line": 207,
                 "column": 5
               }
             },
@@ -6152,6 +6529,344 @@
                 "children": [
                   {
                     "type": "text",
+                    "value": "Connect by providing a bearer access token to any backend services that the SDK instance deals with."
+                  }
+                ]
+              }
+            ]
+          },
+          "tags": [
+            {
+              "title": "public",
+              "description": null,
+              "lineNumber": 3,
+              "type": null
+            },
+            {
+              "title": "deprecated",
+              "description": "Since version 4.19.0. Please see {@link apisetCredentials setCredentials} and {@link services.subscribe subscribe} for new method of connecting.",
+              "lineNumber": 4
+            },
+            {
+              "title": "memberof",
+              "description": "api",
+              "lineNumber": 5
+            },
+            {
+              "title": "requires",
+              "description": null,
+              "lineNumber": 6,
+              "name": "bearerAccessTokenAuth"
+            },
+            {
+              "title": "method",
+              "description": null,
+              "lineNumber": 7,
+              "name": "connect"
+            },
+            {
+              "title": "param",
+              "description": "The credentials object.",
+              "lineNumber": 8,
+              "type": {
+                "type": "NameExpression",
+                "name": "Object"
+              },
+              "name": "credentials"
+            },
+            {
+              "title": "param",
+              "description": "The username without the application's domain.",
+              "lineNumber": 9,
+              "type": {
+                "type": "NameExpression",
+                "name": "string"
+              },
+              "name": "credentials.username"
+            },
+            {
+              "title": "param",
+              "description": "A bearerAccessToken retrieved using the authentication APIs of the platform.",
+              "lineNumber": 10,
+              "type": {
+                "type": "NameExpression",
+                "name": "string"
+              },
+              "name": "credentials.bearerAccessToken"
+            },
+            {
+              "title": "param",
+              "description": "The options object for non-credential options.",
+              "lineNumber": 11,
+              "type": {
+                "type": "OptionalType",
+                "expression": {
+                  "type": "NameExpression",
+                  "name": "Object"
+                }
+              },
+              "name": "options"
+            },
+            {
+              "title": "param",
+              "description": "Unique ID for the client. This is used by the platform to identify an instance of the application used by the specific device.",
+              "lineNumber": 12,
+              "type": {
+                "type": "OptionalType",
+                "expression": {
+                  "type": "NameExpression",
+                  "name": "string"
+                }
+              },
+              "name": "options.clientCorrelator"
+            },
+            {
+              "title": "example",
+              "description": "client.connect({\n  username: 'alfred@example.com',\n  bearerAccessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'\n});",
+              "lineNumber": 13
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 183,
+              "column": 4
+            },
+            "end": {
+              "line": 201,
+              "column": 7
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 202,
+                "column": 4
+              },
+              "end": {
+                "line": 207,
+                "column": 5
+              }
+            },
+            "file": "/var/jenkins_home/workspace/Kandy.js_master/packages/kandy/src/auth/interface/api.js"
+          },
+          "augments": [],
+          "examples": [
+            {
+              "description": "client.connect({\n  username: 'alfred@example.com',\n  bearerAccessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'\n});"
+            }
+          ],
+          "implements": [],
+          "params": [
+            {
+              "title": "param",
+              "name": "credentials",
+              "lineNumber": 8,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "The credentials object."
+                      }
+                    ]
+                  }
+                ]
+              },
+              "type": {
+                "type": "NameExpression",
+                "name": "Object"
+              },
+              "properties": [
+                {
+                  "title": "param",
+                  "name": "credentials.username",
+                  "lineNumber": 9,
+                  "description": {
+                    "type": "root",
+                    "children": [
+                      {
+                        "type": "paragraph",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "The username without the application's domain."
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "type": {
+                    "type": "NameExpression",
+                    "name": "string"
+                  }
+                },
+                {
+                  "title": "param",
+                  "name": "credentials.bearerAccessToken",
+                  "lineNumber": 10,
+                  "description": {
+                    "type": "root",
+                    "children": [
+                      {
+                        "type": "paragraph",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "A bearerAccessToken retrieved using the authentication APIs of the platform."
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "type": {
+                    "type": "NameExpression",
+                    "name": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "title": "param",
+              "name": "options",
+              "lineNumber": 11,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "The options object for non-credential options."
+                      }
+                    ]
+                  }
+                ]
+              },
+              "type": {
+                "type": "OptionalType",
+                "expression": {
+                  "type": "NameExpression",
+                  "name": "Object"
+                }
+              },
+              "properties": [
+                {
+                  "title": "param",
+                  "name": "options.clientCorrelator",
+                  "lineNumber": 12,
+                  "description": {
+                    "type": "root",
+                    "children": [
+                      {
+                        "type": "paragraph",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "Unique ID for the client. This is used by the platform to identify an instance of the application used by the specific device."
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "type": {
+                    "type": "OptionalType",
+                    "expression": {
+                      "type": "NameExpression",
+                      "name": "string"
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
+          "yields": [],
+          "access": "public",
+          "deprecated": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Since version 4.19.0. Please see "
+                  },
+                  {
+                    "type": "link",
+                    "url": "#apisetcredentials",
+                    "title": null,
+                    "jsdoc": true,
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "setCredentials"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "value": " and "
+                  },
+                  {
+                    "type": "link",
+                    "url": "#servicessubscribe",
+                    "title": null,
+                    "jsdoc": true,
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "subscribe"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "value": " for new method of connecting."
+                  }
+                ]
+              }
+            ]
+          },
+          "memberof": "api",
+          "kind": "function",
+          "name": "connect",
+          "members": {
+            "global": [],
+            "inner": [],
+            "instance": [],
+            "events": [],
+            "static": []
+          },
+          "path": [
+            {
+              "name": "api",
+              "kind": "module"
+            },
+            {
+              "name": "connect",
+              "kind": "function"
+            }
+          ],
+          "namespace": "apiconnect"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
                     "value": "Disconnects from the backend. This will close the websocket and you will stop receiving events."
                   }
                 ]
@@ -6189,35 +6904,41 @@
               "name": "accessTokenAuth"
             },
             {
+              "title": "requires",
+              "description": null,
+              "lineNumber": 8,
+              "name": "accessTokenAuthCIM"
+            },
+            {
               "title": "memberof",
               "description": "api",
-              "lineNumber": 8
+              "lineNumber": 9
             },
             {
               "title": "method",
               "description": null,
-              "lineNumber": 9,
+              "lineNumber": 10,
               "name": "disconnect"
             }
           ],
           "loc": {
             "start": {
-              "line": 169,
+              "line": 209,
               "column": 4
             },
             "end": {
-              "line": 179,
+              "line": 220,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 180,
+                "line": 221,
                 "column": 4
               },
               "end": {
-                "line": 183,
+                "line": 224,
                 "column": 5
               }
             },
@@ -6295,6 +7016,441 @@
                 "children": [
                   {
                     "type": "text",
+                    "value": "If you're authenticating with tokens that expire and have not provided a refresh token to the "
+                  },
+                  {
+                    "type": "inlineCode",
+                    "value": "connect"
+                  },
+                  {
+                    "type": "text",
+                    "value": " function, you can update your access token with "
+                  },
+                  {
+                    "type": "inlineCode",
+                    "value": "updateToken"
+                  },
+                  {
+                    "type": "text",
+                    "value": " before it expires to stay connected."
+                  }
+                ]
+              }
+            ]
+          },
+          "tags": [
+            {
+              "title": "public",
+              "description": null,
+              "lineNumber": 3,
+              "type": null
+            },
+            {
+              "title": "memberof",
+              "description": "api",
+              "lineNumber": 4
+            },
+            {
+              "title": "requires",
+              "description": null,
+              "lineNumber": 5,
+              "name": "accessTokenAuth"
+            },
+            {
+              "title": "requires",
+              "description": null,
+              "lineNumber": 6,
+              "name": "accessTokenAuthCIM"
+            },
+            {
+              "title": "method",
+              "description": null,
+              "lineNumber": 7,
+              "name": "updateToken"
+            },
+            {
+              "title": "param",
+              "description": "The credentials object.",
+              "lineNumber": 8,
+              "type": {
+                "type": "NameExpression",
+                "name": "Object"
+              },
+              "name": "credentials"
+            },
+            {
+              "title": "param",
+              "description": "The username without the application's domain.",
+              "lineNumber": 9,
+              "type": {
+                "type": "NameExpression",
+                "name": "string"
+              },
+              "name": "credentials.username"
+            },
+            {
+              "title": "param",
+              "description": "An access token for the user with the provided user Id.",
+              "lineNumber": 10,
+              "type": {
+                "type": "NameExpression",
+                "name": "string"
+              },
+              "name": "credentials.accessToken"
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 226,
+              "column": 4
+            },
+            "end": {
+              "line": 237,
+              "column": 7
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 270,
+                "column": 4
+              },
+              "end": {
+                "line": 275,
+                "column": 5
+              }
+            },
+            "file": "/var/jenkins_home/workspace/Kandy.js_master/packages/kandy/src/auth/interface/api.js"
+          },
+          "augments": [],
+          "examples": [],
+          "implements": [],
+          "params": [
+            {
+              "title": "param",
+              "name": "credentials",
+              "lineNumber": 8,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "The credentials object."
+                      }
+                    ]
+                  }
+                ]
+              },
+              "type": {
+                "type": "NameExpression",
+                "name": "Object"
+              },
+              "properties": [
+                {
+                  "title": "param",
+                  "name": "credentials.username",
+                  "lineNumber": 9,
+                  "description": {
+                    "type": "root",
+                    "children": [
+                      {
+                        "type": "paragraph",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "The username without the application's domain."
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "type": {
+                    "type": "NameExpression",
+                    "name": "string"
+                  }
+                },
+                {
+                  "title": "param",
+                  "name": "credentials.accessToken",
+                  "lineNumber": 10,
+                  "description": {
+                    "type": "root",
+                    "children": [
+                      {
+                        "type": "paragraph",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "An access token for the user with the provided user Id."
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "type": {
+                    "type": "NameExpression",
+                    "name": "string"
+                  }
+                }
+              ]
+            }
+          ],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
+          "yields": [],
+          "access": "public",
+          "memberof": "api",
+          "kind": "function",
+          "name": "updateToken",
+          "members": {
+            "global": [],
+            "inner": [],
+            "instance": [],
+            "events": [],
+            "static": []
+          },
+          "path": [
+            {
+              "name": "api",
+              "kind": "module"
+            },
+            {
+              "name": "updateToken",
+              "kind": "function"
+            }
+          ],
+          "namespace": "apiupdateToken"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "If you're authenticating with tokens that expire, you can update your access token with "
+                  },
+                  {
+                    "type": "inlineCode",
+                    "value": "updateToken"
+                  },
+                  {
+                    "type": "text",
+                    "value": " before it expires to stay connected."
+                  }
+                ]
+              }
+            ]
+          },
+          "tags": [
+            {
+              "title": "public",
+              "description": null,
+              "lineNumber": 3,
+              "type": null
+            },
+            {
+              "title": "memberof",
+              "description": "api",
+              "lineNumber": 4
+            },
+            {
+              "title": "requires",
+              "description": null,
+              "lineNumber": 5,
+              "name": "bearerAccessTokenAuth"
+            },
+            {
+              "title": "method",
+              "description": null,
+              "lineNumber": 6,
+              "name": "updateToken"
+            },
+            {
+              "title": "param",
+              "description": "The credentials object.",
+              "lineNumber": 7,
+              "type": {
+                "type": "NameExpression",
+                "name": "Object"
+              },
+              "name": "credentials"
+            },
+            {
+              "title": "param",
+              "description": "The username without the application's domain.",
+              "lineNumber": 8,
+              "type": {
+                "type": "NameExpression",
+                "name": "string"
+              },
+              "name": "credentials.username"
+            },
+            {
+              "title": "param",
+              "description": "A bearerAccessToken provided by an outside service.",
+              "lineNumber": 9,
+              "type": {
+                "type": "NameExpression",
+                "name": "string"
+              },
+              "name": "credentials.bearerAccessToken"
+            },
+            {
+              "title": "example",
+              "description": "client.updateToken({\n  username: 'alfred@example.com',\n  bearerAccessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'\n});",
+              "lineNumber": 10
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 254,
+              "column": 4
+            },
+            "end": {
+              "line": 269,
+              "column": 7
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 270,
+                "column": 4
+              },
+              "end": {
+                "line": 275,
+                "column": 5
+              }
+            },
+            "file": "/var/jenkins_home/workspace/Kandy.js_master/packages/kandy/src/auth/interface/api.js"
+          },
+          "augments": [],
+          "examples": [
+            {
+              "description": "client.updateToken({\n  username: 'alfred@example.com',\n  bearerAccessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'\n});"
+            }
+          ],
+          "implements": [],
+          "params": [
+            {
+              "title": "param",
+              "name": "credentials",
+              "lineNumber": 7,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "The credentials object."
+                      }
+                    ]
+                  }
+                ]
+              },
+              "type": {
+                "type": "NameExpression",
+                "name": "Object"
+              },
+              "properties": [
+                {
+                  "title": "param",
+                  "name": "credentials.username",
+                  "lineNumber": 8,
+                  "description": {
+                    "type": "root",
+                    "children": [
+                      {
+                        "type": "paragraph",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "The username without the application's domain."
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "type": {
+                    "type": "NameExpression",
+                    "name": "string"
+                  }
+                },
+                {
+                  "title": "param",
+                  "name": "credentials.bearerAccessToken",
+                  "lineNumber": 9,
+                  "description": {
+                    "type": "root",
+                    "children": [
+                      {
+                        "type": "paragraph",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "A bearerAccessToken provided by an outside service."
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "type": {
+                    "type": "NameExpression",
+                    "name": "string"
+                  }
+                }
+              ]
+            }
+          ],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
+          "yields": [],
+          "access": "public",
+          "memberof": "api",
+          "kind": "function",
+          "name": "updateToken",
+          "members": {
+            "global": [],
+            "inner": [],
+            "instance": [],
+            "events": [],
+            "static": []
+          },
+          "path": [
+            {
+              "name": "api",
+              "kind": "module"
+            },
+            {
+              "name": "updateToken",
+              "kind": "function"
+            }
+          ],
+          "namespace": "apiupdateToken"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
                     "value": "Retrieves information about the current user."
                   }
                 ]
@@ -6349,22 +7505,22 @@
           ],
           "loc": {
             "start": {
-              "line": 240,
+              "line": 296,
               "column": 4
             },
             "end": {
-              "line": 250,
+              "line": 306,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 251,
+                "line": 307,
                 "column": 4
               },
               "end": {
-                "line": 254,
+                "line": 310,
                 "column": 5
               }
             },
@@ -6557,22 +7713,22 @@
           ],
           "loc": {
             "start": {
-              "line": 349,
+              "line": 405,
               "column": 4
             },
             "end": {
-              "line": 366,
+              "line": 422,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 430,
+                "line": 503,
                 "column": 4
               },
               "end": {
-                "line": 444,
+                "line": 518,
                 "column": 5
               }
             },
@@ -6838,22 +7994,22 @@
           ],
           "loc": {
             "start": {
-              "line": 367,
+              "line": 423,
               "column": 4
             },
             "end": {
-              "line": 394,
+              "line": 450,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 430,
+                "line": 503,
                 "column": 4
               },
               "end": {
-                "line": 444,
+                "line": 518,
                 "column": 5
               }
             },
@@ -7045,22 +8201,22 @@
           ],
           "loc": {
             "start": {
-              "line": 395,
+              "line": 451,
               "column": 4
             },
             "end": {
-              "line": 411,
+              "line": 467,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 430,
+                "line": 503,
                 "column": 4
               },
               "end": {
-                "line": 444,
+                "line": 518,
                 "column": 5
               }
             },
@@ -7133,6 +8289,213 @@
                           {
                             "type": "text",
                             "value": "A bearerAccessToken retrieved using the authentication APIs of the platform."
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "type": {
+                    "type": "NameExpression",
+                    "name": "string"
+                  }
+                }
+              ]
+            }
+          ],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
+          "yields": [],
+          "access": "public",
+          "memberof": "api",
+          "kind": "function",
+          "name": "setCredentials",
+          "members": {
+            "global": [],
+            "inner": [],
+            "instance": [],
+            "events": [],
+            "static": []
+          },
+          "path": [
+            {
+              "name": "api",
+              "kind": "module"
+            },
+            {
+              "name": "setCredentials",
+              "kind": "function"
+            }
+          ],
+          "namespace": "apisetCredentials"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Provides an access token to any backend services that the SDK instance deals with.\nThe access token provided establishes what can be accessed by the SDK."
+                  }
+                ]
+              }
+            ]
+          },
+          "tags": [
+            {
+              "title": "public",
+              "description": null,
+              "lineNumber": 4,
+              "type": null
+            },
+            {
+              "title": "memberof",
+              "description": "api",
+              "lineNumber": 5
+            },
+            {
+              "title": "requires",
+              "description": null,
+              "lineNumber": 6,
+              "name": "accessTokenAuthCIM"
+            },
+            {
+              "title": "method",
+              "description": null,
+              "lineNumber": 7,
+              "name": "setCredentials"
+            },
+            {
+              "title": "param",
+              "description": "The credentials object.",
+              "lineNumber": 8,
+              "type": {
+                "type": "NameExpression",
+                "name": "Object"
+              },
+              "name": "credentials"
+            },
+            {
+              "title": "param",
+              "description": "The username without the application's domain.",
+              "lineNumber": 9,
+              "type": {
+                "type": "NameExpression",
+                "name": "string"
+              },
+              "name": "credentials.username"
+            },
+            {
+              "title": "param",
+              "description": "An accessToken retrieved using the authentication APIs of the platform. Used for CIM authentication.",
+              "lineNumber": 10,
+              "type": {
+                "type": "NameExpression",
+                "name": "string"
+              },
+              "name": "credentials.accessToken"
+            },
+            {
+              "title": "example",
+              "description": "client.setCredentials({\n  username: 'alfred@example.com',\n  accessToken: 'ATgtBl8QAoJaeeJU!zhARKBYaN2BUxFQsc8F...'\n});",
+              "lineNumber": 11
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 486,
+              "column": 4
+            },
+            "end": {
+              "line": 502,
+              "column": 7
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 503,
+                "column": 4
+              },
+              "end": {
+                "line": 518,
+                "column": 5
+              }
+            },
+            "file": "/var/jenkins_home/workspace/Kandy.js_master/packages/kandy/src/auth/interface/api.js"
+          },
+          "augments": [],
+          "examples": [
+            {
+              "description": "client.setCredentials({\n  username: 'alfred@example.com',\n  accessToken: 'ATgtBl8QAoJaeeJU!zhARKBYaN2BUxFQsc8F...'\n});"
+            }
+          ],
+          "implements": [],
+          "params": [
+            {
+              "title": "param",
+              "name": "credentials",
+              "lineNumber": 8,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "The credentials object."
+                      }
+                    ]
+                  }
+                ]
+              },
+              "type": {
+                "type": "NameExpression",
+                "name": "Object"
+              },
+              "properties": [
+                {
+                  "title": "param",
+                  "name": "credentials.username",
+                  "lineNumber": 9,
+                  "description": {
+                    "type": "root",
+                    "children": [
+                      {
+                        "type": "paragraph",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "The username without the application's domain."
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "type": {
+                    "type": "NameExpression",
+                    "name": "string"
+                  }
+                },
+                {
+                  "title": "param",
+                  "name": "credentials.accessToken",
+                  "lineNumber": 10,
+                  "description": {
+                    "type": "root",
+                    "children": [
+                      {
+                        "type": "paragraph",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "An accessToken retrieved using the authentication APIs of the platform. Used for CIM authentication."
                           }
                         ]
                       }
@@ -46619,7 +47982,7 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "Available presence information an be retrieved using the\n"
+                    "value": "Available presence information can be retrieved using the\n"
                   },
                   {
                     "type": "link",

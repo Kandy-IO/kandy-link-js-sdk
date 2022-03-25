@@ -5,6 +5,19 @@ Kandy.js change log.
 - This project adheres to [Semantic Versioning](http://semver.org/).
 - This change log follows [keepachangelog.com](http://keepachangelog.com/) recommendations.
 
+## 4.38.0 - 2022-03-25
+
+### Added
+
+- Added the ability to authenticate a user using an access token. `KJS-534`
+  - `setCredentials` was updated, along with the deprecated `connect` authentication format. Please use the former.
+- Added the ability to update the CIM `accessToken` or `bearerAccessToken` tokens by using the new `updateToken` API. `KJS-537`
+
+### Fixed
+
+- Fixed a Call issue where removing a local track would not trigger a `call:trackEnded` event if the user had previously been receiving music-on-hold. `KJS-626`
+- Fixed a Proxy issue where the error for providing invalid media constraints was missing the constraint name. `KJS-596`
+
 ## 4.37.1 - 2022-03-08
 
 ### Fixed
