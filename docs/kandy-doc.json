@@ -8772,11 +8772,11 @@
     "context": {
       "loc": {
         "start": {
-          "line": 478,
+          "line": 485,
           "column": 0
         },
         "end": {
-          "line": 482,
+          "line": 489,
           "column": 1
         }
       },
@@ -13240,11 +13240,11 @@
           "context": {
             "loc": {
               "start": {
-                "line": 478,
+                "line": 485,
                 "column": 0
               },
               "end": {
-                "line": 482,
+                "line": 489,
                 "column": 1
               }
             },
@@ -13954,11 +13954,11 @@
           "context": {
             "loc": {
               "start": {
-                "line": 478,
+                "line": 485,
                 "column": 0
               },
               "end": {
-                "line": 482,
+                "line": 489,
                 "column": 1
               }
             },
@@ -14135,11 +14135,11 @@
           "context": {
             "loc": {
               "start": {
-                "line": 478,
+                "line": 485,
                 "column": 0
               },
               "end": {
-                "line": 482,
+                "line": 489,
                 "column": 1
               }
             },
@@ -14330,11 +14330,11 @@
           "context": {
             "loc": {
               "start": {
-                "line": 478,
+                "line": 485,
                 "column": 0
               },
               "end": {
-                "line": 482,
+                "line": 489,
                 "column": 1
               }
             },
@@ -14568,11 +14568,11 @@
           "context": {
             "loc": {
               "start": {
-                "line": 478,
+                "line": 485,
                 "column": 0
               },
               "end": {
-                "line": 482,
+                "line": 489,
                 "column": 1
               }
             },
@@ -14890,11 +14890,11 @@
           "context": {
             "loc": {
               "start": {
-                "line": 478,
+                "line": 485,
                 "column": 0
               },
               "end": {
-                "line": 482,
+                "line": 489,
                 "column": 1
               }
             },
@@ -15221,11 +15221,11 @@
           "context": {
             "loc": {
               "start": {
-                "line": 478,
+                "line": 485,
                 "column": 0
               },
               "end": {
-                "line": 482,
+                "line": 489,
                 "column": 1
               }
             },
@@ -15392,7 +15392,7 @@
                   },
                   {
                     "type": "link",
-                    "url": "call.IceCollectionCheckFunction`",
+                    "url": "#callicecollectioncheckfunction",
                     "title": null,
                     "jsdoc": true,
                     "children": [
@@ -15459,7 +15459,7 @@
             },
             {
               "title": "property",
-              "description": "The reason the check function was called. Three possible values:\n 'NewCandidate' - A new ICE candidate was collected. Note: there may be multiple new ICE candidates collected.\n 'IceGatheringStateChanged' - The ICE gathering state changed.\n 'Scheduled' - A scheduled call (for first invocation, and subsequent invocations based on `wait` value returned by `IceCollectionCheckFunction`)",
+              "description": "The reason the check function was called. Three possible values:\n 'NewCandidate' - A new ICE candidate was collected. Note: there may be multiple new ICE candidates collected.\n 'IceGatheringStateChanged' - The ICE gathering state changed.\n 'Scheduled' - A scheduled call (for first invocation, and subsequent invocations based on `wait` value returned by {@link call.IceCollectionCheckFunction IceCollectionCheckFunction}.)",
               "lineNumber": 11,
               "type": {
                 "type": "NameExpression",
@@ -15498,7 +15498,7 @@
             },
             {
               "title": "property",
-              "description": "The current ICE gathering state.\n   See {@link https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/iceGatheringState RTCPeerConnection.iceGatheringState}",
+              "description": "The current ICE gathering state.\n   See {@link https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/iceGatheringState RTCPeerConnection.iceGatheringState}.",
               "lineNumber": 17,
               "type": {
                 "type": "NameExpression",
@@ -15540,11 +15540,11 @@
           "context": {
             "loc": {
               "start": {
-                "line": 478,
+                "line": 485,
                 "column": 0
               },
               "end": {
-                "line": 482,
+                "line": 489,
                 "column": 1
               }
             },
@@ -15624,12 +15624,20 @@
                         "value": " value returned by "
                       },
                       {
-                        "type": "inlineCode",
-                        "value": "IceCollectionCheckFunction"
+                        "type": "link",
+                        "url": "#callicecollectioncheckfunction",
+                        "title": null,
+                        "jsdoc": true,
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "IceCollectionCheckFunction"
+                          }
+                        ]
                       },
                       {
                         "type": "text",
-                        "value": ")"
+                        "value": ".)"
                       }
                     ]
                   }
@@ -15720,6 +15728,10 @@
                             "value": "RTCPeerConnection.iceGatheringState"
                           }
                         ]
+                      },
+                      {
+                        "type": "text",
+                        "value": "."
                       }
                     ]
                   }
@@ -15852,7 +15864,7 @@
                   },
                   {
                     "type": "text",
-                    "value": " time set after\nan initial invocation of the function (See {@link call.IceCollectionInfo IceCollectionInfo}.reason)."
+                    "value": " time set after\nan initial invocation of the function."
                   }
                 ]
               },
@@ -15922,7 +15934,47 @@
                           },
                           {
                             "type": "text",
-                            "value": " is \"complete\" at any stage, then proceed with the negotiation."
+                            "value": " is \"complete\" at any stage, then:"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "list",
+                        "ordered": false,
+                        "start": null,
+                        "spread": false,
+                        "children": [
+                          {
+                            "type": "listItem",
+                            "spread": false,
+                            "checked": null,
+                            "children": [
+                              {
+                                "type": "paragraph",
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "value": "Proceed with the negotiation if any ICE candidates are collected."
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "listItem",
+                            "spread": false,
+                            "checked": null,
+                            "children": [
+                              {
+                                "type": "paragraph",
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "value": "Or, end the call if there are no ICE candidates collected."
+                                  }
+                                ]
+                              }
+                            ]
                           }
                         ]
                       }
@@ -16129,18 +16181,18 @@
             {
               "title": "public",
               "description": null,
-              "lineNumber": 27,
+              "lineNumber": 29,
               "type": null
             },
             {
               "title": "static",
               "description": null,
-              "lineNumber": 28
+              "lineNumber": 30
             },
             {
               "title": "typedef",
               "description": null,
-              "lineNumber": 29,
+              "lineNumber": 31,
               "type": {
                 "type": "NameExpression",
                 "name": "Function"
@@ -16150,12 +16202,12 @@
             {
               "title": "memberof",
               "description": "call",
-              "lineNumber": 30
+              "lineNumber": 32
             },
             {
               "title": "param",
               "description": "Information about the current status of the ICE candidate collection.",
-              "lineNumber": 31,
+              "lineNumber": 33,
               "type": {
                 "type": "NameExpression",
                 "name": "call.IceCollectionInfo"
@@ -16163,9 +16215,39 @@
               "name": "iceCollectionInfo"
             },
             {
+              "title": "param",
+              "description": "Configurations provided to the SDK for ICE collection timeout boundaries.",
+              "lineNumber": 34,
+              "type": {
+                "type": "NameExpression",
+                "name": "Object"
+              },
+              "name": "iceTimeouts"
+            },
+            {
+              "title": "param",
+              "description": "The amount of time to wait for ideal candidates, in\n     milliseconds.  See {@link config#config.call config.call} for more information.",
+              "lineNumber": 35,
+              "type": {
+                "type": "NameExpression",
+                "name": "number"
+              },
+              "name": "iceTimeouts.iceCollectionIdealTimeout"
+            },
+            {
+              "title": "param",
+              "description": "The maximum amount of time to wait for ICE collection,\n     in milliseconds. See {@link config#config.call config.call} for more information.",
+              "lineNumber": 37,
+              "type": {
+                "type": "NameExpression",
+                "name": "number"
+              },
+              "name": "iceTimeouts.iceCollectionMaxTimeout"
+            },
+            {
               "title": "returns",
               "description": "Information on how to proceed with the call and/or ICE collection.",
-              "lineNumber": 32,
+              "lineNumber": 39,
               "type": {
                 "type": "NameExpression",
                 "name": "call.IceCollectionCheckResult"
@@ -16173,8 +16255,8 @@
             },
             {
               "title": "example",
-              "description": "function isRelayCandidate (candidate) {\n// NOTE: This would need to be different for Firefox since the `.type` property doesn't exist\n// and we would need to parse it ourselves in the `.candidate` property.\n  return candidate.type === 'relay'\n}\n\nfunction myIceCollectionCheck ({ iceGatheringState, iceCandidates }) {\n  if (iceGatheringState === 'complete') {\n    if (iceCandidates.some(isRelayCandidate)) {\n      return { type: 'StartCall' }\n    } else {\n      return { type: 'Error', error: new Error('Failed to start call because there is no relay candidates.') }\n    }\n  } else {\n    return { type: 'Wait' }\n  }\n}",
-              "lineNumber": 33
+              "description": "function isRelayCandidate (candidate) {\n// NOTE: This would need to be different for Firefox since the `.type` property doesn't exist\n// and we would need to parse it ourselves in the `.candidate` property.\n  return candidate.type === 'relay'\n}\n\nfunction myIceCollectionCheck ({ iceGatheringState, iceCandidates }, iceTimeouts) {\n  if (iceGatheringState === 'complete') {\n    if (iceCandidates.some(isRelayCandidate)) {\n      return { type: 'StartCall' }\n    } else {\n      return { type: 'Error', error: new Error('Failed to start call because there is no relay candidates.') }\n    }\n  } else {\n    return { type: 'Wait' }\n  }\n}",
+              "lineNumber": 40
             }
           ],
           "loc": {
@@ -16183,18 +16265,18 @@
               "column": 0
             },
             "end": {
-              "line": 281,
+              "line": 288,
               "column": 3
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 478,
+                "line": 485,
                 "column": 0
               },
               "end": {
-                "line": 482,
+                "line": 489,
                 "column": 1
               }
             },
@@ -16203,7 +16285,7 @@
           "augments": [],
           "examples": [
             {
-              "description": "function isRelayCandidate (candidate) {\n// NOTE: This would need to be different for Firefox since the `.type` property doesn't exist\n// and we would need to parse it ourselves in the `.candidate` property.\n  return candidate.type === 'relay'\n}\n\nfunction myIceCollectionCheck ({ iceGatheringState, iceCandidates }) {\n  if (iceGatheringState === 'complete') {\n    if (iceCandidates.some(isRelayCandidate)) {\n      return { type: 'StartCall' }\n    } else {\n      return { type: 'Error', error: new Error('Failed to start call because there is no relay candidates.') }\n    }\n  } else {\n    return { type: 'Wait' }\n  }\n}"
+              "description": "function isRelayCandidate (candidate) {\n// NOTE: This would need to be different for Firefox since the `.type` property doesn't exist\n// and we would need to parse it ourselves in the `.candidate` property.\n  return candidate.type === 'relay'\n}\n\nfunction myIceCollectionCheck ({ iceGatheringState, iceCandidates }, iceTimeouts) {\n  if (iceGatheringState === 'complete') {\n    if (iceCandidates.some(isRelayCandidate)) {\n      return { type: 'StartCall' }\n    } else {\n      return { type: 'Error', error: new Error('Failed to start call because there is no relay candidates.') }\n    }\n  } else {\n    return { type: 'Wait' }\n  }\n}"
             }
           ],
           "implements": [],
@@ -16211,7 +16293,7 @@
             {
               "title": "param",
               "name": "iceCollectionInfo",
-              "lineNumber": 31,
+              "lineNumber": 33,
               "description": {
                 "type": "root",
                 "children": [
@@ -16230,6 +16312,109 @@
                 "type": "NameExpression",
                 "name": "call.IceCollectionInfo"
               }
+            },
+            {
+              "title": "param",
+              "name": "iceTimeouts",
+              "lineNumber": 34,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Configurations provided to the SDK for ICE collection timeout boundaries."
+                      }
+                    ]
+                  }
+                ]
+              },
+              "type": {
+                "type": "NameExpression",
+                "name": "Object"
+              },
+              "properties": [
+                {
+                  "title": "param",
+                  "name": "iceTimeouts.iceCollectionIdealTimeout",
+                  "lineNumber": 35,
+                  "description": {
+                    "type": "root",
+                    "children": [
+                      {
+                        "type": "paragraph",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "The amount of time to wait for ideal candidates, in\nmilliseconds.  See "
+                          },
+                          {
+                            "type": "link",
+                            "url": "#configconfigcall",
+                            "title": null,
+                            "jsdoc": true,
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "config.call"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "text",
+                            "value": " for more information."
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "type": {
+                    "type": "NameExpression",
+                    "name": "number"
+                  }
+                },
+                {
+                  "title": "param",
+                  "name": "iceTimeouts.iceCollectionMaxTimeout",
+                  "lineNumber": 37,
+                  "description": {
+                    "type": "root",
+                    "children": [
+                      {
+                        "type": "paragraph",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "The maximum amount of time to wait for ICE collection,\nin milliseconds. See "
+                          },
+                          {
+                            "type": "link",
+                            "url": "#configconfigcall",
+                            "title": null,
+                            "jsdoc": true,
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "config.call"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "text",
+                            "value": " for more information."
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "type": {
+                    "type": "NameExpression",
+                    "name": "number"
+                  }
+                }
+              ]
             }
           ],
           "properties": [],
@@ -16350,22 +16535,22 @@
           ],
           "loc": {
             "start": {
-              "line": 283,
+              "line": 290,
               "column": 0
             },
             "end": {
-              "line": 297,
+              "line": 304,
               "column": 3
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 478,
+                "line": 485,
                 "column": 0
               },
               "end": {
-                "line": 482,
+                "line": 489,
                 "column": 1
               }
             },
@@ -16595,22 +16780,22 @@
           ],
           "loc": {
             "start": {
-              "line": 299,
+              "line": 306,
               "column": 0
             },
             "end": {
-              "line": 310,
+              "line": 317,
               "column": 3
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 478,
+                "line": 485,
                 "column": 0
               },
               "end": {
-                "line": 482,
+                "line": 489,
                 "column": 1
               }
             },
@@ -16831,22 +17016,22 @@
           ],
           "loc": {
             "start": {
-              "line": 312,
+              "line": 319,
               "column": 0
             },
             "end": {
-              "line": 322,
+              "line": 329,
               "column": 3
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 478,
+                "line": 485,
                 "column": 0
               },
               "end": {
-                "line": 482,
+                "line": 489,
                 "column": 1
               }
             },
@@ -17066,22 +17251,22 @@
           ],
           "loc": {
             "start": {
-              "line": 324,
+              "line": 331,
               "column": 0
             },
             "end": {
-              "line": 335,
+              "line": 342,
               "column": 3
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 478,
+                "line": 485,
                 "column": 0
               },
               "end": {
-                "line": 482,
+                "line": 489,
                 "column": 1
               }
             },
@@ -17366,22 +17551,22 @@
           ],
           "loc": {
             "start": {
-              "line": 337,
+              "line": 344,
               "column": 0
             },
             "end": {
-              "line": 358,
+              "line": 365,
               "column": 3
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 478,
+                "line": 485,
                 "column": 0
               },
               "end": {
-                "line": 482,
+                "line": 489,
                 "column": 1
               }
             },
@@ -17767,22 +17952,22 @@
           ],
           "loc": {
             "start": {
-              "line": 360,
+              "line": 367,
               "column": 0
             },
             "end": {
-              "line": 370,
+              "line": 377,
               "column": 3
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 478,
+                "line": 485,
                 "column": 0
               },
               "end": {
-                "line": 482,
+                "line": 489,
                 "column": 1
               }
             },
@@ -18008,22 +18193,22 @@
           ],
           "loc": {
             "start": {
-              "line": 372,
+              "line": 379,
               "column": 0
             },
             "end": {
-              "line": 383,
+              "line": 390,
               "column": 3
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 478,
+                "line": 485,
                 "column": 0
               },
               "end": {
-                "line": 482,
+                "line": 489,
                 "column": 1
               }
             },
@@ -18437,22 +18622,22 @@
           ],
           "loc": {
             "start": {
-              "line": 385,
+              "line": 392,
               "column": 0
             },
             "end": {
-              "line": 425,
+              "line": 432,
               "column": 3
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 478,
+                "line": 485,
                 "column": 0
               },
               "end": {
-                "line": 482,
+                "line": 489,
                 "column": 1
               }
             },
@@ -40393,11 +40578,11 @@
     "context": {
       "loc": {
         "start": {
-          "line": 478,
+          "line": 485,
           "column": 0
         },
         "end": {
-          "line": 482,
+          "line": 489,
           "column": 1
         }
       },

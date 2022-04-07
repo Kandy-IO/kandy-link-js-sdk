@@ -812,7 +812,7 @@ Type: [Object][7]
 
 ### IceCollectionInfo
 
-This object is provided to the [IceCollectionCheckFunction][40], and contains the
+This object is provided to the [IceCollectionCheckFunction][21], and contains the
 necessary information about the call (i.e., call ID, current call operation), and information about the ongoing ICE collection,
 such as the list of all ICE candidates collected so far and the ICE gathering state.
 
@@ -825,11 +825,11 @@ Type: [Object][7]
 *   `reason` **[string][8]** The reason the check function was called. Three possible values:
     'NewCandidate' - A new ICE candidate was collected. Note: there may be multiple new ICE candidates collected.
     'IceGatheringStateChanged' - The ICE gathering state changed.
-    'Scheduled' - A scheduled call (for first invocation, and subsequent invocations based on `wait` value returned by `IceCollectionCheckFunction`)
+    'Scheduled' - A scheduled call (for first invocation, and subsequent invocations based on `wait` value returned by [IceCollectionCheckFunction][21].)
 *   `iceCandidates` **[Array][14]\<RTCIceCandidate>** An array of all ICE candidates collected so far.
 *   `iceCollectionDuration` **[number][12]** The time elapsed since the start of the ICE collection process.
 *   `iceGatheringState` **[string][8]** The current ICE gathering state.
-    See [RTCPeerConnection.iceGatheringState][41]
+    See [RTCPeerConnection.iceGatheringState][40].
 *   `rtcPeerConnectionConfig` **[Object][7]** The current configration for the RTCPeerConnection.
 *   `rtcLocalSessionDescription` **[string][8]** The current local session description set on the peer.
 
@@ -841,7 +841,7 @@ This function is provided the necessary details of the current WebRTC session an
 ([IceCollectionInfo][19]), which it can use to dictate how to proceed with a call.
 The function can be invoked for three different reasons:
 a new ICE candidate was collected, the ICE gathering state changed, or a scheduled call based on the `wait` time set after
-an initial invocation of the function (See {@link call.IceCollectionInfo IceCollectionInfo}.reason).
+an initial invocation of the function.
 
 The function must then return an appropriate result object in the format of [IceCollectionCheckResult][20]
 which will dictate how the call will proceed. An incorrect return object, or result `type`, will cause the call to end with an error.
@@ -849,7 +849,9 @@ which will dictate how the call will proceed. An incorrect return object, or res
 \[Default]
 The default IceCollectionCheckFunction uses the following algorithm to determine if the call can proceed to negotiation:
 
-1.  If the `iceGatheringState` is "complete" at any stage, then proceed with the negotiation.
+1.  If the `iceGatheringState` is "complete" at any stage, then:
+    *   Proceed with the negotiation if any ICE candidates are collected.
+    *   Or, end the call if there are no ICE candidates collected.
 2.  Otherwise, if before the ideal ICE collection timeout:
     *   If every media has a relay ICE candidate for every configured TURN server, proceed with negotiation.
     *   Else, wait until the ideal timeout, or when invoked for another reason.
@@ -867,7 +869,13 @@ Type: [Function][18]
 
 #### Parameters
 
-*   `iceCollectionInfo` **[call.IceCollectionInfo][42]** Information about the current status of the ICE candidate collection.
+*   `iceCollectionInfo` **[call.IceCollectionInfo][41]** Information about the current status of the ICE candidate collection.
+*   `iceTimeouts` **[Object][7]** Configurations provided to the SDK for ICE collection timeout boundaries.
+
+    *   `iceTimeouts.iceCollectionIdealTimeout` **[number][12]** The amount of time to wait for ideal candidates, in
+        milliseconds.  See [config.call][42] for more information.
+    *   `iceTimeouts.iceCollectionMaxTimeout` **[number][12]** The maximum amount of time to wait for ICE collection,
+        in milliseconds. See [config.call][42] for more information.
 
 #### Examples
 
@@ -878,7 +886,7 @@ function isRelayCandidate (candidate) {
   return candidate.type === 'relay'
 }
 
-function myIceCollectionCheck ({ iceGatheringState, iceCandidates }) {
+function myIceCollectionCheck ({ iceGatheringState, iceCandidates }, iceTimeouts) {
   if (iceGatheringState === 'complete') {
     if (iceCandidates.some(isRelayCandidate)) {
       return { type: 'StartCall' }
@@ -3890,9 +3898,9 @@ These handlers are used to customize low-level call behaviour for very specific
 environments and/or scenarios.
 
 Note that SDP handlers are exposed on the entry point of the SDK. They can be added during
-initialization of the SDK using the [config.call.sdpHandlers][132] configuration
+initialization of the SDK using the [config.call.sdpHandlers][42] configuration
 parameter. They can also be set after the SDK's creation by using the
-[call.setSdpHandlers][133] function.
+[call.setSdpHandlers][132] function.
 
 ### Examples
 
@@ -3977,7 +3985,7 @@ fully functional.
 
 The services an application can subscribe to are based on the features
 included in the SDK. The list of available services can be retrieved
-using the [services.getSubscriptions][134] API. These values can be used
+using the [services.getSubscriptions][133] API. These values can be used
 with the [services.subscribe][15] API.
 
 The channel used for subscriptions is the method for receiving the service
@@ -4016,7 +4024,7 @@ client.services.subscribe([
 ### SmsInboundServiceParams
 
 The SmsInboundServiceParams type defines the additional information when subscribing to SMS inbound service.
-This is the configuration object that needs to be passed as the value for the [ServiceDescriptor.params][135] property.
+This is the configuration object that needs to be passed as the value for the [ServiceDescriptor.params][134] property.
 
 Type: [Object][7]
 
@@ -4041,14 +4049,14 @@ Subscribes to platform notifications for an SDK service.
 Extra configuration can be provide as an additional object parameter.
 Currently only a "forceLogOut" flag can be supplied in this object.
 
-For push notifications on link, please see [notifications.registerPush][136]
+For push notifications on link, please see [notifications.registerPush][135]
 
 The SDK currently only supports the `websocket` channel as a subscription
 type.
 
 #### Parameters
 
-*   `services` **[Array][14]<([string][8] | [services.ServiceDescriptor][137])>** A list of service configurations.
+*   `services` **[Array][14]<([string][8] | [services.ServiceDescriptor][136])>** A list of service configurations.
 *   `options` **[Object][7]?** The options object for non-credential options.
 
     *   `options.forceLogOut` **[boolean][11]?** Force the oldest connection to log out if too many simultaneous connections. Link only.
@@ -4067,7 +4075,7 @@ client.services.subscribe(['call', 'IM'], {forceLogOut: true, clientCorrelator: 
 Cancels existing subscriptions for platform notifications.
 
 Existing subscriptions can be retrieved using the
-[services.getSubscriptions][134] API. The `subscribed` values are the
+[services.getSubscriptions][133] API. The `subscribed` values are the
 services that can be unsubscribed from.
 
 #### Parameters
@@ -4119,7 +4127,7 @@ Returns **[Object][7]** Lists of subscribed and available services.
 Subscription information has changed.
 
 The updated subscription information can be retrieved using the
-[services.getSubscriptions][134] API.
+[services.getSubscriptions][133] API.
 
 #### Parameters
 
@@ -4136,7 +4144,7 @@ The updated subscription information can be retrieved using the
 An error occurred during a subscription operation.
 
 The subscription information can be retrieved using the
-[services.getSubscriptions][134] API.
+[services.getSubscriptions][133] API.
 
 #### Parameters
 
@@ -4178,7 +4186,7 @@ specific users.
 
 A SIP event may either be solicited or unsolicited. Solicited events, such as the "presence"
 example above, requires the application to subscribe for the event. See the
-[sip.subscribe API][138] for more information about solicited events.
+[sip.subscribe API][137] for more information about solicited events.
 Unsolicited events have no prerequisites for being received.
 
 ### subscribe
@@ -4192,13 +4200,13 @@ API.
 
 Only one SIP subscription per event type can exist at a time. A subscription can
 watch for events from multiple users at once. Users can be added to or removed
-from a subscription using the [sip.update][139] API at any time.
+from a subscription using the [sip.update][138] API at any time.
 
-The SDK will emit a [sip:subscriptionChange][140]
-event when the operations completes. The [sip.getDetails][141] API can be used
+The SDK will emit a [sip:subscriptionChange][139]
+event when the operations completes. The [sip.getDetails][140] API can be used
 to retrieve the current information about a subscription.
 
-The SDK will emit a [sip:eventsChange][142] event when
+The SDK will emit a [sip:eventsChange][141] event when
 a SIP event is received.
 
 #### Parameters
@@ -4234,8 +4242,8 @@ Updates an existing SIP event subscription.
 Allows for adding or removing users from the subscription, and for changing the
 custom parameters of the subscription.
 
-The SDK will emit a [sip:subscriptionChange][140]
-event when the operations completes. The [sip.getDetails][141] API can be used
+The SDK will emit a [sip:subscriptionChange][139]
+event when the operations completes. The [sip.getDetails][140] API can be used
 to retrieve the current information about a subscription.
 
 #### Parameters
@@ -4268,10 +4276,10 @@ client.sip.update('event:presence', userLists)
 
 Deletes an existing SIP event subscription.
 
-The SDK will emit a [sip:subscriptionChange][140]
+The SDK will emit a [sip:subscriptionChange][139]
 event when the operations completes.
 
-Subscription details will no longer be available using the [sip.getDetails][141]
+Subscription details will no longer be available using the [sip.getDetails][140]
 API after it has been unsubscribed from.
 
 #### Parameters
@@ -4315,16 +4323,16 @@ return an object namespaced by event types.
 
 A change has occurred to a SIP subscription.
 
-This event can be emitted when a new SIP subscription is created ([sip.subscribe][138]
-API), an existing subscription is updated ([sip.update][139] API), or has been
-deleted ([sip.unsubscribe][143] API). The `change` parameter on the event indicates
+This event can be emitted when a new SIP subscription is created ([sip.subscribe][137]
+API), an existing subscription is updated ([sip.update][138] API), or has been
+deleted ([sip.unsubscribe][142] API). The `change` parameter on the event indicates
 which scenario caused the event.
 
 When users are added or removed from a subscription through a new subscription or an update,
 the `subscribedUsers` and `unsubscribedUsers` parameters will indicate the users added
 and removed, respectively.
 
-The [sip.getDetails][141] API can be used to retrieve the current information about
+The [sip.getDetails][140] API can be used to retrieve the current information about
 a subscription.
 
 #### Parameters
@@ -4417,12 +4425,12 @@ Type: [Object][7]
 
 Fetches information about a User.
 
-The SDK will emit a [users:change][144]
+The SDK will emit a [users:change][143]
 event after the operation completes. The User's information will then
 be available.
 
 Information about an available User can be retrieved using the
-[user.get][145] API.
+[user.get][144] API.
 
 #### Parameters
 
@@ -4431,36 +4439,36 @@ Information about an available User can be retrieved using the
 ### fetchSelfInfo
 
 Fetches information about the current User from directory.
-Compared to [user.fetch][146] API, this API retrieves additional user related information.
+Compared to [user.fetch][145] API, this API retrieves additional user related information.
 
-The SDK will emit a [users:change][144]
+The SDK will emit a [users:change][143]
 event after the operation completes. The User's information will then
 be available.
 
 Information about an available User can be retrieved using the
-[user.get][145] API.
+[user.get][144] API.
 
 ### get
 
 Retrieves information about a User, if available.
 
-See the [user.fetch][146] and [user.search][147] APIs for details about
+See the [user.fetch][145] and [user.search][146] APIs for details about
 making Users' information available.
 
 #### Parameters
 
 *   `userId` **[user.UserID][31]** The User ID of the user.
 
-Returns **[user.User][148]** The User object for the specified user.
+Returns **[user.User][147]** The User object for the specified user.
 
 ### getAll
 
 Retrieves information about all available Users.
 
-See the [user.fetch][146] and [user.search][147] APIs for details about
+See the [user.fetch][145] and [user.search][146] APIs for details about
 making Users' information available.
 
-Returns **[Array][14]<[user.User][148]>** An array of all the User objects.
+Returns **[Array][14]<[user.User][147]>** An array of all the User objects.
 
 ### search
 
@@ -4469,10 +4477,10 @@ Searches the domain's directory for Users.
 Directory searching only supports one filter. If multiple filters are provided, only one of the filters will be used for the search.
 A search with no filters provided will return all users.
 
-The SDK will emit a [directory:change][149]
+The SDK will emit a [directory:change][148]
 event after the operation completes. The search results will be
 provided as part of the event, and will also be available using the
-[user.get][145] and [user.getAll][150] APIs.
+[user.get][144] and [user.getAll][149] APIs.
 
 #### Parameters
 
@@ -4499,7 +4507,7 @@ The directory has changed.
 
 *   `params` **[Object][7]** 
 
-    *   `params.results` **[Array][14]<[user.User][148]>** The Users' information returned by the
+    *   `params.results` **[Array][14]<[user.User][147]>** The Users' information returned by the
         operation.
 
 ### directory:error
@@ -4520,7 +4528,7 @@ A change has occurred in the users list
 
 *   `params` **[Object][7]** 
 
-    *   `params.results` **[Array][14]<[user.User][148]>** The Users' information returned by the
+    *   `params.results` **[Array][14]<[user.User][147]>** The Users' information returned by the
         operation.
 
 ### users:error
@@ -4544,7 +4552,7 @@ Voicemail functions are all part of this namespace.
 
 Attempts to retrieve voicemail information from the server.
 
-A [voicemail:change][151] event is
+A [voicemail:change][150] event is
 emitted upon completion.
 
 ### get
@@ -4655,11 +4663,11 @@ An error has occurred while attempting to retrieve voicemail data.
 
 [39]: https://developer.mozilla.org/en-US/docs/Web/API/RTCIceServer/urls
 
-[40]: call.IceCollectionCheckFunction`
+[40]: https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/iceGatheringState
 
-[41]: https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/iceGatheringState
+[41]: #callicecollectioninfo
 
-[42]: #callicecollectioninfo
+[42]: #configconfigcall
 
 [43]: #callicecollectioncheckresult
 
@@ -4839,42 +4847,40 @@ An error has occurred while attempting to retrieve voicemail data.
 
 [131]: https://developer.mozilla.org/en-US/docs/Web/API/Response
 
-[132]: #configconfigcall
+[132]: #callsetsdphandlers
 
-[133]: #callsetsdphandlers
+[133]: #servicesgetsubscriptions
 
-[134]: #servicesgetsubscriptions
+[134]: #servicesservicedescriptor
 
-[135]: #servicesservicedescriptor
+[135]: notifications.registerPush
 
-[136]: notifications.registerPush
+[136]: #servicesservicedescriptor
 
-[137]: #servicesservicedescriptor
+[137]: #sipsubscribe
 
-[138]: #sipsubscribe
+[138]: #sipupdate
 
-[139]: #sipupdate
+[139]: #sipeventsipsubscriptionchange
 
-[140]: #sipeventsipsubscriptionchange
+[140]: #sipgetdetails
 
-[141]: #sipgetdetails
+[141]: #sipeventsipeventschange
 
-[142]: #sipeventsipeventschange
+[142]: #sipunsubscribe
 
-[143]: #sipunsubscribe
+[143]: #usereventuserschange
 
-[144]: #usereventuserschange
+[144]: #userget
 
-[145]: #userget
+[145]: #userfetch
 
-[146]: #userfetch
+[146]: #usersearch
 
-[147]: #usersearch
+[147]: #useruser
 
-[148]: #useruser
+[148]: #usereventdirectorychange
 
-[149]: #usereventdirectorychange
+[149]: #usergetall
 
-[150]: #usergetall
-
-[151]: #voicemaileventvoicemailchange
+[150]: #voicemaileventvoicemailchange
