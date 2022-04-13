@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.39.0-beta.863
+ * Version: 4.39.0-beta.864
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -7346,7 +7346,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.39.0-beta.863';
+  return '4.39.0-beta.864';
 }
 
 /***/ }),
@@ -42050,16 +42050,36 @@ function* onSubscriptionGone() {
   while (true) {
     yield (0, _effects.take)(takeGoneSubscription);
 
-    // Subscription plugin will handle the 'gone' notification as well and make
-    // sure the websocket is disconnected.  Here we only disconnect the user with
-    // reason GONE to trigger the auth:changed event for the client.
-    // This is for backwards compatibility with 3.x connect flow.  If you
-    // are using the new method of connecting, using setCredentials or setToken
-    // and subscribe, then you should be using the 'subscription:change' event
-    // instead of the 'auth:change' event.
+    /*
+     * Subscription plugin will handle the 'gone' notification as well and make
+     * sure the websocket is disconnected.  Here we only disconnect the user with
+     * reason GONE to trigger the auth:changed event for the client.
+     * This is for backwards compatibility with 3.x connect flow.  If you
+     * are using the new method of connecting, using setCredentials or setToken
+     * and subscribe, then you should be using the 'subscription:change' event
+     * instead of the 'auth:change' event.
+     */
 
-    // Dispatch a disconnect finished action to trigger "user disconnected" logic.
-    yield (0, _effects.put)(actions.disconnectFinished({ reason: _constants.DISCONNECT_REASONS.GONE }));
+    const subscription = yield (0, _effects.select)(_selectors2.getSubscriptionInfo);
+
+    /*
+     * If there is any subscription info stored in authentication state, that means the old
+     *    authentication method was used (ie. connect API). When using the old method, the
+     *    subscription/websocket and authentication are tied together. So when the websocket is
+     *    lost, we want to remove the authentication info as well. Dispatching a disconnectFinished
+     *    action will clear that from state.
+     * This should only be the case when:
+     *  - using 3.X auth
+     *  - using 4.X auth with the backwards-compatible flow (ie. connect API).
+     * This check prevents the authentication state (ie. user info and request info) being
+     *    cleared when using the independent subscription flow.
+     * Reference: KAA-2538 & KJS-55
+     */
+
+    if (subscription) {
+      // Dispatch a disconnect finished action to trigger "user disconnected" logic.
+      yield (0, _effects.put)(actions.disconnectFinished({ reason: _constants.DISCONNECT_REASONS.GONE }));
+    }
   }
 }
 

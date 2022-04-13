@@ -15,6 +15,8 @@ Kandy.js change log.
 
 - Fixed documentation for `call.replaceTrack`, `media.muteTracks` & `media.unmuteTracks` APIs to better document the interactions they have on calls and tracks. `KJS-594`
 - Fixed a Call issue where the default configuration value for the ICE Collection Check function (`call.iceCollectionCheckFunction`) would not use the latest timeout values if they were updated after SDK initialization. `KJS-799`
+- Fixed an issue where receiving a `gone` notification resulted in userInfo being removed from authentication state causing any subsequent rest requests to fail with
+  invalid credentials. `KJS-805`
 
 ## 4.38.0 - 2022-03-25
 
