@@ -18,6 +18,7 @@ Kandy.js change log.
 - Fixed the error message (generated when there are websocket connection timeouts) so that is better understood by the application. `KJS-800`
 - Fixed an issue where receiving a `gone` notification resulted in userInfo being removed from authentication state causing any subsequent rest requests to fail with
   invalid credentials. `KJS-805`
+- Fixed documentation for `updateConfig` to clarify the correct way to update sdp handlers after updating `removeH264Codecs`. `KJS-818`
 
 ## 4.38.0 - 2022-03-25
 
