@@ -5,6 +5,25 @@ Kandy.js change log.
 - This project adheres to [Semantic Versioning](http://semver.org/).
 - This change log follows [keepachangelog.com](http://keepachangelog.com/) recommendations.
 
+## 4.39.0 - 2022-04-28
+
+### Added
+
+- Added new function parameters to the configured ICE Collection Check function (`call.iceCollectionCheckFunction`). It will now receive the configured timeout configurations (`call.iceCollectionIdealTimeout` and `call.iceCollectionMaxTimeout`) inside an object as the second function parameter. `KJS-799`
+
+### Fixed
+
+- Fixed documentation for `call.replaceTrack`, `media.muteTracks` & `media.unmuteTracks` APIs to better document the interactions they have on calls and tracks. `KJS-594`
+- Fixed a Call issue where the default configuration value for the ICE Collection Check function (`call.iceCollectionCheckFunction`) would not use the latest timeout values if they were updated after SDK initialization. `KJS-799`
+- Fixed the error message (generated when there are websocket connection timeouts) so that is better understood by the application. `KJS-800`
+- Fixed an issue where receiving a `gone` notification resulted in userInfo being removed from authentication state causing any subsequent rest requests to fail with
+  invalid credentials. `KJS-805`
+- Fixed documentation for `updateConfig` to clarify the correct way to update sdp handlers after updating `removeH264Codecs`. `KJS-818`
+
+### Changed
+
+- If a call is received via push notification, the SDK will verify the correct call state after the notification has been processed to ensure it is up-to-date. `KJS-777`
+
 ## 4.38.0 - 2022-03-25
 
 ### Added

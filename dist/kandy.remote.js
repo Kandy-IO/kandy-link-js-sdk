@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.remote.js
- * Version: 4.38.0
+ * Version: 4.39.0
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -1817,7 +1817,8 @@ $exports.store = store;
 
 
 /***/ }),
-/* 14 */
+/* 14 */,
+/* 15 */
 /***/ (function(module, exports) {
 
 module.exports = function (it) {
@@ -1826,7 +1827,6 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 15 */,
 /* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1949,7 +1949,7 @@ const PEER = exports.PEER = {
 /* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(14);
+var isObject = __webpack_require__(15);
 module.exports = function (it) {
   if (!isObject(it)) throw TypeError(it + ' is not an object!');
   return it;
@@ -5584,7 +5584,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.38.0';
+  return '4.39.0';
 }
 
 /***/ }),
@@ -5592,7 +5592,7 @@ function getVersion() {
 /***/ (function(module, exports, __webpack_require__) {
 
 var META = __webpack_require__(60)('meta');
-var isObject = __webpack_require__(14);
+var isObject = __webpack_require__(15);
 var has = __webpack_require__(31);
 var setDesc = __webpack_require__(19).f;
 var id = 0;
@@ -5908,7 +5908,7 @@ module.exports = { "default": __webpack_require__(163), __esModule: true };
 /* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(14);
+var isObject = __webpack_require__(15);
 var document = __webpack_require__(9).document;
 // typeof document.createElement is 'object' in old IE
 var is = isObject(document) && isObject(document.createElement);
@@ -5922,7 +5922,7 @@ module.exports = function (it) {
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.1 ToPrimitive(input [, PreferredType])
-var isObject = __webpack_require__(14);
+var isObject = __webpack_require__(15);
 // instead of the ES6 spec version, we didn't implement @@toPrimitive case
 // and the second argument - flag - preferred type is a string
 module.exports = function (it, S) {
@@ -6549,7 +6549,7 @@ exports.f = __webpack_require__(13);
 /* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(14);
+var isObject = __webpack_require__(15);
 module.exports = function (it, TYPE) {
   if (!isObject(it) || it._t !== TYPE) throw TypeError('Incompatible receiver, ' + TYPE + ' required!');
   return it;
@@ -7001,7 +7001,7 @@ module.exports = function (exec) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var anObject = __webpack_require__(23);
-var isObject = __webpack_require__(14);
+var isObject = __webpack_require__(15);
 var newPromiseCapability = __webpack_require__(89);
 
 module.exports = function (C, x) {
@@ -9045,7 +9045,7 @@ var hide = __webpack_require__(30);
 var redefineAll = __webpack_require__(90);
 var forOf = __webpack_require__(52);
 var anInstance = __webpack_require__(88);
-var isObject = __webpack_require__(14);
+var isObject = __webpack_require__(15);
 var setToStringTag = __webpack_require__(51);
 var dP = __webpack_require__(19).f;
 var each = __webpack_require__(208)(0);
@@ -10948,7 +10948,7 @@ var global = __webpack_require__(9);
 var ctx = __webpack_require__(29);
 var classof = __webpack_require__(87);
 var $export = __webpack_require__(8);
-var isObject = __webpack_require__(14);
+var isObject = __webpack_require__(15);
 var aFunction = __webpack_require__(46);
 var anInstance = __webpack_require__(88);
 var forOf = __webpack_require__(52);
@@ -12369,7 +12369,7 @@ var wksDefine = __webpack_require__(92);
 var enumKeys = __webpack_require__(197);
 var isArray = __webpack_require__(121);
 var anObject = __webpack_require__(23);
-var isObject = __webpack_require__(14);
+var isObject = __webpack_require__(15);
 var toObject = __webpack_require__(37);
 var toIObject = __webpack_require__(34);
 var toPrimitive = __webpack_require__(76);
@@ -13148,7 +13148,7 @@ module.exports = function (original, length) {
 /* 210 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(14);
+var isObject = __webpack_require__(15);
 var isArray = __webpack_require__(121);
 var SPECIES = __webpack_require__(13)('species');
 
@@ -18043,7 +18043,7 @@ var has = __webpack_require__(31);
 var $export = __webpack_require__(8);
 var createDesc = __webpack_require__(38);
 var anObject = __webpack_require__(23);
-var isObject = __webpack_require__(14);
+var isObject = __webpack_require__(15);
 
 function set(target, propertyKey, V /* , receiver */) {
   var receiver = arguments.length < 4 ? target : arguments[3];
@@ -18674,7 +18674,7 @@ module.exports = __webpack_require__(7).Object.freeze;
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.5 Object.freeze(O)
-var isObject = __webpack_require__(14);
+var isObject = __webpack_require__(15);
 var meta = __webpack_require__(64).onFreeze;
 
 __webpack_require__(99)('freeze', function ($freeze) {
