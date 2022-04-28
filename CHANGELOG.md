@@ -5,7 +5,7 @@ Kandy.js change log.
 - This project adheres to [Semantic Versioning](http://semver.org/).
 - This change log follows [keepachangelog.com](http://keepachangelog.com/) recommendations.
 
-## 4.39.0 - beta
+## 4.39.0 - 2022-04-28
 
 ### Added
 
@@ -19,6 +19,10 @@ Kandy.js change log.
 - Fixed an issue where receiving a `gone` notification resulted in userInfo being removed from authentication state causing any subsequent rest requests to fail with
   invalid credentials. `KJS-805`
 - Fixed documentation for `updateConfig` to clarify the correct way to update sdp handlers after updating `removeH264Codecs`. `KJS-818`
+
+### Changed
+
+- If a call is received via push notification, the SDK will verify the correct call state after the notification has been processed to ensure it is up-to-date. `KJS-777`
 
 ## 4.38.0 - 2022-03-25
 
