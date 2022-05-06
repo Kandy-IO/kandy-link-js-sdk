@@ -7,6 +7,11 @@ Kandy.js change log.
 
 ## 4.40.0 - beta
 
+### Fixed
+
+- Fixed issue where the SDK could send the `subscription:change` event to the client twice if a `gone` notification is received from Kandy Link before the unsubscribe
+  operation has completed. `KJS-855`
+
 ## 4.39.0 - 2022-04-28
 
 ### Added
