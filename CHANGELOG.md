@@ -5,6 +5,8 @@ Kandy.js change log.
 - This project adheres to [Semantic Versioning](http://semver.org/).
 - This change log follows [keepachangelog.com](http://keepachangelog.com/) recommendations.
 
+## 4.41.0 - 2022-06-30
+
 ## 4.40.0 - 2022-05-27
 
 ### Fixed
