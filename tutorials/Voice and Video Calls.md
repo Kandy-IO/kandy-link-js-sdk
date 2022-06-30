@@ -35,8 +35,9 @@ To interact with our demo application, we will have a basic UI that allows us to
 <div>
   <fieldset>
     <legend>Set Credentials using your account information</legend>
-    User Email: <input type="text" id="username" /> Password:<input type="password" id="password" />
-    <input type="submit" id="setCredentials" value="setCredentials" onclick="setCredentials(username, password);" />
+    User Email: <input type="text" id="username" />
+    Password: <input type="password" id="password" />
+    <input type="submit" id="setCredentials" value="setCredentials" onclick="setCredentials();" />
   </fieldset>
   <fieldset>
     <legend>Subscribe</legend>
@@ -47,23 +48,23 @@ To interact with our demo application, we will have a basic UI that allows us to
     <fieldset>
       <legend>Make a Call</legend>
       <!-- User input for making a call. -->
-      <input disabled type="button" value="Make Call" onclick="makeCall();" />
-      to <input disabled type="text" id="callee" /> with video
-      <input disabled type="checkbox" id="make-with-video" />
+      <input type="button" value="Make Call" onclick="makeCall();" disabled />
+      to <input type="text" id="callee" disabled />
+      with video <input type="checkbox" id="make-with-video" disabled />
     </fieldset>
 
     <fieldset>
       <legend>Respond to a Call</legend>
       <!-- User input for responding to an incoming call. -->
-      <input disabled type="button" value="Answer Call" onclick="answerCall();" />
-      with video <input disabled type="checkbox" id="answer-with-video" />
-      <input disabled type="button" value="Reject Call" onclick="rejectCall();" />
+      <input type="button" value="Answer Call" onclick="answerCall();" disabled />
+      with video <input type="checkbox" id="answer-with-video" disabled />
+      <input type="button" value="Reject Call" onclick="rejectCall();" disabled />
     </fieldset>
 
     <fieldset>
       <legend>End a Call</legend>
       <!-- User input for ending an ongoing call. -->
-      <input disabled type="button" value="End Call" onclick="endCall();" />
+      <input type="button" value="End Call" onclick="endCall();" disabled />
     </fieldset>
 
     <fieldset>
@@ -164,8 +165,7 @@ function answerCall () {
 
 // Reject an incoming call.
 function rejectCall () {
-  // Retrieve call state.
-  let call = client.call.getById(callId)
+  const call = client.call.getById(callId)
   log('Rejecting call from ' + call.from)
 
   client.call.reject(callId)
@@ -181,8 +181,7 @@ If our user has an ongoing call, they can end it by providing the call's ID to K
 ```javascript
 // End an ongoing call.
 function endCall () {
-  // Retrieve call state.
-  let call = client.call.getById(callId)
+  const call = client.call.getById(callId)
   log('Ending call with ' + call.from)
 
   client.call.end(callId)
@@ -263,7 +262,7 @@ client.on('call:receive', function (params) {
   call = client.call.getById(params.callId)
 
   // Find out what media types have been offered by caller
-  // We'll make the assumtion here that audio media is always offered
+  // We'll make the assumption here that audio media is always offered
   // while video is optional.
   const videoOffered = call.mediaOffered && call.mediaOffered.video
   const element = document.getElementById('answer-with-video')
@@ -278,97 +277,62 @@ client.on('call:receive', function (params) {
 })
 ```
 
-### `call:newTrack`
+## Step 5: Track Events
 
-The `call:newTrack` event informs us that a new Track has been added to the call. The Track may have been added by either the local user or remote user. More information on the track can be retrieved by using the `media.getTrackById` API.
+Kandy will also emit track events alongside the call events to notify the application of changes to tracks available for the call.
 
-We will use this event to render local visual media and remote audio/visual media into the respective containers whenever a new track is added to the call.
+For this demo application, we will simply render tracks when they are added to the call and unrender them when they are removed from the call. For information about other track events, please see the 'Handling Media Tracks' tutorial.
+
+### `call:tracksAdded`
+
+The `call:tracksAdded` event informs us that new tracks have been added to the call and are available to be rendered. The track(s) may have been added by either the local user or remote user. More information on the track can be retrieved by using the `media.getTrackById` API.
+
+We will use this event to render local visual media and remote audio/visual media into the respective containers whenever new tracks are added to the call.
 
 ```javascript
 // Set listener for new tracks.
-client.on('call:newTrack', function (params) {
-  // Check whether the new track was a local track or not.
-  if (params.local) {
-    // Only render local visual media into the local container.
-    const localTrack = client.media.getTrackById(params.trackId)
-    if (localTrack.kind === 'video') {
-      client.media.renderTracks([params.trackId], '#local-container')
+client.on('call:tracksAdded', function (params) {
+  // Iterate over each trackId to determine how it should be rendered.
+  params.trackIds.forEach(trackId => {
+    const track = client.media.getTrackById(trackId)
+
+    // Check whether the new track was a local track or not.
+    if (track.isLocal) {
+      // Only render local visual media into the local container.
+      if (track.kind === 'video') {
+        client.media.renderTracks([trackId], '#local-container')
+      }
+    } else {
+      // Render the remote media into the remote container.
+      client.media.renderTracks([trackId], '#remote-container')
     }
-  } else {
-    // Render the remote media into the remote container.
-    client.media.renderTracks([params.trackId], '#remote-container')
-  }
+  })
 })
 ```
 
-### `call:trackEnded`
+### `call:tracksRemoved`
 
-The `call:trackEnded` event informs us that a Track has been removed from a Call. The Track may have been removed by either the local user or remote user using the {@link call.removeMedia} API. Tracks are also removed from Calls
+The `call:tracksRemoved` event informs us that tracks have been removed from a Call. The track may have been removed by either the local user or remote user using the `call.removeMedia` API. Tracks are also removed from Calls
 automatically while the Call is on hold.
 
-```javascript
-// Set listener for ended tracks.
-client.on('call:trackEnded', function (params) {
-  // Check whether the ended track was a local track or not.
-  if (params.local) {
-    // Remove the track from the local container.
-    client.media.removeTracks([params.trackId], '#local-container')
-  } else {
-    // Remove the track from the remote container.
-    client.media.removeTracks([params.trackId], '#remote-container')
-  }
-})
-```
-
-### `media:sourceUnmuted`
-
-**Note**
-
-This event is only required if you are using the `unified-plan` as the `sdpSemantics` setting in your configuration. This setting describes the formatting for the SDP to use for call control. This setting will become the default in an upcoming release.
-
-The `media:sourceUnmuted` event informs us that a Track has resumed receiving media from it's source. Remote Tracks also resume receiving media from Calls automatically when the Call is taken off hold. It's recommended that you render the tracks in your rendering containers when you receive this event.
-
-We will use this event to render remote audio/visual media and local audio from the media containers whenever a track is resumes receiving media on the call.
+We will use this event to do the reverse of our `call:tracksAdded` handler by unrendering the tracks.
 
 ```javascript
-// Set listener for new tracks.
-client.on('media:sourceUnmuted', function (params) {
-  // Retrieve call and track state.
-  let call = client.call.getById(callId)
-  let track = client.media.getTrackById(params.trackId)
+// Set listener for removed tracks.
+client.on('call:tracksRemoved', function (params) {
+  // Iterate over each trackId to determine how to unrender it.
+  params.trackIds.forEach(trackId => {
+    const track = client.media.getTrackById(trackId)
 
-  // Re-render the media into the correct container.
-  if (call.remoteTracks.includes(params.trackId)) {
-    client.media.renderTracks([params.trackId], '#remote-container')
-  } else if (call.localTracks.includes(params.trackId) && track.kind === 'video') {
-    // We only want to render local video because local audio would cause an echo.
-    client.media.renderTracks([params.trackId], '#local-container')
-  }
-})
-```
-
-### `media:sourceMuted`
-
-**Note**
-
-This event is only required if you are using the `unified-plan` as the `sdpSemantics` setting in your configuration. This setting describes the formatting for the SDP to use for call control. This setting will become the default in an upcoming release.
-
-The `media:sourceMuted` event informs us that a Track has temporarily stopped receiving media from it's source. Remote Tracks also stop receiving media from Calls automatically while the Call is on hold. You don't need to remove these tracks when you get this event, however, you won't hear any audio and video will only show a black screen. It's recommended that you remove the tracks from your rendering container.
-
-We will use this event to remove remote audio/visual media and local audio from the media containers whenever a track is muted on the call.
-
-```javascript
-// Set listener for ended tracks.
-client.on('media:sourceMuted', function (params) {
-  // Retrieve call state.
-  let call = client.call.getById(callId)
-
-  // Unrender the media from the correct container.
-  if (call.remoteTracks.includes(params.trackId)) {
-    client.media.removeTracks([params.trackId], '#remote-container')
-  } else if (call.localTracks.includes(params.trackId)) {
-    client.media.removeTracks([params.trackId], '#local-container')
-  }
+    // Check whether the ended track was a local track or not.
+    if (track.isLocal) {
+      // Remove the track from the local container.
+      client.media.removeTracks([trackId], '#local-container')
+    } else {
+      // Remove the track from the remote container.
+      client.media.removeTracks([trackId], '#remote-container')
+    }
+  })
 })
 ```
 
@@ -378,5 +342,5 @@ We can now call the demo application done. We've covered the basics of what is n
 
 Want to play around with this example for yourself? Feel free to edit this code on Codepen.
 
-<form action="https://codepen.io/pen/define" method="POST" target="_blank" class="codepen-form"><input type="hidden" name="data" value=' {&quot;js&quot;:&quot;/**\n * Kandy.io Voice and Video Call Demo\n */\n\nconst defaultConfig = $DEFAULTCONFIGACCESS$\n\nconst { create } = Kandy\n\n// Setup Kandy with default configuration.\n// As part of configuration, we&apos;ll further apply some customization for logging.\nconst config = {\n  ...defaultConfig,\n  logs: {\n    logLevel: &apos;debug&apos;,\n    logActions: {\n      actionOnly: false,\n      exposePayloads: true\n    },\n    enableFcsLogs: true\n  }\n}\n\nconst client = create(config)\n\n/*\n *  Authentication functionality.\n */\nfunction setCredentials () {\n  const username = document.getElementById(&apos;username&apos;).value\n  const password = document.getElementById(&apos;password&apos;).value\n\n  client.setCredentials({ username, password })\n}\n\nfunction subscribe () {\n  client.services.subscribe([&apos;call&apos;, &apos;Presence&apos;, &apos;IM&apos;], { forceLogOut: true })\n}\n\nfunction unsubscribe () {\n  client.services.unsubscribe([&apos;call&apos;, &apos;Presence&apos;, &apos;IM&apos;])\n}\n\n// Enable/disable all children of a given node\nfunction disableInput (elements, disable) {\n  for (let i = 0; i < elements.length; i++) {\n    let nodes = elements[i].getElementsByTagName(&apos;input&apos;)\n    for (let j = 0; j < nodes.length; j++) {\n      nodes[j].disabled = disable\n    }\n  }\n}\n\n// Setup a listener for changes in the connection state.\nclient.on(&apos;auth:change&apos;, function () {\n  const user = client.getUserInfo()\n\n  document.getElementById(&apos;setCredentials&apos;).disabled = Boolean(user.username)\n  document.getElementById(&apos;subscribeBtn&apos;).disabled = !Boolean(user.username)\n\n  log(&apos;Credentials &apos; + (user.username ? &apos;set&apos; : &apos;unset&apos;))\n})\n\n// Setup a listener for authentication errors.\nclient.on(&apos;auth:error&apos;, function (params) {\n  log(&apos;Connect error: &apos; + params.error.message + &apos; (&apos; + params.error.code + &apos;)&apos;)\n})\n\n// Setup a listener for subscription changes\nclient.on(&apos;subscription:change&apos;, function (params) {\n  const services = client.services.getSubscriptions()\n  const isSubscribed = services.subscribed.length > 0\n  document.getElementById(&apos;subscribeBtn&apos;).disabled = isSubscribed\n  document.getElementById(&apos;unsubscribeBtn&apos;).disabled = !isSubscribed\n  document.getElementById(&apos;auth-state&apos;).innerHTML = &apos;Subscribed: &apos; + isSubscribed\n  disableInput(document.getElementsByClassName(&apos;call-control&apos;), !isSubscribed)\n  log(&apos;Subscription state changed.&apos;)\n  log(&apos;Subscribed services: &apos; + services.subscribed)\n})\n\n// Setup a listener for resubscription events\nclient.on(&apos;subscription:resub&apos;, function (params) {\n  log(&apos;Subscribed services: &apos; + params.isFailure ? &apos;Failed to resubscribe to services&apos; : &apos;Resubscribed to services&apos;)\n})\n\n// Setup a listener for subscription errors\nclient.on(&apos;subscription:error&apos;, function (params) {\n  log(&apos;Subscription error: &apos; + params.error.message + &apos; (&apos; + params.error.code + &apos;)&apos;)\n})\n\n// Utility function for appending messages to the message div.\nfunction log (message) {\n  document.getElementById(&apos;messages&apos;).innerHTML += &apos;<div>&apos; + message + &apos;</div>&apos;\n}\n\n/*\n *  Voice and Video Call functionality.\n */\n\n// Variable to keep track of the call.\nlet callId\n\n// Get user input and make a call to the callee.\nfunction makeCall () {\n  // Gather call options.\n  let callee = document.getElementById(&apos;callee&apos;).value\n  let withVideo = document.getElementById(&apos;make-with-video&apos;).checked\n\n  log(&apos;Making call to &apos; + callee)\n\n  let mediaConstraints = {\n    audio: true,\n    video: withVideo\n  }\n\n  if (withVideo) {\n    // user making a call will send a smaller video stream 200 x 200 pixels\n    mediaConstraints.videoOptions = { width: 200, height: 200 }\n  }\n\n  callId = client.call.make(callee, mediaConstraints)\n}\n\n// Answer an incoming call.\nfunction answerCall () {\n  // Gather call options.\n  let withVideo = document.getElementById(&apos;answer-with-video&apos;).checked\n\n  // Retrieve call state.\n  let call = client.call.getById(callId)\n  log(&apos;Answering call from &apos; + call.from)\n\n  let mediaConstraints = {\n    audio: true,\n    video: withVideo\n  }\n\n  if (withVideo) {\n    // user answering a call will send a larger video stream (400 x 400 pixels)\n    mediaConstraints.videoOptions = { width: 400, height: 400 }\n  }\n\n  client.call.answer(callId, mediaConstraints)\n}\n\n// Reject an incoming call.\nfunction rejectCall () {\n  // Retrieve call state.\n  let call = client.call.getById(callId)\n  log(&apos;Rejecting call from &apos; + call.from)\n\n  client.call.reject(callId)\n}\n\n// End an ongoing call.\nfunction endCall () {\n  // Retrieve call state.\n  let call = client.call.getById(callId)\n  log(&apos;Ending call with &apos; + call.from)\n\n  client.call.end(callId)\n\n  // Always re-enable this checkbox when call ends.\n  document.getElementById(&apos;answer-with-video&apos;).disabled = false\n}\n\n// Set listener for successful call starts.\nclient.on(&apos;call:start&apos;, function (params) {\n  log(&apos;Call successfully started. Waiting for response.&apos;)\n})\n\n// Set listener for generic call errors.\nclient.on(&apos;call:error&apos;, function (params) {\n  log(&apos;Error: Encountered error on call: &apos; + params.error.message)\n})\n\n// Set listener for call media errors.\nclient.on(&apos;media:error&apos;, function (params) {\n  log(&apos;Error: Call encountered media error: &apos; + params.error.message)\n})\n\n// Set listener for changes in a call&apos;s state.\nclient.on(&apos;call:stateChange&apos;, function (params) {\n  // Retrieve call state.\n  const call = client.call.getById(params.callId)\n\n  if (params.error && params.error.message) {\n    log(&apos;Error: &apos; + params.error.message)\n  }\n  log(&apos;Call state changed from &apos; + params.previous.state + &apos; to &apos; + call.state)\n\n  // If the call ended, stop tracking the callId.\n  if (call.state === &apos;Ended&apos;) {\n    callId = null\n\n    // Always re-enable this checkbox when call ends.\n    document.getElementById(&apos;answer-with-video&apos;).disabled = false\n  }\n})\n\n// Set listener for incoming calls.\nclient.on(&apos;call:receive&apos;, function (params) {\n  // Keep track of the callId.\n  callId = params.callId\n\n  // Retrieve call information.\n  call = client.call.getById(params.callId)\n\n  // Find out what media types have been offered by caller\n  // We&apos;ll make the assumtion here that audio media is always offered\n  // while video is optional.\n  const videoOffered = call.mediaOffered && call.mediaOffered.video\n  const element = document.getElementById(&apos;answer-with-video&apos;)\n  element.disabled = !videoOffered\n  if (element.checked && !videoOffered) {\n    // If caller did not offer video\n    // .. then automatically uncheck the checkbox if it is checked\n    element.checked = false\n  }\n\n  log(&apos;Received incoming call from &apos; + call.from)\n})\n\n// Set listener for new tracks.\nclient.on(&apos;call:newTrack&apos;, function (params) {\n  // Check whether the new track was a local track or not.\n  if (params.local) {\n    // Only render local visual media into the local container.\n    const localTrack = client.media.getTrackById(params.trackId)\n    if (localTrack.kind === &apos;video&apos;) {\n      client.media.renderTracks([params.trackId], &apos;#local-container&apos;)\n    }\n  } else {\n    // Render the remote media into the remote container.\n    client.media.renderTracks([params.trackId], &apos;#remote-container&apos;)\n  }\n})\n\n// Set listener for ended tracks.\nclient.on(&apos;call:trackEnded&apos;, function (params) {\n  // Check whether the ended track was a local track or not.\n  if (params.local) {\n    // Remove the track from the local container.\n    client.media.removeTracks([params.trackId], &apos;#local-container&apos;)\n  } else {\n    // Remove the track from the remote container.\n    client.media.removeTracks([params.trackId], &apos;#remote-container&apos;)\n  }\n})\n\n// Set listener for new tracks.\nclient.on(&apos;media:sourceUnmuted&apos;, function (params) {\n  // Retrieve call and track state.\n  let call = client.call.getById(callId)\n  let track = client.media.getTrackById(params.trackId)\n\n  // Re-render the media into the correct container.\n  if (call.remoteTracks.includes(params.trackId)) {\n    client.media.renderTracks([params.trackId], &apos;#remote-container&apos;)\n  } else if (call.localTracks.includes(params.trackId) && track.kind === &apos;video&apos;) {\n    // We only want to render local video because local audio would cause an echo.\n    client.media.renderTracks([params.trackId], &apos;#local-container&apos;)\n  }\n})\n\n// Set listener for ended tracks.\nclient.on(&apos;media:sourceMuted&apos;, function (params) {\n  // Retrieve call state.\n  let call = client.call.getById(callId)\n\n  // Unrender the media from the correct container.\n  if (call.remoteTracks.includes(params.trackId)) {\n    client.media.removeTracks([params.trackId], &apos;#remote-container&apos;)\n  } else if (call.localTracks.includes(params.trackId)) {\n    client.media.removeTracks([params.trackId], &apos;#local-container&apos;)\n  }\n})\n\n&quot;,&quot;html&quot;:&quot;<script src=\&quot;https://cdn.jsdelivr.net/gh/Kandy-IO/kandy-link-js-sdk@897/dist/kandy.js\&quot;></script>\n<script src=\&quot;$DEFAULTCONFIGURL$\&quot;></script>\n<div id=\&quot;auth-state\&quot;>Connected: false</div>\n\n<div>\n  <fieldset>\n    <legend>Set Credentials using your account information</legend>\n    User Email: <input type=\&quot;text\&quot; id=\&quot;username\&quot; /> Password:<input type=\&quot;password\&quot; id=\&quot;password\&quot; />\n    <input type=\&quot;submit\&quot; id=\&quot;setCredentials\&quot; value=\&quot;setCredentials\&quot; onclick=\&quot;setCredentials(username, password);\&quot; />\n  </fieldset>\n  <fieldset>\n    <legend>Subscribe</legend>\n    <input type=\&quot;submit\&quot; id=\&quot;subscribeBtn\&quot; disabled value=\&quot;Subscribe\&quot; onclick=\&quot;subscribe();\&quot; />\n    <input type=\&quot;submit\&quot; id=\&quot;unsubscribeBtn\&quot; disabled value=\&quot;Unsubscribe\&quot; onclick=\&quot;unsubscribe();\&quot; />\n  </fieldset>\n  <div class=\&quot;call-control\&quot;>\n    <fieldset>\n      <legend>Make a Call</legend>\n      <!-- User input for making a call. -->\n      <input disabled type=\&quot;button\&quot; value=\&quot;Make Call\&quot; onclick=\&quot;makeCall();\&quot; />\n      to <input disabled type=\&quot;text\&quot; id=\&quot;callee\&quot; /> with video\n      <input disabled type=\&quot;checkbox\&quot; id=\&quot;make-with-video\&quot; />\n    </fieldset>\n\n    <fieldset>\n      <legend>Respond to a Call</legend>\n      <!-- User input for responding to an incoming call. -->\n      <input disabled type=\&quot;button\&quot; value=\&quot;Answer Call\&quot; onclick=\&quot;answerCall();\&quot; />\n      with video <input disabled type=\&quot;checkbox\&quot; id=\&quot;answer-with-video\&quot; />\n      <input disabled type=\&quot;button\&quot; value=\&quot;Reject Call\&quot; onclick=\&quot;rejectCall();\&quot; />\n    </fieldset>\n\n    <fieldset>\n      <legend>End a Call</legend>\n      <!-- User input for ending an ongoing call. -->\n      <input disabled type=\&quot;button\&quot; value=\&quot;End Call\&quot; onclick=\&quot;endCall();\&quot; />\n    </fieldset>\n\n    <fieldset>\n      <!-- Message output container. -->\n      <legend>Messages</legend>\n      <div id=\&quot;messages\&quot;></div>\n    </fieldset>\n  </div>\n</div>\n\n<!-- Media containers. -->\nRemote video:\n<div id=\&quot;remote-container\&quot;></div>\n\nLocal video:\n<div id=\&quot;local-container\&quot;></div>\n\n&quot;,&quot;css&quot;:&quot;&quot;,&quot;title&quot;:&quot;Kandy.io Voice and Video Call Demo&quot;,&quot;editors&quot;:101} '><input type="image" src="./TryItOn-CodePen.png"></form>
+<form action="https://codepen.io/pen/define" method="POST" target="_blank" class="codepen-form"><input type="hidden" name="data" value=' {&quot;js&quot;:&quot;/**\n * Kandy.io Voice and Video Call Demo\n */\n\nconst defaultConfig = $DEFAULTCONFIGACCESS$\n\nconst { create } = Kandy\n\n// Setup Kandy with default configuration.\n// As part of configuration, we&apos;ll further apply some customization for logging.\nconst config = {\n  ...defaultConfig,\n  logs: {\n    logLevel: &apos;debug&apos;\n  }\n}\n\nconst client = create(config)\n\n/*\n *  Authentication functionality.\n */\nfunction setCredentials () {\n  const username = document.getElementById(&apos;username&apos;).value\n  const password = document.getElementById(&apos;password&apos;).value\n\n  client.setCredentials({ username, password })\n}\n\nfunction subscribe () {\n  client.services.subscribe([&apos;call&apos;, &apos;Presence&apos;, &apos;IM&apos;])\n}\n\nfunction unsubscribe () {\n  client.services.unsubscribe([&apos;call&apos;, &apos;Presence&apos;, &apos;IM&apos;])\n}\n\n// Enable/disable all children of a given node\nfunction disableInput (elements, disable) {\n  for (let i = 0; i < elements.length; i++) {\n    let nodes = elements[i].getElementsByTagName(&apos;input&apos;)\n    for (let j = 0; j < nodes.length; j++) {\n      nodes[j].disabled = disable\n    }\n  }\n}\n\n// Setup a listener for changes in the connection state.\nclient.on(&apos;auth:change&apos;, function () {\n  const user = client.getUserInfo()\n\n  document.getElementById(&apos;setCredentials&apos;).disabled = Boolean(user.username)\n  document.getElementById(&apos;subscribeBtn&apos;).disabled = !Boolean(user.username)\n\n  log(&apos;Credentials &apos; + (user.username ? &apos;set&apos; : &apos;unset&apos;))\n})\n\n// Setup a listener for authentication errors.\nclient.on(&apos;auth:error&apos;, function (params) {\n  log(&apos;Connect error: &apos; + params.error.message + &apos; (&apos; + params.error.code + &apos;)&apos;)\n})\n\n// Setup a listener for subscription changes\nclient.on(&apos;subscription:change&apos;, function (params) {\n  const services = client.services.getSubscriptions()\n  const isSubscribed = services.subscribed.length > 0\n  document.getElementById(&apos;subscribeBtn&apos;).disabled = isSubscribed\n  document.getElementById(&apos;unsubscribeBtn&apos;).disabled = !isSubscribed\n  document.getElementById(&apos;auth-state&apos;).innerHTML = &apos;Subscribed: &apos; + isSubscribed\n  disableInput(document.getElementsByClassName(&apos;call-control&apos;), !isSubscribed)\n  log(&apos;Subscription state changed.&apos;)\n  log(&apos;Subscribed services: &apos; + services.subscribed)\n})\n\n// Setup a listener for resubscription events\nclient.on(&apos;subscription:resub&apos;, function (params) {\n  log(&apos;Subscribed services: &apos; + params.isFailure ? &apos;Failed to resubscribe to services&apos; : &apos;Resubscribed to services&apos;)\n})\n\n// Setup a listener for subscription errors\nclient.on(&apos;subscription:error&apos;, function (params) {\n  log(&apos;Subscription error: &apos; + params.error.message + &apos; (&apos; + params.error.code + &apos;)&apos;)\n})\n\n// Utility function for appending messages to the message div.\nfunction log (message) {\n  document.getElementById(&apos;messages&apos;).innerHTML += &apos;<div>&apos; + message + &apos;</div>&apos;\n}\n\n/*\n *  Voice and Video Call functionality.\n */\n\n// Variable to keep track of the call.\nlet callId\n\n// Get user input and make a call to the callee.\nfunction makeCall () {\n  // Gather call options.\n  let callee = document.getElementById(&apos;callee&apos;).value\n  let withVideo = document.getElementById(&apos;make-with-video&apos;).checked\n\n  log(&apos;Making call to &apos; + callee)\n\n  let mediaConstraints = {\n    audio: true,\n    video: withVideo\n  }\n\n  if (withVideo) {\n    // user making a call will send a smaller video stream 200 x 200 pixels\n    mediaConstraints.videoOptions = { width: 200, height: 200 }\n  }\n\n  callId = client.call.make(callee, mediaConstraints)\n}\n\n// Answer an incoming call.\nfunction answerCall () {\n  // Gather call options.\n  let withVideo = document.getElementById(&apos;answer-with-video&apos;).checked\n\n  // Retrieve call state.\n  let call = client.call.getById(callId)\n  log(&apos;Answering call from &apos; + call.from)\n\n  let mediaConstraints = {\n    audio: true,\n    video: withVideo\n  }\n\n  if (withVideo) {\n    // user answering a call will send a larger video stream (400 x 400 pixels)\n    mediaConstraints.videoOptions = { width: 400, height: 400 }\n  }\n\n  client.call.answer(callId, mediaConstraints)\n}\n\n// Reject an incoming call.\nfunction rejectCall () {\n  const call = client.call.getById(callId)\n  log(&apos;Rejecting call from &apos; + call.from)\n\n  client.call.reject(callId)\n}\n\n// End an ongoing call.\nfunction endCall () {\n  const call = client.call.getById(callId)\n  log(&apos;Ending call with &apos; + call.from)\n\n  client.call.end(callId)\n\n  // Always re-enable this checkbox when call ends.\n  document.getElementById(&apos;answer-with-video&apos;).disabled = false\n}\n\n// Set listener for successful call starts.\nclient.on(&apos;call:start&apos;, function (params) {\n  log(&apos;Call successfully started. Waiting for response.&apos;)\n})\n\n// Set listener for generic call errors.\nclient.on(&apos;call:error&apos;, function (params) {\n  log(&apos;Error: Encountered error on call: &apos; + params.error.message)\n})\n\n// Set listener for call media errors.\nclient.on(&apos;media:error&apos;, function (params) {\n  log(&apos;Error: Call encountered media error: &apos; + params.error.message)\n})\n\n// Set listener for changes in a call&apos;s state.\nclient.on(&apos;call:stateChange&apos;, function (params) {\n  // Retrieve call state.\n  const call = client.call.getById(params.callId)\n\n  if (params.error && params.error.message) {\n    log(&apos;Error: &apos; + params.error.message)\n  }\n  log(&apos;Call state changed from &apos; + params.previous.state + &apos; to &apos; + call.state)\n\n  // If the call ended, stop tracking the callId.\n  if (call.state === &apos;Ended&apos;) {\n    callId = null\n\n    // Always re-enable this checkbox when call ends.\n    document.getElementById(&apos;answer-with-video&apos;).disabled = false\n  }\n})\n\n// Set listener for incoming calls.\nclient.on(&apos;call:receive&apos;, function (params) {\n  // Keep track of the callId.\n  callId = params.callId\n\n  // Retrieve call information.\n  call = client.call.getById(params.callId)\n\n  // Find out what media types have been offered by caller\n  // We&apos;ll make the assumption here that audio media is always offered\n  // while video is optional.\n  const videoOffered = call.mediaOffered && call.mediaOffered.video\n  const element = document.getElementById(&apos;answer-with-video&apos;)\n  element.disabled = !videoOffered\n  if (element.checked && !videoOffered) {\n    // If caller did not offer video\n    // .. then automatically uncheck the checkbox if it is checked\n    element.checked = false\n  }\n\n  log(&apos;Received incoming call from &apos; + call.from)\n})\n\n// Set listener for new tracks.\nclient.on(&apos;call:tracksAdded&apos;, function (params) {\n  // Iterate over each trackId to determine how it should be rendered.\n  params.trackIds.forEach(trackId => {\n    const track = client.media.getTrackById(trackId)\n\n    // Check whether the new track was a local track or not.\n    if (track.isLocal) {\n      // Only render local visual media into the local container.\n      if (track.kind === &apos;video&apos;) {\n        client.media.renderTracks([trackId], &apos;#local-container&apos;)\n      }\n    } else {\n      // Render the remote media into the remote container.\n      client.media.renderTracks([trackId], &apos;#remote-container&apos;)\n    }\n  })\n})\n\n// Set listener for removed tracks.\nclient.on(&apos;call:tracksRemoved&apos;, function (params) {\n  // Iterate over each trackId to determine how to unrender it.\n  params.trackIds.forEach(trackId => {\n    const track = client.media.getTrackById(trackId)\n\n    // Check whether the ended track was a local track or not.\n    if (track.isLocal) {\n      // Remove the track from the local container.\n      client.media.removeTracks([trackId], &apos;#local-container&apos;)\n    } else {\n      // Remove the track from the remote container.\n      client.media.removeTracks([trackId], &apos;#remote-container&apos;)\n    }\n  })\n})\n\n&quot;,&quot;html&quot;:&quot;<script src=\&quot;https://cdn.jsdelivr.net/gh/Kandy-IO/kandy-link-js-sdk@898/dist/kandy.js\&quot;></script>\n<script src=\&quot;$DEFAULTCONFIGURL$\&quot;></script>\n<div id=\&quot;auth-state\&quot;>Connected: false</div>\n\n<div>\n  <fieldset>\n    <legend>Set Credentials using your account information</legend>\n    User Email: <input type=\&quot;text\&quot; id=\&quot;username\&quot; />\n    Password: <input type=\&quot;password\&quot; id=\&quot;password\&quot; />\n    <input type=\&quot;submit\&quot; id=\&quot;setCredentials\&quot; value=\&quot;setCredentials\&quot; onclick=\&quot;setCredentials();\&quot; />\n  </fieldset>\n  <fieldset>\n    <legend>Subscribe</legend>\n    <input type=\&quot;submit\&quot; id=\&quot;subscribeBtn\&quot; disabled value=\&quot;Subscribe\&quot; onclick=\&quot;subscribe();\&quot; />\n    <input type=\&quot;submit\&quot; id=\&quot;unsubscribeBtn\&quot; disabled value=\&quot;Unsubscribe\&quot; onclick=\&quot;unsubscribe();\&quot; />\n  </fieldset>\n  <div class=\&quot;call-control\&quot;>\n    <fieldset>\n      <legend>Make a Call</legend>\n      <!-- User input for making a call. -->\n      <input type=\&quot;button\&quot; value=\&quot;Make Call\&quot; onclick=\&quot;makeCall();\&quot; disabled />\n      to <input type=\&quot;text\&quot; id=\&quot;callee\&quot; disabled />\n      with video <input type=\&quot;checkbox\&quot; id=\&quot;make-with-video\&quot; disabled />\n    </fieldset>\n\n    <fieldset>\n      <legend>Respond to a Call</legend>\n      <!-- User input for responding to an incoming call. -->\n      <input type=\&quot;button\&quot; value=\&quot;Answer Call\&quot; onclick=\&quot;answerCall();\&quot; disabled />\n      with video <input type=\&quot;checkbox\&quot; id=\&quot;answer-with-video\&quot; disabled />\n      <input type=\&quot;button\&quot; value=\&quot;Reject Call\&quot; onclick=\&quot;rejectCall();\&quot; disabled />\n    </fieldset>\n\n    <fieldset>\n      <legend>End a Call</legend>\n      <!-- User input for ending an ongoing call. -->\n      <input type=\&quot;button\&quot; value=\&quot;End Call\&quot; onclick=\&quot;endCall();\&quot; disabled />\n    </fieldset>\n\n    <fieldset>\n      <!-- Message output container. -->\n      <legend>Messages</legend>\n      <div id=\&quot;messages\&quot;></div>\n    </fieldset>\n  </div>\n</div>\n\n<!-- Media containers. -->\nRemote video:\n<div id=\&quot;remote-container\&quot;></div>\n\nLocal video:\n<div id=\&quot;local-container\&quot;></div>\n\n&quot;,&quot;css&quot;:&quot;&quot;,&quot;title&quot;:&quot;Kandy.io Voice and Video Call Demo&quot;,&quot;editors&quot;:101} '><input type="image" src="./TryItOn-CodePen.png"></form>
 

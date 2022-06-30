@@ -3949,22 +3949,22 @@
           ],
           "loc": {
             "start": {
-              "line": 266,
+              "line": 290,
               "column": 4
             },
             "end": {
-              "line": 272,
+              "line": 296,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 273,
+                "line": 297,
                 "column": 4
               },
               "end": {
-                "line": 275,
+                "line": 299,
                 "column": 5
               }
             },
@@ -4044,22 +4044,22 @@
           ],
           "loc": {
             "start": {
-              "line": 278,
+              "line": 302,
               "column": 4
             },
             "end": {
-              "line": 304,
+              "line": 328,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 305,
+                "line": 329,
                 "column": 4
               },
               "end": {
-                "line": 331,
+                "line": 355,
                 "column": 5
               }
             },
@@ -8725,22 +8725,22 @@
           ],
           "loc": {
             "start": {
-              "line": 1,
+              "line": 3,
               "column": 0
             },
             "end": {
-              "line": 9,
+              "line": 11,
               "column": 3
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 11,
+                "line": 13,
                 "column": 0
               },
               "end": {
-                "line": 25,
+                "line": 27,
                 "column": 16
               }
             },
@@ -10895,7 +10895,7 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "A new Track has been added to the Call."
+                    "value": "Tracks have been added to the Call after an SDK operation. Both sides of the Call\nare now able to render these tracks."
                   }
                 ]
               },
@@ -10904,7 +10904,7 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "The Track may have been added by either the local user or remote user using\nthe "
+                    "value": "Tracks are added to a Call when either the local or remote user adds new media\nto the Call, using the "
                   },
                   {
                     "type": "link",
@@ -10920,6 +10920,22 @@
                   },
                   {
                     "type": "text",
+                    "value": " API for example, or when the\nCall is unheld with the "
+                  },
+                  {
+                    "type": "link",
+                    "url": "#callunhold",
+                    "title": null,
+                    "jsdoc": true,
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "call.unhold"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "text",
                     "value": " API."
                   }
                 ]
@@ -10929,7 +10945,25 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "Information about the Track can be retrieved using the\n"
+                    "value": "Remote tracks are similarly added to a Call when new tracks are added by the\nremote user or either user unholds the call."
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "This event can indicate that multiple tracks have been removed by the same\noperation. For example, if the remote user added video to the call, this\nevent would indicate a single, remote video track was added. If the local\nuser unheld the call, this event would indicate that any tracks previously\non the call have been re-added, both local and remote."
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Information about a Track can be retrieved using the "
                   },
                   {
                     "type": "link",
@@ -10955,23 +10989,23 @@
             {
               "title": "public",
               "description": null,
-              "lineNumber": 9,
+              "lineNumber": 18,
               "type": null
             },
             {
               "title": "memberof",
               "description": "call",
-              "lineNumber": 10
+              "lineNumber": 19
             },
             {
               "title": "event",
-              "description": "call:newTrack",
-              "lineNumber": 11
+              "description": "call:tracksAdded",
+              "lineNumber": 20
             },
             {
               "title": "param",
               "description": null,
-              "lineNumber": 12,
+              "lineNumber": 21,
               "type": {
                 "type": "NameExpression",
                 "name": "Object"
@@ -10980,8 +11014,8 @@
             },
             {
               "title": "param",
-              "description": "The ID of the call the track was added to.",
-              "lineNumber": 13,
+              "description": "The ID of the Call the tracks were added to.",
+              "lineNumber": 22,
               "type": {
                 "type": "NameExpression",
                 "name": "string"
@@ -10990,33 +11024,27 @@
             },
             {
               "title": "param",
-              "description": "The ID of the media the track was added to.",
-              "lineNumber": 14,
+              "description": "List of track IDs that have been added to the Call.",
+              "lineNumber": 23,
               "type": {
-                "type": "NameExpression",
-                "name": "string"
+                "type": "TypeApplication",
+                "expression": {
+                  "type": "NameExpression",
+                  "name": "Array"
+                },
+                "applications": [
+                  {
+                    "type": "NameExpression",
+                    "name": "string"
+                  }
+                ]
               },
-              "name": "params.mediaId"
+              "name": "params.trackIds"
             },
             {
-              "title": "param",
-              "description": "The ID of the newly added track.",
-              "lineNumber": 15,
-              "type": {
-                "type": "NameExpression",
-                "name": "string"
-              },
-              "name": "params.trackId"
-            },
-            {
-              "title": "param",
-              "description": "Whether the track is local or not (remote)",
-              "lineNumber": 16,
-              "type": {
-                "type": "NameExpression",
-                "name": "boolean"
-              },
-              "name": "params.local"
+              "title": "example",
+              "description": "client.on('call:tracksAdded', function (params) {\n   // Get the information for each track.\n   const tracks = params.trackIds.map(client.media.getTrackById)\n   tracks.forEach(track => {\n     const { id, kind, isLocal } = track\n     // Handle the track depending whether it is audio vs. video and local vs. remote.\n     ...\n   })\n})",
+              "lineNumber": 24
             }
           ],
           "loc": {
@@ -11025,31 +11053,35 @@
               "column": 0
             },
             "end": {
-              "line": 160,
+              "line": 177,
               "column": 3
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 161,
+                "line": 178,
                 "column": 0
               },
               "end": {
-                "line": 161,
-                "column": 45
+                "line": 178,
+                "column": 51
               }
             },
             "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/eventTypes.js"
           },
           "augments": [],
-          "examples": [],
+          "examples": [
+            {
+              "description": "client.on('call:tracksAdded', function (params) {\n   // Get the information for each track.\n   const tracks = params.trackIds.map(client.media.getTrackById)\n   tracks.forEach(track => {\n     const { id, kind, isLocal } = track\n     // Handle the track depending whether it is audio vs. video and local vs. remote.\n     ...\n   })\n})"
+            }
+          ],
           "implements": [],
           "params": [
             {
               "title": "param",
               "name": "params",
-              "lineNumber": 12,
+              "lineNumber": 21,
               "type": {
                 "type": "NameExpression",
                 "name": "Object"
@@ -11058,7 +11090,7 @@
                 {
                   "title": "param",
                   "name": "params.callId",
-                  "lineNumber": 13,
+                  "lineNumber": 22,
                   "description": {
                     "type": "root",
                     "children": [
@@ -11067,7 +11099,7 @@
                         "children": [
                           {
                             "type": "text",
-                            "value": "The ID of the call the track was added to."
+                            "value": "The ID of the Call the tracks were added to."
                           }
                         ]
                       }
@@ -11080,8 +11112,8 @@
                 },
                 {
                   "title": "param",
-                  "name": "params.mediaId",
-                  "lineNumber": 14,
+                  "name": "params.trackIds",
+                  "lineNumber": 23,
                   "description": {
                     "type": "root",
                     "children": [
@@ -11090,61 +11122,24 @@
                         "children": [
                           {
                             "type": "text",
-                            "value": "The ID of the media the track was added to."
+                            "value": "List of track IDs that have been added to the Call."
                           }
                         ]
                       }
                     ]
                   },
                   "type": {
-                    "type": "NameExpression",
-                    "name": "string"
-                  }
-                },
-                {
-                  "title": "param",
-                  "name": "params.trackId",
-                  "lineNumber": 15,
-                  "description": {
-                    "type": "root",
-                    "children": [
+                    "type": "TypeApplication",
+                    "expression": {
+                      "type": "NameExpression",
+                      "name": "Array"
+                    },
+                    "applications": [
                       {
-                        "type": "paragraph",
-                        "children": [
-                          {
-                            "type": "text",
-                            "value": "The ID of the newly added track."
-                          }
-                        ]
+                        "type": "NameExpression",
+                        "name": "string"
                       }
                     ]
-                  },
-                  "type": {
-                    "type": "NameExpression",
-                    "name": "string"
-                  }
-                },
-                {
-                  "title": "param",
-                  "name": "params.local",
-                  "lineNumber": 16,
-                  "description": {
-                    "type": "root",
-                    "children": [
-                      {
-                        "type": "paragraph",
-                        "children": [
-                          {
-                            "type": "text",
-                            "value": "Whether the track is local or not (remote)"
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  "type": {
-                    "type": "NameExpression",
-                    "name": "boolean"
                   }
                 }
               ]
@@ -11159,7 +11154,7 @@
           "access": "public",
           "memberof": "call",
           "kind": "event",
-          "name": "call:newTrack",
+          "name": "call:tracksAdded",
           "members": {
             "global": [],
             "inner": [],
@@ -11172,11 +11167,11 @@
               "name": "call"
             },
             {
-              "name": "call:newTrack",
+              "name": "call:tracksAdded",
               "kind": "event"
             }
           ],
-          "namespace": "call.event:call:newTrack"
+          "namespace": "call.event:call:tracksAdded"
         },
         {
           "description": {
@@ -11187,7 +11182,7 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "A Track has been removed from a Call."
+                    "value": "Tracks have been removed from the Call after an SDK operation. The tracks may still\nexist, but the media is not available to both sides of the Call any longer."
                   }
                 ]
               },
@@ -11196,7 +11191,7 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "The Track may have been removed by either the local user or remote user using\nthe "
+                    "value": "Tracks are removed from a Call when either the local or remote user stops the\ntracks, by using the "
                   },
                   {
                     "type": "link",
@@ -11212,7 +11207,23 @@
                   },
                   {
                     "type": "text",
-                    "value": " API. Tracks are also removed from Calls\nautomatically while the Call is on hold."
+                    "value": " API for example, or when the\nCall is held with the "
+                  },
+                  {
+                    "type": "link",
+                    "url": "#callhold",
+                    "title": null,
+                    "jsdoc": true,
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "call.hold"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "value": " API."
                   }
                 ]
               },
@@ -11221,19 +11232,32 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "Note that receiving this event is not an indication that a media operation\nhas completed. Therefore the application should not assume it is safe to\nperform a new operation at this time. To be notified when a call has had\nits media removed, see "
+                    "value": "This event can indicate that multiple tracks have been removed by the same\noperation. For example, if the remote user removed video from the call, this\nevent would indicate a single, remote video track was removed. If the local\nuser held the call, this event would indicate that all tracks on the call\nhave been removed, both local and remote."
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Information about a Track can be retrieved using the "
                   },
                   {
                     "type": "link",
-                    "url": "#calleventcallremovedmedia",
+                    "url": "#mediagettrackbyid",
                     "title": null,
                     "jsdoc": true,
                     "children": [
                       {
                         "type": "text",
-                        "value": "call:removedMedia"
+                        "value": "media.getTrackById"
                       }
                     ]
+                  },
+                  {
+                    "type": "text",
+                    "value": " API."
                   }
                 ]
               }
@@ -11243,23 +11267,23 @@
             {
               "title": "public",
               "description": null,
-              "lineNumber": 12,
+              "lineNumber": 15,
               "type": null
             },
             {
               "title": "memberof",
               "description": "call",
-              "lineNumber": 13
+              "lineNumber": 16
             },
             {
               "title": "event",
-              "description": "call:trackEnded",
-              "lineNumber": 14
+              "description": "call:tracksRemoved",
+              "lineNumber": 17
             },
             {
               "title": "param",
               "description": null,
-              "lineNumber": 15,
+              "lineNumber": 18,
               "type": {
                 "type": "NameExpression",
                 "name": "Object"
@@ -11268,8 +11292,8 @@
             },
             {
               "title": "param",
-              "description": "The ID of the call the track was removed from.",
-              "lineNumber": 16,
+              "description": "The ID of the Call the tracks were removed from.",
+              "lineNumber": 19,
               "type": {
                 "type": "NameExpression",
                 "name": "string"
@@ -11278,66 +11302,64 @@
             },
             {
               "title": "param",
-              "description": "The ID of the media the track was removed from.",
-              "lineNumber": 17,
+              "description": "List of track IDs that have been removed from the Call.",
+              "lineNumber": 20,
               "type": {
-                "type": "NameExpression",
-                "name": "string"
+                "type": "TypeApplication",
+                "expression": {
+                  "type": "NameExpression",
+                  "name": "Array"
+                },
+                "applications": [
+                  {
+                    "type": "NameExpression",
+                    "name": "string"
+                  }
+                ]
               },
-              "name": "params.mediaId"
+              "name": "params.trackIds"
             },
             {
-              "title": "param",
-              "description": "The ID of the removed track.",
-              "lineNumber": 18,
-              "type": {
-                "type": "NameExpression",
-                "name": "string"
-              },
-              "name": "params.trackId"
-            },
-            {
-              "title": "param",
-              "description": "Whether the track was local or not (remote)",
-              "lineNumber": 19,
-              "type": {
-                "type": "NameExpression",
-                "name": "boolean"
-              },
-              "name": "params.local"
+              "title": "example",
+              "description": "client.on('call:tracksRemoved', function (params) {\n   // Get the information for each track.\n   const tracks = params.trackIds.map(client.media.getTrackById)\n   tracks.forEach(track => {\n     const { id, kind, isLocal } = track\n     // Handle the track depending whether it is audio vs. video and local vs. remote.\n     ...\n   })\n})",
+              "lineNumber": 21
             }
           ],
           "loc": {
             "start": {
-              "line": 163,
+              "line": 180,
               "column": 0
             },
             "end": {
-              "line": 183,
+              "line": 211,
               "column": 3
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 184,
+                "line": 212,
                 "column": 0
               },
               "end": {
-                "line": 184,
-                "column": 49
+                "line": 212,
+                "column": 55
               }
             },
             "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/eventTypes.js"
           },
           "augments": [],
-          "examples": [],
+          "examples": [
+            {
+              "description": "client.on('call:tracksRemoved', function (params) {\n   // Get the information for each track.\n   const tracks = params.trackIds.map(client.media.getTrackById)\n   tracks.forEach(track => {\n     const { id, kind, isLocal } = track\n     // Handle the track depending whether it is audio vs. video and local vs. remote.\n     ...\n   })\n})"
+            }
+          ],
           "implements": [],
           "params": [
             {
               "title": "param",
               "name": "params",
-              "lineNumber": 15,
+              "lineNumber": 18,
               "type": {
                 "type": "NameExpression",
                 "name": "Object"
@@ -11346,75 +11368,6 @@
                 {
                   "title": "param",
                   "name": "params.callId",
-                  "lineNumber": 16,
-                  "description": {
-                    "type": "root",
-                    "children": [
-                      {
-                        "type": "paragraph",
-                        "children": [
-                          {
-                            "type": "text",
-                            "value": "The ID of the call the track was removed from."
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  "type": {
-                    "type": "NameExpression",
-                    "name": "string"
-                  }
-                },
-                {
-                  "title": "param",
-                  "name": "params.mediaId",
-                  "lineNumber": 17,
-                  "description": {
-                    "type": "root",
-                    "children": [
-                      {
-                        "type": "paragraph",
-                        "children": [
-                          {
-                            "type": "text",
-                            "value": "The ID of the media the track was removed from."
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  "type": {
-                    "type": "NameExpression",
-                    "name": "string"
-                  }
-                },
-                {
-                  "title": "param",
-                  "name": "params.trackId",
-                  "lineNumber": 18,
-                  "description": {
-                    "type": "root",
-                    "children": [
-                      {
-                        "type": "paragraph",
-                        "children": [
-                          {
-                            "type": "text",
-                            "value": "The ID of the removed track."
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  "type": {
-                    "type": "NameExpression",
-                    "name": "string"
-                  }
-                },
-                {
-                  "title": "param",
-                  "name": "params.local",
                   "lineNumber": 19,
                   "description": {
                     "type": "root",
@@ -11424,7 +11377,7 @@
                         "children": [
                           {
                             "type": "text",
-                            "value": "Whether the track was local or not (remote)"
+                            "value": "The ID of the Call the tracks were removed from."
                           }
                         ]
                       }
@@ -11432,7 +11385,39 @@
                   },
                   "type": {
                     "type": "NameExpression",
-                    "name": "boolean"
+                    "name": "string"
+                  }
+                },
+                {
+                  "title": "param",
+                  "name": "params.trackIds",
+                  "lineNumber": 20,
+                  "description": {
+                    "type": "root",
+                    "children": [
+                      {
+                        "type": "paragraph",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "List of track IDs that have been removed from the Call."
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "type": {
+                    "type": "TypeApplication",
+                    "expression": {
+                      "type": "NameExpression",
+                      "name": "Array"
+                    },
+                    "applications": [
+                      {
+                        "type": "NameExpression",
+                        "name": "string"
+                      }
+                    ]
                   }
                 }
               ]
@@ -11447,7 +11432,7 @@
           "access": "public",
           "memberof": "call",
           "kind": "event",
-          "name": "call:trackEnded",
+          "name": "call:tracksRemoved",
           "members": {
             "global": [],
             "inner": [],
@@ -11460,11 +11445,11 @@
               "name": "call"
             },
             {
-              "name": "call:trackEnded",
+              "name": "call:tracksRemoved",
               "kind": "event"
             }
           ],
-          "namespace": "call.event:call:trackEnded"
+          "namespace": "call.event:call:tracksRemoved"
         },
         {
           "description": {
@@ -11587,22 +11572,22 @@
           ],
           "loc": {
             "start": {
-              "line": 186,
+              "line": 214,
               "column": 0
             },
             "end": {
-              "line": 206,
+              "line": 234,
               "column": 3
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 207,
+                "line": 235,
                 "column": 0
               },
               "end": {
-                "line": 207,
+                "line": 235,
                 "column": 50
               }
             },
@@ -11763,16 +11748,7 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "A Track has been replaced on the Call."
-                  }
-                ]
-              },
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "A Track is replaced by the local user using the "
+                    "value": "A local Track has been replaced by the "
                   },
                   {
                     "type": "link",
@@ -11788,7 +11764,7 @@
                   },
                   {
                     "type": "text",
-                    "value": "\nAPI."
+                    "value": " API."
                   }
                 ]
               },
@@ -11797,23 +11773,39 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "This event is similar to the "
+                    "value": "This event is a combination of a track being removed from the Call and a new\ntrack being added to the Call. The previous Track's media is no longer\navailable, similar to the "
                   },
                   {
                     "type": "link",
-                    "url": "#calleventcallnewtrack",
+                    "url": "#calleventcalltracksremoved",
                     "title": null,
                     "jsdoc": true,
                     "children": [
                       {
                         "type": "text",
-                        "value": "call:newTrack"
+                        "value": "call:tracksRemoved"
                       }
                     ]
                   },
                   {
                     "type": "text",
-                    "value": "\nevent, where the call has a new Track, except that an existing Track has\nbeen removed at the same time. The event includes information about the\nTrack that was replaced to help an application replace it seamlessly."
+                    "value": "\nevent, and the new Track is available in its place, similar to the\n"
+                  },
+                  {
+                    "type": "link",
+                    "url": "#calleventcalltracksadded",
+                    "title": null,
+                    "jsdoc": true,
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "call:tracksAdded"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "value": " event. The event\nincludes information about the Track that was replaced to help an application\nreplace it seamlessly."
                   }
                 ]
               }
@@ -11823,23 +11815,23 @@
             {
               "title": "public",
               "description": null,
-              "lineNumber": 11,
+              "lineNumber": 10,
               "type": null
             },
             {
               "title": "memberof",
               "description": "call",
-              "lineNumber": 12
+              "lineNumber": 11
             },
             {
               "title": "event",
               "description": "call:trackReplaced",
-              "lineNumber": 13
+              "lineNumber": 12
             },
             {
               "title": "param",
               "description": null,
-              "lineNumber": 14,
+              "lineNumber": 13,
               "type": {
                 "type": "NameExpression",
                 "name": "Object"
@@ -11849,7 +11841,7 @@
             {
               "title": "param",
               "description": "The ID of the call where a track was replaced.",
-              "lineNumber": 15,
+              "lineNumber": 14,
               "type": {
                 "type": "NameExpression",
                 "name": "string"
@@ -11859,7 +11851,7 @@
             {
               "title": "param",
               "description": "The ID of the new track that replaced the old track.",
-              "lineNumber": 16,
+              "lineNumber": 15,
               "type": {
                 "type": "OptionalType",
                 "expression": {
@@ -11872,7 +11864,7 @@
             {
               "title": "param",
               "description": "State of the replaced track.",
-              "lineNumber": 17,
+              "lineNumber": 16,
               "type": {
                 "type": "OptionalType",
                 "expression": {
@@ -11885,7 +11877,7 @@
             {
               "title": "param",
               "description": "An error object, if the operation was not successful.",
-              "lineNumber": 18,
+              "lineNumber": 17,
               "type": {
                 "type": "OptionalType",
                 "expression": {
@@ -11894,39 +11886,48 @@
                 }
               },
               "name": "params.error"
+            },
+            {
+              "title": "example",
+              "description": "client.on('call:trackReplaced', function (params) {\n  const { callId, oldTrack, newTrackId } = params\n\n  // Unrender the removed track.\n  handleTrackGone(oldTrack, callId)\n\n  // Render the added track.\n  const track = client.media.getTrackById(newTrackId)\n  handleTrackAdded(track, callId)\n})",
+              "lineNumber": 18
             }
           ],
           "loc": {
             "start": {
-              "line": 209,
+              "line": 237,
               "column": 0
             },
             "end": {
-              "line": 228,
+              "line": 266,
               "column": 3
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 229,
+                "line": 267,
                 "column": 0
               },
               "end": {
-                "line": 229,
+                "line": 267,
                 "column": 55
               }
             },
             "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/call/interfaceNew/eventTypes.js"
           },
           "augments": [],
-          "examples": [],
+          "examples": [
+            {
+              "description": "client.on('call:trackReplaced', function (params) {\n  const { callId, oldTrack, newTrackId } = params\n\n  // Unrender the removed track.\n  handleTrackGone(oldTrack, callId)\n\n  // Render the added track.\n  const track = client.media.getTrackById(newTrackId)\n  handleTrackAdded(track, callId)\n})"
+            }
+          ],
           "implements": [],
           "params": [
             {
               "title": "param",
               "name": "params",
-              "lineNumber": 14,
+              "lineNumber": 13,
               "type": {
                 "type": "NameExpression",
                 "name": "Object"
@@ -11935,7 +11936,7 @@
                 {
                   "title": "param",
                   "name": "params.callId",
-                  "lineNumber": 15,
+                  "lineNumber": 14,
                   "description": {
                     "type": "root",
                     "children": [
@@ -11958,7 +11959,7 @@
                 {
                   "title": "param",
                   "name": "params.newTrackId",
-                  "lineNumber": 16,
+                  "lineNumber": 15,
                   "description": {
                     "type": "root",
                     "children": [
@@ -11984,7 +11985,7 @@
                 {
                   "title": "param",
                   "name": "params.oldTrack",
-                  "lineNumber": 17,
+                  "lineNumber": 16,
                   "description": {
                     "type": "root",
                     "children": [
@@ -12010,7 +12011,7 @@
                 {
                   "title": "param",
                   "name": "params.error",
-                  "lineNumber": 18,
+                  "lineNumber": 17,
                   "description": {
                     "type": "root",
                     "children": [
@@ -12169,22 +12170,22 @@
           ],
           "loc": {
             "start": {
-              "line": 231,
+              "line": 269,
               "column": 0
             },
             "end": {
-              "line": 243,
+              "line": 281,
               "column": 3
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 244,
+                "line": 282,
                 "column": 0
               },
               "end": {
-                "line": 244,
+                "line": 282,
                 "column": 56
               }
             },
@@ -12388,22 +12389,22 @@
           ],
           "loc": {
             "start": {
-              "line": 246,
+              "line": 284,
               "column": 0
             },
             "end": {
-              "line": 257,
+              "line": 295,
               "column": 3
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 258,
+                "line": 296,
                 "column": 0
               },
               "end": {
-                "line": 258,
+                "line": 296,
                 "column": 54
               }
             },
@@ -12625,22 +12626,22 @@
           ],
           "loc": {
             "start": {
-              "line": 260,
+              "line": 298,
               "column": 0
             },
             "end": {
-              "line": 276,
+              "line": 314,
               "column": 3
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 277,
+                "line": 315,
                 "column": 0
               },
               "end": {
-                "line": 277,
+                "line": 315,
                 "column": 67
               }
             },
@@ -12905,22 +12906,22 @@
           ],
           "loc": {
             "start": {
-              "line": 279,
+              "line": 317,
               "column": 0
             },
             "end": {
-              "line": 310,
+              "line": 348,
               "column": 3
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 311,
+                "line": 349,
                 "column": 0
               },
               "end": {
-                "line": 311,
+                "line": 349,
                 "column": 48
               }
             },
@@ -20273,7 +20274,7 @@
                   },
                   {
                     "type": "link",
-                    "url": "#calleventcallnewtrack",
+                    "url": "call.event:call:newTrack",
                     "title": null,
                     "jsdoc": true,
                     "children": [
@@ -22971,7 +22972,7 @@
                   },
                   {
                     "type": "link",
-                    "url": "#calleventcalltrackended",
+                    "url": "call.event:call:trackEnded",
                     "title": null,
                     "jsdoc": true,
                     "children": [
@@ -23229,7 +23230,7 @@
                   },
                   {
                     "type": "link",
-                    "url": "#calleventcallnewtrack",
+                    "url": "call.event:call:newTrack",
                     "title": null,
                     "jsdoc": true,
                     "children": [
@@ -24110,7 +24111,7 @@
                   },
                   {
                     "type": "link",
-                    "url": "#calleventcalltrackended",
+                    "url": "call.event:call:trackEnded",
                     "title": null,
                     "jsdoc": true,
                     "children": [
@@ -24421,7 +24422,7 @@
                   },
                   {
                     "type": "link",
-                    "url": "#calleventcallnewtrack",
+                    "url": "call.event:call:newTrack",
                     "title": null,
                     "jsdoc": true,
                     "children": [
@@ -24940,7 +24941,7 @@
                   },
                   {
                     "type": "link",
-                    "url": "#calleventcalltrackended",
+                    "url": "call.event:call:trackEnded",
                     "title": null,
                     "jsdoc": true,
                     "children": [
@@ -30308,23 +30309,23 @@
     ],
     "loc": {
       "start": {
-        "line": 1,
+        "line": 4,
         "column": 0
       },
       "end": {
-        "line": 9,
+        "line": 12,
         "column": 3
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 12,
+          "line": 21,
           "column": 0
         },
         "end": {
-          "line": 12,
-          "column": 36
+          "line": 167,
+          "column": 1
         }
       },
       "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/callHistory/interface/api.js"
@@ -30443,7 +30444,7 @@
           "path": [
             {
               "name": "callHistory",
-              "kind": "function"
+              "kind": "namespace"
             },
             {
               "name": "callHistory:change",
@@ -30587,7 +30588,7 @@
           "path": [
             {
               "name": "callHistory",
-              "kind": "function"
+              "kind": "namespace"
             },
             {
               "name": "callHistory:error",
@@ -30676,7 +30677,7 @@
           "path": [
             {
               "name": "callHistory",
-              "kind": "function"
+              "kind": "namespace"
             },
             {
               "name": "callHistoryCache:change",
@@ -30687,6 +30688,150 @@
         }
       ],
       "static": [
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Gets the list of call logs cached locally. The event\n"
+                  },
+                  {
+                    "type": "inlineCode",
+                    "value": "callHistory:changed"
+                  },
+                  {
+                    "type": "text",
+                    "value": " is used to indicate the local state of logs\nhas been updated."
+                  }
+                ]
+              }
+            ]
+          },
+          "tags": [
+            {
+              "title": "public",
+              "description": null,
+              "lineNumber": 4,
+              "type": null
+            },
+            {
+              "title": "memberof",
+              "description": "callHistory",
+              "lineNumber": 5
+            },
+            {
+              "title": "requires",
+              "description": null,
+              "lineNumber": 6,
+              "name": "callHistory"
+            },
+            {
+              "title": "method",
+              "description": null,
+              "lineNumber": 7,
+              "name": "get"
+            },
+            {
+              "title": "example",
+              "description": "client.on('callHistory:change', function() {\n    // Get all call logs when they've been updated.\n    let callLogs = client.call.history.get();\n});",
+              "lineNumber": 8
+            },
+            {
+              "title": "returns",
+              "description": "A list of call log records, ordered by latest first.",
+              "lineNumber": 13,
+              "type": {
+                "type": "NameExpression",
+                "name": "Array"
+              }
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 26,
+              "column": 4
+            },
+            "end": {
+              "line": 40,
+              "column": 7
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 41,
+                "column": 4
+              },
+              "end": {
+                "line": 44,
+                "column": 5
+              }
+            },
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/callHistory/interface/api.js"
+          },
+          "augments": [],
+          "examples": [
+            {
+              "description": "client.on('callHistory:change', function() {\n    // Get all call logs when they've been updated.\n    let callLogs = client.call.history.get();\n});"
+            }
+          ],
+          "implements": [],
+          "params": [],
+          "properties": [],
+          "returns": [
+            {
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A list of call log records, ordered by latest first."
+                      }
+                    ]
+                  }
+                ]
+              },
+              "title": "returns",
+              "type": {
+                "type": "NameExpression",
+                "name": "Array"
+              }
+            }
+          ],
+          "sees": [],
+          "throws": [],
+          "todos": [],
+          "yields": [],
+          "access": "public",
+          "memberof": "callHistory",
+          "kind": "function",
+          "name": "get",
+          "members": {
+            "global": [],
+            "inner": [],
+            "instance": [],
+            "events": [],
+            "static": []
+          },
+          "path": [
+            {
+              "name": "callHistory",
+              "kind": "namespace"
+            },
+            {
+              "name": "get",
+              "kind": "function"
+            }
+          ],
+          "namespace": "callHistoryget"
+        },
         {
           "description": {
             "type": "root",
@@ -30773,22 +30918,22 @@
           ],
           "loc": {
             "start": {
-              "line": 29,
+              "line": 46,
               "column": 4
             },
             "end": {
-              "line": 39,
+              "line": 56,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 40,
+                "line": 57,
                 "column": 4
               },
               "end": {
-                "line": 43,
+                "line": 72,
                 "column": 5
               }
             },
@@ -30867,7 +31012,7 @@
           "path": [
             {
               "name": "callHistory",
-              "kind": "function"
+              "kind": "namespace"
             },
             {
               "name": "fetch",
@@ -30928,22 +31073,22 @@
           ],
           "loc": {
             "start": {
-              "line": 45,
+              "line": 74,
               "column": 4
             },
             "end": {
-              "line": 52,
+              "line": 81,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 53,
+                "line": 82,
                 "column": 4
               },
               "end": {
-                "line": 56,
+                "line": 97,
                 "column": 5
               }
             },
@@ -30997,7 +31142,7 @@
           "path": [
             {
               "name": "callHistory",
-              "kind": "function"
+              "kind": "namespace"
             },
             {
               "name": "remove",
@@ -31048,22 +31193,22 @@
           ],
           "loc": {
             "start": {
-              "line": 58,
+              "line": 99,
               "column": 4
             },
             "end": {
-              "line": 64,
+              "line": 105,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 65,
+                "line": 106,
                 "column": 4
               },
               "end": {
-                "line": 68,
+                "line": 121,
                 "column": 5
               }
             },
@@ -31093,7 +31238,7 @@
           "path": [
             {
               "name": "callHistory",
-              "kind": "function"
+              "kind": "namespace"
             },
             {
               "name": "clear",
@@ -31101,150 +31246,6 @@
             }
           ],
           "namespace": "callHistoryclear"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Gets the list of call logs cached locally. The event\n"
-                  },
-                  {
-                    "type": "inlineCode",
-                    "value": "callHistory:changed"
-                  },
-                  {
-                    "type": "text",
-                    "value": " is used to indicate the local state of logs\nhas been updated."
-                  }
-                ]
-              }
-            ]
-          },
-          "tags": [
-            {
-              "title": "public",
-              "description": null,
-              "lineNumber": 4,
-              "type": null
-            },
-            {
-              "title": "memberof",
-              "description": "callHistory",
-              "lineNumber": 5
-            },
-            {
-              "title": "requires",
-              "description": null,
-              "lineNumber": 6,
-              "name": "callHistory"
-            },
-            {
-              "title": "method",
-              "description": null,
-              "lineNumber": 7,
-              "name": "get"
-            },
-            {
-              "title": "example",
-              "description": "client.on('callHistory:change', function() {\n    // Get all call logs when they've been updated.\n    let callLogs = client.call.history.get();\n});",
-              "lineNumber": 8
-            },
-            {
-              "title": "returns",
-              "description": "A list of call log records, ordered by latest first.",
-              "lineNumber": 13,
-              "type": {
-                "type": "NameExpression",
-                "name": "Array"
-              }
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 70,
-              "column": 4
-            },
-            "end": {
-              "line": 84,
-              "column": 7
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 85,
-                "column": 4
-              },
-              "end": {
-                "line": 88,
-                "column": 5
-              }
-            },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/callHistory/interface/api.js"
-          },
-          "augments": [],
-          "examples": [
-            {
-              "description": "client.on('callHistory:change', function() {\n    // Get all call logs when they've been updated.\n    let callLogs = client.call.history.get();\n});"
-            }
-          ],
-          "implements": [],
-          "params": [],
-          "properties": [],
-          "returns": [
-            {
-              "description": {
-                "type": "root",
-                "children": [
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "A list of call log records, ordered by latest first."
-                      }
-                    ]
-                  }
-                ]
-              },
-              "title": "returns",
-              "type": {
-                "type": "NameExpression",
-                "name": "Array"
-              }
-            }
-          ],
-          "sees": [],
-          "throws": [],
-          "todos": [],
-          "yields": [],
-          "access": "public",
-          "memberof": "callHistory",
-          "kind": "function",
-          "name": "get",
-          "members": {
-            "global": [],
-            "inner": [],
-            "instance": [],
-            "events": [],
-            "static": []
-          },
-          "path": [
-            {
-              "name": "callHistory",
-              "kind": "function"
-            },
-            {
-              "name": "get",
-              "kind": "function"
-            }
-          ],
-          "namespace": "callHistoryget"
         },
         {
           "description": {
@@ -31322,22 +31323,22 @@
           ],
           "loc": {
             "start": {
-              "line": 90,
+              "line": 123,
               "column": 4
             },
             "end": {
-              "line": 102,
+              "line": 135,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 103,
+                "line": 136,
                 "column": 4
               },
               "end": {
-                "line": 106,
+                "line": 139,
                 "column": 5
               }
             },
@@ -31389,7 +31390,7 @@
           "path": [
             {
               "name": "callHistory",
-              "kind": "function"
+              "kind": "namespace"
             },
             {
               "name": "getCache",
@@ -31475,22 +31476,22 @@
           ],
           "loc": {
             "start": {
-              "line": 108,
+              "line": 141,
               "column": 4
             },
             "end": {
-              "line": 120,
+              "line": 153,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 121,
+                "line": 154,
                 "column": 4
               },
               "end": {
-                "line": 124,
+                "line": 161,
                 "column": 5
               }
             },
@@ -31544,7 +31545,7 @@
           "path": [
             {
               "name": "callHistory",
-              "kind": "function"
+              "kind": "namespace"
             },
             {
               "name": "setCache",
@@ -31617,7 +31618,7 @@
         },
         "end": {
           "line": 8,
-          "column": 36
+          "column": 73
         }
       },
       "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/clickToCall/interface/api.js"
@@ -31984,7 +31985,7 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "Attempts to establish a call between two specified devices"
+                    "value": "Attempts to establish a call between two specified devices."
                   }
                 ]
               }
@@ -32030,7 +32031,7 @@
             },
             {
               "title": "returns",
-              "description": "callId A unique id representing the call",
+              "description": "callId A unique id representing the call or undefined if there is an error.",
               "lineNumber": 8,
               "type": {
                 "type": "NameExpression",
@@ -32040,22 +32041,22 @@
           ],
           "loc": {
             "start": {
-              "line": 19,
+              "line": 25,
               "column": 4
             },
             "end": {
-              "line": 28,
+              "line": 34,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 29,
+                "line": 35,
                 "column": 4
               },
               "end": {
-                "line": 34,
+                "line": 53,
                 "column": 5
               }
             },
@@ -32123,7 +32124,7 @@
                     "children": [
                       {
                         "type": "text",
-                        "value": "callId A unique id representing the call"
+                        "value": "callId A unique id representing the call or undefined if there is an error."
                       }
                     ]
                   }
@@ -32214,22 +32215,22 @@
           ],
           "loc": {
             "start": {
-              "line": 35,
+              "line": 54,
               "column": 4
             },
             "end": {
-              "line": 43,
+              "line": 62,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 44,
+                "line": 63,
                 "column": 4
               },
               "end": {
-                "line": 47,
+                "line": 66,
                 "column": 5
               }
             },
@@ -33827,23 +33828,23 @@
     ],
     "loc": {
       "start": {
-        "line": 10,
+        "line": 6,
         "column": 2
       },
       "end": {
-        "line": 15,
+        "line": 11,
         "column": 5
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 17,
+          "line": 13,
           "column": 2
         },
         "end": {
-          "line": 195,
-          "column": 3
+          "line": 13,
+          "column": 96
         }
       },
       "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/users/interface/api/contacts.js"
@@ -34469,22 +34470,22 @@
           ],
           "loc": {
             "start": {
-              "line": 18,
+              "line": 17,
               "column": 4
             },
             "end": {
-              "line": 41,
+              "line": 40,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 62,
+                "line": 61,
                 "column": 4
               },
               "end": {
-                "line": 65,
+                "line": 74,
                 "column": 5
               }
             },
@@ -34962,22 +34963,22 @@
           ],
           "loc": {
             "start": {
-              "line": 67,
+              "line": 76,
               "column": 4
             },
             "end": {
-              "line": 75,
+              "line": 84,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 76,
+                "line": 85,
                 "column": 4
               },
               "end": {
-                "line": 79,
+                "line": 88,
                 "column": 5
               }
             },
@@ -35107,22 +35108,22 @@
           ],
           "loc": {
             "start": {
-              "line": 81,
+              "line": 90,
               "column": 4
             },
             "end": {
-              "line": 88,
+              "line": 97,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 89,
+                "line": 98,
                 "column": 4
               },
               "end": {
-                "line": 92,
+                "line": 101,
                 "column": 5
               }
             },
@@ -35227,22 +35228,22 @@
           ],
           "loc": {
             "start": {
-              "line": 94,
+              "line": 103,
               "column": 4
             },
             "end": {
-              "line": 101,
+              "line": 110,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 102,
+                "line": 111,
                 "column": 4
               },
               "end": {
-                "line": 105,
+                "line": 123,
                 "column": 5
               }
             },
@@ -35335,22 +35336,22 @@
           ],
           "loc": {
             "start": {
-              "line": 107,
+              "line": 125,
               "column": 4
             },
             "end": {
-              "line": 115,
+              "line": 133,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 116,
+                "line": 134,
                 "column": 4
               },
               "end": {
-                "line": 119,
+                "line": 146,
                 "column": 5
               }
             },
@@ -35649,22 +35650,22 @@
           ],
           "loc": {
             "start": {
-              "line": 121,
+              "line": 148,
               "column": 4
             },
             "end": {
-              "line": 144,
+              "line": 171,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 165,
+                "line": 192,
                 "column": 4
               },
               "end": {
-                "line": 180,
+                "line": 215,
                 "column": 5
               }
             },
@@ -36136,27 +36137,27 @@
                 "type": "NameExpression",
                 "name": "string"
               },
-              "name": "contactId"
+              "name": "id"
             }
           ],
           "loc": {
             "start": {
-              "line": 182,
+              "line": 217,
               "column": 4
             },
             "end": {
-              "line": 190,
+              "line": 225,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 191,
+                "line": 226,
                 "column": 4
               },
               "end": {
-                "line": 194,
+                "line": 237,
                 "column": 5
               }
             },
@@ -36168,7 +36169,7 @@
           "params": [
             {
               "title": "param",
-              "name": "contactId",
+              "name": "id",
               "lineNumber": 7,
               "description": {
                 "type": "root",
@@ -41451,32 +41452,7 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "This event is generated outside the control of the SDK. This may happen for a\nlocal track if the browser or end-user stops allowing the SDK to access\nthe media device, for example. This may happen for a remote track during a\ncall when the remote endpoint stops sending media during a hold operation,\nfor example."
-                  }
-                ]
-              },
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Handling this event is only required if you are using "
-                  },
-                  {
-                    "type": "inlineCode",
-                    "value": "unified-plan"
-                  },
-                  {
-                    "type": "text",
-                    "value": " as the\n"
-                  },
-                  {
-                    "type": "inlineCode",
-                    "value": "sdpSemantics"
-                  },
-                  {
-                    "type": "text",
-                    "value": " setting in the SDK's configuration. This setting will become\nthe default in an upcoming release."
+                    "value": "This event is generated outside the control of the SDK. This will predominantely\nhappen for a remote track during network issues, where media will lose frames\nand be \"choppy\". This may also happen for a local track if the browser or\nend-user stops allowing the SDK to access the media device, for example."
                   }
                 ]
               }
@@ -41486,28 +41462,28 @@
             {
               "title": "public",
               "description": null,
-              "lineNumber": 17,
+              "lineNumber": 12,
               "type": null
             },
             {
               "title": "static",
               "description": null,
-              "lineNumber": 18
+              "lineNumber": 13
             },
             {
               "title": "memberof",
               "description": "media",
-              "lineNumber": 19
+              "lineNumber": 14
             },
             {
               "title": "event",
               "description": "media:sourceMuted",
-              "lineNumber": 20
+              "lineNumber": 15
             },
             {
               "title": "param",
               "description": null,
-              "lineNumber": 21,
+              "lineNumber": 16,
               "type": {
                 "type": "NameExpression",
                 "name": "Object"
@@ -41517,7 +41493,7 @@
             {
               "title": "param",
               "description": "The track that is affected as a result of media source being muted.",
-              "lineNumber": 22,
+              "lineNumber": 17,
               "type": {
                 "type": "NameExpression",
                 "name": "string"
@@ -41531,18 +41507,18 @@
               "column": 0
             },
             "end": {
-              "line": 85,
+              "line": 80,
               "column": 3
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 86,
+                "line": 81,
                 "column": 0
               },
               "end": {
-                "line": 86,
+                "line": 81,
                 "column": 53
               }
             },
@@ -41555,7 +41531,7 @@
             {
               "title": "param",
               "name": "params",
-              "lineNumber": 21,
+              "lineNumber": 16,
               "type": {
                 "type": "NameExpression",
                 "name": "Object"
@@ -41564,7 +41540,7 @@
                 {
                   "title": "param",
                   "name": "params.trackId",
-                  "lineNumber": 22,
+                  "lineNumber": 17,
                   "description": {
                     "type": "root",
                     "children": [
@@ -41664,31 +41640,6 @@
                     "value": "This event is generated outside the control of the SDK, when the cause of the\nmedia source being muted had been undone."
                   }
                 ]
-              },
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Handling this event is only required if you are using "
-                  },
-                  {
-                    "type": "inlineCode",
-                    "value": "unified-plan"
-                  },
-                  {
-                    "type": "text",
-                    "value": " as the\n"
-                  },
-                  {
-                    "type": "inlineCode",
-                    "value": "sdpSemantics"
-                  },
-                  {
-                    "type": "text",
-                    "value": " setting in the SDK's configuration. This setting will become\nthe default in an upcoming release."
-                  }
-                ]
               }
             ]
           },
@@ -41696,28 +41647,28 @@
             {
               "title": "public",
               "description": null,
-              "lineNumber": 13,
+              "lineNumber": 9,
               "type": null
             },
             {
               "title": "static",
               "description": null,
-              "lineNumber": 14
+              "lineNumber": 10
             },
             {
               "title": "memberof",
               "description": "media",
-              "lineNumber": 15
+              "lineNumber": 11
             },
             {
               "title": "event",
               "description": "media:sourceUnmuted",
-              "lineNumber": 16
+              "lineNumber": 12
             },
             {
               "title": "param",
               "description": null,
-              "lineNumber": 17,
+              "lineNumber": 13,
               "type": {
                 "type": "NameExpression",
                 "name": "Object"
@@ -41727,7 +41678,7 @@
             {
               "title": "param",
               "description": "The track that is affected as a result of media source being unmuted.",
-              "lineNumber": 18,
+              "lineNumber": 14,
               "type": {
                 "type": "NameExpression",
                 "name": "string"
@@ -41737,22 +41688,22 @@
           ],
           "loc": {
             "start": {
-              "line": 88,
+              "line": 83,
               "column": 0
             },
             "end": {
-              "line": 107,
+              "line": 98,
               "column": 3
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 108,
+                "line": 99,
                 "column": 0
               },
               "end": {
-                "line": 108,
+                "line": 99,
                 "column": 57
               }
             },
@@ -41765,7 +41716,7 @@
             {
               "title": "param",
               "name": "params",
-              "lineNumber": 17,
+              "lineNumber": 13,
               "type": {
                 "type": "NameExpression",
                 "name": "Object"
@@ -41774,7 +41725,7 @@
                 {
                   "title": "param",
                   "name": "params.trackId",
-                  "lineNumber": 18,
+                  "lineNumber": 14,
                   "description": {
                     "type": "root",
                     "children": [
@@ -41920,22 +41871,22 @@
           ],
           "loc": {
             "start": {
-              "line": 110,
+              "line": 101,
               "column": 0
             },
             "end": {
-              "line": 121,
+              "line": 112,
               "column": 3
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 122,
+                "line": 113,
                 "column": 0
               },
               "end": {
-                "line": 122,
+                "line": 113,
                 "column": 51
               }
             },
@@ -42068,6 +42019,240 @@
             }
           ],
           "namespace": "media.event:media:trackRendered"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "A local Track has ended unexpectedly. The Track may still be part of a Call but\nhas become disconnected from its media source and is not recoverable."
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "This event is emitted when an action other than an SDK operation stops the\ntrack. The most comon scenarios are when a device being used for a Call\ndisconnects, any local tracks (such as audio from a bluetooth headset's\nmicrophone or video from a USB camera) from that device will be ended.\nAnother scenario is for screensharing, where some browsers provide the\nability to stop screensharing directly rather than through an SDK operation."
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "When a local track ends this way, it will still be part of the Call but will\nnot have any media. The track can be removed from the call with the\n"
+                  },
+                  {
+                    "type": "link",
+                    "url": "#callremovemedia",
+                    "title": null,
+                    "jsdoc": true,
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "call.removeMedia"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "value": " API so the remote side of the Call knows the track\nhas stopped, or the track can be replaced with a new track using the\n"
+                  },
+                  {
+                    "type": "link",
+                    "url": "#callreplacetrack",
+                    "title": null,
+                    "jsdoc": true,
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "call.replaceTrack"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "value": " API to prevent any interruption."
+                  }
+                ]
+              }
+            ]
+          },
+          "tags": [
+            {
+              "title": "public",
+              "description": null,
+              "lineNumber": 16,
+              "type": null
+            },
+            {
+              "title": "static",
+              "description": null,
+              "lineNumber": 17
+            },
+            {
+              "title": "memberof",
+              "description": "media",
+              "lineNumber": 18
+            },
+            {
+              "title": "event",
+              "description": "media:trackEnded",
+              "lineNumber": 19
+            },
+            {
+              "title": "param",
+              "description": null,
+              "lineNumber": 20,
+              "type": {
+                "type": "NameExpression",
+                "name": "Object"
+              },
+              "name": "params"
+            },
+            {
+              "title": "param",
+              "description": "The Track that has ended.",
+              "lineNumber": 21,
+              "type": {
+                "type": "NameExpression",
+                "name": "Object"
+              },
+              "name": "params.trackId"
+            },
+            {
+              "title": "param",
+              "description": "The ID of the Call the Track is used in.",
+              "lineNumber": 22,
+              "type": {
+                "type": "NameExpression",
+                "name": "Object"
+              },
+              "name": "params.callId"
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 115,
+              "column": 0
+            },
+            "end": {
+              "line": 138,
+              "column": 3
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 139,
+                "column": 0
+              },
+              "end": {
+                "line": 139,
+                "column": 45
+              }
+            },
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/webrtc/interface/eventTypes.js"
+          },
+          "augments": [],
+          "examples": [],
+          "implements": [],
+          "params": [
+            {
+              "title": "param",
+              "name": "params",
+              "lineNumber": 20,
+              "type": {
+                "type": "NameExpression",
+                "name": "Object"
+              },
+              "properties": [
+                {
+                  "title": "param",
+                  "name": "params.trackId",
+                  "lineNumber": 21,
+                  "description": {
+                    "type": "root",
+                    "children": [
+                      {
+                        "type": "paragraph",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "The Track that has ended."
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "type": {
+                    "type": "NameExpression",
+                    "name": "Object"
+                  }
+                },
+                {
+                  "title": "param",
+                  "name": "params.callId",
+                  "lineNumber": 22,
+                  "description": {
+                    "type": "root",
+                    "children": [
+                      {
+                        "type": "paragraph",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "The ID of the Call the Track is used in."
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "type": {
+                    "type": "NameExpression",
+                    "name": "Object"
+                  }
+                }
+              ]
+            }
+          ],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
+          "yields": [],
+          "access": "public",
+          "scope": "static",
+          "memberof": "media",
+          "kind": "event",
+          "name": "media:trackEnded",
+          "members": {
+            "global": [],
+            "inner": [],
+            "instance": [],
+            "events": [],
+            "static": []
+          },
+          "path": [
+            {
+              "name": "media",
+              "kind": "namespace"
+            },
+            {
+              "name": "media:trackEnded",
+              "kind": "event",
+              "scope": "static"
+            }
+          ],
+          "namespace": "media.event:media:trackEnded"
         }
       ],
       "static": [
@@ -45659,7 +45844,7 @@
         },
         "end": {
           "line": 42,
-          "column": 36
+          "column": 49
         }
       },
       "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/presence/interface/api.js"
@@ -46725,22 +46910,22 @@
           ],
           "loc": {
             "start": {
-              "line": 28,
+              "line": 18,
               "column": 4
             },
             "end": {
-              "line": 40,
+              "line": 30,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 41,
+                "line": 31,
                 "column": 4
               },
               "end": {
-                "line": 41,
+                "line": 31,
                 "column": 37
               }
             },
@@ -46930,22 +47115,22 @@
           ],
           "loc": {
             "start": {
-              "line": 43,
+              "line": 33,
               "column": 4
             },
             "end": {
-              "line": 57,
+              "line": 47,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 58,
+                "line": 48,
                 "column": 4
               },
               "end": {
-                "line": 58,
+                "line": 48,
                 "column": 41
               }
             },
@@ -47222,7 +47407,7 @@
               },
               "end": {
                 "line": 42,
-                "column": 36
+                "column": 49
               }
             },
             "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/presence/interface/api.js"
@@ -47601,22 +47786,22 @@
           ],
           "loc": {
             "start": {
-              "line": 51,
+              "line": 57,
               "column": 4
             },
             "end": {
-              "line": 73,
+              "line": 79,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 74,
+                "line": 80,
                 "column": 4
               },
               "end": {
-                "line": 77,
+                "line": 88,
                 "column": 5
               }
             },
@@ -47747,6 +47932,591 @@
                 "children": [
                   {
                     "type": "text",
+                    "value": "Fetches presence information for the given users. This will refresh the\navailable information with any new information from the server."
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Available presence information an be retrieved using the\n"
+                  },
+                  {
+                    "type": "link",
+                    "url": "#presenceget",
+                    "title": null,
+                    "jsdoc": true,
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "presence.get"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "value": " or "
+                  },
+                  {
+                    "type": "link",
+                    "url": "#presencegetall",
+                    "title": null,
+                    "jsdoc": true,
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "presence.getAll"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "value": " APIs."
+                  }
+                ]
+              }
+            ]
+          },
+          "tags": [
+            {
+              "title": "public",
+              "description": null,
+              "lineNumber": 7,
+              "type": null
+            },
+            {
+              "title": "static",
+              "description": null,
+              "lineNumber": 8
+            },
+            {
+              "title": "memberof",
+              "description": "presence",
+              "lineNumber": 9
+            },
+            {
+              "title": "requires",
+              "description": null,
+              "lineNumber": 10,
+              "name": "presence"
+            },
+            {
+              "title": "method",
+              "description": null,
+              "lineNumber": 11,
+              "name": "fetch"
+            },
+            {
+              "title": "param",
+              "description": "A User ID or an array of User IDs.",
+              "lineNumber": 12,
+              "type": {
+                "type": "UnionType",
+                "elements": [
+                  {
+                    "type": "TypeApplication",
+                    "expression": {
+                      "type": "NameExpression",
+                      "name": "Array"
+                    },
+                    "applications": [
+                      {
+                        "type": "NameExpression",
+                        "name": "string"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NameExpression",
+                    "name": "string"
+                  }
+                ]
+              },
+              "name": "user"
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 90,
+              "column": 4
+            },
+            "end": {
+              "line": 103,
+              "column": 7
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 104,
+                "column": 4
+              },
+              "end": {
+                "line": 112,
+                "column": 5
+              }
+            },
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/presence/interface/api.js"
+          },
+          "augments": [],
+          "examples": [],
+          "implements": [],
+          "params": [
+            {
+              "title": "param",
+              "name": "user",
+              "lineNumber": 12,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A User ID or an array of User IDs."
+                      }
+                    ]
+                  }
+                ]
+              },
+              "type": {
+                "type": "UnionType",
+                "elements": [
+                  {
+                    "type": "TypeApplication",
+                    "expression": {
+                      "type": "NameExpression",
+                      "name": "Array"
+                    },
+                    "applications": [
+                      {
+                        "type": "NameExpression",
+                        "name": "string"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NameExpression",
+                    "name": "string"
+                  }
+                ]
+              }
+            }
+          ],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
+          "yields": [],
+          "access": "public",
+          "scope": "static",
+          "memberof": "presence",
+          "kind": "function",
+          "name": "fetch",
+          "members": {
+            "global": [],
+            "inner": [],
+            "instance": [],
+            "events": [],
+            "static": []
+          },
+          "path": [
+            {
+              "name": "presence",
+              "kind": "namespace"
+            },
+            {
+              "name": "fetch",
+              "kind": "function",
+              "scope": "static"
+            }
+          ],
+          "namespace": "presence.fetch"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Subscribe to another User's presence updates."
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "When the User updates their presence information, the SDK will emit a\n"
+                  },
+                  {
+                    "type": "link",
+                    "url": "#presenceeventpresencechange",
+                    "title": null,
+                    "jsdoc": true,
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "presence:change"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "value": " event."
+                  }
+                ]
+              }
+            ]
+          },
+          "tags": [
+            {
+              "title": "public",
+              "description": null,
+              "lineNumber": 6,
+              "type": null
+            },
+            {
+              "title": "static",
+              "description": null,
+              "lineNumber": 7
+            },
+            {
+              "title": "memberof",
+              "description": "presence",
+              "lineNumber": 8
+            },
+            {
+              "title": "requires",
+              "description": null,
+              "lineNumber": 9,
+              "name": "presence"
+            },
+            {
+              "title": "method",
+              "description": null,
+              "lineNumber": 10,
+              "name": "subscribe"
+            },
+            {
+              "title": "param",
+              "description": "A User ID or an array of User IDs.",
+              "lineNumber": 11,
+              "type": {
+                "type": "UnionType",
+                "elements": [
+                  {
+                    "type": "TypeApplication",
+                    "expression": {
+                      "type": "NameExpression",
+                      "name": "Array"
+                    },
+                    "applications": [
+                      {
+                        "type": "NameExpression",
+                        "name": "string"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NameExpression",
+                    "name": "string"
+                  }
+                ]
+              },
+              "name": "users"
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 114,
+              "column": 4
+            },
+            "end": {
+              "line": 126,
+              "column": 7
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 127,
+                "column": 4
+              },
+              "end": {
+                "line": 135,
+                "column": 5
+              }
+            },
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/presence/interface/api.js"
+          },
+          "augments": [],
+          "examples": [],
+          "implements": [],
+          "params": [
+            {
+              "title": "param",
+              "name": "users",
+              "lineNumber": 11,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A User ID or an array of User IDs."
+                      }
+                    ]
+                  }
+                ]
+              },
+              "type": {
+                "type": "UnionType",
+                "elements": [
+                  {
+                    "type": "TypeApplication",
+                    "expression": {
+                      "type": "NameExpression",
+                      "name": "Array"
+                    },
+                    "applications": [
+                      {
+                        "type": "NameExpression",
+                        "name": "string"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NameExpression",
+                    "name": "string"
+                  }
+                ]
+              }
+            }
+          ],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
+          "yields": [],
+          "access": "public",
+          "scope": "static",
+          "memberof": "presence",
+          "kind": "function",
+          "name": "subscribe",
+          "members": {
+            "global": [],
+            "inner": [],
+            "instance": [],
+            "events": [],
+            "static": []
+          },
+          "path": [
+            {
+              "name": "presence",
+              "kind": "namespace"
+            },
+            {
+              "name": "subscribe",
+              "kind": "function",
+              "scope": "static"
+            }
+          ],
+          "namespace": "presence.subscribe"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Unsubscribe from another User's presence updates."
+                  }
+                ]
+              }
+            ]
+          },
+          "tags": [
+            {
+              "title": "public",
+              "description": null,
+              "lineNumber": 3,
+              "type": null
+            },
+            {
+              "title": "static",
+              "description": null,
+              "lineNumber": 4
+            },
+            {
+              "title": "memberof",
+              "description": "presence",
+              "lineNumber": 5
+            },
+            {
+              "title": "requires",
+              "description": null,
+              "lineNumber": 6,
+              "name": "presence"
+            },
+            {
+              "title": "method",
+              "description": null,
+              "lineNumber": 7,
+              "name": "unsubscribe"
+            },
+            {
+              "title": "param",
+              "description": "A User ID or an array of User IDs.",
+              "lineNumber": 8,
+              "type": {
+                "type": "UnionType",
+                "elements": [
+                  {
+                    "type": "TypeApplication",
+                    "expression": {
+                      "type": "NameExpression",
+                      "name": "Array"
+                    },
+                    "applications": [
+                      {
+                        "type": "NameExpression",
+                        "name": "string"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NameExpression",
+                    "name": "string"
+                  }
+                ]
+              },
+              "name": "users"
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 137,
+              "column": 4
+            },
+            "end": {
+              "line": 146,
+              "column": 7
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 147,
+                "column": 4
+              },
+              "end": {
+                "line": 155,
+                "column": 5
+              }
+            },
+            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/presence/interface/api.js"
+          },
+          "augments": [],
+          "examples": [],
+          "implements": [],
+          "params": [
+            {
+              "title": "param",
+              "name": "users",
+              "lineNumber": 8,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "A User ID or an array of User IDs."
+                      }
+                    ]
+                  }
+                ]
+              },
+              "type": {
+                "type": "UnionType",
+                "elements": [
+                  {
+                    "type": "TypeApplication",
+                    "expression": {
+                      "type": "NameExpression",
+                      "name": "Array"
+                    },
+                    "applications": [
+                      {
+                        "type": "NameExpression",
+                        "name": "string"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "NameExpression",
+                    "name": "string"
+                  }
+                ]
+              }
+            }
+          ],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
+          "yields": [],
+          "access": "public",
+          "scope": "static",
+          "memberof": "presence",
+          "kind": "function",
+          "name": "unsubscribe",
+          "members": {
+            "global": [],
+            "inner": [],
+            "instance": [],
+            "events": [],
+            "static": []
+          },
+          "path": [
+            {
+              "name": "presence",
+              "kind": "namespace"
+            },
+            {
+              "name": "unsubscribe",
+              "kind": "function",
+              "scope": "static"
+            }
+          ],
+          "namespace": "presence.unsubscribe"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
                     "value": "Retrieves the presence information for specified users, if available."
                   }
                 ]
@@ -47840,22 +48610,22 @@
           ],
           "loc": {
             "start": {
-              "line": 79,
+              "line": 157,
               "column": 4
             },
             "end": {
-              "line": 89,
+              "line": 167,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 90,
+                "line": 168,
                 "column": 4
               },
               "end": {
-                "line": 102,
+                "line": 180,
                 "column": 5
               }
             },
@@ -48043,22 +48813,22 @@
           ],
           "loc": {
             "start": {
-              "line": 104,
+              "line": 182,
               "column": 4
             },
             "end": {
-              "line": 113,
+              "line": 191,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 114,
+                "line": 192,
                 "column": 4
               },
               "end": {
-                "line": 117,
+                "line": 195,
                 "column": 5
               }
             },
@@ -48211,22 +48981,22 @@
           ],
           "loc": {
             "start": {
-              "line": 119,
+              "line": 197,
               "column": 4
             },
             "end": {
-              "line": 130,
+              "line": 208,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 131,
+                "line": 209,
                 "column": 4
               },
               "end": {
-                "line": 134,
+                "line": 212,
                 "column": 5
               }
             },
@@ -48288,591 +49058,6 @@
             }
           ],
           "namespace": "presence.getSelf"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Fetches presence information for the given users. This will refresh the\navailable information with any new information from the server."
-                  }
-                ]
-              },
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Available presence information can be retrieved using the\n"
-                  },
-                  {
-                    "type": "link",
-                    "url": "#presenceget",
-                    "title": null,
-                    "jsdoc": true,
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "presence.get"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "text",
-                    "value": " or "
-                  },
-                  {
-                    "type": "link",
-                    "url": "#presencegetall",
-                    "title": null,
-                    "jsdoc": true,
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "presence.getAll"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "text",
-                    "value": " APIs."
-                  }
-                ]
-              }
-            ]
-          },
-          "tags": [
-            {
-              "title": "public",
-              "description": null,
-              "lineNumber": 7,
-              "type": null
-            },
-            {
-              "title": "static",
-              "description": null,
-              "lineNumber": 8
-            },
-            {
-              "title": "memberof",
-              "description": "presence",
-              "lineNumber": 9
-            },
-            {
-              "title": "requires",
-              "description": null,
-              "lineNumber": 10,
-              "name": "presence"
-            },
-            {
-              "title": "method",
-              "description": null,
-              "lineNumber": 11,
-              "name": "fetch"
-            },
-            {
-              "title": "param",
-              "description": "A User ID or an array of User IDs.",
-              "lineNumber": 12,
-              "type": {
-                "type": "UnionType",
-                "elements": [
-                  {
-                    "type": "TypeApplication",
-                    "expression": {
-                      "type": "NameExpression",
-                      "name": "Array"
-                    },
-                    "applications": [
-                      {
-                        "type": "NameExpression",
-                        "name": "string"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "NameExpression",
-                    "name": "string"
-                  }
-                ]
-              },
-              "name": "user"
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 136,
-              "column": 4
-            },
-            "end": {
-              "line": 149,
-              "column": 7
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 150,
-                "column": 4
-              },
-              "end": {
-                "line": 154,
-                "column": 5
-              }
-            },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/presence/interface/api.js"
-          },
-          "augments": [],
-          "examples": [],
-          "implements": [],
-          "params": [
-            {
-              "title": "param",
-              "name": "user",
-              "lineNumber": 12,
-              "description": {
-                "type": "root",
-                "children": [
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "A User ID or an array of User IDs."
-                      }
-                    ]
-                  }
-                ]
-              },
-              "type": {
-                "type": "UnionType",
-                "elements": [
-                  {
-                    "type": "TypeApplication",
-                    "expression": {
-                      "type": "NameExpression",
-                      "name": "Array"
-                    },
-                    "applications": [
-                      {
-                        "type": "NameExpression",
-                        "name": "string"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "NameExpression",
-                    "name": "string"
-                  }
-                ]
-              }
-            }
-          ],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
-          "yields": [],
-          "access": "public",
-          "scope": "static",
-          "memberof": "presence",
-          "kind": "function",
-          "name": "fetch",
-          "members": {
-            "global": [],
-            "inner": [],
-            "instance": [],
-            "events": [],
-            "static": []
-          },
-          "path": [
-            {
-              "name": "presence",
-              "kind": "namespace"
-            },
-            {
-              "name": "fetch",
-              "kind": "function",
-              "scope": "static"
-            }
-          ],
-          "namespace": "presence.fetch"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Subscribe to another User's presence updates."
-                  }
-                ]
-              },
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "When the User updates their presence information, the SDK will emit a\n"
-                  },
-                  {
-                    "type": "link",
-                    "url": "#presenceeventpresencechange",
-                    "title": null,
-                    "jsdoc": true,
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "presence:change"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "text",
-                    "value": " event."
-                  }
-                ]
-              }
-            ]
-          },
-          "tags": [
-            {
-              "title": "public",
-              "description": null,
-              "lineNumber": 6,
-              "type": null
-            },
-            {
-              "title": "static",
-              "description": null,
-              "lineNumber": 7
-            },
-            {
-              "title": "memberof",
-              "description": "presence",
-              "lineNumber": 8
-            },
-            {
-              "title": "requires",
-              "description": null,
-              "lineNumber": 9,
-              "name": "presence"
-            },
-            {
-              "title": "method",
-              "description": null,
-              "lineNumber": 10,
-              "name": "subscribe"
-            },
-            {
-              "title": "param",
-              "description": "A User ID or an array of User IDs.",
-              "lineNumber": 11,
-              "type": {
-                "type": "UnionType",
-                "elements": [
-                  {
-                    "type": "TypeApplication",
-                    "expression": {
-                      "type": "NameExpression",
-                      "name": "Array"
-                    },
-                    "applications": [
-                      {
-                        "type": "NameExpression",
-                        "name": "string"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "NameExpression",
-                    "name": "string"
-                  }
-                ]
-              },
-              "name": "users"
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 156,
-              "column": 4
-            },
-            "end": {
-              "line": 168,
-              "column": 7
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 169,
-                "column": 4
-              },
-              "end": {
-                "line": 172,
-                "column": 5
-              }
-            },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/presence/interface/api.js"
-          },
-          "augments": [],
-          "examples": [],
-          "implements": [],
-          "params": [
-            {
-              "title": "param",
-              "name": "users",
-              "lineNumber": 11,
-              "description": {
-                "type": "root",
-                "children": [
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "A User ID or an array of User IDs."
-                      }
-                    ]
-                  }
-                ]
-              },
-              "type": {
-                "type": "UnionType",
-                "elements": [
-                  {
-                    "type": "TypeApplication",
-                    "expression": {
-                      "type": "NameExpression",
-                      "name": "Array"
-                    },
-                    "applications": [
-                      {
-                        "type": "NameExpression",
-                        "name": "string"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "NameExpression",
-                    "name": "string"
-                  }
-                ]
-              }
-            }
-          ],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
-          "yields": [],
-          "access": "public",
-          "scope": "static",
-          "memberof": "presence",
-          "kind": "function",
-          "name": "subscribe",
-          "members": {
-            "global": [],
-            "inner": [],
-            "instance": [],
-            "events": [],
-            "static": []
-          },
-          "path": [
-            {
-              "name": "presence",
-              "kind": "namespace"
-            },
-            {
-              "name": "subscribe",
-              "kind": "function",
-              "scope": "static"
-            }
-          ],
-          "namespace": "presence.subscribe"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Unsubscribe from another User's presence updates."
-                  }
-                ]
-              }
-            ]
-          },
-          "tags": [
-            {
-              "title": "public",
-              "description": null,
-              "lineNumber": 3,
-              "type": null
-            },
-            {
-              "title": "static",
-              "description": null,
-              "lineNumber": 4
-            },
-            {
-              "title": "memberof",
-              "description": "presence",
-              "lineNumber": 5
-            },
-            {
-              "title": "requires",
-              "description": null,
-              "lineNumber": 6,
-              "name": "presence"
-            },
-            {
-              "title": "method",
-              "description": null,
-              "lineNumber": 7,
-              "name": "unsubscribe"
-            },
-            {
-              "title": "param",
-              "description": "A User ID or an array of User IDs.",
-              "lineNumber": 8,
-              "type": {
-                "type": "UnionType",
-                "elements": [
-                  {
-                    "type": "TypeApplication",
-                    "expression": {
-                      "type": "NameExpression",
-                      "name": "Array"
-                    },
-                    "applications": [
-                      {
-                        "type": "NameExpression",
-                        "name": "string"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "NameExpression",
-                    "name": "string"
-                  }
-                ]
-              },
-              "name": "users"
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 174,
-              "column": 4
-            },
-            "end": {
-              "line": 183,
-              "column": 7
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 184,
-                "column": 4
-              },
-              "end": {
-                "line": 187,
-                "column": 5
-              }
-            },
-            "file": "/var/jenkins_home/workspace/Kandy.js_beta/packages/kandy/src/presence/interface/api.js"
-          },
-          "augments": [],
-          "examples": [],
-          "implements": [],
-          "params": [
-            {
-              "title": "param",
-              "name": "users",
-              "lineNumber": 8,
-              "description": {
-                "type": "root",
-                "children": [
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "A User ID or an array of User IDs."
-                      }
-                    ]
-                  }
-                ]
-              },
-              "type": {
-                "type": "UnionType",
-                "elements": [
-                  {
-                    "type": "TypeApplication",
-                    "expression": {
-                      "type": "NameExpression",
-                      "name": "Array"
-                    },
-                    "applications": [
-                      {
-                        "type": "NameExpression",
-                        "name": "string"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "NameExpression",
-                    "name": "string"
-                  }
-                ]
-              }
-            }
-          ],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
-          "yields": [],
-          "access": "public",
-          "scope": "static",
-          "memberof": "presence",
-          "kind": "function",
-          "name": "unsubscribe",
-          "members": {
-            "global": [],
-            "inner": [],
-            "instance": [],
-            "events": [],
-            "static": []
-          },
-          "path": [
-            {
-              "name": "presence",
-              "kind": "namespace"
-            },
-            {
-              "name": "unsubscribe",
-              "kind": "function",
-              "scope": "static"
-            }
-          ],
-          "namespace": "presence.unsubscribe"
         }
       ]
     },
@@ -55618,7 +55803,7 @@
           "column": 2
         },
         "end": {
-          "line": 182,
+          "line": 207,
           "column": 3
         }
       },
@@ -56397,7 +56582,7 @@
                 "column": 2
               },
               "end": {
-                "line": 182,
+                "line": 207,
                 "column": 3
               }
             },
@@ -56697,7 +56882,7 @@
                 "column": 4
               },
               "end": {
-                "line": 51,
+                "line": 59,
                 "column": 5
               }
             },
@@ -56875,22 +57060,22 @@
           ],
           "loc": {
             "start": {
-              "line": 53,
+              "line": 61,
               "column": 4
             },
             "end": {
-              "line": 69,
+              "line": 77,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 87,
+                "line": 95,
                 "column": 4
               },
               "end": {
-                "line": 90,
+                "line": 107,
                 "column": 5
               }
             },
@@ -57032,22 +57217,22 @@
           ],
           "loc": {
             "start": {
-              "line": 92,
+              "line": 109,
               "column": 4
             },
             "end": {
-              "line": 104,
+              "line": 121,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 105,
+                "line": 122,
                 "column": 4
               },
               "end": {
-                "line": 108,
+                "line": 125,
                 "column": 5
               }
             },
@@ -57234,22 +57419,22 @@
           ],
           "loc": {
             "start": {
-              "line": 110,
+              "line": 127,
               "column": 4
             },
             "end": {
-              "line": 121,
+              "line": 138,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 122,
+                "line": 139,
                 "column": 4
               },
               "end": {
-                "line": 125,
+                "line": 142,
                 "column": 5
               }
             },
@@ -57522,22 +57707,22 @@
           ],
           "loc": {
             "start": {
-              "line": 127,
+              "line": 144,
               "column": 4
             },
             "end": {
-              "line": 150,
+              "line": 167,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 178,
+                "line": 195,
                 "column": 4
               },
               "end": {
-                "line": 181,
+                "line": 206,
                 "column": 5
               }
             },
@@ -57939,11 +58124,11 @@
     "context": {
       "loc": {
         "start": {
-          "line": 12,
+          "line": 11,
           "column": 0
         },
         "end": {
-          "line": 12,
+          "line": 11,
           "column": 36
         }
       },
@@ -58555,22 +58740,22 @@
           ],
           "loc": {
             "start": {
-              "line": 22,
+              "line": 26,
               "column": 4
             },
             "end": {
-              "line": 32,
+              "line": 36,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 33,
+                "line": 37,
                 "column": 4
               },
               "end": {
-                "line": 36,
+                "line": 49,
                 "column": 5
               }
             },
@@ -58651,22 +58836,22 @@
           ],
           "loc": {
             "start": {
-              "line": 38,
+              "line": 51,
               "column": 4
             },
             "end": {
-              "line": 45,
+              "line": 58,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 46,
+                "line": 59,
                 "column": 4
               },
               "end": {
-                "line": 49,
+                "line": 62,
                 "column": 5
               }
             },
