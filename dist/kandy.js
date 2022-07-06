@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 5.0.0-beta.899
+ * Version: 5.0.0-beta.900
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -6998,7 +6998,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '5.0.0-beta.899';
+  return '5.0.0-beta.900';
 }
 
 /***/ }),
@@ -36174,9 +36174,14 @@ var availableRules = {
 
   pattern: function (expected) { return function (value) { return expected.test(value); }; },
 
-  lowercase: function () { return function (value) { return /^([a-z]+\s*)+$/.test(value); }; },
+  lowercase: function () { return function (value) {
+    return (
+      typeof value === 'boolean' ||
+      (value === value.toLowerCase() && value.trim() !== '')
+    );
+  }; },
 
-  uppercase: function () { return function (value) { return /^([A-Z]+\s*)+$/.test(value); }; },
+  uppercase: function () { return function (value) { return value === value.toUpperCase() && value.trim() !== ''; }; },
 
   vowel: function () { return function (value) { return /^[aeiou]+$/i.test(value); }; },
 
