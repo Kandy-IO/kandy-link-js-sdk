@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 5.0.0-beta.901
+ * Version: 5.0.0-beta.902
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -6998,7 +6998,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '5.0.0-beta.901';
+  return '5.0.0-beta.902';
 }
 
 /***/ }),
