@@ -4,7 +4,7 @@ export const configs = [
     data: {
       DEFAULTCONFIGNAME: '@kandy-io/link-config-us',
       DEFAULTCONFIGACCESS: 'Kandy.support.us.config',
-      DEFAULTCONFIGURL: 'https://unpkg.com/@kandy-io/link-config-us@1.1.0/dist/index.umd.js',
+      DEFAULTCONFIGURL: 'https://unpkg.com/@kandy-io/link-config-us@2.0.0/dist/index.umd.js',
       SUBSCRIPTIONFQDN: 'webrtc-na.kandy.io',
       WEBSOCKETFQDN: 'webrtc-na.kandy.io',
       KANDYTURN1: 'turns:turn-na-1.kandy.io:443?transport=tcp',
@@ -18,7 +18,7 @@ export const configs = [
     data: {
       DEFAULTCONFIGNAME: '@kandy-io/link-config-emea',
       DEFAULTCONFIGACCESS: 'Kandy.support.emea.config',
-      DEFAULTCONFIGURL: 'https://unpkg.com/@kandy-io/link-config-emea@1.1.0/dist/index.umd.js',
+      DEFAULTCONFIGURL: 'https://unpkg.com/@kandy-io/link-config-emea@2.0.0/dist/index.umd.js',
       SUBSCRIPTIONFQDN: 'webrtc-em.kandy.io"',
       WEBSOCKETFQDN: 'webrtc-em.kandy.io"',
       KANDYTURN1: 'turns:turn-em-1.kandy.io:443?transport=tcp',
@@ -32,7 +32,7 @@ export const configs = [
     data: {
       DEFAULTCONFIGNAME: '@kandy-io/link-config-uae',
       DEFAULTCONFIGACCESS: 'Kandy.support.uae.config',
-      DEFAULTCONFIGURL: 'https://unpkg.com/@kandy-io/link-config-uae@1.1.0/dist/index.umd.js',
+      DEFAULTCONFIGURL: 'https://unpkg.com/@kandy-io/link-config-uae@2.0.0/dist/index.umd.js',
       SUBSCRIPTIONFQDN: 'ct-webrtc.etisalat.ae',
       WEBSOCKETFQDN: 'ct-webrtc.etisalat.ae',
       KANDYTURN1: 'turns:ct-turn1.etisalat.ae:443?transport=tcp',
