@@ -12,6 +12,10 @@ Kandy.js change log.
 - Added capability to make subsequent `subscribe` requests in case the server responds with a `503 - Service Unavailable` response (e.g., when subscribing for a certain service). `KJS-959`
   - Added a new subscription configuration parameter: `config.subscription.serviceUnavailableMaxRetries` which can be used to override the default value of subscription re-attempts (i.e. 3 re-attempts). `KJS-960`
 
+### Fixed
+
+- Fixed a Call issue where where remote video would not be added to the call in certain backend configurations. `KJS-1052`
+
 ### Changed
 
 - Changed the subscription refresh interval to include a random component to better balance server load in extreme scenarios. `KJS-862`
