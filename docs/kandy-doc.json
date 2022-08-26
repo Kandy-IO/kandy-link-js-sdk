@@ -929,8 +929,22 @@
             },
             {
               "title": "param",
-              "description": null,
+              "description": "The maximum number of times this client will retry in order to subscribe for a\ngiven service, while getting 'Service Unavailable' from backend.",
               "lineNumber": 8,
+              "type": {
+                "type": "OptionalType",
+                "expression": {
+                  "type": "NameExpression",
+                  "name": "number"
+                }
+              },
+              "name": "subscription.serviceUnavailableMaxRetries",
+              "default": "3"
+            },
+            {
+              "title": "param",
+              "description": null,
+              "lineNumber": 10,
               "type": {
                 "type": "NameExpression",
                 "name": "Object"
@@ -940,7 +954,7 @@
             {
               "title": "param",
               "description": "Hostname of the server to be used for websocket notifications.",
-              "lineNumber": 9,
+              "lineNumber": 11,
               "type": {
                 "type": "NameExpression",
                 "name": "string"
@@ -950,7 +964,7 @@
             {
               "title": "param",
               "description": "Protocol to be used for websocket notifications.",
-              "lineNumber": 10,
+              "lineNumber": 12,
               "type": {
                 "type": "OptionalType",
                 "expression": {
@@ -964,7 +978,7 @@
             {
               "title": "param",
               "description": "Port to be used for websocket notifications.",
-              "lineNumber": 11,
+              "lineNumber": 13,
               "type": {
                 "type": "OptionalType",
                 "expression": {
@@ -982,18 +996,18 @@
               "column": 0
             },
             "end": {
-              "line": 41,
+              "line": 43,
               "column": 3
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 42,
+                "line": 44,
                 "column": 0
               },
               "end": {
-                "line": 48,
+                "line": 51,
                 "column": 1
               }
             },
@@ -1052,8 +1066,32 @@
                 },
                 {
                   "title": "param",
-                  "name": "subscription.websocket",
+                  "name": "subscription.serviceUnavailableMaxRetries",
                   "lineNumber": 8,
+                  "description": {
+                    "type": "root",
+                    "children": [
+                      {
+                        "type": "paragraph",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "The maximum number of times this client will retry in order to subscribe for a\ngiven service, while getting 'Service Unavailable' from backend."
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "type": {
+                    "type": "NameExpression",
+                    "name": "number"
+                  },
+                  "default": "3"
+                },
+                {
+                  "title": "param",
+                  "name": "subscription.websocket",
+                  "lineNumber": 10,
                   "type": {
                     "type": "NameExpression",
                     "name": "Object"
@@ -1062,7 +1100,7 @@
                     {
                       "title": "param",
                       "name": "subscription.websocket.server",
-                      "lineNumber": 9,
+                      "lineNumber": 11,
                       "description": {
                         "type": "root",
                         "children": [
@@ -1085,7 +1123,7 @@
                     {
                       "title": "param",
                       "name": "subscription.websocket.protocol",
-                      "lineNumber": 10,
+                      "lineNumber": 12,
                       "description": {
                         "type": "root",
                         "children": [
@@ -1109,7 +1147,7 @@
                     {
                       "title": "param",
                       "name": "subscription.websocket.port",
-                      "lineNumber": 11,
+                      "lineNumber": 13,
                       "description": {
                         "type": "root",
                         "children": [
@@ -4493,7 +4531,7 @@
                 "column": 4
               },
               "end": {
-                "line": 84,
+                "line": 87,
                 "column": 5
               }
             },

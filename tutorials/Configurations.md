@@ -220,6 +220,9 @@ APAC:
   - turn-ap-1.kandy.io port 3478 for STUN and 443 for TURNS
   - turn-ap-2.kandy.io port 3478 for STUN and 443 for TURNS
 
+Besides the `websocket` parameter, the user can also specify the maximum number of times a client will retry in order to subscribe for a given service, while getting 'Service Unavailable' from backend. This is done by using the `serviceUnavailableMaxRetries` parameter. If not provided, its default value is `3`.
+Likewise, the user can specify the amount of time (in seconds) for which to keep subscription up and alive. This is done by using the `expires` parameter. If not provided, its default value is `3600`.
+
 ### Connectivity
 
 The Connectivity configs are used to customize the behaviour of the websocket and connectivity checks. These settings should only be needed if the default configs are not sufficient, and you want to tweak the behaviour for your application's scenario.

@@ -80,6 +80,8 @@ Configuration options for the Subscription feature.
 *   `subscription` **[Object][7]** Subscription config.
 
     *   `subscription.expires` **[number][12]** The amount of time (in seconds) for which to keep subscription up and alive. (optional, default `3600`)
+    *   `subscription.serviceUnavailableMaxRetries` **[number][12]** The maximum number of times this client will retry in order to subscribe for a
+        given service, while getting 'Service Unavailable' from backend. (optional, default `3`)
     *   `subscription.websocket` **[Object][7]** 
 
         *   `subscription.websocket.server` **[string][8]** Hostname of the server to be used for websocket notifications.
