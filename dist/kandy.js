@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 4.41.2-v4-support.9
+ * Version: 4.41.3-v4-support.10
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -1674,7 +1674,7 @@ var _promise = __webpack_require__(10);
 
 var _promise2 = _interopRequireDefault(_promise);
 
-var _keys = __webpack_require__(53);
+var _keys = __webpack_require__(54);
 
 var _keys2 = _interopRequireDefault(_keys);
 
@@ -6863,239 +6863,6 @@ exports.RETURN = RETURN;
 /* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(185), __esModule: true };
-
-/***/ }),
-/* 54 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(193), __esModule: true };
-
-/***/ }),
-/* 55 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-/**
- * Log levels supported by Loggers.
- * When a level is set, all logs of that level and higher will be logged.
- * @type {Object}
- */
-const logLevels = exports.logLevels = {
-  TRACE: 'TRACE',
-  DEBUG: 'DEBUG',
-  INFO: 'INFO',
-  WARN: 'WARN',
-  ERROR: 'ERROR',
-  SILENT: 'SILENT'
-
-  /**
-   * Numeric values for each log level.
-   * When a level is set, all logs of that level and higher will be logged.
-   * @type {Object}
-   */
-};const levelValues = exports.levelValues = {
-  TRACE: 0,
-  DEBUG: 1,
-  INFO: 2,
-  WARN: 3,
-  ERROR: 4,
-  SILENT: 5
-
-  /**
-   * Supported Log methods and their set log level; `<logMethod>: <logLevel>`
-   * Used to construct the logging methods on a Logger.
-   * @type {Object}
-   */
-};const logMethods = exports.logMethods = {
-  // Standard methods.
-  trace: logLevels.TRACE,
-  debug: logLevels.DEBUG,
-  info: logLevels.INFO,
-  warn: logLevels.WARN,
-  error: logLevels.ERROR,
-  // Extra console methods.
-  log: logLevels.DEBUG,
-  group: logLevels.DEBUG,
-  groupEnd: logLevels.DEBUG,
-  groupCollapsed: logLevels.DEBUG
-
-  /**
-   * The log level for all timer methods.
-   * @type {string}
-   */
-};const timeLevel = exports.timeLevel = logLevels.DEBUG;
-
-/***/ }),
-/* 56 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.update = update;
-exports.setSdpHandlers = setSdpHandlers;
-
-var _actionTypes = __webpack_require__(294);
-
-var actionTypes = _interopRequireWildcard(_actionTypes);
-
-var _utils = __webpack_require__(217);
-
-var _sdpHandlers = __webpack_require__(327);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-/**
- * Add or update a specific key within the store.config.
- *
- * @param {Object} values The values that will be placed in the store.
- * @param {string} [pluginName] The plugin name of the config being set.
- * @return {Action} action A redux action.
- */
-function update(values, pluginName = '') {
-  var payload;
-  // Use the plugin name as a substate key, if present.
-  if (pluginName) {
-    payload = {
-      [pluginName]: values
-    };
-  } else {
-    payload = values;
-  }
-
-  return {
-    type: actionTypes.CONFIG_UPDATE,
-    payload: payload
-  };
-}
-
-/**
- * Updates the SDP Handlers in the call plugin configs
- *
- * @method setSdpHandlers
- * @param {Array<call.SdpHandlerFunction>} sdpHandlers The list of SDP handler to set in the config.
- * @param {Object}                         options     Options to configure extra sdp handlers
- * @returns {Object} A flux standard action.
- */
-function setSdpHandlers(sdpHandlers, options) {
-  /*
-   * Set SDP handlers to be used for every operation:
-   *
-   * 1. Application provided SDP handlers.
-   *
-   * 2. Disable DTLS-SDES crypto method (ie. delete the line) if there's a better
-   *    crypto method enabled. WebRTC only allows one method to be enabled.
-   *    This is needed for interoperability with non-browser endpoints that include
-   *    SDES as a fallback method.
-   *
-   * 3. [optional] Disable H264 Codecs for video calls, used to reduce SDP size
-   *
-   * 4. Modify sdp and add bandwidth limits on it if bandwidth controls are provided.
-   */
-  if (options.removeH264Codecs) {
-    sdpHandlers.push((0, _sdpHandlers.createCodecRemover)(['H264']));
-  }
-  sdpHandlers.push(_utils.sanitizeSdesFromSdp);
-  sdpHandlers.push(_utils.modifySdpBandwidth);
-
-  return {
-    type: actionTypes.SET_SDP_HANDLERS,
-    payload: {
-      sdpHandlers
-    }
-  };
-}
-
-/***/ }),
-/* 57 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = request;
-exports.requestSaga = requestSaga;
-
-var _actionTypes = __webpack_require__(155);
-
-var _actions = __webpack_require__(301);
-
-var actions = _interopRequireWildcard(_actions);
-
-var _utils = __webpack_require__(283);
-
-var _utils2 = __webpack_require__(12);
-
-var _fp = __webpack_require__(3);
-
-var _effects = __webpack_require__(4);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-/**
- * Creates an effect description that instructs the middleware to perform a request with the provided options.
- * This effect is blocking and will yield a RESPONSE action on completion.
- *
- * @param {Object} options See https://developer.mozilla.org/en-US/docs/Web/API/Request/Request
- * @param {string} options.url The url to perform the request on.
- * @param {string} options.method The HTTP method to use for the request.
- * @param {Object} options.headers Object literal of headers you want to add to the request.
- * @param {Object} [options.queryParams] The parameters to be added to the query string
- * @param {string} [options.responseType] The data type assumed to be received in the response body
- * @param {Blob|BufferSource|FormData|UrlSearchParams|string} [options.body] Any body that you want to add to your request.
- * @return A blocking redux-saga effect that will instruct the middleware to wait for the request to be fulfilled or until it fails.
- */
-// Requests plugin.
-function request(options, commonOptions) {
-  return (0, _effects.call)(requestSaga, options, commonOptions);
-}
-
-/*
- * The saga backing the request effect.
- */
-
-
-// Libraries.
-function* requestSaga(options, manualOptions) {
-  /*
-   * Some requests can have special-cases where they don't want to use the
-   *    "common" options. Allow them to pass in "manual" options that should be
-   *    used instead.
-   * For example, the CPaaS "upload file" request cannot use the "common"
-   *    Content-Type header.
-   */
-  if (manualOptions) {
-    options = (0, _utils2.mergeValues)(options, manualOptions);
-  } else {
-    // Get the common request options that should be used for all requests.
-    const commonOptions = yield (0, _effects.call)(_utils.getCommonOptions, options.url);
-
-    options = (0, _utils2.mergeValues)(options, commonOptions);
-  }
-
-  // Dispatch the request action for the sagas to process.
-  const requestAction = yield (0, _effects.put)(actions.request(options));
-  const responseAction = yield (0, _effects.take)(action => action.type === _actionTypes.RESPONSE && (0, _fp.get)('meta.requestId', action) === requestAction.meta.requestId);
-
-  return responseAction;
-}
-
-/***/ }),
-/* 58 */
-/***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
 
 
@@ -7234,6 +7001,239 @@ const TRACK_ADDED = exports.TRACK_ADDED = trackPrefix + 'ADDED';
 const TRACK_REMOVED = exports.TRACK_REMOVED = trackPrefix + 'REMOVED';
 
 /***/ }),
+/* 54 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(185), __esModule: true };
+
+/***/ }),
+/* 55 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(193), __esModule: true };
+
+/***/ }),
+/* 56 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+/**
+ * Log levels supported by Loggers.
+ * When a level is set, all logs of that level and higher will be logged.
+ * @type {Object}
+ */
+const logLevels = exports.logLevels = {
+  TRACE: 'TRACE',
+  DEBUG: 'DEBUG',
+  INFO: 'INFO',
+  WARN: 'WARN',
+  ERROR: 'ERROR',
+  SILENT: 'SILENT'
+
+  /**
+   * Numeric values for each log level.
+   * When a level is set, all logs of that level and higher will be logged.
+   * @type {Object}
+   */
+};const levelValues = exports.levelValues = {
+  TRACE: 0,
+  DEBUG: 1,
+  INFO: 2,
+  WARN: 3,
+  ERROR: 4,
+  SILENT: 5
+
+  /**
+   * Supported Log methods and their set log level; `<logMethod>: <logLevel>`
+   * Used to construct the logging methods on a Logger.
+   * @type {Object}
+   */
+};const logMethods = exports.logMethods = {
+  // Standard methods.
+  trace: logLevels.TRACE,
+  debug: logLevels.DEBUG,
+  info: logLevels.INFO,
+  warn: logLevels.WARN,
+  error: logLevels.ERROR,
+  // Extra console methods.
+  log: logLevels.DEBUG,
+  group: logLevels.DEBUG,
+  groupEnd: logLevels.DEBUG,
+  groupCollapsed: logLevels.DEBUG
+
+  /**
+   * The log level for all timer methods.
+   * @type {string}
+   */
+};const timeLevel = exports.timeLevel = logLevels.DEBUG;
+
+/***/ }),
+/* 57 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.update = update;
+exports.setSdpHandlers = setSdpHandlers;
+
+var _actionTypes = __webpack_require__(294);
+
+var actionTypes = _interopRequireWildcard(_actionTypes);
+
+var _utils = __webpack_require__(217);
+
+var _sdpHandlers = __webpack_require__(327);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+/**
+ * Add or update a specific key within the store.config.
+ *
+ * @param {Object} values The values that will be placed in the store.
+ * @param {string} [pluginName] The plugin name of the config being set.
+ * @return {Action} action A redux action.
+ */
+function update(values, pluginName = '') {
+  var payload;
+  // Use the plugin name as a substate key, if present.
+  if (pluginName) {
+    payload = {
+      [pluginName]: values
+    };
+  } else {
+    payload = values;
+  }
+
+  return {
+    type: actionTypes.CONFIG_UPDATE,
+    payload: payload
+  };
+}
+
+/**
+ * Updates the SDP Handlers in the call plugin configs
+ *
+ * @method setSdpHandlers
+ * @param {Array<call.SdpHandlerFunction>} sdpHandlers The list of SDP handler to set in the config.
+ * @param {Object}                         options     Options to configure extra sdp handlers
+ * @returns {Object} A flux standard action.
+ */
+function setSdpHandlers(sdpHandlers, options) {
+  /*
+   * Set SDP handlers to be used for every operation:
+   *
+   * 1. Application provided SDP handlers.
+   *
+   * 2. Disable DTLS-SDES crypto method (ie. delete the line) if there's a better
+   *    crypto method enabled. WebRTC only allows one method to be enabled.
+   *    This is needed for interoperability with non-browser endpoints that include
+   *    SDES as a fallback method.
+   *
+   * 3. [optional] Disable H264 Codecs for video calls, used to reduce SDP size
+   *
+   * 4. Modify sdp and add bandwidth limits on it if bandwidth controls are provided.
+   */
+  if (options.removeH264Codecs) {
+    sdpHandlers.push((0, _sdpHandlers.createCodecRemover)(['H264']));
+  }
+  sdpHandlers.push(_utils.sanitizeSdesFromSdp);
+  sdpHandlers.push(_utils.modifySdpBandwidth);
+
+  return {
+    type: actionTypes.SET_SDP_HANDLERS,
+    payload: {
+      sdpHandlers
+    }
+  };
+}
+
+/***/ }),
+/* 58 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = request;
+exports.requestSaga = requestSaga;
+
+var _actionTypes = __webpack_require__(155);
+
+var _actions = __webpack_require__(301);
+
+var actions = _interopRequireWildcard(_actions);
+
+var _utils = __webpack_require__(283);
+
+var _utils2 = __webpack_require__(12);
+
+var _fp = __webpack_require__(3);
+
+var _effects = __webpack_require__(4);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+/**
+ * Creates an effect description that instructs the middleware to perform a request with the provided options.
+ * This effect is blocking and will yield a RESPONSE action on completion.
+ *
+ * @param {Object} options See https://developer.mozilla.org/en-US/docs/Web/API/Request/Request
+ * @param {string} options.url The url to perform the request on.
+ * @param {string} options.method The HTTP method to use for the request.
+ * @param {Object} options.headers Object literal of headers you want to add to the request.
+ * @param {Object} [options.queryParams] The parameters to be added to the query string
+ * @param {string} [options.responseType] The data type assumed to be received in the response body
+ * @param {Blob|BufferSource|FormData|UrlSearchParams|string} [options.body] Any body that you want to add to your request.
+ * @return A blocking redux-saga effect that will instruct the middleware to wait for the request to be fulfilled or until it fails.
+ */
+// Requests plugin.
+function request(options, commonOptions) {
+  return (0, _effects.call)(requestSaga, options, commonOptions);
+}
+
+/*
+ * The saga backing the request effect.
+ */
+
+
+// Libraries.
+function* requestSaga(options, manualOptions) {
+  /*
+   * Some requests can have special-cases where they don't want to use the
+   *    "common" options. Allow them to pass in "manual" options that should be
+   *    used instead.
+   * For example, the CPaaS "upload file" request cannot use the "common"
+   *    Content-Type header.
+   */
+  if (manualOptions) {
+    options = (0, _utils2.mergeValues)(options, manualOptions);
+  } else {
+    // Get the common request options that should be used for all requests.
+    const commonOptions = yield (0, _effects.call)(_utils.getCommonOptions, options.url);
+
+    options = (0, _utils2.mergeValues)(options, commonOptions);
+  }
+
+  // Dispatch the request action for the sagas to process.
+  const requestAction = yield (0, _effects.put)(actions.request(options));
+  const responseAction = yield (0, _effects.take)(action => action.type === _actionTypes.RESPONSE && (0, _fp.get)('meta.requestId', action) === requestAction.meta.requestId);
+
+  return responseAction;
+}
+
+/***/ }),
 /* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7346,7 +7346,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.41.2-v4-support.9';
+  return '4.41.3-v4-support.10';
 }
 
 /***/ }),
@@ -8181,7 +8181,7 @@ var _logFormatter = __webpack_require__(124);
 
 var _logFormatter2 = _interopRequireDefault(_logFormatter);
 
-var _constants = __webpack_require__(55);
+var _constants = __webpack_require__(56);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -8227,7 +8227,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.checkLevel = checkLevel;
 exports.checkHandler = checkHandler;
 
-var _constants = __webpack_require__(55);
+var _constants = __webpack_require__(56);
 
 /**
  * Helper function to validate a "log level" string before its used in the library.
@@ -8275,7 +8275,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _values = __webpack_require__(54);
+var _values = __webpack_require__(55);
 
 var _values2 = _interopRequireDefault(_values);
 
@@ -10575,7 +10575,7 @@ var _set = __webpack_require__(236);
 
 var _set2 = _interopRequireDefault(_set);
 
-var _keys = __webpack_require__(53);
+var _keys = __webpack_require__(54);
 
 var _keys2 = _interopRequireDefault(_keys);
 
@@ -15353,7 +15353,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _values = __webpack_require__(54);
+var _values = __webpack_require__(55);
 
 var _values2 = _interopRequireDefault(_values);
 
@@ -15371,7 +15371,7 @@ var _logHandler = __webpack_require__(203);
 
 var _logHandler2 = _interopRequireDefault(_logHandler);
 
-var _constants = __webpack_require__(55);
+var _constants = __webpack_require__(56);
 
 var _validation = __webpack_require__(93);
 
@@ -15995,7 +15995,7 @@ var _extends3 = _interopRequireDefault(_extends2);
 
 exports.default = createLogger;
 
-var _constants = __webpack_require__(55);
+var _constants = __webpack_require__(56);
 
 var _validation = __webpack_require__(93);
 
@@ -16484,7 +16484,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _keys = __webpack_require__(53);
+var _keys = __webpack_require__(54);
 
 var _keys2 = _interopRequireDefault(_keys);
 
@@ -28348,7 +28348,7 @@ exports.resync = resync;
 exports.resyncFinish = resyncFinish;
 exports.updateCall = updateCall;
 
-var _actionTypes = __webpack_require__(58);
+var _actionTypes = __webpack_require__(53);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -30777,7 +30777,7 @@ exports.pushNotificationsRegistration = pushNotificationsRegistration;
 exports.pushNotificationsDeRegistration = pushNotificationsDeRegistration;
 exports.fetchSDP = fetchSDP;
 
-var _effects = __webpack_require__(57);
+var _effects = __webpack_require__(58);
 
 var _effects2 = _interopRequireDefault(_effects);
 
@@ -31157,7 +31157,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _values = __webpack_require__(54);
+var _values = __webpack_require__(55);
 
 var _values2 = _interopRequireDefault(_values);
 
@@ -31270,7 +31270,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _keys = __webpack_require__(53);
+var _keys = __webpack_require__(54);
 
 var _keys2 = _interopRequireDefault(_keys);
 
@@ -31701,7 +31701,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _values = __webpack_require__(54);
+var _values = __webpack_require__(55);
 
 var _values2 = _interopRequireDefault(_values);
 
@@ -34067,11 +34067,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _values = __webpack_require__(54);
+var _values = __webpack_require__(55);
 
 var _values2 = _interopRequireDefault(_values);
 
-var _keys = __webpack_require__(53);
+var _keys = __webpack_require__(54);
 
 var _keys2 = _interopRequireDefault(_keys);
 
@@ -34097,7 +34097,7 @@ var _actions2 = __webpack_require__(352);
 
 var _actions3 = _interopRequireDefault(_actions2);
 
-var _actions4 = __webpack_require__(56);
+var _actions4 = __webpack_require__(57);
 
 var _utils = __webpack_require__(12);
 
@@ -34839,7 +34839,7 @@ exports.default = createActionLogger;
 
 var _index = __webpack_require__(2);
 
-var _constants = __webpack_require__(55);
+var _constants = __webpack_require__(56);
 
 var _transformers = __webpack_require__(353);
 
@@ -35044,7 +35044,7 @@ var _assign = __webpack_require__(74);
 
 var _assign2 = _interopRequireDefault(_assign);
 
-var _keys = __webpack_require__(53);
+var _keys = __webpack_require__(54);
 
 var _keys2 = _interopRequireDefault(_keys);
 
@@ -35551,7 +35551,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = api;
 
-var _actions = __webpack_require__(56);
+var _actions = __webpack_require__(57);
 
 var actions = _interopRequireWildcard(_actions);
 
@@ -39061,7 +39061,7 @@ var _events2 = _interopRequireDefault(_events);
 
 var _actions = __webpack_require__(28);
 
-var _actions2 = __webpack_require__(56);
+var _actions2 = __webpack_require__(57);
 
 var _utils = __webpack_require__(12);
 
@@ -40355,7 +40355,7 @@ exports.resubscribe = resubscribe;
 
 var _services = __webpack_require__(411);
 
-var _effects = __webpack_require__(57);
+var _effects = __webpack_require__(58);
 
 var _effects2 = _interopRequireDefault(_effects);
 
@@ -40730,7 +40730,7 @@ var _actions = __webpack_require__(28);
 
 var _interface = __webpack_require__(416);
 
-var _actions2 = __webpack_require__(56);
+var _actions2 = __webpack_require__(57);
 
 var _utils = __webpack_require__(12);
 
@@ -42657,7 +42657,7 @@ var _configs2 = _interopRequireDefault(_configs);
 
 var _actions = __webpack_require__(28);
 
-var _actions2 = __webpack_require__(56);
+var _actions2 = __webpack_require__(57);
 
 var _logs = __webpack_require__(2);
 
@@ -43367,7 +43367,7 @@ var _normalization = __webpack_require__(305);
 
 var _selectors2 = __webpack_require__(17);
 
-var _actions2 = __webpack_require__(56);
+var _actions2 = __webpack_require__(57);
 
 var _uuid = __webpack_require__(42);
 
@@ -44950,7 +44950,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.turnChanged = turnChanged;
 
-var _actionTypes = __webpack_require__(58);
+var _actionTypes = __webpack_require__(53);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -45018,7 +45018,7 @@ var _extends2 = __webpack_require__(6);
 
 var _extends3 = _interopRequireDefault(_extends2);
 
-var _actionTypes = __webpack_require__(58);
+var _actionTypes = __webpack_require__(53);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -45929,7 +45929,7 @@ var _extends2 = __webpack_require__(6);
 
 var _extends3 = _interopRequireDefault(_extends2);
 
-var _actionTypes = __webpack_require__(58);
+var _actionTypes = __webpack_require__(53);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -46013,7 +46013,7 @@ exports.restartIce = restartIce;
 exports.watchForMediaDisconnect = watchForMediaDisconnect;
 exports.callCollectionCheckEntry = callCollectionCheckEntry;
 
-var _actionTypes = __webpack_require__(58);
+var _actionTypes = __webpack_require__(53);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -46840,7 +46840,7 @@ var _selectors2 = __webpack_require__(17);
 
 var _logs = __webpack_require__(2);
 
-var _effects = __webpack_require__(57);
+var _effects = __webpack_require__(58);
 
 var _effects2 = _interopRequireDefault(_effects);
 
@@ -47948,6 +47948,7 @@ function* makeCall(deps, action) {
 
   if (!response.error) {
     log.info(`Finished initiating call. Changing to ${_constants.CALL_STATES.INITIATED} and waiting on remote answer.`);
+
     yield (0, _effects.put)(_actions.callActions.pendingMakeCall(action.payload.id, {
       state: _constants.CALL_STATES.INITIATED,
       // The ID that the backend uses to track this webRTC session.
@@ -51392,6 +51393,8 @@ exports.receiveEarlyMedia = receiveEarlyMedia;
 
 var _actions = __webpack_require__(69);
 
+var _actionTypes = __webpack_require__(53);
+
 var _selectors = __webpack_require__(26);
 
 var _constants = __webpack_require__(35);
@@ -51461,6 +51464,19 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 // Helpers
 // TODO: Move this to a shared location.
+/**
+ * "Notification sagas" handle received notifications.
+ * Each saga handles a single websocket notification that may be received from
+ *    the backend.
+ *
+ * There may not be an established webRTC session for these sagas. This may be
+ *    because (1) the notification is a new incoming call, or (2) there is a
+ *    de-sync between SDK state and server state. This may or may not be
+ *    considered as an error scenario (eg. a "call ended" notification for a
+ *    call the SDK doesn't know about may be safely ignored).
+ */
+
+// Call plugin.
 function* incomingCall(deps, params, channel) {
   const requests = deps.requests;
   const { sdp, wrtcsSessionId, remoteNumber, remoteName, calleeNumber, customParameters } = params;
@@ -51621,19 +51637,6 @@ function* incomingCall(deps, params, channel) {
 
 
 // Callstack plugin.
-/**
- * "Notification sagas" handle received notifications.
- * Each saga handles a single websocket notification that may be received from
- *    the backend.
- *
- * There may not be an established webRTC session for these sagas. This may be
- *    because (1) the notification is a new incoming call, or (2) there is a
- *    de-sync between SDK state and server state. This may or may not be
- *    considered as an error scenario (eg. a "call ended" notification for a
- *    call the SDK doesn't know about may be safely ignored).
- */
-
-// Call plugin.
 function* parseCallRequest(deps, params) {
   const { wrtcsSessionId, sdp, remoteName, remoteNumber, customParameters } = params;
   const targetCall = yield (0, _effects.select)(_selectors.getCallByWrtcsSessionId, wrtcsSessionId);
@@ -51650,6 +51653,20 @@ function* parseCallRequest(deps, params) {
     //    webRTC session.
     log.info('Update request is for ended call. Ignoring.', { wrtcsSessionId });
     return;
+  } else if ([_constants.CALL_STATES.RINGING, _constants.CALL_STATES.INITIATED, _constants.CALL_STATES.EARLY_MEDIA].includes(targetCall.state)) {
+    // Scenario: We have received a remote offer for a midcall operation before
+    //    the call has been established.
+    const localOp = targetCall.localOp;
+    if (localOp && localOp.status === _constants2.OP_STATUS.PENDING && localOp.operation === _constants2.OPERATIONS.MAKE) {
+      // The call is waiting for the call answer, so delay the new request until
+      //    that is processed. This is a timing issue where the update is received
+      //    too early.
+      log.info('Update request received before call establishment. Delaying.', { wrtcsSessionId });
+      yield (0, _effects.call)(delayMidCall, deps, params);
+      return;
+    } else {
+      // This case should never happen.
+    }
   }
   // TODO: Make sure the call is able to receive a `respondCallRequest`
   //    notification (ie. has no pending operation).
@@ -52190,6 +52207,37 @@ function* receiveEarlyMedia(deps, params) {
   }));
 }
 
+/**
+ * Workaround saga: If a midcall negotiation is received before the call answer,
+ *    this saga will delay the midcall negotiation until after the call is
+ *    established. On a time-out of 3 seconds.
+ * @method delayMidCall
+ * @param {Object} deps   Deps that were provided to `parseCallRequest` saga.
+ * @param {Object} params Params that were provided to `parseCallRequest` saga.
+ */
+function* delayMidCall(deps, params) {
+  const targetCall = yield (0, _effects.select)(_selectors.getCallByWrtcsSessionId, params.wrtcsSessionId);
+  const log = _logs.logManager.getLogger('CALL', targetCall.id);
+
+  function callStartPattern(action) {
+    // Wait for the call to be established or ended.
+    return [_actionTypes.MAKE_CALL_FINISH, _actionTypes.END_CALL_FINISH].includes(action.type) && action.payload.id === targetCall.id;
+  }
+
+  const { answer } = yield (0, _effects.race)({
+    answer: (0, _effects.take)(callStartPattern),
+    timeout: (0, _effects.delay)(3000)
+  });
+
+  if (answer) {
+    log.info('Replaying delayed update request.', { wrtcsSessionId: params.wrtcsSessionId });
+    yield (0, _effects.call)(parseCallRequest, deps, params);
+  } else {
+    log.info('Timed-out delayed update request. Ignoring.', { wrtcsSessionId: params.wrtcsSessionId });
+    // TODO: Send 491 response.
+  }
+}
+
 /***/ }),
 /* 452 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -52216,7 +52264,7 @@ var _operations2 = _interopRequireDefault(_operations);
 
 var _actions = __webpack_require__(69);
 
-var _actionTypes = __webpack_require__(58);
+var _actionTypes = __webpack_require__(53);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -54416,7 +54464,7 @@ exports.callIceCollectionCheck = callIceCollectionCheck;
 
 var _actions = __webpack_require__(69);
 
-var _actionTypes = __webpack_require__(58);
+var _actionTypes = __webpack_require__(53);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -54967,7 +55015,7 @@ var _eventTypes = __webpack_require__(462);
 
 var eventTypes = _interopRequireWildcard(_eventTypes);
 
-var _actionTypes = __webpack_require__(58);
+var _actionTypes = __webpack_require__(53);
 
 var actionTypes = _interopRequireWildcard(_actionTypes);
 
@@ -56107,7 +56155,7 @@ var actionTypes = _interopRequireWildcard(_actionTypes);
 
 var _actionTypes2 = __webpack_require__(472);
 
-var _actionTypes3 = __webpack_require__(58);
+var _actionTypes3 = __webpack_require__(53);
 
 var _constants = __webpack_require__(35);
 
@@ -56192,7 +56240,7 @@ var _selectors = __webpack_require__(17);
 
 var _logs = __webpack_require__(2);
 
-var _effects = __webpack_require__(57);
+var _effects = __webpack_require__(58);
 
 var _effects2 = _interopRequireDefault(_effects);
 
@@ -56422,7 +56470,7 @@ var _actions = __webpack_require__(286);
 
 var _selectors = __webpack_require__(17);
 
-var _actionTypes = __webpack_require__(58);
+var _actionTypes = __webpack_require__(53);
 
 var _constants = __webpack_require__(35);
 
@@ -57166,7 +57214,7 @@ var _effects = __webpack_require__(4);
 
 var _logs = __webpack_require__(2);
 
-var _effects2 = __webpack_require__(57);
+var _effects2 = __webpack_require__(58);
 
 var _effects3 = _interopRequireDefault(_effects2);
 
@@ -57452,7 +57500,7 @@ var _events2 = _interopRequireDefault(_events);
 
 var _sagas = __webpack_require__(490);
 
-var _actions = __webpack_require__(56);
+var _actions = __webpack_require__(57);
 
 var _actions2 = __webpack_require__(28);
 
@@ -58548,7 +58596,7 @@ var _events2 = _interopRequireDefault(_events);
 
 var _actions = __webpack_require__(28);
 
-var _actions2 = __webpack_require__(56);
+var _actions2 = __webpack_require__(57);
 
 var _logs = __webpack_require__(2);
 
@@ -58810,7 +58858,7 @@ var _predicates = __webpack_require__(497);
 
 var P = _interopRequireWildcard(_predicates);
 
-var _effects2 = __webpack_require__(57);
+var _effects2 = __webpack_require__(58);
 
 var _effects3 = _interopRequireDefault(_effects2);
 
@@ -60782,7 +60830,7 @@ var _actionTypes2 = __webpack_require__(160);
 
 var actionTypes = _interopRequireWildcard(_actionTypes2);
 
-var _effects2 = __webpack_require__(57);
+var _effects2 = __webpack_require__(58);
 
 var _effects3 = _interopRequireDefault(_effects2);
 
@@ -60922,7 +60970,7 @@ var _notification = __webpack_require__(520);
 
 var _actions = __webpack_require__(28);
 
-var _actions2 = __webpack_require__(56);
+var _actions2 = __webpack_require__(57);
 
 var _effects = __webpack_require__(4);
 
@@ -61579,7 +61627,7 @@ var _extends2 = __webpack_require__(6);
 
 var _extends3 = _interopRequireDefault(_extends2);
 
-var _keys = __webpack_require__(53);
+var _keys = __webpack_require__(54);
 
 var _keys2 = _interopRequireDefault(_keys);
 
@@ -69104,7 +69152,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _values = __webpack_require__(54);
+var _values = __webpack_require__(55);
 
 var _values2 = _interopRequireDefault(_values);
 
@@ -69351,7 +69399,7 @@ var _stringify2 = _interopRequireDefault(_stringify);
 exports.updatePresenceRequest = updatePresenceRequest;
 exports.watchPresenceRequest = watchPresenceRequest;
 
-var _effects = __webpack_require__(57);
+var _effects = __webpack_require__(58);
 
 var _effects2 = _interopRequireDefault(_effects);
 
@@ -70055,7 +70103,7 @@ var _selectors4 = __webpack_require__(102);
 
 var _actionTypes2 = __webpack_require__(44);
 
-var _effects = __webpack_require__(57);
+var _effects = __webpack_require__(58);
 
 var _effects2 = _interopRequireDefault(_effects);
 
@@ -70682,7 +70730,7 @@ var _users3 = _interopRequireDefault(_users2);
 
 var _actions = __webpack_require__(28);
 
-var _effects = __webpack_require__(57);
+var _effects = __webpack_require__(58);
 
 var _effects2 = _interopRequireDefault(_effects);
 
@@ -72068,7 +72116,7 @@ var _events2 = _interopRequireDefault(_events);
 
 var _interface = __webpack_require__(554);
 
-var _actions = __webpack_require__(56);
+var _actions = __webpack_require__(57);
 
 var _actions2 = __webpack_require__(28);
 
@@ -72541,7 +72589,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _values = __webpack_require__(54);
+var _values = __webpack_require__(55);
 
 var _values2 = _interopRequireDefault(_values);
 

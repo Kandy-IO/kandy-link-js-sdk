@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.remote.js
- * Version: 4.41.2-v4-support.9
+ * Version: 4.41.3-v4-support.10
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -1674,7 +1674,7 @@ var _promise = __webpack_require__(10);
 
 var _promise2 = _interopRequireDefault(_promise);
 
-var _keys = __webpack_require__(53);
+var _keys = __webpack_require__(54);
 
 var _keys2 = _interopRequireDefault(_keys);
 
@@ -5397,19 +5397,20 @@ exports.RETURN = RETURN;
 
 
 /***/ }),
-/* 53 */
+/* 53 */,
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = { "default": __webpack_require__(185), __esModule: true };
 
 /***/ }),
-/* 54 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = { "default": __webpack_require__(193), __esModule: true };
 
 /***/ }),
-/* 55 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5469,7 +5470,6 @@ const logLevels = exports.logLevels = {
 };const timeLevel = exports.timeLevel = logLevels.DEBUG;
 
 /***/ }),
-/* 56 */,
 /* 57 */,
 /* 58 */,
 /* 59 */
@@ -5584,7 +5584,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '4.41.2-v4-support.9';
+  return '4.41.3-v4-support.10';
 }
 
 /***/ }),
@@ -6241,7 +6241,7 @@ var _logFormatter = __webpack_require__(124);
 
 var _logFormatter2 = _interopRequireDefault(_logFormatter);
 
-var _constants = __webpack_require__(55);
+var _constants = __webpack_require__(56);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -6287,7 +6287,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.checkLevel = checkLevel;
 exports.checkHandler = checkHandler;
 
-var _constants = __webpack_require__(55);
+var _constants = __webpack_require__(56);
 
 /**
  * Helper function to validate a "log level" string before its used in the library.
@@ -6335,7 +6335,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _values = __webpack_require__(54);
+var _values = __webpack_require__(55);
 
 var _values2 = _interopRequireDefault(_values);
 
@@ -8445,7 +8445,7 @@ var _set = __webpack_require__(236);
 
 var _set2 = _interopRequireDefault(_set);
 
-var _keys = __webpack_require__(53);
+var _keys = __webpack_require__(54);
 
 var _keys2 = _interopRequireDefault(_keys);
 
@@ -12034,7 +12034,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _values = __webpack_require__(54);
+var _values = __webpack_require__(55);
 
 var _values2 = _interopRequireDefault(_values);
 
@@ -12052,7 +12052,7 @@ var _logHandler = __webpack_require__(203);
 
 var _logHandler2 = _interopRequireDefault(_logHandler);
 
-var _constants = __webpack_require__(55);
+var _constants = __webpack_require__(56);
 
 var _validation = __webpack_require__(93);
 
@@ -12676,7 +12676,7 @@ var _extends3 = _interopRequireDefault(_extends2);
 
 exports.default = createLogger;
 
-var _constants = __webpack_require__(55);
+var _constants = __webpack_require__(56);
 
 var _validation = __webpack_require__(93);
 
