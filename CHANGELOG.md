@@ -7,6 +7,10 @@ Kandy.js change log.
 
 ## 5.2.0 - beta
 
+### Added
+
+- Added `eventType` to the `sip:error` event when a sip subscribe, unsubscribe or update results in an error. `KJS-1138`
+
 ## 5.1.0 - 2022-08-26
 
 ### Added

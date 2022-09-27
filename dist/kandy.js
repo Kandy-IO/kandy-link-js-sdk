@@ -1,7 +1,7 @@
 /**
  * Kandy.js
  * kandy.newLink.js
- * Version: 5.2.0-beta.935
+ * Version: 5.2.0-beta.936
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -6941,7 +6941,7 @@ exports.getVersion = getVersion;
  * for the @@ tag below with actual version value.
  */
 function getVersion() {
-  return '5.2.0-beta.935';
+  return '5.2.0-beta.936';
 }
 
 /***/ }),
@@ -32601,11 +32601,11 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Helper function for formatting _FINISH actions.
-function finishActionHelper(actionType, { response, error }) {
+function finishActionHelper(actionType, { response, error, eventType }) {
   return {
     type: actionType,
     error: !!error,
-    payload: error || response
+    payload: error ? { error, eventType } : response
   };
 }
 
@@ -32636,12 +32636,14 @@ function sipEventSubscribe(eventType, subscribeUserList, clientCorrelator, custo
  * @param  {Object} $0
  * @param  {Object} $0.response Information about the subscription response.
  * @param  {BasicError} $0.error An error object, in the case of an issue.
+ * @param  {string} $0.eventType Type type of sip event.
  * @returns {Object} A flux standard action.
  */
-function sipEventSubscribeFinish({ response, error }) {
+function sipEventSubscribeFinish({ response, error, eventType }) {
   return finishActionHelper(actionTypes.SIP_EVENT_SUBSCRIBE_FINISH, {
     response,
-    error
+    error,
+    eventType
   });
 }
 
@@ -32674,12 +32676,14 @@ function sipEventUpdate(eventType, userLists = {}, customParameters) {
  * @param  {Object} $0
  * @param  {Object} $0.response Information about the update/resub response.
  * @param  {BasicError} $0.error An error object, in the case of an issue.
+ * @param  {string} $0.eventType Type type of sip event.
  * @returns {Object} A flux standard action.
  */
-function sipEventUpdateFinish({ response, error }) {
+function sipEventUpdateFinish({ response, error, eventType }) {
   return finishActionHelper(actionTypes.SIP_EVENT_UPDATE_FINISH, {
     response,
-    error
+    error,
+    eventType
   });
 }
 
@@ -32702,12 +32706,14 @@ function sipEventUnsubscribe(eventType) {
  * @param  {Object} $0
  * @param  {Object} $0.response Information about the unsubscribe response.
  * @param  {BasicError} $0.error An error object, in the case of an issue.
+ * @param  {string} $0.eventType Type type of sip event.
  * @returns {Object} A flux standard action.
  */
-function sipEventUnsubscribeFinish({ response, error }) {
+function sipEventUnsubscribeFinish({ response, error, eventType }) {
   return finishActionHelper(actionTypes.SIP_EVENT_UNSUBSCRIBE_FINISH, {
     response,
-    error
+    error,
+    eventType
   });
 }
 
@@ -71670,7 +71676,8 @@ function* sipEventSubscribe() {
         error: new _errors2.default({
           code: _errors.sipEventCodes.NOT_PROVISIONED,
           message: 'Cannot subscribe to sip event; service was not provisioned during user subscription.'
-        })
+        }),
+        eventType: action.payload.eventType
       }));
       continue;
     }
@@ -71728,7 +71735,10 @@ function* sipEventSubscribe() {
         });
       }
 
-      yield (0, _effects3.put)(actions.sipEventSubscribeFinish({ error }));
+      yield (0, _effects3.put)(actions.sipEventSubscribeFinish({
+        error,
+        eventType: action.payload.eventType
+      }));
     } else {
       log.info(`Successfully subscribed to sip event ${action.payload.eventType}.`);
       const finishAction = actions.sipEventSubscribeFinish({
@@ -71797,14 +71807,20 @@ function* sipEventUpdate() {
           code: _errors.sipEventCodes.NOT_SUBSCRIBED,
           message: `Cannot resubscribe for ${action.payload.eventType} subscription; user not subscribed.`
         });
-        yield (0, _effects3.put)(actions.sipEventUpdateFinish({ error }));
+        yield (0, _effects3.put)(actions.sipEventUpdateFinish({
+          error,
+          eventType: action.payload.eventType
+        }));
       } else {
         // Error: Not subscribed to this sip event. Cannot update.
         const error = new _errors2.default({
           code: _errors.sipEventCodes.NOT_SUBSCRIBED,
           message: `Cannot update subscription for ${action.payload.eventType}; user not subscribed.`
         });
-        yield (0, _effects3.put)(actions.sipEventUpdateFinish({ error }));
+        yield (0, _effects3.put)(actions.sipEventUpdateFinish({
+          error,
+          eventType: action.payload.eventType
+        }));
       }
       continue;
     }
@@ -71863,7 +71879,10 @@ function* sipEventUpdate() {
         });
       }
 
-      yield (0, _effects3.put)(actions.sipEventUpdateFinish({ error }));
+      yield (0, _effects3.put)(actions.sipEventUpdateFinish({
+        error,
+        eventType: action.payload.eventType
+      }));
     } else {
       log.info(`Updated sip event subscription: ${action.payload.eventType}.`);
       yield (0, _effects3.put)(actions.sipEventUpdateFinish({
@@ -71893,7 +71912,10 @@ function* sipEventUnsubscribe() {
         code: _errors.sipEventCodes.NOT_SUBSCRIBED,
         message: `Cannot unsubscribe from ${action.payload}; no subscription found.`
       });
-      yield (0, _effects3.put)(actions.sipEventUnsubscribeFinish({ error }));
+      yield (0, _effects3.put)(actions.sipEventUnsubscribeFinish({
+        error,
+        eventType: action.payload
+      }));
       continue;
     }
 
@@ -71935,7 +71957,10 @@ function* sipEventUnsubscribe() {
         });
       }
 
-      yield (0, _effects3.put)(actions.sipEventUnsubscribeFinish({ error }));
+      yield (0, _effects3.put)(actions.sipEventUnsubscribeFinish({
+        error,
+        eventType: action.payload
+      }));
     } else {
       log.info(`Successfully unsubscribed from sip ${action.payload}.`);
       yield (0, _effects3.put)(actions.sipEventUnsubscribeFinish({
@@ -72043,7 +72068,10 @@ function subscriptionChange({ change, action }) {
   if (action.error) {
     return {
       type: eventTypes.EVENT_ERROR,
-      args: { error: action.payload }
+      args: {
+        error: action.payload.error,
+        eventType: action.payload.eventType
+      }
     };
   } else {
     return {
@@ -72146,6 +72174,7 @@ const EVENT_SUBSCRIPTION_CHANGED = exports.EVENT_SUBSCRIPTION_CHANGED = 'sip:sub
  * @event sip:error
  * @param {Object} params
  * @param {api.BasicError} params.error The Basic error object.
+ * @param {string} params.eventType The name of the SIP event.
  * @example
  * // Listen for the event being emitted.
  * client.on('sip:error', (params) => {
