@@ -51,8 +51,6 @@ information, see the [Logs feature][6] description.
     *   `logs.handler` **[logger.LogHandler][10]?** The function to receive log entries from the
         SDK. If not provided, a default handler will be used that logs entries
         to the console.
-    *   `logs.enableFcsLogs` **[boolean][11]** Enable the detailed call logger
-        for v3.X. Requires log level debug. (optional, default `true`)
     *   `logs.logActions` **([Object][7] | [boolean][11])** Options specifically for action logs when
         logLevel is at DEBUG+ levels. Set this to false to not output action logs. (optional, default `false`)
 
@@ -4434,6 +4432,7 @@ An error has occurred during a SIP event operation.
 *   `params` **[Object][7]** 
 
     *   `params.error` **[api.BasicError][31]** The Basic error object.
+    *   `params.eventType` **[string][8]** The name of the SIP event.
 
 #### Examples
 

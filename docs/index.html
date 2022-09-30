@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset='utf-8' />
-  <title>kandy-link-js-sdk 5.1.1 | Documentation</title>
+  <title>kandy-link-js-sdk 5.2.0 | Documentation</title>
   <meta name='viewport' content='width=device-width,initial-scale=1'>
   <link href='assets/bass.css' type='text/css' rel='stylesheet' />
   <link href='assets/style.css' type='text/css' rel='stylesheet' />
@@ -14,7 +14,7 @@
       <div id='split-left' class='overflow-auto fs0 height-viewport-100'>
         <div class='py1 px2'>
           <h3 class='mb0 no-anchor'>kandy-link-js-sdk</h3>
-          <div class='mb1'><code>5.1.1</code></div>
+          <div class='mb1'><code>5.2.0</code></div>
           <input
             placeholder='Filter'
             id='filter-input'
@@ -1831,18 +1831,6 @@ information, see the <a href="#logger">Logs feature</a> description.</p>
   <td class='break-word'><span>The function to receive log entries from the
 SDK. If not provided, a default handler will be used that logs entries
 to the console.
-</span></td>
-</tr>
-
-
-              
-                <tr>
-  <td class='break-word'><span class='code bold'>logs.enableFcsLogs</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code>
-  
-    (default <code>true</code>)
-  </td>
-  <td class='break-word'><span>Enable the detailed call logger
-for v3.X. Requires log level debug.
 </span></td>
 </tr>
 
@@ -23932,6 +23920,15 @@ subscription as part of the change.
   <td class='break-word'><span class='code bold'>params.error</span> <code class='quiet'><a href="#apibasicerror">api.BasicError</a></code>
   </td>
   <td class='break-word'><span>The Basic error object.
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>params.eventType</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
+  </td>
+  <td class='break-word'><span>The name of the SIP event.
 </span></td>
 </tr>
 
