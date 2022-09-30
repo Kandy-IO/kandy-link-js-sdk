@@ -11,6 +11,10 @@ Kandy.js change log.
 
 - Added `eventType` to the `sip:error` event when a sip subscribe, unsubscribe or update results in an error. `KJS-1138`
 
+### Fixed
+
+- Fixed a Call issue where, when making an outgoing call, receiving the call answer then a remote midcall operation immediately afterwards would not ensure the call is established before handling the remote operation. `KJS-1152`
+
 ## 5.1.0 - 2022-08-26
 
 ### Added
